@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { FamilyHome } from "@model/operations/family";
@@ -28,6 +29,8 @@ export const Component = () => {
 
   const [serie, setSerie] = useState<Partial<SerieEditItem>>({});
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   const [families, setFamilies] = useState<FamilyHome[]>([]);
 
   const [indicators, setIndicators] = useState<SeriesOrIndicatorItem[]>([]);
@@ -44,7 +47,9 @@ export const Component = () => {
 
   useEffect(() => {
     if (id) {
-      OperationsApi.getSerie(id).then((results: SerieEditItem) => setSerie(results));
+      OperationsApi.getSerie(id)
+        .then((results: SerieEditItem) => setSerie(results))
+        .catch(setLoadError);
     }
   }, [id]);
 
@@ -67,6 +72,8 @@ export const Component = () => {
   const {
     properties: { extraMandatoryFields },
   } = useAppContext();
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!serie.id && id) return <Loading />;
 

@@ -3,6 +3,8 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
@@ -81,5 +83,14 @@ describe("Series edit page", () => {
     await waitFor(() =>
       expect(screen.getByText("champsObligatoires:creator,contributor")).toBeInTheDocument(),
     );
+  });
+
+  it("affiche l'échec de chargement de la série au lieu d'un chargement infini", async () => {
+    vi.mocked(OperationsApi.getSerie).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 });

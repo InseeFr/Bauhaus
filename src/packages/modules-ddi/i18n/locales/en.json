@@ -181,7 +181,6 @@
       },
       "editTitle": "Edit title",
       "editVariable": "Edit Variable",
-      "errorLoading": "Error loading data",
       "export": "Export",
       "exportError": "Export error",
       "exportErrorDetail": "Unable to download file",

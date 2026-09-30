@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { CheckSecondLang } from "@components/check-second-lang";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Publishing } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -35,6 +35,8 @@ export const Component = () => {
 
   const [publishing, setPublishing] = useState(false);
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   const [serverSideError, setServerSideError] = useState<string>();
 
   const frequencies = useCodelist(CL_FREQ);
@@ -48,7 +50,9 @@ export const Component = () => {
   const category = categories.codes.find((c) => c.code === series.typeCode);
 
   useEffect(() => {
-    OperationsApi.getSerie(id).then((result: SerieView) => setSeries(result));
+    OperationsApi.getSerie(id)
+      .then((result: SerieView) => setSeries(result))
+      .catch(setLoadError);
   }, [id]);
 
   const publish = useCallback(() => {
@@ -60,6 +64,8 @@ export const Component = () => {
       .catch((error: string) => setServerSideError(error))
       .finally(() => setPublishing(false));
   }, [series, id]);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!series.id) return <Loading />;
 

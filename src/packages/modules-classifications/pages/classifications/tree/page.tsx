@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { ClassificationsApi } from "@sdk/classification";
@@ -23,13 +24,18 @@ export const Component = () => {
 
   const [general, setGeneral] = useState<ClassificationGeneral>();
 
-  const { isLoading, data: flatTree } = useClassificationsItem(id);
+  const [loadError, setLoadError] = useState<unknown>();
+
+  const { isLoading, data: flatTree, error: treeError } = useClassificationsItem(id);
 
   useEffect(() => {
-    ClassificationsApi.getClassificationGeneral(id).then((response: ClassificationGeneral) =>
-      setGeneral(response),
-    );
+    ClassificationsApi.getClassificationGeneral(id)
+      .then((response: ClassificationGeneral) => setGeneral(response))
+      .catch(setLoadError);
   }, [id]);
+
+  if (loadError || (treeError && !flatTree))
+    return <LoadingErrorBloc error={loadError ?? treeError} />;
 
   if (isLoading || !general) return <Loading />;
 

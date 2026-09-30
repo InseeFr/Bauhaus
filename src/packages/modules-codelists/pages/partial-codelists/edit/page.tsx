@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 
 import { CodelistsApi } from "@sdk/index";
@@ -27,6 +28,8 @@ export const Component = () => {
   >([]);
 
   const [serverSideError, setServerSideError] = useState<unknown>("");
+
+  const [loadError, setLoadError] = useState<unknown>();
 
   const handleBack = useCallback(() => {
     goBackOrReplace("/codelists/partial", true);
@@ -93,13 +96,17 @@ export const Component = () => {
             setCodelist(formatPartialCodelist(cl, codes.items));
           });
         })
-        .catch((error: unknown) => setServerSideError(error))
+        .catch(setLoadError)
         .finally(() => setLoadingList(false));
     } else {
       setCodelist({});
       setLoadingList(false);
     }
   }, [id, globalCodelistOptions]);
+
+  if (loadError) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if (loadingList || loadingLists) {
     return <Loading />;

@@ -1,6 +1,8 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { params } from "../../../testing/params.testing";
 import { renderClassificationsPage } from "../../../testing/render.testing";
 import { itemParams, loadingItem, useClassificationItem } from "../item.testing";
@@ -50,5 +52,17 @@ describe("Classification item compare page", () => {
     renderPage();
 
     expect(useClassificationItem).toHaveBeenCalledWith("", "");
+  });
+
+  it("indique que le poste est introuvable au lieu de charger indéfiniment", async () => {
+    useClassificationItem.mockReturnValue({
+      isLoading: false,
+      item: undefined,
+      error: sdkRejection.emptyBody(404),
+    });
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 });

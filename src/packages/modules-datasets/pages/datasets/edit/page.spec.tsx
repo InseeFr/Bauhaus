@@ -4,6 +4,8 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 
 const sourceDataset = {
   id: "jd1000",
@@ -21,9 +23,15 @@ const sourceDataset = {
   },
 };
 
+let datasetLoadError: unknown;
+
 vi.mock("../../../hooks/useDataset", () => ({
-  useDataset: (id?: string) =>
-    id ? { data: sourceDataset, status: "success" } : { data: undefined, status: "pending" },
+  useDataset: (id?: string) => {
+    if (id && datasetLoadError) {
+      return { data: undefined, status: "error", error: datasetLoadError };
+    }
+    return id ? { data: sourceDataset, status: "success" } : { data: undefined, status: "pending" };
+  },
 }));
 
 const postDataset = vi.fn((_dataset: unknown) => Promise.resolve("jd2000"));
@@ -93,6 +101,7 @@ const editedDataset = () => JSON.parse(screen.getByTestId("editing-dataset").tex
 describe("Dataset Edit Page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    datasetLoadError = undefined;
   });
 
   describe("when duplicating a dataset", () => {
@@ -126,6 +135,26 @@ describe("Dataset Edit Page", () => {
       await waitFor(() =>
         expect(editedDataset()).toEqual({ catalogRecord: { contributor: ["DG75-L001"] } }),
       );
+    });
+  });
+
+  describe("when the dataset cannot be read", () => {
+    it("says the dataset could not be found instead of loading forever on a 404", async () => {
+      datasetLoadError = sdkRejection.emptyBody(404);
+
+      await renderPage("/datasets/jd1000/modify", "/datasets/:id/modify");
+
+      await expectItemNotFound();
+      expect(screen.queryByTestId("editing-dataset")).not.toBeInTheDocument();
+    });
+
+    it("says the source dataset could not be loaded when duplicating it fails", async () => {
+      datasetLoadError = sdkRejection.emptyBody(500);
+
+      await renderPage("/datasets/jd1000/duplicate", "/datasets/:id/duplicate");
+
+      await expectItemLoadFailed();
+      expect(screen.queryByTestId("editing-dataset")).not.toBeInTheDocument();
     });
   });
 

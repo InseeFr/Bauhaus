@@ -85,6 +85,10 @@
     "UNREADABLE_RESPONSE": "The server response could not be read.",
     "PUBLICATION_REPOSITORY_UNAVAILABLE": "Publication failed: the dissemination repository is unavailable. Please try again later.",
     "INVALID_REQUEST_BODY": "The submitted data is invalid.",
+    "loading": {
+      "notFound": "This item could not be found.",
+      "failed": "This item could not be loaded."
+    },
     "fallback": {
       "unauthorized": "You are not signed in or your session has expired. Please sign in again and retry.",
       "forbidden": "You do not have permission to perform this action.",

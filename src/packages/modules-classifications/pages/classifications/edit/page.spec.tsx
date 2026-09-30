@@ -1,6 +1,8 @@
 import { screen, fireEvent } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderOnRoute } from "../../../testing/render.testing";
 import { Component } from "./page";
 
@@ -53,7 +55,8 @@ vi.mock("@components/loading", () => import("../../../testing/component-mocks.te
 
 vi.mock("@components/page-title-block", () => import("../../../testing/component-mocks.testing"));
 
-vi.mock("@components/errors-bloc", () => ({
+vi.mock("@components/errors-bloc", async () => ({
+  ...(await vi.importActual("@components/errors-bloc")),
   GlobalClientSideErrorBloc: ({ clientSideErrors }: any) => (
     <div data-testid="errors-bloc">{clientSideErrors?.join(", ")}</div>
   ),
@@ -214,6 +217,19 @@ describe("<Component />", () => {
         general: expect.objectContaining({ id: "coicop2016" }),
       }),
     );
+  });
+
+  it("indique que la nomenclature est introuvable au lieu d'une page vide", async () => {
+    mockUseClassification({
+      isLoading: false,
+      classification: undefined,
+      status: "error",
+      error: sdkRejection.emptyBody(404),
+    });
+    renderComponent();
+
+    await expectItemNotFound();
+    expect(screen.queryByTestId("menu")).not.toBeInTheDocument();
   });
 
   it("ne rend rien si value.general est absent", () => {

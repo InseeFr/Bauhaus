@@ -12,6 +12,8 @@ import { fetchCodelist, OrganizationsApi } from "@sdk/index";
 
 import { AppContextProvider } from "../../../../application/app-context";
 import { testsI18n as i18n } from "../../../../tests/i18n";
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
 // `@sdk/index` réexporte `@sdk/datasets-api` : simuler le module dédié suffit à ce
@@ -127,6 +129,16 @@ describe("Dataset view page", () => {
     renderPage();
 
     expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
+  });
+
+  it("says the dataset could not be found instead of the page on a 404", async () => {
+    (DatasetsApi.getById as Mock).mockRejectedValue(sdkRejection.emptyBody(404));
+
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
+    expect(screen.queryByText("Publish")).not.toBeInTheDocument();
   });
 
   it("displays the first language content of the dataset", async () => {

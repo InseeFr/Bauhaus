@@ -1,6 +1,8 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { fetchingPreviousLevels } from "../../../hooks/useClassificationItemClient";
 import { params } from "../../../testing/params.testing";
 import { renderClassificationsPage } from "../../../testing/render.testing";
@@ -58,6 +60,20 @@ describe("Classification item view page", () => {
     renderPage();
 
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expect(fetchingPreviousLevels).not.toHaveBeenCalled();
+  });
+
+  it("indique que le poste est introuvable au lieu de charger indéfiniment", async () => {
+    useClassificationItem.mockReturnValue({
+      isLoading: false,
+      // En mode « version courante », le hook rend toujours un objet, même sans données.
+      item: { notes: {} },
+      error: sdkRejection.emptyBody(404),
+    });
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
     expect(fetchingPreviousLevels).not.toHaveBeenCalled();
   });
 });

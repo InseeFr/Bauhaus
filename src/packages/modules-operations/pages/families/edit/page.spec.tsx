@@ -6,6 +6,8 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
@@ -53,5 +55,25 @@ describe("Component", () => {
     expect(useTitle).toHaveBeenCalledWith(expect.stringContaining(" - "), familyData.prefLabelLg1);
 
     screen.getByText("Operations Family Edition Component");
+  });
+
+  it("says the family could not be found instead of loading forever on a 404", async () => {
+    (OperationsApi.getFamilyById as Mock).mockRejectedValueOnce(
+      sdkRejection.json(404, { message: "Family not found" }),
+    );
+
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
+  });
+
+  it("says the family could not be loaded when the server fails", async () => {
+    (OperationsApi.getFamilyById as Mock).mockRejectedValueOnce(sdkRejection.emptyBody(500));
+
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText("Operations Family Edition Component")).not.toBeInTheDocument();
   });
 });

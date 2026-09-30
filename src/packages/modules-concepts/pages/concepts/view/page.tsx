@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "@sdk/constants";
@@ -28,7 +29,7 @@ export const Component = () => {
 
   const [error, setError] = useState<unknown>();
 
-  const { data: concept, isLoading, refetch } = useConcept(id);
+  const { data: concept, isLoading, error: loadError, refetch } = useConcept(id);
 
   const loading: LoadingType = operationLoading ?? (isLoading ? "loading" : undefined);
 
@@ -64,6 +65,10 @@ export const Component = () => {
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (loadError && !concept) {
+    return <LoadingErrorBloc error={loadError} />;
   }
 
   if (!concept) {

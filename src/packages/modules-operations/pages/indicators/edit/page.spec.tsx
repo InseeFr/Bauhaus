@@ -8,6 +8,8 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { CL_FREQ } from "../../../../constants/code-lists";
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
@@ -117,5 +119,14 @@ describe("indicator edition page", () => {
 
     await screen.findByText("Operations Indicator Edition Component");
     expect(editionProps).toHaveBeenLastCalledWith(expect.objectContaining({ indicator: {} }));
+  });
+
+  it("affiche l'échec de chargement de l'indicateur au lieu d'un chargement infini", async () => {
+    (OperationsApi.getIndicatorById as Mock).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderModification();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
   });
 });

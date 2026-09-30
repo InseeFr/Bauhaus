@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderWithLoaderData } from "../../page.testing";
 import { CREATE, UPDATE } from "../constants";
 import { mockMetadataStructure } from "../metadata-structure.testing";
@@ -179,6 +181,19 @@ describe("Sims create page", () => {
     renderPage();
 
     await waitFor(() => expect(screen.getByText(/Loading/i)).toBeInTheDocument());
+  });
+
+  it("en modification, indique l'échec de lecture du rapport au lieu d'un formulaire vide", async () => {
+    loaderData = { mode: UPDATE };
+    useSims.mockReturnValue({
+      isLoading: false,
+      sims: undefined,
+      error: sdkRejection.emptyBody(500),
+    });
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByRole("button", { name: "enregistrer" })).not.toBeInTheDocument();
   });
 
   it("appelle le rappel de succès quand l'enregistrement passe", async () => {

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { Operation } from "@model/Operation";
@@ -18,19 +19,25 @@ export const Component = () => {
 
   const [operation, setOperation] = useState<Operation | undefined>(undefined);
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   const goBack = useGoBack();
 
   const { t } = useTranslation();
 
   useEffect(() => {
     if (id) {
-      OperationsApi.getOperation(id).then((result: Operation) => {
-        setOperation(result);
-      });
+      OperationsApi.getOperation(id)
+        .then((result: Operation) => {
+          setOperation(result);
+        })
+        .catch(setLoadError);
     }
   }, [id]);
 
   useTitle(t("common.operationsTitle"), operation?.prefLabelLg1);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!operation?.id && id) return <Loading />;
 

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Deleting, Loading, Publishing } from "@components/loading";
 
 import { CodelistsApi } from "@sdk/index";
@@ -35,6 +36,7 @@ export const Component = () => {
     isLoading,
     refetch,
     error: loadingError,
+    isLoadingError,
   } = useQuery({
     queryKey: ["partial-code-list", id],
     enabled: codelists.length > 0,
@@ -84,6 +86,11 @@ export const Component = () => {
     });
   }, []);
 
+  // Échec du premier chargement seulement : un rechargement raté (après publication) garde la fiche.
+  if (isLoadingError) {
+    return <LoadingErrorBloc error={loadingError} />;
+  }
+
   if (isLoading) {
     return <Loading />;
   }
@@ -106,7 +113,7 @@ export const Component = () => {
         handleNo={() => setModalOpened(false)}
         secondLang={secondLang}
         updatable={true}
-        serverSideError={serverSideError || loadingError}
+        serverSideError={serverSideError}
         publishComponent={publish}
       />
     </>

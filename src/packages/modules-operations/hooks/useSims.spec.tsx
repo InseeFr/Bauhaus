@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { createQueryWrapper } from "./queryClientWrapper.testing";
 import { useSims, useSaveSims, usePublishSims } from "./useSims";
 
@@ -53,6 +54,15 @@ describe("useSims", () => {
 
     expect(OperationsApi.getSims).not.toHaveBeenCalled();
     expect(result.current.sims).toBeUndefined();
+  });
+
+  it("expose l'échec de lecture du SIMS", async () => {
+    const rejection = sdkRejection.emptyBody(404);
+    vi.mocked(OperationsApi.getSims).mockRejectedValue(rejection);
+
+    const result = await renderLoadedSims("1500");
+
+    expect(result.current.error).toBe(rejection);
   });
 
   it("indexe les rubriques par identifiant d'attribut", async () => {

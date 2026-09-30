@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Publishing } from "@components/loading";
 
 import { ConceptsApi } from "@sdk/index";
@@ -20,7 +21,7 @@ export const Component = () => {
 
   const [secondLang] = useSecondLang();
 
-  const { data: collection, isLoading, refetch } = useCollection(id);
+  const { data: collection, isLoading, error, refetch } = useCollection(id);
 
   const handleCollectionValidation = (collectionId: string) => {
     setSaving(true);
@@ -31,6 +32,11 @@ export const Component = () => {
       })
       .finally(() => setSaving(false));
   };
+
+  // Une fiche déjà affichée le reste si un rechargement échoue (après une publication, par exemple).
+  if (error && !collection) {
+    return <LoadingErrorBloc error={error} />;
+  }
 
   if (isLoading || !collection) {
     return <Loading />;

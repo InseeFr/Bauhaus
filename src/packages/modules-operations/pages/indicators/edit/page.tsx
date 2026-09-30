@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { Indicator, IndicatorsList } from "@model/operations/indicator";
@@ -31,9 +32,11 @@ export const Component = () => {
 
   const [series, setSeries] = useState<Series[]>([]);
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   useEffect(() => {
     if (id) {
-      OperationsApi.getIndicatorById(id).then(setIndicator);
+      OperationsApi.getIndicatorById(id).then(setIndicator).catch(setLoadError);
     }
   }, [id]);
 
@@ -48,6 +51,8 @@ export const Component = () => {
   }, []);
 
   useTitle(t("common.indicatorsTitle"), indicator.prefLabelLg1);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!indicator.id && id) return <Loading />;
 

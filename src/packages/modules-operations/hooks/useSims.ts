@@ -30,7 +30,11 @@ const getParentsWithoutSims = async (idOperation?: string) => {
 };
 
 export const useSims = (id?: string) => {
-  const { isLoading, data: sims } = useQuery({
+  const {
+    isLoading,
+    data: sims,
+    error,
+  } = useQuery({
     queryKey: ["sims", id],
     queryFn: async () => {
       const results = await OperationsApi.getSims(id);
@@ -44,7 +48,7 @@ export const useSims = (id?: string) => {
     enabled: !!id,
   });
 
-  return { isLoading, sims };
+  return { isLoading, sims, error };
 };
 
 const mergeLabels = (sims: any, parent: any, simsTitleLg1: string, simsTitleLg2: string) => {

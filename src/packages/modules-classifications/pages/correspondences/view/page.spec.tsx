@@ -3,6 +3,8 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ClassificationsApi } from "@sdk/classification";
 
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderClassificationsPage } from "../../../testing/render.testing";
 import { Component } from "./page";
 
@@ -49,6 +51,26 @@ describe("Correspondences view page", () => {
     );
     await waitFor(() => expect(screen.getByText("associations:1")).toBeInTheDocument());
     expect(ClassificationsApi.getCorrespondenceGeneral).toHaveBeenCalledWith("corr-1");
+  });
+
+  it("indique que la correspondance est introuvable au lieu d'une page vide", async () => {
+    vi.mocked(ClassificationsApi.getCorrespondenceGeneral).mockRejectedValue(
+      sdkRejection.emptyBody(404),
+    );
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/^correspondance:/)).not.toBeInTheDocument();
+  });
+
+  it("indique que les associations n'ont pas pu être chargées", async () => {
+    vi.mocked(ClassificationsApi.getCorrespondenceAssociations).mockRejectedValue(
+      sdkRejection.emptyBody(500),
+    );
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 
   it("affiche le général sans attendre les associations", async () => {

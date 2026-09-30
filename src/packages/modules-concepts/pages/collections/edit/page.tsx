@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 
 import { CollectionWithMembers } from "@model/concepts/collection";
@@ -24,7 +25,7 @@ export const Component = () => {
 
   const [submitting, setSubmitting] = useState(false);
 
-  const { data: collection, isLoading: loadingCollection } = useCollection(id);
+  const { data: collection, isLoading: loadingCollection, error: loadError } = useCollection(id);
 
   const { data: collectionList = [] } = useCollections();
 
@@ -41,6 +42,10 @@ export const Component = () => {
 
   if (isSaving) {
     return <Saving />;
+  }
+
+  if (loadError && !collection) {
+    return <LoadingErrorBloc error={loadError} />;
   }
 
   if (

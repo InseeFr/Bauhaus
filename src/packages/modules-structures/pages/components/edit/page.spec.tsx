@@ -4,6 +4,8 @@ import { vi } from "vitest";
 
 import { ConceptsApi, saveComponent, StructureApi } from "@sdk/index";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { createStructuresWrapper } from "../../../render.testing";
 import { Component } from "./page";
 
@@ -74,6 +76,17 @@ describe("page d'édition d'une composante mutualisée", () => {
 
     expect(StructureApi.getMutualizedComponent).toHaveBeenCalledWith("c1");
     expect(screen.getByDisplayValue("Composante 1")).toBeInTheDocument();
+  });
+
+  it("indique que la composante à modifier est introuvable au lieu d'un formulaire vide", async () => {
+    vi.mocked(StructureApi.getMutualizedComponent).mockRejectedValue(
+      sdkRejection.json(404, { message: "Component not found" }),
+    );
+    render(<Component />, { wrapper: Wrapper("/structures/components/edit/c1") });
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /save|sauvegarder/i })).not.toBeInTheDocument();
   });
 
   it("ne charge aucune composante à la création", async () => {

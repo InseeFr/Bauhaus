@@ -1,6 +1,8 @@
 import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import * as classificationHook from "../../../hooks/useClassificationItem";
 import * as clientModule from "../../../hooks/useClassificationItemClient";
 import { renderOnRoute } from "../../../testing/render.testing";
@@ -86,5 +88,24 @@ describe("<Component />", () => {
 
     expect(screen.getAllByRole("textbox")).toHaveLength(4);
     expect(screen.getAllByRole("combobox")).toHaveLength(1);
+  });
+
+  it("indique que le poste est introuvable au lieu de charger indéfiniment", async () => {
+    using _classificationHookSpy = vi
+      .spyOn(classificationHook, "useClassificationItem")
+      .mockReturnValue({
+        isLoading: false,
+        item: { notes: {} },
+        status: "error",
+        error: sdkRejection.emptyBody(404),
+      } as any);
+    using _parentLevelsSpy = vi
+      .spyOn(classificationHook, "useClassificationParentLevels")
+      .mockReturnValue({ isPending: true } as any);
+
+    renderComponent();
+
+    await expectItemNotFound();
+    expect(screen.queryByText("Loading")).not.toBeInTheDocument();
   });
 });

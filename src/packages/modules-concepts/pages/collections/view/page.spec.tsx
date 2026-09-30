@@ -8,6 +8,12 @@ import { CollectionApi } from "@sdk/new-collection-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
+import {
+  expectItemLoadFailed,
+  expectItemNotFound,
+  expectNoLoadFailure,
+} from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderWithQueryClient } from "../../../testing/query-client.testing";
 import { Component } from "./page";
 
@@ -128,5 +134,39 @@ describe("Visualization Container Component", () => {
       expect(CollectionApi.getCollectionById).toHaveBeenCalledWith("123");
       expect(CollectionApi.getCollectionMembersList).toHaveBeenCalledWith("123");
     });
+  });
+
+  it("says the collection could not be found instead of loading forever on a 404", async () => {
+    (CollectionApi.getCollectionById as Mock).mockRejectedValue(sdkRejection.emptyBody(404));
+    (CollectionApi.getCollectionMembersList as Mock).mockResolvedValue([]);
+
+    renderWithQueryClient(<Component />);
+
+    await expectItemNotFound();
+    expect(screen.queryByTestId("collection-loading")).not.toBeInTheDocument();
+  });
+
+  it("says the collection could not be loaded when its members cannot be read", async () => {
+    (CollectionApi.getCollectionById as Mock).mockResolvedValue(mockCollection);
+    (CollectionApi.getCollectionMembersList as Mock).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderWithQueryClient(<Component />);
+
+    await expectItemLoadFailed();
+  });
+
+  it("keeps the collection displayed when a later reload fails", async () => {
+    mockFetchedCollection(mockCollection, mockMembers);
+    const { queryClient } = renderWithQueryClient(<Component />);
+    await screen.findByTestId("collection-visualization");
+
+    (CollectionApi.getCollectionById as Mock).mockRejectedValue(sdkRejection.emptyBody(500));
+    await queryClient.refetchQueries({ queryKey: ["collection", "123"] });
+    await waitFor(() =>
+      expect(queryClient.getQueryState(["collection", "123"])?.status).toBe("error"),
+    );
+
+    expect(screen.getByTestId("collection-visualization")).toBeInTheDocument();
+    expectNoLoadFailure();
   });
 });

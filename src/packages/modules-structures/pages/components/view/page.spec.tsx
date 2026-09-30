@@ -4,6 +4,8 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderPageWithAppContext } from "../../../render.testing";
 import { Component } from "./page";
 
@@ -75,6 +77,23 @@ describe("Mutualized component view page", () => {
     vi.mocked(ConceptsApi.getConceptList).mockResolvedValue([{ id: "k-1" }, { id: "k-2" }]);
     vi.mocked(StructureApi.deleteMutualizedComponent).mockResolvedValue({});
     vi.mocked(StructureApi.publishMutualizedComponent).mockResolvedValue({});
+  });
+
+  it("indique que la composante est introuvable au lieu d'une page vide", async () => {
+    vi.mocked(StructureApi.getMutualizedComponent).mockRejectedValue(sdkRejection.emptyBody(404));
+
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByRole("button", { name: "publier" })).not.toBeInTheDocument();
+  });
+
+  it("indique que la composante n'a pas pu être chargée quand un référentiel échoue", async () => {
+    vi.mocked(ConceptsApi.getConceptList).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderPage();
+
+    await expectItemLoadFailed();
   });
 
   it("attend les trois appels avant d'afficher la composante", async () => {

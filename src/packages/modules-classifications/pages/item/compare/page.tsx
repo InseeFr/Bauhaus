@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
@@ -15,7 +16,9 @@ export const Component = () => {
 
   const [secondLang] = useSecondLang();
 
-  const { isLoading, item } = useClassificationItem(classificationId, itemId);
+  const { isLoading, item, error } = useClassificationItem(classificationId, itemId);
+
+  if (error && !item) return <LoadingErrorBloc error={error} />;
 
   if (isLoading) return <Loading />;
 

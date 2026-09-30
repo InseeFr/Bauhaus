@@ -7,7 +7,7 @@ import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
 import { CloseIconButton } from "@components/buttons/buttons-with-icons";
 import { CheckSecondLang } from "@components/check-second-lang";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 import { Select } from "@components/select-rmes";
 
@@ -123,6 +123,9 @@ const SimsCreation = ({
   const [saving, setSaving] = useState(false);
 
   const [loading, setLoading] = useState(false);
+
+  /** Rejet de la lecture du rapport choisi pour la duplication. */
+  const [siblingError, setSiblingError] = useState<unknown>();
 
   const secondLang = true;
 
@@ -281,10 +284,11 @@ const SimsCreation = ({
   const onSiblingSimsChange = () => {
     return (value: string) => {
       setLoading(true);
-      getSiblingSims(value, metadataStructure).then((sims) => {
-        setLoading(false);
-        setSims(sims);
-      });
+      setSiblingError(undefined);
+      getSiblingSims(value, metadataStructure)
+        .then(setSims)
+        .catch(setSiblingError)
+        .finally(() => setLoading(false));
     };
   };
 
@@ -298,6 +302,7 @@ const SimsCreation = ({
     <EssentialRubricContextProvider value={essentialRubricContext}>
       <Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
       {error && <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} />}
+      {!!siblingError && <LoadingErrorBloc error={siblingError} />}
       <Modal
         className="Modal__Bootstrap modal-dialog operations structures-specification-modal"
         isOpen={blocker.state === "blocked"}

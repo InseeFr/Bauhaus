@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import { CheckSecondLang } from "@components/check-second-lang";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Deleting, Loading, Publishing } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -20,7 +20,7 @@ export const Component = () => {
 
   const { id = "" } = useParams<{ id: string }>();
 
-  const { data: distribution, isLoading } = useDistribution(id);
+  const { data: distribution, isLoading, error: loadError } = useDistribution(id);
 
   const { data: dataset, isLoading: isLoadingDataSet } = useDataset(distribution?.idDataset);
 
@@ -29,6 +29,8 @@ export const Component = () => {
   const { isDeleting, remove, deleteServerSideError } = useDatasetDeleter(id);
 
   useTitle(t("distribution.pluralTitle"), distribution?.labelLg1);
+
+  if (loadError && !distribution) return <LoadingErrorBloc error={loadError} />;
 
   if (isLoading || isLoadingDataSet) return <Loading />;
 

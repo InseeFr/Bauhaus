@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { Document } from "@model/operations/document";
@@ -22,17 +23,23 @@ export const Component = (props: any) => {
 
   const [document, setDocument] = useState<Partial<Document>>({});
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   useEffect(() => {
     if (id && type) {
-      GeneralApi.getDocument(id, type).then((results: unknown) => {
-        const result = results as Document;
-        setDocument({
-          ...result,
-          id: result.uri!.substring(result.uri!.lastIndexOf("/") + 1),
-        });
-      });
+      GeneralApi.getDocument(id, type)
+        .then((results: unknown) => {
+          const result = results as Document;
+          setDocument({
+            ...result,
+            id: result.uri!.substring(result.uri!.lastIndexOf("/") + 1),
+          });
+        })
+        .catch(setLoadError);
     }
   }, [id, type]);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!document.id && id) return <Loading />;
 

@@ -65,6 +65,10 @@ export const isSdkRejection = (reason: unknown): boolean =>
   !(reason instanceof Error) &&
   typeof (reason as { status?: unknown }).status === "number";
 
+/** Vrai pour une réponse 404 : l'élément demandé n'existe pas. */
+export const isNotFound = (error: unknown): boolean =>
+  typeof error === "object" && error !== null && (error as { status?: unknown }).status === 404;
+
 /** Codes des échecs que le SDK constate lui-même, sans réponse lisible du serveur. */
 const SDK_ERROR_CODES: readonly unknown[] = ["NETWORK_ERROR", "UNREADABLE_RESPONSE"];
 

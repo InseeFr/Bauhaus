@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { Family } from "@model/operations/family";
@@ -22,13 +23,17 @@ export const Component = () => {
 
   const [family, setFamily] = useState<Family>({} as Family);
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   useEffect(() => {
     if (id) {
-      OperationsApi.getFamilyById(id).then(setFamily);
+      OperationsApi.getFamilyById(id).then(setFamily).catch(setLoadError);
     }
   }, [id]);
 
   useTitle(t("common.familiesTitle") + " - " + t("common.operationsTitle"), family?.prefLabelLg1);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!family.id && id) return <Loading />;
 

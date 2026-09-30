@@ -5,7 +5,7 @@ import { useLocation, useParams } from "react-router-dom";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
-import { ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, GlobalClientSideErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
@@ -61,7 +61,7 @@ export const Component = () => {
     return fieldsInError.length > 0;
   };
 
-  const { data: dataset, status } = useDataset(id);
+  const { data: dataset, status, error: loadError } = useDataset(id);
 
   const isContributor = useAuthorizationGuard({
     module: "DATASET_DATASET",
@@ -110,6 +110,10 @@ export const Component = () => {
   });
 
   useTitle(t("dataset.pluralTitle"), editingDataset?.labelLg1);
+
+  if (loadError && !dataset) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if ((!editingDataset.id && isEditing) || (isDuplicating && status !== "success")) {
     return <Loading />;

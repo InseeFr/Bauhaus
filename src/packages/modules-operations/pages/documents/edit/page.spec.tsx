@@ -5,6 +5,8 @@ import { GeneralApi } from "@sdk/general-api";
 
 import { useCodelist } from "@utils/hooks/codelist";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
@@ -57,5 +59,15 @@ describe("Documents edit page", () => {
     expect(screen.getByText("document:(vide)")).toBeInTheDocument();
     expect(screen.getByText("id:(aucun)")).toBeInTheDocument();
     expect(GeneralApi.getDocument).not.toHaveBeenCalled();
+  });
+
+  it("dit que le document à modifier est introuvable au lieu de charger indéfiniment sur un 404", async () => {
+    vi.mocked(GeneralApi.getDocument).mockRejectedValue(sdkRejection.emptyBody(404));
+
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/document:/)).not.toBeInTheDocument();
   });
 });

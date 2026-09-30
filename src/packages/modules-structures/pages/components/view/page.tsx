@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { Component as ComponentModel } from "@model/structures/Component";
@@ -31,6 +32,8 @@ export const Component = (props: any) => {
 
   const [serverSideError, setServerSideError] = useState();
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   const [attributes, setAttributes] = useState<ComponentModel[]>([]);
 
   const handleBack = useCallback(() => goBack("/structures/components"), [goBack]);
@@ -53,8 +56,13 @@ export const Component = (props: any) => {
         setAttributes(attributes);
         setConcepts(concepts);
       })
+      .catch(setLoadError)
       .finally(() => setLoading(false));
   }, [id]);
+
+  if (loadError) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if (loading) {
     return <Loading />;

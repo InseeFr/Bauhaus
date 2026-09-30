@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { ClassificationsApi } from "@sdk/classification";
@@ -13,17 +14,26 @@ import { HomeGeneral } from "./components/HomeGeneral";
 export const Component = () => {
   const { id = "" } = useParams<{ id: string }>();
 
-  const { data: correspondence, isLoading } = useQuery({
+  const {
+    data: correspondence,
+    isLoading,
+    error: correspondenceError,
+  } = useQuery({
     queryKey: ["correspondance-general", id],
     queryFn: () => ClassificationsApi.getCorrespondenceGeneral(id),
   });
 
-  const { data: associations } = useQuery({
+  const { data: associations, error: associationsError } = useQuery({
     queryKey: ["correspondance-associations", id],
     queryFn: () => ClassificationsApi.getCorrespondenceAssociations(id),
   });
 
   const [secondLang] = useSecondLang();
+
+  const loadError =
+    (!correspondence && correspondenceError) || (!associations && associationsError);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (isLoading) return <Loading />;
 

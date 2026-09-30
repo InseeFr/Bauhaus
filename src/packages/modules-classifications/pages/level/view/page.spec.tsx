@@ -1,6 +1,8 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { params } from "../../../testing/params.testing";
 import { renderClassificationsPage } from "../../../testing/render.testing";
 import { Component } from "./page";
@@ -58,5 +60,17 @@ describe("Classifications level view page", () => {
     renderPage();
 
     expect(useClassificationLevel).toHaveBeenCalledWith("", "");
+  });
+
+  it("indique que le niveau est introuvable au lieu de charger indéfiniment", async () => {
+    useClassificationLevel.mockReturnValue({
+      isLoading: false,
+      level: undefined,
+      error: sdkRejection.emptyBody(404),
+    });
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 });

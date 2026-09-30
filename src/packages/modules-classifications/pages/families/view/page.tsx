@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { ClassificationsApi } from "@sdk/classification";
@@ -31,17 +32,20 @@ export const Component = () => {
     members: FamilyMember[];
   }>();
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   useEffect(() => {
-    Promise.all([
-      ClassificationsApi.getFamilyGeneral(id),
-      ClassificationsApi.getFamilyMembers(id),
-    ]).then(([general, members]) => {
-      setFamily({
-        general: general ?? {},
-        members: members ?? [],
-      });
-    });
+    Promise.all([ClassificationsApi.getFamilyGeneral(id), ClassificationsApi.getFamilyMembers(id)])
+      .then(([general, members]) => {
+        setFamily({
+          general: general ?? {},
+          members: members ?? [],
+        });
+      })
+      .catch(setLoadError);
   }, [id]);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!family) return <Loading />;
 

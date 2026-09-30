@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import { useLoaderData, useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -99,7 +100,7 @@ export const Component = () => {
 
   const simsId = mode === UPDATE ? params.id : undefined;
 
-  const { isLoading: simsLoading, sims } = useSims(simsId);
+  const { isLoading: simsLoading, sims, error: simsError } = useSims(simsId);
 
   const { mutateAsync: saveSimsMutation } = useSaveSims();
 
@@ -158,6 +159,8 @@ export const Component = () => {
     () => computeEssentialRubricContext(metadataStructure, currentSims.rubrics),
     [metadataStructure, currentSims.rubrics],
   );
+
+  if (simsError && !sims) return <LoadingErrorBloc error={simsError} />;
 
   if (parentLoading) return <Loading />;
 

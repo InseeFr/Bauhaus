@@ -5,7 +5,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { CreatorsInput } from "@components/business/creators-input";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
-import { GlobalClientSideErrorBloc } from "@components/errors-bloc";
+import { GlobalClientSideErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { TextInputBlock, UrlInputBlock } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -31,7 +31,7 @@ export const Component = () => {
 
   const { id = "" } = useParams<{ id: string }>();
 
-  const { isLoading, classification, status } = useClassification(id);
+  const { isLoading, classification, status, error: loadError } = useClassification(id);
 
   const { series } = useClassificationSeries();
 
@@ -48,6 +48,8 @@ export const Component = () => {
       dispatch({ type: "SET_VALUE", payload: classification });
     }
   }, [status, classification]);
+
+  if (loadError && !classification) return <LoadingErrorBloc error={loadError} />;
 
   if (isLoading) return <Loading />;
 

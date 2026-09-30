@@ -2,6 +2,8 @@ import { screen, waitFor } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { itPublishesThenReloads, itShowsPublicationError, renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
@@ -83,4 +85,13 @@ describe("Series view page", () => {
     publication,
     () => expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
   );
+
+  it("dit que la série est introuvable au lieu de charger indéfiniment sur un 404", async () => {
+    vi.mocked(OperationsApi.getSerie).mockRejectedValue(sdkRejection.emptyBody(404));
+
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+  });
 });

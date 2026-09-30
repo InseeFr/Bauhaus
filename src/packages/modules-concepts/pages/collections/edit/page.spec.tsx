@@ -5,6 +5,8 @@ import { Mock, vi } from "vitest";
 import { useIsDefaultContributorPending } from "@utils/creation/use-default-contributor";
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { useCollection } from "../../../hooks/useCollection";
 import { useCollections } from "../../../hooks/useCollections";
 import { useCollectionSave } from "../../../hooks/useCollectionSave";
@@ -151,6 +153,20 @@ describe("Edition Container Component", () => {
       renderWithQueryClient(<Component />);
 
       expect(screen.getByTestId("collection-loading")).toBeInTheDocument();
+    });
+
+    it("says the collection could not be loaded instead of loading forever on a 500", async () => {
+      (useCollection as Mock).mockReturnValue({
+        data: undefined,
+        isLoading: false,
+        error: sdkRejection.emptyBody(500),
+      });
+
+      renderWithQueryClient(<Component />);
+
+      await expectItemLoadFailed();
+      expect(screen.queryByTestId("collection-loading")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("collection-edition-creation")).not.toBeInTheDocument();
     });
 
     it("renders Loading component while loading concept list", async () => {

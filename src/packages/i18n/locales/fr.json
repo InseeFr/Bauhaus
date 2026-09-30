@@ -85,6 +85,10 @@
     "UNREADABLE_RESPONSE": "La réponse du serveur est illisible.",
     "PUBLICATION_REPOSITORY_UNAVAILABLE": "La publication a échoué : le référentiel de diffusion est indisponible. Réessayez plus tard.",
     "INVALID_REQUEST_BODY": "Les données envoyées sont invalides.",
+    "loading": {
+      "notFound": "Cette fiche est introuvable.",
+      "failed": "Impossible de charger cette fiche."
+    },
     "fallback": {
       "unauthorized": "Vous n'êtes pas connecté ou votre session a expiré. Reconnectez-vous puis réessayez.",
       "forbidden": "Vous n'avez pas les droits pour effectuer cette action.",

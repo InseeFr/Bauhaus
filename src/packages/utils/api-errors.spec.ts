@@ -1,5 +1,5 @@
 import { sdkRejection } from "../tests/sdk-rejection.testing";
-import { getApiErrorMessage, getApiErrors, toFormErrors } from "./api-errors";
+import { getApiErrorMessage, getApiErrors, isNotFound, toFormErrors } from "./api-errors";
 
 describe("getApiErrorMessage", () => {
   it("lit le message d'un rejet nu du SDK", () => {
@@ -130,5 +130,19 @@ describe("toFormErrors", () => {
       clientSideErrors: null,
       serverSideError: "Boom",
     });
+  });
+});
+
+describe("isNotFound", () => {
+  it("recognises a 404 rejected by the SDK, whatever its body", () => {
+    expect(isNotFound(sdkRejection.emptyBody(404))).toBe(true);
+    expect(isNotFound(sdkRejection.json(404, { message: "Family not found" }))).toBe(true);
+  });
+
+  it("rejects any other failure", () => {
+    expect(isNotFound(sdkRejection.emptyBody(500))).toBe(false);
+    expect(isNotFound(sdkRejection.network())).toBe(false);
+    expect(isNotFound(undefined)).toBe(false);
+    expect(isNotFound("404")).toBe(false);
   });
 });

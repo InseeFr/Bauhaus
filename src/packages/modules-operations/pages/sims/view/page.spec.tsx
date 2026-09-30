@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderWithLoaderData } from "../../page.testing";
 import { mockMetadataStructure } from "../metadata-structure.testing";
@@ -80,6 +81,28 @@ describe("Sims view page", () => {
     expect(screen.getByTestId("msd-/operations/sims")).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText("owners:1")).toBeInTheDocument());
     expect(OperationsApi.getOwners).toHaveBeenCalledWith("sims-1");
+  });
+
+  it("indique que le rapport est introuvable au lieu d'un rapport vide", async () => {
+    useSims.mockReturnValue({
+      isLoading: false,
+      sims: undefined,
+      error: sdkRejection.emptyBody(404),
+    });
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText("sims:(vide)")).not.toBeInTheDocument();
+  });
+
+  it("signale l'échec de lecture des propriétaires sans masquer le rapport", async () => {
+    vi.mocked(OperationsApi.getOwners).mockRejectedValue(
+      sdkRejection.json(503, { message: "Owners unavailable" }),
+    );
+    renderPage();
+
+    expect(await screen.findByText("Owners unavailable")).toBeInTheDocument();
+    expect(screen.getByText("sims:Rapport")).toBeInTheDocument();
   });
 
   it("tolère un rapport absent sans planter", () => {

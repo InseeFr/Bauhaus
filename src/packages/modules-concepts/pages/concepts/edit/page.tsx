@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 
 import { Link } from "@model/concepts/concept";
@@ -33,7 +34,7 @@ export const Component = () => {
 
   const { concepts, isLoading: isLoadingConcepts } = useConcepts();
 
-  const { data: concept, isLoading: isLoadingConcept } = useConcept(id);
+  const { data: concept, isLoading: isLoadingConcept, error: loadError } = useConcept(id);
 
   const { save, isSaving, saveError } = useConceptSave(id);
 
@@ -46,6 +47,10 @@ export const Component = () => {
   const [section, setSection] = useUrlSection("general");
 
   useTitle(t("concept.title"), concept?.general?.prefLabelLg1);
+
+  if (loadError && !concept) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if (
     isLoadingConcept ||

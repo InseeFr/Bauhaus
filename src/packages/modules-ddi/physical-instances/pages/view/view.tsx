@@ -1,6 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import { Message } from "primereact/message";
 import { Toast } from "primereact/toast";
 import {
   useReducer,
@@ -26,6 +25,7 @@ const PhysicalInstanceDialog = lazy(() =>
     (module) => ({ default: module.PhysicalInstanceDialog }),
   ),
 );
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { LoadingOverlay } from "@components/loading-overlay";
 
 import { getApiErrorMessage } from "@utils/api-errors";
@@ -903,15 +903,10 @@ export const Component = () => {
     return <LoadingOverlay textType="loading" />;
   }
 
-  if (isError) {
-    return (
-      <div role="alert" aria-live="assertive">
-        <Message
-          severity="error"
-          text={getApiErrorMessage(error, t("physicalInstance.view.errorLoading"))}
-        />
-      </div>
-    );
+  // Même traitement que les autres fiches ; une instance déjà affichée le reste si un
+  // rechargement échoue.
+  if (isError && !data) {
+    return <LoadingErrorBloc error={error} />;
   }
 
   return (

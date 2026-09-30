@@ -2,6 +2,7 @@ import { useReducer, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
@@ -22,6 +23,7 @@ type EditContainerState = {
   concepts: any[];
   serverSideError: string;
   attributes: any[];
+  loadError?: unknown;
 };
 
 type EditContainerAction =
@@ -31,6 +33,7 @@ type EditContainerAction =
       attributes: any[];
       concepts: any[];
     }
+  | { type: "LOAD_FAILED"; error: unknown }
   | { type: "LOAD_FINISHED" }
   | { type: "SAVE_STARTED" }
   | { type: "SAVE_FAILED"; component: any; error: string }
@@ -57,6 +60,8 @@ function editContainerReducer(
         attributes: action.attributes,
         concepts: action.concepts,
       };
+    case "LOAD_FAILED":
+      return { ...state, loadError: action.error };
     case "LOAD_FINISHED":
       return { ...state, loading: false };
     case "SAVE_STARTED":
@@ -89,7 +94,7 @@ export const Component = (props: any) => {
   const { data: codelists = [] } = useFormattedCodelist();
 
   const [state, dispatch] = useReducer(editContainerReducer, initialState);
-  const { loading, saving, component, concepts, serverSideError, attributes } = state;
+  const { loading, saving, component, concepts, serverSideError, attributes, loadError } = state;
 
   const handleBack = useCallback(() => goBack("/structures/components"), [goBack]);
 
@@ -116,8 +121,11 @@ export const Component = (props: any) => {
       .then(([component, attributes, concepts]) => {
         dispatch({ type: "LOAD_SUCCESS", component, attributes, concepts });
       })
+      .catch((error: unknown) => dispatch({ type: "LOAD_FAILED", error }))
       .finally(() => dispatch({ type: "LOAD_FINISHED" }));
   }, [id]);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (loading) return <Loading />;
 

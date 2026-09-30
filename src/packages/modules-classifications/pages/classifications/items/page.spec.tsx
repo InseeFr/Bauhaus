@@ -5,6 +5,8 @@ import { ClassificationsApi } from "@sdk/classification";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { params } from "../../../testing/params.testing";
 import { renderClassificationsPage } from "../../../testing/render.testing";
 import { Component } from "./page";
@@ -74,6 +76,26 @@ describe("Classification items page", () => {
 
     await waitFor(() => expect(screen.getByText("classification:nafr2")).toBeInTheDocument());
     expect(screen.queryAllByRole("listitem")).toHaveLength(0);
+  });
+
+  it("indique que la nomenclature est introuvable au lieu de charger indéfiniment", async () => {
+    vi.mocked(ClassificationsApi.getClassificationGeneral).mockRejectedValue(
+      sdkRejection.json(404, { message: "Classification not found" }),
+    );
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+  });
+
+  it("indique que les postes n'ont pas pu être chargés", async () => {
+    vi.mocked(ClassificationsApi.getClassificationItems).mockRejectedValue(
+      sdkRejection.emptyBody(500),
+    );
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 
   it("affiche une liste vide quand la classification n'a aucun poste", async () => {

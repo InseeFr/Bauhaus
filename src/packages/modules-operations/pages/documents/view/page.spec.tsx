@@ -3,6 +3,8 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { GeneralApi } from "@sdk/general-api";
 
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
@@ -69,5 +71,23 @@ describe("Documents view page", () => {
 
     await waitFor(() => expect(screen.getByText("id:doc-1")).toBeInTheDocument());
     expect(screen.getAllByText("Only EN").length).toBeGreaterThan(0);
+  });
+
+  it("dit que le document est introuvable au lieu de charger indéfiniment sur un 404", async () => {
+    vi.mocked(GeneralApi.getDocument).mockRejectedValue(sdkRejection.emptyBody(404));
+
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+  });
+
+  it("dit que le lien n'a pu être chargé quand le serveur est injoignable", async () => {
+    vi.mocked(GeneralApi.getDocument).mockRejectedValue(sdkRejection.network());
+
+    renderPage("/operations/link/doc-1");
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText("menu:link")).not.toBeInTheDocument();
   });
 });

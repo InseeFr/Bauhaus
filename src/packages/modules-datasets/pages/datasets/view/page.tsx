@@ -12,7 +12,7 @@ import { CheckSecondLang } from "@components/check-second-lang";
 import { CodeDisplay } from "@components/code-display";
 import { ConfirmationDelete } from "@components/confirmation-delete";
 import { DisseminationStatusVisualization } from "@components/dissemination-status/disseminationStatus";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Deleting, Loading, Publishing } from "@components/loading";
 import { Note } from "@components/note";
@@ -56,7 +56,7 @@ const Dataset = (props: Readonly<DatasetTypes>) => {
     DatasetsApi.getArchivageUnits().then(setArchivageUnits);
   }, []);
 
-  const { data: dataset, isLoading } = useDataset(id);
+  const { data: dataset, isLoading, error: loadError } = useDataset(id);
 
   const [secondLang] = useSecondLang();
 
@@ -93,6 +93,8 @@ const Dataset = (props: Readonly<DatasetTypes>) => {
   });
 
   useTitle(t("dataset.pluralTitle"), dataset?.labelLg1);
+
+  if (loadError && !dataset) return <LoadingErrorBloc error={loadError} />;
 
   if (isLoading) return <Loading />;
 

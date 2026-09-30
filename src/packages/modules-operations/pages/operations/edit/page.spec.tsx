@@ -6,6 +6,8 @@ import { describe, expect, it, vi } from "vitest";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
 vi.mock("@sdk/operations-api", () => ({
@@ -138,5 +140,14 @@ describe("Operations Edition Index Component", () => {
     renderWithoutId();
 
     expect(OperationsApi.getOperation).not.toHaveBeenCalled();
+  });
+
+  it("says the operation could not be loaded instead of loading forever", async () => {
+    vi.mocked(OperationsApi.getOperation).mockRejectedValue(sdkRejection.network());
+
+    renderWithRouter("123");
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument();
   });
 });

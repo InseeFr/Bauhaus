@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
 const mockUseParams = vi.fn();
@@ -109,6 +111,21 @@ describe("Distribution Edit Page", () => {
       render(<Component />);
 
       expect(screen.getByText(/loading/i)).not.toBeNull();
+    });
+
+    it("says the distribution could not be loaded instead of loading forever on a 500", async () => {
+      mockUseParams.mockReturnValue({ id: "123" });
+      mockUseDistribution.mockReturnValue({
+        data: undefined,
+        status: "error",
+        error: sdkRejection.emptyBody(500),
+      });
+
+      render(<Component />);
+
+      await expectItemLoadFailed();
+      expect(screen.queryByText(/loading/i)).toBeNull();
+      expect(screen.queryByRole("button", { name: /save/i })).toBeNull();
     });
 
     it("should render the form in edit mode with distribution data", () => {

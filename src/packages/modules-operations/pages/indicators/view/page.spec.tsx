@@ -2,6 +2,8 @@ import { screen, waitFor } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { itPublishesThenReloads, itShowsPublicationError, renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
@@ -69,4 +71,13 @@ describe("Indicators view page", () => {
   itPublishesThenReloads("publie l'indicateur puis le recharge", publication);
 
   itShowsPublicationError("affiche l'erreur serveur quand la publication échoue", publication);
+
+  it("dit que l'indicateur est introuvable au lieu de charger indéfiniment sur un 404", async () => {
+    vi.mocked(OperationsApi.getIndicatorById).mockRejectedValue(sdkRejection.emptyBody(404));
+
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+  });
 });

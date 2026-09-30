@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 
-import { ClientSideError, ErrorBloc } from "@components/errors-bloc";
+import { ClientSideError, ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -46,7 +46,12 @@ export const Component = () => {
     },
   });
 
-  const { isLoading, item, status } = useClassificationItem(classificationId, itemId, true);
+  const {
+    isLoading,
+    item,
+    status,
+    error: loadError,
+  } = useClassificationItem(classificationId, itemId, true);
 
   const { data: previousLevels = [], isPending: isPreviousLevelsLoading } =
     useClassificationParentLevels(classificationId, itemId, item);
@@ -69,6 +74,8 @@ export const Component = () => {
   const [clientSideErrors, setClientSideErrors] = useState<any>({});
 
   const [submitting, setSubmitting] = useState(false);
+
+  if (loadError && !item?.general) return <LoadingErrorBloc error={loadError} />;
 
   if (isLoading || isPreviousLevelsLoading) return <Loading />;
 

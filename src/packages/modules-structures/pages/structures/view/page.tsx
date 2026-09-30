@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import { CheckSecondLang } from "@components/check-second-lang";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -60,9 +60,12 @@ export const Component = () => {
 
   const [serverSideError, setServerSideError] = useState<string | undefined>();
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   useEffect(() => {
     StructureApi.getStructure(id)
       .then((res: Structure) => setStructure(res))
+      .catch(setLoadError)
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -77,6 +80,8 @@ export const Component = () => {
         setServerSideError(error);
       });
   };
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (loading) {
     return <Loading />;

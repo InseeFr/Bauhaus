@@ -2,6 +2,8 @@ import { screen, waitFor } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { itPublishesThenReloads, itShowsPublicationError, renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
@@ -52,4 +54,13 @@ describe("Operations view page", () => {
   itPublishesThenReloads("publie l'opération puis la recharge", publication);
 
   itShowsPublicationError("affiche l'erreur serveur quand la publication échoue", publication);
+
+  it("dit que l'opération n'a pu être chargée quand le serveur échoue", async () => {
+    vi.mocked(OperationsApi.getOperation).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+  });
 });

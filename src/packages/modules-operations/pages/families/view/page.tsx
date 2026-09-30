@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { CheckSecondLang } from "@components/check-second-lang";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Publishing } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -26,8 +26,10 @@ export const Component = () => {
 
   const [publishing, setPublishing] = useState(false);
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   useEffect(() => {
-    OperationsApi.getFamilyById(id).then(setFamily);
+    OperationsApi.getFamilyById(id).then(setFamily).catch(setLoadError);
   }, [id]);
 
   const publish = useCallback(() => {
@@ -39,6 +41,8 @@ export const Component = () => {
       .catch((error: any) => setServerSideError(error))
       .finally(() => setPublishing(false));
   }, [family, id]);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!family) return <Loading />;
 

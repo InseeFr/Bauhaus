@@ -181,7 +181,6 @@
       },
       "editTitle": "Modifier le titre",
       "editVariable": "Modifier la variable",
-      "errorLoading": "Erreur lors du chargement des données",
       "export": "Exporter",
       "exportError": "Erreur lors de l'export",
       "exportErrorDetail": "Impossible de télécharger le fichier",

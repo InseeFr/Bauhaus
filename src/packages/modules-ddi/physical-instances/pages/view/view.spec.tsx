@@ -601,6 +601,8 @@ describe("View Component", () => {
   });
 
   describe("Error state", () => {
+    // Même traitement que les autres fiches de l'application : LoadingErrorBloc (toast d'erreur
+    // centré et persistant, page vide).
     const mockError = (error: unknown) =>
       mockUsePhysicalInstancesData.mockReturnValue({
         variables: [],
@@ -609,39 +611,34 @@ describe("View Component", () => {
         error,
       });
 
-    it("should render error message when there is an error", () => {
-      const errorMessage = "Failed to fetch data";
-      mockError(new Error(errorMessage));
-
-      renderView();
-
-      expect(screen.getByTestId("message")).toBeInTheDocument();
-      expect(screen.getByText(errorMessage)).toBeInTheDocument();
-    });
-
-    it("should have correct accessibility attributes for error state", () => {
-      mockError(new Error("Error"));
-
-      renderView();
-
-      const errorContainer = screen.getByRole("alert");
-      expect(errorContainer).toHaveAttribute("aria-live", "assertive");
-    });
-
-    it("should render the message of an API error rejected by the SDK", () => {
+    it("shows the shared loading error toast instead of an inline message", async () => {
       mockError(sdkRejection.text(500, "Colectica unavailable"));
 
       renderView();
 
-      expect(screen.getByText("Colectica unavailable")).toBeInTheDocument();
+      await waitFor(() =>
+        expect(mockToastShow).toHaveBeenCalledWith(
+          expect.objectContaining({
+            severity: "error",
+            summary: "This item could not be loaded.",
+            sticky: true,
+          }),
+        ),
+      );
+      expect(screen.queryByTestId("message")).not.toBeInTheDocument();
     });
 
-    it("should render default error message when error is not an Error instance", () => {
-      mockError("Unknown error");
+    it("says the physical instance could not be found on a 404", async () => {
+      mockError(sdkRejection.emptyBody(404));
 
-      renderView();
+      const { container } = renderView();
 
-      expect(screen.getByText("physicalInstance.view.errorLoading")).toBeInTheDocument();
+      await waitFor(() => expect(mockToastShow).toHaveBeenCalled());
+      const { detail } = mockToastShow.mock.calls.at(-1)![0];
+      const { getByText } = render(detail, {
+        container: container.appendChild(document.createElement("div")),
+      });
+      expect(getByText("This item could not be found.")).toBeInTheDocument();
     });
   });
 

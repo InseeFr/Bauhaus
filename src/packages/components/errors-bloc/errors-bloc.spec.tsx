@@ -2,12 +2,12 @@
 // DOMPurify ≥ 3.4.8 ne reconnaît plus les éléments du DOM happy-dom (balises sûres
 // supprimées, <script> conservé) : ce qui passe par DOMPurify se teste sous jsdom.
 
-import { render, screen } from "@testing-library/react";
-import { afterEach, describe, it, expect } from "vitest";
+import { act, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, describe, it, expect, vi } from "vitest";
 
 import { appI18n } from "../../i18n";
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
-import { ClientSideError, GlobalClientSideErrorBloc, ErrorBloc } from "./index";
+import { ClientSideError, GlobalClientSideErrorBloc, ErrorBloc, LoadingErrorBloc } from "./index";
 
 describe("ClientSideError", () => {
   it("renders error message when error is provided", () => {
@@ -224,6 +224,85 @@ describe("ErrorBloc", () => {
       expect(screen.getByRole("alert")).toHaveTextContent(
         "Le serveur est injoignable. Vérifiez votre connexion et réessayez.",
       );
+    });
+  });
+});
+
+describe("LoadingErrorBloc", () => {
+  // Même toast que l'échec d'enregistrement d'une instance physique (severity error, titre +
+  // détail), mais qui reste affiché : la page, elle, est vide.
+  const toastMessage = () => document.querySelector(".p-toast-message-error");
+
+  it("shows a PrimeReact error toast, like the physical instance screen, and nothing in the page", async () => {
+    const { container } = render(<LoadingErrorBloc error={sdkRejection.emptyBody(500)} />);
+
+    await waitFor(() => expect(toastMessage()).not.toBeNull());
+    expect(container.querySelector(".alert-danger, .p-inline-message")).toBeNull();
+  });
+
+  it("centers a wide toast at the top of the page, like the DDI toast", async () => {
+    render(<LoadingErrorBloc error={sdkRejection.emptyBody(500)} />);
+
+    await waitFor(() => expect(toastMessage()).not.toBeNull());
+    expect(toastMessage()?.closest(".p-toast")).toHaveClass("p-toast-top-center", "error-toast");
+  });
+
+  it("keeps the toast displayed until the user closes it", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      render(<LoadingErrorBloc error={sdkRejection.emptyBody(500)} />);
+      await waitFor(() => expect(toastMessage()).not.toBeNull());
+
+      await act(() => vi.advanceTimersByTimeAsync(60_000));
+
+      expect(toastMessage()).not.toBeNull();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("says the item could not be found on a 404, whatever the server message", async () => {
+    render(<LoadingErrorBloc error={sdkRejection.json(404, { message: "Family not found" })} />);
+
+    await waitFor(() => expect(toastMessage()).not.toBeNull());
+    expect(toastMessage()).toHaveTextContent("This item could not be loaded.");
+    expect(toastMessage()).toHaveTextContent("This item could not be found.");
+    expect(toastMessage()).not.toHaveTextContent("Family not found");
+  });
+
+  it("gives the server message as detail", async () => {
+    render(<LoadingErrorBloc error={sdkRejection.json(409, { message: "Repository locked" })} />);
+
+    expect(await screen.findByText("Repository locked")).toBeInTheDocument();
+  });
+
+  it("falls back on the status message when the response has no readable body", async () => {
+    render(<LoadingErrorBloc error={sdkRejection.network()} />);
+
+    expect(
+      await screen.findByText("The server cannot be reached. Check your connection and try again."),
+    ).toBeInTheDocument();
+  });
+
+  it("shows the toast only once for the same failure", async () => {
+    const error = sdkRejection.emptyBody(404);
+    const { rerender } = render(<LoadingErrorBloc error={error} />);
+    await waitFor(() => expect(toastMessage()).not.toBeNull());
+
+    rerender(<LoadingErrorBloc error={error} />);
+
+    expect(document.querySelectorAll(".p-toast-message-error")).toHaveLength(1);
+  });
+
+  describe("in French", () => {
+    afterEach(() => appI18n.changeLanguage("en"));
+
+    it("renders the toast in French", async () => {
+      await appI18n.changeLanguage("fr");
+      render(<LoadingErrorBloc error={sdkRejection.emptyBody(404)} />);
+
+      expect(await screen.findByText("Cette fiche est introuvable.")).toBeInTheDocument();
+      expect(screen.getByText("Impossible de charger cette fiche.")).toBeInTheDocument();
     });
   });
 });

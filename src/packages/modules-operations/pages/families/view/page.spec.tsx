@@ -2,6 +2,8 @@ import { screen, waitFor } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { itPublishesThenReloads, itShowsPublicationError, renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
@@ -46,4 +48,15 @@ describe("Families view page", () => {
   itShowsPublicationError("affiche l'erreur serveur quand la publication échoue", publication, () =>
     expect(screen.getByText("famille:Famille FR")).toBeInTheDocument(),
   );
+
+  it("dit que la famille est introuvable au lieu de charger indéfiniment sur un 404", async () => {
+    vi.mocked(OperationsApi.getFamilyById).mockRejectedValue(
+      sdkRejection.json(404, { message: "Family not found" }),
+    );
+
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+  });
 });

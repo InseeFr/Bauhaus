@@ -5,6 +5,8 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { AppContextProvider } from "../../../../../application/app-context";
+import { expectItemLoadFailed } from "../../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 import { rangeType } from "../../../../constants/rangeType";
 import { getSiblingSims } from "../utils/getSiblingSims";
 import { AdvancedSimsCreation } from "./AdvancedSimsCreation";
@@ -238,6 +240,21 @@ describe("AdvancedSimsCreation", () => {
 
     await waitFor(() => expect(getSiblingSims).toHaveBeenCalledWith("sims-a", metadataStructure));
     await waitFor(() => expect(screen.getByText("champ:S1|lg1|seul:false")).toBeInTheDocument());
+  });
+
+  it("sort du chargement et signale l'échec quand le rapport à recopier ne peut pas être lu", async () => {
+    vi.mocked(OperationsApi.getOperationsWithReport).mockResolvedValue([
+      { labelLg1: "Abeille", idSims: "sims-a" },
+    ] as any);
+    vi.mocked(getSiblingSims).mockRejectedValue(sdkRejection.emptyBody(500));
+    renderCreation({ parent: { series: { id: "s-1" } } });
+    await waitFor(() => expect(screen.getByRole("button", { name: /Abeille/ })).toBeEnabled());
+
+    await userEvent.click(screen.getByRole("button", { name: /Abeille/ }));
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "enregistrer" })).toBeInTheDocument();
   });
 
   it("charge les rapports frères d'une série depuis sa famille", async () => {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { ClassificationsApi } from "@sdk/classification";
@@ -29,17 +30,23 @@ export const Component = () => {
 
   const [general, setGeneral] = useState<ClassificationGeneral>();
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   const [secondLang] = useSecondLang();
 
   useEffect(() => {
     Promise.all([
       ClassificationsApi.getClassificationItems(id),
       ClassificationsApi.getClassificationGeneral(id),
-    ]).then(([items, general]) => {
-      setItems(items);
-      setGeneral(general);
-    });
+    ])
+      .then(([items, general]) => {
+        setItems(items);
+        setGeneral(general);
+      })
+      .catch(setLoadError);
   }, [id]);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!general || !items) {
     return <Loading />;
