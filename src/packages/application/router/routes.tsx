@@ -144,6 +144,6 @@ export type AppRouter = ReturnType<typeof createAppRouter>;
 
 export const Routes = ({ router }: Readonly<{ router: AppRouter }>) => (
   <Suspense fallback={<Loading />}>
-    <RouterProvider router={router}></RouterProvider>
+    <RouterProvider router={router} future={{ v7_startTransition: true }}></RouterProvider>
   </Suspense>
 );
