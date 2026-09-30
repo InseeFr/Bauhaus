@@ -21,6 +21,8 @@ interface CollectionVisualizationProps {
   members: CollectionMember[];
   secondLang: boolean;
   validateCollection: (id: string) => void;
+  /** Rejet de la dernière publication, rendu par `ErrorBloc`. */
+  validationError?: unknown;
 }
 
 export const CollectionVisualization = ({
@@ -29,6 +31,7 @@ export const CollectionVisualization = ({
   members,
   secondLang,
   validateCollection,
+  validationError,
 }: Readonly<CollectionVisualizationProps>) => {
   const { t } = useTranslation();
 
@@ -59,6 +62,7 @@ export const CollectionVisualization = ({
           handleValidation={handleClickValid}
           exportCollection={exportCollection}
         />
+        <ErrorBloc error={validationError} />
         <ErrorBloc error={exportError} />
         <CheckSecondLang />
         <CollectionGeneralComponent attr={general} secondLang={secondLang} />

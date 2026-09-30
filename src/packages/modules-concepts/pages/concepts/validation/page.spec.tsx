@@ -178,7 +178,7 @@ describe("ConceptValidation Home Container", () => {
       });
 
       expect(screen.getByText("Publish in progress ...")).toBeInTheDocument();
-      expect(screen.queryByTestId("concepts-to-validate")).not.toBeInTheDocument();
+      expect(screen.getByTestId("concepts-to-validate")).not.toBeVisible();
 
       // Resolve the promise to complete the validation
       resolvePromise!();

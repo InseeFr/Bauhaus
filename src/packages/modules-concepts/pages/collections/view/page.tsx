@@ -17,20 +17,26 @@ export const Component = () => {
 
   const [saving, setSaving] = useState(false);
 
+  const [validationError, setValidationError] = useState<unknown>();
+
   const queryClient = useQueryClient();
 
   const [secondLang] = useSecondLang();
 
   const { data: collection, isLoading, error, refetch } = useCollection(id);
 
-  const handleCollectionValidation = (collectionId: string) => {
+  const handleCollectionValidation = async (collectionId: string) => {
     setSaving(true);
-    ConceptsApi.putCollectionValidList([collectionId])
-      .then(async () => {
-        queryClient.invalidateQueries({ queryKey: ["collections"] });
-        await refetch();
-      })
-      .finally(() => setSaving(false));
+    setValidationError(undefined);
+    try {
+      await ConceptsApi.putCollectionValidList([collectionId]);
+      queryClient.invalidateQueries({ queryKey: ["collections"] });
+      await refetch();
+    } catch (error) {
+      setValidationError(error);
+    } finally {
+      setSaving(false);
+    }
   };
 
   // Une fiche déjà affichée le reste si un rechargement échoue (après une publication, par exemple).
@@ -54,6 +60,7 @@ export const Component = () => {
       general={general}
       members={members}
       validateCollection={handleCollectionValidation}
+      validationError={validationError}
       secondLang={secondLang}
     />
   );
