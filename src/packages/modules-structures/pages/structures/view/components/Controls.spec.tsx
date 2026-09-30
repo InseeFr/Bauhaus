@@ -21,7 +21,7 @@ const renderControls = async (structure: Structure) => {
 
   render(
     <WithRouter>
-      <Controls structure={structure} publish={vi.fn()}></Controls>
+      <Controls structure={structure} publish={vi.fn()} onDeleteError={vi.fn()}></Controls>
     </WithRouter>,
   );
 };

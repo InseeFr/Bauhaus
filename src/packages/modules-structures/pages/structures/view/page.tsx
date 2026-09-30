@@ -22,10 +22,16 @@ import { GlobalInformationsPanel } from "./components/GlobalInformationsPanel";
 interface StructureViewTypes {
   structure: Structure;
   publish: VoidFunction;
-  serverSideError?: string;
+  onDeleteError: (error: unknown) => void;
+  serverSideError?: unknown;
 }
 
-export const StructureView = ({ structure, publish, serverSideError }: StructureViewTypes) => {
+export const StructureView = ({
+  structure,
+  publish,
+  onDeleteError,
+  serverSideError,
+}: StructureViewTypes) => {
   const { t } = useTranslation();
 
   useTitle(t("structure.pluralTitle"), structure?.labelLg1);
@@ -42,7 +48,7 @@ export const StructureView = ({ structure, publish, serverSideError }: Structure
     <>
       <PageTitleBlock titleLg1={labelLg1} titleLg2={labelLg2} />
       <CheckSecondLang />
-      <Controls structure={structure} publish={publish} />
+      <Controls structure={structure} publish={publish} onDeleteError={onDeleteError} />
       <ErrorBloc error={serverSideError} />
       <GlobalInformationsPanel structure={structure} />
       <DescriptionsPanel descriptionLg1={descriptionLg1} descriptionLg2={descriptionLg2} />
@@ -58,7 +64,7 @@ export const Component = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const [serverSideError, setServerSideError] = useState<string | undefined>();
+  const [serverSideError, setServerSideError] = useState<unknown>();
 
   const [loadError, setLoadError] = useState<unknown>();
 
@@ -88,6 +94,11 @@ export const Component = () => {
   }
 
   return (
-    <StructureView structure={structure} publish={publish} serverSideError={serverSideError} />
+    <StructureView
+      structure={structure}
+      publish={publish}
+      onDeleteError={setServerSideError}
+      serverSideError={serverSideError}
+    />
   );
 };

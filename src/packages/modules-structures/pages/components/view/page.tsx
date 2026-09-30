@@ -30,7 +30,7 @@ export const Component = (props: any) => {
 
   const { data: codelists = [] } = useFormattedCodelist();
 
-  const [serverSideError, setServerSideError] = useState();
+  const [serverSideError, setServerSideError] = useState<unknown>();
 
   const [loadError, setLoadError] = useState<unknown>();
 
@@ -40,7 +40,12 @@ export const Component = (props: any) => {
 
   const handleDelete = useCallback(() => {
     setLoading(true);
-    StructureApi.deleteMutualizedComponent(id).then(() => goBack("/structures/components"));
+    StructureApi.deleteMutualizedComponent(id)
+      .then(() => goBack("/structures/components"))
+      .catch((error: unknown) => {
+        setServerSideError(error);
+        setLoading(false);
+      });
   }, [id, goBack]);
 
   useEffect(() => {

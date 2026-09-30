@@ -2,6 +2,8 @@ import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { ErrorBloc } from "@components/errors-bloc";
+
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
 import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
@@ -50,7 +52,7 @@ vi.mock("../../../components/ComponentDetailView", () => ({
       <span>attributs:{attributes.length}</span>
       <span>listes:{codelists.length}</span>
       <span>modifier:{handleUpdate}</span>
-      <span>erreur:{serverSideError ?? "(aucune)"}</span>
+      <ErrorBloc error={serverSideError} />
       <button onClick={handleBack}>retour</button>
       <button onClick={handleDelete}>supprimer</button>
       <button onClick={publishComponent}>publier</button>
@@ -136,10 +138,25 @@ describe("Mutualized component view page", () => {
   });
 
   it("affiche l'erreur serveur quand la publication échoue", async () => {
-    vi.mocked(StructureApi.publishMutualizedComponent).mockRejectedValue("Publication refusée");
+    vi.mocked(StructureApi.publishMutualizedComponent).mockRejectedValue(
+      sdkRejection.text(500, "Publication refusée"),
+    );
     renderPage();
     await clickWhenDisplayed("publier");
 
-    await waitFor(() => expect(screen.getByText("erreur:Publication refusée")).toBeInTheDocument());
+    expect(await screen.findByRole("alert")).toHaveTextContent("Publication refusée");
+  });
+
+  it("reste sur la composante et affiche l'erreur quand la suppression échoue", async () => {
+    vi.mocked(StructureApi.deleteMutualizedComponent).mockRejectedValue(
+      sdkRejection.text(500, "Suppression impossible"),
+    );
+    renderPage();
+    await clickWhenDisplayed("supprimer");
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Suppression impossible");
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+    expect(screen.getByText("composante:Composante FR")).toBeInTheDocument();
+    expect(goBack).not.toHaveBeenCalled();
   });
 });
