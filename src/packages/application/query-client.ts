@@ -1,5 +1,6 @@
 import { MutationCache, QueryClient } from "@tanstack/react-query";
 
+import { isNotFound } from "../utils/api-errors";
 import { notifyGlobalError } from "./global-error-toast/notifier";
 
 declare module "@tanstack/react-query" {
@@ -14,6 +15,16 @@ declare module "@tanstack/react-query" {
   }
 }
 
+/** Nombre de nouvelles tentatives par défaut de TanStack Query. */
+const MAX_RETRIES = 3;
+
+/**
+ * Une lecture en 404 porte sur un élément qui n'existe pas : la relancer ne changera rien et
+ * retarde d'autant le message « introuvable ».
+ */
+const shouldRetry = (failureCount: number, error: unknown) =>
+  !isNotFound(error) && failureCount < MAX_RETRIES;
+
 /**
  * Client de l'application. Toute mutation en échec que l'écran ne traite pas est notifiée au
  * toast global (ticket #1264-13).
@@ -23,6 +34,7 @@ export const createQueryClient = () =>
     defaultOptions: {
       queries: {
         staleTime: Infinity,
+        retry: shouldRetry,
       },
     },
     mutationCache: new MutationCache({
