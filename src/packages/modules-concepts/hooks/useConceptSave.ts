@@ -39,7 +39,7 @@ export const useConceptSave = (id: string | undefined) => {
 
   const [isSaving, setIsSaving] = useState(false);
 
-  const [saveError, setSaveError] = useState<string | undefined>();
+  const [saveError, setSaveError] = useState<unknown>();
 
   const invalidateQueries = useCallback(
     (conceptToSave: ConceptPayload) => {
@@ -83,7 +83,7 @@ export const useConceptSave = (id: string | undefined) => {
             ];
       promise
         .then((result) => navigate(redirect(result)))
-        .catch((e: string) => {
+        .catch((e: unknown) => {
           setIsSaving(false);
           setSaveError(e);
         });

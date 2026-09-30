@@ -35,7 +35,7 @@ export const Component = () => {
 
   const { data: concept, isLoading: isLoadingConcept } = useConcept(id);
 
-  const { save, isSaving } = useConceptSave(id);
+  const { save, isSaving, saveError } = useConceptSave(id);
 
   // Le formulaire fige `general` dans son état à l'initialisation : on attend
   // que le contributeur par défaut soit résolu avant de le monter.
@@ -56,10 +56,6 @@ export const Component = () => {
     return <Loading />;
   }
 
-  if (isSaving) {
-    return <Saving />;
-  }
-
   const { general, notes, links } = concept;
 
   const conceptsWithLinks: ConceptWithLink[] = mergeWithAllConcepts(
@@ -71,22 +67,30 @@ export const Component = () => {
     ? []
     : (links.filter((link: Link) => link.typeOfLink === CLOSE_MATCH) as (Link & { urn: string })[]);
 
+  // Le formulaire reste monté pendant l'enregistrement : démonté, il perdrait la
+  // saisie, qu'un échec doit laisser intacte.
   return (
-    <ConceptEditionCreation
-      id={id}
-      creation={isCreation}
-      title={isCreation ? t("concept.create.title") : t("concept.update.title")}
-      subtitle={general?.prefLabelLg1}
-      general={general}
-      notes={notes}
-      equivalentLinks={equivalentLinks}
-      conceptsWithLinks={conceptsWithLinks}
-      maxLengthScopeNote={maxLengthScopeNote}
-      save={save}
-      submitting={submitting}
-      setSubmitting={setSubmitting}
-      section={section}
-      onSectionChange={setSection}
-    />
+    <>
+      {isSaving && <Saving />}
+      <div hidden={isSaving}>
+        <ConceptEditionCreation
+          id={id}
+          creation={isCreation}
+          title={isCreation ? t("concept.create.title") : t("concept.update.title")}
+          subtitle={general?.prefLabelLg1}
+          general={general}
+          notes={notes}
+          equivalentLinks={equivalentLinks}
+          conceptsWithLinks={conceptsWithLinks}
+          maxLengthScopeNote={maxLengthScopeNote}
+          save={save}
+          submitting={submitting}
+          setSubmitting={setSubmitting}
+          section={section}
+          onSectionChange={setSection}
+          serverSideError={saveError}
+        />
+      </div>
+    </>
   );
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { ErrorBloc } from "@components/errors-bloc";
 import { ModalButton, ModalRmes } from "@components/modal-rmes/modal-rmes";
 import { PageTitle } from "@components/page-title";
 
@@ -57,6 +58,8 @@ interface ConceptEditionCreationProps {
   section?: string;
   /** Appelé avec la clé de la partie choisie, pour la retenir dans l'URL. */
   onSectionChange?: (section: string) => void;
+  /** Rejet de la dernière tentative d'enregistrement. */
+  serverSideError?: unknown;
 }
 
 interface ConceptEditionCreationState {
@@ -100,6 +103,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
     setSubmitting,
     section,
     onSectionChange,
+    serverSideError,
   } = props;
 
   const { t } = useTranslation();
@@ -299,6 +303,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
         {general.contributor && (
           <Menu errors={displayedErrors} handleSave={handleSave} submitting={submitting} />
         )}
+        <ErrorBloc error={serverSideError} />
         <div className="concept-edition">
           <ConceptSummary
             notes={dataNotes}
