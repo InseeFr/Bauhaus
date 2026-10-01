@@ -9,6 +9,7 @@ import { envelope } from "../../types/ddi4Items.testing";
 import { Component } from "./view";
 
 const mockUsePhysicalInstancesData = vi.fn();
+const mockUsePhysicalInstanceParents = vi.fn();
 const mockUpdatePhysicalInstance = vi.fn();
 const mockPublishPhysicalInstance = vi.fn();
 const mockValidateDdi4 = vi.fn();
@@ -89,13 +90,16 @@ vi.mock("../../../hooks/useGroups", () => ({
 }));
 
 vi.mock("../../../hooks/usePhysicalInstanceParents", () => ({
-  usePhysicalInstanceParents: () => ({
-    data: {
-      group: { agency: "agency-1", id: "group-1" },
-      studyUnit: { agency: "agency-1", id: "study-1" },
-    },
-    isLoading: false,
-  }),
+  usePhysicalInstanceParents: (...args: unknown[]) => (
+    mockUsePhysicalInstanceParents(...args),
+    {
+      data: {
+        group: { agency: "agency-1", id: "group-1" },
+        studyUnit: { agency: "agency-1", id: "study-1" },
+      },
+      isLoading: false,
+    }
+  ),
 }));
 
 // Hooks de la section « Valeurs sentinelles » (#1566) : pas de fetch réel dans ces tests.
@@ -639,6 +643,18 @@ describe("View Component", () => {
         container: container.appendChild(document.createElement("div")),
       });
       expect(getByText("This item could not be found.")).toBeInTheDocument();
+    });
+
+    it("does not request the parents of a physical instance that could not be loaded", () => {
+      // Une PI introuvable n'a pas de parents : l'appel /parents ne ferait qu'ajouter une 404.
+      mockError(sdkRejection.emptyBody(404));
+
+      renderView();
+
+      expect(mockUsePhysicalInstanceParents).toHaveBeenCalled();
+      for (const call of mockUsePhysicalInstanceParents.mock.calls) {
+        expect(call[2]).toEqual({ enabled: false });
+      }
     });
   });
 

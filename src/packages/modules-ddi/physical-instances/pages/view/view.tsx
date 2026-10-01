@@ -75,7 +75,8 @@ export const Component = () => {
     id!,
   );
 
-  const { data: parents } = usePhysicalInstanceParents(agencyId!, id!);
+  // Une PI introuvable (404) ou en erreur n'a pas de parents à résoudre : on attend son chargement.
+  const { data: parents } = usePhysicalInstanceParents(agencyId!, id!, { enabled: !!data });
 
   const currentGroup = parents?.group;
   const currentStudyUnit = parents?.studyUnit;

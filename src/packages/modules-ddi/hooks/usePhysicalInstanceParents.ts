@@ -11,11 +11,15 @@ export interface PhysicalInstanceParents {
   stamps: string[];
 }
 
-export function usePhysicalInstanceParents(agencyId: string, id: string) {
+export function usePhysicalInstanceParents(
+  agencyId: string,
+  id: string,
+  { enabled = true }: { enabled?: boolean } = {},
+) {
   return useQuery<PhysicalInstanceParents>({
     queryKey: ["physicalInstanceParents", agencyId, id],
     queryFn: () => DDIApi.getPhysicalInstanceParents(agencyId, id),
     // Convention du module : les hooks composés se désactivent en passant des chaînes vides.
-    enabled: !!agencyId && !!id,
+    enabled: enabled && !!agencyId && !!id,
   });
 }
