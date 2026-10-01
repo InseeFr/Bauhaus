@@ -10,12 +10,13 @@ import { Document } from "@model/operations/document";
 import { GeneralApi } from "@sdk/general-api";
 
 import { AppContextProvider } from "../../../../../application/app-context";
-import { DOCUMENT } from "../../../../../constants/documentType";
+import { DOCUMENT, LINK } from "../../../../../constants/documentType";
 import { OperationsDocumentationEdition } from "./OperationsDocumentationEdition";
 
 vi.mock("@sdk/general-api", () => ({
   GeneralApi: {
     putDocument: vi.fn(),
+    putLink: vi.fn(),
     putDocumentFile: vi.fn(),
   },
 }));
@@ -241,5 +242,43 @@ describe("OperationsDocumentationEdition, validation errors returned by the serv
     await saveRejectedWith([{ field: "descriptionLg1", message: "est trop long" }]);
 
     expect(await screen.findByText("descriptionLg1 : est trop long")).toBeInTheDocument();
+  });
+});
+
+describe("OperationsDocumentationEdition, title already used", () => {
+  // Données historiques : un document et un lien peuvent porter le même id.
+  const link = {
+    id: "4",
+    uri: "http://bauhaus/documents/page/4",
+    labelLg1: "Indice de traitement",
+    labelLg2: "Salary index",
+    lang: "fr",
+    url: "https://www.fonction-publique.gouv.fr/itb",
+    sims: [],
+  };
+  const documentWithTheSameId = {
+    id: "4",
+    uri: "http://bauhaus/documents/document/4",
+    labelLg1: "Note méthodologique",
+    labelLg2: "Methodological note",
+  };
+
+  beforeEach(() => {
+    documentsAndLinks.push(documentWithTheSameId, link);
+    vi.mocked(GeneralApi.putLink).mockResolvedValue("4");
+  });
+
+  afterEach(() => {
+    documentsAndLinks.length = 0;
+    vi.mocked(GeneralApi.putLink).mockReset();
+  });
+
+  it("does not take its own titles for duplicates when a document shares its id", async () => {
+    const onSave = vi.fn();
+    renderEdition(link, { type: LINK, onSave });
+
+    await userEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
+
+    await waitFor(() => expect(onSave).toHaveBeenCalledWith("4"));
   });
 });

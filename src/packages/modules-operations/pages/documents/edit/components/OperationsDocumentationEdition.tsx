@@ -255,7 +255,8 @@ export const OperationsDocumentationEdition = (
     if (documentsAndLinksList) {
       dispatch({
         type: "SET_CURRENT_DOCUMENT",
-        currentDocument: documentsAndLinksList.find((doc) => doc.id === document?.id),
+        // L'uri, pas l'id : un document et un lien historiques peuvent partager le même id.
+        currentDocument: documentsAndLinksList.find((doc) => doc.uri === document?.uri),
       });
     }
   }, [documentsAndLinksList, document]);
