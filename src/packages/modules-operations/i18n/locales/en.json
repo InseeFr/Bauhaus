@@ -164,11 +164,6 @@
     "badUrl": "The link is not valid",
     "requiredFile": "The file is required",
     "requiredUpdatedDate": "The update date is required",
-    "wrongFileName": "The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols",
-    "documents": {
-      "serverSideErrors": {
-        "304": "You cannot edit the file if the document has a quality report attached. To modify the file, please first remove it from the quality report. For more information, please contact the administration team"
-      }
-    }
+    "wrongFileName": "The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols"
   }
 }

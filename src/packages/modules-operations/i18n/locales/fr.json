@@ -164,11 +164,6 @@
     "badUrl": "L'URL n'est pas valide",
     "requiredFile": "Le fichier est obligatoire",
     "requiredUpdatedDate": "La date de mise à jour est obligatoire",
-    "wrongFileName": "Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.",
-    "documents": {
-      "serverSideErrors": {
-        "304": "Vous ne pouvez pas modifier le fichier si le document est attaché à un rapport qualité. Pour modifier le fichier, veuillez tout d'abord le retirer du rapport qualité. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration."
-      }
-    }
+    "wrongFileName": "Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas."
   }
 }
