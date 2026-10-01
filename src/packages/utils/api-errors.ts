@@ -1,16 +1,21 @@
 import type { i18n as I18n } from "i18next";
 
 /**
- * Lecture des erreurs renvoyées par le back-office.
+ * Lecture des erreurs renvoyées par le back-office, au format unique de l'ADR-1264 :
+ * `{ message, code?, params?, errors?: [{ field, message }] }`.
  *
- * Le SDK (`build-api`) rejette un objet nu `{ message, status }`, jamais une `Error` :
- * un `instanceof Error` ne suffit donc pas à reconnaître un échec d'appel.
+ * Le SDK (`build-api`) rejette ce corps complété du `status`, jamais une `Error` : un
+ * `instanceof Error` ne suffit donc pas à reconnaître un échec d'appel. Un échec constaté par le
+ * SDK lui-même (réseau, réponse illisible) prend la même forme, avec un `code` du SDK.
+ *
+ * {@link formatApiErrors} est le seul lecteur : tout écran qui affiche un échec passe par lui
+ * (directement, ou via `ErrorBloc` et le toast global).
  */
 
 /**
  * Champ sentinelle du contrat de validation, pour une erreur qui porte sur le corps entier
- * plutôt que sur un champ. Doit rester aligné sur `ValidationExceptionHandler.WHOLE_BODY`
- * côté back.
+ * plutôt que sur un champ. Doit rester aligné sur `ApiError.FieldError.WHOLE_BODY` côté
+ * back.
  */
 const WHOLE_BODY_FIELD = "body";
 
@@ -27,32 +32,10 @@ const formatFieldError = ({ field, message }: FieldError) =>
     ? `${field} : ${String(message)}`
     : String(message);
 
-const firstNonEmptyString = (...candidates: unknown[]): string | undefined =>
-  candidates.find((candidate): candidate is string => typeof candidate === "string" && !!candidate);
-
 const detailedErrorsOf = (err: unknown): unknown[] | null => {
   const errors = (err as { errors?: unknown })?.errors;
 
   return Array.isArray(errors) && errors.length > 0 ? errors : null;
-};
-
-/**
- * Message court d'un échec d'appel, pour un toast ou un bandeau.
- *
- * Les contrôleurs qui lèvent une `ResponseStatusException` répondent en
- * `application/problem+json` (RFC 7807) : le message y est porté par `detail`, pas par
- * `message`.
- */
-export const getApiErrorMessage = (err: unknown, fallback: string): string =>
-  getServerMessage(err) ?? fallback;
-
-const isJsonStructure = (text: string) => {
-  try {
-    const parsed: unknown = JSON.parse(text);
-    return typeof parsed === "object" && parsed !== null;
-  } catch {
-    return false;
-  }
 };
 
 /**
@@ -69,26 +52,11 @@ export const isSdkRejection = (reason: unknown): boolean =>
 export const isNotFound = (error: unknown): boolean =>
   typeof error === "object" && error !== null && (error as { status?: unknown }).status === 404;
 
-/** Codes des échecs que le SDK constate lui-même, sans réponse lisible du serveur. */
-const SDK_ERROR_CODES: readonly unknown[] = ["NETWORK_ERROR", "UNREADABLE_RESPONSE"];
+/** Message du corps, s'il est affichable. */
+const messageOf = (err: unknown): string | undefined => {
+  const message = (err as { message?: unknown } | null)?.message;
 
-/**
- * Message porté par la réponse, s'il est affichable : ni vide, ni du JSON. `detail` est lu pour
- * les réponses `ProblemDetail`, jusqu'à leur retrait (ADR-1264, ticket 18). Le message d'un échec
- * produit par le SDK n'en est pas un : il est affiché par la traduction de son `code`.
- */
-export const getServerMessage = (err: unknown): string | undefined => {
-  const { message, detail, code } = (err ?? {}) as {
-    message?: unknown;
-    detail?: unknown;
-    code?: unknown;
-  };
-
-  if (SDK_ERROR_CODES.includes(code)) return undefined;
-
-  const text = firstNonEmptyString(message, detail);
-
-  return text && !isJsonStructure(text) ? text : undefined;
+  return typeof message === "string" && message ? message : undefined;
 };
 
 const fallbackMessageKeys: Record<number, string> = {
@@ -98,7 +66,7 @@ const fallbackMessageKeys: Record<number, string> = {
 };
 
 /** Clé de traduction du message à afficher quand la réponse n'en porte aucun d'affichable. */
-export const getFallbackMessageKey = (status: unknown): string => {
+const fallbackMessageKeyOf = (status: unknown): string => {
   if (typeof status !== "number") return "errors.fallback.generic";
 
   return (
@@ -108,19 +76,18 @@ export const getFallbackMessageKey = (status: unknown): string => {
 };
 
 /**
- * Erreurs détaillées, aplaties en lignes affichables. Le back en produit deux formes :
- * - validation d'un corps de requête : `{ errors: [{ field, message }] }` ;
- * - validation de schéma DDI4 : `{ errors: string[] }`.
+ * Erreurs détaillées `{ errors: [{ field, message }] }` (validation d'un corps de requête ou
+ * schéma DDI4), aplaties en lignes affichables.
  *
  * Renvoie `null` quand la réponse ne porte pas d'erreurs détaillées — c'est alors
- * {@link getApiErrorMessage} qu'il faut utiliser.
+ * {@link formatApiErrors} qu'il faut utiliser.
  */
 export const getApiErrors = (err: unknown): string[] | null => {
   const errors = detailedErrorsOf(err);
 
   if (!errors) return null;
 
-  return errors.map((error) => (isFieldError(error) ? formatFieldError(error) : String(error)));
+  return errors.filter(isFieldError).map(formatFieldError);
 };
 
 /**
@@ -141,15 +108,11 @@ const getApiFieldErrors = (
   const fields: Record<string, string> = {};
   const others: string[] = [];
 
-  for (const error of errors) {
-    if (
-      isFieldError(error) &&
-      typeof error.field === "string" &&
-      displayedFields.includes(error.field)
-    ) {
+  for (const error of errors.filter(isFieldError)) {
+    if (typeof error.field === "string" && displayedFields.includes(error.field)) {
       fields[error.field] = String(error.message);
     } else {
-      others.push(isFieldError(error) ? formatFieldError(error) : String(error));
+      others.push(formatFieldError(error));
     }
   }
 
@@ -184,56 +147,38 @@ export const toFormErrors = (err: unknown, displayedFields: readonly string[]): 
 
 /**
  * Lignes à afficher pour un échec (ou une liste d'échecs), dans l'ordre de résolution de
- * l'ADR-1264 : erreurs détaillées, `code` traduit, `message` porteur d'une clé, message du
- * serveur, puis repli selon le statut. Une chaîne qui n'est pas du JSON est affichée telle quelle.
+ * l'ADR-1264 :
+ * 1. erreurs détaillées (`errors`), une ligne chacune ;
+ * 2. `code` traduit dans le catalogue global (`errors.<code>`), avec `params` ;
+ * 3. `message` du corps (anglais côté back : repli quand le code n'est pas traduit) ;
+ * 4. repli de l'écran (`fallback`) s'il en donne un, sinon repli selon le statut.
+ *
+ * Une chaîne est une ligne déjà rédigée par l'écran : elle est affichée telle quelle.
  */
-export const formatApiErrors = (error: unknown, i18n: I18n): string[] => {
+export const formatApiErrors = (error: unknown, i18n: I18n, fallback?: string): string[] => {
   const errors: unknown[] = Array.isArray(error) ? error : [error];
 
-  return errors.filter((e) => !!e).flatMap((e) => formatApiError(e, i18n));
+  return errors.filter((e) => !!e).flatMap((e) => formatApiError(e, i18n, fallback));
 };
 
-const formatApiError = (e: any, i18n: I18n): string | string[] => {
-  const { t } = i18n;
-  let parsedError;
-  try {
-    parsedError = e !== null && typeof e === "object" ? e : JSON.parse(e);
-  } catch {
-    return e;
+const formatApiError = (error: unknown, i18n: I18n, fallback?: string): string | string[] => {
+  if (typeof error === "string") return error;
+
+  const detailedErrors = getApiErrors(error);
+  if (detailedErrors) return detailedErrors;
+
+  const { code, params, status } = error as {
+    code?: unknown;
+    params?: Record<string, string>;
+    status?: unknown;
+  };
+  const codeKey = `errors.${String(code)}`;
+  if (typeof code === "string" && code && i18n.exists(codeKey)) {
+    return String(i18n.t(codeKey, params));
   }
 
-  const detailedErrors = getApiErrors(parsedError);
-  if (detailedErrors) {
-    return detailedErrors;
-  }
-  if (parsedError.code && i18n.exists(`errors.${parsedError.code}`)) {
-    return String(t(`errors.${parsedError.code}`, parsedError));
-  }
-  if (parsedError.message && i18n.exists(`errors.${parsedError.message}`)) {
-    return String(t(`errors.${parsedError.message}`, parsedError));
-  }
+  const message = messageOf(error);
+  if (!message) return fallback ?? i18n.t(fallbackMessageKeyOf(status));
 
-  const serverMessage = getServerMessage(parsedError);
-
-  if (!serverMessage) {
-    return t(getFallbackMessageKey(parsedError.status));
-  }
-  return parsedError.status === 500
-    ? t("errors.serversideErrors500", { error: serverMessage })
-    : serverMessage;
-};
-
-/**
- * Message court d'un échec pour un toast d'écran, en suivant l'ADR-1264 : le `code` traduit dans le
- * catalogue global (`errors.<code>`) passe avant le `message` du back, qui est en anglais. Sans
- * traduction, même résultat que {@link getApiErrorMessage}.
- */
-export const getTranslatedApiErrorMessage = (err: unknown, i18n: I18n, fallback: string): string => {
-  const code = (err as { code?: unknown } | null)?.code;
-  const key = `errors.${String(code)}`;
-
-  if ((typeof code === "string" || typeof code === "number") && code !== "" && i18n.exists(key)) {
-    return String(i18n.t(key, err as Record<string, unknown>));
-  }
-  return getApiErrorMessage(err, fallback);
+  return status === 500 ? i18n.t("errors.serversideErrors500", { error: message }) : message;
 };

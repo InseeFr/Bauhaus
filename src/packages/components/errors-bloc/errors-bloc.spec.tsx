@@ -52,9 +52,9 @@ describe("GlobalClientSideErrorBloc", () => {
 describe("ErrorBloc", () => {
   it("renders formatted errors for an array of error messages", () => {
     const errors = [
-      JSON.stringify({ code: "1101" }),
-      JSON.stringify({ status: 500, message: "message" }),
-      { status: 500, message: "object" },
+      sdkRejection.json(400, { code: "1101", message: "The codelist already exists" }),
+      sdkRejection.json(500, { message: "message" }),
+      sdkRejection.json(500, { message: "object" }),
       "Plain error message",
     ];
     render(<ErrorBloc error={errors} />);
@@ -133,24 +133,12 @@ describe("ErrorBloc", () => {
       );
     });
 
-    it("renders the detail of a 4xx ProblemDetail", () => {
-      render(<ErrorBloc error={sdkRejection.problemDetail(409, "Collection already published")} />);
-
-      expect(bannerText()).toBe("Collection already published");
-    });
-
-    it("renders the detail of a 500 ProblemDetail inside the server error message", () => {
-      render(<ErrorBloc error={sdkRejection.problemDetail(500, "Repository unavailable")} />);
+    it("renders the message of a 500 inside the server error message", () => {
+      render(<ErrorBloc error={sdkRejection.json(500, { message: "Repository unavailable" })} />);
 
       expect(bannerText()).toBe(
         "An error has occurred. Please contact the RMéS administration team and provide them with the following message: Repository unavailable",
       );
-    });
-
-    it("does not render raw JSON carried by the message", () => {
-      render(<ErrorBloc error={sdkRejection.text(403, '{"code":"x","details":"y"}')} />);
-
-      expect(bannerText()).toBe("You do not have permission to perform this action.");
     });
 
     it("says the server cannot be reached on a network failure", () => {

@@ -28,7 +28,7 @@ const PhysicalInstanceDialog = lazy(() =>
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { LoadingOverlay } from "@components/loading-overlay";
 
-import { getTranslatedApiErrorMessage } from "@utils/api-errors";
+import { formatApiErrors } from "@utils/api-errors";
 import { cx } from "@utils/cx";
 import { useNavigationBlocker } from "@utils/hooks/useNavigationBlocker";
 
@@ -322,11 +322,11 @@ export const Component = () => {
       } catch (err: unknown) {
         dispatch(actions.setFormData({ label: previousLabel }));
 
-        const errorMessage = getTranslatedApiErrorMessage(
+        const errorMessage = formatApiErrors(
           err,
           appI18n,
           t("physicalInstance.view.saveErrorDetail"),
-        );
+        ).join("\n");
 
         toast.current?.show({
           severity: "error",
@@ -797,11 +797,11 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     } catch (err: unknown) {
-      const errorMessage = getTranslatedApiErrorMessage(
+      const errorMessage = formatApiErrors(
         err,
         appI18n,
         t("physicalInstance.view.saveAllErrorDetail"),
-      );
+      ).join("\n");
 
       toast.current?.show({
         severity: "error",
@@ -893,11 +893,11 @@ export const Component = () => {
           life: TOAST_DURATION,
         });
       } catch (err) {
-        const errorMessage = getTranslatedApiErrorMessage(
+        const errorMessage = formatApiErrors(
           err,
           appI18n,
           t("physicalInstance.view.duplicateErrorDetail"),
-        );
+        ).join("\n");
 
         toast.current?.show({
           severity: "error",

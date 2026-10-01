@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, useLocation } from "react-router-dom";
 
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { createTestQueryClient } from "../../../testing/query-client.testing";
 import { Component } from "./page";
 
@@ -291,10 +292,9 @@ describe("Collection Validation Home Container", () => {
 
     it("should report the message returned by the back-office when the publication fails", async () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
-      mockPutCollectionValidList.mockRejectedValue({
-        detail: "Collections already published: c1000",
-        status: 400,
-      });
+      mockPutCollectionValidList.mockRejectedValue(
+        sdkRejection.json(409, { message: "Collections already published: c1000" }),
+      );
 
       await renderAndPublish();
 
@@ -308,7 +308,9 @@ describe("Collection Validation Home Container", () => {
     it("should clear a previous failure when the publication succeeds", async () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
       mockPutCollectionValidList
-        .mockRejectedValueOnce({ detail: "Collections already published: c1000", status: 400 })
+        .mockRejectedValueOnce(
+          sdkRejection.json(409, { message: "Collections already published: c1000" }),
+        )
         .mockResolvedValue({});
 
       await renderAndPublish();

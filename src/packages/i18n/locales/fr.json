@@ -92,10 +92,14 @@
     "PUBLICATION_REPOSITORY_UNAVAILABLE": "La publication a échoué : le référentiel de diffusion est indisponible. Réessayez plus tard.",
     "INVALID_REQUEST_BODY": "Les données envoyées sont invalides.",
     "SIMS_CREATION_FAILED": "Le rapport n'a pas pu être créé.",
+    "RDF_QUERY_FAILED": "Erreur lors de l’accès à la base RDF. Merci de réessayer ; si l’erreur persiste, contactez l’équipe RMéS.",
     "RDF_REPOSITORY_UNAVAILABLE": "La base de données est indisponible. Réessayez plus tard.",
     "COLECTICA_UNAVAILABLE": "Le référentiel DDI (Colectica) est indisponible. Réessayez plus tard.",
     "DDI_GROUP_NOT_FOUND": "Ce groupe n'existe pas ou a été supprimé.",
     "DDI_STUDY_UNIT_NOT_FOUND": "L'étude rattachée n'existe pas ou a été supprimée.",
+    "DDI4_INVALID": "Le document DDI ne respecte pas le schéma.",
+    "DDI_SENTINEL_REPRESENTATION_LABEL_REQUIRED": "Le libellé de la liste de valeurs sentinelles {{agency}}/{{id}} est obligatoire.",
+    "DDI_SENTINEL_CODE_LIST_LABEL_REQUIRED": "Le libellé de la liste de codes de valeurs sentinelles {{agency}}/{{id}} est obligatoire.",
     "DDI_PHYSICAL_INSTANCE_NOT_FOUND": "Cette instance physique n'existe pas ou a été supprimée.",
     "loading": {
       "notFound": "Cette fiche est introuvable.",
@@ -120,6 +124,7 @@
     "406_OPERATION_SERIES_OPERATION_SERIES_EXISTING_PREF_LABEL_LG2": "La propriété <strong>Title</strong> est déjà utilisée par une autre série.",
     "406_OPERATION_OPERATION_OPERATION_OPERATION_EXISTING_PREF_LABEL_LG1": "La propriété <strong>Intitulé</strong> est déjà utilisée par une autre opération.",
     "406_OPERATION_OPERATION_OPERATION_OPERATION_EXISTING_PREF_LABEL_LG2": "La propriété <strong>Title</strong> est déjà utilisée par une autre opération.",
+    "406_OPERATION_INDICATOR_OPERATION_INDICATOR_EMPTY_WAS_GENERATED_BY": "Un indicateur doit être produit par au moins une série.",
     "406_OPERATION_INDICATOR_OPERATION_INDICATOR_EXISTING_PREF_LABEL_LG1": "La propriété <strong>Intitulé</strong> est déjà utilisée par un autre indicateur.",
     "406_OPERATION_INDICATOR_OPERATION_INDICATOR_EXISTING_PREF_LABEL_LG2": "La propriété <strong>Title</strong> est déjà utilisée par un autre indicateur.",
     "OPERATION_INDICATOR_VALIDATION_UNVALIDATED_SERIES": "Un indicateur ne peut être publié si et seulement si les séries associées le sont également."

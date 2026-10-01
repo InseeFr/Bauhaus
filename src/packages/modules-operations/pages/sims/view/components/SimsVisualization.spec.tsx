@@ -138,11 +138,13 @@ beforeEach(() => {
 describe("SimsVisualization - publish error handling", () => {
   it("should show error 804 with parsed target id and parent href when publish fails", () => {
     const publishSims = vi.fn((object, errorCallback) => {
-      errorCallback({
-        code: 804,
-        details: "MetadataReport: 2253 ; Indicator/Series/Operation: s1034",
-        message: "This metadataReport cannot be published before its target is published.",
-      });
+      errorCallback(
+        sdkRejection.json(400, {
+          code: "804",
+          params: { id: "s1034" },
+          message: "This metadataReport cannot be published before its target is published.",
+        }),
+      );
     });
 
     renderComponent(publishSims);
@@ -173,11 +175,13 @@ describe("SimsVisualization - publish error handling", () => {
 
   it("should display the missing documents bloc when publish fails because documents are missing", () => {
     const publishSims = vi.fn((object, errorCallback) => {
-      errorCallback({
-        code: 862,
-        details: '["1","3"]',
-        message: "Some documents referenced by this metadataReport are missing from storage",
-      });
+      errorCallback(
+        sdkRejection.json(400, {
+          code: "862",
+          params: { documents: "1,3" },
+          message: "Some documents referenced by this metadataReport are missing from storage",
+        }),
+      );
     });
 
     renderComponent(publishSims);
@@ -206,9 +210,9 @@ describe("SimsVisualization - publish error handling", () => {
     expect(screen.getByTestId("error-bloc")).toBeEmptyDOMElement();
   });
 
-  it("should handle missing details in the error gracefully", () => {
+  it("should handle missing params in the error gracefully", () => {
     const publishSims = vi.fn((object, errorCallback) => {
-      errorCallback({ code: 804, details: undefined, message: "error" });
+      errorCallback(sdkRejection.json(400, { code: "804", message: "error" }));
     });
 
     renderComponent(publishSims);

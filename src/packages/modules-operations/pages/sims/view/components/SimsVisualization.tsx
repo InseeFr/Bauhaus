@@ -31,16 +31,12 @@ import { MSDInformations } from "./MSDInformations";
 
 // Mirror of ErrorCodes.SIMS_PUBLICATION_MISSING_DOCUMENTS on the back-end : a SIMS
 // publication blocked because some referenced documents are missing from storage.
-const SIMS_PUBLICATION_MISSING_DOCUMENTS = 862;
+const SIMS_PUBLICATION_MISSING_DOCUMENTS = "862";
 const EMPTY_SET: Set<string> = new Set();
 
-const parseMissingDocuments = (details: string): Set<string> => {
-  try {
-    return new Set(JSON.parse(details));
-  } catch {
-    return EMPTY_SET;
-  }
-};
+/** `params.documents` : identifiants des documents manquants, séparés par des virgules. */
+const parseMissingDocuments = (documents: string | undefined): Set<string> =>
+  documents ? new Set(documents.split(",")) : EMPTY_SET;
 
 interface SimsVisualizationTypes {
   metadataStructure: Record<string, any>;
@@ -91,7 +87,7 @@ export function SimsVisualization({
       publishSims(object, (err) => {
         if (err) {
           if (err.code === SIMS_PUBLICATION_MISSING_DOCUMENTS) {
-            setPublishMissingDocuments(parseMissingDocuments(err.details));
+            setPublishMissingDocuments(parseMissingDocuments(err.params?.documents));
             return;
           }
           // Refus métier traduits par le module (ex. 804, cible non publiée) ; les autres échecs,
@@ -100,10 +96,8 @@ export function SimsVisualization({
             setServerSideError([err]);
             return;
           }
-          const targetMatch = err.details?.match(/Indicator\/Series\/Operation:\s*(\S+)/);
-          const targetId = targetMatch?.[1];
           const href = getParentUri(object);
-          setServerSideError([t(`errors.${err.code}`, { id: targetId, href })]);
+          setServerSideError([t(`errors.${err.code}`, { id: err.params?.id, href })]);
         }
       });
     },

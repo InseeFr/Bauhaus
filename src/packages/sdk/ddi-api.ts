@@ -75,9 +75,9 @@ const api = {
     },
     (res: Response) => res.text(),
   ],
-  // Validation du DDI4 contre ddi-schema.json (côté back). Répond 400 + le corps
-  // `{valid, errors}` quand la PI n'est pas conforme : `buildCall` rejette alors
-  // avec ce corps, c'est là que se trouvent les erreurs de schéma.
+  // Validation du DDI4 contre ddi-schema.json (côté back). Répond 400 `ApiError` quand la
+  // PI n'est pas conforme : un `errors[]` par écart au schéma, rattaché au corps entier
+  // (`field: "body"`). `buildCall` rejette avec ce corps.
   postValidateDdi4: (data: unknown) => [
     "validate",
     {

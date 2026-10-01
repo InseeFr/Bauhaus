@@ -1,87 +1,56 @@
 import { appI18n } from "../i18n";
 import { sdkRejection } from "../tests/sdk-rejection.testing";
-import {
-  getApiErrorMessage,
-  getApiErrors,
-  getTranslatedApiErrorMessage,
-  isNotFound,
-  toFormErrors,
-} from "./api-errors";
+import { formatApiErrors, getApiErrors, isNotFound, toFormErrors } from "./api-errors";
 
-describe("getApiErrorMessage", () => {
-  it("lit le message d'un rejet nu du SDK", () => {
-    expect(getApiErrorMessage({ message: "Boom", status: 500 }, "repli")).toBe("Boom");
+describe("formatApiErrors, lecteur unique des échecs d'appel (ADR-1264)", () => {
+  const generic = () => appI18n.t("errors.fallback.generic");
+
+  it("lit le message du corps", () => {
+    expect(formatApiErrors(sdkRejection.json(409, { message: "Boom" }), appI18n)).toEqual(["Boom"]);
   });
 
-  it("lit le message d'une vraie Error", () => {
-    expect(getApiErrorMessage(new Error("Boom"), "repli")).toBe("Boom");
-  });
-
-  it("retombe sur le repli quand il n'y a pas de message", () => {
-    expect(getApiErrorMessage({ status: 500 }, "repli")).toBe("repli");
-  });
-
-  it("retombe sur le repli quand le message est vide", () => {
-    expect(getApiErrorMessage({ message: "" }, "repli")).toBe("repli");
-  });
-
-  it("retombe sur le repli de l'écran pour un échec produit par le SDK, qui n'est pas un message du serveur", () => {
-    expect(getApiErrorMessage(sdkRejection.network(), "repli")).toBe("repli");
-    expect(getApiErrorMessage(sdkRejection.unreadableResponse(200), "repli")).toBe("repli");
-  });
-
-  it("retombe sur le repli quand le message est du JSON", () => {
-    expect(getApiErrorMessage(sdkRejection.text(500, '{"code":804}'), "repli")).toBe("repli");
-  });
-
-  it("retombe sur le repli sur une valeur non exploitable", () => {
-    expect(getApiErrorMessage(null, "repli")).toBe("repli");
-    expect(getApiErrorMessage("texte", "repli")).toBe("repli");
-  });
-});
-
-it("lit le champ `detail` d'une réponse RFC 7807 du back", () => {
-  expect(
-    getApiErrorMessage(
-      { detail: "Collections already published: c1000", title: "Bad Request", status: 400 },
-      "repli",
-    ),
-  ).toBe("Collections already published: c1000");
-});
-
-it("privilégie `message` sur `detail`", () => {
-  expect(getApiErrorMessage({ message: "message", detail: "detail" }, "repli")).toBe("message");
-});
-
-describe("getTranslatedApiErrorMessage", () => {
-  it("traduit le code renvoyé par le back plutôt que d'afficher son message anglais", () => {
+  it("traduit le code plutôt que d'afficher le message anglais du back", () => {
     const error = sdkRejection.json(503, {
       message: "The DDI repository (Colectica) is unavailable. Please try again later.",
       code: "COLECTICA_UNAVAILABLE",
     });
 
-    expect(getTranslatedApiErrorMessage(error, appI18n, "repli")).toBe(
+    expect(formatApiErrors(error, appI18n, "repli")).toEqual([
       appI18n.t("errors.COLECTICA_UNAVAILABLE"),
-    );
-    expect(appI18n.exists("errors.COLECTICA_UNAVAILABLE")).toBe(true);
-  });
-
-  it("traduit l'échec réseau constaté par le SDK", () => {
-    expect(getTranslatedApiErrorMessage(sdkRejection.network(), appI18n, "repli")).toBe(
-      appI18n.t("errors.NETWORK_ERROR"),
-    );
+    ]);
   });
 
   it("affiche le message du serveur quand le code n'a pas de traduction", () => {
     const error = sdkRejection.json(409, { message: "Boom", code: "UNKNOWN_CODE" });
 
-    expect(getTranslatedApiErrorMessage(error, appI18n, "repli")).toBe("Boom");
+    expect(formatApiErrors(error, appI18n, "repli")).toEqual(["Boom"]);
   });
 
-  it("retombe sur le repli de l'écran pour un corps vide", () => {
-    expect(getTranslatedApiErrorMessage(sdkRejection.emptyBody(500), appI18n, "repli")).toBe(
-      "repli",
-    );
+  it("traduit l'échec réseau constaté par le SDK", () => {
+    expect(formatApiErrors(sdkRejection.network(), appI18n, "repli")).toEqual([
+      appI18n.t("errors.NETWORK_ERROR"),
+    ]);
+  });
+
+  it("retombe sur le repli de l'écran quand le corps ne porte rien d'affichable", () => {
+    expect(formatApiErrors(sdkRejection.emptyBody(500), appI18n, "repli")).toEqual(["repli"]);
+    expect(formatApiErrors({ status: 400 }, appI18n, "repli")).toEqual(["repli"]);
+  });
+
+  it("retombe sur le repli du statut sans repli d'écran", () => {
+    expect(formatApiErrors({ status: 400 }, appI18n)).toEqual([generic()]);
+  });
+
+  it("ne lit plus `detail`, retiré du contrat avec ProblemDetail", () => {
+    expect(
+      formatApiErrors({ detail: "Collections already published", status: 400 }, appI18n),
+    ).toEqual([generic()]);
+  });
+
+  it("affiche telle quelle une ligne déjà rédigée par l'écran", () => {
+    expect(formatApiErrors("Le libellé est obligatoire.", appI18n)).toEqual([
+      "Le libellé est obligatoire.",
+    ]);
   });
 });
 
@@ -106,9 +75,16 @@ describe("getApiErrors", () => {
     ).toEqual(["the request body could not be read"]);
   });
 
-  it("lit les erreurs de schéma DDI4, qui sont des chaînes", () => {
+  it("lit les erreurs de schéma DDI4, rattachées au corps entier", () => {
     expect(
-      getApiErrors({ valid: false, errors: ["$.PhysicalInstance: is missing", "$.x: bad"] }),
+      getApiErrors({
+        message: "The submitted data is invalid",
+        code: "DDI4_INVALID",
+        errors: [
+          { field: "body", message: "$.PhysicalInstance: is missing" },
+          { field: "body", message: "$.x: bad" },
+        ],
+      }),
     ).toEqual(["$.PhysicalInstance: is missing", "$.x: bad"]);
   });
 
@@ -183,5 +159,24 @@ describe("isNotFound", () => {
     expect(isNotFound(sdkRejection.network())).toBe(false);
     expect(isNotFound(undefined)).toBe(false);
     expect(isNotFound("404")).toBe(false);
+  });
+});
+
+describe("traduction d'un code avec ses paramètres", () => {
+  const conceptLinked = sdkRejection.json(400, {
+    code: "112",
+    message: "The concept c1000 cannot be deleted because it is linked to other concepts.",
+    params: { idConcept: "c1000" },
+  });
+
+  it("interpole les params du corps dans le bandeau", () => {
+    expect(formatApiErrors(conceptLinked, appI18n)).toEqual([
+      appI18n.t("errors.112", { idConcept: "c1000" }),
+    ]);
+    expect(formatApiErrors(conceptLinked, appI18n)[0]).toContain("c1000");
+  });
+
+  it("interpole les params du corps même avec un repli d'écran", () => {
+    expect(formatApiErrors(conceptLinked, appI18n, "repli")[0]).toContain("c1000");
   });
 });

@@ -9,7 +9,7 @@ import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
-import { getTranslatedApiErrorMessage } from "@utils/api-errors";
+import { formatApiErrors } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { appI18n } from "../../../../i18n";
@@ -21,7 +21,6 @@ import {
   PhysicalInstanceCreationData,
 } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 import { HomePageMenu } from "./menu";
-
 
 export const Component = () => {
   const { t } = useTranslation();
@@ -57,7 +56,11 @@ export const Component = () => {
         replace: true,
       });
     } catch (err: unknown) {
-      const errorMessage = getTranslatedApiErrorMessage(err, appI18n, t("physicalInstance.creation.errorMessage"));
+      const errorMessage = formatApiErrors(
+        err,
+        appI18n,
+        t("physicalInstance.creation.errorMessage"),
+      ).join("\n");
 
       toast.current?.show({
         severity: "error",

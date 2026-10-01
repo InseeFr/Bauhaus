@@ -7,6 +7,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 import { useValidateDdi4 } from "./useValidateDdi4";
 
@@ -17,6 +18,14 @@ vi.mock("../../sdk", () => ({
 }));
 
 vi.mock("react-i18next", () => import("../i18n.testing"));
+
+/** Rejet du SDK pour un DDI4 hors schéma : un `ApiError` par écart, rattaché au corps entier. */
+const ddi4Invalid = (violations: string[]) =>
+  sdkRejection.json(400, {
+    message: "The submitted data is invalid",
+    code: "DDI4_INVALID",
+    errors: violations.map((message) => ({ field: "body", message })),
+  });
 
 describe("useValidateDdi4", () => {
   let queryClient: QueryClient;
@@ -105,11 +114,9 @@ describe("useValidateDdi4", () => {
   });
 
   it("liste les erreurs de validation renvoyées par le back en 400", async () => {
-    (DDIApi.postValidateDdi4 as any).mockRejectedValue({
-      valid: false,
-      errors: ["$.PhysicalInstance: is missing", "$.Variable[0].ID: does not match pattern"],
-      status: 400,
-    });
+    (DDIApi.postValidateDdi4 as any).mockRejectedValue(
+      ddi4Invalid(["$.PhysicalInstance: is missing", "$.Variable[0].ID: does not match pattern"]),
+    );
 
     await runValidate();
 
@@ -126,7 +133,7 @@ describe("useValidateDdi4", () => {
 
   it("tronque la liste au-delà de 10 erreurs et indique le nombre restant", async () => {
     const errors = Array.from({ length: 13 }, (_, index) => `erreur-${index}`);
-    (DDIApi.postValidateDdi4 as any).mockRejectedValue({ valid: false, errors, status: 400 });
+    (DDIApi.postValidateDdi4 as any).mockRejectedValue(ddi4Invalid(errors));
 
     await runValidate();
 
@@ -139,7 +146,7 @@ describe("useValidateDdi4", () => {
   });
 
   it("affiche un message générique quand l'appel échoue sans corps de validation", async () => {
-    (DDIApi.postValidateDdi4 as any).mockRejectedValue({ message: "Boom", status: 500 });
+    (DDIApi.postValidateDdi4 as any).mockRejectedValue(sdkRejection.json(409, { message: "Boom" }));
 
     await runValidate();
 

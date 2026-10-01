@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { DDIApi } from "@sdk/index";
 
-import { getApiErrors, getTranslatedApiErrorMessage } from "@utils/api-errors";
+import { formatApiErrors, getApiErrors } from "@utils/api-errors";
 
 import { appI18n } from "../../i18n";
 import { TOAST_DURATION } from "../physical-instances/constants";
@@ -42,7 +42,11 @@ export const useValidateDdi4 = (data: PhysicalInstanceResponse, toast: RefObject
         toast.current?.show({
           severity: "error",
           summary: t("physicalInstance.view.validateDdi4Error"),
-          detail: getTranslatedApiErrorMessage(err, appI18n, t("physicalInstance.view.validateDdi4ErrorDetail")),
+          detail: formatApiErrors(
+            err,
+            appI18n,
+            t("physicalInstance.view.validateDdi4ErrorDetail"),
+          ).join("\n"),
           sticky: true,
         });
         return;

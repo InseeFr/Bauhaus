@@ -282,9 +282,8 @@ describe("AdvancedSimsCreation", () => {
     it("traduit le code d'erreur du serveur", () => {
       renderCreation({
         error: sdkRejection.json(400, {
-          code: 861,
+          code: "861",
           message: "Cannot deserialize value",
-          details: "IOException: cannot parse input",
         }),
       });
 

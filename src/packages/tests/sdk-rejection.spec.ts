@@ -46,23 +46,6 @@ describe("sdkRejection reproduit exactement les rejets de buildCall", () => {
     expect(rejection).toEqual({ message: "", status: 401 });
   });
 
-  it("ProblemDetail de Spring : detail, sans message", async () => {
-    const body = JSON.stringify({
-      type: "about:blank",
-      title: "Forbidden",
-      status: 403,
-      detail: "Accès refusé",
-      instance: "/operations/series/s1",
-    });
-
-    const rejection = await rejectionOf(respond(403, body));
-
-    expect(rejection).toEqual(
-      sdkRejection.problemDetail(403, "Accès refusé", { instance: "/operations/series/s1" }),
-    );
-    expect(rejection).not.toHaveProperty("message");
-  });
-
   it("erreur réseau : un objet NETWORK_ERROR de statut 0", async () => {
     const rejection = await rejectionOf(() => Promise.reject(new TypeError("Failed to fetch")));
 

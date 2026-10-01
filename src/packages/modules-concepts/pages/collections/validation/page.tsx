@@ -6,9 +6,10 @@ import { Loading, Publishing } from "@components/loading";
 
 import { ConceptsApi } from "@sdk/index";
 
-import { getApiErrorMessage } from "@utils/api-errors";
+import { formatApiErrors } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { appI18n } from "../../../../i18n";
 import { useUnpublishedCollections } from "../../../hooks/useUnpublishedCollections";
 import { CollectionsToValidate } from "./components/CollectionsToValidate";
 
@@ -33,7 +34,9 @@ export const Component = () => {
     try {
       await ConceptsApi.putCollectionValidList(ids);
     } catch (error) {
-      setServerSideError(getApiErrorMessage(error, t("collection.validation.error")));
+      setServerSideError(
+        formatApiErrors(error, appI18n, t("collection.validation.error")).join(" "),
+      );
     } finally {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["collections"] }),

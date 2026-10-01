@@ -183,15 +183,9 @@ describe("SimsGeographyField", () => {
       expect(await screen.findByText("Territory already exists")).toBeInTheDocument();
     });
 
-    it("displays the detail of a ProblemDetail", async () => {
-      saveWithRejection(sdkRejection.problemDetail(400, "Invalid territory"));
-
-      expect(await screen.findByText("Invalid territory")).toBeInTheDocument();
-    });
-
     it("translates the error code of a business refusal", async () => {
       saveWithRejection(
-        sdkRejection.json(400, { code: 847, message: "The labelLg1 already exists" }),
+        sdkRejection.json(400, { code: "847", message: "The labelLg1 already exists" }),
       );
 
       expect(await screen.findByText(appI18n.t("errors.847"))).toBeInTheDocument();
