@@ -6,6 +6,7 @@ import { vi } from "vitest";
 
 import { CodelistsApi } from "@sdk/index";
 
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { CodeChanges } from "../utils/code-changes";
 import { CodesPanel } from "./CodesPanel";
 
@@ -127,6 +128,31 @@ describe("CodesPanel", () => {
     expect(CodelistsApi.getCodesDetailedCodelist).toHaveBeenCalledWith("cl1", 1);
     expect(screen.getByText("Premier")).toBeInTheDocument();
     expect(screen.getByText("000")).toBeInTheDocument();
+  });
+
+  it("affiche l'erreur à la place d'une liste vide quand les codes ne se chargent pas", async () => {
+    vi.mocked(CodelistsApi.getCodesDetailedCodelist).mockRejectedValue(
+      sdkRejection.json(500, { message: "Le dépôt RDF est indisponible." }),
+    );
+
+    render(<CodesPanel codelist={codelist} hidden={false} editable={false} />, {
+      wrapper: Wrapper,
+    });
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Le dépôt RDF est indisponible.");
+    expect(screen.queryByRole("table")).toBeNull();
+  });
+
+  it("ne présente plus les anciens codes comme résultat d'une recherche en échec", async () => {
+    vi.mocked(CodelistsApi.getCodesByCode).mockRejectedValue(sdkRejection.network());
+    await renderPanel();
+
+    searchByCode("00");
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "The server cannot be reached. Check your connection and try again.",
+    );
+    expect(screen.queryByText("Premier")).toBeNull();
   });
 
   it("recherche les codes par code", async () => {

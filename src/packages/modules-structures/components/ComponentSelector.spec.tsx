@@ -7,6 +7,7 @@ import { UNPUBLISHED } from "@model/ValidationState";
 
 import { StructureApi } from "@sdk/index";
 
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import {
   ATTRIBUTE_PROPERTY_TYPE,
   DIMENSION_PROPERTY_TYPE,
@@ -78,6 +79,21 @@ const expectUpdatedOrder = (...ids: string[]) =>
 describe("ComponentSelector", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("affiche l'erreur à la place des composantes mutualisées quand elles n'ont pas pu être chargées", () => {
+    renderSelector({
+      mutualizedComponents: [],
+      mutualizedComponentsError: sdkRejection.json(500, {
+        message: "Le dépôt RDF est indisponible.",
+      }),
+    });
+
+    const picker = document.getElementById("mutualized-components-pickerbody")!;
+    expect(within(picker).getByRole("alert", { hidden: true })).toHaveTextContent(
+      "Le dépôt RDF est indisponible.",
+    );
+    expect(within(picker).queryByRole("table", { hidden: true })).toBeNull();
   });
 
   it("n'affiche que les composantes de la structure du type demandé", () => {

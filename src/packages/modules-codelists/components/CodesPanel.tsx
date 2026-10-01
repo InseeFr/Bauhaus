@@ -2,7 +2,7 @@ import { ChangeEvent, MouseEvent, useEffect, useReducer, useState } from "react"
 import { useTranslation } from "react-i18next";
 
 import { SeeButton } from "@components/buttons/see";
-import { ClientSideError, GlobalClientSideErrorBloc } from "@components/errors-bloc";
+import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -279,6 +279,15 @@ export const CodesPanel = ({
 
   const [allCodes, setAllCodes] = useState<Code[]>([]);
 
+  // Échec de la dernière lecture des codes : le tableau n'affiche alors plus rien comme résultat.
+  const [codesError, setCodesError] = useState<unknown>();
+
+  const showCodes = (request: Promise<any>) =>
+    request.then((cl: any) => {
+      setCodesError(undefined);
+      dispatch({ type: "SET_CODES", codes: cl ?? {} });
+    }, setCodesError);
+
   useEffect(() => {
     if (editable && codelist.id) {
       CodelistsApi.getCodelistCodes(codelist.id, 1, 0).then((cl: any) =>
@@ -299,23 +308,17 @@ export const CodesPanel = ({
         : [valueLabel, searchCode, "SET_SEARCH_LABEL", CodelistsApi.getCodesByLabel];
     dispatch({ type: searchActionType, value: handledValue });
     if (otherValue) {
-      CodelistsApi.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then((cl: any) => {
-        dispatch({ type: "SET_CODES", codes: cl ?? {} });
-      });
+      showCodes(CodelistsApi.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel));
     } else {
-      getCodesBySearch(codelist.id, handledValue).then((cl: any) => {
-        dispatch({ type: "SET_CODES", codes: cl ?? {} });
-      });
+      showCodes(getCodesBySearch(codelist.id, handledValue));
     }
   };
 
   const fetchCodes = () => {
     dispatch({ type: "SET_LOADING", loading: true });
-    CodelistsApi.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1)
-      .then((cl: any) => {
-        dispatch({ type: "SET_CODES", codes: cl ?? {} });
-      })
-      .finally(() => dispatch({ type: "SET_LOADING", loading: false }));
+    showCodes(
+      CodelistsApi.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1),
+    ).finally(() => dispatch({ type: "SET_LOADING", loading: false }));
   };
 
   useEffect(() => {
@@ -393,18 +396,22 @@ export const CodesPanel = ({
             />
           </div>
         </Row>
-        <Table
-          codesWithActions={codesWithActions as unknown as TableTypes["codesWithActions"]}
-          loading={loading}
-          onPage={(newLazyState) =>
-            dispatch({
-              type: "SET_LAZY_STATE",
-              lazyState: newLazyState as unknown as CodesPanelState["lazyState"],
-            })
-          }
-          total={(codes.total ?? 0) + displayedCodes.length - (codes.items?.length ?? 0)}
-          state={lazyState}
-        />
+        {codesError ? (
+          <ErrorBloc error={codesError} />
+        ) : (
+          <Table
+            codesWithActions={codesWithActions as unknown as TableTypes["codesWithActions"]}
+            loading={loading}
+            onPage={(newLazyState) =>
+              dispatch({
+                type: "SET_LAZY_STATE",
+                lazyState: newLazyState as unknown as CodesPanelState["lazyState"],
+              })
+            }
+            total={(codes.total ?? 0) + displayedCodes.length - (codes.items?.length ?? 0)}
+            state={lazyState}
+          />
+        )}
       </CollapsiblePanel>
       <RightSlidingPanel isOpen={openPanel} onHide={() => dispatch({ type: "CLOSE_PANEL" })}>
         <div id="code-edit-panel">

@@ -3,6 +3,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
+import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 import {
   ATTRIBUTE_PROPERTY_TYPE,
   DIMENSION_PROPERTY_TYPE,
@@ -26,10 +27,18 @@ vi.mock("../../../../hooks/useFormattedCodelist", () => ({
 }));
 
 vi.mock("../../../../components/ComponentSelector", () => ({
-  ComponentSelector: ({ type, concepts, mutualizedComponents, codelists, structure }: any) => (
+  ComponentSelector: ({
+    type,
+    concepts,
+    mutualizedComponents,
+    mutualizedComponentsError,
+    codelists,
+    structure,
+  }: any) => (
     <div data-testid={type}>
       concepts:{concepts.length}|mutualisées:{mutualizedComponents.length}|listes:
       {codelists.length}|structure:{structure.id ?? "(aucune)"}
+      {mutualizedComponentsError && `|erreur:${mutualizedComponentsError.message}`}
     </div>
   ),
 }));
@@ -80,6 +89,20 @@ describe("StructureComponents", () => {
 
     await waitFor(() =>
       expect(screen.getByTestId(MEASURE_PROPERTY_TYPE)).toHaveTextContent("structure:str-1"),
+    );
+  });
+
+  it("transmet à chaque sélecteur l'échec du chargement des composantes mutualisées", async () => {
+    vi.mocked(StructureApi.getMutualizedComponents).mockRejectedValue(
+      sdkRejection.json(500, { message: "Le dépôt RDF est indisponible." }),
+    );
+
+    render(<StructureComponents componentDefinitions={[]} onChange={onChange} />);
+
+    await waitFor(() =>
+      expect(screen.getByTestId(ATTRIBUTE_PROPERTY_TYPE)).toHaveTextContent(
+        "erreur:Le dépôt RDF est indisponible.",
+      ),
     );
   });
 });
