@@ -5,6 +5,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { AppContextProvider } from "../../../../../application/app-context";
+import { appI18n } from "../../../../../i18n";
 import { expectItemLoadFailed } from "../../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 import { rangeType } from "../../../../constants/rangeType";
@@ -277,10 +278,36 @@ describe("AdvancedSimsCreation", () => {
     expect(OperationsApi.getOperationsWithReport).not.toHaveBeenCalled();
   });
 
-  it("affiche l'erreur serveur, identifiant compris", () => {
-    renderCreation({ error: { code: 409, details: "sims-1" } });
+  describe("quand l'enregistrement échoue", () => {
+    it("traduit le code d'erreur du serveur", () => {
+      renderCreation({
+        error: sdkRejection.json(400, {
+          code: 861,
+          message: "Cannot deserialize value",
+          details: "IOException: cannot parse input",
+        }),
+      });
 
-    expect(screen.getByText("errors.409sims-1")).toBeInTheDocument();
+      expect(screen.getByText(appI18n.t("errors.861"))).toBeInTheDocument();
+    });
+
+    it("affiche un message de repli pour une réponse sans code ni corps", () => {
+      renderCreation({ error: sdkRejection.emptyBody(500) });
+
+      expect(screen.getByText(appI18n.t("errors.fallback.server"))).toBeInTheDocument();
+      expect(screen.queryByText(/errors\./)).not.toBeInTheDocument();
+    });
+
+    it("affiche les erreurs de validation détaillées", () => {
+      renderCreation({
+        error: sdkRejection.json(400, {
+          message: "The submitted data is invalid",
+          errors: [{ field: "labelLg1", message: "must not be blank" }],
+        }),
+      });
+
+      expect(screen.getByText("labelLg1 : must not be blank")).toBeInTheDocument();
+    });
   });
 
   it("prévient avant de quitter la page avec des modifications non enregistrées", async () => {

@@ -3,6 +3,7 @@ import { beforeEach, describe, it, expect, vi } from "vitest";
 
 import { GeographieApi } from "@sdk/geographie";
 
+import { appI18n } from "../../i18n";
 import { renderWithRouterAndQuery } from "../../tests/render";
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { SimsGeographyField, SimsGeographyFieldTypes } from "./SimsGeographyField";
@@ -27,7 +28,6 @@ vi.mock("react-i18next", async (importOriginal) =>
     "geography.includedZone": "Included zones",
     "geography.excludedZone": "Excluded zones",
     "geography.btnDelete": "Delete",
-    "geography.saveError": "Unable to save the territory",
   }),
 );
 
@@ -189,10 +189,18 @@ describe("SimsGeographyField", () => {
       expect(await screen.findByText("Invalid territory")).toBeInTheDocument();
     });
 
-    it("displays a fallback message on a network failure", async () => {
+    it("translates the error code of a business refusal", async () => {
+      saveWithRejection(
+        sdkRejection.json(400, { code: 847, message: "The labelLg1 already exists" }),
+      );
+
+      expect(await screen.findByText(appI18n.t("errors.847"))).toBeInTheDocument();
+    });
+
+    it("displays the network error message on a network failure", async () => {
       saveWithRejection(sdkRejection.network());
 
-      expect(await screen.findByText("Unable to save the territory")).toBeInTheDocument();
+      expect(await screen.findByText(appI18n.t("errors.NETWORK_ERROR"))).toBeInTheDocument();
     });
   });
 

@@ -93,9 +93,8 @@ interface SimsCreationTypes {
   codelists?: any;
   organizations?: any[];
   parentWithSims?: any[];
-  /** Le shape réel dépend de l'appelant (ex. `unknown` côté page.tsx) : pas de
-   * modèle d'erreur unique côté SIMS. */
-  error?: any;
+  /** Rejet de l'enregistrement, tel que le SDK le produit : affiché par `ErrorBloc`. */
+  error?: unknown;
   /** Non consommé par ce composant (il utilise `useGoBack()` en interne) mais
    * transmis tel quel par certains appelants. */
   goBack?: any;
@@ -301,7 +300,7 @@ const SimsCreation = ({
   return (
     <EssentialRubricContextProvider value={essentialRubricContext}>
       <Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
-      {error && <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} />}
+      {!!error && <ErrorBloc error={error} />}
       {!!siblingError && <LoadingErrorBloc error={siblingError} />}
       <Modal
         className="Modal__Bootstrap modal-dialog operations structures-specification-modal"

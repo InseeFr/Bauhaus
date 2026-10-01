@@ -1,7 +1,6 @@
 {
   "errors": {
-    "804": "Ce rapport qualité ne peut pas être publié avant que sa cible (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) soit publiée.",
-    "847": "Ce nom existe déjà"
+    "804": "Ce rapport qualité ne peut pas être publié avant que sa cible (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) soit publiée."
   },
   "creators": {
     "title": "Propriétaires",
@@ -15,7 +14,6 @@
     "exclude": "Exclure",
     "noResult": "Aucun résultat",
     "btnNew": "Nouveau",
-    "saveError": "Impossible d'enregistrer le territoire",
     "btnDelete": "Supprimer",
     "labelWithStartDate": "{{label}} [depuis le {{startDate}}]",
     "labelWithStartDateAndEndDate": "{{label}} [depuis le {{startDate}} jusqu'au {{endDate}}]"

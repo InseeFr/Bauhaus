@@ -1,7 +1,6 @@
 {
   "errors": {
-    "804": "This quality report cannot be published before its target (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) is published.",
-    "847": "This label already exists"
+    "804": "This quality report cannot be published before its target (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) is published."
   },
   "creators": {
     "title": "Owners",
@@ -15,7 +14,6 @@
     "exclude": "Exclude",
     "noResult": "No results",
     "btnNew": "New",
-    "saveError": "Unable to save the territory",
     "btnDelete": "Delete",
     "labelWithStartDate": "{{label}} [since {{startDate}}]",
     "labelWithStartDateAndEndDate": "{{label}} [since {{startDate}} until {{endDate}}]"
