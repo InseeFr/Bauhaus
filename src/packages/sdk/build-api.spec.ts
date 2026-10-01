@@ -129,6 +129,32 @@ describe("build call", () => {
     }),
   );
 
+  it("rejects the status alone, with an empty message, when the error has no body", async () => {
+    window.fetch = vi.fn(() => Promise.resolve(new Response("", { status: 401 }))) as any;
+
+    await expect(buildCall("context", "getSomething", () => ["something"])()).rejects.toEqual({
+      message: "",
+      status: 401,
+    });
+  });
+
+  it("rejects the error body of the API (ADR-1264) with its status", async () => {
+    const body = {
+      message: "The submitted data is invalid",
+      code: "INVALID_REQUEST_BODY",
+      params: { id: "s1001" },
+      errors: [{ field: "prefLabelLg1", message: "Ce champ est obligatoire." }],
+    };
+    window.fetch = vi.fn(() =>
+      Promise.resolve(new Response(JSON.stringify(body), { status: 400 })),
+    ) as any;
+
+    await expect(buildCall("context", "postSomething", () => ["something"])()).rejects.toEqual({
+      ...body,
+      status: 400,
+    });
+  });
+
   it("rejects an object, not a string, when the server cannot be reached", async () => {
     const cause = new TypeError("Failed to fetch");
     window.fetch = vi.fn(() => Promise.reject(cause)) as any;

@@ -56,7 +56,7 @@ vi.mock("./components/AdvancedSimsCreation", () => ({
       <span>idParent:{idParent ?? "(aucun)"}</span>
       <span>parentType:{parentType ?? "(aucun)"}</span>
       <span>titre:{sims.labelLg1 ?? "(aucun)"}</span>
-      <span>erreur:{(error as Error)?.message ?? "(aucune)"}</span>
+      <span>erreur:{(error as { message?: string } | undefined)?.message ?? "(aucune)"}</span>
       <button onClick={() => onSubmit({ id: "sims-1" }, onSaved, onSaveFailed)}>enregistrer</button>
     </div>
   ),
@@ -206,11 +206,18 @@ describe("Sims create page", () => {
   });
 
   it("passe l'erreur serveur au formulaire quand l'enregistrement échoue", async () => {
-    saveSimsMutation.mockRejectedValue(new Error("500"));
+    saveSimsMutation.mockRejectedValue(
+      sdkRejection.json(500, {
+        message: "The report could not be created.",
+        code: "SIMS_CREATION_FAILED",
+      }),
+    );
 
     await renderAndSubmitOnceParentLoaded();
 
-    await waitFor(() => expect(screen.getByText("erreur:500")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByText("erreur:The report could not be created.")).toBeInTheDocument(),
+    );
     expect(onSaveFailed).toHaveBeenCalled();
     expect(onSaved).not.toHaveBeenCalled();
   });

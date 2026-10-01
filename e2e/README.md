@@ -6,18 +6,19 @@ Testing Library reste dans `src/**/*.spec.tsx`.
 
 ## Parcours couverts
 
-| Fichier                                   | Parcours                                                             |
-| ----------------------------------------- | -------------------------------------------------------------------- |
-| `smoke/modules.spec.ts`                   | Les 7 modules et les 9 formulaires de création s'ouvrent sans erreur |
-| `operations/series.spec.ts`               | Créer une série → la retrouver → la publier (+ validation client)    |
-| `operations/operations.spec.ts`           | Créer une opération → la publier → initialiser son rapport SIMS      |
-| `operations/families.spec.ts`             | Créer une famille → affichage bilingue → la retrouver                |
-| `concepts/concepts.spec.ts`               | Créer un concept (sommaire, éditeur riche) → le publier              |
-| `codelists/codelists.spec.ts`             | Consulter et filtrer une liste de codes ; créer une liste + un code  |
-| `datasets/datasets.spec.ts`               | Lister sans doublon ; créer un jeu de données (multi-sections)       |
-| `structures/components.spec.ts`           | Créer une composante mutualisée                                      |
-| `classifications/classifications.spec.ts` | Naviguer nomenclature → postes → poste, et afficher l'arbre          |
-| `a11y/a11y.spec.ts`                       | Aucune nouvelle violation axe sur les accueils, chargement compris   |
+| Fichier                                   | Parcours                                                                             |
+| ----------------------------------------- | ------------------------------------------------------------------------------------ |
+| `smoke/modules.spec.ts`                   | Les 7 modules et les 9 formulaires de création s'ouvrent sans erreur                 |
+| `operations/series.spec.ts`               | Créer une série → la retrouver → la publier (+ validation client)                    |
+| `operations/operations.spec.ts`           | Créer une opération → la publier → initialiser son rapport SIMS                      |
+| `operations/families.spec.ts`             | Créer une famille → affichage bilingue → la retrouver                                |
+| `concepts/concepts.spec.ts`               | Créer un concept (sommaire, éditeur riche) → le publier                              |
+| `codelists/codelists.spec.ts`             | Consulter et filtrer une liste de codes ; créer une liste + un code                  |
+| `datasets/datasets.spec.ts`               | Lister sans doublon ; créer un jeu de données (multi-sections)                       |
+| `structures/components.spec.ts`           | Créer une composante mutualisée                                                      |
+| `classifications/classifications.spec.ts` | Naviguer nomenclature → postes → poste, et afficher l'arbre                          |
+| `a11y/a11y.spec.ts`                       | Aucune nouvelle violation axe sur les accueils, chargement compris                   |
+| `errors/api-errors.spec.ts`               | Erreurs 400 (sous le champ), 403, 500 et réseau simulées à la création d'une famille |
 
 Non couvert : le module **DDI / Variables**, qui interroge Colectica. Sans
 identifiants (`COLECTICA_USERNAME` / `COLECTICA_PASSWORD`), l'API répond 401 ;
