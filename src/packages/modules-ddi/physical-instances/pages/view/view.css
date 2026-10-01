@@ -60,6 +60,15 @@
   overflow: hidden auto;
 }
 
+/* Physical instance title, a flex item next to the edit button.
+   A flex item won't shrink below its longest unbreakable word (min-width: auto),
+   so a long label without spaces overflowed the main column once the variable
+   panel halved its width. Let it shrink and break anywhere instead. */
+.pi-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 /* Sticky header for search filters */
 .sticky-header {
   position: sticky;
