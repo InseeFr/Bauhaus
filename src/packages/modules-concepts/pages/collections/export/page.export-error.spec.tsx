@@ -90,4 +90,14 @@ describe("Export de collections", () => {
       expect(screen.getByTestId("disabled-state")).toHaveTextContent("false");
     });
   });
+
+  it("affiche un message quand la réponse ne donne pas le nom du fichier", async () => {
+    (CollectionApi.getCollectionExportByType as Mock).mockResolvedValue(new Response("contenu"));
+
+    exportCollectionA();
+
+    expect(
+      await screen.findByText(/The exported file could not be downloaded/),
+    ).toBeInTheDocument();
+  });
 });

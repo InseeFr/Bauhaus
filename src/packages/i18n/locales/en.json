@@ -112,6 +112,7 @@
       "server": "An unexpected error occurred on the server. Please try again later or contact the RMéS administration team.",
       "generic": "An error has occurred. Please try again or contact the RMéS administration team."
     },
+    "fileDownloadFailed": "The exported file could not be downloaded: the server response does not give its name. Please try again or contact the RMéS administration team.",
     "toastSummary": "Error",
     "globalClientSideErrorBloc": "You have errors in this form.",
     "serversideErrors500": "An error has occurred. Please contact the RMéS administration team and provide them with the following message: {{error}}",

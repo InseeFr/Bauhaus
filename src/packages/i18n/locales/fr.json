@@ -112,6 +112,7 @@
       "server": "Une erreur inattendue s'est produite sur le serveur. Réessayez plus tard ou contactez l'équipe d'administration RMéS.",
       "generic": "Une erreur s'est produite. Réessayez ou contactez l'équipe d'administration RMéS."
     },
+    "fileDownloadFailed": "Le fichier exporté n'a pas pu être téléchargé : la réponse du serveur ne donne pas son nom. Réessayez ou contactez l'équipe d'administration RMéS.",
     "toastSummary": "Erreur",
     "globalClientSideErrorBloc": "Vous avez des erreurs dans ce formulaire.",
     "serversideErrors500": "Une erreur s'est produite. Veuillez contacter l'équipe d'administration RMéS en lui communiquant le message suivant: {{error}}",
