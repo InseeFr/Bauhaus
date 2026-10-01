@@ -146,21 +146,22 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
       setState((state) => ({ ...state, saving: true }));
       const isCreation = !state.indicator.id;
       const method = isCreation ? "createIndicator" : "updateIndicator";
-      return OperationsApi[method](state.indicator)
-        .then(
-          (id = state.indicator.id) => {
-            props.goBack(`/operations/indicator/${id}`, isCreation);
-          },
-          (err: unknown) => {
-            const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
-            setState((state) => ({
-              ...state,
-              ...(clientSideErrors && { submitting: true, clientSideErrors }),
-              serverSideError,
-            }));
-          },
-        )
-        .finally(() => setState((state) => ({ ...state, saving: false })));
+      // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
+      // le formulaire réapparaîtrait le temps qu'elle aboutisse.
+      return OperationsApi[method](state.indicator).then(
+        (id = state.indicator.id) => {
+          props.goBack(`/operations/indicator/${id}`, isCreation);
+        },
+        (err: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
+          setState((state) => ({
+            ...state,
+            saving: false,
+            ...(clientSideErrors && { submitting: true, clientSideErrors }),
+            serverSideError,
+          }));
+        },
+      );
     }
   };
 

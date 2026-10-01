@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { ValidationState } from "@components/status";
@@ -269,7 +269,7 @@ describe("OperationsFamilyEdition", () => {
   });
 
   describe("Loading State", () => {
-    it("should show loading component while saving", async () => {
+    it("should keep showing the loading component until goBack has navigated away", async () => {
       let resolveUpdate: () => void;
       OperationsApi.updateFamily.mockImplementation(
         () =>
@@ -286,9 +286,12 @@ describe("OperationsFamilyEdition", () => {
 
       resolveUpdate!();
 
-      await waitFor(() => {
-        expect(screen.queryByText(/Saving in progress/i)).not.toBeInTheDocument();
-      });
+      // La navigation de goBack est asynchrone (navigate(-1), route chargée à la demande) : tant
+      // qu'elle n'a pas abouti, le composant reste monté et ne doit pas repasser sur le formulaire.
+      await waitFor(() => expect(mockGoBack).toHaveBeenCalled());
+      await act(async () => {});
+      expect(screen.getByText(/Saving in progress/i)).toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: /Save/i })).not.toBeInTheDocument();
     });
   });
 

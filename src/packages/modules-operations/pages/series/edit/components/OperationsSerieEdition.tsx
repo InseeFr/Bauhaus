@@ -179,19 +179,20 @@ export const OperationsSerieEdition = ({
       setState((state) => ({ ...state, saving: true }));
       const isCreation = !state.serie.id;
       const method = isCreation ? "postSeries" : "putSeries";
-      return OperationsApi[method](state.serie)
-        .then(
-          (id: string = state.serie.id) => {
-            props.goBack(`/operations/series/${id}`, isCreation);
-          },
-          (err: string) => {
-            setState((state) => ({
-              ...state,
-              serverSideError: err,
-            }));
-          },
-        )
-        .finally(() => setState((state) => ({ ...state, saving: false })));
+      // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
+      // le formulaire réapparaîtrait le temps qu'elle aboutisse.
+      return OperationsApi[method](state.serie).then(
+        (id: string = state.serie.id) => {
+          props.goBack(`/operations/series/${id}`, isCreation);
+        },
+        (err: string) => {
+          setState((state) => ({
+            ...state,
+            saving: false,
+            serverSideError: err,
+          }));
+        },
+      );
     }
   };
 

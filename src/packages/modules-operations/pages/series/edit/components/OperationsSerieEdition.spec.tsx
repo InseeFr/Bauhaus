@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
@@ -125,6 +125,19 @@ describe("OperationsSerieEdition — saisie et enregistrement", () => {
 
     await waitFor(() => expect(OperationsApi.putSeries).toHaveBeenCalled());
     expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/series/s1", false);
+  });
+
+  it("ne réaffiche pas le formulaire pendant le retour sur la fiche après l'enregistrement", async () => {
+    // La navigation de goBack est asynchrone (navigate(-1), route chargée à la demande) : tant
+    // qu'elle n'a pas abouti, le composant reste monté et ne doit pas repasser sur le formulaire.
+    OperationsApi.putSeries.mockResolvedValue(undefined);
+    renderEdition();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    await act(async () => {});
+    expect(screen.queryByRole("button", { name: /save|sauvegarder/i })).not.toBeInTheDocument();
   });
 
   it("crée une série puis ouvre la fiche renvoyée par le serveur", async () => {

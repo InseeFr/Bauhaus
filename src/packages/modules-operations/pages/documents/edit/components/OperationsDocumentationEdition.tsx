@@ -284,27 +284,29 @@ export const OperationsDocumentationEdition = (
   const saveDocumentOrLink = () => {
     dispatch({ type: "SET_SAVING", saving: true });
     const isCreation = !document.id;
-    saveDocument(document, type, files)
-      .then(
-        (id = document.id) => {
-          if (props.onSave) {
-            props.onSave(id as string);
-          } else {
-            goBack(`/operations/${type}/${id}`, isCreation);
-          }
-        },
-        (err: unknown) => {
-          const { clientSideErrors, serverSideError } = toFormErrors(
-            err,
-            FIELDS_WITH_ERROR_SLOT[type] ?? [],
-          );
-          if (clientSideErrors) {
-            dispatch({ type: "SET_VALIDATION_ERRORS", clientSideErrors });
-          }
-          dispatch({ type: "SET_SERVER_SIDE_ERROR", error: serverSideError });
-        },
-      )
-      .finally(() => dispatch({ type: "SET_SAVING", saving: false }));
+    // Après un retour par goBack, pas de retour au formulaire : la navigation est asynchrone, le
+    // formulaire réapparaîtrait le temps qu'elle aboutisse. Avec onSave, la page hôte le garde.
+    saveDocument(document, type, files).then(
+      (id = document.id) => {
+        if (props.onSave) {
+          dispatch({ type: "SET_SAVING", saving: false });
+          props.onSave(id as string);
+        } else {
+          goBack(`/operations/${type}/${id}`, isCreation);
+        }
+      },
+      (err: unknown) => {
+        const { clientSideErrors, serverSideError } = toFormErrors(
+          err,
+          FIELDS_WITH_ERROR_SLOT[type] ?? [],
+        );
+        if (clientSideErrors) {
+          dispatch({ type: "SET_VALIDATION_ERRORS", clientSideErrors });
+        }
+        dispatch({ type: "SET_SERVER_SIDE_ERROR", error: serverSideError });
+        dispatch({ type: "SET_SAVING", saving: false });
+      },
+    );
   };
 
   const onSubmit = () => {

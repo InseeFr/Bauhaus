@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { ReactNode } from "react";
 
 import { Operation } from "@model/Operation";
@@ -71,6 +71,19 @@ describe("OperationsOperationEdition", () => {
       );
     });
     expect(goBack).toHaveBeenCalledWith("/operations/operation/123", false);
+  });
+
+  it("ne réaffiche pas le formulaire pendant le retour sur la fiche après l'enregistrement", async () => {
+    // La navigation de goBack est asynchrone (navigate(-1), route chargée à la demande) : tant
+    // qu'elle n'a pas abouti, le composant reste monté et ne doit pas repasser sur le formulaire.
+    vi.mocked(OperationsApi).putOperation.mockResolvedValue(undefined);
+    const { goBack } = renderEdition(existingOperation);
+
+    save();
+
+    await waitFor(() => expect(goBack).toHaveBeenCalled());
+    await act(async () => {});
+    expect(screen.queryByRole("button", { name: /Sauvegarder|Save/ })).not.toBeInTheDocument();
   });
 
   it("enregistre l'année saisie", async () => {

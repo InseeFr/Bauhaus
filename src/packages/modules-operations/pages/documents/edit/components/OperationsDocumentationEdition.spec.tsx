@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ComponentProps } from "react";
 import { MemoryRouter } from "react-router-dom";
@@ -242,6 +242,48 @@ describe("OperationsDocumentationEdition, validation errors returned by the serv
     await saveRejectedWith([{ field: "descriptionLg1", message: "est trop long" }]);
 
     expect(await screen.findByText("descriptionLg1 : est trop long")).toBeInTheDocument();
+  });
+});
+
+describe("OperationsDocumentationEdition, after a successful save", () => {
+  const existingDocument = {
+    id: "d1",
+    labelLg1: "Rapport",
+    labelLg2: "Report",
+    lang: "fr",
+    updatedDate: "2026-01-01",
+    url: "file:///documents/rapport.pdf",
+    sims: [],
+  };
+
+  beforeEach(() => {
+    vi.mocked(GeneralApi.putDocument).mockResolvedValue("d1");
+  });
+
+  afterEach(() => {
+    vi.mocked(GeneralApi.putDocument).mockReset();
+  });
+
+  it("does not show the form again while navigating back to the document", async () => {
+    // Navigation is asynchronous (navigate(-1), lazily loaded route): until it completes the
+    // component stays mounted and must not switch back to the form.
+    renderEdition(existingDocument);
+
+    await userEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
+
+    await waitFor(() => expect(GeneralApi.putDocument).toHaveBeenCalled());
+    await act(async () => {});
+    expect(screen.queryByRole("button", { name: /Sauvegarder|Save/ })).not.toBeInTheDocument();
+  });
+
+  it("shows the form again when the hosting page keeps it on screen through onSave", async () => {
+    const onSave = vi.fn();
+    renderEdition(existingDocument, { onSave });
+
+    await userEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
+
+    await waitFor(() => expect(onSave).toHaveBeenCalledWith("d1"));
+    expect(await screen.findByRole("button", { name: /Sauvegarder|Save/ })).toBeInTheDocument();
   });
 });
 
