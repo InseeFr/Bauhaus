@@ -125,4 +125,15 @@ describe("createAppRouter", () => {
   it("resolves relative paths of splat routes against the full URL", () => {
     expect(createAppRouter([]).future.v7_relativeSplatPath).toBe(true);
   });
+
+  /* Sans effet aujourd'hui (aucun loader ni action de formulaire) : ces flags alignent
+     le routeur sur les comportements par défaut de React Router 7. */
+  it.each([
+    "v7_fetcherPersist",
+    "v7_normalizeFormMethod",
+    "v7_partialHydration",
+    "v7_skipActionErrorRevalidation",
+  ] as const)("opts in to the React Router 7 behaviour %s", (flag) => {
+    expect(createAppRouter([]).future[flag]).toBe(true);
+  });
 });
