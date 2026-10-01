@@ -211,3 +211,35 @@ describe("OperationsDocumentationEdition, replacing the attached file", () => {
     expect(onSave).not.toHaveBeenCalled();
   });
 });
+
+describe("OperationsDocumentationEdition, validation errors returned by the server", () => {
+  const existingDocument = {
+    id: "d1",
+    labelLg1: "Rapport",
+    labelLg2: "Report",
+    lang: "fr",
+    updatedDate: "2026-01-01",
+    url: "file:///documents/rapport.pdf",
+    sims: [],
+  };
+
+  const saveRejectedWith = async (errors: { field: string; message: string }[]) => {
+    vi.mocked(GeneralApi.putDocument).mockRejectedValueOnce({ status: 400, errors });
+    renderEdition(existingDocument);
+    await userEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
+  };
+
+  it("displays a server field error next to its field, like a client-side error", async () => {
+    await saveRejectedWith([{ field: "labelLg1", message: "Ce champ est obligatoire." }]);
+
+    const input = await screen.findByDisplayValue("Rapport");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("Ce champ est obligatoire."));
+    expect(input).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("displays in the error banner a server error on a field absent from the form", async () => {
+    await saveRejectedWith([{ field: "descriptionLg1", message: "est trop long" }]);
+
+    expect(await screen.findByText("descriptionLg1 : est trop long")).toBeInTheDocument();
+  });
+});

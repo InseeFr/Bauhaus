@@ -22,6 +22,7 @@ import { Document } from "@model/operations/document";
 
 import { GeneralApi } from "@sdk/general-api";
 
+import { toFormErrors } from "@utils/api-errors";
 import { useDocumentsAndLinks } from "@utils/hooks/documents";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
@@ -30,6 +31,12 @@ import { DOCUMENT, LINK } from "../../../../../constants/documentType";
 import { operationsI18n } from "../../../../i18n";
 import { validate } from "../validation";
 import { ConfirmationModal } from "./ConfirmationModal";
+
+/** Champs dont une erreur de validation du back s'affiche à côté de la saisie, selon le type. */
+const FIELDS_WITH_ERROR_SLOT: Record<string, readonly string[]> = {
+  [DOCUMENT]: ["labelLg1", "labelLg2", "updatedDate", "lang"],
+  [LINK]: ["labelLg1", "labelLg2", "url", "lang"],
+};
 
 /** Fichier sélectionné pour envoi, ou pièce jointe existante représentée par son seul nom. */
 type DocumentFile = File | { name: string; size?: number };
@@ -285,8 +292,15 @@ export const OperationsDocumentationEdition = (
             goBack(`/operations/${type}/${id}`, isCreation);
           }
         },
-        (err) => {
-          dispatch({ type: "SET_SERVER_SIDE_ERROR", error: err });
+        (err: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(
+            err,
+            FIELDS_WITH_ERROR_SLOT[type] ?? [],
+          );
+          if (clientSideErrors) {
+            dispatch({ type: "SET_VALIDATION_ERRORS", clientSideErrors });
+          }
+          dispatch({ type: "SET_SERVER_SIDE_ERROR", error: serverSideError });
         },
       )
       .finally(() => dispatch({ type: "SET_SAVING", saving: false }));
