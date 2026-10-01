@@ -90,6 +90,8 @@
     "UNREADABLE_RESPONSE": "La réponse du serveur est illisible.",
     "PUBLICATION_REPOSITORY_UNAVAILABLE": "La publication a échoué : le référentiel de diffusion est indisponible. Réessayez plus tard.",
     "INVALID_REQUEST_BODY": "Les données envoyées sont invalides.",
+    "SIMS_CREATION_FAILED": "Le rapport n'a pas pu être créé.",
+    "RDF_REPOSITORY_UNAVAILABLE": "La base de données est indisponible. Réessayez plus tard.",
     "loading": {
       "notFound": "Cette fiche est introuvable.",
       "failed": "Impossible de charger cette fiche."

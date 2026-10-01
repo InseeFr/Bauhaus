@@ -90,6 +90,8 @@
     "UNREADABLE_RESPONSE": "The server response could not be read.",
     "PUBLICATION_REPOSITORY_UNAVAILABLE": "Publication failed: the dissemination repository is unavailable. Please try again later.",
     "INVALID_REQUEST_BODY": "The submitted data is invalid.",
+    "SIMS_CREATION_FAILED": "The report could not be created.",
+    "RDF_REPOSITORY_UNAVAILABLE": "The database is unavailable. Please try again later.",
     "loading": {
       "notFound": "This item could not be found.",
       "failed": "This item could not be loaded."
