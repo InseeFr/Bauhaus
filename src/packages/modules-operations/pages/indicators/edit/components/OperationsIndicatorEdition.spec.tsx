@@ -136,6 +136,32 @@ describe("OperationsIndicatorEdition", () => {
     expect(defaultProps.goBack).not.toHaveBeenCalled();
   });
 
+  it("affiche une erreur de validation du serveur sous le champ concerné", async () => {
+    OperationsApi.updateIndicator.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "prefLabelLg1", message: "must not be blank" }],
+    });
+    renderEdition();
+
+    fireEvent.click(saveButton());
+
+    const input = await screen.findByDisplayValue("Indicateur 1");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("must not be blank"));
+    expect(input).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("affiche dans le bandeau une erreur du serveur sur un champ absent du formulaire", async () => {
+    OperationsApi.updateIndicator.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "created", message: "is not a valid LocalDate" }],
+    });
+    renderEdition();
+
+    fireEvent.click(saveButton());
+
+    expect(await screen.findByText("created : is not a valid LocalDate")).toBeInTheDocument();
+  });
+
   it("n'affiche pas le titre de page tant que l'indicateur n'est pas créé", () => {
     renderEdition({ indicator: { ...completeIndicator, id: undefined } });
 

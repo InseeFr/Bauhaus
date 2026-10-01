@@ -20,12 +20,16 @@ import { Series } from "@model/Series";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { toFormErrors } from "@utils/api-errors";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
 import { PublishersInput } from "../../../../components/PublishersInput";
 import { validate } from "../validation";
 import { Control } from "./Control";
+
+/** Champs dont une erreur de validation du back s'affiche à côté de la saisie. */
+const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2", "creators", "wasGeneratedBy"];
 
 interface OperationsIndicatorEditionTypes {
   indicator: Indicator;
@@ -41,7 +45,7 @@ interface ClientSideErrors {
 }
 
 interface State {
-  serverSideError: string;
+  serverSideError: unknown;
   clientSideErrors: ClientSideErrors;
   submitting: boolean;
   saving: boolean;
@@ -147,10 +151,12 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           (id = state.indicator.id) => {
             props.goBack(`/operations/indicator/${id}`, isCreation);
           },
-          (err: string) => {
+          (err: unknown) => {
+            const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
             setState((state) => ({
               ...state,
-              serverSideError: err,
+              ...(clientSideErrors && { submitting: true, clientSideErrors }),
+              serverSideError,
             }));
           },
         )
@@ -199,7 +205,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
-      {state.serverSideError && <ErrorBloc error={state.serverSideError} />}
+      <ErrorBloc error={state.serverSideError} />
       <form>
         <h4 className="text-center">
           ( <RequiredIcon /> : {t("app.requiredFields", { lng: "fr" })})
