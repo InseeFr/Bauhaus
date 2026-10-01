@@ -12,7 +12,7 @@ import { fetchCodelist, OrganizationsApi } from "@sdk/index";
 
 import { AppContextProvider } from "../../../../application/app-context";
 import { testsI18n as i18n } from "../../../../tests/i18n";
-import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
@@ -137,6 +137,18 @@ describe("Dataset view page", () => {
     renderPage();
 
     await expectItemNotFound();
+    expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
+    expect(screen.queryByText("Publish")).not.toBeInTheDocument();
+  });
+
+  it("says the dataset could not be loaded instead of the page when the server fails", async () => {
+    (DatasetsApi.getById as Mock).mockRejectedValue(
+      sdkRejection.text(500, "Internal Server Error"),
+    );
+
+    renderPage();
+
+    await expectItemLoadFailed();
     expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
     expect(screen.queryByText("Publish")).not.toBeInTheDocument();
   });
