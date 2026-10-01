@@ -9,9 +9,10 @@ import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
-import { getApiErrorMessage } from "@utils/api-errors";
+import { getTranslatedApiErrorMessage } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { appI18n } from "../../../../i18n";
 import { useCreatePhysicalInstance } from "../../../hooks/useCreatePhysicalInstance";
 import { usePhysicalInstances } from "../../../hooks/usePhysicalInstances";
 import { formatDate } from "../../../utils/formatDate";
@@ -21,7 +22,6 @@ import {
 } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 import { HomePageMenu } from "./menu";
 
-const TOAST_DURATION = 3000;
 
 export const Component = () => {
   const { t } = useTranslation();
@@ -57,13 +57,13 @@ export const Component = () => {
         replace: true,
       });
     } catch (err: unknown) {
-      const errorMessage = getApiErrorMessage(err, t("physicalInstance.creation.errorMessage"));
+      const errorMessage = getTranslatedApiErrorMessage(err, appI18n, t("physicalInstance.creation.errorMessage"));
 
       toast.current?.show({
         severity: "error",
         summary: t("physicalInstance.creation.errorTitle"),
         detail: errorMessage,
-        life: TOAST_DURATION,
+        sticky: true,
       });
     }
   };

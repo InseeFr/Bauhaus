@@ -6,8 +6,9 @@ import { useTranslation } from "react-i18next";
 
 import { DDIApi } from "@sdk/index";
 
-import { getApiErrorMessage } from "@utils/api-errors";
+import { getTranslatedApiErrorMessage } from "@utils/api-errors";
 
+import { appI18n } from "../../i18n";
 import { TOAST_DURATION } from "../physical-instances/constants";
 import { enrichDataWithCodeLists } from "../physical-instances/pages/view/enrichDataWithCodeLists";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
@@ -60,8 +61,8 @@ export const useExport = (
         toast.current?.show({
           severity: "error",
           summary: t("physicalInstance.view.exportError"),
-          detail: getApiErrorMessage(err, t("physicalInstance.view.exportErrorDetail")),
-          life: TOAST_DURATION,
+          detail: getTranslatedApiErrorMessage(err, appI18n, t("physicalInstance.view.exportErrorDetail")),
+          sticky: true,
         });
       }
     },

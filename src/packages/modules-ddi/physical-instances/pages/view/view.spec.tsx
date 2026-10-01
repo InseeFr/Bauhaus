@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor, act } from "@testing-library/react"
 import type { ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 
+import { appI18n } from "../../../../i18n";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { itemsOfType } from "../../types/ddi4Items";
 import { envelope } from "../../types/ddi4Items.testing";
@@ -1350,6 +1351,38 @@ describe("View Component", () => {
           }),
         );
       });
+    });
+
+    it("shows the translated message of a coded backend error in a toast that stays until closed", async () => {
+      mockPublish({
+        mutateAsync: vi.fn().mockRejectedValue(
+          sdkRejection.json(404, {
+            message: "No study unit found for physical instance fr.insee/pi-111",
+            code: "DDI_STUDY_UNIT_NOT_FOUND",
+          }),
+        ),
+      });
+      mockPhysicalInstanceData({
+        ...DUPLICABLE_ITEMS,
+        title: "Original Title",
+        dataRelationshipName: "DR Name",
+      });
+
+      renderView();
+      await confirmDuplication();
+
+      await waitFor(() => {
+        expect(mockToastShow).toHaveBeenCalledWith(
+          expect.objectContaining({
+            severity: "error",
+            summary: "physicalInstance.view.duplicateError",
+            detail: appI18n.t("errors.DDI_STUDY_UNIT_NOT_FOUND"),
+            sticky: true,
+          }),
+        );
+      });
+      const errorToast = mockToastShow.mock.calls.find(([toast]) => toast.severity === "error")![0];
+      expect(errorToast).not.toHaveProperty("life");
     });
 
     it("should add (copy) suffix to Citation Title and PhysicalInstanceLabel when duplicating", async () => {

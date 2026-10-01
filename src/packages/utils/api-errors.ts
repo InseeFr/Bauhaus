@@ -222,3 +222,18 @@ const formatApiError = (e: any, i18n: I18n): string | string[] => {
     ? t("errors.serversideErrors500", { error: serverMessage })
     : serverMessage;
 };
+
+/**
+ * Message court d'un échec pour un toast d'écran, en suivant l'ADR-1264 : le `code` traduit dans le
+ * catalogue global (`errors.<code>`) passe avant le `message` du back, qui est en anglais. Sans
+ * traduction, même résultat que {@link getApiErrorMessage}.
+ */
+export const getTranslatedApiErrorMessage = (err: unknown, i18n: I18n, fallback: string): string => {
+  const code = (err as { code?: unknown } | null)?.code;
+  const key = `errors.${String(code)}`;
+
+  if ((typeof code === "string" || typeof code === "number") && code !== "" && i18n.exists(key)) {
+    return String(i18n.t(key, err as Record<string, unknown>));
+  }
+  return getApiErrorMessage(err, fallback);
+};

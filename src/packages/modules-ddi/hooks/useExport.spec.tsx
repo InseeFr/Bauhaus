@@ -5,6 +5,7 @@ import type { ReactNode, RefObject } from "react";
 
 import { DDIApi } from "@sdk/index";
 
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 import { useExport } from "./useExport";
 
@@ -47,6 +48,17 @@ describe("useExport", () => {
     expect(show).toHaveBeenCalledWith(
       expect.objectContaining({ severity: "error", detail: "Conversion impossible" }),
     );
+  });
+
+  it("garde le toast d'erreur affiché jusqu'à sa fermeture", async () => {
+    vi.mocked(DDIApi.convertToDDI3).mockRejectedValue(sdkRejection.text(500, "Conversion impossible"));
+
+    const { handleExport, show } = renderExport();
+    await handleExport("DDI3");
+
+    const [errorToast] = show.mock.calls[0];
+    expect(errorToast).toMatchObject({ severity: "error", sticky: true });
+    expect(errorToast).not.toHaveProperty("life");
   });
 
   it("retombe sur le message générique quand le rejet ne porte pas de message", async () => {

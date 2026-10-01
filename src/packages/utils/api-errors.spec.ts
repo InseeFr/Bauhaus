@@ -1,5 +1,12 @@
+import { appI18n } from "../i18n";
 import { sdkRejection } from "../tests/sdk-rejection.testing";
-import { getApiErrorMessage, getApiErrors, isNotFound, toFormErrors } from "./api-errors";
+import {
+  getApiErrorMessage,
+  getApiErrors,
+  getTranslatedApiErrorMessage,
+  isNotFound,
+  toFormErrors,
+} from "./api-errors";
 
 describe("getApiErrorMessage", () => {
   it("lit le message d'un rejet nu du SDK", () => {
@@ -44,6 +51,38 @@ it("lit le champ `detail` d'une réponse RFC 7807 du back", () => {
 
 it("privilégie `message` sur `detail`", () => {
   expect(getApiErrorMessage({ message: "message", detail: "detail" }, "repli")).toBe("message");
+});
+
+describe("getTranslatedApiErrorMessage", () => {
+  it("traduit le code renvoyé par le back plutôt que d'afficher son message anglais", () => {
+    const error = sdkRejection.json(503, {
+      message: "The DDI repository (Colectica) is unavailable. Please try again later.",
+      code: "COLECTICA_UNAVAILABLE",
+    });
+
+    expect(getTranslatedApiErrorMessage(error, appI18n, "repli")).toBe(
+      appI18n.t("errors.COLECTICA_UNAVAILABLE"),
+    );
+    expect(appI18n.exists("errors.COLECTICA_UNAVAILABLE")).toBe(true);
+  });
+
+  it("traduit l'échec réseau constaté par le SDK", () => {
+    expect(getTranslatedApiErrorMessage(sdkRejection.network(), appI18n, "repli")).toBe(
+      appI18n.t("errors.NETWORK_ERROR"),
+    );
+  });
+
+  it("affiche le message du serveur quand le code n'a pas de traduction", () => {
+    const error = sdkRejection.json(409, { message: "Boom", code: "UNKNOWN_CODE" });
+
+    expect(getTranslatedApiErrorMessage(error, appI18n, "repli")).toBe("Boom");
+  });
+
+  it("retombe sur le repli de l'écran pour un corps vide", () => {
+    expect(getTranslatedApiErrorMessage(sdkRejection.emptyBody(500), appI18n, "repli")).toBe(
+      "repli",
+    );
+  });
 });
 
 describe("getApiErrors", () => {

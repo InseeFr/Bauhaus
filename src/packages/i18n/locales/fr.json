@@ -92,6 +92,10 @@
     "INVALID_REQUEST_BODY": "Les données envoyées sont invalides.",
     "SIMS_CREATION_FAILED": "Le rapport n'a pas pu être créé.",
     "RDF_REPOSITORY_UNAVAILABLE": "La base de données est indisponible. Réessayez plus tard.",
+    "COLECTICA_UNAVAILABLE": "Le référentiel DDI (Colectica) est indisponible. Réessayez plus tard.",
+    "DDI_GROUP_NOT_FOUND": "Ce groupe n'existe pas ou a été supprimé.",
+    "DDI_STUDY_UNIT_NOT_FOUND": "L'étude rattachée n'existe pas ou a été supprimée.",
+    "DDI_PHYSICAL_INSTANCE_NOT_FOUND": "Cette instance physique n'existe pas ou a été supprimée.",
     "loading": {
       "notFound": "Cette fiche est introuvable.",
       "failed": "Impossible de charger cette fiche."

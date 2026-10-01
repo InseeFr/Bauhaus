@@ -28,10 +28,11 @@ const PhysicalInstanceDialog = lazy(() =>
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { LoadingOverlay } from "@components/loading-overlay";
 
-import { getApiErrorMessage } from "@utils/api-errors";
+import { getTranslatedApiErrorMessage } from "@utils/api-errors";
 import { cx } from "@utils/cx";
 import { useNavigationBlocker } from "@utils/hooks/useNavigationBlocker";
 
+import { appI18n } from "../../../../i18n";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
@@ -321,13 +322,17 @@ export const Component = () => {
       } catch (err: unknown) {
         dispatch(actions.setFormData({ label: previousLabel }));
 
-        const errorMessage = getApiErrorMessage(err, t("physicalInstance.view.saveErrorDetail"));
+        const errorMessage = getTranslatedApiErrorMessage(
+          err,
+          appI18n,
+          t("physicalInstance.view.saveErrorDetail"),
+        );
 
         toast.current?.show({
           severity: "error",
           summary: t("physicalInstance.view.saveError"),
           detail: errorMessage,
-          life: TOAST_DURATION,
+          sticky: true,
         });
 
         throw err;
@@ -792,13 +797,17 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     } catch (err: unknown) {
-      const errorMessage = getApiErrorMessage(err, t("physicalInstance.view.saveAllErrorDetail"));
+      const errorMessage = getTranslatedApiErrorMessage(
+        err,
+        appI18n,
+        t("physicalInstance.view.saveAllErrorDetail"),
+      );
 
       toast.current?.show({
         severity: "error",
         summary: t("physicalInstance.view.saveAllError"),
         detail: errorMessage,
-        life: TOAST_DURATION,
+        sticky: true,
       });
     }
   }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
@@ -884,8 +893,9 @@ export const Component = () => {
           life: TOAST_DURATION,
         });
       } catch (err) {
-        const errorMessage = getApiErrorMessage(
+        const errorMessage = getTranslatedApiErrorMessage(
           err,
+          appI18n,
           t("physicalInstance.view.duplicateErrorDetail"),
         );
 
@@ -893,7 +903,7 @@ export const Component = () => {
           severity: "error",
           summary: t("physicalInstance.view.duplicateError"),
           detail: errorMessage,
-          life: TOAST_DURATION,
+          sticky: true,
         });
       }
     },

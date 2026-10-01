@@ -92,6 +92,10 @@
     "INVALID_REQUEST_BODY": "The submitted data is invalid.",
     "SIMS_CREATION_FAILED": "The report could not be created.",
     "RDF_REPOSITORY_UNAVAILABLE": "The database is unavailable. Please try again later.",
+    "COLECTICA_UNAVAILABLE": "The DDI repository (Colectica) is unavailable. Please try again later.",
+    "DDI_GROUP_NOT_FOUND": "This group does not exist or has been deleted.",
+    "DDI_STUDY_UNIT_NOT_FOUND": "The related study does not exist or has been deleted.",
+    "DDI_PHYSICAL_INSTANCE_NOT_FOUND": "This physical instance does not exist or has been deleted.",
     "loading": {
       "notFound": "This item could not be found.",
       "failed": "This item could not be loaded."
