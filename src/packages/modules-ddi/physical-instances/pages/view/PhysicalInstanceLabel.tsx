@@ -1,6 +1,7 @@
-import { Button } from "primereact/button";
 import { useState, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
 
 import { HasAccess } from "../../../../auth/components/auth";
 import type {

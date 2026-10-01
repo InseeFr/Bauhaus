@@ -1,9 +1,10 @@
-import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
-import { InputText } from "primereact/inputtext";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
+import { Dropdown } from "@components/ui/dropdown";
+import { IconField } from "@components/ui/icon-field";
+import { InputIcon } from "@components/ui/input-icon";
+import { InputText } from "@components/ui/input-text";
 
 import { HasAccess } from "../../../../auth/components/auth";
 

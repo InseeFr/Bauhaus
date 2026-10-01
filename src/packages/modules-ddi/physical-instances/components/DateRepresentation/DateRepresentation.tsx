@@ -1,6 +1,7 @@
-import { Dropdown } from "primereact/dropdown";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Dropdown } from "@components/ui/dropdown";
 
 import type { DateTimeRepresentation } from "../../types/api";
 

@@ -1,4 +1,3 @@
-import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -6,6 +5,7 @@ import { InseeOrganization } from "@components/business/organizations/organizati
 import { DateItem } from "@components/creation-update-items";
 import { getDisseminationStatus } from "@components/dissemination-status/disseminationStatus";
 import { PublicationMale } from "@components/status";
+import { Column } from "@components/ui/table-column";
 
 import "../../../../../i18n";
 import { DateFilteredTable } from "../../../../components/DateFilteredTable";

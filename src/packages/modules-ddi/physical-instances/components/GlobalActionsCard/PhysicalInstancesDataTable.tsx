@@ -1,7 +1,8 @@
-import { Button } from "primereact/button";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
+import { DataTable } from "@components/ui/data-table";
+import { Column } from "@components/ui/table-column";
 
 interface PhysicalInstancesDataTableProps {
   variables: any[];

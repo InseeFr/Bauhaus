@@ -1,6 +1,7 @@
-import { PickList } from "primereact/picklist";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import { PickList } from "@components/ui/pick-list";
 
 import { Link } from "@model/concepts/concept";
 

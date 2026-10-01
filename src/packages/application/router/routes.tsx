@@ -1,4 +1,3 @@
-import { Button } from "primereact/button";
 import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -11,6 +10,7 @@ import {
 
 import { Loading } from "@components/loading";
 import { NotFound, UnderMaintenance } from "@components/not-found";
+import { Button } from "@components/ui/button";
 
 import { useOidc } from "../../auth/create-oidc";
 import { withAuth } from "../../auth/hoc";

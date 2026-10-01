@@ -4,6 +4,26 @@
     "unicorn/no-single-promise-in-promise-methods": "off",
     "eslint/no-unsafe-optional-chaining": "off",
     "unicorn/no-useless-fallback-in-spread": "off",
-    "typescript/triple-slash-reference": "off"
-  }
+    "typescript/triple-slash-reference": "off",
+    "eslint/no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": ["primereact", "primereact/*", "!primereact/resources/*"],
+            "allowTypeImports": true,
+            "message": "Wrap the PrimeReact component in src/packages/components/ (one wrapper per component, like select-rmes) and import the wrapper instead."
+          }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/packages/components/**"],
+      "rules": {
+        "eslint/no-restricted-imports": "off"
+      }
+    }
+  ]
 }

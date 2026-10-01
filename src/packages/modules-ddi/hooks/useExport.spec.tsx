@@ -1,7 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook } from "@testing-library/react";
-import type { Toast } from "primereact/toast";
 import type { ReactNode, RefObject } from "react";
+
+import type { Toast } from "@components/ui/toast";
 
 import { DDIApi } from "@sdk/index";
 
@@ -51,7 +52,9 @@ describe("useExport", () => {
   });
 
   it("garde le toast d'erreur affiché jusqu'à sa fermeture", async () => {
-    vi.mocked(DDIApi.convertToDDI3).mockRejectedValue(sdkRejection.text(500, "Conversion impossible"));
+    vi.mocked(DDIApi.convertToDDI3).mockRejectedValue(
+      sdkRejection.text(500, "Conversion impossible"),
+    );
 
     const { handleExport, show } = renderExport();
     await handleExport("DDI3");

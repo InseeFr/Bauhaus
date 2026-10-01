@@ -1,8 +1,9 @@
-import { Dropdown } from "primereact/dropdown";
-import { Tag } from "primereact/tag";
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+
+import { Dropdown } from "@components/ui/dropdown";
+import { Tag } from "@components/ui/tag";
 
 import { usePhysicalInstancesSearch } from "../../../hooks/usePhysicalInstancesSearch";
 

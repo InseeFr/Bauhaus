@@ -1,4 +1,3 @@
-import { Toast } from "primereact/toast";
 import { useMemo, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +7,7 @@ import { Row } from "@components/layout";
 import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
+import { Toast } from "@components/ui/toast";
 
 import { formatApiErrors } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";

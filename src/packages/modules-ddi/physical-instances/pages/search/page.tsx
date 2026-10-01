@@ -1,6 +1,3 @@
-import { Button } from "primereact/button";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,7 +7,10 @@ import { Loading } from "@components/loading";
 import { NumberResults } from "@components/number-results";
 import { PageTitle } from "@components/page-title";
 import { Select } from "@components/select-rmes";
+import { Button } from "@components/ui/button";
+import { DataTable } from "@components/ui/data-table";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
+import { Column } from "@components/ui/table-column";
 
 import { Option } from "@model/SelectOption";
 

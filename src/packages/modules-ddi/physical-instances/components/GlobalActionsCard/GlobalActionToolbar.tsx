@@ -1,7 +1,8 @@
-import { Button } from "primereact/button";
-import type { MenuItem } from "primereact/menuitem";
-import { SplitButton } from "primereact/splitbutton";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
+import type { MenuItem } from "@components/ui/menu-item";
+import { SplitButton } from "@components/ui/split-button";
 
 import { isLocalhost } from "@utils/is-localhost";
 

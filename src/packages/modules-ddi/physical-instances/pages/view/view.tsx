@@ -1,6 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import { Toast } from "primereact/toast";
 import {
   useReducer,
   useRef,
@@ -13,6 +11,9 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+
+import { ConfirmDialog, confirmDialog } from "@components/ui/confirm-dialog";
+import { Toast } from "@components/ui/toast";
 
 import "./view.css";
 import type {

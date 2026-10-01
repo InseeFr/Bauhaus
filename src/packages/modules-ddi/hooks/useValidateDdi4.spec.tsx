@@ -1,9 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook } from "@testing-library/react";
-import type { Toast } from "primereact/toast";
 import type { ReactNode } from "react";
 import type { RefObject } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import type { Toast } from "@components/ui/toast";
 
 import { DDIApi } from "@sdk/index";
 

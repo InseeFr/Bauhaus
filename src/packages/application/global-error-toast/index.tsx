@@ -1,6 +1,7 @@
-import { Toast } from "primereact/toast";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Toast } from "@components/ui/toast";
 
 import { appI18n } from "../../i18n";
 import { formatApiErrors, isSdkRejection } from "../../utils/api-errors";

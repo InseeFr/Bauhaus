@@ -1,9 +1,10 @@
-import { Button } from "primereact/button";
-import { Card } from "primereact/card";
-import { TabView, TabPanel } from "primereact/tabview";
 import { useCallback, useReducer, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
+
+import { Button } from "@components/ui/button";
+import { Card } from "@components/ui/card";
+import { TabView, TabPanel } from "@components/ui/tab-view";
 
 import { cx } from "@utils/cx";
 

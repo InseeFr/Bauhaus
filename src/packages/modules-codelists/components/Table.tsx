@@ -1,8 +1,8 @@
-import { Column } from "primereact/column";
-import { DataTableStateEvent } from "primereact/datatable";
 import { useTranslation } from "react-i18next";
 
 import { DataTable } from "@components/datatable";
+import { DataTableStateEvent } from "@components/ui/data-table";
+import { Column } from "@components/ui/table-column";
 
 import { Code } from "@model/Codelist";
 

@@ -1,10 +1,11 @@
-import { Button } from "primereact/button";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
-import { InputText } from "primereact/inputtext";
-import { OverlayPanel } from "primereact/overlaypanel";
 import { useRef, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
+import { DataTable } from "@components/ui/data-table";
+import { InputText } from "@components/ui/input-text";
+import { OverlayPanel } from "@components/ui/overlay-panel";
+import { Column } from "@components/ui/table-column";
 
 import "./CodeListDataTable.css";
 

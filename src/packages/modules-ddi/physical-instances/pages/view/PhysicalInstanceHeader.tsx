@@ -1,5 +1,6 @@
-import { Tag } from "primereact/tag";
 import { useTranslation } from "react-i18next";
+
+import { Tag } from "@components/ui/tag";
 
 import type {
   PhysicalInstanceUpdateData,

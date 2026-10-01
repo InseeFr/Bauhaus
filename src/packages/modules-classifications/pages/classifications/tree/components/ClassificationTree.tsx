@@ -1,11 +1,11 @@
-import { Tree } from "primereact/tree";
-import { TreeNode } from "primereact/treenode";
 import { useTranslation } from "react-i18next";
 import { useParams, Link } from "react-router-dom";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { Row } from "@components/layout";
 import { PageTitle } from "@components/page-title";
+import { Tree } from "@components/ui/tree";
+import { TreeNode } from "@components/ui/tree-node";
 
 import { useTitle } from "@utils/hooks/useTitle";
 

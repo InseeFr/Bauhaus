@@ -1,8 +1,9 @@
-import { Button } from "primereact/button";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { useReducer, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+
+import { Button } from "@components/ui/button";
+import { ProgressSpinner } from "@components/ui/spinner";
 
 import { useAppContext } from "../../../../application/app-context";
 import { useAllCodeLists } from "../../../hooks/useAllCodeLists";

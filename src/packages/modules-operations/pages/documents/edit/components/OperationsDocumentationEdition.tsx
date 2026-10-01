@@ -1,7 +1,3 @@
-import { Button } from "primereact/button";
-import { FileUpload, FileUploadSelectEvent } from "primereact/fileupload";
-import { Tag } from "primereact/tag";
-import { Tooltip } from "primereact/tooltip";
 import { ReactNode, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -16,6 +12,10 @@ import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
 import { Select } from "@components/select-rmes";
+import { Button } from "@components/ui/button";
+import { FileUpload, FileUploadSelectEvent } from "@components/ui/file-upload";
+import { Tag } from "@components/ui/tag";
+import { Tooltip } from "@components/ui/tooltip";
 
 import { Codelist } from "@model/Codelist";
 import { Document } from "@model/operations/document";

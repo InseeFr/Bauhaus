@@ -1,5 +1,3 @@
-import { Tree, TreeEventNodeEvent } from "primereact/tree";
-import { TreeNode } from "primereact/treenode";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -8,6 +6,8 @@ import { ActionToolbar } from "@components/action-toolbar";
 import { ReturnButton } from "@components/buttons/buttons-with-icons";
 import { Row } from "@components/layout";
 import { PageTitle } from "@components/page-title";
+import { Tree, TreeEventNodeEvent } from "@components/ui/tree";
+import { TreeNode } from "@components/ui/tree-node";
 
 import { OperationsApi } from "@sdk/operations-api";
 

@@ -1,10 +1,10 @@
-import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { DataTable } from "@components/datatable";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
+import { Column } from "@components/ui/table-column";
 
 import { sortArray } from "@utils/array-utils";
 
