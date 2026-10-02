@@ -2,7 +2,6 @@ import DOMPurify from "dompurify";
 import { ReactNode } from "react";
 
 import { Dialog } from "../ui/dialog";
-
 import "./modal-rmes.css";
 
 export interface ModalButton {
