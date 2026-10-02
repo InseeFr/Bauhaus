@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -13,6 +13,7 @@ import { Row } from "@components/layout";
 import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 
+import { toFormErrors } from "@utils/api-errors";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 
 import "./CodelistDetailEdit.css";
@@ -54,6 +55,19 @@ interface CodelistDetailEditTypes {
   refusedCode?: RefusedCode;
 }
 
+/** Champs du corps (`CodesListRequest`) qui ont un emplacement d'erreur sur l'écran ;
+ * les autres (descriptions, contributeurs, codes) restent au bandeau. */
+const FIELDS_WITH_ERROR_SLOT = [
+  "id",
+  "labelLg1",
+  "labelLg2",
+  "creator",
+  "disseminationStatus",
+  "lastListUriSegment",
+  "lastClassUriSegment",
+  "lastCodeUriSegment",
+];
+
 const defaultCodelist: CodelistFormValues = {
   created: new Date(),
 };
@@ -72,12 +86,19 @@ export const CodelistDetailEdit = ({
 
   const [codelist, setCodelist] = useState<CodelistFormValues>(defaultCodelist);
 
+  // La page démonte le formulaire pendant l'enregistrement : il renaît avec le rejet, dont les
+  // erreurs de champ deviennent l'état initial des erreurs client.
+  const serverErrors = useMemo(
+    () => toFormErrors(serverSideError, FIELDS_WITH_ERROR_SLOT),
+    [serverSideError],
+  );
+
   const [clientSideErrors, setClientSideErrors] = useState<{
     fields?: Record<string, string>;
     errorMessage?: string[];
-  }>({});
+  }>(() => serverErrors.clientSideErrors ?? {});
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(() => !!serverErrors.clientSideErrors);
 
   useTitle(t("codelists.pluralTitle"), codelist?.labelLg1);
 
@@ -139,7 +160,7 @@ export const CodelistDetailEdit = ({
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      {serverSideError && <ErrorBloc error={serverSideError} />}
+      <ErrorBloc error={serverErrors.serverSideError} />
       <form>
         <Row>
           <UriInputGroup

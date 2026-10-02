@@ -101,6 +101,46 @@ describe("Codelist edit page", () => {
     });
   });
 
+  describe("codelist refused by the server", () => {
+    beforeEach(() => {
+      vi.mocked(CodelistsApi.getDetailedCodelist).mockResolvedValue({ ...codelist });
+      vi.mocked(CodelistsApi.getCodesDetailedCodelist).mockResolvedValue({ items: [], total: 0 });
+    });
+
+    it("should display a server field error next to its field, like a client-side error", async () => {
+      vi.mocked(CodelistsApi.putCodelist).mockRejectedValue({
+        status: 400,
+        message: "Validation failed",
+        errors: [{ field: "labelLg1", message: "size must be between 0 and 3" }],
+      });
+      renderWithProviders(<Component />);
+
+      await screen.findByDisplayValue("Liste");
+      clickSave();
+
+      await waitFor(() =>
+        expect(screen.getByDisplayValue("Liste")).toHaveAccessibleDescription(
+          "size must be between 0 and 3",
+        ),
+      );
+      expect(screen.getByDisplayValue("Liste")).toHaveAttribute("aria-invalid", "true");
+    });
+
+    it("should display in the error banner a server error on a field absent from the form", async () => {
+      vi.mocked(CodelistsApi.putCodelist).mockRejectedValue({
+        status: 400,
+        message: "Validation failed",
+        errors: [{ field: "codes[0].code", message: "must not be blank" }],
+      });
+      renderWithProviders(<Component />);
+
+      await screen.findByDisplayValue("Liste");
+      clickSave();
+
+      expect(await screen.findByText("codes[0].code : must not be blank")).toBeInTheDocument();
+    });
+  });
+
   describe("code refused by the server", () => {
     beforeEach(() => {
       vi.mocked(CodelistsApi.getDetailedCodelist).mockResolvedValue({ ...codelist });
