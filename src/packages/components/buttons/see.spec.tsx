@@ -9,16 +9,15 @@ describe("SeeButton", () => {
     const button = screen.getByRole("button");
 
     expect(button).not.toBeNull();
-    expect(button.classList.contains("btn")).toBeTruthy();
-    expect(button.classList.contains("btn-default")).toBeTruthy();
+    expect(button).toHaveClass("p-button", "p-button-icon-only");
+    expect(button).not.toHaveClass("btn");
 
     expect(button.getAttribute("aria-label")).toBe("See");
     expect(button.getAttribute("title")).toBe("See");
     expect(button.getAttribute("type")).toBe("button");
 
-    const icon = button.querySelector("span")!;
-    expect(icon.classList.contains("glyphicon")).toBeTruthy();
-    expect(icon.classList.contains("glyphicon-eye-open")).toBeTruthy();
+    expect(button.querySelector(".pi-eye")).not.toBeNull();
+    expect(button.querySelector(".glyphicon")).toBeNull();
   });
 
   it("calls the onClick handler when clicked", () => {

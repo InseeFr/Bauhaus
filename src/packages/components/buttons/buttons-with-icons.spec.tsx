@@ -1,8 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi } from "vitest";
 
 import {
+  CloseIconButton,
   CompareButton,
   UpdateButton,
   DeleteButton,
@@ -14,15 +15,34 @@ import {
 
 const withRouter = (ui: React.ReactElement) => <MemoryRouter>{ui}</MemoryRouter>;
 
+describe("CloseIconButton", () => {
+  it("renders an icon-only PrimeReact button named Close", () => {
+    const onClick = vi.fn<() => void>();
+    render(<CloseIconButton onClick={onClick} />);
+
+    const button = screen.getByRole("button", { name: "Close" });
+    expect(button).toHaveClass("p-button", "p-button-icon-only");
+    expect(button).not.toHaveClass("close");
+
+    fireEvent.click(button);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("UpdateButton", () => {
+  it("renders a PrimeReact button", () => {
+    render(withRouter(<UpdateButton action={vi.fn<() => void>()} />));
+    expect(screen.getByRole("button", { name: "Update" })).toHaveClass("p-button");
+  });
+
   it("renders with the correct label", () => {
     render(withRouter(<UpdateButton action={vi.fn<() => void>()} />));
     expect(screen.getByText("Update")).toBeInTheDocument();
   });
 
-  it("renders an SVG icon", () => {
+  it("renders a single SVG icon", () => {
     const { container } = render(withRouter(<UpdateButton action={vi.fn<() => void>()} />));
-    expect(container.querySelector("svg")).not.toBeNull();
+    expect(container.querySelectorAll("svg")).toHaveLength(1);
   });
 });
 
@@ -32,9 +52,9 @@ describe("CompareButton", () => {
     expect(screen.getByText("Compare")).toBeInTheDocument();
   });
 
-  it("renders an SVG icon", () => {
+  it("renders a single SVG icon", () => {
     const { container } = render(withRouter(<CompareButton action={vi.fn<() => void>()} />));
-    expect(container.querySelector("svg")).not.toBeNull();
+    expect(container.querySelectorAll("svg")).toHaveLength(1);
   });
 });
 
@@ -44,9 +64,9 @@ describe("DeleteButton", () => {
     expect(screen.getByText("Delete")).toBeInTheDocument();
   });
 
-  it("renders an SVG icon", () => {
+  it("renders a single SVG icon", () => {
     const { container } = render(withRouter(<DeleteButton action={vi.fn<() => void>()} />));
-    expect(container.querySelector("svg")).not.toBeNull();
+    expect(container.querySelectorAll("svg")).toHaveLength(1);
   });
 });
 
@@ -56,9 +76,9 @@ describe("PublishButton", () => {
     expect(screen.getByText("Publish")).toBeInTheDocument();
   });
 
-  it("renders an SVG icon", () => {
+  it("renders a single SVG icon", () => {
     const { container } = render(withRouter(<PublishButton action={vi.fn<() => void>()} />));
-    expect(container.querySelector("svg")).not.toBeNull();
+    expect(container.querySelectorAll("svg")).toHaveLength(1);
   });
 });
 
@@ -75,9 +95,9 @@ describe("ReturnButton", () => {
     expect(screen.getByText("Back to current version")).toBeInTheDocument();
   });
 
-  it("renders an SVG icon", () => {
+  it("renders a single SVG icon", () => {
     const { container } = render(withRouter(<ReturnButton action={vi.fn<() => void>()} />));
-    expect(container.querySelector("svg")).not.toBeNull();
+    expect(container.querySelectorAll("svg")).toHaveLength(1);
   });
 });
 
@@ -87,9 +107,9 @@ describe("ExportButton", () => {
     expect(screen.getByText("Export")).toBeInTheDocument();
   });
 
-  it("renders an SVG icon", () => {
+  it("renders a single SVG icon", () => {
     const { container } = render(withRouter(<ExportButton action={vi.fn<() => void>()} />));
-    expect(container.querySelector("svg")).not.toBeNull();
+    expect(container.querySelectorAll("svg")).toHaveLength(1);
   });
 });
 
@@ -106,8 +126,8 @@ describe("TreeButton", () => {
     expect(screen.getByText("View the classification tree")).toBeInTheDocument();
   });
 
-  it("renders an SVG icon", () => {
+  it("renders a single SVG icon", () => {
     const { container } = render(withRouter(<TreeButton action={vi.fn<() => void>()} />));
-    expect(container.querySelector("svg")).not.toBeNull();
+    expect(container.querySelectorAll("svg")).toHaveLength(1);
   });
 });
