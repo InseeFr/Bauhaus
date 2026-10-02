@@ -1,1 +1,1 @@
-export * from "primereact/menuitem";
+export type * from "primereact/menuitem";

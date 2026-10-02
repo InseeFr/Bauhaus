@@ -1,1 +1,1 @@
-export * from "primereact/treenode";
+export type * from "primereact/treenode";
