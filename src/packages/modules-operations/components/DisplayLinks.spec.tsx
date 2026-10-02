@@ -7,8 +7,8 @@ describe("DisplayLinks", () => {
     const { container } = renderWithRouter(
       <DisplayLinks links={links} path="series/" title="home" />,
     );
-    expect(container.innerHTML).toContain('<li><a href="/series/1">');
-    expect(container.innerHTML).toContain('<li><a href="/series/2">');
+    const items = container.querySelectorAll("li > a");
+    expect([...items].map((a) => a.getAttribute("href"))).toEqual(["/series/1", "/series/2"]);
   });
   it("should display a paragraph if we have only one item", () => {
     const links = [{ id: 1 }];
@@ -16,7 +16,8 @@ describe("DisplayLinks", () => {
       <DisplayLinks links={links} path="series/" title="home" />,
     );
 
-    expect(container.innerHTML).toContain('<div class="card-body"><a href="/series/1">');
+    expect(container.querySelector("li")).toBeNull();
+    expect(container.querySelector(".card-body > a")).toHaveAttribute("href", "/series/1");
   });
   it("should not display a link", () => {
     const links = [{ id: 1, labelLg1: "labelLg1" }];

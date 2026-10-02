@@ -117,45 +117,34 @@ export const buildModuleRoutes = (modules: Module[]): RouteObject[] =>
    (réponse de `GeneralApi.getInit()`), et non à chaque rendu : le recréer réinitialiserait
    son état de navigation et relancerait ses chargements. */
 export const createAppRouter = (modules: Module[]) =>
-  createBrowserRouter(
-    [
-      {
-        errorElement: <RootError />,
-        children: [
-          {
-            path: "logout",
-            element: <Logout />,
-          },
-          {
-            path: "",
-            element: <MainLayout />,
-            children: [
-              { path: "", element: <HomePage /> },
-              ...buildModuleRoutes(modules),
-              {
-                path: "*",
-                element: <NotFound />,
-              },
-            ],
-          },
-        ],
-      },
-    ],
+  createBrowserRouter([
     {
-      future: {
-        v7_relativeSplatPath: true,
-        v7_fetcherPersist: true,
-        v7_normalizeFormMethod: true,
-        v7_partialHydration: true,
-        v7_skipActionErrorRevalidation: true,
-      },
+      errorElement: <RootError />,
+      children: [
+        {
+          path: "logout",
+          element: <Logout />,
+        },
+        {
+          path: "",
+          element: <MainLayout />,
+          children: [
+            { path: "", element: <HomePage /> },
+            ...buildModuleRoutes(modules),
+            {
+              path: "*",
+              element: <NotFound />,
+            },
+          ],
+        },
+      ],
     },
-  );
+  ]);
 
 export type AppRouter = ReturnType<typeof createAppRouter>;
 
 export const Routes = ({ router }: Readonly<{ router: AppRouter }>) => (
   <Suspense fallback={<Loading />}>
-    <RouterProvider router={router} future={{ v7_startTransition: true }}></RouterProvider>
+    <RouterProvider router={router}></RouterProvider>
   </Suspense>
 );
