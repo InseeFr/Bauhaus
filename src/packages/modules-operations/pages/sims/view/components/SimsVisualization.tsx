@@ -159,71 +159,71 @@ export function SimsVisualization({
           </ActionToolbar>
         }
       >
-      <div className="export-modal-body">
-        <Row>
-          <p className="col-md-offset-1">{t("sims.exportSimsTips")}</p>
-        </Row>
-        <Row>
-          <label className="col-md-offset-1">
-            <input
-              type="checkbox"
-              checked={exportConfig.emptyMas}
-              onChange={() =>
-                setExportConfig({
-                  ...exportConfig,
-                  emptyMas: !exportConfig.emptyMas,
-                })
-              }
-            />
-            {t("sims.exportSimsIncludeEmptyMas")}
-          </label>
-        </Row>
-        <Row>
-          <label className="col-md-offset-1">
-            <input
-              type="checkbox"
-              checked={exportConfig.lg1}
-              onChange={() =>
-                setExportConfig({
-                  ...exportConfig,
-                  lg1: !exportConfig.lg1,
-                })
-              }
-            />
-            {t("sims.exportSimsIncludeLg1")}
-          </label>
-        </Row>
-        <Row>
-          <label className="col-md-offset-1">
-            <input
-              type="checkbox"
-              checked={exportConfig.lg2}
-              onChange={() =>
-                setExportConfig({
-                  ...exportConfig,
-                  lg2: !exportConfig.lg2,
-                })
-              }
-            />
-            {t("sims.exportSimsIncludeLg2")}
-          </label>
-        </Row>
-        <Row>
-          <label className="col-md-offset-1">
-            <input
-              type="checkbox"
-              checked={exportConfig.document}
-              onChange={() =>
-                setExportConfig({
-                  ...exportConfig,
-                  document: !exportConfig.document,
-                })
-              }
-            />
-            {t("sims.exportDocument")}
-          </label>
-        </Row>
-      </div>
+        <div className="export-modal-body">
+          <Row>
+            <p className="col-md-offset-1">{t("sims.exportSimsTips")}</p>
+          </Row>
+          <Row>
+            <label className="col-md-offset-1">
+              <input
+                type="checkbox"
+                checked={exportConfig.emptyMas}
+                onChange={() =>
+                  setExportConfig({
+                    ...exportConfig,
+                    emptyMas: !exportConfig.emptyMas,
+                  })
+                }
+              />
+              {t("sims.exportSimsIncludeEmptyMas")}
+            </label>
+          </Row>
+          <Row>
+            <label className="col-md-offset-1">
+              <input
+                type="checkbox"
+                checked={exportConfig.lg1}
+                onChange={() =>
+                  setExportConfig({
+                    ...exportConfig,
+                    lg1: !exportConfig.lg1,
+                  })
+                }
+              />
+              {t("sims.exportSimsIncludeLg1")}
+            </label>
+          </Row>
+          <Row>
+            <label className="col-md-offset-1">
+              <input
+                type="checkbox"
+                checked={exportConfig.lg2}
+                onChange={() =>
+                  setExportConfig({
+                    ...exportConfig,
+                    lg2: !exportConfig.lg2,
+                  })
+                }
+              />
+              {t("sims.exportSimsIncludeLg2")}
+            </label>
+          </Row>
+          <Row>
+            <label className="col-md-offset-1">
+              <input
+                type="checkbox"
+                checked={exportConfig.document}
+                onChange={() =>
+                  setExportConfig({
+                    ...exportConfig,
+                    document: !exportConfig.document,
+                  })
+                }
+              />
+              {t("sims.exportDocument")}
+            </label>
+          </Row>
+        </div>
       </Dialog>
       <Menu
         sims={sims}

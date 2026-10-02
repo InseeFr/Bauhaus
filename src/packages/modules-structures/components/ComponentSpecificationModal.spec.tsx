@@ -25,7 +25,9 @@ describe("<ComponentSpecificationModal />", () => {
   it("is a dialog named by its title", () => {
     renderModal();
 
-    expect(screen.getByRole("dialog", { name: /componentSpecification|spécification|specification/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("dialog", { name: /componentSpecification|spécification|specification/i }),
+    ).toBeInTheDocument();
   });
 
   it("should call the onClose prop", async () => {
