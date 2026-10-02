@@ -45,11 +45,6 @@ vi.mock("../../hooks/useDocumentsStoreContext", () => ({
   useDocumentsStoreContext: () => documentsStore(),
 }));
 
-// Modal met son contenu dans un portail : on le remplace par un rendu conditionnel simple.
-vi.mock("react-modal", () => ({
-  default: ({ isOpen, children }: any) => (isOpen ? <div>{children}</div> : null),
-}));
-
 vi.mock("../../components/RubricEssentialMsg", () => ({
   RubricEssentialMsg: () => <p>rubriques essentielles</p>,
 }));
@@ -315,7 +310,9 @@ describe("AdvancedSimsCreation", () => {
     blocker.mockReturnValue({ state: "blocked", proceed, reset });
     renderCreation();
 
-    expect(screen.getByText("app.quitWithoutSaving")).toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: "app.deleteTitle" })).toHaveTextContent(
+      "app.quitWithoutSaving",
+    );
 
     await userEvent.click(screen.getByRole("button", { name: "app.yes" }));
     expect(proceed).toHaveBeenCalled();

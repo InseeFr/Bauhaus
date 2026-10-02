@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "react-modal";
 
 import { ActionToolbar } from "@components/action-toolbar";
-import { CloseIconButton, SaveButton } from "@components/buttons/buttons-with-icons";
+import { SaveButton } from "@components/buttons/buttons-with-icons";
+import { Dialog } from "@components/ui/dialog";
 
 import { ComponentDefinition } from "@model/structures/Component";
 
 import { ComponentSpecification, ComponentSpecificationForm } from "./ComponentSpecificationForm";
-import "./ComponentSpecificationModal.css";
 
-interface ComponentSpecificationModalBodyTypes {
+interface ComponentSpecificationModalTypes {
   specification?: ComponentSpecification;
   structureComponents: ComponentDefinition[];
   selectedComponent: ComponentDefinition;
@@ -19,14 +18,14 @@ interface ComponentSpecificationModalBodyTypes {
   disabled?: boolean;
 }
 
-export const ComponentSpecificationModalBody = ({
+export const ComponentSpecificationModal = ({
   specification: defaultSpecification,
   structureComponents,
   selectedComponent,
   onClose,
   onSave,
   disabled = false,
-}: Readonly<ComponentSpecificationModalBodyTypes>) => {
+}: Readonly<ComponentSpecificationModalTypes>) => {
   const { t } = useTranslation();
 
   const [specification, setSpecification] = useState<ComponentSpecification>(
@@ -34,36 +33,26 @@ export const ComponentSpecificationModalBody = ({
   );
 
   return (
-    <div className="modal-content">
-      <div className="modal-header">
-        <CloseIconButton onClick={onClose} />
-        <h4 className="modal-title">{t("component.componentSpecification")}</h4>
-      </div>
-      <div className="modal-body">
-        <ComponentSpecificationForm
-          onChange={setSpecification}
-          component={specification}
-          selectedComponent={selectedComponent}
-          structureComponents={structureComponents}
-        />
-      </div>
-      <div className="modal-footer">
+    <Dialog
+      className="structures"
+      visible={true}
+      onHide={onClose}
+      header={t("component.componentSpecification")}
+      style={{ width: "50rem", maxWidth: "95vw" }}
+      // Sans cela, le scroll du fond décroche les listes déroulantes du formulaire.
+      blockScroll
+      footer={
         <ActionToolbar>
           <SaveButton disabled={disabled} action={() => onSave?.(specification)} />
         </ActionToolbar>
-      </div>
-    </div>
-  );
-};
-
-export const ComponentSpecificationModal = (props: ComponentSpecificationModalBodyTypes) => {
-  return (
-    <Modal
-      className="modal-dialog structures structures-specification-modal"
-      isOpen={true}
-      ariaHideApp={false}
+      }
     >
-      <ComponentSpecificationModalBody {...props} />
-    </Modal>
+      <ComponentSpecificationForm
+        onChange={setSpecification}
+        component={specification}
+        selectedComponent={selectedComponent}
+        structureComponents={structureComponents}
+      />
+    </Dialog>
   );
 };

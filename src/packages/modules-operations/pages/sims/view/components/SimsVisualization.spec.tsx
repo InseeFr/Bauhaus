@@ -1,12 +1,7 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
-
-vi.mock("react-modal", () => ({
-  default: ({ children, isOpen }: { children: React.ReactNode; isOpen: boolean }) =>
-    isOpen ? <div>{children}</div> : null,
-}));
 
 const navigateMock = vi.fn();
 vi.mock("react-router-dom", () => ({
@@ -34,8 +29,19 @@ vi.mock("../utils/getParentUri", () => ({
   }),
 }));
 vi.mock("../menu", () => ({
-  Menu: ({ onPublish, onDelete }: { onPublish: () => void; onDelete: () => void }) => (
+  Menu: ({
+    onPublish,
+    onDelete,
+    onExport,
+  }: {
+    onPublish: () => void;
+    onDelete: () => void;
+    onExport: () => void;
+  }) => (
     <>
+      <button data-testid="export-btn" onClick={onExport}>
+        Export
+      </button>
       <button data-testid="publish-btn" onClick={onPublish}>
         Publish
       </button>
@@ -275,5 +281,33 @@ describe("SimsVisualization - delete error handling", () => {
       expect(screen.getByTestId("error-bloc")).toHaveTextContent("Documentation not found");
     });
     expect(navigateMock).not.toHaveBeenCalled();
+  });
+});
+
+describe("SimsVisualization - export", () => {
+  it("should open the export dialog and export with the default options", async () => {
+    const exportCallback = vi.fn();
+    render(
+      <SimsVisualization
+        sims={mockSims as any}
+        metadataStructure={{}}
+        codelists={{}}
+        organizations={[]}
+        publishSims={vi.fn()}
+        exportCallback={exportCallback}
+        missingDocuments={new Set()}
+        owners={[]}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("export-btn"));
+    const dialog = screen.getByRole("dialog", { name: /^app\.btnExport\[/ });
+    fireEvent.click(within(dialog).getByRole("button", { name: /^app\.btnExportValidate/ }));
+
+    expect(exportCallback).toHaveBeenCalledWith(
+      "2253",
+      { emptyMas: true, lg1: true, lg2: true, document: true },
+      mockSims,
+    );
   });
 });

@@ -260,10 +260,6 @@ footer {
   }
 }
 
-.ReactModal__Overlay {
-  z-index: 20;
-}
-
 .DraftEditor-root {
   max-height: 100px;
   overflow: auto;

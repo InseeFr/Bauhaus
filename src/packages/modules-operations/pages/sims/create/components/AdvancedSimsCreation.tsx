@@ -1,15 +1,14 @@
 import { Fragment, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "react-modal";
 import { useBlocker } from "react-router-dom";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
-import { CloseIconButton } from "@components/buttons/buttons-with-icons";
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { Dialog } from "@components/ui/dialog";
 
 import { OperationsApi } from "@sdk/operations-api";
 
@@ -302,26 +301,22 @@ const SimsCreation = ({
       <Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
       {!!error && <ErrorBloc error={error} />}
       {!!siblingError && <LoadingErrorBloc error={siblingError} />}
-      <Modal
-        className="modal-dialog operations structures-specification-modal"
-        isOpen={blocker.state === "blocked"}
-        ariaHideApp={false}
+      <Dialog
+        className="operations"
+        visible={blocker.state === "blocked"}
+        onHide={() => blocker.reset?.()}
+        header={t("app.deleteTitle")}
+        style={{ width: "50rem", maxWidth: "95vw" }}
+        blockScroll
+        footer={
+          <ActionToolbar>
+            <Button action={() => blocker.reset?.()}>{t("app.no")}</Button>
+            <Button action={() => blocker.proceed?.()}>{t("app.yes")}</Button>
+          </ActionToolbar>
+        }
       >
-        <div className="modal-content">
-          <div className="modal-header">
-            <CloseIconButton onClick={() => blocker.reset?.()} />
-            <h4 className="modal-title">{t("app.deleteTitle")}</h4>
-          </div>
-
-          <div className="modal-body">{t("app.quitWithoutSaving")}</div>
-          <div className="modal-footer text-right">
-            <ActionToolbar>
-              <Button action={() => blocker.reset?.()}>{t("app.no")}</Button>
-              <Button action={() => blocker.proceed?.()}>{t("app.yes")}</Button>
-            </ActionToolbar>
-          </div>
-        </div>
-      </Modal>
+        {t("app.quitWithoutSaving")}
+      </Dialog>
       <RubricEssentialMsg secondLang={secondLang} />
       <DocumentFormPanel
         opened={!!lateralPanelOpened}
