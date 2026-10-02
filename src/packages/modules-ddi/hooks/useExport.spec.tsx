@@ -67,4 +67,15 @@ describe("useExport", () => {
       }),
     );
   });
+
+  it("garde l'erreur affichée jusqu'à ce que l'utilisateur la ferme", async () => {
+    vi.mocked(DDIApi.convertToDDI3).mockRejectedValue({ message: "Conversion impossible" });
+
+    const { handleExport, show } = renderExport();
+    await handleExport("DDI3");
+
+    const [message] = show.mock.calls[0];
+    expect(message).toMatchObject({ severity: "error", sticky: true });
+    expect(message).not.toHaveProperty("life");
+  });
 });

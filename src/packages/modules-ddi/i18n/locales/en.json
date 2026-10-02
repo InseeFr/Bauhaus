@@ -57,6 +57,8 @@
         "loadingCodeLists": "Loading code lists...",
         "missingCodeListDetail": "Variable {{variableAgency}}/{{variableId}} references code list {{codeListAgency}}/{{codeListId}}, which does not exist.",
         "missingCodeListTitle": "Code list not found",
+        "loadCodeListErrorTitle": "Unable to load the code list",
+        "loadCodeListErrorDetail": "The code list of this variable could not be loaded. Please try again later.",
         "moveDown": "Move down",
         "moveUp": "Move up",
         "mutualizedCodeListsSection": "Mutualized code lists",
@@ -189,6 +191,7 @@
       "exportSuccessDetail": "File in {{format}} format has been downloaded",
       "validateDdi4": "Validate DDI4",
       "validateDdi4InProgress": "DDI4 validation in progress...",
+      "reloadingAfterSave": "Reloading the physical instance...",
       "validateDdi4Success": "Valid DDI4",
       "validateDdi4SuccessDetail": "The physical instance complies with the DDI 4.0 schema",
       "validateDdi4Error": "Invalid DDI4",
@@ -277,12 +280,12 @@
       "studyUnitSelectEmpty": "No data file"
     },
     "errors": {
-      "GROUP_MISSING_CODE_LIST_SCHEME": "The series ({{group}}) has no CodeListScheme to file its code lists: it must be created beforehand.",
-      "GROUP_MISSING_CATEGORY_SCHEME": "The series ({{group}}) has no CategoryScheme to file its categories: it must be created beforehand.",
-      "GROUP_MISSING_MANAGED_REPRESENTATION_SCHEME": "The series ({{group}}) has no ManagedRepresentationScheme to file its sentinel values: it must be created beforehand.",
-      "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "The operation ({{studyUnit}}) has no LogicalProduct to file its variables: it must be created beforehand.",
-      "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "The operation ({{studyUnit}}) has {{count}} LogicalProducts: only one is expected to file its variables.",
-      "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "The operation ({{studyUnit}}) has no VariableScheme to file its variables: it must be created beforehand."
+      "GROUP_MISSING_CODE_LIST_SCHEME": "The series \"{{group}}\" has no CodeListScheme to file its code lists: it must be created beforehand.",
+      "GROUP_MISSING_CATEGORY_SCHEME": "The series \"{{group}}\" has no CategoryScheme to file its categories: it must be created beforehand.",
+      "GROUP_MISSING_MANAGED_REPRESENTATION_SCHEME": "The series \"{{group}}\" has no ManagedRepresentationScheme to file its sentinel values: it must be created beforehand.",
+      "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "The operation \"{{studyUnit}}\" has no LogicalProduct to file its variables: it must be created beforehand.",
+      "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "The operation \"{{studyUnit}}\" has {{count}} LogicalProducts: only one is expected to file its variables.",
+      "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "The operation \"{{studyUnit}}\" has no VariableScheme to file its variables: it must be created beforehand."
     }
   }
 }

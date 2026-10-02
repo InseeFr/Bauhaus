@@ -1,4 +1,4 @@
-import { Toast } from "primereact/toast";
+import type { Toast } from "primereact/toast";
 import { useMemo, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -14,14 +14,14 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { useCreatePhysicalInstance } from "../../../hooks/useCreatePhysicalInstance";
 import { usePhysicalInstances } from "../../../hooks/usePhysicalInstances";
+import { errorToastTiming } from "../../../utils/error-toast";
 import { formatDate } from "../../../utils/formatDate";
+import { DdiToast } from "../../components/DdiToast/DdiToast";
 import {
   PhysicalInstanceDialog,
   PhysicalInstanceCreationData,
 } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 import { HomePageMenu } from "./menu";
-
-const TOAST_DURATION = 3000;
 
 export const Component = () => {
   const { t } = useTranslation();
@@ -63,7 +63,7 @@ export const Component = () => {
         severity: "error",
         summary: t("physicalInstance.creation.errorTitle"),
         detail: errorMessage,
-        life: TOAST_DURATION,
+        ...errorToastTiming(),
       });
     }
   };
@@ -96,7 +96,7 @@ export const Component = () => {
         onSubmitCreate={handleSubmit}
       />
 
-      <Toast ref={toast} />
+      <DdiToast ref={toast} />
       <AppDevTools />
     </div>
   );

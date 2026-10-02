@@ -9,9 +9,10 @@ export interface Group {
   agency: string;
 }
 
-export function useGroups() {
+export function useGroups({ enabled = true }: { enabled?: boolean } = {}) {
   return useQuery<Group[]>({
     queryKey: ["groups"],
     queryFn: () => DDIApi.getGroups(),
+    enabled,
   });
 }

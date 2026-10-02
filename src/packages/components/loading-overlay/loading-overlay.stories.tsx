@@ -51,12 +51,12 @@ type Story = StoryObj<typeof meta>;
 /** Sans prop : message générique de chargement du dictionnaire partagé. */
 export const Default: Story = {};
 
-/** Pendant une sauvegarde (utilisé par la page Instance Physique du module DDI). */
+/** Pendant une sauvegarde (utilisé par la page Fichier de données du module DDI). */
 export const Saving: Story = {
   args: { textType: "saving" },
 };
 
 /** Message sur mesure fourni par l'appelant. */
 export const CustomText: Story = {
-  args: { text: "Duplication de l'instance physique..." },
+  args: { text: "Duplication du fichier de données..." },
 };

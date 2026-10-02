@@ -15,11 +15,15 @@ import "./PhysicalInstanceCreationDialog.css";
 export interface SelectedGroup {
   id: string;
   agency: string;
+  /** Libellé connu d'avance (parents de la PI) : affiché tel quel quand le select est figé. */
+  label?: string;
 }
 
 export interface SelectedStudyUnit {
   id: string;
   agency: string;
+  /** Libellé connu d'avance (parents de la PI) : affiché tel quel quand le select est figé. */
+  label?: string;
 }
 
 export interface PhysicalInstanceCreationData {
@@ -71,38 +75,50 @@ export const PhysicalInstanceDialog = ({
   // La SU est modifiable à la création ET à la duplication ; seule l'édition la fige.
   const suDisabled = mode === "edit";
 
-  const { data: groups = [], isLoading: isLoadingGroups } = useGroups();
+  // Les selects figés sont peuplés depuis les parents de la PI, déjà connus : pas de liste des
+  // groupes hors création, pas de détail du groupe en édition (la duplication en a encore besoin
+  // pour lister les études parmi lesquelles choisir).
+  const lockedGroup = groupDisabled ? initialData?.group : undefined;
+  const lockedStudyUnit = suDisabled ? initialData?.studyUnit : undefined;
+
+  const { data: groups = [], isLoading: isLoadingGroups } = useGroups({ enabled: !lockedGroup });
 
   const selectedGroup = useMemo(() => {
+    if (lockedGroup) return { id: lockedGroup.id, agency: lockedGroup.agency };
     if (!selectedGroupId) return null;
     const group = groups.find((g) => g.id === selectedGroupId);
     return group ? { id: group.id, agency: group.agency } : null;
-  }, [selectedGroupId, groups]);
+  }, [lockedGroup, selectedGroupId, groups]);
 
   const { data: groupDetails, isLoading: isLoadingStudyUnits } = useGroupDetails(
-    selectedGroup?.agency ?? null,
-    selectedGroup?.id ?? null,
+    lockedStudyUnit ? null : (selectedGroup?.agency ?? null),
+    lockedStudyUnit ? null : (selectedGroup?.id ?? null),
   );
 
   const groupOptions = useMemo(() => {
+    if (lockedGroup) return [{ label: lockedGroup.label ?? lockedGroup.id, value: lockedGroup.id }];
     return groups.map((group) => ({
       label: group.label,
       value: group.id,
     }));
-  }, [groups]);
+  }, [lockedGroup, groups]);
 
   const studyUnitOptions = useMemo(() => {
+    if (lockedStudyUnit) {
+      return [{ label: lockedStudyUnit.label ?? lockedStudyUnit.id, value: lockedStudyUnit.id }];
+    }
     return itemsOfType(groupDetails, "StudyUnit").map((su) => ({
       label: pickLang(su.Citation.Title, "fr-FR") ?? "",
       value: su.ID,
     }));
-  }, [groupDetails]);
+  }, [lockedStudyUnit, groupDetails]);
 
   const selectedStudyUnit = useMemo(() => {
+    if (lockedStudyUnit) return { id: lockedStudyUnit.id, agency: lockedStudyUnit.agency };
     if (!selectedStudyUnitId) return null;
     const su = itemsOfType(groupDetails, "StudyUnit").find((s) => s.ID === selectedStudyUnitId);
     return su ? { id: su.ID, agency: su.Agency } : null;
-  }, [selectedStudyUnitId, groupDetails]);
+  }, [lockedStudyUnit, selectedStudyUnitId, groupDetails]);
 
   const isFormValid = label.trim() && selectedGroup && selectedStudyUnit;
 

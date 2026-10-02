@@ -6,34 +6,34 @@ const en = ddiI18n.getFixedT("en");
 
 // Rejet nu du SDK sur un 409 du back : { message, code, params, status }.
 const missingVariableScheme = {
-  message: "L'opération (StudyUnit fr.insee/su-1) n'a pas de VariableScheme…",
+  message: "L'opération « Enquête Emploi » n'a pas de VariableScheme…",
   code: "STUDY_UNIT_MISSING_VARIABLE_SCHEME",
-  params: { studyUnit: "fr.insee/su-1" },
+  params: { studyUnit: "Enquête Emploi" },
   status: 409,
 };
 
 describe("getDdiErrorMessage", () => {
   it("traduit le code d'erreur du back en français, avec ses paramètres", () => {
     expect(getDdiErrorMessage(missingVariableScheme, fr, "repli")).toBe(
-      "L'opération (fr.insee/su-1) n'a pas de VariableScheme pour ranger ses variables : il doit être créé en amont.",
+      "L'opération « Enquête Emploi » n'a pas de VariableScheme pour ranger ses variables : il doit être créé en amont.",
     );
   });
 
   it("traduit le code d'erreur du back en anglais, avec ses paramètres", () => {
     expect(getDdiErrorMessage(missingVariableScheme, en, "fallback")).toBe(
-      "The operation (fr.insee/su-1) has no VariableScheme to file its variables: it must be created beforehand.",
+      'The operation "Enquête Emploi" has no VariableScheme to file its variables: it must be created beforehand.',
     );
   });
 
   it("interpole le nombre de LogicalProducts", () => {
     const error = {
       code: "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS",
-      params: { studyUnit: "fr.insee/su-1", count: "2" },
+      params: { studyUnit: "Enquête Emploi", count: "2" },
       status: 409,
     };
 
     expect(getDdiErrorMessage(error, en, "fallback")).toBe(
-      "The operation (fr.insee/su-1) has 2 LogicalProducts: only one is expected to file its variables.",
+      'The operation "Enquête Emploi" has 2 LogicalProducts: only one is expected to file its variables.',
     );
   });
 
