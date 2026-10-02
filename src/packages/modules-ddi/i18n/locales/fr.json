@@ -258,6 +258,7 @@
       "variableUpdateSuccessDetail": "Variable mise à jour avec succès. Pensez à sauvegarder",
       "previousVariable": "Variable précédente",
       "nextVariable": "Variable suivante",
+      "closeVariablePanel": "Fermer",
       "variablesTable": "Tableau des variables",
       "totalVariables": "Total : {{count}} variable(s)",
       "pendingVariableEdit": {

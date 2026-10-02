@@ -259,6 +259,7 @@
       "variableUpdateSuccessDetail": "Variable successfully updated. Remember to save",
       "previousVariable": "Previous variable",
       "nextVariable": "Next variable",
+      "closeVariablePanel": "Close",
       "totalVariables": "Total: {{count}} variable(s)",
       "pendingVariableEdit": {
         "title": "Unconfirmed variable change",

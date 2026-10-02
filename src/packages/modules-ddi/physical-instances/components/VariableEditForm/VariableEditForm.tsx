@@ -220,6 +220,8 @@ interface VariableEditFormProps {
   onNext?: () => void;
   hasPrevious?: boolean;
   hasNext?: boolean;
+  /** Ferme le panneau latéral d'édition (équivalent de la touche Échap). */
+  onClose?: () => void;
   /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
   stamps?: string[];
 }
@@ -236,6 +238,7 @@ export const VariableEditForm = ({
   onNext,
   hasPrevious = false,
   hasNext = false,
+  onClose,
   stamps,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
@@ -495,6 +498,18 @@ export const VariableEditForm = ({
             disabled={!hasNext || isNew}
             aria-label={t("physicalInstance.view.nextVariable")}
           />
+          {onClose && (
+            <Button
+              type="button"
+              icon="pi pi-times"
+              text
+              severity="secondary"
+              onClick={onClose}
+              aria-label={t("physicalInstance.view.closeVariablePanel")}
+              tooltip={t("physicalInstance.view.closeVariablePanel")}
+              tooltipOptions={{ position: "left" }}
+            />
+          )}
         </div>
 
         <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>

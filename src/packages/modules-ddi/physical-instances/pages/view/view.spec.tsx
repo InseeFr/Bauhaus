@@ -700,6 +700,18 @@ describe("View Component", () => {
       expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
     });
 
+    it("should close the side panel when the close button is clicked", () => {
+      renderView();
+
+      selectFirstVariable();
+
+      fireEvent.click(
+        screen.getByRole("button", { name: "physicalInstance.view.closeVariablePanel" }),
+      );
+
+      expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
+    });
+
     it("should render SearchFilters component", () => {
       renderView();
 

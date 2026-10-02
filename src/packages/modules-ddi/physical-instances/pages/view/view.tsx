@@ -125,17 +125,21 @@ export const Component = () => {
     }
   }, [state.selectedVariable, searchParams, setSearchParams]);
 
+  const handleCloseVariablePanel = useCallback(() => {
+    dispatch(actions.setSelectedVariable(null));
+  }, []);
+
   // Fermer le panneau latéral d'édition avec la touche Échap
   useEffect(() => {
     if (!state.selectedVariable) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        dispatch(actions.setSelectedVariable(null));
+        handleCloseVariablePanel();
       }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [state.selectedVariable]);
+  }, [state.selectedVariable, handleCloseVariablePanel]);
 
   const variableTypeOptions = useMemo(
     () => [
@@ -977,6 +981,7 @@ export const Component = () => {
                 onNext={handleNextVariable}
                 hasPrevious={hasVariablesToNavigate}
                 hasNext={hasVariablesToNavigate}
+                onClose={handleCloseVariablePanel}
                 stamps={currentStamps}
               />
             </div>
