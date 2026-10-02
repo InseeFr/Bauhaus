@@ -18,3 +18,10 @@ overrides:
   "@types/react-dom": "18.2.25"
   "loader-utils": "2.0.4"
   "shell-quote": "1.8.1"
+  # CVE-2026-102276 et CVE-2026-102278 (DoS par motifs d'accolades), corrigées en 2.1.6 / 5.0.11.
+  # À supprimer dès que minimatch tirera ces versions.
+  "brace-expansion@2": "^2.1.6"
+  "brace-expansion@5": "^5.0.11"
+  # CVE-2026-92708, GHSA-mcm9-63f2-9j32, GHSA-r9w8-h9r3-54w4 et GHSA-x5rw-q4pp-hg5g, corrigées en 5.9.3.
+  # Tirée par astro (site documentation). À supprimer dès qu'astro exigera >= 5.9.3.
+  "devalue": "^5.9.3"
