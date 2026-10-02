@@ -13,10 +13,13 @@ import { Code, Codelist } from "@model/Codelist";
 
 import { CodelistsApi } from "@sdk/index";
 
+import { toFormErrors } from "@utils/api-errors";
+
 import {
   CodeChanges,
   EditableCode,
   mergeCodeChanges,
+  RefusedCode,
   withCreatedCode,
   withDeletedCode,
   withUpdatedCode,
@@ -30,6 +33,9 @@ import { Table, TableTypes } from "./Table";
 
 type CodeFormState = EditableCode;
 
+/** Champs du panneau qui ont un emplacement pour une erreur renvoyée par le serveur. */
+const FIELDS_WITH_ERROR_SLOT = ["code", "labelLg1", "labelLg2"];
+
 interface CodeSlidingPanelTypes {
   code: CodeFormState;
   handleBack: VoidFunction;
@@ -40,6 +46,8 @@ interface CodeSlidingPanelTypes {
   existingCodes: CodeFormState[];
   /** Tous les codes de la liste, parmi lesquels choisir parents et enfants. */
   linkableCodes: CodeFormState[];
+  /** Refus du serveur à la dernière sauvegarde de ce code. */
+  serverError?: unknown;
 }
 
 const CodeSlidingPanel = ({
@@ -50,6 +58,7 @@ const CodeSlidingPanel = ({
   codelist,
   existingCodes,
   linkableCodes,
+  serverError,
 }: Readonly<CodeSlidingPanelTypes>) => {
   const { t } = useTranslation();
 
@@ -62,9 +71,21 @@ const CodeSlidingPanel = ({
 
   const [submitting, setSubmitting] = useState(false);
 
+  const [serverSideError, setServerSideError] = useState<unknown>();
+
   useEffect(() => {
     setCode({ ...initialCode });
   }, [initialCode]);
+
+  useEffect(() => {
+    if (!serverError) return;
+    const formErrors = toFormErrors(serverError, FIELDS_WITH_ERROR_SLOT);
+    if (formErrors.clientSideErrors) {
+      setSubmitting(true);
+      setClientSideErrors(formErrors.clientSideErrors);
+    }
+    setServerSideError(formErrors.serverSideError);
+  }, [serverError]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -107,6 +128,7 @@ const CodeSlidingPanel = ({
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
+      <ErrorBloc error={serverSideError} />
       <Row>
         <div className="col-md-12 form-group">
           <LabelRequired htmlFor="code">{t("codes.title")}</LabelRequired>
@@ -210,6 +232,8 @@ interface CodesPanelState {
   loading: boolean;
   openPanel: boolean;
   selectedCode: CodeFormState;
+  /** Refus du serveur pour le code ouvert. */
+  selectedCodeError?: unknown;
 }
 
 type CodesPanelAction =
@@ -219,7 +243,7 @@ type CodesPanelAction =
   | { type: "SET_LAZY_STATE"; lazyState: CodesPanelState["lazyState"] }
   | { type: "SET_LOADING"; loading: boolean }
   | { type: "OPEN_CREATION_PANEL" }
-  | { type: "OPEN_EDIT_PANEL"; code: CodeFormState }
+  | { type: "OPEN_EDIT_PANEL"; code: CodeFormState; error?: unknown }
   | { type: "CLOSE_PANEL" };
 
 const initialCodesPanelState: CodesPanelState = {
@@ -247,9 +271,14 @@ function codesPanelReducer(state: CodesPanelState, action: CodesPanelAction): Co
     case "OPEN_CREATION_PANEL":
       return { ...state, openPanel: true };
     case "OPEN_EDIT_PANEL":
-      return { ...state, selectedCode: action.code, openPanel: true };
+      return {
+        ...state,
+        selectedCode: action.code,
+        selectedCodeError: action.error,
+        openPanel: true,
+      };
     case "CLOSE_PANEL":
-      return { ...state, selectedCode: {}, openPanel: false };
+      return { ...state, selectedCode: {}, selectedCodeError: undefined, openPanel: false };
     default:
       return state;
   }
@@ -262,6 +291,8 @@ interface CodesPanelTypes {
   /** Modifications de codes en attente, envoyées à la sauvegarde de la liste. */
   codeChanges?: CodeChanges;
   onCodeChangesChange?: (changes: CodeChanges) => void;
+  /** Code refusé par le serveur à la dernière sauvegarde, rouvert avec son erreur. */
+  refusedCode?: RefusedCode;
 }
 
 export const CodesPanel = ({
@@ -270,12 +301,30 @@ export const CodesPanel = ({
   editable,
   codeChanges = {},
   onCodeChangesChange = () => {},
+  refusedCode,
 }: Readonly<CodesPanelTypes>) => {
   const { t } = useTranslation();
 
   const [state, dispatch] = useReducer(codesPanelReducer, initialCodesPanelState);
 
-  const { codes, searchCode, searchLabel, lazyState, loading, openPanel, selectedCode } = state;
+  const {
+    codes,
+    searchCode,
+    searchLabel,
+    lazyState,
+    loading,
+    openPanel,
+    selectedCode,
+    selectedCodeError,
+  } = state;
+
+  // Le code refusé est encore en attente : on le rouvre tel qu'il a été envoyé.
+  useEffect(() => {
+    const change = refusedCode && codeChanges[refusedCode.code];
+    if (change) {
+      dispatch({ type: "OPEN_EDIT_PANEL", code: change.code, error: refusedCode.error });
+    }
+  }, [refusedCode]);
 
   const [allCodes, setAllCodes] = useState<Code[]>([]);
 
@@ -421,6 +470,7 @@ export const CodesPanel = ({
             creation={!selectedCode.code}
             existingCodes={displayedCodes}
             linkableCodes={mergeCodeChanges(allCodes, codeChanges)}
+            serverError={selectedCodeError}
             handleBack={() => dispatch({ type: "CLOSE_PANEL" })}
             handleSave={(code, creation) => {
               const withCode = creation ? withCreatedCode : withUpdatedCode;

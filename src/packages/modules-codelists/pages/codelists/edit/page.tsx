@@ -7,7 +7,7 @@ import { Loading, Saving } from "@components/loading";
 import { CodelistsApi } from "@sdk/index";
 
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
-import { CodeChanges, saveCodeChanges } from "../../../utils/code-changes";
+import { CodeChanges, RefusedCode, saveCodeChanges } from "../../../utils/code-changes";
 import { formatCodelist } from "../../../utils/formatCodelist";
 import { CodelistDetailEdit } from "./components/CodelistDetailEdit";
 
@@ -28,6 +28,8 @@ export const Component = () => {
 
   const [codeChanges, setCodeChanges] = useState<CodeChanges>({});
 
+  const [refusedCode, setRefusedCode] = useState<RefusedCode>();
+
   const handleBack = useCallback(() => {
     goBackOrReplace("/codelists", true);
   }, [goBackOrReplace]);
@@ -36,6 +38,7 @@ export const Component = () => {
     (codelist: any) => {
       setSaving(true);
       setServerSideError("");
+      setRefusedCode(undefined);
       const request = id ? CodelistsApi.putCodelist : CodelistsApi.postCodelist;
       request(codelist)
         .then(() =>
@@ -50,7 +53,12 @@ export const Component = () => {
         })
         .catch((error: unknown) => {
           setCodelist(codelist);
-          setServerSideError(error);
+          // Un code refusé se corrige dans son panneau : il y est rouvert avec son erreur.
+          if (error instanceof RefusedCode) {
+            setRefusedCode(error);
+          } else {
+            setServerSideError(error);
+          }
         })
         .finally(() => setSaving(false));
     },
@@ -89,6 +97,7 @@ export const Component = () => {
       serverSideError={serverSideError}
       codeChanges={codeChanges}
       onCodeChangesChange={setCodeChanges}
+      refusedCode={refusedCode}
     />
   );
 };

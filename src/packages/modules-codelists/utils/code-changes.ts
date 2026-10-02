@@ -104,9 +104,21 @@ const SAVE_REQUESTS = {
 };
 
 /**
+ * Refus d'un code créé ou modifié : son erreur se lit dans le panneau d'édition de ce code, pas
+ * dans le bandeau de la liste.
+ */
+export class RefusedCode {
+  constructor(
+    readonly code: string,
+    readonly error: unknown,
+  ) {}
+}
+
+/**
  * Envoie les modifications une à une, suppressions d'abord pour qu'un code recréé ne heurte pas
  * l'ancien, créations ensuite pour que les liens des codes modifiés visent des codes existants.
- * S'arrête à la première erreur ; `onSaved` signale chaque code déjà enregistré.
+ * S'arrête à la première erreur ; `onSaved` signale chaque code déjà enregistré. Le refus d'une
+ * création ou d'une modification est rejeté en {@link RefusedCode}.
  */
 export const saveCodeChanges = async (
   codelistId: string,
@@ -131,7 +143,11 @@ export const saveCodeChanges = async (
             narrower: code.narrower?.filter(exists),
           }
         : code;
-    await SAVE_REQUESTS[type](codelistId, body);
+    try {
+      await SAVE_REQUESTS[type](codelistId, body);
+    } catch (error) {
+      throw type === "deleted" ? error : new RefusedCode(code.code!, error);
+    }
     onSaved(code.code!);
   }
 };

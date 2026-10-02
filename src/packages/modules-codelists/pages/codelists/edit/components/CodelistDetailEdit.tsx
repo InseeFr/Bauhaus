@@ -20,7 +20,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
 import { CodesPanel } from "../../../../components/CodesPanel";
-import { CodeChanges } from "../../../../utils/code-changes";
+import { CodeChanges, RefusedCode } from "../../../../utils/code-changes";
 import { validate } from "../validation";
 import { UriInputGroup } from "./UriInputGroup";
 
@@ -50,6 +50,8 @@ interface CodelistDetailEditTypes {
   /** Modifications de codes en attente, envoyées par la page après la sauvegarde de la liste. */
   codeChanges?: CodeChanges;
   onCodeChangesChange?: (changes: CodeChanges) => void;
+  /** Code refusé par le serveur à la dernière sauvegarde, à rouvrir avec son erreur. */
+  refusedCode?: RefusedCode;
 }
 
 const defaultCodelist: CodelistFormValues = {
@@ -64,6 +66,7 @@ export const CodelistDetailEdit = ({
   serverSideError,
   codeChanges,
   onCodeChangesChange,
+  refusedCode,
 }: Readonly<CodelistDetailEditTypes>) => {
   const { t } = useTranslation();
 
@@ -293,6 +296,7 @@ export const CodelistDetailEdit = ({
           editable={true}
           codeChanges={codeChanges}
           onCodeChangesChange={onCodeChangesChange}
+          refusedCode={refusedCode}
         />
       )}
     </>

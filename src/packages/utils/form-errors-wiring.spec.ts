@@ -50,7 +50,6 @@ type Screen = keyof typeof SCREENS;
 
 const FROZEN: ReadonlySet<Screen> = new Set<Screen>([
   "listes de codes",
-  "codes d'une liste",
   "opérations",
   "séries",
   "concepts",

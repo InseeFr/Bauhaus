@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { CodelistsApi } from "@sdk/index";
@@ -98,6 +98,60 @@ describe("Codelist edit page", () => {
 
       expect(await screen.findByRole("alert")).toHaveTextContent("Invalid");
       expect(CodelistsApi.deleteCodesDetailedCodelist).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("code refused by the server", () => {
+    beforeEach(() => {
+      vi.mocked(CodelistsApi.getDetailedCodelist).mockResolvedValue({ ...codelist });
+      vi.mocked(CodelistsApi.getCodesDetailedCodelist).mockResolvedValue({
+        items: [{ code: "001", labelLg1: "Premier", labelLg2: "First" }],
+        total: 1,
+      });
+      vi.mocked(CodelistsApi.putCodelist).mockResolvedValue(undefined);
+    });
+
+    const updateCodeThenSave = async (values: Record<string, string>) => {
+      fireEvent.click((await screen.findAllByLabelText("See"))[0].querySelector("span")!);
+      const panel = await screen.findByRole("complementary");
+      for (const [name, value] of Object.entries(values)) {
+        fireEvent.change(panel.querySelector(`#${name}`)!, { target: { name, value } });
+      }
+      fireEvent.click(within(panel).getByRole("button", { name: /update|modifier/i }));
+      await waitFor(() => expect(screen.queryByRole("complementary")).toBeNull());
+      clickSave();
+    };
+
+    it("reopens the refused code in the panel, with the error under its field", async () => {
+      vi.mocked(CodelistsApi.putCodesDetailedCodelist).mockRejectedValue({
+        status: 400,
+        message: "Validation failed",
+        errors: [{ field: "labelLg1", message: "size must be between 0 and 3" }],
+      });
+      renderWithProviders(<Component />);
+
+      await updateCodeThenSave({ labelLg1: "Premier modifié" });
+
+      const panel = await screen.findByRole("complementary");
+      const labelLg1 = panel.querySelector("#labelLg1");
+      expect(labelLg1).toHaveValue("Premier modifié");
+      expect(labelLg1).toHaveAccessibleDescription("size must be between 0 and 3");
+    });
+
+    it("keeps an error without field slot readable in the reopened panel", async () => {
+      vi.mocked(CodelistsApi.putCodesDetailedCodelist).mockRejectedValue({
+        status: 400,
+        message: "Validation failed",
+        errors: [{ field: "descriptionLg1", message: "size must be between 0 and 3" }],
+      });
+      renderWithProviders(<Component />);
+
+      await updateCodeThenSave({ descriptionLg1: "Description" });
+
+      const panel = await screen.findByRole("complementary");
+      expect(within(panel).getByRole("alert")).toHaveTextContent(
+        "descriptionLg1 : size must be between 0 and 3",
+      );
     });
   });
 });
