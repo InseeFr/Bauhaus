@@ -41,7 +41,7 @@ export const ConfirmationModal = ({
 
   return (
     <Modal
-      className="Modal__Bootstrap modal-dialog operations"
+      className="modal-dialog operations"
       id="updating-document-modal"
       isOpen={isOpen}
       onRequestClose={onNo}

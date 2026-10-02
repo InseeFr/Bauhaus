@@ -22,11 +22,7 @@ export const ConfirmationDelete = ({
   const { t } = useTranslation("translation", { i18n: componentsI18n });
 
   return (
-    <Modal
-      className={cx("Modal__Bootstrap modal-dialog", className)}
-      isOpen={true}
-      ariaHideApp={false}
-    >
+    <Modal className={cx("modal-dialog", className)} isOpen={true} ariaHideApp={false}>
       <div className="modal-content">
         <div className="modal-header">
           <CloseIconButton onClick={handleNo} />

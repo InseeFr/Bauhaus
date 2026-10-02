@@ -1,8 +1,9 @@
 import DOMPurify from "dompurify";
 import { ReactNode } from "react";
-import Modal from "react-modal";
 
-import { CloseIconButton } from "../buttons/buttons-with-icons";
+import { Dialog } from "../ui/dialog";
+
+import "./modal-rmes.css";
 
 export interface ModalButton {
   style: string;
@@ -34,7 +35,7 @@ export const ModalRmes = ({
     <button
       key={`${id}-${i}`}
       type="button"
-      className={`btn btn-${b.style} btn-lg`}
+      className={`btn btn-${b.style}`}
       onClick={b.action}
       disabled={b.disabled}
     >
@@ -43,29 +44,17 @@ export const ModalRmes = ({
   ));
 
   return (
-    <Modal
-      className="Modal__Bootstrap modal-dialog"
-      isOpen={isOpen}
-      onRequestClose={closeCancel}
-      contentLabel={body}
-      ariaHideApp={false}
-    >
-      <div className="modal-content">
-        <div className="modal-header">
-          <CloseIconButton onClick={closeCancel} />
-          <h4 className="modal-title">{title}</h4>
-        </div>
-        {body && (
-          <div className="modal-body">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(body),
-              }}
-            />
-          </div>
-        )}
-        <div className="modal-footer">
-          <div className="text-center">{buttons}</div>
+    <Dialog
+      id={id}
+      visible={!!isOpen}
+      onHide={closeCancel}
+      header={title}
+      style={{ width: "50rem", maxWidth: "95vw" }}
+      // Sans cela, le scroll du fond décroche les overlays rendus dans la popup.
+      blockScroll
+      footer={
+        <>
+          <div className="modal-rmes-buttons">{buttons}</div>
           {footer && (
             <div
               style={{ textAlign: "left", marginTop: "20px" }}
@@ -75,8 +64,16 @@ export const ModalRmes = ({
               }}
             />
           )}
-        </div>
-      </div>
-    </Modal>
+        </>
+      }
+    >
+      {body && (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(body),
+          }}
+        />
+      )}
+    </Dialog>
   );
 };

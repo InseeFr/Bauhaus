@@ -1,4 +1,4 @@
-import { fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 
 import { renderWithRouter } from "../../../../../tests/render";
 import {
@@ -154,17 +154,18 @@ describe("concept-validation", () => {
     expect(handleValidateConceptList).toHaveBeenCalledWith(["c1", "c2"]);
   });
 
-  it("ferme la confirmation après validation", () => {
+  it("ferme la confirmation après validation", async () => {
     renderComponent();
 
     pick("Concept périmé");
     publish();
     fireEvent.click(within(modal()).getByRole("button", { name: "Publish" }));
 
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    // La Dialog se referme par une transition : elle reste dans le DOM un instant.
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
   });
 
-  it("ne publie rien quand la confirmation est annulée", () => {
+  it("ne publie rien quand la confirmation est annulée", async () => {
     const { handleValidateConceptList } = renderComponent();
 
     pick("Concept périmé");
@@ -172,7 +173,8 @@ describe("concept-validation", () => {
     fireEvent.click(within(modal()).getByRole("button", { name: "Cancel" }));
 
     expect(handleValidateConceptList).not.toHaveBeenCalled();
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    // La Dialog se referme par une transition : elle reste dans le DOM un instant.
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
   });
 
   it("avertit quand aucun concept n'est sélectionné", () => {

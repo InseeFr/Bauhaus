@@ -59,7 +59,7 @@ export const ComponentSpecificationModalBody = ({
 export const ComponentSpecificationModal = (props: ComponentSpecificationModalBodyTypes) => {
   return (
     <Modal
-      className="Modal__Bootstrap modal-dialog structures structures-specification-modal"
+      className="modal-dialog structures structures-specification-modal"
       isOpen={true}
       ariaHideApp={false}
     >

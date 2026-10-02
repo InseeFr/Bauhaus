@@ -1,4 +1,4 @@
-import { fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 
 import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
 import { UNPUBLISHED, VALIDATED } from "@model/ValidationState";
@@ -245,6 +245,9 @@ describe("concept-edition-creation", () => {
     const expectNoVersioningQuestion = () =>
       expect(screen.queryByText("Please select versioning type")).not.toBeInTheDocument();
 
+    // La Dialog se referme par une transition : elle reste dans le DOM un instant.
+    const expectVersioningQuestionClosed = () => waitFor(expectNoVersioningQuestion);
+
     it("sauvegarde le concept en création avec les seules données saisies", () => {
       const save = vi.fn();
       renderWithAppContext(<ConceptEditionCreation {...buildValidProps({ save })} />);
@@ -330,12 +333,12 @@ describe("concept-edition-creation", () => {
       expect(save).not.toHaveBeenCalled();
     });
 
-    it("écrase la version en place quand l'utilisateur le demande", () => {
+    it("écrase la version en place quand l'utilisateur le demande", async () => {
       const save = vi.fn();
       saveChangedPublishedConcept(save);
       fireEvent.click(screen.getByRole("button", { name: "Overwrite version" }));
 
-      expectNoVersioningQuestion();
+      await expectVersioningQuestionClosed();
       expect(save).toHaveBeenCalledWith("id", NO_VERSIONING, expect.anything(), expect.anything());
     });
 
@@ -347,13 +350,13 @@ describe("concept-edition-creation", () => {
       },
     ];
     for (const { name, button } of dismissals) {
-      it(name, () => {
+      it(name, async () => {
         const save = vi.fn();
         saveChangedPublishedConcept(save);
         const modal = screen.getByRole("dialog");
         fireEvent.click(within(modal).getByRole("button", { name: button }));
 
-        expectNoVersioningQuestion();
+        await expectVersioningQuestionClosed();
         expect(save).not.toHaveBeenCalled();
       });
     }

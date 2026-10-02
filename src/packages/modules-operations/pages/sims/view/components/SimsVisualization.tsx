@@ -138,11 +138,7 @@ export function SimsVisualization({
         />
       )}
       {exportModalOpened && (
-        <Modal
-          className="Modal__Bootstrap modal-dialog operations"
-          isOpen={true}
-          ariaHideApp={false}
-        >
+        <Modal className="modal-dialog operations" isOpen={true} ariaHideApp={false}>
           <div className="modal-content">
             <div className="modal-header">
               <CloseIconButton onClick={() => setExportModalOpened(false)} />

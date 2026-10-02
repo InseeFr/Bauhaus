@@ -303,7 +303,7 @@ const SimsCreation = ({
       {!!error && <ErrorBloc error={error} />}
       {!!siblingError && <LoadingErrorBloc error={siblingError} />}
       <Modal
-        className="Modal__Bootstrap modal-dialog operations structures-specification-modal"
+        className="modal-dialog operations structures-specification-modal"
         isOpen={blocker.state === "blocked"}
         ariaHideApp={false}
       >
