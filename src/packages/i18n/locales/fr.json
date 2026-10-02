@@ -1,4 +1,7 @@
 {
+  "routeError": {
+    "title": "Une erreur est survenue"
+  },
   "auth": {
     "login": "Se connecter",
     "logout": "Se déconnecter"

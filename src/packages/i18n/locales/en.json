@@ -1,4 +1,7 @@
 {
+  "routeError": {
+    "title": "An error has occurred"
+  },
   "auth": {
     "login": "Login",
     "logout": "Logout"

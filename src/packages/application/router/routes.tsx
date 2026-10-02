@@ -26,6 +26,7 @@ import { App } from "../app";
 import { useAppContext } from "../app-context";
 import type { AppName, Module } from "../app-context";
 import { landingModule, SECTION_ROWS } from "../sections";
+import { RootError } from "./root-error";
 
 import { RBACLink } from ".";
 import "./routes.css";
@@ -119,18 +120,23 @@ export const createAppRouter = (modules: Module[]) =>
   createBrowserRouter(
     [
       {
-        path: "logout",
-        element: <Logout />,
-      },
-      {
-        path: "",
-        element: <MainLayout />,
+        errorElement: <RootError />,
         children: [
-          { path: "", element: <HomePage /> },
-          ...buildModuleRoutes(modules),
           {
-            path: "*",
-            element: <NotFound />,
+            path: "logout",
+            element: <Logout />,
+          },
+          {
+            path: "",
+            element: <MainLayout />,
+            children: [
+              { path: "", element: <HomePage /> },
+              ...buildModuleRoutes(modules),
+              {
+                path: "*",
+                element: <NotFound />,
+              },
+            ],
           },
         ],
       },
