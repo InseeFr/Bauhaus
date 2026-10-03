@@ -34,10 +34,6 @@ const tagStyle = {
   color: "#ffffff",
 };
 
-// Masquage temporaire des tags parents. Typé `boolean` et non `false` : un littéral rendrait le
-// bloc JSX inatteignable, et TypeScript n'y applique alors plus le narrowing des gardes.
-const SHOW_PARENT_TAGS: boolean = false;
-
 export const PhysicalInstanceHeader = ({
   label,
   onSave,
@@ -59,8 +55,7 @@ export const PhysicalInstanceHeader = ({
         studyUnit={studyUnit}
         stamps={stamps}
       />
-      {/* Tags parents « groupe » / « étude » masqués temporairement. */}
-      {SHOW_PARENT_TAGS && (groupLabel || studyUnitLabel) && (
+      {(groupLabel || studyUnitLabel) && (
         <div className="flex align-items-center gap-2 flex-wrap">
           {groupLabel && (
             <Tag

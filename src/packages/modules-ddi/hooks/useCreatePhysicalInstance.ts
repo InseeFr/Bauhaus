@@ -55,6 +55,7 @@ export function useCreatePhysicalInstance() {
       queryClient.invalidateQueries({
         queryKey: ["physicalInstances"],
       });
+      queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
     },
   });
 }

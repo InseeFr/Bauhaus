@@ -18,11 +18,20 @@ vi.mock("../../../hooks/usePhysicalInstancesSearch", () => ({
 vi.mock("primereact/dropdown", async () => {
   const { NativeOptions } = await import("../pages.testing");
   return {
-    Dropdown: ({ options, onChange, placeholder }: any) => (
-      <select aria-label="study-unit-select" onChange={(e) => onChange({ value: e.target.value })}>
-        <option value="">{placeholder}</option>
-        <NativeOptions options={options} />
-      </select>
+    // `onHide` exposé via un bouton : simule la fermeture du panneau (clic à l'extérieur).
+    Dropdown: ({ options, onChange, onHide, placeholder }: any) => (
+      <>
+        <select
+          aria-label="study-unit-select"
+          onChange={(e) => onChange({ value: e.target.value })}
+        >
+          <option value="">{placeholder}</option>
+          <NativeOptions options={options} />
+        </select>
+        <button type="button" onClick={onHide}>
+          hide-panel
+        </button>
+      </>
     ),
   };
 });
@@ -109,6 +118,56 @@ describe("StudyUnitTag", () => {
     });
 
     expect(mockNavigate).toHaveBeenCalledWith("/ddi/physical-instances/fr.insee/pi-2");
+  });
+
+  // Le composant reste monté d'une PI à l'autre (seul le paramètre de route change) : sans
+  // retour au tag, la PI suivante s'affichait avec un select vide à la place de l'étude (#1523).
+  it("après sélection d'une PI, réaffiche le tag", () => {
+    render(<StudyUnitTag label="Enquête emploi" studyUnit={studyUnit} />);
+    fireEvent.click(screen.getByText(/Enquête emploi/));
+
+    fireEvent.change(screen.getByLabelText("study-unit-select"), {
+      target: { value: "fr.insee/pi-2" },
+    });
+
+    expect(screen.queryByLabelText("study-unit-select")).not.toBeInTheDocument();
+    expect(screen.getByText(/Enquête emploi/)).toBeInTheDocument();
+  });
+
+  it("la fermeture du panneau (clic à l'extérieur) réaffiche le tag", () => {
+    render(<StudyUnitTag label="Enquête emploi" studyUnit={studyUnit} />);
+    fireEvent.click(screen.getByText(/Enquête emploi/));
+
+    fireEvent.click(screen.getByText("hide-panel"));
+
+    expect(screen.queryByLabelText("study-unit-select")).not.toBeInTheDocument();
+    expect(screen.getByText(/Enquête emploi/)).toBeInTheDocument();
+  });
+
+  // Le panneau ouvert d'office au montage ne finit jamais sa transition : PrimeReact n'arme
+  // alors pas son écouteur de clic extérieur. On ne peut pas compter sur son `onHide` (#1523).
+  it("un clic en dehors du select réaffiche le tag, sans passer par PrimeReact", () => {
+    render(
+      <>
+        <p>ailleurs</p>
+        <StudyUnitTag label="Enquête emploi" studyUnit={studyUnit} />
+      </>,
+    );
+    fireEvent.click(screen.getByText(/Enquête emploi/));
+
+    fireEvent.mouseDown(screen.getByText("ailleurs"));
+
+    expect(screen.queryByLabelText("study-unit-select")).not.toBeInTheDocument();
+    expect(screen.getByText(/Enquête emploi/)).toBeInTheDocument();
+  });
+
+  it("un clic dans le select le laisse ouvert", () => {
+    render(<StudyUnitTag label="Enquête emploi" studyUnit={studyUnit} />);
+    fireEvent.click(screen.getByText(/Enquête emploi/));
+
+    fireEvent.mouseDown(screen.getByLabelText("study-unit-select"));
+
+    expect(screen.getByLabelText("study-unit-select")).toBeInTheDocument();
   });
 
   it("Échap referme le select et réaffiche le tag", () => {

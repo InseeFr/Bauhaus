@@ -18,7 +18,7 @@ interface StudyUnitTagProps {
 /**
  * Tag « étude » cliquable : au clic il se transforme en select listant les instances
  * physiques rattachées à cette même study unit ; choisir une PI redirige vers sa page.
- * Échap referme le select et réaffiche le tag.
+ * Échap ou un clic à l'extérieur referme le select et réaffiche le tag.
  */
 export const StudyUnitTag = ({
   label,
@@ -30,6 +30,7 @@ export const StudyUnitTag = ({
   const navigate = useNavigate();
   const [isSelectOpen, setIsSelectOpen] = useState(false);
   const dropdownRef = useRef<Dropdown>(null);
+  const selectContainerRef = useRef<HTMLSpanElement>(null);
   const { data: rows } = usePhysicalInstancesSearch();
 
   const options = useMemo(
@@ -59,6 +60,18 @@ export const StudyUnitTag = ({
     return () => document.removeEventListener("keydown", handleKeyDown, true);
   }, [isSelectOpen]);
 
+  // Clic en dehors du select → retour au tag. Géré ici plutôt que par l'`onHide` du Dropdown :
+  // ouvert d'office au montage, son panneau ne termine pas sa transition et PrimeReact n'arme
+  // alors jamais son propre écouteur de clic extérieur.
+  useEffect(() => {
+    if (!isSelectOpen) return;
+    const handleMouseDown = (event: MouseEvent) => {
+      if (!selectContainerRef.current?.contains(event.target as Node)) setIsSelectOpen(false);
+    };
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [isSelectOpen]);
+
   // Ouvre directement le panneau du select à l'apparition.
   useEffect(() => {
     if (isSelectOpen) dropdownRef.current?.show?.();
@@ -66,21 +79,29 @@ export const StudyUnitTag = ({
 
   if (isSelectOpen) {
     return (
-      <Dropdown
-        ref={dropdownRef}
-        autoFocus
-        // Select blanc (n'hérite pas du gris du tag) mais garde la taille du tag.
-        style={{ ...style, backgroundColor: "#ffffff", color: "inherit" }}
-        // Panneau d'options rendu inline, juste en dessous du select (pas détaché sur le body).
-        appendTo="self"
-        // z-index élevé : sans la gestion auto de PrimeReact (perdue avec appendTo="self"),
-        // le panneau passerait derrière les champs de recherche situés juste en dessous.
-        panelStyle={{ zIndex: 1100 }}
-        options={options}
-        onChange={(event) => navigate(`/ddi/physical-instances/${event.value}`)}
-        placeholder={t("physicalInstance.view.studyUnitSelectPlaceholder")}
-        emptyMessage={t("physicalInstance.view.studyUnitSelectEmpty")}
-      />
+      <span ref={selectContainerRef}>
+        <Dropdown
+          ref={dropdownRef}
+          autoFocus
+          // Select blanc (n'hérite pas du gris du tag) mais garde la taille du tag.
+          style={{ ...style, backgroundColor: "#ffffff", color: "inherit" }}
+          // Panneau d'options rendu inline, juste en dessous du select (pas détaché sur le body).
+          appendTo="self"
+          // z-index élevé : sans la gestion auto de PrimeReact (perdue avec appendTo="self"),
+          // le panneau passerait derrière les champs de recherche situés juste en dessous.
+          panelStyle={{ zIndex: 1100 }}
+          options={options}
+          onChange={(event) => {
+            // Le composant reste monté d'une PI à l'autre : on revient au tag avant de naviguer.
+            setIsSelectOpen(false);
+            navigate(`/ddi/physical-instances/${event.value}`);
+          }}
+          // Panneau refermé (clic à l'extérieur, Échap…) → retour au tag.
+          onHide={() => setIsSelectOpen(false)}
+          placeholder={t("physicalInstance.view.studyUnitSelectPlaceholder")}
+          emptyMessage={t("physicalInstance.view.studyUnitSelectEmpty")}
+        />
+      </span>
     );
   }
 
