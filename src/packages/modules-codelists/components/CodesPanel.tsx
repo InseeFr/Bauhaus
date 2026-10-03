@@ -406,7 +406,7 @@ export const CodesPanel = ({
               aria-label={t("codes.removeCode")}
               title={t("codes.removeCode")}
             >
-              <span className="glyphicon glyphicon-minus"></span>
+              <span className="pi pi-minus"></span>
             </button>
           )}
         </>
