@@ -177,7 +177,7 @@ export const StructureComponentsSelector = ({
         type: typeUriToLabel(component.type),
         mutualized:
           !!component.validationState && component.validationState !== UNPUBLISHED ? (
-            <span className="glyphicon glyphicon-ok" aria-label={t("component.mutualized")}></span>
+            <span className="pi pi-check" aria-label={t("component.mutualized")}></span>
           ) : (
             <></>
           ),
@@ -209,7 +209,7 @@ export const StructureComponentsSelector = ({
               aria-label={t("component.componentSpecification")}
               title={t("component.componentSpecification")}
             >
-              <span className="glyphicon glyphicon-cog"></span>
+              <span className="pi pi-cog"></span>
             </button>
             {!readOnly && (
               <button
@@ -220,7 +220,7 @@ export const StructureComponentsSelector = ({
                 aria-label={t("remove")}
                 title={t("remove")}
               >
-                <span className="glyphicon glyphicon-minus"></span>
+                <span className="pi pi-minus"></span>
               </button>
             )}
             {!readOnly && i !== 0 && (
@@ -232,7 +232,7 @@ export const StructureComponentsSelector = ({
                 aria-label={t("up")}
                 title={t("up")}
               >
-                <span className="glyphicon glyphicon-arrow-up"></span>
+                <span className="pi pi-arrow-up"></span>
               </button>
             )}
             {!readOnly && i !== components.length - 1 && (
@@ -244,7 +244,7 @@ export const StructureComponentsSelector = ({
                 aria-label={t("down")}
                 title={t("down")}
               >
-                <span className="glyphicon glyphicon-arrow-down"></span>
+                <span className="pi pi-arrow-down"></span>
               </button>
             )}
           </>

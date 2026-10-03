@@ -66,7 +66,7 @@ export const MutualizedComponentsSelector = ({
     type: typeUriToLabel(component.type),
     mutualized:
       !!component.validationState && component.validationState !== UNPUBLISHED ? (
-        <span className="glyphicon glyphicon-ok" aria-label={t("component.mutualized")}></span>
+        <span className="pi pi-check" aria-label={t("component.mutualized")}></span>
       ) : (
         <></>
       ),
