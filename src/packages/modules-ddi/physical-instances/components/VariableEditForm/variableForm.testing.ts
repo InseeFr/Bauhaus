@@ -35,8 +35,8 @@ export const expectRepresentation = (shown: string, hidden: string[]) => {
 };
 
 /**
- * État de `useSearchParams` partagé entre la spec et le module `react-router-dom` mocké :
- * `vi.mock("react-router-dom", async () => (await import("./variableForm.testing")).searchParamsRouterModule);`
+ * État de `useSearchParams` partagé entre la spec et le module `react-router` mocké :
+ * `vi.mock("react-router", async () => (await import("./variableForm.testing")).searchParamsRouterModule);`
  */
 export const searchParamsMock = {
   current: new URLSearchParams(),

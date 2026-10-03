@@ -7,7 +7,7 @@ import { Component } from "./page";
 
 const mockUseParams = vi.fn();
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useParams: () => mockUseParams(),
 }));
 

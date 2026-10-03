@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { Loading } from "@components/loading";

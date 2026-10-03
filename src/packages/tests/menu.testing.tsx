@@ -1,5 +1,5 @@
 import type { RenderResult } from "@testing-library/react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { expect, it, vi } from "vitest";
 
 /** Menu d'un module : rien sur l'accueil de l'application (la spec mocke `useLocation`). */

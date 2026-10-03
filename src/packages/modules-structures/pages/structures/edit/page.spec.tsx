@@ -9,8 +9,8 @@ import { renderPageWithAppContext } from "../../../render.testing";
 import { Component } from "./page";
 
 const location = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
   useParams: () => ({ id: "str-1" }),
   useLocation: () => location(),
 }));

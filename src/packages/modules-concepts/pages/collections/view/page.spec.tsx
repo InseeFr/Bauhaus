@@ -1,6 +1,6 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { screen, waitFor } from "@testing-library/react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Mock, vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
@@ -17,7 +17,7 @@ import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderWithQueryClient } from "../../../testing/query-client.testing";
 import { Component } from "./page";
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useParams: vi.fn(),
 }));
 

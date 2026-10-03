@@ -5,7 +5,7 @@ import type { PhysicalInstanceSearchRow } from "../../../hooks/usePhysicalInstan
 import { StudyUnitTag } from "./StudyUnitTag";
 
 const mockNavigate = vi.fn();
-vi.mock("react-router-dom", () => ({ useNavigate: () => mockNavigate }));
+vi.mock("react-router", () => ({ useNavigate: () => mockNavigate }));
 
 vi.mock("react-i18next", () => import("./i18nLabel.testing"));
 

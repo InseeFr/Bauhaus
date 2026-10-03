@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";

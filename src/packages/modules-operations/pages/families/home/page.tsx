@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router";
 
 import { TreeButton } from "@components/buttons/buttons-with-icons";
 import { Row } from "@components/layout";

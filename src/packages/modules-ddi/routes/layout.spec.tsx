@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi } from "vitest";
 
 import { useTheme } from "@utils/hooks/useTheme";
@@ -14,8 +14,8 @@ vi.mock("../../application/section-menus", () => ({
   DataDescriptionMenu: () => <nav data-testid="ddi-menu">DDI Menu</nav>,
 }));
 
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
   return {
     ...actual,
     Outlet: () => <div data-testid="outlet">Page Content</div>,

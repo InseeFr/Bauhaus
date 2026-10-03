@@ -21,7 +21,7 @@ import {
 } from "./variableForm.testing";
 
 vi.mock(
-  "react-router-dom",
+  "react-router",
   async () => (await import("./variableForm.testing")).searchParamsRouterModule,
 );
 

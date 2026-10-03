@@ -1,7 +1,7 @@
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { useTitle } from "@utils/hooks/useTitle";
 

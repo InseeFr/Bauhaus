@@ -42,7 +42,7 @@ vi.mock(
   async () => (await import("../representation.testing")).appContextModule,
 );
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useParams: () => ({
     id: "pi-1",
     agencyId: "fr.insee",

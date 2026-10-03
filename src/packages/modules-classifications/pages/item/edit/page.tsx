@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router";
 
 import { ClientSideError, ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";

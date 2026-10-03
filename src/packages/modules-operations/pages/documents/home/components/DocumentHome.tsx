@@ -1,7 +1,7 @@
 import DOMPurify from "dompurify";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router";
 
 import { FilterToggleButtons } from "@components/filter-toggle-buttons";
 import { TextInput } from "@components/form/input";

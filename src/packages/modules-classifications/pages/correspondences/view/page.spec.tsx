@@ -8,7 +8,7 @@ import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderClassificationsPage } from "../../../testing/render.testing";
 import { Component } from "./page";
 
-vi.mock("react-router-dom", async () =>
+vi.mock("react-router", async () =>
   (await import("../../../testing/router.testing")).withMockedParams(() => ({ id: "corr-1" })),
 );
 

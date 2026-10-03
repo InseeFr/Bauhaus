@@ -35,7 +35,7 @@ export const partialCodelistSdk = (
     getCodelistCodes: vi.fn(() => Promise.resolve({ items: [] })),
   });
 
-/** `react-router-dom` dont `useParams` désigne une liste inconnue. */
+/** `react-router` dont `useParams` désigne une liste inconnue. */
 export const unknownCodelistRouter = async (importOriginal: ImportOriginal) => ({
   ...(await importOriginal<Record<string, unknown>>()),
   useParams: () => ({ id: "CL_UNKNOWN" }),

@@ -1,18 +1,18 @@
 import { renderHook } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { useNavigationBlocker } from "./useNavigationBlocker";
 
-// Mock useBlocker from react-router-dom
+// Mock useBlocker from react-router
 const mockBlocker = {
   state: "unblocked" as "unblocked" | "blocked" | "proceeding",
   proceed: vi.fn(),
   reset: vi.fn(),
 };
 
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
   return {
     ...actual,
     useBlocker: () => mockBlocker,

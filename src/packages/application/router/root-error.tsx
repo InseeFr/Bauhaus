@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useRouteError } from "react-router-dom";
+import { useRouteError } from "react-router";
 
 import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";

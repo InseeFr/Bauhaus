@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { FilterToggleButtons } from "@components/filter-toggle-buttons";
 import { Row } from "@components/layout";

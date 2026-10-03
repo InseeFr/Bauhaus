@@ -62,7 +62,7 @@ vi.mock("../../../../application/app-context", () => ({
   }),
 }));
 
-vi.mock("react-router-dom", () => import("./reactRouter.testing"));
+vi.mock("react-router", () => import("./reactRouter.testing"));
 
 const mockUseAllCodeLists = vi.fn(() => ({
   data: [

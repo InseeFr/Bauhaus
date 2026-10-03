@@ -1,5 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { Mock, vi } from "vitest";
 
 import { useIsDefaultContributorPending } from "@utils/creation/use-default-contributor";
@@ -14,7 +14,7 @@ import { useConcepts } from "../../../hooks/useConcepts";
 import { renderWithQueryClient } from "../../../testing/query-client.testing";
 import { Component } from "./page";
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useNavigate: vi.fn(),
   useParams: vi.fn(),
 }));

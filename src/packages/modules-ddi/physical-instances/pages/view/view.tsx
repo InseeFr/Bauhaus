@@ -10,7 +10,7 @@ import {
   Suspense,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router";
 
 import { ConfirmDialog, confirmDialog } from "@components/ui/confirm-dialog";
 import { Toast } from "@components/ui/toast";

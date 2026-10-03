@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";

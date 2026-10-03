@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router";
 
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";

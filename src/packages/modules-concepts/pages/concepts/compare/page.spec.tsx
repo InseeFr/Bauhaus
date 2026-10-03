@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Mock, vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
@@ -10,7 +10,7 @@ import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/load
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useParams: vi.fn(),
 }));
 

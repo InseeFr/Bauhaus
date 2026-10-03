@@ -2,7 +2,7 @@ import { vi } from "vitest";
 
 // Fabriques de mocks destinées aux `vi.mock` hissés : les specs les chargent par un
 // `await import(...)` dans la fabrique. Ce module ne doit donc importer aucun module
-// susceptible d'être lui-même mocké (react-router-dom, react-i18next, @sdk…).
+// susceptible d'être lui-même mocké (react-router, react-i18next, @sdk…).
 
 /** Mock de `@utils/hooks/users` : droit de création pour toutes les ressources de `application`. */
 export const usersHookWithCreatePrivilege = (

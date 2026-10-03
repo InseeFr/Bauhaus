@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Deleting, Loading, Publishing } from "@components/loading";

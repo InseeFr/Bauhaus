@@ -1,8 +1,8 @@
 /**
- * Remplacement de `react-router-dom` : la page courante est celle de la PhysicalInstance
+ * Remplacement de `react-router` : la page courante est celle de la PhysicalInstance
  * `fr.insee/test-physical-instance-id`, et `Link` est rendu en simple ancre.
  *
- * Usage : `vi.mock("react-router-dom", () => import("./reactRouter.testing"));`
+ * Usage : `vi.mock("react-router", () => import("./reactRouter.testing"));`
  */
 export const useParams = () => ({
   id: "test-physical-instance-id",

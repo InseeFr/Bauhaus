@@ -1,6 +1,6 @@
 import { useCallback, useReducer, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";

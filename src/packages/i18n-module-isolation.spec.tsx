@@ -1,6 +1,6 @@
 import { configure, render, screen } from "@testing-library/react";
 import { Suspense } from "react";
-import { RouterProvider, createMemoryRouter } from "react-router-dom";
+import { RouterProvider, createMemoryRouter } from "react-router";
 
 import { AppContextProvider } from "./application/app-context";
 

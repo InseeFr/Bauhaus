@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { StructureApi } from "@sdk/index";
@@ -9,8 +9,8 @@ import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants";
 import { Component } from "./page";
 
 const navigate = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
   useNavigate: () => navigate,
 }));
 

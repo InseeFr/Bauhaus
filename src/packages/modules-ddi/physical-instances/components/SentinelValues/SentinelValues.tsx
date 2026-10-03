@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { Accordion, AccordionTab } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";

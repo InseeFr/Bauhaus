@@ -13,8 +13,8 @@ import { getSiblingSims } from "../utils/getSiblingSims";
 import { AdvancedSimsCreation } from "./AdvancedSimsCreation";
 
 const blocker = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual<typeof import("react-router")>("react-router")),
   useBlocker: (predicate: any) => blocker(predicate),
 }));
 

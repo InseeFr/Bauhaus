@@ -21,7 +21,7 @@ vi.mock("@sdk/index", (importOriginal) =>
   }),
 );
 
-vi.mock("react-router-dom", (importOriginal) => unknownCodelistRouter(importOriginal));
+vi.mock("react-router", (importOriginal) => unknownCodelistRouter(importOriginal));
 
 vi.mock("@utils/hooks/users", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@utils/hooks/users")>()),

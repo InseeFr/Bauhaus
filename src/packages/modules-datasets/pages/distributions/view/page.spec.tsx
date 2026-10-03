@@ -8,7 +8,7 @@ import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { useDistribution } from "../../../hooks/useDistribution";
 import { Component } from "./page";
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useParams: () => ({ id: "test-id" }),
   MemoryRouter: vi.fn(),
   Route: vi.fn(),

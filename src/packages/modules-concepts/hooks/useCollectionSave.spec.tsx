@@ -1,14 +1,14 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
 
 import { CollectionApi } from "@sdk/new-collection-api";
 
 import { useCollectionSave, CollectionSaveData } from "./useCollectionSave";
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useNavigate: vi.fn(),
 }));
 

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Publishing } from "@components/loading";

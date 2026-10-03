@@ -1,6 +1,6 @@
 import { Fragment, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useBlocker } from "react-router-dom";
+import { useBlocker } from "react-router";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";

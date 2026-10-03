@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { Mock, vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
@@ -16,8 +16,8 @@ import { useConcepts } from "../../../hooks/useConcepts";
 import { useConceptSave } from "../../../hooks/useConceptSave";
 import { Component } from "./page";
 
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual<typeof import("react-router")>("react-router");
   return { ...actual, useNavigate: vi.fn(), useParams: vi.fn() };
 });
 

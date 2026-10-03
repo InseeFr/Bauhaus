@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router";
 
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { CreatorsInput } from "@components/business/creators-input";

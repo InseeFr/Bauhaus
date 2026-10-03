@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render as rtlRender, screen, waitFor, fireEvent } from "@testing-library/react";
 import type { ReactElement, ReactNode } from "react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { envelope } from "../../types/ddi4Items.testing";

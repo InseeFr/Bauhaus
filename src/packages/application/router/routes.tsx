@@ -1,12 +1,7 @@
 import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  createBrowserRouter,
-  Navigate,
-  Outlet,
-  RouteObject,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet, RouteObject } from "react-router";
+import { RouterProvider } from "react-router/dom";
 
 import { Loading } from "@components/loading";
 import { NotFound, UnderMaintenance } from "@components/not-found";

@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 import { componentsI18n } from "../i18n";
 import { AddLogo } from "../logo/logo-add";

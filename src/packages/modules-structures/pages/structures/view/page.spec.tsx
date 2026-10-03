@@ -14,8 +14,8 @@ import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 
 const navigate = vi.fn();
 
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
   useParams: () => ({ id: "1" }),
   useNavigate: () => navigate,
 }));

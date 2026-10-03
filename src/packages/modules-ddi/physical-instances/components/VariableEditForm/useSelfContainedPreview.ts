@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";

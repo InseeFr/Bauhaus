@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router";
 
 import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";

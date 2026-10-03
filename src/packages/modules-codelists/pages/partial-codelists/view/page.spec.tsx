@@ -14,7 +14,7 @@ vi.mock("@sdk/index", (importOriginal) =>
 
 vi.mock("@utils/hooks/users", () => import("../../../testing/users.testing"));
 
-vi.mock("react-router-dom", (importOriginal) => unknownCodelistRouter(importOriginal));
+vi.mock("react-router", (importOriginal) => unknownCodelistRouter(importOriginal));
 
 describe("Partial codelist view page", () => {
   beforeEach(() => {

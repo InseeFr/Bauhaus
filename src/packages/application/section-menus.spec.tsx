@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import { ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi } from "vitest";
 
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createMemoryRouter, RouteObject, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouteObject, RouterProvider } from "react-router";
 import { describe, expect, it, Mock, vi } from "vitest";
 
 import { useOidc } from "../../auth/create-oidc";
