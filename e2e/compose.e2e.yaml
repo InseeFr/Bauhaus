@@ -9,6 +9,9 @@ services:
   api:
     environment:
       FR_INSEE_RMES_BAUHAUS_ENV: NoAuth
+      # Pas de Colectica en e2e : sa sonde ferait sortir /api/healthcheck en 500, et
+      # scripts/e2e-stack.sh attendrait le Back-Office jusqu'au timeout.
+      FR_INSEE_RMES_BAUHAUS_COLECTICA_HEALTHCHECK_ENABLED: "false"
     # Pas de Keycloak en e2e. GraphDB et minio démarrent avant le back (et les
     # fixtures sont chargées entre les deux) : pas besoin de les attendre ici.
     depends_on: !reset []

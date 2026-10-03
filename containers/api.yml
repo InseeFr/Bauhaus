@@ -15,10 +15,12 @@ services:
       # (claims JWT, stockage) ; les variables ci-dessous la surchargent.
       - ${BACK_OFFICE_HOME:-../../Bauhaus-Back-Office}/module-bauhaus-bo/config/bauhaus-local-dev.properties:/opt/app/config/bauhaus-local-dev.properties:ro
     tmpfs:
-      # Le healthcheck écrit `<chemin>` + `testHealthcheck.txt` sans séparateur :
-      # ses trois fichiers de test atterrissent donc ici, dans le répertoire
-      # parent, et non dans trois sous-dossiers. uid/gid : l'image tourne en 10000.
-      - /opt/app/data/storage:uid=10000,gid=10000
+      # Le healthcheck écrit son fichier témoin DANS chaque répertoire de stockage
+      # (`<chemin>/testHealthcheck.txt`) : il faut un répertoire inscriptible par
+      # chemin. uid/gid : l'image tourne en 10000.
+      - /opt/app/data/storage/gestion:uid=10000,gid=10000
+      - /opt/app/data/storage/publication:uid=10000,gid=10000
+      - /opt/app/data/storage/publicationInterne:uid=10000,gid=10000
     environment:
       # Stockage : la valeur de la configuration locale vaut ${HOME}/…, or
       # useradd ne crée pas /home/javauser : rien n'y est inscriptible et
