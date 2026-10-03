@@ -16,7 +16,9 @@ import { Family } from "@model/operations/family";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { toFormErrors } from "@utils/api-errors";
+import { useInvalidateSeries } from "@utils/hooks/series";
 
+import { useInvalidateFamilies } from "../../../../hooks/useFamilies";
 import { validate } from "../validation";
 
 /** Champs dont une erreur de validation du back s'affiche à côté de la saisie. */
@@ -116,6 +118,12 @@ export const OperationsFamilyEdition = ({
 }: Readonly<OperationsFamilyEditionProps>) => {
   const { t } = useTranslation();
 
+  // La liste des familles est proposée à l'édition d'une série, dont la fiche affiche le libellé
+  // de sa famille.
+  const invalidateFamilies = useInvalidateFamilies();
+
+  const invalidateSeries = useInvalidateSeries();
+
   const [state, dispatch] = useReducer(reducer, {
     family: {
       ...defaultFamily,
@@ -155,7 +163,8 @@ export const OperationsFamilyEdition = ({
       // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
       // le formulaire réapparaîtrait le temps qu'elle aboutisse.
       return OperationsApi[method](state.family).then(
-        (id = state.family.id) => {
+        async (id = state.family.id) => {
+          await Promise.all([invalidateFamilies(), invalidateSeries()]);
           goBack(`/operations/family/${id}`, isCreation);
         },
         (err: unknown) => {
@@ -169,7 +178,7 @@ export const OperationsFamilyEdition = ({
         },
       );
     }
-  }, [state.family, goBack]);
+  }, [state.family, goBack, invalidateFamilies, invalidateSeries]);
 
   if (state.saving) return <Saving />;
 

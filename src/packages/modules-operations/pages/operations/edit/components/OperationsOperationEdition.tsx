@@ -12,6 +12,8 @@ import { Operation } from "@model/Operation";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { useInvalidateSeries } from "@utils/hooks/series";
+
 import { validate } from "../validation";
 import { Controls } from "./Controls";
 import { Series } from "./Series";
@@ -62,6 +64,9 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
   const { t } = useTranslation();
 
   const [state, setState] = useState<State>(() => setInitialState(props));
+
+  // La fiche d'une série liste ses opérations.
+  const invalidateSeries = useInvalidateSeries();
 
   const isFirstRender = useRef(true);
 
@@ -114,7 +119,8 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
       // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
       // le formulaire réapparaîtrait le temps qu'elle aboutisse.
       return OperationsApi[method](state.operation).then(
-        (id = state.operation.id) => {
+        async (id = state.operation.id) => {
+          await invalidateSeries();
           props.goBack(`/operations/operation/${id}`, isCreation);
         },
         (err: string) => {

@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
@@ -32,6 +33,16 @@ vi.mock("@sdk/operations-api", () => ({
 
 const mockGoBack = vi.fn();
 
+const renderEdition = (
+  props: Parameters<typeof OperationsFamilyEdition>[0],
+  queryClient = new QueryClient(),
+) =>
+  renderWithAppContext(
+    <QueryClientProvider client={queryClient}>
+      <OperationsFamilyEdition {...props} />
+    </QueryClientProvider>,
+  );
+
 describe("OperationsFamilyEdition", () => {
   const defaultProps = {
     id: "1",
@@ -59,19 +70,19 @@ describe("OperationsFamilyEdition", () => {
 
   const saveNewFamily = () => {
     OperationsApi.createFamily.mockResolvedValueOnce("new-id");
-    renderWithAppContext(<OperationsFamilyEdition {...newFamilyProps} />);
+    renderEdition(newFamilyProps);
     clickSave();
   };
 
   const saveExistingFamily = () => {
     OperationsApi.updateFamily.mockResolvedValueOnce();
-    renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+    renderEdition(defaultProps);
     clickSave();
   };
 
   const saveAndWaitForServerError = async () => {
     OperationsApi.updateFamily.mockRejectedValueOnce("Server error");
-    renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+    renderEdition(defaultProps);
     clickSave();
 
     await waitFor(() => {
@@ -85,7 +96,7 @@ describe("OperationsFamilyEdition", () => {
 
   describe("Rendering", () => {
     it("should render the component correctly with all required fields", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       expect(screen.getByDisplayValue("Test Label 1")).toBeInTheDocument();
       expect(screen.getByDisplayValue("Test Label 2")).toBeInTheDocument();
@@ -94,7 +105,7 @@ describe("OperationsFamilyEdition", () => {
     });
 
     it("should display page title when editing existing family", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       expect(screen.getByText("Test Label 1")).toBeInTheDocument();
     });
@@ -105,13 +116,13 @@ describe("OperationsFamilyEdition", () => {
         id: "",
         family: { ...defaultProps.family, id: "" },
       };
-      renderWithAppContext(<OperationsFamilyEdition {...props} />);
+      renderEdition(props);
 
       expect(screen.queryByText("Test Label 1")).not.toBeInTheDocument();
     });
 
     it("should render markdown editors for both abstract fields", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       expect(screen.getByText(/Résumé/)).toBeInTheDocument();
       expect(screen.getByText(/Summary/)).toBeInTheDocument();
@@ -120,7 +131,7 @@ describe("OperationsFamilyEdition", () => {
 
   describe("User Interactions", () => {
     it("should update prefLabelLg1 when input changes", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       const input = screen.getByDisplayValue("Test Label 1") as HTMLInputElement;
       fireEvent.change(input, {
@@ -131,7 +142,7 @@ describe("OperationsFamilyEdition", () => {
     });
 
     it("should update prefLabelLg2 when input changes", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       const input = screen.getByDisplayValue("Test Label 2") as HTMLInputElement;
       fireEvent.change(input, {
@@ -155,7 +166,7 @@ describe("OperationsFamilyEdition", () => {
     });
 
     it("should call goBack when cancel button is clicked", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       fireEvent.click(screen.getByRole("button", { name: /Cancel/i }));
 
@@ -169,7 +180,7 @@ describe("OperationsFamilyEdition", () => {
         ...defaultProps,
         family: { ...defaultProps.family, prefLabelLg1: "", prefLabelLg2: "" },
       };
-      renderWithAppContext(<OperationsFamilyEdition {...props} />);
+      renderEdition(props);
 
       fireEvent.click(screen.getByRole("button", { name: /Save/i }));
 
@@ -184,7 +195,7 @@ describe("OperationsFamilyEdition", () => {
         ...defaultProps,
         family: { ...defaultProps.family, prefLabelLg1: "" },
       };
-      renderWithAppContext(<OperationsFamilyEdition {...props} />);
+      renderEdition(props);
 
       fireEvent.click(screen.getByRole("button", { name: /Save/i }));
 
@@ -230,6 +241,25 @@ describe("OperationsFamilyEdition", () => {
         expect(mockGoBack).toHaveBeenCalledWith("/operations/family/1", false);
       });
     });
+
+    it.each([
+      ["the series, whose page shows the label of their family", ["series", "s1"]],
+      ["the families offered when editing a series", ["families"]],
+    ])("should invalidate %s before opening the family", async (_, queryKey) => {
+      const queryClient = new QueryClient();
+      queryClient.setQueryData(queryKey, {});
+      let invalidatedAtGoBack: boolean | undefined;
+      mockGoBack.mockImplementationOnce(() => {
+        invalidatedAtGoBack = queryClient.getQueryState(queryKey)?.isInvalidated;
+      });
+      OperationsApi.updateFamily.mockResolvedValueOnce();
+      renderEdition(defaultProps, queryClient);
+
+      clickSave();
+
+      await waitFor(() => expect(mockGoBack).toHaveBeenCalled());
+      expect(invalidatedAtGoBack).toBe(true);
+    });
   });
 
   describe("Error Handling", () => {
@@ -242,7 +272,7 @@ describe("OperationsFamilyEdition", () => {
         status: 400,
         errors: [{ field: "prefLabelLg1", message: "must not be blank" }],
       });
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
       clickSave();
 
       const input = await screen.findByDisplayValue("Test Label 1");
@@ -255,7 +285,7 @@ describe("OperationsFamilyEdition", () => {
         status: 400,
         errors: [{ field: "created", message: "is not a valid LocalDate" }],
       });
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
       clickSave();
 
       expect(await screen.findByText("created : is not a valid LocalDate")).toBeInTheDocument();
@@ -278,7 +308,7 @@ describe("OperationsFamilyEdition", () => {
           }),
       );
 
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       fireEvent.click(screen.getByRole("button", { name: /Save/i }));
 
@@ -297,7 +327,7 @@ describe("OperationsFamilyEdition", () => {
 
   describe("Component Lifecycle", () => {
     it("should reinitialize state when id prop changes", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       expect(screen.getByDisplayValue("Test Label 1")).toBeInTheDocument();
 
@@ -311,7 +341,7 @@ describe("OperationsFamilyEdition", () => {
         },
       };
 
-      renderWithAppContext(<OperationsFamilyEdition {...newProps} />);
+      renderEdition(newProps);
 
       expect(screen.getByDisplayValue("New Family Label")).toBeInTheDocument();
     });

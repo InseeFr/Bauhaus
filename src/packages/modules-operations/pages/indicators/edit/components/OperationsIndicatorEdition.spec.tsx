@@ -107,6 +107,22 @@ describe("OperationsIndicatorEdition", () => {
     );
   });
 
+  it("périme les séries en cache, dont la fiche liste les indicateurs qu'elles produisent", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["series", "s1"], { id: "s1" });
+    let invalidatedAtGoBack: boolean | undefined;
+    defaultProps.goBack.mockImplementationOnce(() => {
+      invalidatedAtGoBack = queryClient.getQueryState(["series", "s1"])?.isInvalidated;
+    });
+    OperationsApi.updateIndicator.mockResolvedValue(undefined);
+    renderEdition({}, queryClient);
+
+    fireEvent.click(saveButton());
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toBe(true);
+  });
+
   it("périme les indicateurs en cache avant de revenir sur la fiche", async () => {
     // Sans cela, la fiche et la liste réaffichent l'indicateur d'avant la modification.
     const queryClient = new QueryClient();

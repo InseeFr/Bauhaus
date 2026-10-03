@@ -1,16 +1,24 @@
+import { screen } from "@testing-library/react";
 import { Mock } from "vitest";
 
 import { getListItems } from "@components/ui/list-group/testing";
 
 import { Codelist } from "@model/Codelist";
 
+import { OperationsApi } from "@sdk/operations-api";
+
 import * as useCodelistHook from "@utils/hooks/codelist";
 import * as useStampsHook from "@utils/hooks/stamps";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
 import { renderWithRouter } from "../../../../tests/render";
-import { SearchFormList } from "./page";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderAtRoute } from "../../page.testing";
+import { Component, SearchFormList } from "./page";
+
+vi.mock("@sdk/operations-api");
 
 const data = [
   {
@@ -169,5 +177,30 @@ describe("<SearchFormList />", () => {
 
     const { container } = renderWithRouter(<SearchFormList data={data} />);
     expect(getListItems(container)).toHaveLength(expected);
+  });
+});
+
+describe("Series advanced search page", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    (useUrlQueryParameters as Mock).mockReturnValue({ form: {} });
+  });
+
+  const renderPage = () => renderAtRoute(<Component />, "/series/search", "/series/search");
+
+  it("charge les séries puis les liste", async () => {
+    vi.mocked(OperationsApi.getSeriesSearchList).mockResolvedValue(data);
+    const { container } = renderPage();
+
+    expect(await screen.findByText("Base non-salariés")).toBeInTheDocument();
+    expect(getListItems(container)).toHaveLength(6);
+  });
+
+  it("affiche l'échec de chargement au lieu d'un chargement infini", async () => {
+    vi.mocked(OperationsApi.getSeriesSearchList).mockRejectedValue(sdkRejection.emptyBody(500));
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 });

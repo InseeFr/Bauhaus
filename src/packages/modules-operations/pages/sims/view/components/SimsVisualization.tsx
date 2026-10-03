@@ -21,6 +21,7 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
 import { useSecondLang } from "@utils/hooks/second-lang";
+import { useInvalidateSeries } from "@utils/hooks/series";
 
 import { useInvalidateIndicators } from "../../../../hooks/useIndicators";
 import { RubricEssentialMsg } from "../../components/RubricEssentialMsg";
@@ -112,6 +113,8 @@ export function SimsVisualization({
 
   const invalidateIndicators = useInvalidateIndicators();
 
+  const invalidateSeries = useInvalidateSeries();
+
   const handleNo = () => {
     setModalOpened(false);
   };
@@ -119,8 +122,9 @@ export function SimsVisualization({
   const handleYes = () => {
     setServerSideError(undefined);
     OperationsApi.deleteSims(sims)
-      // La fiche de l'indicateur documenté menait à ce SIMS (`idSims`).
+      // La fiche de l'indicateur ou de la série documentés menait à ce SIMS (`idSims`).
       .then(() => sims.idIndicator && invalidateIndicators())
+      .then(() => sims.idSeries && invalidateSeries())
       .then(() => {
         setModalOpened(false);
         navigate(getParentUri(sims) ?? "");

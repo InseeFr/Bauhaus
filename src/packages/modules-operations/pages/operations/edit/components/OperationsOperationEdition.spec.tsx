@@ -27,8 +27,11 @@ const existingOperation = {
   series: { id: "s1" },
 } as unknown as Operation;
 
-const renderEdition = (operation: Partial<Operation>, goBack = vi.fn()) => {
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+const renderEdition = (
+  operation: Partial<Operation>,
+  goBack = vi.fn(),
+  queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } }),
+) => {
   const wrap = (node: ReactNode) => (
     <QueryClientProvider client={queryClient}>{node}</QueryClientProvider>
   );
@@ -70,7 +73,23 @@ describe("OperationsOperationEdition", () => {
         expect.objectContaining({ id: "123", prefLabelLg1: "Recensement 2025" }),
       );
     });
-    expect(goBack).toHaveBeenCalledWith("/operations/operation/123", false);
+    await waitFor(() => expect(goBack).toHaveBeenCalledWith("/operations/operation/123", false));
+  });
+
+  it("périme les séries en cache, dont la fiche liste les opérations", async () => {
+    vi.mocked(OperationsApi).putOperation.mockResolvedValue(undefined);
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    queryClient.setQueryData(["series", "s1"], { id: "s1" });
+    let invalidatedAtGoBack: boolean | undefined;
+    const goBack = vi.fn(() => {
+      invalidatedAtGoBack = queryClient.getQueryState(["series", "s1"])?.isInvalidated;
+    });
+    renderEdition(existingOperation, goBack, queryClient);
+
+    save();
+
+    await waitFor(() => expect(goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toBe(true);
   });
 
   it("ne réaffiche pas le formulaire pendant le retour sur la fiche après l'enregistrement", async () => {
@@ -124,7 +143,7 @@ describe("OperationsOperationEdition", () => {
         }),
       );
     });
-    expect(goBack).toHaveBeenCalledWith("/operations/operation/456", true);
+    await waitFor(() => expect(goBack).toHaveBeenCalledWith("/operations/operation/456", true));
   });
 
   it("refuse d'enregistrer une opération incomplète et affiche ce qui manque", () => {

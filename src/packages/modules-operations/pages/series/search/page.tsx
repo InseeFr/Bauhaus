@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, Navigate } from "react-router-dom";
 
@@ -6,13 +5,13 @@ import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
 import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { List } from "@components/ui/list-group";
 import { SearchTextField } from "@components/ui/search-field";
 
-import { OperationsApi } from "@sdk/operations-api";
-
 import { filterKeyDeburr } from "@utils/array-utils";
+import { useSeriesSearchList } from "@utils/hooks/series";
 import { useTitle } from "@utils/hooks/useTitle";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
@@ -141,11 +140,9 @@ export const Component = () => {
 
   useTitle(t("common.seriesTitle") + " - " + t("common.operationsTitle"), t("app.advancedSearch"));
 
-  const [data, setData] = useState<SeriesSearchItem[]>();
+  const { data, error } = useSeriesSearchList<SeriesSearchItem>();
 
-  useEffect(() => {
-    OperationsApi.getSeriesSearchList().then(setData);
-  }, []);
+  if (error) return <LoadingErrorBloc error={error} />;
 
   if (!data) return <Loading />;
 

@@ -5,6 +5,8 @@ import { Rubric } from "@model/Sims";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { useInvalidateSeries } from "@utils/hooks/series";
+
 import { useInvalidateIndicators } from "./useIndicators";
 
 const computeRubrics = (rubrics: Rubric[]): Record<string, Rubric & { idMas: string }> => {
@@ -85,6 +87,8 @@ export const useSaveSims = () => {
 
   const invalidateIndicators = useInvalidateIndicators();
 
+  const invalidateSeries = useInvalidateSeries();
+
   const { t } = useTranslation();
 
   const simsTitleLg1 = t("sims.simsTitle", { lng: "fr" });
@@ -103,8 +107,9 @@ export const useSaveSims = () => {
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["sims", variables.id] });
-      // La fiche de l'indicateur documenté mène à son SIMS (`idSims`).
+      // La fiche de l'indicateur ou de la série documentés mène à son SIMS (`idSims`).
       if (variables.idIndicator) return invalidateIndicators();
+      if (variables.idSeries) return invalidateSeries();
     },
   });
 };

@@ -1,41 +1,36 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
-import { FamilyHome } from "@model/operations/family";
-
-import { OperationsApi } from "@sdk/operations-api";
-
 import { useCodelist } from "@utils/hooks/codelist";
 import { useOrganizations } from "@utils/hooks/organizations";
+import { useSerie, useSeries } from "@utils/hooks/series";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../../../application/app-context";
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
-import {
-  OperationsSerieEdition,
-  SerieEditItem,
-  SeriesOrIndicatorItem,
-} from "./components/OperationsSerieEdition";
+import { useFamilies } from "../../../hooks/useFamilies";
+import { useIndicators } from "../../../hooks/useIndicators";
+import { OperationsSerieEdition, SerieEditItem } from "./components/OperationsSerieEdition";
+
+// En création, le formulaire part d'une série vide : aucun appel au back n'est fait.
+const NEW_SERIE: Partial<SerieEditItem> = {};
 
 export const Component = () => {
   const { t } = useTranslation();
 
   const { id } = useParams();
 
-  const [serie, setSerie] = useState<Partial<SerieEditItem>>({});
+  const { data: serie = NEW_SERIE, error: serieError } = useSerie<SerieEditItem>(id);
 
-  const [loadError, setLoadError] = useState<unknown>();
+  const { data: families = [], error: familiesError } = useFamilies();
 
-  const [families, setFamilies] = useState<FamilyHome[]>([]);
+  const { data: indicators = [], error: indicatorsError } = useIndicators();
 
-  const [indicators, setIndicators] = useState<SeriesOrIndicatorItem[]>([]);
-
-  const [series, setSeries] = useState<SeriesOrIndicatorItem[]>([]);
+  const { data: series = [], error: seriesError } = useSeries();
 
   const frequencies = useCodelist(CL_FREQ);
 
@@ -45,33 +40,13 @@ export const Component = () => {
 
   const goBack = useGoBack();
 
-  useEffect(() => {
-    if (id) {
-      OperationsApi.getSerie(id)
-        .then((results: SerieEditItem) => setSerie(results))
-        .catch(setLoadError);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    OperationsApi.getAllFamilies().then((results: FamilyHome[]) => setFamilies(results));
-  }, []);
-
-  useEffect(() => {
-    OperationsApi.getAllIndicators().then((results: SeriesOrIndicatorItem[]) =>
-      setIndicators(results),
-    );
-  }, []);
-
-  useEffect(() => {
-    OperationsApi.getSeriesList().then((results: SeriesOrIndicatorItem[]) => setSeries(results));
-  }, []);
-
   useTitle(t("common.seriesTitle") + " - " + t("common.operationsTitle"), serie?.prefLabelLg1);
 
   const {
     properties: { extraMandatoryFields },
   } = useAppContext();
+
+  const loadError = serieError ?? familiesError ?? indicatorsError ?? seriesError;
 
   if (loadError) return <LoadingErrorBloc error={loadError} />;
 

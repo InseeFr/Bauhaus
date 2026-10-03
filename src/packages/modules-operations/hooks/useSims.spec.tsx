@@ -170,6 +170,16 @@ describe("useSaveSims", () => {
     expect(invalidate).toHaveBeenCalledWith({ queryKey: ["sims", "1500"] });
   });
 
+  it("périme la série documentée, dont la fiche mène désormais à ce SIMS", async () => {
+    vi.mocked(OperationsApi.postSims).mockResolvedValue("1500");
+    const wrapperAndClient = createQueryWrapper();
+    wrapperAndClient.queryClient.setQueryData(["series", "s1"], { id: "s1" });
+
+    await runMutation(useSaveSims, { idSeries: "s1", labelLg1: "un" }, wrapperAndClient);
+
+    expect(wrapperAndClient.queryClient.getQueryState(["series", "s1"])?.isInvalidated).toBe(true);
+  });
+
   it("périme l'indicateur documenté, dont la fiche mène désormais à ce SIMS", async () => {
     vi.mocked(OperationsApi.postSims).mockResolvedValue("1500");
     const wrapperAndClient = createQueryWrapper();

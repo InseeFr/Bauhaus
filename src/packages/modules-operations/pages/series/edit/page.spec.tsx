@@ -93,4 +93,20 @@ describe("Series edit page", () => {
     await expectItemLoadFailed();
     expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
+
+  it.each([
+    ["des familles", () => OperationsApi.getAllFamilies],
+    ["des indicateurs", () => OperationsApi.getAllIndicators],
+    ["des séries", () => OperationsApi.getSeriesList],
+  ])(
+    "affiche l'échec de chargement %s au lieu d'un formulaire sans rattachement",
+    async (_, load) => {
+      vi.mocked(load()).mockRejectedValue(sdkRejection.emptyBody(500));
+
+      renderPage(undefined, "/series/create");
+
+      await expectItemLoadFailed();
+      expect(screen.queryByText("série:(nouvelle)")).not.toBeInTheDocument();
+    },
+  );
 });

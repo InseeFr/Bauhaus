@@ -145,6 +145,22 @@ describe("OperationsSerieEdition — saisie et enregistrement", () => {
     expect(invalidatedAtGoBack).toBe(true);
   });
 
+  it("périme la série en cache avant de revenir sur sa fiche", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["series", "s1"], { id: "s1" });
+    let invalidatedAtGoBack: boolean | undefined;
+    defaultProps.goBack.mockImplementationOnce(() => {
+      invalidatedAtGoBack = queryClient.getQueryState(["series", "s1"])?.isInvalidated;
+    });
+    OperationsApi.putSeries.mockResolvedValue(undefined);
+    renderEdition({}, queryClient);
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toBe(true);
+  });
+
   it("ne réaffiche pas le formulaire pendant le retour sur la fiche après l'enregistrement", async () => {
     // La navigation de goBack est asynchrone (navigate(-1), route chargée à la demande) : tant
     // qu'elle n'a pas abouti, le composant reste monté et ne doit pas repasser sur le formulaire.

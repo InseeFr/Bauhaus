@@ -23,6 +23,7 @@ import { Option } from "@model/SelectOption";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { useInvalidateSeries } from "@utils/hooks/series";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists";
@@ -134,6 +135,8 @@ export const OperationsSerieEdition = ({
   // Une fiche d'indicateur affiche le libellé des séries qui le produisent.
   const invalidateIndicators = useInvalidateIndicators();
 
+  const invalidateSeries = useInvalidateSeries();
+
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -187,7 +190,7 @@ export const OperationsSerieEdition = ({
       // le formulaire réapparaîtrait le temps qu'elle aboutisse.
       return OperationsApi[method](state.serie).then(
         async (id: string = state.serie.id) => {
-          await invalidateIndicators();
+          await Promise.all([invalidateSeries(), invalidateIndicators()]);
           props.goBack(`/operations/series/${id}`, isCreation);
         },
         (err: string) => {

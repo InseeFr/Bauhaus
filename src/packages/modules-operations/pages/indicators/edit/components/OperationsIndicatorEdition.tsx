@@ -21,6 +21,7 @@ import { Series } from "@model/Series";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { toFormErrors } from "@utils/api-errors";
+import { useInvalidateSeries } from "@utils/hooks/series";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
@@ -96,6 +97,9 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
 
   const invalidateIndicators = useInvalidateIndicators();
 
+  // La fiche d'une série liste les indicateurs qu'elle produit.
+  const invalidateSeries = useInvalidateSeries();
+
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -153,7 +157,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
       // le formulaire réapparaîtrait le temps qu'elle aboutisse.
       return OperationsApi[method](state.indicator).then(
         async (id = state.indicator.id) => {
-          await invalidateIndicators();
+          await Promise.all([invalidateIndicators(), invalidateSeries()]);
           props.goBack(`/operations/indicator/${id}`, isCreation);
         },
         (err: unknown) => {

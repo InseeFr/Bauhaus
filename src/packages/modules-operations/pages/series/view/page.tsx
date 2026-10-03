@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { CheckSecondLang } from "@components/check-second-lang";
@@ -12,6 +12,7 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { useCodelist } from "@utils/hooks/codelist";
 import { useSecondLang } from "@utils/hooks/second-lang";
+import { useInvalidateSeries, useSerie } from "@utils/hooks/series";
 
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
 import {
@@ -31,11 +32,11 @@ type SerieView = Series &
 export const Component = () => {
   const { id } = useParams();
 
-  const [series, setSeries] = useState<SerieView>({} as SerieView);
+  const { data: series, error: loadError } = useSerie<SerieView>(id);
+
+  const invalidateSeries = useInvalidateSeries();
 
   const [publishing, setPublishing] = useState(false);
-
-  const [loadError, setLoadError] = useState<unknown>();
 
   const [serverSideError, setServerSideError] = useState<string>();
 
@@ -45,29 +46,21 @@ export const Component = () => {
 
   const [secondLang] = useSecondLang();
 
-  const frequency = frequencies.codes.find((c) => c.code === series.accrualPeriodicityCode);
+  const frequency = frequencies.codes.find((c) => c.code === series?.accrualPeriodicityCode);
 
-  const category = categories.codes.find((c) => c.code === series.typeCode);
-
-  useEffect(() => {
-    OperationsApi.getSerie(id)
-      .then((result: SerieView) => setSeries(result))
-      .catch(setLoadError);
-  }, [id]);
+  const category = categories.codes.find((c) => c.code === series?.typeCode);
 
   const publish = useCallback(() => {
     setPublishing(true);
     OperationsApi.publishSeries(series)
-      .then(() => {
-        return OperationsApi.getSerie(id).then(setSeries);
-      })
+      .then(() => invalidateSeries())
       .catch((error: string) => setServerSideError(error))
       .finally(() => setPublishing(false));
-  }, [series, id]);
+  }, [series, invalidateSeries]);
 
   if (loadError) return <LoadingErrorBloc error={loadError} />;
 
-  if (!series.id) return <Loading />;
+  if (!series) return <Loading />;
 
   if (publishing) return <Publishing />;
 

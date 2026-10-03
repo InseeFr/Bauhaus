@@ -268,6 +268,22 @@ describe("SimsVisualization - delete redirection", () => {
     });
   });
 
+  it("should invalidate the cached series before opening it, as it no longer has a SIMS", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["series", "s42"], { id: "s42", idSims: "3" });
+    let invalidatedAtNavigation: boolean | undefined;
+    navigateMock.mockImplementationOnce(() => {
+      invalidatedAtNavigation = queryClient.getQueryState(["series", "s42"])?.isInvalidated;
+    });
+    renderComponent(vi.fn(), { id: "3", idSeries: "s42", rubrics: {} }, queryClient);
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
+    expect(invalidatedAtNavigation).toBe(true);
+  });
+
   it("should invalidate the cached indicator before opening it, as it no longer has a SIMS", async () => {
     const queryClient = new QueryClient();
     queryClient.setQueryData(["indicators", "ind42"], { id: "ind42", idSims: "3" });
