@@ -82,9 +82,7 @@ export const OutlineBlock = ({
                   id={child.idMas}
                   onClick={expandOrCollapseItem}
                 >
-                  <span
-                    className={cx("pi", `pi-chevron-${child.opened ? "up" : "down"}`)}
-                  />
+                  <span className={cx("pi", `pi-chevron-${child.opened ? "up" : "down"}`)} />
                 </button>
               )}
               <OutlineButtonWithScroll

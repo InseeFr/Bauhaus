@@ -1,3 +1,1 @@
-export const AddLogo = () => (
-  <span className="pi pi-plus" aria-hidden="true"></span>
-);
+export const AddLogo = () => <span className="pi pi-plus" aria-hidden="true"></span>;
