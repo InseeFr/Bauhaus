@@ -27,6 +27,7 @@ import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists";
 import { PublishersInput } from "../../../../components/PublishersInput";
+import { useInvalidateIndicators } from "../../../../hooks/useIndicators";
 import { validate } from "../validation";
 
 /**
@@ -130,6 +131,9 @@ export const OperationsSerieEdition = ({
     setInitialState({ ...props, indicators, series }),
   );
 
+  // Une fiche d'indicateur affiche le libellé des séries qui le produisent.
+  const invalidateIndicators = useInvalidateIndicators();
+
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -182,7 +186,8 @@ export const OperationsSerieEdition = ({
       // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
       // le formulaire réapparaîtrait le temps qu'elle aboutisse.
       return OperationsApi[method](state.serie).then(
-        (id: string = state.serie.id) => {
+        async (id: string = state.serie.id) => {
+          await invalidateIndicators();
           props.goBack(`/operations/series/${id}`, isCreation);
         },
         (err: string) => {

@@ -1,7 +1,8 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, screen } from "@testing-library/react";
 import { PropsWithChildren } from "react";
 import { I18nextProvider } from "react-i18next";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 
 import { AppContextProvider } from "../../application/app-context";
 import { operationsI18n } from "../i18n";
@@ -16,6 +17,18 @@ export const EditionProviders = ({ children }: PropsWithChildren) => (
     </MemoryRouter>
   </I18nextProvider>
 );
+
+/**
+ * Même contexte, sous le client React Query donné : le test peut observer le cache que le
+ * formulaire périme à l'enregistrement.
+ */
+export const editionProvidersWith =
+  (queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })) =>
+  ({ children }: PropsWithChildren) => (
+    <QueryClientProvider client={queryClient}>
+      <EditionProviders>{children}</EditionProviders>
+    </QueryClientProvider>
+  );
 
 // Le libellé est tantôt le parent direct de la liste, tantôt son voisin dans le
 // groupe de champs : on retient celui des deux qui la contient.

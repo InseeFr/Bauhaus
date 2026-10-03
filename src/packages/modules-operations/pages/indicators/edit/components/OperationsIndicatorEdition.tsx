@@ -25,6 +25,7 @@ import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
 import { PublishersInput } from "../../../../components/PublishersInput";
+import { useInvalidateIndicators } from "../../../../hooks/useIndicators";
 import { validate } from "../validation";
 import { Control } from "./Control";
 
@@ -93,6 +94,8 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
 
   const [state, setState] = useState<State>(() => setInitialState(props));
 
+  const invalidateIndicators = useInvalidateIndicators();
+
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -149,7 +152,8 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
       // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
       // le formulaire réapparaîtrait le temps qu'elle aboutisse.
       return OperationsApi[method](state.indicator).then(
-        (id = state.indicator.id) => {
+        async (id = state.indicator.id) => {
+          await invalidateIndicators();
           props.goBack(`/operations/indicator/${id}`, isCreation);
         },
         (err: unknown) => {

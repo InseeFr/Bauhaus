@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
-import { Indicator, IndicatorsList } from "@model/operations/indicator";
-import { Series } from "@model/Series";
-
-import { OperationsApi } from "@sdk/operations-api";
+import { Indicator } from "@model/operations/indicator";
 
 import { useCodelist } from "@utils/hooks/codelist";
+import { useSeries } from "@utils/hooks/series";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { CL_FREQ } from "../../../../constants/code-lists";
+import { useIndicator, useIndicators } from "../../../hooks/useIndicators";
 import { OperationsIndicatorEdition } from "./components/OperationsIndicatorEdition";
+
+// En création, le formulaire part d'un indicateur vide qu'il complète avec ses
+// propres valeurs par défaut : aucun appel au back n'est fait.
+const NEW_INDICATOR = {} as Indicator;
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,31 +28,15 @@ export const Component = () => {
 
   const { t } = useTranslation();
 
-  // En création, le formulaire part d'un indicateur vide qu'il complète avec ses
-  // propres valeurs par défaut : aucun appel au back n'est fait.
-  const [indicator, setIndicator] = useState<Indicator>({} as Indicator);
+  const { data: indicator = NEW_INDICATOR, error: indicatorError } = useIndicator(id);
 
-  const [series, setSeries] = useState<Series[]>([]);
+  const { data: indicators = [], error: indicatorsError } = useIndicators();
 
-  const [loadError, setLoadError] = useState<unknown>();
-
-  useEffect(() => {
-    if (id) {
-      OperationsApi.getIndicatorById(id).then(setIndicator).catch(setLoadError);
-    }
-  }, [id]);
-
-  const [indicators, setIndicators] = useState<IndicatorsList>([]);
-
-  useEffect(() => {
-    OperationsApi.getAllIndicators().then(setIndicators);
-  }, []);
-
-  useEffect(() => {
-    OperationsApi.getSeriesList().then(setSeries);
-  }, []);
+  const { data: series = [], error: seriesError } = useSeries();
 
   useTitle(t("common.indicatorsTitle"), indicator.prefLabelLg1);
+
+  const loadError = indicatorError ?? indicatorsError ?? seriesError;
 
   if (loadError) return <LoadingErrorBloc error={loadError} />;
 

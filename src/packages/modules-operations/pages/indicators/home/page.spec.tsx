@@ -1,9 +1,11 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
 vi.mock("react-i18next", async (importOriginal) =>
@@ -18,12 +20,7 @@ vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 vi.mock("@components/searchable-list", () => import("../../../../tests/searchable-list.testing"));
 vi.mock("./menu", () => ({ Menu: () => <nav>menu</nav> }));
 
-const renderPage = () =>
-  render(
-    <MemoryRouter>
-      <Component />
-    </MemoryRouter>,
-  );
+const renderPage = () => renderAtRoute(<Component />, "/indicators", "/indicators");
 
 describe("Indicators home page", () => {
   beforeEach(() => vi.clearAllMocks());
@@ -54,5 +51,13 @@ describe("Indicators home page", () => {
 
     await waitFor(() => expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument());
     expect(screen.queryAllByRole("listitem")).toHaveLength(0);
+  });
+
+  it("affiche l'échec de chargement de la liste au lieu d'une liste vide", async () => {
+    vi.mocked(OperationsApi.getAllIndicators).mockRejectedValue(sdkRejection.emptyBody(500));
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByTestId("searchable-list")).not.toBeInTheDocument();
   });
 });

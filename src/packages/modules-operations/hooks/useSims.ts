@@ -5,6 +5,8 @@ import { Rubric } from "@model/Sims";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { useInvalidateIndicators } from "./useIndicators";
+
 const computeRubrics = (rubrics: Rubric[]): Record<string, Rubric & { idMas: string }> => {
   return (rubrics || []).reduce(
     (acc: Record<string, Rubric & { idMas: string }>, rubric: Rubric) => {
@@ -81,6 +83,8 @@ const getFetchLabelsPromise = async (sims: any, simsTitleLg1: string, simsTitleL
 export const useSaveSims = () => {
   const queryClient = useQueryClient();
 
+  const invalidateIndicators = useInvalidateIndicators();
+
   const { t } = useTranslation();
 
   const simsTitleLg1 = t("sims.simsTitle", { lng: "fr" });
@@ -99,6 +103,8 @@ export const useSaveSims = () => {
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["sims", variables.id] });
+      // La fiche de l'indicateur documenté mène à son SIMS (`idSims`).
+      if (variables.idIndicator) return invalidateIndicators();
     },
   });
 };

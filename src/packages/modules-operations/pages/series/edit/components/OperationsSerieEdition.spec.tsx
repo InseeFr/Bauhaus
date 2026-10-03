@@ -1,9 +1,10 @@
+import { QueryClient } from "@tanstack/react-query";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { chooseIn, EditionProviders } from "../../../edition-form.testing";
+import { chooseIn, editionProvidersWith } from "../../../edition-form.testing";
 import { OperationsSerieEdition } from "./OperationsSerieEdition";
 
 // Seule la source des organizations est simulée : les listes déroulantes qui s'en
@@ -59,9 +60,9 @@ const completeSerie = {
   creators: ["DG75-L201"],
 } as any;
 
-const renderEdition = (props = {}) =>
+const renderEdition = (props = {}, queryClient?: QueryClient) =>
   render(<OperationsSerieEdition {...defaultProps} serie={completeSerie} {...props} />, {
-    wrapper: EditionProviders,
+    wrapper: editionProvidersWith(queryClient),
   });
 
 describe("OperationsSerieEdition", () => {
@@ -72,7 +73,7 @@ describe("OperationsSerieEdition", () => {
   it("reinitialise le formulaire quand la serie affichee change", () => {
     const { rerender } = render(
       <OperationsSerieEdition {...defaultProps} serie={{ id: "1", prefLabelLg1: "Série 1" }} />,
-      { wrapper: EditionProviders },
+      { wrapper: editionProvidersWith() },
     );
 
     expect(screen.getByDisplayValue("Série 1")).toBeInTheDocument();
@@ -88,7 +89,7 @@ describe("OperationsSerieEdition", () => {
   it("conserve les saisies en cours quand la serie affichee ne change pas", () => {
     const { rerender } = render(
       <OperationsSerieEdition {...defaultProps} serie={{ id: "1", prefLabelLg1: "Série 1" }} />,
-      { wrapper: EditionProviders },
+      { wrapper: editionProvidersWith() },
     );
 
     rerender(
@@ -123,8 +124,25 @@ describe("OperationsSerieEdition — saisie et enregistrement", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
 
-    await waitFor(() => expect(OperationsApi.putSeries).toHaveBeenCalled());
-    expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/series/s1", false);
+    await waitFor(() =>
+      expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/series/s1", false),
+    );
+  });
+
+  it("périme les indicateurs en cache, qui affichent le libellé de leurs séries", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["indicators", "i1"], { id: "i1" });
+    let invalidatedAtGoBack: boolean | undefined;
+    defaultProps.goBack.mockImplementationOnce(() => {
+      invalidatedAtGoBack = queryClient.getQueryState(["indicators", "i1"])?.isInvalidated;
+    });
+    OperationsApi.putSeries.mockResolvedValue(undefined);
+    renderEdition({}, queryClient);
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toBe(true);
   });
 
   it("ne réaffiche pas le formulaire pendant le retour sur la fiche après l'enregistrement", async () => {
@@ -146,8 +164,9 @@ describe("OperationsSerieEdition — saisie et enregistrement", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
 
-    await waitFor(() => expect(OperationsApi.postSeries).toHaveBeenCalled());
-    expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/series/s2", true);
+    await waitFor(() =>
+      expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/series/s2", true),
+    );
   });
 
   it("affiche les erreurs de saisie et n'appelle pas le serveur", async () => {

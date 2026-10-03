@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
@@ -22,6 +22,7 @@ import { OperationsApi } from "@sdk/operations-api";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
+import { useInvalidateIndicators } from "../../../../hooks/useIndicators";
 import { RubricEssentialMsg } from "../../components/RubricEssentialMsg";
 import { Menu } from "../menu";
 import { getParentUri } from "../utils/getParentUri";
@@ -109,6 +110,8 @@ export function SimsVisualization({
    */
   const navigate = useNavigate();
 
+  const invalidateIndicators = useInvalidateIndicators();
+
   const handleNo = () => {
     setModalOpened(false);
   };
@@ -116,6 +119,8 @@ export function SimsVisualization({
   const handleYes = () => {
     setServerSideError(undefined);
     OperationsApi.deleteSims(sims)
+      // La fiche de l'indicateur documenté menait à ce SIMS (`idSims`).
+      .then(() => sims.idIndicator && invalidateIndicators())
       .then(() => {
         setModalOpened(false);
         navigate(getParentUri(sims) ?? "");

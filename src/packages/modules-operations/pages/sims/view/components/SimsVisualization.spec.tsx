@@ -1,10 +1,11 @@
+import { QueryClient } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 
 const navigateMock = vi.fn();
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useNavigate: () => navigateMock,
 }));
 
@@ -111,6 +112,7 @@ vi.mock("./MissingDocumentsErrorBloc", () => ({
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { createQueryWrapper } from "../../../../hooks/queryClientWrapper.testing";
 import { SimsVisualization } from "./SimsVisualization";
 
 const mockSims = {
@@ -122,6 +124,7 @@ const mockSims = {
 const renderComponent = (
   publishSims: (sims: any, errorCallback: (err: any) => void) => void,
   sims: Record<string, unknown> = mockSims,
+  queryClient?: QueryClient,
 ) => {
   return render(
     <SimsVisualization
@@ -134,6 +137,7 @@ const renderComponent = (
       missingDocuments={new Set()}
       owners={[]}
     />,
+    { wrapper: createQueryWrapper(queryClient).wrapper },
   );
 };
 
@@ -263,6 +267,22 @@ describe("SimsVisualization - delete redirection", () => {
       expect(navigateMock).toHaveBeenCalledWith("/operations/indicator/ind42");
     });
   });
+
+  it("should invalidate the cached indicator before opening it, as it no longer has a SIMS", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["indicators", "ind42"], { id: "ind42", idSims: "3" });
+    let invalidatedAtNavigation: boolean | undefined;
+    navigateMock.mockImplementationOnce(() => {
+      invalidatedAtNavigation = queryClient.getQueryState(["indicators", "ind42"])?.isInvalidated;
+    });
+    renderComponent(vi.fn(), { id: "3", idIndicator: "ind42", rubrics: {} }, queryClient);
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
+    expect(invalidatedAtNavigation).toBe(true);
+  });
 });
 
 describe("SimsVisualization - delete error handling", () => {
@@ -298,6 +318,7 @@ describe("SimsVisualization - export", () => {
         missingDocuments={new Set()}
         owners={[]}
       />,
+      { wrapper: createQueryWrapper().wrapper },
     );
 
     fireEvent.click(screen.getByTestId("export-btn"));

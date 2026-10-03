@@ -1,23 +1,29 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ReactNode } from "react";
-import { createMemoryRouter, MemoryRouter, Route, RouterProvider, Routes } from "react-router-dom";
+import { createMemoryRouter, MemoryRouter, Route, RouterProvider, Routes } from "react-router";
 import { expect, it, Mock, vi } from "vitest";
 
 import { AppContextProvider } from "../../application/app-context";
 
 type Properties = Record<string, unknown>;
 
+// Un client neuf par rendu, sans nouvelle tentative : un rejet s'affiche aussitôt.
 const renderWithProperties = (ui: ReactNode, properties: Properties) =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={properties as any}>
-      {ui}
-    </AppContextProvider>,
+    <QueryClientProvider
+      client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
+    >
+      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={properties as any}>
+        {ui}
+      </AppContextProvider>
+    </QueryClientProvider>,
   );
 
 /**
  * Rend l'écran derrière une vraie route, ouverte à `url` : `useParams` et `useLocation`
- * lisent alors l'URL réelle, sans mock de `react-router-dom`.
+ * lisent alors l'URL réelle, sans mock de `react-router`.
  */
 export const renderAtRoute = (
   ui: ReactNode,
@@ -38,7 +44,7 @@ export const renderAtRoute = (
 
 /**
  * Rend l'écran dans un routeur de données dont la route a déjà chargé `loaderData` :
- * `useLoaderData` le rend immédiatement, sans mock de `react-router-dom`.
+ * `useLoaderData` le rend immédiatement, sans mock de `react-router`.
  */
 export const renderWithLoaderData = (
   ui: ReactNode,

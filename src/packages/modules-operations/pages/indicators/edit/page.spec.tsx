@@ -129,4 +129,22 @@ describe("indicator edition page", () => {
     await expectItemLoadFailed();
     expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
   });
+
+  it("affiche l'échec de chargement des séries au lieu d'un formulaire sans rattachement", async () => {
+    (OperationsApi.getSeriesList as Mock).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderCreation();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText("Operations Indicator Edition Component")).not.toBeInTheDocument();
+  });
+
+  it("affiche l'échec de chargement des indicateurs au lieu d'un formulaire sans rattachement", async () => {
+    (OperationsApi.getAllIndicators as Mock).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderCreation();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText("Operations Indicator Edition Component")).not.toBeInTheDocument();
+  });
 });

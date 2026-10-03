@@ -1,9 +1,10 @@
+import { QueryClient } from "@tanstack/react-query";
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { chooseIn, EditionProviders, fieldLabelled } from "../../../edition-form.testing";
+import { chooseIn, editionProvidersWith, fieldLabelled } from "../../../edition-form.testing";
 import { OperationsIndicatorEdition } from "./OperationsIndicatorEdition";
 
 vi.mock("@components/business/stamps-input/stamps-input", () => ({
@@ -44,12 +45,10 @@ const defaultProps = {
   goBack: vi.fn(),
 } as any;
 
-const renderEdition = (props = {}) =>
+const renderEdition = (props = {}, queryClient?: QueryClient) =>
   render(
     <OperationsIndicatorEdition {...defaultProps} indicator={completeIndicator} {...props} />,
-    {
-      wrapper: EditionProviders,
-    },
+    { wrapper: editionProvidersWith(queryClient) },
   );
 
 const saveButton = () => screen.getByRole("button", { name: /save|sauvegarder/i });
@@ -103,8 +102,30 @@ describe("OperationsIndicatorEdition", () => {
 
     fireEvent.click(saveButton());
 
-    await waitFor(() => expect(OperationsApi.updateIndicator).toHaveBeenCalled());
-    expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/indicator/i1", false);
+    await waitFor(() =>
+      expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/indicator/i1", false),
+    );
+  });
+
+  it("périme les indicateurs en cache avant de revenir sur la fiche", async () => {
+    // Sans cela, la fiche et la liste réaffichent l'indicateur d'avant la modification.
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["indicators"], defaultProps.indicators);
+    queryClient.setQueryData(["indicators", "i1"], completeIndicator);
+    const invalidatedAtGoBack: (boolean | undefined)[] = [];
+    defaultProps.goBack.mockImplementationOnce(() =>
+      invalidatedAtGoBack.push(
+        queryClient.getQueryState(["indicators"])?.isInvalidated,
+        queryClient.getQueryState(["indicators", "i1"])?.isInvalidated,
+      ),
+    );
+    OperationsApi.updateIndicator.mockResolvedValue(undefined);
+    renderEdition({}, queryClient);
+
+    fireEvent.click(saveButton());
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toEqual([true, true]);
   });
 
   it("ne réaffiche pas le formulaire pendant le retour sur la fiche après l'enregistrement", async () => {
@@ -126,8 +147,9 @@ describe("OperationsIndicatorEdition", () => {
 
     fireEvent.click(saveButton());
 
-    await waitFor(() => expect(OperationsApi.createIndicator).toHaveBeenCalled());
-    expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/indicator/i2", true);
+    await waitFor(() =>
+      expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/indicator/i2", true),
+    );
   });
 
   it("affiche les erreurs de saisie et n'appelle pas le serveur", async () => {

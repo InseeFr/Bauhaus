@@ -1,17 +1,14 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
-import { IndicatorsList } from "@model/operations/indicator";
-
-import { OperationsApi } from "@sdk/operations-api";
-
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { useIndicators } from "../../../hooks/useIndicators";
 import { Menu } from "./menu";
 
 export const Component = () => {
@@ -19,17 +16,11 @@ export const Component = () => {
 
   useTitle(t("common.operationsTitle"), t("common.indicatorsTitle"));
 
-  const [loading, setLoading] = useState(true);
+  const { data: indicators = [], isLoading, error } = useIndicators();
 
-  const [indicators, setIndicators] = useState<IndicatorsList>([]);
+  if (isLoading) return <Loading />;
 
-  useEffect(() => {
-    OperationsApi.getAllIndicators()
-      .then((payload: IndicatorsList) => setIndicators(payload))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <Loading />;
+  if (error) return <LoadingErrorBloc error={error} />;
 
   return (
     <div className="container">
