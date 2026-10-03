@@ -19,7 +19,7 @@ a.btn {
 
 /* L'icône garde sa taille quel que soit le libellé. */
 .btn > svg,
-.btn > .glyphicon {
+.btn > .pi {
   flex: none;
 }
 

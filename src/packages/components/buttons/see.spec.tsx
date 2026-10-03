@@ -17,7 +17,6 @@ describe("SeeButton", () => {
     expect(button.getAttribute("type")).toBe("button");
 
     expect(button.querySelector(".pi-eye")).not.toBeNull();
-    expect(button.querySelector(".glyphicon")).toBeNull();
   });
 
   it("calls the onClick handler when clicked", () => {

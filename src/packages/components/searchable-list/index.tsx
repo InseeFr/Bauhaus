@@ -89,7 +89,7 @@ export const SearchableList = ({
           <div className="col-md-12">
             <Link to={searchUrl}>
               <h2>
-                <span className="glyphicon glyphicon-zoom-in" aria-hidden="true" />
+                <span className="pi pi-search-plus" aria-hidden="true" />
                 {t("advancedSearchTitle")}
               </h2>
             </Link>
