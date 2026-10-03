@@ -87,10 +87,8 @@ describe("OperationsDocumentationVisualization", () => {
       uri: "/document/page/1",
       updatedDate: undefined,
     };
-    const { container } = render(
-      <OperationsDocumentationVisualization attr={d} secondLang={true} />,
-    );
-    const date = container.querySelector(".row:nth-child(2) .card-body");
-    expect(date).toBeEmptyDOMElement();
+    render(<OperationsDocumentationVisualization attr={d} secondLang={true} />);
+    const date = screen.getByRole("region", { name: "Updated date" });
+    expect(date.textContent).toBe("");
   });
 });

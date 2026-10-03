@@ -1,3 +1,5 @@
+import { screen } from "@testing-library/react";
+
 import { renderWithRouter } from "../../tests/render";
 import { DisplayLinks } from "./DisplayLinks";
 
@@ -17,7 +19,7 @@ describe("DisplayLinks", () => {
     );
 
     expect(container.querySelector("li")).toBeNull();
-    expect(container.querySelector(".card-body > a")).toHaveAttribute("href", "/series/1");
+    expect(screen.getByRole("link")).toHaveAttribute("href", "/series/1");
   });
   it("should not display a link", () => {
     const links = [{ id: 1, labelLg1: "labelLg1" }];

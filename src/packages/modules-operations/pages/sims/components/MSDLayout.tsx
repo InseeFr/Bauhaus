@@ -6,7 +6,6 @@ import { MetadataStructure } from "@model/Sims";
 import { Status, useLayout } from "../../../hooks/useLayout";
 import { Outline } from "./Outline";
 import "./MSDLayout.css";
-import "../../../../components/panel-trigger/panel-trigger.css";
 
 interface MSDComponentTypes {
   baseUrl: string;

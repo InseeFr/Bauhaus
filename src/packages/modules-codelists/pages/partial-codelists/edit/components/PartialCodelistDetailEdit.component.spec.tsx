@@ -143,19 +143,17 @@ describe("Partial codelist edition form", () => {
   });
 
   it("moves a single code in and out of the partial codelist", async () => {
-    const { container } = renderForm();
+    renderForm();
 
     await pickParentCodelist();
     const selected = () =>
-      Array.from(container.querySelectorAll(".panel .picker-item, .card-body li")).map(
-        (item) => item.textContent,
-      );
+      screen.getByRole("region", { name: "Partial codelist" }).textContent ?? "";
 
     fireEvent.click(await screen.findByText("Alpha"));
-    await waitFor(() => expect(selected().join()).toContain("Alpha"));
+    await waitFor(() => expect(selected()).toContain("Alpha"));
 
     fireEvent.click(screen.getByText("Alpha"));
-    await waitFor(() => expect(selected().join()).not.toContain("Alpha"));
+    await waitFor(() => expect(selected()).not.toContain("Alpha"));
   });
 
   it("moves every code in and out of the partial codelist at once", async () => {
