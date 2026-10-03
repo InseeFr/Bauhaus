@@ -64,7 +64,7 @@ export const Outline = ({
             title={opened ? t("app.hide") : t("app.display")}
             onClick={expandOrCollapseItem}
           >
-            <span className={cx("glyphicon", `glyphicon-chevron-${opened ? "up" : "down"}`)} />
+            <span className={cx("pi", `pi-chevron-${opened ? "up" : "down"}`)} />
           </button>
         )}
       </div>
