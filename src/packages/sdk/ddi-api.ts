@@ -51,6 +51,30 @@ const api = {
       body: JSON.stringify(data),
     },
   ],
+  // Duplication côté back : la copie, son rattachement à l'Étude et le rangement de ses variables
+  // partent dans un seul enregistrement Colectica.
+  duplicatePhysicalInstance: (
+    agencyId: string,
+    id: string,
+    data: {
+      physicalInstanceLabel: string;
+      dataRelationshipLabel: string;
+      logicalRecordLabel: string;
+      groupId: string;
+      groupAgency: string;
+      studyUnitId: string;
+      studyUnitAgency: string;
+    },
+  ) => [
+    "physical-instance/" + agencyId + "/" + id + "/duplicate",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    },
+  ],
   putPhysicalInstance: (agencyId: string, id: string, data: unknown) => {
     const stringified = JSON.stringify(data);
     return [
@@ -62,6 +86,8 @@ const api = {
         },
         body: stringified,
       },
+      // 204 sans corps : l'instance à jour se relit par le GET (invalidé après la sauvegarde).
+      () => Promise.resolve(undefined),
     ];
   },
   convertToDDI3: (data: unknown) => [

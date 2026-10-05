@@ -15,7 +15,9 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { appI18n } from "../../../../i18n";
 import { useCreatePhysicalInstance } from "../../../hooks/useCreatePhysicalInstance";
 import { usePhysicalInstances } from "../../../hooks/usePhysicalInstances";
+import { errorToastTiming } from "../../../utils/error-toast";
 import { formatDate } from "../../../utils/formatDate";
+import { DdiToast } from "../../components/DdiToast/DdiToast";
 import {
   PhysicalInstanceDialog,
   PhysicalInstanceCreationData,
@@ -66,7 +68,7 @@ export const Component = () => {
         severity: "error",
         summary: t("physicalInstance.creation.errorTitle"),
         detail: errorMessage,
-        sticky: true,
+        ...errorToastTiming(),
       });
     }
   };
@@ -99,7 +101,7 @@ export const Component = () => {
         onSubmitCreate={handleSubmit}
       />
 
-      <Toast ref={toast} />
+      <DdiToast ref={toast} />
       <AppDevTools />
     </div>
   );

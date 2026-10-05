@@ -13,6 +13,7 @@ import { appI18n } from "../../i18n";
 import { TOAST_DURATION } from "../physical-instances/constants";
 import { enrichDataWithCodeLists } from "../physical-instances/pages/view/enrichDataWithCodeLists";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
+import { errorToastTiming } from "../utils/error-toast";
 
 export const useExport = (
   data: PhysicalInstanceResponse,
@@ -65,7 +66,7 @@ export const useExport = (
           detail: formatApiErrors(err, appI18n, t("physicalInstance.view.exportErrorDetail")).join(
             "\n",
           ),
-          sticky: true,
+          ...errorToastTiming(),
         });
       }
     },

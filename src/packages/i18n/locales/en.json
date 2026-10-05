@@ -103,6 +103,12 @@
     "DDI4_INVALID": "The DDI document does not match the schema.",
     "DDI_SENTINEL_REPRESENTATION_LABEL_REQUIRED": "The label of the sentinel value list {{agency}}/{{id}} is required.",
     "DDI_SENTINEL_CODE_LIST_LABEL_REQUIRED": "The label of the sentinel code list {{agency}}/{{id}} is required.",
+    "GROUP_MISSING_CODE_LIST_SCHEME": "The series \"{{group}}\" has no CodeListScheme to file its code lists: it must be created beforehand.",
+    "GROUP_MISSING_CATEGORY_SCHEME": "The series \"{{group}}\" has no CategoryScheme to file its categories: it must be created beforehand.",
+    "GROUP_MISSING_MANAGED_REPRESENTATION_SCHEME": "The series \"{{group}}\" has no ManagedRepresentationScheme to file its sentinel values: it must be created beforehand.",
+    "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "The operation \"{{studyUnit}}\" has no LogicalProduct to file its variables: it must be created beforehand.",
+    "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "The operation \"{{studyUnit}}\" has {{count}} LogicalProducts: only one is expected to file its variables.",
+    "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "The operation \"{{studyUnit}}\" has no VariableScheme to file its variables: it must be created beforehand.",
     "DDI_PHYSICAL_INSTANCE_NOT_FOUND": "This physical instance does not exist or has been deleted.",
     "loading": {
       "notFound": "This item could not be found.",

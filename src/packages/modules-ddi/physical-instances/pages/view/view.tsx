@@ -34,7 +34,7 @@ import { cx } from "@utils/cx";
 import { useNavigationBlocker } from "@utils/hooks/useNavigationBlocker";
 
 import { appI18n } from "../../../../i18n";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useDuplicatePhysicalInstance } from "../../../hooks/useDuplicatePhysicalInstance";
 import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
@@ -43,8 +43,10 @@ import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalIns
 import { useStudyUnitVariableUsages } from "../../../hooks/useStudyUnitVariables";
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { useValidateDdi4 } from "../../../hooks/useValidateDdi4";
+import { errorToastTiming } from "../../../utils/error-toast";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
+import { DdiToast } from "../../components/DdiToast/DdiToast";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { ReuseVariableDialog } from "../../components/SharedVariable/ReuseVariableDialog";
@@ -61,7 +63,6 @@ import type {
   LogicalRecord,
 } from "../../types/api";
 import { itemsOfType, replaceItemsOfType } from "../../types/ddi4Items";
-import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
 import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
 import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
@@ -83,7 +84,11 @@ export const Component = () => {
   );
 
   // Une PI introuvable (404) ou en erreur n'a pas de parents à résoudre : on attend son chargement.
-  const { data: parents } = usePhysicalInstanceParents(agencyId!, id!, { enabled: !!data });
+  const { data: parents, isLoading: isLoadingParents } = usePhysicalInstanceParents(
+    agencyId!,
+    id!,
+    { enabled: !!data },
+  );
 
   const currentGroup = parents?.group;
   const currentStudyUnit = parents?.studyUnit;
@@ -113,10 +118,11 @@ export const Component = () => {
   const [isEditedVariableDirty, setEditedVariableDirty] = useState(false);
   // Erreurs de validation affichées à partir du premier « Sauvegarder » refusé (#1608).
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+  const [isReloadingAfterSave, setReloadingAfterSave] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
-  const defaultLocale = useDefaultLocale();
+  const duplicatePhysicalInstance = useDuplicatePhysicalInstance();
   const dataByLangs = usePhysicalInstanceByLangs(data);
 
   useEffect(() => {
@@ -408,7 +414,7 @@ export const Component = () => {
           severity: "error",
           summary: t("physicalInstance.view.saveError"),
           detail: errorMessage,
-          sticky: true,
+          ...errorToastTiming(),
         });
 
         throw err;
@@ -484,7 +490,24 @@ export const Component = () => {
           return;
         }
 
-        const loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
+        let loaded;
+        try {
+          loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
+        } catch (err: unknown) {
+          // Sans sa liste de codes, la variable ne peut pas être éditée : on le dit et on la
+          // laisse fermée, plutôt que de laisser l'échec sans réponse.
+          toast.current?.show({
+            severity: "error",
+            summary: t("physicalInstance.view.code.loadCodeListErrorTitle"),
+            detail: formatApiErrors(
+              err,
+              appI18n,
+              t("physicalInstance.view.code.loadCodeListErrorDetail"),
+            ).join("\n"),
+            ...errorToastTiming(),
+          });
+          return;
+        }
         codeList = loaded.codeList;
         // Une catégorie peut être partagée par des listes DIFFÉRENTES : si une autre variable
         // locale l'a déjà surchargée, on affiche sa version plutôt que celle (périmée) du back.
@@ -506,7 +529,7 @@ export const Component = () => {
               codeListAgency: ref?.Agency,
               codeListId: ref?.ID,
             }),
-            sticky: true,
+            ...errorToastTiming(),
           });
         }
       }
@@ -554,7 +577,7 @@ export const Component = () => {
       if (variableId) {
         const variable = variables.find((v: VariableTableData) => v.id === variableId);
         if (variable) {
-          handleVariableClick(variable);
+          void handleVariableClick(variable);
         }
       }
     }
@@ -583,7 +606,7 @@ export const Component = () => {
     if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
       const previousIndex =
         currentVariableIndex === 0 ? filteredVariables.length - 1 : currentVariableIndex - 1;
-      handleVariableClick(filteredVariables[previousIndex]);
+      void handleVariableClick(filteredVariables[previousIndex]);
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
 
@@ -591,7 +614,7 @@ export const Component = () => {
     if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
       const nextIndex =
         currentVariableIndex === filteredVariables.length - 1 ? 0 : currentVariableIndex + 1;
-      handleVariableClick(filteredVariables[nextIndex]);
+      void handleVariableClick(filteredVariables[nextIndex]);
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
 
@@ -856,6 +879,19 @@ export const Component = () => {
         data: mergedData,
       });
 
+      // Le PUT a déjà lancé (via l'invalidation) le GET de la PI : on l'attend sous un loader
+      // dédié, pour ne rendre la main qu'une fois l'état relu du serveur affiché.
+      // `cancelRefetch: false` réutilise ce GET en vol au lieu d'en relancer un second.
+      setReloadingAfterSave(true);
+      try {
+        await queryClient.refetchQueries(
+          { queryKey: ["physicalInstanceById", agencyId, id], exact: true },
+          { cancelRefetch: false },
+        );
+      } finally {
+        setReloadingAfterSave(false);
+      }
+
       // Nettoyer les variables locales après une sauvegarde réussie
       dispatch(actions.clearLocalVariables());
       setShowValidationErrors(false);
@@ -885,7 +921,7 @@ export const Component = () => {
         severity: "error",
         summary: t("physicalInstance.view.saveAllError"),
         detail: errorMessage,
-        sticky: true,
+        ...errorToastTiming(),
       });
     }
   }, [
@@ -939,26 +975,11 @@ export const Component = () => {
   const handleConfirmDuplicate = useCallback(
     async (formData: PhysicalInstanceCreationData) => {
       try {
-        const { duplicatedData, newPhysicalInstanceId, newAgencyId } =
-          buildDuplicatedPhysicalInstance({
-            agencyId: agencyId!,
-            data,
-            label: formData.label,
-            defaultLocale,
-          });
-
-        // 1) Publier le DDI dupliqué (PUT brut : ne porte ni Groupe ni Étude).
-        await savePhysicalInstance.mutateAsync({
-          id: newPhysicalInstanceId,
-          agencyId: newAgencyId,
-          data: duplicatedData,
-        });
-
-        // 2) Rattacher la PI dupliquée au Groupe verrouillé et à l'Étude choisie via
-        // l'endpoint dédié (le PUT brut ne sait pas faire ce rattachement, cf. #1555).
-        await updatePhysicalInstance.mutateAsync({
-          id: newPhysicalInstanceId,
-          agencyId: newAgencyId,
+        // La copie, son rattachement au Groupe verrouillé et à l'Étude choisie, et le rangement de
+        // ses variables sont faits par le back en un seul enregistrement.
+        const copy = await duplicatePhysicalInstance.mutateAsync({
+          agencyId: agencyId!,
+          id: id!,
           data: {
             physicalInstanceLabel: formData.label,
             dataRelationshipLabel: formData.dataRelationshipLabel,
@@ -971,7 +992,7 @@ export const Component = () => {
         });
 
         setDuplicateDialogVisible(false);
-        navigate(`/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`);
+        navigate(`/ddi/physical-instances/${copy.agency}/${copy.id}`);
 
         toast.current?.show({
           severity: "success",
@@ -990,14 +1011,16 @@ export const Component = () => {
           severity: "error",
           summary: t("physicalInstance.view.duplicateError"),
           detail: errorMessage,
-          sticky: true,
+          ...errorToastTiming(),
         });
       }
     },
-    [agencyId, data, defaultLocale, savePhysicalInstance, updatePhysicalInstance, navigate, t],
+    [agencyId, id, duplicatePhysicalInstance, navigate, t],
   );
 
-  if (isLoading) {
+  // Les parents (Groupe / Étude) portent les droits d'édition : sans eux, la page s'afficherait
+  // d'abord en lecture seule puis changerait sous les yeux de l'utilisateur.
+  if (isLoading || isLoadingParents) {
     return <LoadingOverlay textType="loading" />;
   }
 
@@ -1130,12 +1153,16 @@ export const Component = () => {
 
       {savePhysicalInstance.isPending && <LoadingOverlay textType="saving" />}
 
+      {isReloadingAfterSave && (
+        <LoadingOverlay text={t("physicalInstance.view.reloadingAfterSave")} />
+      )}
+
       {isValidating && <LoadingOverlay text={t("physicalInstance.view.validateDdi4InProgress")} />}
 
       {/* resizable={false} : PrimeReact rend les Dialog redimensionnables par défaut,
           ce qui n'a pas de sens pour une simple confirmation. */}
       <ConfirmDialog resizable={false} />
-      <Toast ref={toast} />
+      <DdiToast ref={toast} />
       <DdiDevTools data={data} dataByLangs={dataByLangs} />
     </>
   );

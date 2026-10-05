@@ -1,5 +1,7 @@
 import { vi } from "vitest";
 
+import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from "../auth/constants";
+import { getOidc } from "../auth/create-oidc";
 import { appI18n } from "../i18n";
 import {
   buildApi,
@@ -8,6 +10,7 @@ import {
   buildCall,
   getBaseURI,
   generateGenericApiEndpoints,
+  setAuthType,
 } from "./build-api";
 
 vi.mock("../auth/create-oidc", () => ({
@@ -88,6 +91,35 @@ describe("compute api call description", () => {
     expect(url).toEqual("comment/john");
     expect(options).toMatchObject({ method: "POST", body: "some raw text" });
     expect(thenHandler).toEqual(handler);
+  });
+
+  describe("bearer token", () => {
+    // Session OIDC ouverte par SSO silencieux : c'est le cas d'un utilisateur déjà connecté à
+    // une autre instance (la prod) sur le même Keycloak.
+    const loggedInOidc = {
+      isUserLoggedIn: true,
+      getTokens: () => ({ accessToken: "sso-token" }),
+    };
+
+    afterEach(() => setAuthType(undefined));
+
+    it("is not sent when the application runs without authentication", async () => {
+      vi.mocked(getOidc).mockResolvedValueOnce(loggedInOidc as any);
+      setAuthType(NO_AUTH);
+
+      const [, options] = await computeDscr(postCommentFn, ["john", "some raw text"]);
+
+      expect(options.headers).not.toHaveProperty("Authorization");
+    });
+
+    it("is sent when the application runs with OpenID Connect", async () => {
+      vi.mocked(getOidc).mockResolvedValueOnce(loggedInOidc as any);
+      setAuthType(OPEN_ID_CONNECT_AUTH);
+
+      const [, options] = await computeDscr(postCommentFn, ["john", "some raw text"]);
+
+      expect(options.headers).toHaveProperty("Authorization", "Bearer sso-token");
+    });
   });
 });
 

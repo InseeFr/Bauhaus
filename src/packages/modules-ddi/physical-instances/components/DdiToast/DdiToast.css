@@ -1,0 +1,40 @@
+/* PrimeReact plafonne le toast à max-width: 25rem : sans le lever, width n'a aucun effet */
+.ddi-toast.p-toast {
+  width: min(75rem, calc(100vw - 2rem));
+  max-width: none;
+}
+
+.ddi-toast .p-toast-message .p-toast-message-content {
+  align-items: flex-start;
+  padding: 1.25rem 1.5rem;
+}
+
+.ddi-toast .p-toast-message .p-toast-message-icon {
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+}
+
+.ddi-toast .p-toast-message .p-toast-summary {
+  font-size: 1.4rem;
+}
+
+/* Les erreurs de validation DDI4 arrivent jointes par des retours à la ligne */
+.ddi-toast .p-toast-message .p-toast-detail {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.ddi-toast .p-toast-message-error {
+  border-left-width: 0.5rem;
+  box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 25%);
+}
+
+.ddi-toast .p-toast-icon-close {
+  width: 2.5rem;
+  height: 2.5rem;
+}

@@ -1,12 +1,6 @@
 services:
   minio:
-    # quay.io et non Docker Hub : MinIO n'y publie plus, et `minio/minio` y est
-    # refusé au pull (« pull access denied »), tags épinglés compris.
-    # Un volume minio-data créé par l'ancien `minio/minio:latest` n'est pas
-    # lisible par cette version (« Unknown xl meta version 3 », minio sort en 1) :
-    # le supprimer, minio-init recrée le bucket et ses fichiers.
-    #     docker volume rm bauhaus_minio-data
-    image: quay.io/minio/minio:RELEASE.2024-11-07T00-52-20Z
+    image: pgsty/minio:RELEASE.2026-08-04T00-00-00Z
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: minioadmin

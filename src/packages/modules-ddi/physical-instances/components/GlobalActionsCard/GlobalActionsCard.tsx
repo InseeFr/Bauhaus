@@ -19,7 +19,7 @@ interface GlobalActionsCardProps {
   /** Variables partagées avec d'autres fichiers de l'étude (#1387). */
   sharedVariableIds?: string[];
   selectedVariableId?: string | null;
-  /** Stamps de l'instance source — gating STAMP du bouton de duplication. */
+  /** Stamps de l'instance — gating STAMP de la duplication et des suppressions. */
   stamps?: string[];
 }
 
@@ -54,6 +54,7 @@ export const GlobalActionsCard = ({
         invalidVariableIds={invalidVariableIds}
         sharedVariableIds={sharedVariableIds}
         selectedVariableId={selectedVariableId}
+        stamps={stamps}
       />
     </Card>
   );

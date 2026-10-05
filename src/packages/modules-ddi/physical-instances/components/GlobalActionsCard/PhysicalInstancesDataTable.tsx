@@ -5,6 +5,8 @@ import { Button } from "@components/ui/button";
 import { DataTable } from "@components/ui/data-table";
 import { Column } from "@components/ui/table-column";
 
+import { HasAccess } from "../../../../auth/components/auth";
+
 interface PhysicalInstancesDataTableProps {
   variables: any[];
   onRowClick?: (data: any) => void;
@@ -15,6 +17,8 @@ interface PhysicalInstancesDataTableProps {
   /** Variables partagées avec d'autres fichiers de l'étude (#1387). */
   sharedVariableIds?: string[];
   selectedVariableId?: string | null;
+  /** Stamps de l'instance — gating STAMP des boutons de suppression. */
+  stamps?: string[];
 }
 
 export const PhysicalInstancesDataTable = ({
@@ -25,6 +29,7 @@ export const PhysicalInstancesDataTable = ({
   invalidVariableIds = [],
   sharedVariableIds = [],
   selectedVariableId,
+  stamps,
 }: Readonly<PhysicalInstancesDataTableProps>) => {
   const { t, i18n } = useTranslation();
 
@@ -98,17 +103,19 @@ export const PhysicalInstancesDataTable = ({
   };
 
   const deleteBodyTemplate = (rowData: any) => (
-    <Button
-      icon="pi pi-trash"
-      rounded
-      text
-      severity="danger"
-      onClick={(e) => {
-        e.stopPropagation();
-        onDeleteClick?.(rowData);
-      }}
-      aria-label={t("physicalInstance.view.delete")}
-    />
+    <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
+      <Button
+        icon="pi pi-trash"
+        rounded
+        text
+        severity="danger"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDeleteClick?.(rowData);
+        }}
+        aria-label={t("physicalInstance.view.delete")}
+      />
+    </HasAccess>
   );
 
   const header = t("physicalInstance.view.totalVariables", {
