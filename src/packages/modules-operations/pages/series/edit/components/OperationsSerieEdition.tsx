@@ -23,6 +23,7 @@ import { Option } from "@model/SelectOption";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { toFormErrors } from "@utils/api-errors";
 import { useInvalidateSeries } from "@utils/hooks/series";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
@@ -65,6 +66,16 @@ export interface SerieEditItem {
   themes?: string[];
 }
 
+/** Champs dont une erreur de validation du back s'affiche à côté de la saisie. */
+const FIELDS_WITH_ERROR_SLOT = [
+  "family",
+  "prefLabelLg1",
+  "prefLabelLg2",
+  "typeCode",
+  "accrualPeriodicityCode",
+  "creators",
+];
+
 export interface SeriesOrIndicatorItem {
   id: string;
   label: string;
@@ -89,7 +100,7 @@ interface OperationsSerieEditionTypes {
 }
 
 interface State {
-  serverSideError: string;
+  serverSideError: unknown;
   clientSideErrors: ClientSideErrors;
   submitting: boolean;
   saving: boolean;
@@ -193,11 +204,13 @@ export const OperationsSerieEdition = ({
           await Promise.all([invalidateSeries(), invalidateIndicators()]);
           props.goBack(`/operations/series/${id}`, isCreation);
         },
-        (err: string) => {
+        (err: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
           setState((state) => ({
             ...state,
             saving: false,
-            serverSideError: err,
+            ...(clientSideErrors && { submitting: true, clientSideErrors }),
+            serverSideError,
           }));
         },
       );
@@ -242,8 +255,6 @@ export const OperationsSerieEdition = ({
     seriesOptions as { type: string; label: string }[],
   ) as unknown as Option[];
 
-  const serverSideError = state.serverSideError;
-
   const isMandatoryField = (fieldName: string) => props.extraMandatoryFields.includes(fieldName);
 
   return (
@@ -261,7 +272,7 @@ export const OperationsSerieEdition = ({
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={[serverSideError]} />
+      <ErrorBloc error={state.serverSideError} />
       <form>
         {!isEditing && (
           <Row>

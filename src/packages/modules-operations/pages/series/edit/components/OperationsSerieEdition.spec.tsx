@@ -204,6 +204,46 @@ describe("OperationsSerieEdition — saisie et enregistrement", () => {
     expect(defaultProps.goBack).not.toHaveBeenCalled();
   });
 
+  it("affiche une erreur de validation du serveur sous le champ concerné", async () => {
+    OperationsApi.putSeries.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "prefLabelLg1", message: "prefLabelLg1 is required" }],
+    });
+    renderEdition();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    const input = await screen.findByDisplayValue("Série 1");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("prefLabelLg1 is required"));
+    expect(input).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("n'affiche pas d'erreur générique quand toutes les erreurs du serveur sont sous leur champ", async () => {
+    OperationsApi.putSeries.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "prefLabelLg1", message: "prefLabelLg1 is required" }],
+    });
+    renderEdition();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    const input = await screen.findByDisplayValue("Série 1");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("prefLabelLg1 is required"));
+    expect(screen.queryByText(/An error has occurred|Une erreur s'est produite/)).toBeNull();
+  });
+
+  it("affiche dans le bandeau une erreur du serveur sur un champ absent du formulaire", async () => {
+    OperationsApi.putSeries.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "created", message: "is not a valid LocalDate" }],
+    });
+    renderEdition();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    expect(await screen.findByText("created : is not a valid LocalDate")).toBeInTheDocument();
+  });
+
   it("revient à la liste des séries quand on annule", () => {
     renderEdition();
 
