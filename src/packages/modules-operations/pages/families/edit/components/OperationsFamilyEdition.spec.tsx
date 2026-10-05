@@ -245,6 +245,7 @@ describe("OperationsFamilyEdition", () => {
     it.each([
       ["the series, whose page shows the label of their family", ["series", "s1"]],
       ["the families offered when editing a series", ["families"]],
+      ["the family page, served from the cache", ["families", "1"]],
     ])("should invalidate %s before opening the family", async (_, queryKey) => {
       const queryClient = new QueryClient();
       queryClient.setQueryData(queryKey, {});

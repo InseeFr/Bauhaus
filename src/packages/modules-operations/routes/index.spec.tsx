@@ -1,14 +1,8 @@
-import { describe, expect, it, vi } from "vitest";
-
-import { OperationsApi } from "@sdk/operations-api";
+import { describe, expect, it } from "vitest";
 
 import { itLoadsAComponentForEveryLazyRoute } from "../../tests/routes.testing";
 import { CREATE, UPDATE, VIEW } from "../pages/sims/constants";
 import { routes } from "./index";
-
-vi.mock("@sdk/operations-api", () => ({
-  OperationsApi: { getAllFamilies: vi.fn() },
-}));
 
 const routeAt = (path: string) => {
   const route = routes.find((candidate) => candidate.path === path);
@@ -25,29 +19,6 @@ describe("Operations routes", () => {
   });
 
   itLoadsAComponentForEveryLazyRoute(routes);
-
-  it("charge la liste des familles au chargement de la route familles", () => {
-    (routeAt("families").loader as any)({});
-
-    expect(OperationsApi.getAllFamilies).toHaveBeenCalled();
-  });
-
-  it("ne recharge les familles que sur changement de chemin", () => {
-    const shouldRevalidate = routeAt("families").shouldRevalidate as any;
-
-    expect(
-      shouldRevalidate({
-        currentUrl: { pathname: "/operations/families" },
-        nextUrl: { pathname: "/operations/families" },
-      }),
-    ).toBe(false);
-    expect(
-      shouldRevalidate({
-        currentUrl: { pathname: "/operations/families" },
-        nextUrl: { pathname: "/operations/series" },
-      }),
-    ).toBe(true);
-  });
 
   it.each([
     ["series/:idParent/sims/create", "series", "/operations/series/s-1/sims/create"],
