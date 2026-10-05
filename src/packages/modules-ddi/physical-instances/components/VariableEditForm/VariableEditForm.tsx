@@ -9,7 +9,6 @@ import { TabView, TabPanel } from "@components/ui/tab-view";
 import { cx } from "@utils/cx";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { pickLang } from "../../../utils/multilingual";
 import type {
   NumericRepresentation,
   DateTimeRepresentation,
@@ -23,6 +22,7 @@ import type {
 import { DdiPreview } from "./DdiPreview";
 import { VariableInformationTab } from "./VariableInformationTab";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
+import { getVariableValidationErrors } from "./variableValidation";
 
 const VARIABLE_TYPES = {
   NUMERIC: "numeric",
@@ -275,18 +275,18 @@ export const VariableEditForm = ({
 
   const [state, dispatch] = useReducer(formReducer, variable, buildFormState);
 
-  // Validation des champs obligatoires. Valeurs sentinelles (#1566) : le libellé de la MMVR en
-  // cours de création/modification est obligatoire (le back rejette sinon le save en 400).
-  const sentinelLabelMissing = Boolean(
-    state.representation.SentinelMmvr &&
-    !state.representation.SentinelMmvr.Label?.some((entry) => entry["@value"]?.trim()),
-  );
-  const hasValidationErrors = !state.name.trim() || !state.label.trim() || sentinelLabelMissing;
+  // Indicateur d'erreur de l'onglet : le blocage n'a lieu qu'au « Sauvegarder » global (#1608).
+  const hasValidationErrors =
+    getVariableValidationErrors({
+      name: state.name,
+      label: state.label,
+      sentinelMmvr: state.representation.SentinelMmvr,
+    }).length > 0;
 
-  // Modifications non sauvegardées du panneau : l'état courant du formulaire comparé à
-  // l'état initial dérivé de `variable`. Une variable en cours de création est toujours
-  // considérée comme modifiée — la fermer sans « Ajouter » perd toute la saisie.
-  const isDirty = isNew || JSON.stringify(state) !== JSON.stringify(buildFormState(variable));
+  // Modifications pas encore reportées dans le tableau : l'état courant du formulaire comparé à
+  // l'état initial dérivé de `variable`. Une variable en création laissée vierge n'est pas
+  // modifiée : fermer le panneau ne doit pas ajouter de ligne vide.
+  const isDirty = JSON.stringify(state) !== JSON.stringify(buildFormState(variable));
 
   // Le callback du parent est lu via une ref pour que la notification ne dépende pas de la
   // stabilité de son identité (sinon le nettoyage de démontage se déclencherait à chaque rendu).
@@ -299,7 +299,7 @@ export const VariableEditForm = ({
     onDirtyChangeRef.current?.(isDirty);
   }, [isDirty]);
 
-  // Le panneau fermé, il n'y a plus rien à confirmer.
+  // Le panneau fermé, il n'y a plus rien à reporter.
   useEffect(() => () => onDirtyChangeRef.current?.(false), []);
 
   useEffect(() => {
@@ -397,43 +397,45 @@ export const VariableEditForm = ({
           ...basePayload,
           textRepresentation: state.representation.TextRepresentation,
         };
-      case VARIABLE_TYPES.CODE: {
-        const codeList = state.representation.CodeList;
-        const categories = state.representation.Category || [];
-
-        // Filtrer les codes vides (sans valeur ET sans label) et les codes invalides
-        const validCodes = (codeList?.Code || []).filter((code) => {
-          if (!code || !code.CategoryReference) return false;
-          const category = categories.find((cat) => cat?.ID === code.CategoryReference?.ID);
-          const label = pickLang(category?.Label, "fr-FR") ?? "";
-          const value = code.Value?.StringValue ?? "";
-          return value.trim() !== "" || label.trim() !== "";
-        });
-
-        // Ne garder que les catégories liées aux codes valides
-        const validCategoryIds = new Set(validCodes.map((code) => code.CategoryReference?.ID));
-        const validCategories = categories.filter((cat) => cat && validCategoryIds.has(cat.ID));
-
-        const filteredCodeList = codeList ? { ...codeList, Code: validCodes } : undefined;
-
+      case VARIABLE_TYPES.CODE:
+        // Les lignes vides en cours de saisie sont conservées : retirées ici, elles disparaîtraient
+        // du formulaire réinitialisé depuis le tableau à chaque report (#1608). Le filtrage a lieu
+        // au « Sauvegarder » global.
         return {
           ...basePayload,
           codeRepresentation: state.representation.CodeRepresentation,
-          codeList: filteredCodeList,
-          categories: validCategories,
+          codeList: state.representation.CodeList,
+          categories: state.representation.Category,
         };
-      }
       default:
         return basePayload;
     }
   }, [variable.id, state]);
 
+  // Report dans le tableau (#1608) : à la sortie d'un champ modifié, et à la fermeture du panneau
+  // ou au changement de variable pour une saisie qui n'aurait pas encore été quittée. Un même état
+  // n'est reporté qu'une fois : une variable créée change d'id juste après son premier report, et
+  // ne doit pas être ajoutée une seconde fois.
+  const lastCommittedStateRef = useRef<FormState | null>(null);
+  const commitChanges = useCallback(() => {
+    if (!isDirty || lastCommittedStateRef.current === state) return;
+    lastCommittedStateRef.current = state;
+    onSave(buildSavePayload());
+  }, [isDirty, state, onSave, buildSavePayload]);
+
+  const commitChangesRef = useRef(commitChanges);
+  useEffect(() => {
+    commitChangesRef.current = commitChanges;
+  });
+  // Le nettoyage s'exécute avant la mise à jour de la ref : il voit encore la variable quittée.
+  useEffect(() => () => commitChangesRef.current(), [variable.id]);
+
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      onSave(buildSavePayload());
+      commitChanges();
     },
-    [buildSavePayload, onSave],
+    [commitChanges],
   );
 
   const handleDuplicate = useCallback(() => {
@@ -456,7 +458,7 @@ export const VariableEditForm = ({
       }
       className="h-full"
     >
-      <form onSubmit={handleSubmit} className="flex flex-column gap-3">
+      <form onSubmit={handleSubmit} onBlur={commitChanges} className="flex flex-column gap-3">
         <div className="flex gap-2 justify-content-end">
           <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
             <Button
@@ -466,18 +468,6 @@ export const VariableEditForm = ({
               outlined
               severity="secondary"
               onClick={handleDuplicate}
-            />
-          </HasAccess>
-          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
-            <Button
-              type="submit"
-              label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
-              icon="pi pi-check"
-              outlined
-              disabled={hasValidationErrors}
-              aria-label={
-                isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")
-              }
             />
           </HasAccess>
           <Button

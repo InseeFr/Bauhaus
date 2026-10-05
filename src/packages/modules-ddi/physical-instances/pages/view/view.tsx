@@ -47,6 +47,7 @@ import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
+import { getVariableValidationErrors } from "../../components/VariableEditForm/variableValidation";
 import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
 import type {
   VariableTableData,
@@ -84,8 +85,10 @@ export const Component = () => {
   const currentStudyUnit = parents?.studyUnit;
   const currentStamps = parents?.stamps;
   const [duplicateDialogVisible, setDuplicateDialogVisible] = useState(false);
-  // Modifications en cours dans le panneau d'édition, non validées par « Mettre à jour ».
+  // Saisie du panneau d'édition pas encore reportée dans le tableau (champ non quitté).
   const [isEditedVariableDirty, setEditedVariableDirty] = useState(false);
+  // Erreurs de validation affichées à partir du premier « Sauvegarder » refusé (#1608).
+  const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
@@ -192,8 +195,34 @@ export const Component = () => {
 
   // Check if there are unsaved changes
   const hasUnsavedChanges = useMemo(() => {
-    return state.localVariables.length > 0 || state.deletedVariableIds.length > 0;
-  }, [state.localVariables, state.deletedVariableIds]);
+    return (
+      state.localVariables.length > 0 ||
+      state.deletedVariableIds.length > 0 ||
+      isEditedVariableDirty
+    );
+  }, [state.localVariables, state.deletedVariableIds, isEditedVariableDirty]);
+
+  // Validation globale (#1608) : toutes les variables modifiées, recalculée à chaque report pour
+  // que les erreurs corrigées disparaissent aussitôt.
+  const variablesInError = useMemo(
+    () =>
+      state.localVariables
+        .map((variable) => ({
+          variable,
+          errors: getVariableValidationErrors({
+            name: variable.name,
+            label: variable.label,
+            sentinelMmvr: variable.sentinelMmvr,
+          }),
+        }))
+        .filter(({ errors }) => errors.length > 0),
+    [state.localVariables],
+  );
+  const displayedVariablesInError = showValidationErrors ? variablesInError : [];
+  const invalidVariableIds = useMemo(
+    () => displayedVariablesInError.map(({ variable }) => variable.id),
+    [displayedVariablesInError],
+  );
 
   // Block navigation when there are unsaved changes (internal + F5/close tab)
   const handleNavigationBlock = useCallback(
@@ -509,40 +538,15 @@ export const Component = () => {
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
 
-  const handleVariableSave = useCallback(
-    (data: VariableData) => {
-      const isNew = data.id === "new";
-
-      // Si l'ID est 'new', c'est une nouvelle variable
-      if (isNew) {
-        const newId = crypto.randomUUID();
-        dispatch(
-          actions.addVariable({
-            ...data,
-            id: newId,
-          }),
-        );
-      } else {
-        // Mise à jour d'une variable existante
-        dispatch(actions.updateVariable(data));
-      }
-
-      // Fermer le formulaire
-      dispatch(actions.setSelectedVariable(null));
-
-      toast.current?.show({
-        severity: "success",
-        summary: isNew
-          ? t("physicalInstance.view.variableAddSuccess")
-          : t("physicalInstance.view.variableUpdateSuccess"),
-        detail: isNew
-          ? t("physicalInstance.view.variableAddSuccessDetail")
-          : t("physicalInstance.view.variableUpdateSuccessDetail"),
-        life: TOAST_DURATION,
-      });
-    },
-    [t],
-  );
+  // Report d'une saisie du panneau dans le tableau (#1608), sans le fermer : une variable en
+  // création reçoit son identifiant au premier report.
+  const handleVariableChange = useCallback((data: VariableData) => {
+    if (data.id === "new") {
+      dispatch(actions.addEditedVariable({ ...data, id: crypto.randomUUID() }));
+    } else {
+      dispatch(actions.updateVariable(data));
+    }
+  }, []);
 
   const handleVariableDuplicate = useCallback(
     (data: VariableData) => {
@@ -786,6 +790,7 @@ export const Component = () => {
 
       // Nettoyer les variables locales après une sauvegarde réussie
       dispatch(actions.clearLocalVariables());
+      setShowValidationErrors(false);
 
       // Valeurs sentinelles (#1566) : la sauvegarde peut avoir modifié une MMVR / sa CodeList ou
       // changé ses usages — invalider les caches correspondants pour relire l'état réel.
@@ -817,26 +822,26 @@ export const Component = () => {
     }
   }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
 
-  // Sauvegarde globale : la variable ouverte dans le panneau latéral peut porter des
-  // modifications non validées par « Mettre à jour » — elles ne sont pas dans `localVariables`
-  // et seraient donc perdues sans avertissement. On confirme avant de sauvegarder sans elles.
+  // Sauvegarde globale : la saisie en cours a déjà été reportée dans le tableau en quittant le
+  // champ (le clic sur le bouton suffit). Rien n'est envoyé tant qu'une variable modifiée est
+  // invalide (#1608).
   const handleSaveAll = useCallback(() => {
-    if (!isEditedVariableDirty) {
-      return saveAll();
+    if (variablesInError.length > 0) {
+      setShowValidationErrors(true);
+      return;
     }
+    return saveAll();
+  }, [variablesInError, saveAll]);
 
-    confirmDialog({
-      message: t("physicalInstance.view.pendingVariableEdit.message"),
-      header: t("physicalInstance.view.pendingVariableEdit.title"),
-      icon: "pi pi-exclamation-triangle",
-      acceptLabel: t("physicalInstance.view.pendingVariableEdit.confirm"),
-      rejectLabel: t("physicalInstance.view.pendingVariableEdit.cancel"),
-      acceptClassName: "p-button-warning",
-      accept: () => {
-        void saveAll();
-      },
-    });
-  }, [isEditedVariableDirty, saveAll, t]);
+  const handleInvalidVariableClick = useCallback(
+    (variableId: string) => {
+      const variable = mergedVariables.find((v) => v.id === variableId);
+      if (variable) {
+        void handleVariableClick(variable);
+      }
+    },
+    [mergedVariables, handleVariableClick],
+  );
 
   // Ouvre la modale de duplication (la duplication n'est plus immédiate, cf. #1555).
   const handleDuplicatePhysicalInstance = useCallback(() => {
@@ -952,6 +957,38 @@ export const Component = () => {
               hasLocalChanges={hasUnsavedChanges}
               stamps={currentStamps}
             />
+
+            {displayedVariablesInError.length > 0 && (
+              <div
+                role="alert"
+                aria-labelledby="pi-validation-summary-title"
+                className="pi-validation-summary"
+              >
+                <p id="pi-validation-summary-title" className="pi-validation-summary-title">
+                  <i className="pi pi-times-circle" aria-hidden="true" />
+                  {t("physicalInstance.view.validation.summary")}
+                </p>
+                <ul>
+                  {displayedVariablesInError.map(({ variable, errors }) => (
+                    <li key={variable.id}>
+                      <button
+                        type="button"
+                        className="pi-validation-summary-variable"
+                        onClick={() => handleInvalidVariableClick(variable.id)}
+                      >
+                        {variable.name.trim() ||
+                          variable.label.trim() ||
+                          t("physicalInstance.view.validation.unnamedVariable")}
+                      </button>
+                      {" : "}
+                      {errors
+                        .map((error) => t(`physicalInstance.view.validation.errors.${error}`))
+                        .join(", ")}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <GlobalActionsCard
@@ -962,6 +999,7 @@ export const Component = () => {
             onRowClick={handleVariableClick}
             onDeleteClick={handleDeleteVariable}
             unsavedVariableIds={unsavedVariableIds}
+            invalidVariableIds={invalidVariableIds}
             selectedVariableId={state.selectedVariable?.id}
             stamps={currentStamps}
           />
@@ -974,7 +1012,7 @@ export const Component = () => {
                 typeOptions={variableTypeOptions}
                 locallyUsedMmvrIds={locallyUsedMmvrIds}
                 isNew={state.selectedVariable.id === "new"}
-                onSave={handleVariableSave}
+                onSave={handleVariableChange}
                 onDirtyChange={setEditedVariableDirty}
                 onDuplicate={handleVariableDuplicate}
                 onPrevious={handlePreviousVariable}

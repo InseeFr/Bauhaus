@@ -254,7 +254,14 @@ describe("VariableEditForm", () => {
   const changeField = (label: string, value: string) =>
     fireEvent.change(screen.getByLabelText(label), { target: { value } });
 
-  const clickSave = () => fireEvent.click(screen.getByText("Mettre à jour"));
+  // Quitter un champ : la variable modifiée est reportée dans le tableau (#1608).
+  const leaveField = (label: string) => fireEvent.blur(screen.getByLabelText(label));
+
+  // Modifie la description puis quitte le champ : déclenche l'enregistrement dans le tableau.
+  const editAndLeave = (label = "Description", value = "Description modifiée") => {
+    changeField(label, value);
+    leaveField(label);
+  };
 
   const expectActiveTab = (index: string) =>
     expect(screen.getByTestId("tabview")).toHaveAttribute("data-active-index", index);
@@ -324,20 +331,69 @@ describe("VariableEditForm", () => {
     expectRepresentation("date", ["numeric"]);
   });
 
-  it("should call onSave with correct data on form submit", () => {
+  it("should not offer a button to save the variable on its own (#1608)", () => {
     renderForm();
 
-    clickSave();
+    expect(screen.queryByText("Mettre à jour")).not.toBeInTheDocument();
+    expect(screen.queryByText("Ajouter")).not.toBeInTheDocument();
+  });
 
+  it("should save the variable in the table when an edited field is left (#1608)", () => {
+    renderForm();
+
+    editAndLeave("Description", "Nouvelle description");
+
+    expect(mockOnSave).toHaveBeenCalledTimes(1);
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
         id: "var-1",
         label: "Test Variable",
         name: "testVar",
-        description: "Test description",
+        description: "Nouvelle description",
         type: "numeric",
       }),
     );
+  });
+
+  it("should not save the variable when a field is left without any change (#1608)", () => {
+    renderForm();
+
+    leaveField("Label");
+
+    expect(mockOnSave).not.toHaveBeenCalled();
+  });
+
+  it("should save the variable even when a required field is empty, validation happening on Save All (#1608)", () => {
+    renderForm();
+
+    editAndLeave("Nom", "");
+
+    expect(mockOnSave).toHaveBeenCalledWith(expect.objectContaining({ name: "" }));
+  });
+
+  it("should save the pending changes when the panel is closed (#1608)", () => {
+    const { unmount } = renderForm();
+
+    changeField("Label", "Libellé en cours");
+    unmount();
+
+    expect(mockOnSave).toHaveBeenCalledWith(expect.objectContaining({ label: "Libellé en cours" }));
+  });
+
+  it("should not save anything when the panel is closed without changes (#1608)", () => {
+    const { unmount } = renderForm();
+
+    unmount();
+
+    expect(mockOnSave).not.toHaveBeenCalled();
+  });
+
+  it("should not add an untouched new variable when the panel is closed (#1608)", () => {
+    const { unmount } = renderForm({ variable: emptyNewVariable, isNew: true });
+
+    unmount();
+
+    expect(mockOnSave).not.toHaveBeenCalled();
   });
 
   it("should keep the sentinel values reference in the save payload, whatever the type (#1566)", () => {
@@ -351,7 +407,7 @@ describe("VariableEditForm", () => {
 
     renderForm({ variable: { ...defaultVariable, missingValuesReference } });
 
-    clickSave();
+    editAndLeave();
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -359,30 +415,6 @@ describe("VariableEditForm", () => {
         missingValuesReference,
       }),
     );
-  });
-
-  it("should disable save while the sentinel MMVR has no label (#1566)", () => {
-    const variableWithUnlabeledSentinel = {
-      ...defaultVariable,
-      missingValuesReference: {
-        $type: "ManagedMissingValuesRepresentation",
-        URN: "urn:ddi:fr.insee:mmvr-1:1",
-        Agency: "fr.insee",
-        ID: "mmvr-1",
-        Version: "1",
-      } as const,
-      sentinelMmvr: {
-        $type: "ManagedMissingValuesRepresentation",
-        ID: "mmvr-1",
-        Agency: "fr.insee",
-        Version: "1",
-        Label: [{ "@language": "fr-FR", "@value": "" }],
-      } as any,
-    };
-
-    renderForm({ variable: variableWithUnlabeledSentinel });
-
-    expect(screen.getByText("Mettre à jour").closest("button")).toBeDisabled();
   });
 
   for (const { name, field, key, value } of [
@@ -403,8 +435,7 @@ describe("VariableEditForm", () => {
       renderForm();
 
       changeField(field, value);
-
-      clickSave();
+      leaveField(field);
 
       expect(mockOnSave).toHaveBeenCalledWith(expect.objectContaining({ [key]: value }));
     });
@@ -417,7 +448,7 @@ describe("VariableEditForm", () => {
 
     renderForm({ variable: { ...defaultVariable, type: "numeric", numericRepresentation } });
 
-    clickSave();
+    editAndLeave();
 
     const savedData = mockOnSave.mock.calls[0][0];
     expect(savedData).toHaveProperty("numericRepresentation");
@@ -473,7 +504,7 @@ describe("VariableEditForm", () => {
 
     renderForm({ variable: variableWithAllRepresentations });
 
-    clickSave();
+    editAndLeave();
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -489,7 +520,7 @@ describe("VariableEditForm", () => {
     // portée par la variable et renvoyée telle quelle au save (round-trip DDI préservé).
     renderForm({ variable: { ...defaultVariable, isGeographic: true } });
 
-    clickSave();
+    editAndLeave();
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -522,8 +553,7 @@ describe("VariableEditForm", () => {
 
       fireEvent.change(input, { target: { value } });
       expect(input.value).toBe(value);
-
-      clickSave();
+      leaveField(field);
 
       expect(mockOnSave).toHaveBeenCalledWith(expect.objectContaining({ [key]: value }));
     });
@@ -538,8 +568,7 @@ describe("VariableEditForm", () => {
     fireEvent.change(typeSelect, { target: { value: "text" } });
     expect(typeSelect.value).toBe("text");
     expect(screen.getByTestId("text-representation")).toBeInTheDocument();
-
-    clickSave();
+    fireEvent.blur(typeSelect);
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -707,18 +736,16 @@ describe("VariableEditForm", () => {
       renderForm({ stamps: ["STAMP1", "STAMP2"] });
     };
 
-    it("affiche les boutons dupliquer/enregistrer quand un stamp utilisateur appartient à parents.stamps", () => {
+    it("affiche le bouton dupliquer quand un stamp utilisateur appartient à parents.stamps", () => {
       renderWithUserStamp("STAMP1");
 
       expect(screen.queryByText("Dupliquer")).toBeInTheDocument();
-      expect(screen.queryByText("Mettre à jour")).toBeInTheDocument();
     });
 
-    it("masque les boutons dupliquer/enregistrer quand aucun stamp utilisateur n'appartient à parents.stamps", () => {
+    it("masque le bouton dupliquer quand aucun stamp utilisateur n'appartient à parents.stamps", () => {
       renderWithUserStamp("STAMP9");
 
       expect(screen.queryByText("Dupliquer")).not.toBeInTheDocument();
-      expect(screen.queryByText("Mettre à jour")).not.toBeInTheDocument();
     });
   });
 
@@ -737,55 +764,13 @@ describe("VariableEditForm", () => {
       expect(screen.queryByText("Ajouter une variable")).not.toBeInTheDocument();
     });
 
-    for (const { name, props, shown, absent } of [
-      {
-        name: 'should display "Ajouter" button when isNew is true',
-        props: { variable: emptyNewVariable, isNew: true },
-        shown: "Ajouter",
-        absent: "Mettre à jour",
-      },
-      {
-        name: 'should display "Mettre à jour" button when isNew is false',
-        props: { isNew: false },
-        shown: "Mettre à jour",
-        absent: "Ajouter",
-      },
-      {
-        name: 'should display "Mettre à jour" button by default when isNew is not provided',
-        props: {},
-        shown: "Mettre à jour",
-        absent: "Ajouter",
-      },
-    ]) {
-      it(name, () => {
-        renderForm(props);
+    it('should save a new variable under the "new" id once a field is left', () => {
+      renderForm({ variable: emptyNewVariable, isNew: true });
 
-        expect(screen.getByText(shown)).toBeInTheDocument();
-        expect(screen.queryByText(absent)).not.toBeInTheDocument();
-      });
-    }
-
-    it('should call onSave correctly when "Ajouter" button is clicked', () => {
-      const newVariable = {
-        id: "new",
-        label: "New Var",
-        name: "newVar",
-        description: "",
-        type: "text",
-      };
-
-      renderForm({ variable: newVariable, isNew: true });
-
-      const addButton = screen.getByText("Ajouter");
-      fireEvent.click(addButton);
+      editAndLeave("Nom", "newVar");
 
       expect(mockOnSave).toHaveBeenCalledWith(
-        expect.objectContaining({
-          id: "new",
-          label: "New Var",
-          name: "newVar",
-          type: "text",
-        }),
+        expect.objectContaining({ id: "new", name: "newVar", type: "text" }),
       );
     });
   });
@@ -820,13 +805,13 @@ describe("VariableEditForm", () => {
       expect(onDirtyChange).toHaveBeenLastCalledWith(false);
     });
 
-    it("should always report a new variable as dirty", () => {
+    it("should report an untouched new variable as pristine", () => {
       const { onDirtyChange } = renderTrackingDirtiness({
         variable: emptyNewVariable,
         isNew: true,
       });
 
-      expect(onDirtyChange).toHaveBeenLastCalledWith(true);
+      expect(onDirtyChange).toHaveBeenLastCalledWith(false);
     });
 
     it("should report a pristine form when it is unmounted", () => {

@@ -35,7 +35,6 @@
       }
     },
     "view": {
-      "add": "Add",
       "allTypes": "All types",
       "cancel": "Cancel",
       "cancelDelete": "Cancel",
@@ -240,9 +239,6 @@
         "regExp": "Regular expression"
       },
       "typeFilter": "Filter by type",
-      "update": "Update",
-      "variableAddSuccess": "Variable added",
-      "variableAddSuccessDetail": "Variable successfully added. Remember to save",
       "variableDuplicateSuccess": "Variable duplicated",
       "variableDuplicateSuccessDetail": "The variable has been successfully duplicated",
       "variablesTable": "Variables table",
@@ -253,20 +249,20 @@
         "text": "Text"
       },
       "validation": {
-        "required": "This field is required"
+        "required": "This field is required",
+        "summary": "Some modified variables contain errors. Fix them before saving:",
+        "variableHasErrors": "This variable contains errors",
+        "unnamedVariable": "Unnamed variable",
+        "errors": {
+          "nameRequired": "the name is required",
+          "labelRequired": "the label is required",
+          "sentinelLabelRequired": "the sentinel values label is required"
+        }
       },
-      "variableUpdateSuccess": "Variable updated",
-      "variableUpdateSuccessDetail": "Variable successfully updated. Remember to save",
       "previousVariable": "Previous variable",
       "nextVariable": "Next variable",
       "closeVariablePanel": "Close",
       "totalVariables": "Total: {{count}} variable(s)",
-      "pendingVariableEdit": {
-        "title": "Unconfirmed variable change",
-        "message": "The variable being edited has changes that have not been applied with “Update”. Saving now will discard them.",
-        "confirm": "Save without these changes",
-        "cancel": "Go back to the variable"
-      },
       "unsavedChangesTitle": "Unsaved changes",
       "unsavedChangesMessage": "You have unsaved changes. Are you sure you want to leave this page?",
       "leaveWithoutSaving": "Leave without saving",

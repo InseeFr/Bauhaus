@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act, within } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 
@@ -284,7 +284,6 @@ document.createElement = vi.fn((tagName: string) => {
 }) as any;
 
 const EDIT_MODAL_TITLE = "physicalInstance.view.editModal.title";
-const PENDING_VARIABLE_EDIT_TITLE = "physicalInstance.view.pendingVariableEdit.title";
 
 const fr = (value: string) => [{ "@language": "fr-FR", "@value": value }];
 
@@ -411,7 +410,9 @@ const selectRepresentationType = (type: string) => {
   });
 };
 
-// Ouvre le formulaire de nouvelle variable et le remplit, sans l'ajouter.
+const labelField = () => screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
+
+// Ouvre le formulaire de nouvelle variable et le remplit, sans quitter le champ en cours.
 const fillNewVariable = (name: string, label: string, type?: string) => {
   fireEvent.click(screen.getByLabelText("physicalInstance.view.newVariable"));
   fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.name/), {
@@ -425,11 +426,17 @@ const fillNewVariable = (name: string, label: string, type?: string) => {
   }
 };
 
-// Helper function to create a test variable and enable the Save All button
+// Quitter un champ reporte la variable dans le tableau (#1608).
+const leaveField = (field: HTMLElement) => fireEvent.blur(field);
+
+// Crée une variable : la saisie est reportée dans le tableau en quittant le dernier champ rempli.
 const createTestVariable = (name = "TestVar", label = "Test Variable", type?: string) => {
   fillNewVariable(name, label, type);
-  fireEvent.click(screen.getByLabelText("physicalInstance.view.add"));
+  leaveField(type ? screen.getByLabelText("physicalInstance.view.columns.type") : labelField());
 };
+
+const VALIDATION_SUMMARY = "physicalInstance.view.validation.summary";
+const VARIABLE_HAS_ERRORS = "physicalInstance.view.validation.variableHasErrors";
 
 const clickSaveAll = () => fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
 
@@ -1051,8 +1058,8 @@ describe("View Component", () => {
         target: { value: "Sentinelles âge" },
       });
 
-      // « Ajouter » la variable puis « Sauvegarder » le fichier.
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.add"));
+      // Quitter le champ reporte la variable dans le tableau, puis « Sauvegarder » le fichier.
+      leaveField(screen.getByLabelText("physicalInstance.view.code.codeListLabel"));
       const payload = await saveAll(mutateAsyncMock);
 
       // La MMVR créée est embarquée, avec son label...
@@ -1557,78 +1564,196 @@ describe("View Component", () => {
     });
   });
 
-  describe("Global save with a variable being edited", () => {
-    // Crée « TestVar », la rouvre en édition et, si demandé, modifie son libellé sans l'enregistrer.
-    const editTestVariable = async (pendingLabel?: string) => {
+  describe("Variable edits reported to the table (#1608)", () => {
+    const tableRowsNamed = (name: string) =>
+      screen.queryAllByRole("row").filter((row) => row.querySelector("td")?.textContent === name);
+
+    it("should keep Save All disabled while nothing has been changed", () => {
+      renderView();
+
+      expect(screen.getByLabelText("physicalInstance.view.saveAll")).toBeDisabled();
+    });
+
+    it("should report a new variable to the table when a field is left, keeping the panel open on it", async () => {
+      renderView();
+
       createTestVariable();
-      fireEvent.click(screen.getByText("TestVar").closest("tr")!);
-      await screen.findByLabelText("physicalInstance.view.update");
-      if (pendingLabel) {
-        fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
-          target: { value: pendingLabel },
-        });
-      }
+
+      await expectUnsaved("TestVar");
+      expect(screen.getByText("physicalInstance.view.editVariable - TestVar")).toBeInTheDocument();
+      expect(screen.getByLabelText("physicalInstance.view.saveAll")).not.toBeDisabled();
+    });
+
+    it("should update the same row when the new variable is edited again", async () => {
+      renderView();
+
+      createTestVariable();
+      fireEvent.change(labelField(), { target: { value: "Libellé modifié" } });
+      leaveField(labelField());
+
+      await waitFor(() => expect(screen.getByText("Libellé modifié")).toBeInTheDocument());
+      expect(tableRowsNamed("TestVar")).toHaveLength(1);
+    });
+
+    it("should report the edit of an existing variable to the table when the field is left", async () => {
+      mockDataWithExistingVariable();
+      renderView();
+
+      selectFirstVariable();
+      await screen.findByText("physicalInstance.view.editVariable - Variable1");
+      fireEvent.change(labelField(), { target: { value: "Libellé modifié" } });
+      leaveField(labelField());
+
+      await expectUnsaved("Variable1");
+      expect(screen.getByText("Libellé modifié")).toBeInTheDocument();
+    });
+
+    it("should report the pending edit when the panel is closed", async () => {
+      mockDataWithExistingVariable();
+      renderView();
+
+      selectFirstVariable();
+      await screen.findByText("physicalInstance.view.editVariable - Variable1");
+      fireEvent.change(labelField(), { target: { value: "Libellé modifié" } });
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.closeVariablePanel"));
+
+      await expectUnsaved("Variable1");
+    });
+
+    it("should not add a row when an untouched new variable is closed", () => {
+      renderView();
+
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.newVariable"));
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.closeVariablePanel"));
+
+      expect(screen.getAllByRole("row")).toHaveLength(3);
+      expect(screen.getByLabelText("physicalInstance.view.saveAll")).toBeDisabled();
+    });
+
+    it("should save the edits reported to the table", async () => {
+      const mutateAsync = mockPublish();
+      mockDataWithExistingVariable();
+      renderView();
+
+      selectFirstVariable();
+      await screen.findByText("physicalInstance.view.editVariable - Variable1");
+      fireEvent.change(labelField(), { target: { value: "Libellé modifié" } });
+      leaveField(labelField());
+      const saved = await saveAll(mutateAsync);
+
+      expect(itemsOfType(saved, "Variable").map((v: any) => v.Label[0]["@value"])).toEqual([
+        "Libellé modifié",
+      ]);
+    });
+  });
+
+  describe("Global validation on Save All (#1608)", () => {
+    const tableRow = (name: string) =>
+      screen.getAllByRole("row").find((row) => row.querySelector("td")?.textContent === name)!;
+    const validationSummary = () => screen.queryByRole("alert", { name: VALIDATION_SUMMARY });
+
+    // Deux variables invalides : l'une sans libellé, l'autre sans nom.
+    const createInvalidVariables = () => {
+      createTestVariable("SansLibelle", "");
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.newVariable"));
+      fireEvent.change(labelField(), { target: { value: "Variable sans nom" } });
+      leaveField(labelField());
     };
 
-    const expectNoPendingEditDialog = () =>
-      expect(screen.queryByText(PENDING_VARIABLE_EDIT_TITLE)).not.toBeInTheDocument();
-
-    it("should save straight away when no variable is being edited", async () => {
+    it("should not save when a modified variable is invalid", async () => {
       const mutateAsync = mockPublish();
       renderView();
 
+      createInvalidVariables();
+      clickSaveAll();
+
+      await waitFor(() => expect(validationSummary()).toBeInTheDocument());
+      expect(mutateAsync).not.toHaveBeenCalled();
+    });
+
+    it("should list every invalid variable with the reason of each error", async () => {
+      renderView();
+
+      createInvalidVariables();
+      clickSaveAll();
+
+      const summary = await screen.findByRole("alert", { name: VALIDATION_SUMMARY });
+      const items = within(summary).getAllByRole("listitem");
+      expect(items).toHaveLength(2);
+      expect(items[0]).toHaveTextContent("SansLibelle");
+      expect(items[0]).toHaveTextContent("physicalInstance.view.validation.errors.labelRequired");
+      expect(items[1]).toHaveTextContent("Variable sans nom");
+      expect(items[1]).toHaveTextContent("physicalInstance.view.validation.errors.nameRequired");
+    });
+
+    it("should flag each invalid variable in the table", async () => {
+      renderView();
+
+      createInvalidVariables();
+      clickSaveAll();
+
+      await waitFor(() => expect(screen.getAllByLabelText(VARIABLE_HAS_ERRORS)).toHaveLength(2));
+      expect(
+        within(tableRow("SansLibelle")).getByLabelText(VARIABLE_HAS_ERRORS),
+      ).toBeInTheDocument();
+      expect(
+        within(tableRow("Variable1")).queryByLabelText(VARIABLE_HAS_ERRORS),
+      ).not.toBeInTheDocument();
+    });
+
+    it("should not flag anything before Save All is clicked", () => {
+      renderView();
+
+      createInvalidVariables();
+
+      expect(validationSummary()).not.toBeInTheDocument();
+      expect(screen.queryByLabelText(VARIABLE_HAS_ERRORS)).not.toBeInTheDocument();
+    });
+
+    it("should clear the errors of a variable once it is fixed", async () => {
+      renderView();
+
+      createTestVariable("SansLibelle", "");
+      clickSaveAll();
+      await waitFor(() => expect(validationSummary()).toBeInTheDocument());
+
+      fireEvent.change(labelField(), { target: { value: "Libellé ajouté" } });
+      leaveField(labelField());
+
+      await waitFor(() => expect(validationSummary()).not.toBeInTheDocument());
+      expect(screen.queryByLabelText(VARIABLE_HAS_ERRORS)).not.toBeInTheDocument();
+    });
+
+    it("should save once every variable is valid", async () => {
+      const mutateAsync = mockPublish();
+      renderView();
+
+      createTestVariable("SansLibelle", "");
+      clickSaveAll();
+      await waitFor(() => expect(validationSummary()).toBeInTheDocument());
+
+      fireEvent.change(labelField(), { target: { value: "Libellé ajouté" } });
+      leaveField(labelField());
+      const saved = await saveAll(mutateAsync);
+
+      expect(savedVariableNamed(saved, "SansLibelle").Label).toEqual(fr("Libellé ajouté"));
+    });
+
+    it("should not validate deleted variables", async () => {
+      const mutateAsync = mockPublish();
+      renderView();
+
+      createTestVariable("SansLibelle", "");
+      fireEvent.click(
+        within(screen.getByText("SansLibelle").closest("tr")!).getByLabelText(
+          "physicalInstance.view.delete",
+        ),
+      );
+      fireEvent.click(screen.getByText("physicalInstance.view.confirmDelete"));
       createTestVariable();
       await saveAll(mutateAsync);
 
-      expectNoPendingEditDialog();
-    });
-
-    it("should save straight away when the edited variable has no pending change", async () => {
-      const mutateAsync = mockPublish();
-      renderView();
-
-      await editTestVariable();
-      await saveAll(mutateAsync);
-
-      expectNoPendingEditDialog();
-    });
-
-    it("should ask for confirmation when the edited variable has pending changes", async () => {
-      const mutateAsync = mockPublish();
-      renderView();
-
-      await editTestVariable("Libellé modifié");
-      clickSaveAll();
-
-      await screen.findByText(PENDING_VARIABLE_EDIT_TITLE);
-      expect(mutateAsync).not.toHaveBeenCalled();
-    });
-
-    it("should not save when the confirmation is rejected", async () => {
-      const mutateAsync = mockPublish();
-      renderView();
-
-      await editTestVariable("Libellé modifié");
-      clickSaveAll();
-
-      fireEvent.click(await screen.findByText("physicalInstance.view.pendingVariableEdit.cancel"));
-
-      await waitFor(() => expectNoPendingEditDialog());
-      expect(mutateAsync).not.toHaveBeenCalled();
-    });
-
-    it("should save without the pending change when the confirmation is accepted", async () => {
-      const mutateAsync = mockPublish();
-      renderView();
-
-      await editTestVariable("Libellé modifié");
-      clickSaveAll();
-
-      fireEvent.click(await screen.findByText("physicalInstance.view.pendingVariableEdit.confirm"));
-
-      await waitFor(() => expect(mutateAsync).toHaveBeenCalled());
-      const saved = itemsOfType(mutateAsync.mock.calls[0][0].data, "Variable");
-      expect(saved.map((variable: any) => variable.Label[0]["@value"])).toEqual(["Test Variable"]);
+      expect(validationSummary()).not.toBeInTheDocument();
     });
   });
 
@@ -1716,10 +1841,8 @@ describe("View Component", () => {
 
       expect(mockSearchParams.get("variableId")).toBe("1");
 
-      // Create a new variable and save it, which deselects the variable
-      createTestVariable("NewVar", "New Variable");
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.closeVariablePanel"));
 
-      // After saving, the variable is deselected (selectedVariable becomes null)
       await waitFor(() => {
         expect(mockSearchParams.has("variableId")).toBe(false);
         expect(mockSearchParams.has("tab")).toBe(false);

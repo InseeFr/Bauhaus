@@ -8,6 +8,7 @@ export const ACTION_TYPES = {
   SET_SELECTED_VARIABLE: "SET_SELECTED_VARIABLE",
   UPDATE_VARIABLE: "UPDATE_VARIABLE",
   ADD_VARIABLE: "ADD_VARIABLE",
+  ADD_EDITED_VARIABLE: "ADD_EDITED_VARIABLE",
   DELETE_VARIABLE: "DELETE_VARIABLE",
   CLEAR_LOCAL_VARIABLES: "CLEAR_LOCAL_VARIABLES",
 } as const;
@@ -90,6 +91,10 @@ export type Action =
       afterId?: string;
     }
   | {
+      type: typeof ACTION_TYPES.ADD_EDITED_VARIABLE;
+      payload: VariableData;
+    }
+  | {
       type: typeof ACTION_TYPES.DELETE_VARIABLE;
       payload: string;
     }
@@ -125,6 +130,12 @@ export function viewReducer(state: State, action: Action): State {
     case ACTION_TYPES.SET_SELECTED_VARIABLE:
       return { ...state, selectedVariable: action.payload };
     case ACTION_TYPES.UPDATE_VARIABLE: {
+      // Une saisie reportée à la fermeture du panneau peut arriver après la suppression de la
+      // variable : elle ne doit pas la faire réapparaître.
+      if (state.deletedVariableIds.includes(action.payload.id)) {
+        return state;
+      }
+
       // Vérifier si la variable existe déjà dans localVariables
       const existsInLocal = state.localVariables.some(
         (variable) => variable.id === action.payload.id,
@@ -144,6 +155,11 @@ export function viewReducer(state: State, action: Action): State {
       return {
         ...state,
         localVariables: updatedVariables,
+        // Le panneau reste ouvert sur la variable reportée (#1608) : elle devient sa référence.
+        selectedVariable:
+          state.selectedVariable?.id === action.payload.id
+            ? action.payload
+            : state.selectedVariable,
       };
     }
     case ACTION_TYPES.ADD_VARIABLE:
@@ -153,6 +169,15 @@ export function viewReducer(state: State, action: Action): State {
         newVariableAnchors: action.afterId
           ? { ...state.newVariableAnchors, [action.payload.id]: action.afterId }
           : state.newVariableAnchors,
+      };
+    case ACTION_TYPES.ADD_EDITED_VARIABLE:
+      // Variable en création reportée dans le tableau (#1608) : le panneau, ouvert sur « new »,
+      // bascule sur la variable ajoutée pour que les saisies suivantes mettent à jour sa ligne.
+      return {
+        ...state,
+        localVariables: [...state.localVariables, action.payload],
+        selectedVariable:
+          state.selectedVariable?.id === "new" ? action.payload : state.selectedVariable,
       };
     case ACTION_TYPES.DELETE_VARIABLE: {
       const { [action.payload]: _removed, ...remainingAnchors } = state.newVariableAnchors;
@@ -213,6 +238,10 @@ export const actions = {
     type: ACTION_TYPES.ADD_VARIABLE,
     payload,
     afterId,
+  }),
+  addEditedVariable: (payload: VariableData): Action => ({
+    type: ACTION_TYPES.ADD_EDITED_VARIABLE,
+    payload,
   }),
   deleteVariable: (payload: string): Action => ({
     type: ACTION_TYPES.DELETE_VARIABLE,

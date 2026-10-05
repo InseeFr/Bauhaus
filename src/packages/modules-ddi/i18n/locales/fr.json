@@ -35,7 +35,6 @@
       }
     },
     "view": {
-      "add": "Ajouter",
       "allTypes": "Tous types",
       "cancel": "Annuler",
       "cancelDelete": "Annuler",
@@ -240,9 +239,6 @@
         "regExp": "Expression régulière"
       },
       "typeFilter": "Filtrer par type",
-      "update": "Mettre à jour",
-      "variableAddSuccess": "Variable ajoutée",
-      "variableAddSuccessDetail": "Variable ajoutée avec succès. Pensez à sauvegarder",
       "variableDuplicateSuccess": "Variable dupliquée",
       "variableDuplicateSuccessDetail": "La variable a été dupliquée avec succès",
       "variableTypes": {
@@ -252,21 +248,21 @@
         "text": "Texte"
       },
       "validation": {
-        "required": "Ce champ est obligatoire"
+        "required": "Ce champ est obligatoire",
+        "summary": "Certaines variables modifiées contiennent des erreurs. Corrigez-les avant de sauvegarder :",
+        "variableHasErrors": "Cette variable contient des erreurs",
+        "unnamedVariable": "Variable sans nom",
+        "errors": {
+          "nameRequired": "le nom est obligatoire",
+          "labelRequired": "le libellé est obligatoire",
+          "sentinelLabelRequired": "le libellé des valeurs sentinelles est obligatoire"
+        }
       },
-      "variableUpdateSuccess": "Variable mise à jour",
-      "variableUpdateSuccessDetail": "Variable mise à jour avec succès. Pensez à sauvegarder",
       "previousVariable": "Variable précédente",
       "nextVariable": "Variable suivante",
       "closeVariablePanel": "Fermer",
       "variablesTable": "Tableau des variables",
       "totalVariables": "Total : {{count}} variable(s)",
-      "pendingVariableEdit": {
-        "title": "Modification de variable non validée",
-        "message": "La variable en cours d'édition contient des modifications qui n'ont pas été validées par « Mettre à jour ». Sauvegarder maintenant les perdra.",
-        "confirm": "Sauvegarder sans ces modifications",
-        "cancel": "Revenir à la variable"
-      },
       "unsavedChangesTitle": "Modifications non sauvegardées",
       "unsavedChangesMessage": "Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir quitter cette page ?",
       "leaveWithoutSaving": "Quitter sans sauvegarder",

@@ -261,6 +261,26 @@ describe("PhysicalInstancesDataTable", () => {
     });
   });
 
+  describe("Validation errors (#1608)", () => {
+    it("should flag the variables in error next to their name", () => {
+      render(<PhysicalInstancesDataTable {...defaultProps} invalidVariableIds={["2"]} />);
+
+      const flagged = screen.getAllByLabelText(
+        "physicalInstance.view.validation.variableHasErrors",
+      );
+      expect(flagged).toHaveLength(1);
+      expect(flagged[0].closest("td")).toHaveTextContent("Variable2");
+    });
+
+    it("should not flag anything when no variable is in error", () => {
+      render(<PhysicalInstancesDataTable {...defaultProps} />);
+
+      expect(
+        screen.queryByLabelText("physicalInstance.view.validation.variableHasErrors"),
+      ).not.toBeInTheDocument();
+    });
+  });
+
   describe("Variables count header", () => {
     it("should display the total count of variables in the header", () => {
       render(<PhysicalInstancesDataTable {...defaultProps} />);
