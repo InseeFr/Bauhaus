@@ -12,6 +12,7 @@ import { Operation } from "@model/Operation";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { toFormErrors } from "@utils/api-errors";
 import { useInvalidateSeries } from "@utils/hooks/series";
 
 import { validate } from "../validation";
@@ -26,13 +27,19 @@ interface OperationsOperationEditionTypes {
   goBack: (url: string, replace?: boolean) => void;
 }
 
+/**
+ * Champs dont une erreur de validation du back s'affiche à côté de la saisie. Le back nomme la
+ * série `series` (absente) ou `series.id` (vide) : les deux vont sous le choix de la série.
+ */
+const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2", "series", "series.id", "year"];
+
 interface ClientSideErrors {
   errorMessage?: string[];
   fields?: Record<string, string>;
 }
 
 interface State {
-  serverSideError: string;
+  serverSideError: unknown;
   clientSideErrors: ClientSideErrors;
   saving: boolean;
   submitting: boolean;
@@ -123,11 +130,13 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
           await invalidateSeries();
           props.goBack(`/operations/operation/${id}`, isCreation);
         },
-        (err: string) => {
+        (err: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
           setState((state) => ({
             ...state,
             saving: false,
-            serverSideError: err,
+            ...(clientSideErrors && { submitting: true, clientSideErrors }),
+            serverSideError,
           }));
         },
       );
@@ -163,6 +172,9 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
           <Series
             label={t("common.seriesTitle")}
             value={series.id}
+            errorMessage={
+              state.clientSideErrors.fields?.series || state.clientSideErrors.fields?.["series.id"]
+            }
             onChange={(value) =>
               onChange({
                 target: { value, id: "idSeries" },

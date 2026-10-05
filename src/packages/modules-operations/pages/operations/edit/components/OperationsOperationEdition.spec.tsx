@@ -166,6 +166,75 @@ describe("OperationsOperationEdition", () => {
     expect(titleLg1()).toHaveValue("Recensement");
   });
 
+  it("affiche une erreur de validation du serveur sous le champ concerné", async () => {
+    vi.mocked(OperationsApi).putOperation.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "prefLabelLg1", message: "prefLabelLg1 is required" }],
+    });
+    renderEdition(existingOperation);
+
+    save();
+
+    await waitFor(() => expect(titleLg1()).toHaveAccessibleDescription("prefLabelLg1 is required"));
+    expect(titleLg1()).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("affiche sous l'année l'erreur du serveur sur l'année", async () => {
+    vi.mocked(OperationsApi).putOperation.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "year", message: "must be an integer" }],
+    });
+    renderEdition(existingOperation);
+
+    save();
+
+    await waitFor(() =>
+      expect(screen.getByLabelText(/Année|Year/)).toHaveAccessibleDescription("must be an integer"),
+    );
+  });
+
+  it("affiche sous la série l'erreur du serveur sur la série, en création", async () => {
+    vi.mocked(OperationsApi).postOperation.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "series.id", message: "series.id is required" }],
+    });
+    renderEdition({});
+    await waitFor(() => expect(vi.mocked(OperationsApi).getUserSeriesList).toHaveBeenCalled());
+    fireEvent.click(screen.getByRole("combobox"));
+    fireEvent.click(await screen.findByText("Série 2"));
+    fireEvent.change(titleLg1(), { target: { value: "Nouvelle opération" } });
+    fireEvent.change(titleLg2(), { target: { value: "New operation" } });
+
+    save();
+
+    expect(await screen.findByText("series.id is required")).toHaveAttribute("id", "series-error");
+  });
+
+  it("n'affiche pas d'erreur générique quand toutes les erreurs du serveur sont sous leur champ", async () => {
+    vi.mocked(OperationsApi).putOperation.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "prefLabelLg1", message: "prefLabelLg1 is required" }],
+    });
+    renderEdition(existingOperation);
+
+    save();
+
+    await waitFor(() => expect(titleLg1()).toHaveAccessibleDescription("prefLabelLg1 is required"));
+    expect(screen.queryByText(/An error has occurred|Une erreur s'est produite/)).toBeNull();
+  });
+
+  it("affiche dans le bandeau une erreur du serveur sur un champ absent du formulaire", async () => {
+    vi.mocked(OperationsApi).putOperation.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "created", message: "is not a valid LocalDate" }],
+    });
+    renderEdition(existingOperation);
+
+    save();
+
+    expect(await screen.findByText("created : is not a valid LocalDate")).toBeInTheDocument();
+  });
+
   it("repart des données de l'opération quand la page en charge une autre", () => {
     const { rerenderWith } = renderEdition(existingOperation);
 
