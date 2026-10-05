@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ErrorBloc } from "@components/errors-bloc";
@@ -9,6 +9,8 @@ import { ConceptGeneral, ConceptNotes, Link } from "@model/concepts/concept";
 import { UNPUBLISHED } from "@model/ValidationState";
 
 import { VERSIONING, NO_VERSIONING } from "@sdk/constants";
+
+import { toFormErrors } from "@utils/api-errors";
 
 import type { SaveFn } from "../../../../hooks/useConceptSave";
 import { areNotesImpactingVersionChanged } from "../../../../utils/areNotesImpactingVersionChanged";
@@ -24,6 +26,25 @@ import { LinksEdition, ConceptWithLink } from "./LinksEdition";
 import { NotesEdition } from "./NotesEdition";
 
 type VersioningType = typeof VERSIONING | typeof NO_VERSIONING;
+
+/** Champs du corps (`ConceptRequest`) qui ont un emplacement d'erreur dans les informations générales. */
+const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2", "creator", "disseminationStatus"];
+
+/** Erreurs de champ du serveur ajoutées aux erreurs client ; un message client non vide l'emporte. */
+const withServerFieldErrors = (
+  clientErrors: ValidationResult | undefined,
+  serverFieldErrors: Record<string, string>,
+): ValidationResult | undefined => {
+  const serverMessages = Object.values(serverFieldErrors);
+  if (serverMessages.length === 0) return clientErrors;
+  const clientFields = Object.fromEntries(
+    Object.entries(clientErrors?.fields ?? {}).filter(([, message]) => message),
+  );
+  return {
+    fields: { ...clientErrors?.fields, ...serverFieldErrors, ...clientFields },
+    errorMessage: [...(clientErrors?.errorMessage ?? []), ...serverMessages],
+  };
+};
 
 interface ValidationResult {
   fields: Record<string, string>;
@@ -108,6 +129,23 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
 
   const { t } = useTranslation();
 
+  // Un 400 de validation : les erreurs des champs affichés vont sous leur saisie, le reste au bandeau.
+  const serverErrors = useMemo(
+    () => toFormErrors(serverSideError, FIELDS_WITH_ERROR_SLOT),
+    [serverSideError],
+  );
+
+  // Erreurs de champ du serveur encore affichées : chacune disparaît quand son champ est modifié,
+  // et la liste repart de zéro à chaque nouveau rejet.
+  const [serverFieldErrors, setServerFieldErrors] = useState<Record<string, string>>(
+    () => serverErrors.clientSideErrors?.fields ?? {},
+  );
+  const [lastServerErrors, setLastServerErrors] = useState(serverErrors);
+  if (lastServerErrors !== serverErrors) {
+    setLastServerErrors(serverErrors);
+    setServerFieldErrors(serverErrors.clientSideErrors?.fields ?? {});
+  }
+
   const [state, setState] = useState<ConceptEditionCreationState>(() => {
     const initialSection = resolveConceptSection(section);
     return {
@@ -143,6 +181,9 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
 
   const handleChangeGeneral = (update: Partial<ConceptGeneral>) => {
     setSubmitting(true);
+    setServerFieldErrors((errors) =>
+      Object.fromEntries(Object.entries(errors).filter(([field]) => !(field in update))),
+    );
     setState((state) => onGeneralInformationChange(state, update));
   };
 
@@ -294,7 +335,10 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
     maxLengthScopeNote,
   );
 
-  const displayedErrors = state.saveAttempted ? errors : undefined;
+  const displayedErrors = withServerFieldErrors(
+    state.saveAttempted ? errors : undefined,
+    serverFieldErrors,
+  );
 
   return (
     <div>
@@ -303,7 +347,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
         {general.contributor && (
           <Menu errors={displayedErrors} handleSave={handleSave} submitting={submitting} />
         )}
-        <ErrorBloc error={serverSideError} />
+        <ErrorBloc error={serverErrors.serverSideError} />
         <div className="concept-edition">
           <ConceptSummary
             notes={dataNotes}
