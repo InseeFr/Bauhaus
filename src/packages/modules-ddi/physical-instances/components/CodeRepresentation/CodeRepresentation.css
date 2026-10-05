@@ -115,3 +115,74 @@
 .override-shared-dialog .override-dialog-choice-description {
   color: var(--text-color-secondary, #6b7280);
 }
+
+/* Import CSV : zone de dépôt qui porte aussi le bouton de sélection, priorité du ticket. */
+.code-list-csv-import {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.code-list-csv-dropzone {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1rem;
+  border: 2px dashed var(--surface-300, #d1d5db);
+  border-radius: 6px;
+  background: var(--surface-50, #f9fafb);
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.code-list-csv-dropzone-active {
+  border-color: var(--blue-500, #3b82f6);
+  background: var(--blue-50, #eff6ff);
+}
+
+.code-list-csv-dropzone > .pi {
+  font-size: 1.5rem;
+  color: var(--text-color-secondary, #6b7280);
+}
+
+/* Le vrai input reste dans l'arbre d'accessibilité ; le bouton visible le déclenche. */
+.code-list-csv-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.code-list-csv-help {
+  margin: 0;
+  color: var(--text-color-secondary, #6b7280);
+}
+
+.code-list-csv-errors {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.code-list-csv-errors caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 0.25rem;
+}
+
+.code-list-csv-errors th,
+.code-list-csv-errors td {
+  padding: 0.375rem 0.75rem;
+  border-bottom: 1px solid var(--surface-200, #e5e7eb);
+  text-align: left;
+}
+
+.code-list-csv-errors th:first-child,
+.code-list-csv-errors td:first-child {
+  width: 6rem;
+  font-variant-numeric: tabular-nums;
+}

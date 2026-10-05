@@ -35,6 +35,8 @@ vi.mock("react-i18next", () => ({
           "Remplissez au moins un champ pour ajouter un code",
         "physicalInstance.view.code.createNewList": "Créer une nouvelle liste",
         "physicalInstance.view.code.reuseList": "Réutiliser",
+        "physicalInstance.view.code.csvImport.button": "Importer un CSV",
+        "physicalInstance.view.code.csvImport.fileInput": "Fichier CSV",
         "physicalInstance.view.code.selectCodeList": "Sélectionnez une liste de codes",
         "physicalInstance.view.code.loadingCodeLists": "Chargement des listes de codes...",
         "physicalInstance.view.code.errorLoadingCodeLists":
@@ -1395,6 +1397,108 @@ describe("CodeRepresentation", () => {
       expect(
         screen.queryByText("physicalInstance.view.code.overrideShared.title"),
       ).not.toBeInTheDocument();
+      expect(mockOnChange).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("import from a CSV file", () => {
+    const csvFile = (content: string, name = "pays.csv") =>
+      new File([content], name, { type: "text/csv" });
+
+    /** Ouvre l'import et sélectionne le fichier, comme avec le bouton « Choisir un fichier ». */
+    const importCsv = (file: File) => {
+      fireEvent.click(screen.getByText("Importer un CSV"));
+      fireEvent.change(screen.getByLabelText("Fichier CSV"), { target: { files: [file] } });
+    };
+
+    it("replaces the variable's list with a new list holding the imported codes and categories", async () => {
+      renderCodeRepresentation();
+
+      importCsv(csvFile("CODE,VALUE\nFR,France\n  de , Allemagne "));
+
+      await waitFor(() => expect(mockOnChange).toHaveBeenCalled());
+      const [representation, codeList, categories] = lastChange() as [
+        CodeRepresentationType,
+        CodeList,
+        Category[],
+      ];
+      expect(representation.CodeListReference?.ID).toBe(codeList.ID);
+      expect(codeList.ID).not.toBe("codelist-1");
+      expect(codeList.Label).toEqual(fr("pays"));
+      expect(codeList.Code?.map((c) => c.Value?.StringValue)).toEqual(["FR", "de"]);
+      expect(categories.map((c) => c.Label)).toEqual([fr("France"), fr("Allemagne")]);
+      expect(codeList.Code?.map((c) => c.CategoryReference?.ID)).toEqual(
+        categories.map((c) => c.ID),
+      );
+    });
+
+    it("shows the imported codes and the number of created entries", async () => {
+      renderCodeRepresentation();
+
+      importCsv(csvFile("CODE;VALUE\nFR;France\nDE;Allemagne"));
+
+      expect(
+        await screen.findByText('physicalInstance.view.code.csvImport.success|{"count":2}'),
+      ).toBeInTheDocument();
+      expect(valueInputs().map((i) => i.value)).toEqual(["FR", "DE"]);
+    });
+
+    it("keeps the imported codes and the success message once the parent stores the new list", async () => {
+      renderHarness({
+        representation: mockRepresentation,
+        codeList: mockCodeList,
+        categories: mockCategories,
+      });
+
+      importCsv(csvFile("CODE,VALUE\nFR,France"));
+
+      expect(
+        await screen.findByText('physicalInstance.view.code.csvImport.success|{"count":1}'),
+      ).toBeInTheDocument();
+      expect(valueInputs()[0].value).toBe("FR");
+    });
+
+    it("imports a file dropped on the drop zone", async () => {
+      renderCodeRepresentation();
+      fireEvent.click(screen.getByText("Importer un CSV"));
+
+      fireEvent.drop(screen.getByTestId("csv-dropzone"), {
+        dataTransfer: { files: [csvFile("CODE,VALUE\nFR,France")] },
+      });
+
+      await waitFor(() => expect(mockOnChange).toHaveBeenCalled());
+      expect(lastChange()[1].Code).toHaveLength(1);
+    });
+
+    it("rejects the whole file and lists every error with its line when the file is invalid", async () => {
+      renderCodeRepresentation();
+
+      importCsv(csvFile("CODE,VALUE\nFR,France\n,Allemagne\nfr,République"));
+
+      expect(
+        await screen.findByText("physicalInstance.view.code.csvImport.errors.emptyCode"),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('physicalInstance.view.code.csvImport.errors.duplicateCode|{"code":"fr"}'),
+      ).toBeInTheDocument();
+      const rows = within(screen.getByRole("table", { name: /csvImport.errorsCaption/ }))
+        .getAllByRole("row")
+        .slice(1);
+      expect(rows.map((row) => within(row).getAllByRole("cell")[0].textContent)).toEqual([
+        "3",
+        "4",
+      ]);
+      expect(mockOnChange).not.toHaveBeenCalled();
+    });
+
+    it("rejects a file that is not a .csv file", async () => {
+      renderCodeRepresentation();
+
+      importCsv(new File(["CODE,VALUE\nFR,France"], "pays.xlsx"));
+
+      expect(
+        await screen.findByText("physicalInstance.view.code.csvImport.errors.notCsv"),
+      ).toBeInTheDocument();
       expect(mockOnChange).not.toHaveBeenCalled();
     });
   });

@@ -420,7 +420,9 @@ describe("codeRepresentationReducer", () => {
         codes: [],
         showDataTable: false,
         showReuseSelect: false,
+        showCsvImport: false,
         selectedCodeListId: null,
+        importedCodesCount: null,
       });
     });
   });
