@@ -11,6 +11,7 @@ export const ACTION_TYPES = {
   ADD_EDITED_VARIABLE: "ADD_EDITED_VARIABLE",
   DELETE_VARIABLE: "DELETE_VARIABLE",
   CLEAR_LOCAL_VARIABLES: "CLEAR_LOCAL_VARIABLES",
+  REUSE_VARIABLE: "REUSE_VARIABLE",
 } as const;
 
 import type {
@@ -22,6 +23,7 @@ import type {
   Category,
   ManagedMissingValuesRepresentation,
   Reference,
+  Variable,
 } from "../../types/api";
 
 // Type réutilisable pour les variables
@@ -65,6 +67,13 @@ export interface State {
    * variable est ajoutée en fin de liste.
    */
   newVariableAnchors: Record<string, string>;
+  /**
+   * Variables réutilisées depuis le VariableScheme de l'étude (#1387), pas encore enregistrées :
+   * les items tels que stockés. Envoyés inchangés à la sauvegarde tant qu'ils ne sont pas modifiés
+   * — reconstruits depuis le formulaire, ils perdraient les champs qu'il ne gère pas (autres
+   * langues…), et ces pertes toucheraient tous les fichiers qui partagent la variable.
+   */
+  reusedVariables: Variable[];
 }
 
 export type Action =
@@ -98,7 +107,11 @@ export type Action =
       type: typeof ACTION_TYPES.DELETE_VARIABLE;
       payload: string;
     }
-  | { type: typeof ACTION_TYPES.CLEAR_LOCAL_VARIABLES };
+  | { type: typeof ACTION_TYPES.CLEAR_LOCAL_VARIABLES }
+  | {
+      type: typeof ACTION_TYPES.REUSE_VARIABLE;
+      payload: Variable;
+    };
 
 export const initialState: State = {
   searchValue: "",
@@ -111,6 +124,7 @@ export const initialState: State = {
   localVariables: [],
   deletedVariableIds: [],
   newVariableAnchors: {},
+  reusedVariables: [],
 };
 
 export function viewReducer(state: State, action: Action): State {
@@ -186,6 +200,7 @@ export function viewReducer(state: State, action: Action): State {
         localVariables: state.localVariables.filter((variable) => variable.id !== action.payload),
         deletedVariableIds: [...state.deletedVariableIds, action.payload],
         newVariableAnchors: remainingAnchors,
+        reusedVariables: state.reusedVariables.filter((variable) => variable.ID !== action.payload),
       };
     }
     case ACTION_TYPES.CLEAR_LOCAL_VARIABLES:
@@ -194,6 +209,14 @@ export function viewReducer(state: State, action: Action): State {
         localVariables: [],
         deletedVariableIds: [],
         newVariableAnchors: {},
+        reusedVariables: [],
+      };
+    case ACTION_TYPES.REUSE_VARIABLE:
+      return {
+        ...state,
+        reusedVariables: [...state.reusedVariables, action.payload],
+        // Une variable retirée puis réutilisée à nouveau avant la sauvegarde redevient présente.
+        deletedVariableIds: state.deletedVariableIds.filter((id) => id !== action.payload.ID),
       };
     default:
       return state;
@@ -249,5 +272,9 @@ export const actions = {
   }),
   clearLocalVariables: (): Action => ({
     type: ACTION_TYPES.CLEAR_LOCAL_VARIABLES,
+  }),
+  reuseVariable: (payload: Variable): Action => ({
+    type: ACTION_TYPES.REUSE_VARIABLE,
+    payload,
   }),
 };

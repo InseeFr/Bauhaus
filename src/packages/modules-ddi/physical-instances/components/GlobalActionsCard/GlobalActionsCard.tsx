@@ -16,6 +16,8 @@ interface GlobalActionsCardProps {
   unsavedVariableIds?: string[];
   /** Variables signalées en erreur par la validation globale (#1608). */
   invalidVariableIds?: string[];
+  /** Variables partagées avec d'autres fichiers de l'étude (#1387). */
+  sharedVariableIds?: string[];
   selectedVariableId?: string | null;
   /** Stamps de l'instance source — gating STAMP du bouton de duplication. */
   stamps?: string[];
@@ -30,6 +32,7 @@ export const GlobalActionsCard = ({
   onDeleteClick,
   unsavedVariableIds = [],
   invalidVariableIds = [],
+  sharedVariableIds = [],
   selectedVariableId,
   stamps,
 }: Readonly<GlobalActionsCardProps>) => {
@@ -49,6 +52,7 @@ export const GlobalActionsCard = ({
         onDeleteClick={onDeleteClick}
         unsavedVariableIds={unsavedVariableIds}
         invalidVariableIds={invalidVariableIds}
+        sharedVariableIds={sharedVariableIds}
         selectedVariableId={selectedVariableId}
       />
     </Card>

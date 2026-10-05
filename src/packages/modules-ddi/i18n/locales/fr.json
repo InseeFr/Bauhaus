@@ -294,7 +294,21 @@
       "groupTag": "Série : {{label}}",
       "studyUnitTag": "Opération : {{label}}",
       "studyUnitSelectPlaceholder": "Aller vers un fichier de données de l'opération…",
-      "studyUnitSelectEmpty": "Aucun fichier de données"
+      "studyUnitSelectEmpty": "Aucun fichier de données",
+      "reuseVariable": {
+        "open": "Réutiliser une variable",
+        "title": "Réutiliser une variable de l'étude",
+        "help": "Choisissez une variable déjà utilisée par un autre fichier de l'étude. Elle n'est pas copiée : c'est la même variable, et toute modification ultérieure sera répercutée dans tous les fichiers qui l'utilisent.",
+        "select": "Rechercher une variable",
+        "empty": "Aucune autre variable de l'étude à réutiliser",
+        "confirm": "Réutiliser",
+        "cancel": "Annuler"
+      },
+      "sharedVariable": {
+        "badge": "Variable partagée avec d'autres fichiers",
+        "message_one": "Variable partagée avec 1 autre fichier : toute modification y sera répercutée",
+        "message_other": "Variable partagée avec {{count}} autres fichiers : toute modification y sera répercutée"
+      }
     }
   }
 }

@@ -12,6 +12,8 @@ interface PhysicalInstancesDataTableProps {
   unsavedVariableIds?: string[];
   /** Variables signalées en erreur par la validation globale (#1608). */
   invalidVariableIds?: string[];
+  /** Variables partagées avec d'autres fichiers de l'étude (#1387). */
+  sharedVariableIds?: string[];
   selectedVariableId?: string | null;
 }
 
@@ -21,6 +23,7 @@ export const PhysicalInstancesDataTable = ({
   onDeleteClick,
   unsavedVariableIds = [],
   invalidVariableIds = [],
+  sharedVariableIds = [],
   selectedVariableId,
 }: Readonly<PhysicalInstancesDataTableProps>) => {
   const { t, i18n } = useTranslation();
@@ -54,21 +57,31 @@ export const PhysicalInstancesDataTable = ({
     }
   };
 
-  // Le marqueur d'erreur est porté par la ligne : PrimeReact ne redessine une cellule que si sa
-  // donnée change, pas quand seul le gabarit `body` change.
+  // Les marqueurs (erreur, partage) sont portés par la ligne : PrimeReact ne redessine une cellule
+  // que si sa donnée change, pas quand seul le gabarit `body` change.
   const rows = useMemo(
     () =>
-      invalidVariableIds.length === 0
+      invalidVariableIds.length === 0 && sharedVariableIds.length === 0
         ? variables
-        : variables.map((variable) =>
-            invalidVariableIds.includes(variable.id) ? { ...variable, hasErrors: true } : variable,
-          ),
-    [variables, invalidVariableIds],
+        : variables.map((variable) => {
+            const hasErrors = invalidVariableIds.includes(variable.id);
+            const isShared = sharedVariableIds.includes(variable.id);
+            return hasErrors || isShared ? { ...variable, hasErrors, isShared } : variable;
+          }),
+    [variables, invalidVariableIds, sharedVariableIds],
   );
 
   const nameBodyTemplate = (rowData: any) => (
     <>
       {rowData.name}
+      {rowData.isShared && (
+        <i
+          className="pi pi-share-alt variable-shared-indicator"
+          role="img"
+          aria-label={t("physicalInstance.view.sharedVariable.badge")}
+          title={t("physicalInstance.view.sharedVariable.badge")}
+        />
+      )}
       {rowData.hasErrors && (
         <i
           className="pi pi-exclamation-circle variable-error-indicator"

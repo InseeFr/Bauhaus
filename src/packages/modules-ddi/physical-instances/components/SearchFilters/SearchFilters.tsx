@@ -15,6 +15,8 @@ interface SearchFiltersProps {
   onTypeFilterChange: (value: string) => void;
   typeOptions: { label: string; value: string }[];
   onNewVariable: () => void;
+  /** Ouvre la recherche d'une variable de l'étude à réutiliser (#1387) ; sans étude, pas de bouton. */
+  onReuseVariable?: () => void;
   onSaveAll?: () => void;
   hasLocalChanges?: boolean;
   /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
@@ -28,6 +30,7 @@ export const SearchFilters = ({
   onTypeFilterChange,
   typeOptions,
   onNewVariable,
+  onReuseVariable,
   onSaveAll,
   hasLocalChanges = false,
   stamps,
@@ -75,6 +78,18 @@ export const SearchFilters = ({
           onClick={onNewVariable}
         />
       </HasAccess>
+      {onReuseVariable && (
+        <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
+          <Button
+            icon="pi pi-share-alt"
+            label={t("physicalInstance.view.reuseVariable.open")}
+            severity="secondary"
+            style={{ background: "transparent" }}
+            aria-label={t("physicalInstance.view.reuseVariable.open")}
+            onClick={onReuseVariable}
+          />
+        </HasAccess>
+      )}
     </div>
   );
 };

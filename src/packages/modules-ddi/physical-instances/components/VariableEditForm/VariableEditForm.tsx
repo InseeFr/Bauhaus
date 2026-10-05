@@ -19,6 +19,8 @@ import type {
   ManagedMissingValuesRepresentation,
   Reference,
 } from "../../types/api";
+import { SharedVariableNotice } from "../SharedVariable/SharedVariableNotice";
+import type { PhysicalInstanceSummary } from "../SharedVariable/sharedVariables";
 import { DdiPreview } from "./DdiPreview";
 import { VariableInformationTab } from "./VariableInformationTab";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
@@ -208,6 +210,8 @@ interface VariableEditFormProps {
   typeOptions: { label: string; value: string }[];
   /** MMVR référencées par les autres variables locales non sauvegardées (règle RO/RW sentinelles). */
   locallyUsedMmvrIds?: string[];
+  /** Autres fichiers de l'étude qui utilisent cette variable : la modifier les mettra à jour (#1387). */
+  otherPhysicalInstances?: PhysicalInstanceSummary[];
   isNew?: boolean;
   onSave: (data: VariableFormData) => void;
   /**
@@ -230,6 +234,7 @@ export const VariableEditForm = ({
   variable,
   typeOptions,
   locallyUsedMmvrIds,
+  otherPhysicalInstances = [],
   isNew = false,
   onSave,
   onDirtyChange,
@@ -501,6 +506,8 @@ export const VariableEditForm = ({
             />
           )}
         </div>
+
+        <SharedVariableNotice otherPhysicalInstances={otherPhysicalInstances} />
 
         <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
           <TabPanel

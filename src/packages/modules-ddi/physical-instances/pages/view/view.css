@@ -124,3 +124,9 @@
   margin-left: 0.5rem;
   color: #e24c4c;
 }
+
+/* Marker next to the name of a variable shared with other physical instances of the study (#1387). */
+.variable-shared-indicator {
+  margin-left: 0.5rem;
+  color: var(--orange-500, #f59e0b);
+}

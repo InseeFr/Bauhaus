@@ -106,6 +106,14 @@ const api = {
   ],
   getCodeListUsers: (agencyId: string, id: string) => [`codes-list/${agencyId}/${id}/users`],
   getCategoryUsers: (agencyId: string, id: string) => [`category/${agencyId}/${id}/users`],
+  // Réutilisation de variables (#1387) : le vivier = le VariableScheme de la StudyUnit, et les
+  // variables utilisées par chaque PI de l'étude pour signaler celles qui sont partagées.
+  getStudyUnitVariables: (agencyId: string, id: string) => [
+    `study-units/${agencyId}/${id}/variables`,
+  ],
+  getStudyUnitVariableUsages: (agencyId: string, id: string) => [
+    `study-units/${agencyId}/${id}/variable-usages`,
+  ],
   getMutualizedCodeLists: () => ["mutualized-codes-list"],
   getMutualizedCodeList: (agencyId: string, id: string) => [
     `mutualized-codes-list/${agencyId}/${id}`,

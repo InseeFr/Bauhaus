@@ -108,4 +108,14 @@ describe("usePublishPhysicalInstance", () => {
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ["categoryUsers"] });
   });
+
+  it("should invalidate the study unit variable usages and reusable variables on success", async () => {
+    // Réutilisation de variables (#1387) : la sauvegarde ajoute ou retire des variables de la PI,
+    // et range les nouvelles dans le VariableScheme de l'étude. Sans éviction, l'indicateur
+    // « variable partagée » et le sélecteur de réutilisation resteraient périmés jusqu'au F5.
+    using invalidateQueriesSpy = await publishAndSpyInvalidations();
+
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ["studyUnitVariableUsages"] });
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ["studyUnitVariables"] });
+  });
 });

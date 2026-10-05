@@ -294,7 +294,21 @@
       "groupTag": "Group: {{label}}",
       "studyUnitTag": "Study unit: {{label}}",
       "studyUnitSelectPlaceholder": "Go to a data file of the study unit…",
-      "studyUnitSelectEmpty": "No data file"
+      "studyUnitSelectEmpty": "No data file",
+      "reuseVariable": {
+        "open": "Reuse a variable",
+        "title": "Reuse a variable of the study",
+        "help": "Choose a variable already used by another file of the study. It is not copied: it is the same variable, and any later change will apply to every file that uses it.",
+        "select": "Search for a variable",
+        "empty": "No other variable of the study to reuse",
+        "confirm": "Reuse",
+        "cancel": "Cancel"
+      },
+      "sharedVariable": {
+        "badge": "Variable shared with other files",
+        "message_one": "Variable shared with 1 other file: any change will apply to it as well",
+        "message_other": "Variable shared with {{count}} other files: any change will apply to them as well"
+      }
     }
   }
 }

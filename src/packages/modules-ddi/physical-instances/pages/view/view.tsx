@@ -40,12 +40,15 @@ import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
 import { usePhysicalInstanceParents } from "../../../hooks/usePhysicalInstanceParents";
 import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalInstance";
+import { useStudyUnitVariableUsages } from "../../../hooks/useStudyUnitVariables";
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { useValidateDdi4 } from "../../../hooks/useValidateDdi4";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
+import { ReuseVariableDialog } from "../../components/SharedVariable/ReuseVariableDialog";
+import { otherPhysicalInstancesByVariable } from "../../components/SharedVariable/sharedVariables";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
 import { getVariableValidationErrors } from "../../components/VariableEditForm/variableValidation";
 import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
@@ -63,6 +66,7 @@ import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
 import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
 import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
+import { toVariableTableData } from "./toVariableTableData";
 import { viewReducer, initialState, actions, type VariableData } from "./viewReducer";
 
 export const Component = () => {
@@ -85,6 +89,26 @@ export const Component = () => {
   const currentStudyUnit = parents?.studyUnit;
   const currentStamps = parents?.stamps;
   const [duplicateDialogVisible, setDuplicateDialogVisible] = useState(false);
+  const [reuseDialogVisible, setReuseDialogVisible] = useState(false);
+
+  // Réutilisation de variables (#1387) : une variable utilisée par d'autres fichiers de l'étude est
+  // partagée, la modifier les met à jour. On le signale dans le tableau et dans le panneau.
+  const { data: studyUnitVariableUsages } = useStudyUnitVariableUsages(
+    currentStudyUnit?.agency ?? "",
+    currentStudyUnit?.id ?? "",
+  );
+  const otherPhysicalInstances = useMemo(
+    () =>
+      otherPhysicalInstancesByVariable(studyUnitVariableUsages ?? [], {
+        agency: agencyId!,
+        id: id!,
+      }),
+    [studyUnitVariableUsages, agencyId, id],
+  );
+  const sharedVariableIds = useMemo(
+    () => Array.from(otherPhysicalInstances.keys()),
+    [otherPhysicalInstances],
+  );
   // Saisie du panneau d'édition pas encore reportée dans le tableau (champ non quitté).
   const [isEditedVariableDirty, setEditedVariableDirty] = useState(false);
   // Erreurs de validation affichées à partir du premier « Sauvegarder » refusé (#1608).
@@ -175,8 +199,8 @@ export const Component = () => {
 
   // Get IDs of unsaved (local) variables
   const unsavedVariableIds = useMemo(() => {
-    return state.localVariables.map((v) => v.id);
-  }, [state.localVariables]);
+    return [...state.localVariables.map((v) => v.id), ...state.reusedVariables.map((v) => v.ID)];
+  }, [state.localVariables, state.reusedVariables]);
 
   // Valeurs sentinelles (#1566) : MMVR référencées par les AUTRES variables locales non
   // sauvegardées — le back ne les connaît pas encore, ce décompte complète le sien pour la règle
@@ -198,9 +222,15 @@ export const Component = () => {
     return (
       state.localVariables.length > 0 ||
       state.deletedVariableIds.length > 0 ||
+      state.reusedVariables.length > 0 ||
       isEditedVariableDirty
     );
-  }, [state.localVariables, state.deletedVariableIds, isEditedVariableDirty]);
+  }, [
+    state.localVariables,
+    state.deletedVariableIds,
+    state.reusedVariables,
+    isEditedVariableDirty,
+  ]);
 
   // Validation globale (#1608) : toutes les variables modifiées, recalculée à chaque report pour
   // que les erreurs corrigées disparaissent aussitôt.
@@ -248,7 +278,13 @@ export const Component = () => {
 
   // Merge variables from API with local modifications
   const mergedVariables = useMemo(() => {
-    const variableMap = new Map(variables.map((v) => [v.id, v]));
+    // Les variables réutilisées non encore enregistrées s'affichent comme les variables relues.
+    const variableMap = new Map<string, VariableTableData>(
+      [...variables, ...state.reusedVariables.map((v) => toVariableTableData(v))].map((v) => [
+        v.id,
+        v,
+      ]),
+    );
 
     // Remove deleted variables
     state.deletedVariableIds.forEach((deletedId) => {
@@ -288,7 +324,13 @@ export const Component = () => {
     });
 
     return merged;
-  }, [variables, state.localVariables, state.deletedVariableIds, state.newVariableAnchors]);
+  }, [
+    variables,
+    state.reusedVariables,
+    state.localVariables,
+    state.deletedVariableIds,
+    state.newVariableAnchors,
+  ]);
 
   const filteredVariables = useMemo(() => {
     const searchLower = state.searchValue ? state.searchValue.toLowerCase() : null;
@@ -376,7 +418,9 @@ export const Component = () => {
   );
 
   const handleVariableClick = useCallback(
-    async (variable: VariableTableData) => {
+    // `storedVariable` : l'item à ouvrir quand il n'est pas encore dans l'état (variable tout juste
+    // réutilisée, #1387).
+    async (variable: VariableTableData, storedVariable?: Variable) => {
       // Vérifier d'abord si la variable a des modifications locales
       const localVariable = state.localVariables.find((v) => v.id === variable.id);
 
@@ -387,9 +431,11 @@ export const Component = () => {
       }
 
       // Sinon, trouver la variable complète dans les données brutes
-      const fullVariable = itemsOfType(data, "Variable").find(
-        (v: Variable) => v.ID === variable.id,
-      );
+      const fullVariable =
+        storedVariable ??
+        [...itemsOfType(data, "Variable"), ...state.reusedVariables].find(
+          (v: Variable) => v.ID === variable.id,
+        );
 
       // Charger les informations complètes de la variable si trouvée
       // VersionDate enregistrée : l'aperçu DDI doit refléter la donnée stockée, pas un
@@ -484,7 +530,18 @@ export const Component = () => {
         }),
       );
     },
-    [data, state.localVariables, queryClient, t, agencyId],
+    [data, state.localVariables, state.reusedVariables, queryClient, t, agencyId],
+  );
+
+  // Réutilisation (#1387) : la variable choisie rejoint la PI telle quelle, et s'ouvre dans le
+  // panneau — le bandeau y signale aussitôt les autres fichiers qui la partagent.
+  const handleReuseVariable = useCallback(
+    (variable: Variable) => {
+      dispatch(actions.reuseVariable(variable));
+      setReuseDialogVisible(false);
+      void handleVariableClick(toVariableTableData(variable), variable);
+    },
+    [handleVariableClick],
   );
 
   // Restore selected variable from URL on initial load
@@ -602,7 +659,8 @@ export const Component = () => {
     try {
       // L'enveloppe DDI 4 ne porte qu'un tableau `items` à plat : on travaille ici sur des
       // listes par type, réassemblées en `items` juste avant l'envoi.
-      let variables = itemsOfType(data, "Variable");
+      // Les variables réutilisées non modifiées partent telles que stockées (#1387).
+      let variables = [...itemsOfType(data, "Variable"), ...state.reusedVariables];
       const codeListMap = new Map(itemsOfType(data, "CodeList").map((cl) => [cl.ID, cl]));
       const categoryMap = new Map(itemsOfType(data, "Category").map((cat) => [cat.ID, cat]));
       // MMVR : valeurs sentinelles, #1566
@@ -610,8 +668,13 @@ export const Component = () => {
         itemsOfType(data, "ManagedMissingValuesRepresentation").map((mmvr) => [mmvr.ID, mmvr]),
       );
 
-      // Si on a des variables locales ou des suppressions, mettre à jour les variables
-      if (state.localVariables.length > 0 || state.deletedVariableIds.length > 0) {
+      // Si on a des variables locales, des suppressions ou des réutilisations, mettre à jour les
+      // variables (la Map dédoublonne une variable retirée puis réutilisée avant la sauvegarde)
+      if (
+        state.localVariables.length > 0 ||
+        state.deletedVariableIds.length > 0 ||
+        state.reusedVariables.length > 0
+      ) {
         const variableMap = new Map(variables.map((v: Variable) => [v.ID, v]));
 
         // Supprimer les variables marquées comme supprimées
@@ -719,13 +782,18 @@ export const Component = () => {
             });
           }
 
+          // Une variable déjà stockée garde son agence et sa version : réécrite en v1 sous l'agence
+          // de la PI, elle créait une version fantôme que les autres fichiers ne voyaient pas.
+          const storedVariable = variableMap.get(localVar.id);
+          const variableAgency = storedVariable?.Agency ?? agencyId!;
+          const variableVersion = storedVariable?.Version ?? "1";
           const ddiVariable: Variable = {
             $type: "Variable",
             VersionDate: { DateTime: new Date().toISOString() },
-            URN: `urn:ddi:${agencyId}:${localVar.id}:1`,
-            Agency: agencyId!,
+            URN: `urn:ddi:${variableAgency}:${localVar.id}:${variableVersion}`,
+            Agency: variableAgency,
             ID: localVar.id,
-            Version: "1",
+            Version: variableVersion,
             VariableName: singletonEntries("fr-FR", localVar.name),
             Label: singletonEntries("fr-FR", localVar.label),
             ...(localVar.description && {
@@ -751,10 +819,10 @@ export const Component = () => {
 
         const variableReferences = variables.map((v: Variable) => ({
           $type: "Variable" as const,
-          URN: `urn:ddi:${agencyId}:${v.ID}:1`,
-          Agency: agencyId!,
+          URN: `urn:ddi:${v.Agency}:${v.ID}:${v.Version}`,
+          Agency: v.Agency,
           ID: v.ID,
-          Version: "1",
+          Version: v.Version,
         }));
 
         return {
@@ -820,7 +888,16 @@ export const Component = () => {
         sticky: true,
       });
     }
-  }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
+  }, [
+    id,
+    agencyId,
+    data,
+    state.localVariables,
+    state.deletedVariableIds,
+    state.reusedVariables,
+    savePhysicalInstance,
+    t,
+  ]);
 
   // Sauvegarde globale : la saisie en cours a déjà été reportée dans le tableau en quittant le
   // champ (le clic sur le bouton suffit). Rien n'est envoyé tant qu'une variable modifiée est
@@ -953,6 +1030,7 @@ export const Component = () => {
               onTypeFilterChange={handleTypeFilterChange}
               typeOptions={typeOptions}
               onNewVariable={handleNewVariable}
+              onReuseVariable={currentStudyUnit ? () => setReuseDialogVisible(true) : undefined}
               onSaveAll={handleSaveAll}
               hasLocalChanges={hasUnsavedChanges}
               stamps={currentStamps}
@@ -1000,6 +1078,7 @@ export const Component = () => {
             onDeleteClick={handleDeleteVariable}
             unsavedVariableIds={unsavedVariableIds}
             invalidVariableIds={invalidVariableIds}
+            sharedVariableIds={sharedVariableIds}
             selectedVariableId={state.selectedVariable?.id}
             stamps={currentStamps}
           />
@@ -1011,6 +1090,7 @@ export const Component = () => {
                 variable={state.selectedVariable}
                 typeOptions={variableTypeOptions}
                 locallyUsedMmvrIds={locallyUsedMmvrIds}
+                otherPhysicalInstances={otherPhysicalInstances.get(state.selectedVariable.id)}
                 isNew={state.selectedVariable.id === "new"}
                 onSave={handleVariableChange}
                 onDirtyChange={setEditedVariableDirty}
@@ -1037,6 +1117,15 @@ export const Component = () => {
             onSubmitDuplicate={handleConfirmDuplicate}
           />
         </Suspense>
+      )}
+
+      {reuseDialogVisible && currentStudyUnit && (
+        <ReuseVariableDialog
+          studyUnit={currentStudyUnit}
+          excludedVariableIds={mergedVariables.map((variable) => variable.id)}
+          onReuse={handleReuseVariable}
+          onHide={() => setReuseDialogVisible(false)}
+        />
       )}
 
       {savePhysicalInstance.isPending && <LoadingOverlay textType="saving" />}

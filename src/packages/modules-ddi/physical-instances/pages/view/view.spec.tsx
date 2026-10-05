@@ -58,10 +58,23 @@ vi.mock("react-router", () => ({
   useNavigate: () => mockNavigate,
   useSearchParams: () => [mockSearchParams, mockSetSearchParams],
   useBlocker: () => mockBlocker,
+  Link: ({ to, children, ...props }: any) => (
+    <a href={to} {...props}>
+      {children}
+    </a>
+  ),
 }));
 
 vi.mock("../../../hooks/usePhysicalInstance", () => ({
   usePhysicalInstancesData: () => mockUsePhysicalInstancesData(),
+}));
+
+// Réutilisation de variables (#1387) : vivier de la StudyUnit et usages par PI.
+const mockUseStudyUnitVariables = vi.fn();
+const mockUseStudyUnitVariableUsages = vi.fn();
+vi.mock("../../../hooks/useStudyUnitVariables", () => ({
+  useStudyUnitVariables: (...args: unknown[]) => mockUseStudyUnitVariables(...args),
+  useStudyUnitVariableUsages: (...args: unknown[]) => mockUseStudyUnitVariableUsages(...args),
 }));
 
 vi.mock("../../../hooks/useUpdatePhysicalInstance", () => ({
@@ -579,6 +592,9 @@ describe("View Component", () => {
     // Default mock for mutation
     mockUpdate();
     mockPublish();
+
+    mockUseStudyUnitVariables.mockReturnValue({ data: [], isLoading: false });
+    mockUseStudyUnitVariableUsages.mockReturnValue({ data: [], isLoading: false });
 
     mockValidateDdi4.mockReturnValue({
       validate: vi.fn().mockResolvedValue(undefined),
@@ -1286,7 +1302,7 @@ describe("View Component", () => {
         expect.arrayContaining([
           expect.objectContaining({
             $type: "Variable",
-            Agency: "test-agency-123",
+            Agency: "test-agency",
             ID: "var-1",
             Version: "1",
           }),
@@ -1972,6 +1988,243 @@ describe("View Component", () => {
       const [, init] = (global.fetch as any).mock.calls.at(-1);
       const previewed = JSON.parse(init.body).items.find((i: any) => i.ID === "var-1");
       expect(previewed.VersionDate).toEqual({ DateTime: "2026-01-15T09:30:00+01:00" });
+    });
+  });
+
+  describe("Variable reuse (#1387)", () => {
+    const en = (value: string) => [{ "@language": "en-GB", "@value": value }];
+
+    // Variable du VariableScheme de l'étude, déjà utilisée par un autre fichier : autre agence,
+    // version > 1 et libellés bilingues, pour vérifier qu'elle n'est ni recopiée ni appauvrie.
+    const sharedVariable = {
+      $type: "Variable",
+      URN: "urn:ddi:other-agency:var-shared:4",
+      Agency: "other-agency",
+      ID: "var-shared",
+      Version: "4",
+      VariableName: [...fr("SHARED"), ...en("SHARED")],
+      Label: [...fr("Variable partagée"), ...en("Shared variable")],
+      VariableRepresentation: { TextRepresentation: { MaxLength: 10 } },
+    };
+
+    const usage = (
+      physicalInstanceId: string,
+      physicalInstanceLabel: string,
+      variableId: string,
+    ) => ({
+      studyUnitAgencyId: "agency-1",
+      studyUnitId: "study-1",
+      studyUnitLabel: null,
+      // La PI affichée est test-agency-123/test-id-123 (cf. le mock de useParams).
+      physicalInstanceAgencyId:
+        physicalInstanceId === "test-id-123" ? "test-agency-123" : "fr.insee",
+      physicalInstanceId,
+      physicalInstanceLabel,
+      variableAgencyId: "fr.insee",
+      variableId,
+      variableLabel: null,
+    });
+
+    const reuseVariable = (key = "other-agency/var-shared") => {
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.reuseVariable.open"));
+      fireEvent.change(screen.getByLabelText("physicalInstance.view.reuseVariable.select"), {
+        target: { value: key },
+      });
+      fireEvent.click(
+        screen.getByRole("button", { name: "physicalInstance.view.reuseVariable.confirm" }),
+      );
+    };
+
+    const savedVariable = (saved: any, id: string) =>
+      itemsOfType(saved, "Variable").find((variable: any) => variable.ID === id);
+
+    const savedReferences = (saved: any) =>
+      itemsOfType(saved, "DataRelationship")[0].LogicalRecord[0].VariablesInRecord
+        .VariableUsedReference;
+
+    beforeEach(() => {
+      mockUseStudyUnitVariables.mockReturnValue({ data: [sharedVariable], isLoading: false });
+    });
+
+    it("should search the variables of the study unit and add the chosen one to the table, unsaved", async () => {
+      renderView();
+
+      reuseVariable();
+
+      expect(mockUseStudyUnitVariables).toHaveBeenCalledWith("agency-1", "study-1");
+      await expectUnsaved("SHARED");
+      expect(screen.getByText("physicalInstance.view.editVariable - SHARED")).toBeInTheDocument();
+      expect(screen.getByLabelText("physicalInstance.view.saveAll")).not.toBeDisabled();
+    });
+
+    it("should not offer a variable the physical instance already uses", () => {
+      mockDataWithExistingVariable();
+      mockUseStudyUnitVariables.mockReturnValue({
+        data: [{ ...sharedVariable, ID: "var-1" }],
+        isLoading: false,
+      });
+      renderView();
+
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.reuseVariable.open"));
+
+      expect(screen.queryByRole("option", { name: /SHARED/ })).not.toBeInTheDocument();
+    });
+
+    it("should save the reused Variable item unchanged, referenced with its own agency and version", async () => {
+      const mutateAsync = mockPublish();
+      renderView();
+
+      reuseVariable();
+      const saved = await saveAll(mutateAsync);
+
+      expect(savedVariable(saved, "var-shared")).toEqual(sharedVariable);
+      expect(savedReferences(saved)).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            URN: "urn:ddi:other-agency:var-shared:4",
+            Agency: "other-agency",
+            ID: "var-shared",
+            Version: "4",
+          }),
+        ]),
+      );
+    });
+
+    it("should keep the agency and version of a reused variable edited before saving", async () => {
+      const mutateAsync = mockPublish();
+      renderView();
+
+      reuseVariable();
+      fireEvent.change(labelField(), { target: { value: "Libellé modifié" } });
+      leaveField(labelField());
+      const saved = await saveAll(mutateAsync);
+
+      expect(savedVariable(saved, "var-shared")).toEqual(
+        expect.objectContaining({
+          URN: "urn:ddi:other-agency:var-shared:4",
+          Agency: "other-agency",
+          Version: "4",
+          Label: fr("Libellé modifié"),
+        }),
+      );
+    });
+
+    it("should keep the stored agency and version of an existing variable when it is edited", async () => {
+      // Sans cela, la sauvegarde réécrivait toute variable modifiée en version 1 sous l'agence de
+      // la PI : une variable partagée en v3 aurait laissé les autres fichiers sur l'ancienne.
+      const mutateAsync = mockPublish();
+      mockPhysicalInstanceData({
+        variableUsedReference: [variableReference("var-1")],
+        ddiVariables: [
+          {
+            ID: "var-1",
+            Agency: "fr.insee",
+            Version: "3",
+            URN: "urn:ddi:fr.insee:var-1:3",
+            VariableName: fr("Variable1"),
+            Label: fr("Variable 1"),
+            VariableRepresentation: { TextRepresentation: {} },
+          },
+        ],
+        variables: [{ id: "var-1", name: "Variable1", label: "Variable 1", type: "text" }],
+      });
+      renderView();
+
+      selectFirstVariable();
+      await screen.findByText("physicalInstance.view.editVariable - Variable1");
+      fireEvent.change(labelField(), { target: { value: "Libellé modifié" } });
+      leaveField(labelField());
+      const saved = await saveAll(mutateAsync);
+
+      expect(savedVariable(saved, "var-1")).toEqual(
+        expect.objectContaining({
+          URN: "urn:ddi:fr.insee:var-1:3",
+          Agency: "fr.insee",
+          Version: "3",
+        }),
+      );
+      expect(savedReferences(saved)).toEqual([
+        expect.objectContaining({ Agency: "fr.insee", ID: "var-1", Version: "3" }),
+      ]);
+    });
+
+    it("should no longer save a reused variable removed before saving", async () => {
+      const mutateAsync = mockPublish();
+      mockDataWithExistingVariable();
+      renderView();
+
+      reuseVariable();
+      await expectUnsaved("SHARED");
+      fireEvent.click(screen.getAllByLabelText("physicalInstance.view.delete")[1]);
+      fireEvent.click(screen.getByText("physicalInstance.view.confirmDelete"));
+      const saved = await saveAll(mutateAsync);
+
+      expect(savedVariable(saved, "var-shared")).toBeUndefined();
+    });
+
+    it("should flag in the table the variables shared with another physical instance", () => {
+      mockDataWithExistingVariable();
+      mockUseStudyUnitVariableUsages.mockReturnValue({
+        data: [
+          usage("test-id-123", "Ce fichier", "var-1"),
+          usage("pi-2025", "Fichier 2025", "var-1"),
+        ],
+        isLoading: false,
+      });
+      renderView();
+
+      expect(mockUseStudyUnitVariableUsages).toHaveBeenCalledWith("agency-1", "study-1");
+      expect(
+        within(screen.getByText("Variable1").closest("tr")!).getByLabelText(
+          "physicalInstance.view.sharedVariable.badge",
+        ),
+      ).toBeInTheDocument();
+    });
+
+    it("should warn in the edit panel that editing a shared variable updates the other physical instances", async () => {
+      mockDataWithExistingVariable();
+      mockUseStudyUnitVariableUsages.mockReturnValue({
+        data: [usage("pi-2025", "Fichier 2025", "var-1")],
+        isLoading: false,
+      });
+      renderView();
+
+      selectFirstVariable();
+
+      expect(
+        await screen.findByText("physicalInstance.view.sharedVariable.message"),
+      ).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: "Fichier 2025" })).toHaveAttribute(
+        "href",
+        "/ddi/physical-instances/fr.insee/pi-2025",
+      );
+    });
+
+    it("should warn as soon as it is reused that the variable belongs to other physical instances", async () => {
+      mockUseStudyUnitVariableUsages.mockReturnValue({
+        data: [usage("pi-2025", "Fichier 2025", "var-shared")],
+        isLoading: false,
+      });
+      renderView();
+
+      reuseVariable();
+
+      expect(
+        await screen.findByText("physicalInstance.view.sharedVariable.message"),
+      ).toBeInTheDocument();
+    });
+
+    it("should not flag a variable used by this physical instance only", () => {
+      mockDataWithExistingVariable();
+      mockUseStudyUnitVariableUsages.mockReturnValue({
+        data: [usage("test-id-123", "Ce fichier", "var-1")],
+        isLoading: false,
+      });
+      renderView();
+
+      expect(
+        screen.queryByLabelText("physicalInstance.view.sharedVariable.badge"),
+      ).not.toBeInTheDocument();
     });
   });
 });
