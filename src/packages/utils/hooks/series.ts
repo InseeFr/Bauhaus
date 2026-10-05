@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryOptions, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 
 import { Series } from "@model/Series";
@@ -20,12 +20,15 @@ export const useSeries = () => {
   });
 };
 
-export const useSerie = <T>(id: string | undefined) =>
-  useQuery<T>({
-    enabled: !!id,
+/** Fiche d'une série, partagée entre `useSerie` et les lectures impératives (`fetchQuery`). */
+export const serieQuery = <T>(id: string | undefined) =>
+  queryOptions<T>({
     queryKey: [...SERIES_KEY, id],
     queryFn: () => OperationsApi.getSerie(id),
   });
+
+export const useSerie = <T>(id: string | undefined) =>
+  useQuery({ ...serieQuery<T>(id), enabled: !!id });
 
 export const useSeriesSearchList = <T>() =>
   useQuery<T[]>({

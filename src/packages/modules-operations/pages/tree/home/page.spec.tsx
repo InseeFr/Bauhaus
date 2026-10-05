@@ -2,7 +2,9 @@ import { fireEvent, waitFor, within } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { renderWithRouter } from "../../../../tests/render";
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderAtRoute } from "../../page.testing";
 import { Component as OperationsTree } from "./page";
 
 const mockGoBack = vi.fn();
@@ -39,7 +41,7 @@ describe("OperationsTree", () => {
   });
 
   const renderTree = async () => {
-    const utils = renderWithRouter(<OperationsTree />);
+    const utils = renderAtRoute(<OperationsTree />, "/operations/tree", "/operations/tree");
     await waitFor(() => {
       expect(utils.getByRole("treeitem", { name: "Family 1" })).toBeInTheDocument();
     });
@@ -195,6 +197,42 @@ describe("OperationsTree", () => {
     await waitFor(() => {
       expect(container.querySelector(".p-tree-loading")).not.toBeInTheDocument();
     });
+  });
+
+  it("affiche l'échec de chargement des familles au lieu d'un arbre vide", async () => {
+    vi.mocked(OperationsApi).getAllFamilies.mockRejectedValue(sdkRejection.emptyBody(500));
+    const { queryByRole } = renderAtRoute(
+      <OperationsTree />,
+      "/operations/tree",
+      "/operations/tree",
+    );
+
+    await expectItemLoadFailed();
+    expect(queryByRole("tree")).not.toBeInTheDocument();
+  });
+
+  it("affiche l'échec du dépliage d'une famille et cesse de signaler le chargement", async () => {
+    vi.mocked(OperationsApi).getFamilyById.mockRejectedValue(sdkRejection.emptyBody(500));
+
+    const { getByRole, container } = await renderTree();
+
+    fireEvent.click(togglerOf(getByRole("treeitem", { name: "Family 1" })));
+
+    await expectItemLoadFailed();
+    expect(container.querySelector(".p-tree-loading")).not.toBeInTheDocument();
+    expect(getByRole("treeitem", { name: "Family 1" })).toBeInTheDocument();
+  });
+
+  it("affiche l'échec du dépliage d'une série", async () => {
+    mockFamilyWithOneSeries();
+    vi.mocked(OperationsApi).getSerie.mockRejectedValue(sdkRejection.emptyBody(500));
+
+    const { getByRole } = await renderTree();
+
+    await expandUntilSeriesShown(getByRole);
+    fireEvent.click(togglerOf(getByRole("treeitem", { name: "Series 1" })));
+
+    await expectItemLoadFailed();
   });
 
   it("revient à l'accueil des opérations", async () => {
