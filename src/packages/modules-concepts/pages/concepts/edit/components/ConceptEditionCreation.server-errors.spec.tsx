@@ -1,4 +1,4 @@
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 
 import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
 
@@ -30,7 +30,7 @@ const validationError = (errors: { field: string; message: string }[]) =>
     errors,
   });
 
-const renderForm = (serverSideError: unknown) =>
+const renderForm = (serverSideError: unknown, section?: string) =>
   renderWithAppContext(
     <ConceptEditionCreation
       id="c1"
@@ -51,6 +51,7 @@ const renderForm = (serverSideError: unknown) =>
       submitting={false}
       maxLengthScopeNote={1000}
       serverSideError={serverSideError}
+      section={section}
     />,
   );
 
@@ -81,5 +82,29 @@ describe("erreurs de validation du serveur sur les informations générales", ()
     const input = screen.getByDisplayValue("Corrigé");
     expect(input).not.toHaveAttribute("aria-invalid", "true");
     expect(screen.queryByText("Libellé refusé")).not.toBeInTheDocument();
+  });
+});
+
+describe("onglet qui porte une erreur de validation du serveur", () => {
+  const summaryEntry = (name: RegExp) =>
+    within(screen.getByRole("navigation")).getByRole("button", { name });
+
+  it("signale les liens à corriger quand l'onglet affiché est un autre", () => {
+    renderForm(validationError([{ field: "links[0].typeOfLink", message: "Type absent" }]));
+
+    expect(summaryEntry(/^Links/).textContent).toContain("To fix");
+    expect(screen.getByText(/Type absent/)).toBeInTheDocument();
+  });
+
+  it("signale les informations générales à corriger quand l'onglet affiché est un autre", () => {
+    renderForm(validationError([{ field: "prefLabelLg1", message: "Libellé refusé" }]), "links");
+
+    expect(summaryEntry(/^General information/).textContent).toContain("To fix");
+  });
+
+  it("ne signale pas les liens pour une erreur qui ne les vise pas", () => {
+    renderForm(validationError([{ field: "prefLabelLg1", message: "Libellé refusé" }]));
+
+    expect(summaryEntry(/^Links/).textContent).not.toContain("To fix");
   });
 });

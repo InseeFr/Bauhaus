@@ -30,6 +30,18 @@ type VersioningType = typeof VERSIONING | typeof NO_VERSIONING;
 /** Champs du corps (`ConceptRequest`) qui ont un emplacement d'erreur dans les informations générales. */
 const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2", "creator", "disseminationStatus"];
 
+/** Vrai quand le rejet porte une erreur de validation sur un lien (`links[0].typeOfLink`…). */
+const hasLinkError = (serverSideError: unknown): boolean => {
+  const errors = (serverSideError as { errors?: unknown } | null | undefined)?.errors;
+  return (
+    Array.isArray(errors) &&
+    errors.some((error) => {
+      const field = (error as { field?: unknown } | null)?.field;
+      return typeof field === "string" && /^links\b/.test(field);
+    })
+  );
+};
+
 /** Erreurs de champ du serveur ajoutées aux erreurs client ; un message client non vide l'emporte. */
 const withServerFieldErrors = (
   clientErrors: ValidationResult | undefined,
@@ -355,6 +367,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
             conceptsWithLinks={dataConceptsWithLinks}
             equivalentLinks={state.data.equivalentLinks}
             errorFields={displayedErrors?.fields}
+            linksToFix={hasLinkError(serverSideError)}
             activeSection={activeSection}
             activeNote={activeNote}
             activeLinkType={activeLinkType}

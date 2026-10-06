@@ -26,6 +26,8 @@ interface ConceptSummaryProps {
   equivalentLinks: (Link & { urn: string })[];
   /** Champs en erreur remontés par `validate`, indexés par nom de champ. */
   errorFields?: Record<string, string>;
+  /** Le serveur a refusé un lien : la section est à corriger. */
+  linksToFix?: boolean;
   activeSection: ConceptSection;
   activeNote: NoteRawTitle;
   activeLinkType: string;
@@ -42,6 +44,7 @@ export const ConceptSummary = ({
   conceptsWithLinks,
   equivalentLinks,
   errorFields,
+  linksToFix,
   activeSection,
   activeNote,
   activeLinkType,
@@ -67,11 +70,13 @@ export const ConceptSummary = ({
     conceptsWithLinks.reduce((count, { typesOfLink }) => count + typesOfLink.length, 0) +
     equivalentLinks.length;
 
+  const toFixBadge: SummaryBadge = { label: t("concept.notes.statusToFix"), tone: "danger" };
+
   const entries: SummaryEntry[] = [
     {
       key: "general",
       label: t("common.globalInformationsTitle"),
-      badge: generalToFix ? { label: t("concept.notes.statusToFix"), tone: "danger" } : undefined,
+      badge: generalToFix ? toFixBadge : undefined,
     },
     {
       key: "notes",
@@ -88,7 +93,7 @@ export const ConceptSummary = ({
     {
       key: "links",
       label: t("common.linksTitle"),
-      badge: { label: String(linksCount) },
+      badge: linksToFix ? toFixBadge : { label: String(linksCount) },
       items: LINK_TYPES.map(({ titleKey, memberType }) => ({
         key: memberType,
         label: t1(titleKey),
