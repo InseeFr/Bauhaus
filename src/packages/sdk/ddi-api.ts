@@ -133,6 +133,9 @@ const api = {
   getCodeListUsers: (agencyId: string, id: string) => [`codes-list/${agencyId}/${id}/users`],
   getCategoryUsers: (agencyId: string, id: string) => [`category/${agencyId}/${id}/users`],
   getMutualizedCodeLists: () => ["mutualized-codes-list"],
+  getMutualizedCodeListCodes: (agencyId: string, id: string) => [
+    `mutualized-codes-list/${agencyId}/${id}/codes`,
+  ],
   getMutualizedCodeList: (agencyId: string, id: string) => [
     `mutualized-codes-list/${agencyId}/${id}`,
     {},

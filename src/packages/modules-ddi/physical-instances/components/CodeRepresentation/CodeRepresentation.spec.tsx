@@ -92,6 +92,16 @@ vi.mock("../../../hooks/useMutualizedCodeList", () => ({
   useMutualizedCodeList: (agency: string, id: string) => mockUseMutualizedCodeList(agency, id),
 }));
 
+const mockUseMutualizedCodeListCodes = vi.fn((_agency: string, _id: string) => ({
+  data: undefined as any,
+  isLoading: false,
+}));
+
+vi.mock("../../../hooks/useMutualizedCodeListCodes", () => ({
+  useMutualizedCodeListCodes: (agency: string, id: string) =>
+    mockUseMutualizedCodeListCodes(agency, id),
+}));
+
 const mockUseCodeListUsers = vi.fn(() => ({
   data: [] as any[],
   isLoading: false,
@@ -305,6 +315,10 @@ describe("CodeRepresentation", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseMutualizedCodeListCodes.mockImplementation(() => ({
+      data: undefined,
+      isLoading: false,
+    }));
     mockFetchCategoryUsers.mockResolvedValue([]);
     mockFetchCodeListUsers.mockResolvedValue([]);
     mockUseCategoryUsers.mockReturnValue({ data: [], isLoading: false, isError: false });
@@ -710,21 +724,10 @@ describe("CodeRepresentation", () => {
         error: null,
       });
 
-      const loadingResult = {
-        data: undefined as any,
-        isLoading: true,
-        isSuccess: false,
-        error: null,
-      };
-      const idleResult = {
-        data: undefined as any,
-        isLoading: false,
-        isSuccess: false,
-        error: null,
-      };
-      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
-        agency === "fr.insee" && id === "mut-1" ? loadingResult : idleResult,
-      );
+      mockUseMutualizedCodeListCodes.mockImplementation((agency: string, id: string) => ({
+        data: undefined,
+        isLoading: agency === "fr.insee" && id === "mut-1",
+      }));
 
       render(
         <CodeRepresentation
@@ -751,43 +754,19 @@ describe("CodeRepresentation", () => {
         error: null,
       });
 
-      const mutualizedData = envelope({
-        CodeList: [
-          {
-            Agency: "fr.insee",
-            ID: "mut-1",
-            Label: [{ "@language": "fr-FR", "@value": "Liste mutualisée" }],
-            Code: [
-              {
-                ID: "code-1",
-                Value: { StringValue: "01" },
-                CategoryReference: { ID: "cat-1" },
-              },
-            ],
-          },
-        ],
-        Category: [
-          {
-            ID: "cat-1",
-            Label: [{ "@language": "fr-FR", "@value": "Agriculture" }],
-          },
-        ],
-      });
-      const idleResult = {
-        data: undefined,
-        isLoading: false,
-        isSuccess: false,
-        error: null,
+      // Liste mutualisée : vue allégée (valeur + libellé), jamais le DDI4 complet. Référence stable
+      // d'un rendu à l'autre, comme le renvoie React Query.
+      const mutualizedCodes = {
+        agencyId: "fr.insee",
+        id: "mut-1",
+        version: "1",
+        label: "Liste mutualisée",
+        codes: [{ id: "code-1", value: "01", label: "Agriculture" }],
       };
-      const successResult = {
-        data: mutualizedData,
+      mockUseMutualizedCodeListCodes.mockImplementation((agency: string, id: string) => ({
+        data: agency === "fr.insee" && id === "mut-1" ? mutualizedCodes : undefined,
         isLoading: false,
-        isSuccess: true,
-        error: null,
-      };
-      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
-        agency === "fr.insee" && id === "mut-1" ? successResult : idleResult,
-      );
+      }));
 
       render(
         <CodeRepresentation
@@ -811,6 +790,8 @@ describe("CodeRepresentation", () => {
       expect(screen.queryByText("Ajouter un code")).not.toBeInTheDocument();
       // dropdown stays visible so the user can change selection
       expect(screen.getByTestId("code-list-dropdown")).toBeInTheDocument();
+      // the heavy DDI4 content is never requested for a mutualized list
+      expect(mockUseMutualizedCodeList).not.toHaveBeenCalledWith("fr.insee", "mut-1");
     });
   });
 
@@ -927,38 +908,21 @@ describe("CodeRepresentation", () => {
         "mut-1": { value: "01", label: "Agriculture" },
         "mut-2": { value: "02", label: "Industrie" },
       };
-      const idleResult = { data: undefined, isLoading: false, isSuccess: false, error: null };
+      const idleResult = { data: undefined, isLoading: false };
       // Références mémoïsées par liste : react-query renvoie un objet stable depuis son cache.
       // Sans cela, un nouvel objet à chaque rendu ferait boucler l'effet de chargement.
       const successCache: Record<string, any> = {};
       const buildSuccess = (id: string) => {
         if (!successCache[id]) {
           successCache[id] = {
-            data: envelope({
-              CodeList: [
-                {
-                  Agency: "fr.insee",
-                  ID: id,
-                  Label: [{ "@language": "fr-FR", "@value": id }],
-                  Code: [
-                    {
-                      ID: `code-${id}`,
-                      Value: { StringValue: codesByList[id].value },
-                      CategoryReference: { ID: `cat-${id}` },
-                    },
-                  ],
-                },
-              ],
-              Category: [
-                {
-                  ID: `cat-${id}`,
-                  Label: [{ "@language": "fr-FR", "@value": codesByList[id].label }],
-                },
-              ],
-            }),
+            data: {
+              agencyId: "fr.insee",
+              id,
+              version: "1",
+              label: id,
+              codes: [{ id: `code-${id}`, ...codesByList[id] }],
+            },
             isLoading: false,
-            isSuccess: true,
-            error: null,
           };
         }
         return successCache[id];
@@ -966,12 +930,12 @@ describe("CodeRepresentation", () => {
 
       // Simule le cache de react-query : tant qu'une liste n'a pas été "chargée", le hook
       // renvoie un état de chargement ; une fois chargée, il renvoie les données en synchrone
-      // (comme un cache hit lors d'une re-sélection).
+      // (comme un cache hit lors d'une re-sélection). Listes mutualisées : vue allégée.
       const loadedKeys = new Set<string>();
-      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) => {
+      mockUseMutualizedCodeListCodes.mockImplementation((agency: string, id: string) => {
         if (!agency || !id) return idleResult;
         if (loadedKeys.has(`${agency}-${id}`)) return buildSuccess(id);
-        return { data: undefined, isLoading: true, isSuccess: false, error: null };
+        return { data: undefined, isLoading: true };
       });
 
       const StatefulHarness = () => {
