@@ -170,8 +170,11 @@ export const CodeRepresentation = ({
 
     if (codeList) {
       // Cas où on a une codeList complète (création ou liste existante chargée)
+      // Index par ID : un find() par code serait quadratique (45 000 codes → ~2 milliards de
+      // comparaisons, onglet figé).
+      const categoryById = new Map(categories.map((cat) => [cat.ID, cat]));
       const tableData: CodeTableRow[] = (codeList.Code ?? []).map((code) => {
-        const category = categories.find((cat) => cat.ID === code.CategoryReference?.ID);
+        const category = categoryById.get(code.CategoryReference?.ID ?? "");
         return {
           id: code.ID,
           value: code.Value?.StringValue ?? "",

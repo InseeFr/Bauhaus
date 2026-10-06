@@ -43,6 +43,16 @@ interface CodeListDataTableProps {
   readOnly?: boolean;
 }
 
+/**
+ * Au-delà de ce nombre de codes, le tableau est virtualisé : seules les lignes visibles sont
+ * rendues. Une liste mutualisée peut compter des dizaines de milliers de codes (45 000 → ~90 000
+ * champs dans le DOM, onglet figé) ; les petites listes gardent un rendu complet.
+ */
+export const VIRTUALIZATION_THRESHOLD = 200;
+
+/** Hauteur d'une ligne (taille « small », champ de saisie compris), requise par le virtual scroller. */
+const VIRTUAL_ROW_HEIGHT = 46;
+
 export const CodeListDataTable = ({
   codeListLabel,
   codes,
@@ -291,6 +301,11 @@ export const CodeListDataTable = ({
         // ligne ne change pas — la cellule resterait gelée après la décision. Le tableau tient
         // quelques codes : rien à gagner à la mémoïsation.
         cellMemo={false}
+        {...(codes.length > VIRTUALIZATION_THRESHOLD && {
+          scrollable: true,
+          scrollHeight: "60vh",
+          virtualScrollerOptions: { itemSize: VIRTUAL_ROW_HEIGHT },
+        })}
       >
         <Column
           field="value"

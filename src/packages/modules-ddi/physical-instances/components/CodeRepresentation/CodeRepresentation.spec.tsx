@@ -347,6 +347,43 @@ describe("CodeRepresentation", () => {
       expect(screen.getByTestId("data-table")).toBeInTheDocument();
     });
 
+    it("should show each code with the label of its own category", () => {
+      const secondCategory: Category = {
+        ...mockCategories[0],
+        URN: "urn:ddi:fr.insee:category-2:1",
+        ID: "category-2",
+        Label: [{ "@language": "fr-FR", "@value": "Non" }],
+      };
+      const codeList: CodeList = {
+        ...mockCodeList,
+        Code: [
+          ...mockCodeList.Code!,
+          {
+            ...mockCodeList.Code![0],
+            URN: "urn:ddi:fr.insee:code-2:1",
+            ID: "code-2",
+            CategoryReference: { ...mockCodeList.Code![0].CategoryReference!, ID: "category-2" },
+            Value: { StringValue: "2" },
+          },
+        ],
+      };
+
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={codeList}
+          categories={[secondCategory, ...mockCategories]}
+          onChange={mockOnChange}
+        />,
+      );
+
+      const rows = within(screen.getByTestId("data-table")).getAllByRole("row");
+      expect(within(rows[0]).getByDisplayValue("1")).toBeInTheDocument();
+      expect(within(rows[0]).getByDisplayValue("Oui")).toBeInTheDocument();
+      expect(within(rows[1]).getByDisplayValue("2")).toBeInTheDocument();
+      expect(within(rows[1]).getByDisplayValue("Non")).toBeInTheDocument();
+    });
+
     it("should not show DataTable when codeList is undefined", () => {
       render(
         <CodeRepresentation
