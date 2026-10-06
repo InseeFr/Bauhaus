@@ -1,38 +1,24 @@
-import { useTranslation } from "react-i18next";
-
-import { Tag } from "@components/ui/tag";
-
 import type {
   PhysicalInstanceUpdateData,
   SelectedGroup,
   SelectedStudyUnit,
 } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import { PhysicalInstanceBreadcrumb } from "./PhysicalInstanceBreadcrumb";
 import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
-import { StudyUnitTag } from "./StudyUnitTag";
 
 interface PhysicalInstanceHeaderProps {
   label: string;
   onSave: (data: PhysicalInstanceUpdateData) => Promise<void>;
   group?: SelectedGroup;
   studyUnit?: SelectedStudyUnit;
-  /** Libellé du groupe parent, affiché en tag sous le titre. */
+  /** Libellé du groupe parent, affiché dans le fil d'Ariane. */
   groupLabel?: string;
-  /** Libellé de l'étude parente, affiché en tag sous le titre. */
+  /** Libellé de l'étude parente, affiché dans le fil d'Ariane. */
   studyUnitLabel?: string;
-  /** PI courante, exclue de la liste déroulante des PI de l'étude. */
-  physicalInstance?: { agency: string; id: string };
+  /** PI courante : dernier segment du fil d'Ariane, d'où l'on change de PI. */
+  physicalInstance: { agency: string; id: string };
   stamps?: string[];
 }
-
-// Tags parents « groupe » / « étude » : gris, plus gros que la taille PrimeReact par défaut.
-// Couleur forcée en dur car le token `severity="secondary"` de PrimeReact rend bleu
-// sur ce thème (tokens --p-* absents, cf. souci PrimeFlex 4 / PrimeReact 10).
-const tagStyle = {
-  fontSize: "1rem",
-  padding: "0.4rem 0.7rem",
-  backgroundColor: "#6c757d",
-  color: "#ffffff",
-};
 
 export const PhysicalInstanceHeader = ({
   label,
@@ -43,37 +29,19 @@ export const PhysicalInstanceHeader = ({
   studyUnitLabel,
   physicalInstance,
   stamps,
-}: Readonly<PhysicalInstanceHeaderProps>) => {
-  const { t } = useTranslation();
-
-  return (
-    <div className="mb-3">
-      <PhysicalInstanceLabel
-        label={label}
-        onSave={onSave}
-        group={group}
-        studyUnit={studyUnit}
-        stamps={stamps}
-      />
-      {(groupLabel || studyUnitLabel) && (
-        <div className="flex align-items-center gap-2 flex-wrap">
-          {groupLabel && (
-            <Tag
-              icon="pi pi-folder"
-              style={tagStyle}
-              value={t("physicalInstance.view.groupTag", { label: groupLabel })}
-            />
-          )}
-          {studyUnitLabel && studyUnit && (
-            <StudyUnitTag
-              label={studyUnitLabel}
-              studyUnit={studyUnit}
-              currentPhysicalInstance={physicalInstance}
-              style={tagStyle}
-            />
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
+}: Readonly<PhysicalInstanceHeaderProps>) => (
+  <div className="mb-3">
+    <PhysicalInstanceBreadcrumb
+      group={group && groupLabel ? { id: group.id, label: groupLabel } : undefined}
+      studyUnit={studyUnit && studyUnitLabel ? { ...studyUnit, label: studyUnitLabel } : undefined}
+      physicalInstance={{ ...physicalInstance, label }}
+    />
+    <PhysicalInstanceLabel
+      label={label}
+      onSave={onSave}
+      group={group}
+      studyUnit={studyUnit}
+      stamps={stamps}
+    />
+  </div>
+);

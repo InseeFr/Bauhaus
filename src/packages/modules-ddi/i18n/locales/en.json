@@ -291,10 +291,17 @@
       "unsavedChangesMessage": "You have unsaved changes. Are you sure you want to leave this page?",
       "leaveWithoutSaving": "Leave without saving",
       "stayOnPage": "Stay on page",
-      "groupTag": "Group: {{label}}",
-      "studyUnitTag": "Study unit: {{label}}",
-      "studyUnitSelectPlaceholder": "Go to a data file of the study unit…",
-      "studyUnitSelectEmpty": "No data file",
+      "breadcrumb": {
+        "label": "Data file hierarchy",
+        "group": "Group:",
+        "studyUnit": "Study unit:",
+        "switch": "{{label}} — switch to another data file of the study unit",
+        "filter": "Filter data files…",
+        "loading": "Loading…",
+        "noMatch": "No matching data file",
+        "count_one": "{{count}} data file in the study unit",
+        "count_other": "{{count}} data files in the study unit"
+      },
       "reuseVariable": {
         "open": "Reuse a variable",
         "title": "Reuse a variable of the study",

@@ -291,10 +291,17 @@
       "unsavedChangesMessage": "Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir quitter cette page ?",
       "leaveWithoutSaving": "Quitter sans sauvegarder",
       "stayOnPage": "Rester sur la page",
-      "groupTag": "Série : {{label}}",
-      "studyUnitTag": "Opération : {{label}}",
-      "studyUnitSelectPlaceholder": "Aller vers un fichier de données de l'opération…",
-      "studyUnitSelectEmpty": "Aucun fichier de données",
+      "breadcrumb": {
+        "label": "Arborescence du fichier de données",
+        "group": "Série :",
+        "studyUnit": "Opération :",
+        "switch": "{{label}} — changer de fichier de données de l'opération",
+        "filter": "Filtrer les fichiers de données…",
+        "loading": "Chargement…",
+        "noMatch": "Aucun fichier de données ne correspond",
+        "count_one": "{{count}} fichier de données dans l'opération",
+        "count_other": "{{count}} fichiers de données dans l'opération"
+      },
       "reuseVariable": {
         "open": "Réutiliser une variable",
         "title": "Réutiliser une variable de l'étude",

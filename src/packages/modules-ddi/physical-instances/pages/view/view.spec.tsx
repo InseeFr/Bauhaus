@@ -681,7 +681,9 @@ describe("View Component", () => {
     it("should render the physical instance title", () => {
       renderView();
 
-      expect(screen.getByText("Test Physical Instance")).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { level: 1, name: "Test Physical Instance" }),
+      ).toBeInTheDocument();
     });
 
     it("should initialize form data with data relationship name", () => {
