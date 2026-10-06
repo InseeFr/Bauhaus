@@ -191,4 +191,25 @@ describe("Physical instances advanced search page", () => {
     expect(screen.getByRole("link", { name: "PI Deux" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "PI Un" })).not.toBeInTheDocument();
   });
+  it("keeps one table row per hit when a physical instance is attached to several study units", async () => {
+    const user = userEvent.setup();
+    // Le back renvoie une ligne par rattachement : la même PI (même id) sur deux études.
+    mockData([
+      row({ id: "pi-1", label: "Partagée", studyUnitId: "su-1", studyUnitLabel: "Étude A" }),
+      row({ id: "pi-2", label: "Autre", studyUnitId: "su-2", studyUnitLabel: "Étude B" }),
+      row({ id: "pi-1", label: "Partagée", studyUnitId: "su-3", studyUnitLabel: "Étude C" }),
+    ]);
+
+    render(<Component />, { wrapper });
+
+    await user.type(screen.getByRole("textbox"), "Autre");
+    await user.clear(screen.getByRole("textbox"));
+    await user.type(screen.getByRole("textbox"), "Part");
+
+    const studyUnitCells = screen
+      .getAllByRole("row")
+      .slice(1)
+      .map((tr) => tr.querySelectorAll("td")[2]?.textContent);
+    expect(studyUnitCells).toEqual(["Étude A", "Étude C"]);
+  });
 });
