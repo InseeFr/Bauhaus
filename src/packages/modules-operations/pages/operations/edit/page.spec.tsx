@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
@@ -16,15 +16,9 @@ vi.mock("@sdk/operations-api", () => ({
   },
 }));
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    },
-  },
-});
-
+// Un client neuf par rendu : la fiche chargée par un test ne sert pas le suivant depuis le cache.
 const renderAtRoute = (url: string, routePath: string) => {
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
     <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
       <QueryClientProvider client={queryClient}>
@@ -44,6 +38,8 @@ const renderWithRouter = (id: string) =>
 const renderWithoutId = () => renderAtRoute("/operations/operation/", "/operations/operation/");
 
 describe("Operations Edition Index Component", () => {
+  beforeEach(() => vi.clearAllMocks());
+
   it("should display loading state when operation is being fetched", () => {
     vi.mocked(OperationsApi.getOperation).mockImplementation(
       () =>

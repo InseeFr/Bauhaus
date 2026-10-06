@@ -299,6 +299,22 @@ describe("SimsVisualization - delete redirection", () => {
     await waitFor(() => expect(navigateMock).toHaveBeenCalled());
     expect(invalidatedAtNavigation).toBe(true);
   });
+
+  it("should invalidate the cached operation before opening it, as it no longer has a SIMS", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["operations", "op42"], { id: "op42", idSims: "3" });
+    let invalidatedAtNavigation: boolean | undefined;
+    navigateMock.mockImplementationOnce(() => {
+      invalidatedAtNavigation = queryClient.getQueryState(["operations", "op42"])?.isInvalidated;
+    });
+    renderComponent(vi.fn(), { id: "3", idOperation: "op42", rubrics: {} }, queryClient);
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
+    expect(invalidatedAtNavigation).toBe(true);
+  });
 });
 
 describe("SimsVisualization - delete error handling", () => {

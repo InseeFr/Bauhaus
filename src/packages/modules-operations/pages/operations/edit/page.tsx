@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
-import { Operation } from "@model/Operation";
-
-import { OperationsApi } from "@sdk/operations-api";
-
+import { useOperation } from "@utils/hooks/operations";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -17,23 +13,11 @@ import { OperationsOperationEdition } from "./components/OperationsOperationEdit
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
 
-  const [operation, setOperation] = useState<Operation | undefined>(undefined);
-
-  const [loadError, setLoadError] = useState<unknown>();
+  const { data: operation, error: loadError } = useOperation(id);
 
   const goBack = useGoBack();
 
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (id) {
-      OperationsApi.getOperation(id)
-        .then((result: Operation) => {
-          setOperation(result);
-        })
-        .catch(setLoadError);
-    }
-  }, [id]);
 
   useTitle(t("common.operationsTitle"), operation?.prefLabelLg1);
 

@@ -13,6 +13,7 @@ import { Operation } from "@model/Operation";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { toFormErrors } from "@utils/api-errors";
+import { useInvalidateOperations } from "@utils/hooks/operations";
 import { useInvalidateSeries } from "@utils/hooks/series";
 
 import { validate } from "../validation";
@@ -75,6 +76,8 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
   // La fiche d'une série liste ses opérations.
   const invalidateSeries = useInvalidateSeries();
 
+  const invalidateOperations = useInvalidateOperations();
+
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -127,7 +130,7 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
       // le formulaire réapparaîtrait le temps qu'elle aboutisse.
       return OperationsApi[method](state.operation).then(
         async (id = state.operation.id) => {
-          await invalidateSeries();
+          await Promise.all([invalidateOperations(), invalidateSeries()]);
           props.goBack(`/operations/operation/${id}`, isCreation);
         },
         (err: unknown) => {

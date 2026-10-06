@@ -1,27 +1,21 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
-import { Operation } from "@model/Operation";
-
-import { OperationsApi } from "@sdk/operations-api";
-
 import { sortArray } from "@utils/array-utils";
+import { useOperations } from "@utils/hooks/operations";
 
 import { OperationsHome } from "./components/OperationsHome";
 
 export const Component = () => {
-  const [operations, setOperations] = useState<Operation[]>([]);
+  const { data, isLoading, error } = useOperations();
 
-  const [loading, setLoading] = useState(true);
+  const operations = useMemo(() => sortArray("label")(data ?? []), [data]);
 
-  useEffect(() => {
-    OperationsApi.getOperationsList()
-      .then((result: Operation[]) => setOperations(sortArray("label")(result)))
-      .finally(() => setLoading(false));
-  }, []);
+  if (isLoading) return <Loading />;
 
-  if (loading) return <Loading />;
+  if (error) return <LoadingErrorBloc error={error} />;
 
   return <OperationsHome operations={operations} />;
 };

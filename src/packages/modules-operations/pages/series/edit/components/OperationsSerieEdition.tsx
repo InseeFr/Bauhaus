@@ -24,6 +24,7 @@ import { Option } from "@model/SelectOption";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { toFormErrors } from "@utils/api-errors";
+import { useInvalidateOperations } from "@utils/hooks/operations";
 import { useInvalidateSeries } from "@utils/hooks/series";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
@@ -148,6 +149,9 @@ export const OperationsSerieEdition = ({
 
   const invalidateSeries = useInvalidateSeries();
 
+  // Une fiche d'opération affiche le libellé de sa série.
+  const invalidateOperations = useInvalidateOperations();
+
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -201,7 +205,7 @@ export const OperationsSerieEdition = ({
       // le formulaire réapparaîtrait le temps qu'elle aboutisse.
       return OperationsApi[method](state.serie).then(
         async (id: string = state.serie.id) => {
-          await Promise.all([invalidateSeries(), invalidateIndicators()]);
+          await Promise.all([invalidateSeries(), invalidateIndicators(), invalidateOperations()]);
           props.goBack(`/operations/series/${id}`, isCreation);
         },
         (err: unknown) => {

@@ -20,6 +20,7 @@ import { Rubric, Sims } from "@model/Sims";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
+import { useInvalidateOperations } from "@utils/hooks/operations";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useInvalidateSeries } from "@utils/hooks/series";
 
@@ -115,6 +116,8 @@ export function SimsVisualization({
 
   const invalidateSeries = useInvalidateSeries();
 
+  const invalidateOperations = useInvalidateOperations();
+
   const handleNo = () => {
     setModalOpened(false);
   };
@@ -122,9 +125,10 @@ export function SimsVisualization({
   const handleYes = () => {
     setServerSideError(undefined);
     OperationsApi.deleteSims(sims)
-      // La fiche de l'indicateur ou de la série documentés menait à ce SIMS (`idSims`).
+      // La fiche de l'élément documenté (indicateur, série, opération) menait à ce SIMS (`idSims`).
       .then(() => sims.idIndicator && invalidateIndicators())
       .then(() => sims.idSeries && invalidateSeries())
+      .then(() => sims.idOperation && invalidateOperations())
       .then(() => {
         setModalOpened(false);
         navigate(getParentUri(sims) ?? "");

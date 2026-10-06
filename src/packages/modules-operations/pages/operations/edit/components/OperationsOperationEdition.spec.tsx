@@ -92,6 +92,22 @@ describe("OperationsOperationEdition", () => {
     expect(invalidatedAtGoBack).toBe(true);
   });
 
+  it("périme l'opération en cache avant de revenir sur sa fiche", async () => {
+    vi.mocked(OperationsApi).putOperation.mockResolvedValue(undefined);
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    queryClient.setQueryData(["operations", "123"], { id: "123" });
+    let invalidatedAtGoBack: boolean | undefined;
+    const goBack = vi.fn(() => {
+      invalidatedAtGoBack = queryClient.getQueryState(["operations", "123"])?.isInvalidated;
+    });
+    renderEdition(existingOperation, goBack, queryClient);
+
+    save();
+
+    await waitFor(() => expect(goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toBe(true);
+  });
+
   it("ne réaffiche pas le formulaire pendant le retour sur la fiche après l'enregistrement", async () => {
     // La navigation de goBack est asynchrone (navigate(-1), route chargée à la demande) : tant
     // qu'elle n'a pas abouti, le composant reste monté et ne doit pas repasser sur le formulaire.

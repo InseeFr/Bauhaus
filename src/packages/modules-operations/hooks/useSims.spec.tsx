@@ -191,6 +191,18 @@ describe("useSaveSims", () => {
       true,
     );
   });
+
+  it("périme l'opération documentée, dont la fiche mène désormais à ce SIMS", async () => {
+    vi.mocked(OperationsApi.postSims).mockResolvedValue("1500");
+    const wrapperAndClient = createQueryWrapper();
+    wrapperAndClient.queryClient.setQueryData(["operations", "o1"], { id: "o1" });
+
+    await runMutation(useSaveSims, { idOperation: "o1", labelLg1: "un" }, wrapperAndClient);
+
+    expect(wrapperAndClient.queryClient.getQueryState(["operations", "o1"])?.isInvalidated).toBe(
+      true,
+    );
+  });
 });
 
 describe("usePublishSims", () => {

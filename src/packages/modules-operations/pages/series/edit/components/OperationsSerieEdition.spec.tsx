@@ -145,6 +145,22 @@ describe("OperationsSerieEdition — saisie et enregistrement", () => {
     expect(invalidatedAtGoBack).toBe(true);
   });
 
+  it("périme les opérations en cache, qui affichent le libellé de leur série", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["operations", "o1"], { id: "o1" });
+    let invalidatedAtGoBack: boolean | undefined;
+    defaultProps.goBack.mockImplementationOnce(() => {
+      invalidatedAtGoBack = queryClient.getQueryState(["operations", "o1"])?.isInvalidated;
+    });
+    OperationsApi.putSeries.mockResolvedValue(undefined);
+    renderEdition({}, queryClient);
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toBe(true);
+  });
+
   it("périme la série en cache avant de revenir sur sa fiche", async () => {
     const queryClient = new QueryClient();
     queryClient.setQueryData(["series", "s1"], { id: "s1" });
