@@ -292,6 +292,14 @@ export const CodeListDataTable = ({
       </div>
       <DataTable
         value={codes}
+        className="code-list-table"
+        header={
+          codes.length > 0 && (
+            <span className="code-list-count">
+              {t("physicalInstance.view.code.codesCount", { count: codes.length })}
+            </span>
+          )
+        }
         size="small"
         emptyMessage={t("physicalInstance.view.code.noCodes")}
         dataKey="id"

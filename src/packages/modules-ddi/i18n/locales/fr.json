@@ -64,6 +64,8 @@
         "mutualizedCodeListsSection": "Listes mutualisées",
         "mutualizedReadOnly": "Liste mutualisée (lecture seule)",
         "noCodes": "Aucun code",
+        "codesCount_one": "{{count, number}} code",
+        "codesCount_other": "{{count, number}} codes",
         "noCodeListsAvailable": "Aucune liste de codes disponible",
         "reuseList": "Réutiliser",
         "selectCodeList": "Sélectionnez une liste de codes",
