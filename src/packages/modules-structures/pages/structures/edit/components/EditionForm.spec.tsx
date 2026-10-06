@@ -74,6 +74,12 @@ describe("EditionForm", () => {
     expect(screen.getByDisplayValue("DSD1")).toBeDisabled();
   });
 
+  it("nomme la saisie du libellé anglais par son propre libellé", () => {
+    renderForm();
+
+    expect(screen.getByDisplayValue("Structure 1 EN")).toHaveAccessibleName(/label/i);
+  });
+
   it("laisse saisir la notation à la création", () => {
     renderForm({ creation: true, initialStructure: {} });
 

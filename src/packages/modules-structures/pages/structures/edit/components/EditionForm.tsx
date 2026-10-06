@@ -164,7 +164,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
           ></ClientSideError>
         </div>
         <div className="col-md-6">
-          <LabelRequired htmlFor="labelLg1">{t("structure.label", { lng: "en" })}</LabelRequired>
+          <LabelRequired htmlFor="labelLg2">{t("structure.label", { lng: "en" })}</LabelRequired>
           <TextInput
             id="labelLg2"
             value={labelLg2}
@@ -187,7 +187,15 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
             id="descriptionLg1"
             value={descriptionLg1}
             onChange={(e) => onChange("descriptionLg1")(e.target.value)}
+            aria-invalid={!!clientSideError.fields?.descriptionLg1}
+            aria-describedby={
+              clientSideError.fields?.descriptionLg1 ? "descriptionLg1-error" : undefined
+            }
           />
+          <ClientSideError
+            id="descriptionLg1-error"
+            error={clientSideError?.fields?.descriptionLg1}
+          ></ClientSideError>
         </div>
         <div className="col-md-6">
           <label htmlFor="descriptionLg2">
@@ -197,11 +205,23 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
             id="descriptionLg2"
             value={descriptionLg2}
             onChange={(e) => onChange("descriptionLg2")(e.target.value)}
+            aria-invalid={!!clientSideError.fields?.descriptionLg2}
+            aria-describedby={
+              clientSideError.fields?.descriptionLg2 ? "descriptionLg2-error" : undefined
+            }
           />
+          <ClientSideError
+            id="descriptionLg2-error"
+            error={clientSideError?.fields?.descriptionLg2}
+          ></ClientSideError>
         </div>
       </Row>
       <div className="form-group">
         <CreatorsInput mode="organization" value={creator} onChange={onChange("creator")} />
+        <ClientSideError
+          id="creator-error"
+          error={clientSideError?.fields?.creator}
+        ></ClientSideError>
       </div>
       <div className="form-group">
         <ContributorsInput
@@ -210,12 +230,20 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
           onChange={onChange("contributor")}
           multi
         />
+        <ClientSideError
+          id="contributor-error"
+          error={clientSideError?.fields?.contributor}
+        ></ClientSideError>
       </div>
       <div className="form-group">
         <DisseminationStatusInput
           value={disseminationStatus}
           handleChange={onChange("disseminationStatus")}
         />
+        <ClientSideError
+          id="disseminationStatus-error"
+          error={clientSideError?.fields?.disseminationStatus}
+        ></ClientSideError>
       </div>
       <StructureComponents
         creation={creation}
