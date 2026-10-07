@@ -27,22 +27,31 @@ const APPLICATIONS: Record<AppName, MODULE> = {
 
 const ALL_MODULES = Object.keys(APPLICATIONS) as AppName[];
 
-const properties: AppProperties = {
-  modules: ALL_MODULES.map((identifier) => ({ identifier, show: true, directAccess: true })),
-  defaultContributor: "",
-  maxLengthScopeNote: "",
-  extraMandatoryFields: "",
-  defaultAgencyId: "",
-};
-
 /* Rend le menu sur `pathname`, pour un utilisateur qui a accès en lecture aux seuls
-   modules `readable`, tous déclarés visibles dans la configuration. */
-const renderMenu = (menu: ReactNode, pathname: string, readable: AppName[] = ALL_MODULES) => {
+   modules `readable`, quand la configuration ne déclare visibles que les modules `shown`. */
+const renderMenu = (
+  menu: ReactNode,
+  pathname: string,
+  readable: AppName[] = ALL_MODULES,
+  shown: AppName[] = ALL_MODULES,
+) => {
   const privileges: Privilege[] = readable.map((module) => ({
     application: APPLICATIONS[module],
     privileges: [{ privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL }],
   }));
   vi.mocked(usePrivileges).mockReturnValue({ isPending: false, privileges });
+
+  const properties: AppProperties = {
+    modules: ALL_MODULES.map((identifier) => ({
+      identifier,
+      show: shown.includes(identifier),
+      directAccess: true,
+    })),
+    defaultContributor: "",
+    maxLengthScopeNote: "",
+    extraMandatoryFields: "",
+    defaultAgencyId: "",
+  };
 
   return render(
     <AppContextProvider lg1="fr" lg2="en" properties={properties}>
@@ -93,6 +102,18 @@ describe("DataDescriptionMenu", () => {
     renderMenu(<DataDescriptionMenu />, "/datasets", ["datasets"]);
 
     expect(screen.queryByRole("link", { name: "Variables" })).toBeNull();
+  });
+
+  it("does not announce the DDI codelists to a user who has no access to the DDI module", () => {
+    renderMenu(<DataDescriptionMenu />, "/datasets", ["datasets"]);
+
+    expect(entries()).toEqual(["Home", "Datasets", "Distributions"]);
+  });
+
+  it("does not offer the datasets nor the distributions when the datasets module is disabled", () => {
+    renderMenu(<DataDescriptionMenu />, "/ddi", ALL_MODULES, ["ddi"]);
+
+    expect(entries()).toEqual(["Home", "Variables", "Codelists"]);
   });
 });
 

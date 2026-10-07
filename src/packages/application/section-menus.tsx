@@ -48,7 +48,7 @@ const DATA_DESCRIPTION_ITEMS: SectionMenuItem[] = [
   { path: "/datasets/distributions", labelKey: "menu.distributions", module: "datasets" },
   { path: "/ddi", labelKey: "menu.variables", module: "ddi" },
   // Listes de codes DDI : annoncées, pas encore développées.
-  { path: "/ddi/codelists", labelKey: "menu.codelists", disabled: true },
+  { path: "/ddi/codelists", labelKey: "menu.codelists", module: "ddi", disabled: true },
 ];
 
 const ADMINISTRATION_ITEMS: SectionMenuItem[] = [
