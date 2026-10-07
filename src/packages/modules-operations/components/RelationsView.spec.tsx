@@ -72,4 +72,15 @@ describe("RelationsView Component", () => {
     screen.getByText("Liens");
     screen.getByText("Links");
   });
+
+  it("ajoute les liens complémentaires à la fin du bloc, dans chaque langue", () => {
+    render(
+      <Router>
+        <RelationsView secondLang={true} extraLinks={(lng) => <p>complément {lng}</p>} />
+      </Router>,
+    );
+
+    screen.getByText("complément fr");
+    screen.getByText("complément en");
+  });
 });

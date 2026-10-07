@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 
 import { Operation } from "@model/Operation";
 
@@ -46,5 +47,29 @@ describe("OperationVisualization", () => {
     expect(container.querySelectorAll(".note")).toHaveLength(5);
 
     screen.getByText("Year : 2024");
+  });
+
+  it("place les fichiers de données DDI dans le bloc des liens", () => {
+    const attr = {
+      id: "s1234",
+      prefLabelLg1: "prefLabelLg1",
+      year: "2024",
+    } as unknown as Operation;
+
+    render(
+      <MemoryRouter>
+        <OperationsOperationVisualization
+          attr={attr}
+          secondLang={false}
+          physicalInstances={[{ id: "pi-1", label: "Individus", agency: "fr.insee" }]}
+        />
+      </MemoryRouter>,
+    );
+
+    const linksBlock = screen.getByText("app.linksTitle").closest(".note") as HTMLElement;
+    expect(within(linksBlock).getByRole("link", { name: "Individus" })).toHaveAttribute(
+      "href",
+      "/ddi/physical-instances/fr.insee/pi-1",
+    );
   });
 });

@@ -8,6 +8,10 @@ const api = {
   getPhysicalInstance: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id,
   ],
+  // PhysicalInstances de toutes les études miroirs de l'opération ; liste vide sans miroir.
+  getOperationPhysicalInstances: (operationId: string) => [
+    `operation/${operationId}/physical-instances`,
+  ],
   getPhysicalInstanceParents: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id + "/parents",
   ],

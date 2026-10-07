@@ -10,15 +10,21 @@ import { Operation } from "@model/Operation";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { RelationsView } from "../../../../components/RelationsView";
+import {
+  OperationPhysicalInstance,
+  OperationPhysicalInstancesLinks,
+} from "./OperationPhysicalInstances";
 
 interface OperationsOperationVisualizationTypes {
   attr: Operation;
   secondLang: boolean;
+  physicalInstances?: OperationPhysicalInstance[];
 }
 
 export function OperationsOperationVisualization({
   attr,
   secondLang,
+  physicalInstances = [],
 }: Readonly<OperationsOperationVisualizationTypes>) {
   const { t } = useTranslation();
 
@@ -66,6 +72,9 @@ export function OperationsOperationVisualization({
         parentTitle="parentSeries"
         parentPath="series"
         secondLang={secondLang}
+        extraLinks={(lng) => (
+          <OperationPhysicalInstancesLinks physicalInstances={physicalInstances} lng={lng} />
+        )}
       />
     </>
   );

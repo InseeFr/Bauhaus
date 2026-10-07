@@ -11,6 +11,7 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useInvalidateOperations, useOperation } from "@utils/hooks/operations";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
+import { useOperationPhysicalInstances } from "./components/OperationPhysicalInstances";
 import { OperationsOperationVisualization } from "./components/OperationsOperationVisualization";
 import { Menu } from "./menu";
 
@@ -20,6 +21,10 @@ export const Component = () => {
   const [secondLang] = useSecondLang();
 
   const { data: operation, error: loadError } = useOperation(id);
+
+  // Une panne du module DDI ne masque pas l'opération : ses fichiers de données sont alors omis.
+  const { data: physicalInstances, isLoading: physicalInstancesLoading } =
+    useOperationPhysicalInstances(id);
 
   const invalidateOperations = useInvalidateOperations();
 
@@ -37,7 +42,7 @@ export const Component = () => {
 
   if (loadError) return <LoadingErrorBloc error={loadError} />;
 
-  if (!operation) return <Loading />;
+  if (!operation || physicalInstancesLoading) return <Loading />;
 
   if (publishing) return <Publishing />;
 
@@ -47,7 +52,11 @@ export const Component = () => {
       <Menu operation={operation} onPublish={publish} />
       <ErrorBloc error={serverSideError} />
       <CheckSecondLang />
-      <OperationsOperationVisualization attr={operation} secondLang={secondLang} />
+      <OperationsOperationVisualization
+        attr={operation}
+        secondLang={secondLang}
+        physicalInstances={physicalInstances}
+      />
     </div>
   );
 };

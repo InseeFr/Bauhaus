@@ -1,7 +1,9 @@
 import { screen, waitFor } from "@testing-library/react";
 
+import { DDIApi } from "@sdk/ddi-api";
 import { OperationsApi } from "@sdk/operations-api";
 
+import type { AppName } from "../../../../application/app-context";
 import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { itPublishesThenReloads, itShowsPublicationError, renderAtRoute } from "../../page.testing";
@@ -11,8 +13,24 @@ vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getOperation: vi.fn(), publishOperation: vi.fn() },
 }));
 
+vi.mock("@sdk/ddi-api", () => ({
+  DDIApi: { getOperationPhysicalInstances: vi.fn() },
+}));
+
+let mockVisibleModules: AppName[] = [];
+vi.mock("../../../../application/visible-modules", () => ({
+  useVisibleModules: () => mockVisibleModules,
+}));
+
 vi.mock("./components/OperationsOperationVisualization", () => ({
-  OperationsOperationVisualization: ({ attr }: any) => <div>opération:{attr.prefLabelLg1}</div>,
+  OperationsOperationVisualization: ({ attr, physicalInstances = [] }: any) => (
+    <div>
+      opération:{attr.prefLabelLg1}
+      {physicalInstances.map((pi: any) => (
+        <span key={pi.id}>fichier:{pi.label}</span>
+      ))}
+    </div>
+  ),
 }));
 vi.mock("./menu", async () => (await import("../../page.testing")).publishMenuModule("onPublish"));
 
@@ -33,6 +51,24 @@ describe("Operations view page", () => {
     vi.clearAllMocks();
     vi.mocked(OperationsApi.getOperation).mockResolvedValue(operation);
     vi.mocked(OperationsApi.publishOperation).mockResolvedValue({});
+    mockVisibleModules = ["operations"];
+  });
+
+  it("attend les fichiers de données DDI avant d'afficher l'opération", async () => {
+    mockVisibleModules = ["operations", "ddi"];
+    let resolvePhysicalInstances!: (rows: unknown[]) => void;
+    vi.mocked(DDIApi.getOperationPhysicalInstances).mockReturnValue(
+      new Promise((resolve) => (resolvePhysicalInstances = resolve)),
+    );
+
+    renderPage();
+
+    await waitFor(() => expect(DDIApi.getOperationPhysicalInstances).toHaveBeenCalledWith("op-1"));
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+
+    resolvePhysicalInstances([{ id: "pi-1", label: "Individus", agency: "fr.insee" }]);
+
+    await waitFor(() => expect(screen.getByText("fichier:Individus")).toBeInTheDocument());
   });
 
   it("charge l'opération et l'affiche", async () => {
