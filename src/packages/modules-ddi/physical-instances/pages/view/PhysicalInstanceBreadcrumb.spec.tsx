@@ -2,10 +2,16 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+import type { AppName } from "../../../../application/app-context";
 import type { PhysicalInstanceSearchRow } from "../../../hooks/usePhysicalInstancesSearch";
 import { PhysicalInstanceBreadcrumb } from "./PhysicalInstanceBreadcrumb";
 
 vi.mock("react-i18next", () => import("./i18nLabel.testing"));
+
+let mockVisibleModules: AppName[] = [];
+vi.mock("../../../../application/visible-modules", () => ({
+  useVisibleModules: () => mockVisibleModules,
+}));
 
 const mockSearch = vi.fn();
 vi.mock("../../../hooks/usePhysicalInstancesSearch", () => ({
@@ -66,6 +72,7 @@ const filterBox = () =>
 describe("PhysicalInstanceBreadcrumb", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockVisibleModules = [];
     mockSearch.mockReturnValue({
       data: [
         row("pi-1", "PI Un", "su-1"),
@@ -100,6 +107,65 @@ describe("PhysicalInstanceBreadcrumb", () => {
   it("mène de l'opération à la recherche avancée filtrée sur sa série et cette opération", () => {
     renderBreadcrumb();
 
+    expect(screen.getByRole("link", { name: /Enquête emploi/ })).toHaveAttribute(
+      "href",
+      "/ddi/physical-instances/search?group=grp-1&studyUnit=su-1",
+    );
+  });
+
+  describe("quand le module opérations est proposé à l'utilisateur", () => {
+    const mirroredGroup = { ...group, operationsIri: "http://id.insee.fr/operations/serie/s1001" };
+    const mirroredStudyUnit = {
+      ...studyUnit,
+      operationsIri: "http://id.insee.fr/operations/operation/s2001",
+    };
+
+    beforeEach(() => {
+      mockVisibleModules = ["operations"];
+    });
+
+    it("mène de la série à sa page dans le module opérations", () => {
+      renderBreadcrumb({ group: mirroredGroup, studyUnit: mirroredStudyUnit });
+
+      expect(screen.getByRole("link", { name: /Base permanente des équipements/ })).toHaveAttribute(
+        "href",
+        "/operations/series/s1001",
+      );
+    });
+
+    it("mène de l'opération à sa page dans le module opérations", () => {
+      renderBreadcrumb({ group: mirroredGroup, studyUnit: mirroredStudyUnit });
+
+      expect(screen.getByRole("link", { name: /Enquête emploi/ })).toHaveAttribute(
+        "href",
+        "/operations/operation/s2001",
+      );
+    });
+
+    it("garde la recherche avancée pour un parent qui ne reflète aucune série ni opération", () => {
+      renderBreadcrumb();
+
+      expect(screen.getByRole("link", { name: /Base permanente des équipements/ })).toHaveAttribute(
+        "href",
+        "/ddi/physical-instances/search?group=grp-1",
+      );
+      expect(screen.getByRole("link", { name: /Enquête emploi/ })).toHaveAttribute(
+        "href",
+        "/ddi/physical-instances/search?group=grp-1&studyUnit=su-1",
+      );
+    });
+  });
+
+  it("garde la recherche avancée quand le module opérations n'est pas proposé, même pour des parents miroirs", () => {
+    renderBreadcrumb({
+      group: { ...group, operationsIri: "http://id.insee.fr/operations/serie/s1001" },
+      studyUnit: { ...studyUnit, operationsIri: "http://id.insee.fr/operations/operation/s2001" },
+    });
+
+    expect(screen.getByRole("link", { name: /Base permanente des équipements/ })).toHaveAttribute(
+      "href",
+      "/ddi/physical-instances/search?group=grp-1",
+    );
     expect(screen.getByRole("link", { name: /Enquête emploi/ })).toHaveAttribute(
       "href",
       "/ddi/physical-instances/search?group=grp-1&studyUnit=su-1",

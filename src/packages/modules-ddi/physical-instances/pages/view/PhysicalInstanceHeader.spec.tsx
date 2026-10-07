@@ -15,7 +15,13 @@ vi.mock("./PhysicalInstanceLabel", () => ({
 // PhysicalInstanceBreadcrumb.spec ; ici on vérifie seulement ce que le header lui transmet.
 vi.mock("./PhysicalInstanceBreadcrumb", () => ({
   PhysicalInstanceBreadcrumb: ({ group, studyUnit, physicalInstance }: any) => (
-    <nav aria-label="breadcrumb" data-group-id={group?.id} data-study-unit-id={studyUnit?.id}>
+    <nav
+      aria-label="breadcrumb"
+      data-group-id={group?.id}
+      data-study-unit-id={studyUnit?.id}
+      data-group-operations-iri={group?.operationsIri}
+      data-study-unit-operations-iri={studyUnit?.operationsIri}
+    >
       {[group?.label, studyUnit?.label, physicalInstance.label].filter(Boolean).join(" › ")}
     </nav>
   ),
@@ -43,6 +49,38 @@ describe("PhysicalInstanceHeader", () => {
     // Les id servent aux liens vers la recherche avancée filtrée.
     expect(nav).toHaveAttribute("data-group-id", "grp-1");
     expect(nav).toHaveAttribute("data-study-unit-id", "su-1");
+  });
+
+  it("transmet au fil d'Ariane la série et l'opération dont les parents sont le miroir", () => {
+    render(
+      <PhysicalInstanceHeader
+        label="Ma PI"
+        onSave={noop}
+        group={{
+          agency: "fr.insee",
+          id: "grp-1",
+          operationsIri: "http://id.insee.fr/operations/serie/s1001",
+        }}
+        groupLabel="Base permanente des équipements"
+        studyUnit={{
+          agency: "fr.insee",
+          id: "su-1",
+          operationsIri: "http://id.insee.fr/operations/operation/s2001",
+        }}
+        studyUnitLabel="Enquête emploi 2024"
+        physicalInstance={physicalInstance}
+      />,
+    );
+
+    const nav = screen.getByRole("navigation", { name: "breadcrumb" });
+    expect(nav).toHaveAttribute(
+      "data-group-operations-iri",
+      "http://id.insee.fr/operations/serie/s1001",
+    );
+    expect(nav).toHaveAttribute(
+      "data-study-unit-operations-iri",
+      "http://id.insee.fr/operations/operation/s2001",
+    );
   });
 
   it("réduit le fil d'Ariane au fichier courant quand les parents sont inconnus", () => {

@@ -9,8 +9,10 @@ import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
 interface PhysicalInstanceHeaderProps {
   label: string;
   onSave: (data: PhysicalInstanceUpdateData) => Promise<void>;
-  group?: SelectedGroup;
-  studyUnit?: SelectedStudyUnit;
+  /** `operationsIri` : série dont le groupe est le miroir, cible de son lien dans le fil d'Ariane. */
+  group?: SelectedGroup & { operationsIri?: string | null };
+  /** `operationsIri` : opération dont l'étude est le miroir, cible de son lien dans le fil d'Ariane. */
+  studyUnit?: SelectedStudyUnit & { operationsIri?: string | null };
   /** Libellé du groupe parent, affiché dans le fil d'Ariane. */
   groupLabel?: string;
   /** Libellé de l'étude parente, affiché dans le fil d'Ariane. */
@@ -32,7 +34,11 @@ export const PhysicalInstanceHeader = ({
 }: Readonly<PhysicalInstanceHeaderProps>) => (
   <div className="mb-3">
     <PhysicalInstanceBreadcrumb
-      group={group && groupLabel ? { id: group.id, label: groupLabel } : undefined}
+      group={
+        group && groupLabel
+          ? { id: group.id, label: groupLabel, operationsIri: group.operationsIri }
+          : undefined
+      }
       studyUnit={studyUnit && studyUnitLabel ? { ...studyUnit, label: studyUnitLabel } : undefined}
       physicalInstance={{ ...physicalInstance, label }}
     />

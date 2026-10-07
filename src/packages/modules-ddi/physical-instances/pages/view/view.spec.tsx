@@ -42,6 +42,10 @@ vi.mock("../../../../auth/components/auth", () => ({
   HasAccess: ({ children }: { children: React.ReactNode }) => children,
 }));
 
+vi.mock("../../../../application/visible-modules", () => ({
+  useVisibleModules: () => [],
+}));
+
 vi.mock("../../../../application/app-context", () => ({
   useAppContext: () => ({
     properties: {

@@ -2,12 +2,15 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
+import { useVisibleModules } from "../../../../application/visible-modules";
 import { usePhysicalInstancesSearch } from "../../../hooks/usePhysicalInstancesSearch";
 import "./PhysicalInstanceBreadcrumb.css";
 
 interface PhysicalInstanceBreadcrumbProps {
-  group?: { id: string; label: string };
-  studyUnit?: { agency: string; id: string; label: string };
+  /** `operationsIri` : série du module opérations dont le groupe est le miroir. */
+  group?: { id: string; label: string; operationsIri?: string | null };
+  /** `operationsIri` : opération du module opérations dont l'étude est le miroir. */
+  studyUnit?: { agency: string; id: string; label: string; operationsIri?: string | null };
   physicalInstance: { agency: string; id: string; label: string };
 }
 
@@ -22,9 +25,13 @@ const advancedSearchUrl = (filters: { group?: string; studyUnit?: string }) => {
   return `/ddi/physical-instances/search?${params}`;
 };
 
+/** L'identifiant d'une série ou d'une opération est le dernier segment de son IRI. */
+const localName = (iri: string) => iri.substring(iri.lastIndexOf("/") + 1);
+
 /**
- * Fil d'Ariane Série › Opération › Fichier de données. Série et opération mènent à la recherche
- * avancée filtrée sur elles ; le dernier segment ouvre un sélecteur listant les fichiers de
+ * Fil d'Ariane Série › Opération › Fichier de données. Série et opération mènent à leur page dans
+ * le module opérations quand celui-ci est proposé à l'utilisateur et qu'elles en sont le miroir ; à défaut, à la
+ * recherche avancée filtrée sur elles ; le dernier segment ouvre un sélecteur listant les fichiers de
  * données de la même opération (filtrable), pour passer de l'un à l'autre ; sans opération
  * connue, il reste un simple texte.
  */
@@ -34,13 +41,23 @@ export const PhysicalInstanceBreadcrumb = ({
   physicalInstance,
 }: Readonly<PhysicalInstanceBreadcrumbProps>) => {
   const { t } = useTranslation();
+  const operationsOpen = useVisibleModules().includes("operations");
+
+  const groupUrl =
+    operationsOpen && group?.operationsIri
+      ? `/operations/series/${localName(group.operationsIri)}`
+      : advancedSearchUrl({ group: group?.id });
+  const studyUnitUrl =
+    operationsOpen && studyUnit?.operationsIri
+      ? `/operations/operation/${localName(studyUnit.operationsIri)}`
+      : advancedSearchUrl({ group: group?.id, studyUnit: studyUnit?.id });
 
   return (
     <nav className="pi-breadcrumb" aria-label={t("physicalInstance.view.breadcrumb.label")}>
       <ol>
         {group && (
           <li>
-            <Link className="pi-breadcrumb-link" to={advancedSearchUrl({ group: group.id })}>
+            <Link className="pi-breadcrumb-link" to={groupUrl}>
               <i className="pi pi-folder" aria-hidden="true" />
               <span className="p-hidden-accessible">
                 {t("physicalInstance.view.breadcrumb.group")}
@@ -53,10 +70,7 @@ export const PhysicalInstanceBreadcrumb = ({
         )}
         {studyUnit && (
           <li>
-            <Link
-              className="pi-breadcrumb-link"
-              to={advancedSearchUrl({ group: group?.id, studyUnit: studyUnit.id })}
-            >
+            <Link className="pi-breadcrumb-link" to={studyUnitUrl}>
               <i className="pi pi-book" aria-hidden="true" />
               <span className="p-hidden-accessible">
                 {t("physicalInstance.view.breadcrumb.studyUnit")}
