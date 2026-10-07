@@ -21,7 +21,7 @@ type EditContainerState = {
   saving: boolean;
   component: any;
   concepts: any[];
-  serverSideError: string;
+  serverSideError: unknown;
   attributes: any[];
   loadError?: unknown;
 };
@@ -36,7 +36,7 @@ type EditContainerAction =
   | { type: "LOAD_FAILED"; error: unknown }
   | { type: "LOAD_FINISHED" }
   | { type: "SAVE_STARTED" }
-  | { type: "SAVE_FAILED"; component: any; error: string }
+  | { type: "SAVE_FAILED"; component: any; error: unknown }
   | { type: "SAVE_FINISHED" };
 
 const initialState: EditContainerState = {
@@ -103,7 +103,7 @@ export const Component = (props: any) => {
       dispatch({ type: "SAVE_STARTED" });
       saveComponent(component)
         .then((id = component.id) => goBack(`/structures/components/${id}`, !component.id))
-        .catch((error: string) => {
+        .catch((error: unknown) => {
           dispatch({ type: "SAVE_FAILED", component, error });
         })
         .finally(() => dispatch({ type: "SAVE_FINISHED" }));

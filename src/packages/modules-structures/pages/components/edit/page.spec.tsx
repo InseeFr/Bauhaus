@@ -116,4 +116,39 @@ describe("page d'édition d'une composante mutualisée", () => {
 
     expect(await screen.findByText("Erreur serveur")).toBeInTheDocument();
   });
+
+  it("affiche une erreur de champ du serveur sous la saisie, comme une erreur client", async () => {
+    vi.mocked(saveComponent).mockRejectedValue(
+      sdkRejection.json(400, {
+        message: "Validation failed",
+        errors: [{ field: "labelLg1", message: "size must be between 0 and 3" }],
+      }),
+    );
+    await renderPage();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() =>
+      expect(screen.getByDisplayValue("Composante 1")).toHaveAccessibleDescription(
+        "size must be between 0 and 3",
+      ),
+    );
+    expect(screen.getByDisplayValue("Composante 1")).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("affiche dans le bandeau une erreur du serveur sur un champ absent du formulaire", async () => {
+    vi.mocked(saveComponent).mockRejectedValue(
+      sdkRejection.json(400, {
+        message: "Validation failed",
+        errors: [{ field: "altLabelLg1", message: "size must be between 0 and 3" }],
+      }),
+    );
+    await renderPage();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    expect(
+      await screen.findByText("altLabelLg1 : size must be between 0 and 3"),
+    ).toBeInTheDocument();
+  });
 });
