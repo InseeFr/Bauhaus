@@ -3,9 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 import { AppDevTools } from "@components/devtools/AppDevTools";
-import { Row } from "@components/layout";
+import { HomePageLayout } from "@components/home-page-layout";
 import { Loading } from "@components/loading";
-import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 import { Toast } from "@components/ui/toast";
 
@@ -76,23 +75,22 @@ export const Component = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="container">
-      <Row>
-        <HomePageMenu onCreate={() => setVisible(true)} />
-        <div className="col-md-8 text-center pull-right">
-          <PageTitle title={t("physicalInstance.homePageTitle")} col={12} offset={0} />
-          <SearchableList
-            items={items}
-            advancedSearch
-            searchUrl="/ddi/physical-instances/search"
-            childPath={(item: { agency: string }) => "ddi/physical-instances/" + item.agency}
-            autoFocus
-            itemFormatter={(_content: any, item: any) => {
-              return `${item.label} (${item.formattedVersionDate})`;
-            }}
-          />
-        </div>
-      </Row>
+    <>
+      <HomePageLayout
+        title={t("physicalInstance.homePageTitle")}
+        menu={<HomePageMenu onCreate={() => setVisible(true)} />}
+      >
+        <SearchableList
+          items={items}
+          advancedSearch
+          searchUrl="/ddi/physical-instances/search"
+          childPath={(item: { agency: string }) => "ddi/physical-instances/" + item.agency}
+          autoFocus
+          itemFormatter={(_content: any, item: any) => {
+            return `${item.label} (${item.formattedVersionDate})`;
+          }}
+        />
+      </HomePageLayout>
 
       <PhysicalInstanceDialog
         visible={visible}
@@ -103,6 +101,6 @@ export const Component = () => {
 
       <DdiToast ref={toast} />
       <AppDevTools />
-    </div>
+    </>
   );
 };

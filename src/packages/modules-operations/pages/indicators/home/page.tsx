@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next";
 
 import { LoadingErrorBloc } from "@components/errors-bloc";
-import { Row } from "@components/layout";
+import { HomePageLayout } from "@components/home-page-layout";
 import { Loading } from "@components/loading";
-import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
@@ -23,14 +22,8 @@ export const Component = () => {
   if (error) return <LoadingErrorBloc error={error} />;
 
   return (
-    <div className="container">
-      <Row>
-        <Menu></Menu>
-        <div className="col-md-8 text-center pull-right operations-list">
-          <PageTitle title={t("indicators.searchTitle")} col={12} offset={0} />
-          <SearchableList items={indicators} childPath="operations/indicator" autoFocus />
-        </div>
-      </Row>
-    </div>
+    <HomePageLayout title={t("indicators.searchTitle")} menu={<Menu />}>
+      <SearchableList items={indicators} childPath="operations/indicator" autoFocus />
+    </HomePageLayout>
   );
 };

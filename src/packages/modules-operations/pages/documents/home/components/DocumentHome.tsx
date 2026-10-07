@@ -5,9 +5,8 @@ import { Link, useLocation, useNavigate } from "react-router";
 
 import { FilterToggleButtons } from "@components/filter-toggle-buttons";
 import { TextInput } from "@components/form/input";
-import { Row } from "@components/layout";
+import { HomePageLayout } from "@components/home-page-layout";
 import { NumberResults } from "@components/number-results";
-import { PageTitle } from "@components/page-title";
 import { Pagination } from "@components/pagination";
 import { List } from "@components/ui/list-group";
 
@@ -146,33 +145,27 @@ export function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[]
   );
 
   return (
-    <div className="container documents-home">
-      <Row>
-        <Menu></Menu>
-        <div className="col-md-8 text-center pull-right operations-list">
-          <PageTitle title={t("documents.searchTitle")} col={12} offset={0} />
-          <FilterToggleButtons
-            currentValue={filter}
-            handleSelection={onFilter}
-            options={[
-              [DOCUMENT, t("documents.document")],
-              [BOTH, `${t("documents.document")} / ${t("documents.titleLink")}`],
-              [LINK, t("documents.titleLink")],
-            ]}
-          />
-          <SearchableList
-            items={filteredDocuments}
-            childPath={(document: HomeDocument) => {
-              if (isDocument(document)) {
-                return "operations/document";
-              }
-              return "operations/link";
-            }}
-            label="label"
-            autoFocus={true}
-          />
-        </div>
-      </Row>
-    </div>
+    <HomePageLayout title={t("documents.searchTitle")} menu={<Menu />}>
+      <FilterToggleButtons
+        currentValue={filter}
+        handleSelection={onFilter}
+        options={[
+          [DOCUMENT, t("documents.document")],
+          [BOTH, `${t("documents.document")} / ${t("documents.titleLink")}`],
+          [LINK, t("documents.titleLink")],
+        ]}
+      />
+      <SearchableList
+        items={filteredDocuments}
+        childPath={(document: HomeDocument) => {
+          if (isDocument(document)) {
+            return "operations/document";
+          }
+          return "operations/link";
+        }}
+        label="label"
+        autoFocus={true}
+      />
+    </HomePageLayout>
   );
 }
