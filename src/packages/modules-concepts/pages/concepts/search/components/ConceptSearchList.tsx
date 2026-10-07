@@ -59,7 +59,7 @@ export const ConceptSearchList = ({
 }: Readonly<ConceptSearchListProps>) => {
   const { t } = useTranslation();
 
-  useTitle(t("concept.title"), t("common.advancedSearch"));
+  useTitle(`${t("concept.title")} - ${t("common.advancedSearch")}`);
 
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 

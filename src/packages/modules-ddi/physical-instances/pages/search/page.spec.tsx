@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 import { MemoryRouter } from "react-router";
 
 import "../../../i18n";
+import { useTitle } from "@utils/hooks/useTitle";
+
 import {
   PhysicalInstanceSearchRow,
   usePhysicalInstancesSearch,
@@ -53,6 +55,12 @@ describe("Physical instances advanced search page", () => {
     mockData([], true);
     render(<Component />, { wrapper });
     expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
+  });
+
+  it("titles the document with the module name first, then Advanced search", () => {
+    mockData([]);
+    render(<Component />, { wrapper });
+    expect(useTitle).toHaveBeenCalledWith("Physical Instances - Advanced search");
   });
 
   const twoRows = () => [

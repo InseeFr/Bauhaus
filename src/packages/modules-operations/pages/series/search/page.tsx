@@ -138,7 +138,7 @@ export const SearchFormList = ({ data }: Readonly<{ data: SeriesSearchItem[] }>)
 export const Component = () => {
   const { t } = useTranslation();
 
-  useTitle(t("common.seriesTitle") + " - " + t("common.operationsTitle"), t("app.advancedSearch"));
+  useTitle(`${t("common.seriesTitle")} - ${t("app.advancedSearch")}`);
 
   const { data, error } = useSeriesSearchList<SeriesSearchItem>();
 

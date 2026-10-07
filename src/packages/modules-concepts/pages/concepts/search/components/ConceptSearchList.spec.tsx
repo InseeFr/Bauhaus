@@ -40,6 +40,12 @@ describe("concepts-advanced-search", () => {
     renderWithRouter(<AdvancedSearch conceptSearchList={[]} onExport={vi.fn()} />);
   });
 
+  it("titles the document with the module name first, then Advanced search", () => {
+    renderWithRouter(<AdvancedSearch conceptSearchList={[]} onExport={vi.fn()} />);
+
+    expect(document.title).toBe("Concepts - Advanced search - Bauhaus");
+  });
+
   it("renders a labelled, search-icon input for each free-text criterion", () => {
     const { container } = renderWithRouter(
       <AdvancedSearch conceptSearchList={[]} onExport={vi.fn()} />,

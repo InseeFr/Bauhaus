@@ -4,6 +4,7 @@
   },
   "physicalInstance": {
     "pluralTitle": "Fichiers de données",
+    "searchTitle": "Fichiers de données - Recherche avancée",
     "homePageTitle": "Fichiers de données - Recherche",
     "creation": {
       "cancel": "Annuler",

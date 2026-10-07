@@ -188,6 +188,14 @@ describe("Series advanced search page", () => {
 
   const renderPage = () => renderAtRoute(<Component />, "/series/search", "/series/search");
 
+  it("titles the document with the module name first, then Advanced search", async () => {
+    vi.mocked(OperationsApi.getSeriesSearchList).mockResolvedValue(data);
+    renderPage();
+
+    await screen.findByText("Base non-salariés");
+    expect(document.title).toBe("Series - Advanced search - Bauhaus");
+  });
+
   it("charge les séries puis les liste", async () => {
     vi.mocked(OperationsApi.getSeriesSearchList).mockResolvedValue(data);
     const { container } = renderPage();

@@ -4,6 +4,7 @@
   },
   "physicalInstance": {
     "pluralTitle": "Physical Instances",
+    "searchTitle": "Physical Instances - Advanced search",
     "homePageTitle": "Physical Instances - Search",
     "creation": {
       "cancel": "Cancel",

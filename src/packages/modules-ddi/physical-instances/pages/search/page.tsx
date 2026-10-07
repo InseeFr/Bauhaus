@@ -54,7 +54,7 @@ const buildOptions = (
 
 export const Component = () => {
   const { t } = useTranslation();
-  useTitle(t("physicalInstance.search.title"));
+  useTitle(t("physicalInstance.searchTitle"));
   const navigate = useNavigate();
 
   const { data = [], isLoading } = usePhysicalInstancesSearch();
