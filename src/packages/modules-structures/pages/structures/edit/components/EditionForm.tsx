@@ -15,6 +15,7 @@ import { Structure } from "@model/structures/Structure";
 
 import { StructureApi } from "@sdk/index";
 
+import { toFormErrors } from "@utils/api-errors";
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 
@@ -39,6 +40,19 @@ const defaultDSD = {
   isRequiredBy: "",
 } as unknown as Structure;
 
+// Les erreurs du serveur sur ces champs s'affichent sous la saisie ; les autres
+// (définitions de composants…) restent dans le bandeau.
+const FIELDS_WITH_ERROR_SLOT = [
+  "identifiant",
+  "labelLg1",
+  "labelLg2",
+  "descriptionLg1",
+  "descriptionLg2",
+  "creator",
+  "contributor",
+  "disseminationStatus",
+];
+
 interface EditionFormTypes {
   creation: boolean;
   initialStructure?: Partial<Structure>;
@@ -57,7 +71,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
 
   const [redirectId, setRedirectId] = useState("");
 
-  const [serverSideError, setServerSideError] = useState("");
+  const [serverSideError, setServerSideError] = useState<unknown>();
 
   const [clientSideError, setClientSideError] = useState<{
     fields?: Record<string, string>;
@@ -112,13 +126,19 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
       setSubmitting(true);
       setClientSideError(clientSideErrors);
     } else {
+      setClientSideError({});
       setLoading(true);
       (creation ? StructureApi.postStructure(structure) : StructureApi.putStructure(structure))
         .then((id: string) => {
           setRedirectId(id);
         })
-        .catch((error: string) => {
-          setServerSideError(error);
+        .catch((error: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(error, FIELDS_WITH_ERROR_SLOT);
+          if (clientSideErrors) {
+            setSubmitting(true);
+            setClientSideError(clientSideErrors);
+          }
+          setServerSideError(serverSideError);
         })
         .finally(() => setLoading(false));
     }

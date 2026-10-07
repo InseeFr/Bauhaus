@@ -140,4 +140,66 @@ describe("EditionForm", () => {
 
     expect(await screen.findByText("Erreur serveur")).toBeInTheDocument();
   });
+
+  it("affiche une erreur de validation du serveur sous le champ concerné", async () => {
+    vi.mocked(StructureApi.putStructure).mockRejectedValue({
+      status: 400,
+      errors: [{ field: "labelLg2", message: "labelLg2 is required" }],
+    });
+    renderForm();
+
+    fireEvent.click(saveButton());
+
+    const input = await screen.findByDisplayValue("Structure 1 EN");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("labelLg2 is required"));
+    expect(input).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("n'affiche pas d'erreur générique quand toutes les erreurs du serveur sont sous leur champ", async () => {
+    vi.mocked(StructureApi.putStructure).mockRejectedValue({
+      status: 400,
+      errors: [{ field: "labelLg2", message: "labelLg2 is required" }],
+    });
+    renderForm();
+
+    fireEvent.click(saveButton());
+
+    const input = await screen.findByDisplayValue("Structure 1 EN");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("labelLg2 is required"));
+    expect(screen.queryByText(/An error has occurred|Une erreur s'est produite/)).toBeNull();
+  });
+
+  it("efface l'erreur du serveur sous le champ au rejet suivant", async () => {
+    vi.mocked(StructureApi.putStructure)
+      .mockRejectedValueOnce({
+        status: 400,
+        errors: [{ field: "labelLg2", message: "labelLg2 is required" }],
+      })
+      .mockRejectedValueOnce("Erreur serveur");
+    renderForm();
+
+    fireEvent.click(saveButton());
+    const input = await screen.findByDisplayValue("Structure 1 EN");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("labelLg2 is required"));
+
+    fireEvent.change(input, { target: { value: "Structure 1 renamed" } });
+    fireEvent.click(saveButton());
+
+    expect(await screen.findByText("Erreur serveur")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Structure 1 renamed")).not.toHaveAccessibleDescription();
+  });
+
+  it("affiche dans le bandeau une erreur du serveur sur un champ absent du formulaire", async () => {
+    vi.mocked(StructureApi.putStructure).mockRejectedValue({
+      status: 400,
+      errors: [{ field: "componentDefinitions[0].component", message: "is required" }],
+    });
+    renderForm();
+
+    fireEvent.click(saveButton());
+
+    expect(
+      await screen.findByText("componentDefinitions[0].component : is required"),
+    ).toBeInTheDocument();
+  });
 });
