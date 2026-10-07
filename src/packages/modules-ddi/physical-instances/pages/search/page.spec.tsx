@@ -167,6 +167,18 @@ describe("Physical instances advanced search page", () => {
     expect(screen.queryByRole("link", { name: "Enquête emploi" })).not.toBeInTheDocument();
   });
 
+  it("clears every criterion when the reset button is clicked", async () => {
+    const user = userEvent.setup();
+    await renderWithGroupG1Selected();
+    await user.type(screen.getByRole("textbox"), "Recens");
+
+    await user.click(screen.getByRole("button", { name: "Reinitialize" }));
+
+    expect(screen.getByRole("textbox")).toHaveValue("");
+    expect(screen.getAllByRole("combobox")[0]).toHaveValue("");
+    expect(screen.getByRole("link", { name: "Enquête emploi" })).toBeInTheDocument();
+  });
+
   it("filters the results by the selected study unit within a group", async () => {
     const user = userEvent.setup();
     mockData([

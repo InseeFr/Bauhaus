@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, Navigate } from "react-router";
+import { Link } from "react-router";
 
+import { AdvancedSearchLayout } from "@components/advanced-search-layout";
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
-import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
 import { DatePicker } from "@components/date-picker";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
 import { Loading } from "@components/loading";
+import { Pagination } from "@components/pagination";
 import { Select } from "@components/select-rmes";
 import { List } from "@components/ui/list-group";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
@@ -118,27 +119,30 @@ export const AdvancedSearchForm = ({
   ));
 
   return (
-    <AdvancedSearchList
+    <AdvancedSearchLayout
       title={t("dataset.searchTitle")}
-      data={dataLinks}
-      initializeState={reset}
-      redirect={<Navigate to="/datasets" />}
+      backTo="/datasets"
+      onReset={reset}
+      results={dataLinks}
+      criteria={
+        <AdvancedSearchCard className="dataset-search-form">
+          <FieldsForDatasetsAdvancedSearch
+            labelLg1={labelLg1}
+            altIdentifier={altIdentifier}
+            creator={creator}
+            disseminationStatus={disseminationStatus}
+            validationStatus={validationStatus}
+            wasGeneratedIRIs={wasGeneratedIRIs}
+            created={created}
+            updated={updated}
+            handleChange={handleChange}
+            seriesOperationsOptions={seriesOperationsOptions}
+          />
+        </AdvancedSearchCard>
+      }
     >
-      <AdvancedSearchCard className="dataset-search-form">
-        <FieldsForDatasetsAdvancedSearch
-          labelLg1={labelLg1}
-          altIdentifier={altIdentifier}
-          creator={creator}
-          disseminationStatus={disseminationStatus}
-          validationStatus={validationStatus}
-          wasGeneratedIRIs={wasGeneratedIRIs}
-          created={created}
-          updated={updated}
-          handleChange={handleChange}
-          seriesOperationsOptions={seriesOperationsOptions}
-        />
-      </AdvancedSearchCard>
-    </AdvancedSearchList>
+      <Pagination itemEls={dataLinks} />
+    </AdvancedSearchLayout>
   );
 };
 

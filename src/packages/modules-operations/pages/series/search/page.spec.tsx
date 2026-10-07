@@ -1,4 +1,6 @@
 import { screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
+import { Route, Routes } from "react-router";
 import { Mock } from "vitest";
 
 import { getListItems } from "@components/ui/list-group/testing";
@@ -177,6 +179,32 @@ describe("<SearchFormList />", () => {
 
     const { container } = renderWithRouter(<SearchFormList data={data} />);
     expect(getListItems(container)).toHaveLength(expected);
+  });
+});
+
+describe("<SearchFormList /> controls", () => {
+  it("resets the criteria when the reset button is clicked", async () => {
+    const reset = vi.fn();
+    (useUrlQueryParameters as Mock).mockReturnValue({ form: { prefLabelLg1: "Base" }, reset });
+    renderWithRouter(<SearchFormList data={data} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Reinitialize" }));
+
+    expect(reset).toHaveBeenCalledOnce();
+  });
+
+  it("goes back to the list of series when the back button is clicked", async () => {
+    (useUrlQueryParameters as Mock).mockReturnValue({ form: {} });
+    renderWithRouter(
+      <Routes>
+        <Route path="/" element={<SearchFormList data={data} />} />
+        <Route path="/operations/series" element={<p>Liste des séries</p>} />
+      </Routes>,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Back" }));
+
+    expect(screen.getByText("Liste des séries")).toBeVisible();
   });
 });
 

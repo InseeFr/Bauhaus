@@ -1,4 +1,6 @@
 import { screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
+import { Route, Routes } from "react-router";
 
 import { renderWithRouter } from "../../../../../tests/render";
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
@@ -84,5 +86,30 @@ describe("concepts-advanced-search", () => {
 
     expect(screen.getByText("Matching concept")).toBeInTheDocument();
     expect(screen.queryByText("Other concept")).not.toBeInTheDocument();
+  });
+
+  it("clears every criterion when the reset button is clicked", async () => {
+    const concepts = [concept({ id: "1", label: "Alpha" }), concept({ id: "2", label: "Beta" })];
+    renderWithRouter(<AdvancedSearch conceptSearchList={concepts} onExport={vi.fn()} />, [
+      "/?label=Alpha",
+    ]);
+    expect(screen.queryByText("Beta")).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Reinitialize" }));
+
+    expect(screen.getByText("Beta")).toBeInTheDocument();
+  });
+
+  it("goes back to the list of concepts when the back button is clicked", async () => {
+    renderWithRouter(
+      <Routes>
+        <Route path="/" element={<AdvancedSearch conceptSearchList={[]} onExport={vi.fn()} />} />
+        <Route path="/concepts" element={<p>Liste des concepts</p>} />
+      </Routes>,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Back" }));
+
+    expect(screen.getByText("Liste des concepts")).toBeVisible();
   });
 });

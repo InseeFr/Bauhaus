@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { Link, Navigate } from "react-router";
+import { Link } from "react-router";
 
+import { AdvancedSearchLayout } from "@components/advanced-search-layout";
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
-import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
 import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
+import { Pagination } from "@components/pagination";
 import { List } from "@components/ui/list-group";
 import { SearchTextField } from "@components/ui/search-field";
 
@@ -79,59 +80,62 @@ export const SearchFormList = ({ data }: Readonly<{ data: SeriesSearchItem[] }>)
   ));
 
   return (
-    <AdvancedSearchList
+    <AdvancedSearchLayout
       title={t("series.searchTitle")}
-      data={dataLinks}
-      initializeState={reset}
-      redirect={<Navigate to="/operations/series" />}
+      backTo="/operations/series"
+      onReset={reset}
+      results={dataLinks}
+      criteria={
+        <AdvancedSearchCard className="series-search-form">
+          <SearchTextField
+            label={t("app.labelTitle")}
+            value={prefLabelLg1}
+            onChange={(value) => handleChange("prefLabelLg1", value)}
+            placeholder={t("app.searchLabelPlaceholder")}
+          />
+          <div className="field col-12 md:col-6">
+            <TypeCodeInput value={typeCode} onChange={(value) => handleChange("typeCode", value)} />
+          </div>
+          <div className="field col-12 md:col-6">
+            <CreatorsInput
+              mode="organization"
+              lang="default"
+              value={creator}
+              required={false}
+              onChange={(value) => {
+                handleChange("creator", value as string);
+              }}
+            />
+          </div>
+          <div className="field col-12 md:col-6">
+            <OrganizationInput
+              lang="default"
+              labelSingle={t("common.organization")}
+              labelMulti={t("common.organization")}
+              value={publisher}
+              required={false}
+              onChange={(value) => {
+                handleChange("publisher", value as string);
+              }}
+            />
+          </div>
+          <div className="field col-12 md:col-6">
+            <OrganizationInput
+              lang="default"
+              labelSingle={t("common.dataCollector")}
+              labelMulti={t("common.dataCollector")}
+              value={dataCollector}
+              required={false}
+              onChange={(value) => {
+                handleChange("dataCollector", value as string);
+              }}
+            />
+          </div>
+        </AdvancedSearchCard>
+      }
     >
-      <AdvancedSearchCard className="series-search-form">
-        <SearchTextField
-          label={t("app.labelTitle")}
-          value={prefLabelLg1}
-          onChange={(value) => handleChange("prefLabelLg1", value)}
-          placeholder={t("app.searchLabelPlaceholder")}
-        />
-        <div className="field col-12 md:col-6">
-          <TypeCodeInput value={typeCode} onChange={(value) => handleChange("typeCode", value)} />
-        </div>
-        <div className="field col-12 md:col-6">
-          <CreatorsInput
-            mode="organization"
-            lang="default"
-            value={creator}
-            required={false}
-            onChange={(value) => {
-              handleChange("creator", value as string);
-            }}
-          />
-        </div>
-        <div className="field col-12 md:col-6">
-          <OrganizationInput
-            lang="default"
-            labelSingle={t("common.organization")}
-            labelMulti={t("common.organization")}
-            value={publisher}
-            required={false}
-            onChange={(value) => {
-              handleChange("publisher", value as string);
-            }}
-          />
-        </div>
-        <div className="field col-12 md:col-6">
-          <OrganizationInput
-            lang="default"
-            labelSingle={t("common.dataCollector")}
-            labelMulti={t("common.dataCollector")}
-            value={dataCollector}
-            required={false}
-            onChange={(value) => {
-              handleChange("dataCollector", value as string);
-            }}
-          />
-        </div>
-      </AdvancedSearchCard>
-    </AdvancedSearchList>
+      <Pagination itemEls={dataLinks} />
+    </AdvancedSearchLayout>
   );
 };
 

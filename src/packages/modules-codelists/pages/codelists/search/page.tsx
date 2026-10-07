@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, Navigate } from "react-router";
+import { Link } from "react-router";
 
+import { AdvancedSearchLayout } from "@components/advanced-search-layout";
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
-import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
 import { Loading } from "@components/loading";
+import { Pagination } from "@components/pagination";
 import { Select } from "@components/select-rmes";
 import { List } from "@components/ui/list-group";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
@@ -73,58 +74,65 @@ export const SearchFormList = ({ data }: Readonly<SearchFormListTypes>) => {
   ));
 
   return (
-    <AdvancedSearchList
+    <AdvancedSearchLayout
       title={t("codelists.searchTitle")}
-      data={dataLinks}
-      initializeState={reset}
-      redirect={<Navigate to="/codelists" />}
-    >
-      <AdvancedSearchCard title={t("codelists.title")} className="codelist-search-form">
-        <SearchTextField
-          label={t("codelists.identifier")}
-          value={id}
-          onChange={(value) => handleChange("id", value)}
-        />
-        <SearchTextField
-          label={t("codelists.label")}
-          value={labelLg1}
-          onChange={(value) => handleChange("labelLg1", value)}
-        />
-        <div className="field col-12 md:col-6">
-          <CreatorsInput
-            mode="organization"
-            value={creator}
-            onChange={(value) => handleChange("creator", value as string)}
-            required={false}
-          />
-        </div>
-        <SearchField label={t("codelists.validationStatus")} col="col-12 md:col-6">
-          {(selectId) => (
-            <Select
-              inputId={selectId}
-              placeholder=""
-              value={validateStateOptions.find((option) => option.value === validationState) || ""}
-              options={validateStateOptions}
-              onChange={(value) => {
-                handleChange("validationState", value);
-              }}
+      backTo="/codelists"
+      onReset={reset}
+      results={dataLinks}
+      criteria={
+        <>
+          <AdvancedSearchCard title={t("codelists.title")} className="codelist-search-form">
+            <SearchTextField
+              label={t("codelists.identifier")}
+              value={id}
+              onChange={(value) => handleChange("id", value)}
             />
-          )}
-        </SearchField>
-      </AdvancedSearchCard>
-      <AdvancedSearchCard title={t("codes.title")} className="code-search-form">
-        <SearchTextField
-          label={t("codes.identifier")}
-          value={code}
-          onChange={(value) => handleChange("code", value)}
-        />
-        <SearchTextField
-          label={t("codes.label")}
-          value={codeLabel}
-          onChange={(value) => handleChange("codeLabel", value)}
-        />
-      </AdvancedSearchCard>
-    </AdvancedSearchList>
+            <SearchTextField
+              label={t("codelists.label")}
+              value={labelLg1}
+              onChange={(value) => handleChange("labelLg1", value)}
+            />
+            <div className="field col-12 md:col-6">
+              <CreatorsInput
+                mode="organization"
+                value={creator}
+                onChange={(value) => handleChange("creator", value as string)}
+                required={false}
+              />
+            </div>
+            <SearchField label={t("codelists.validationStatus")} col="col-12 md:col-6">
+              {(selectId) => (
+                <Select
+                  inputId={selectId}
+                  placeholder=""
+                  value={
+                    validateStateOptions.find((option) => option.value === validationState) || ""
+                  }
+                  options={validateStateOptions}
+                  onChange={(value) => {
+                    handleChange("validationState", value);
+                  }}
+                />
+              )}
+            </SearchField>
+          </AdvancedSearchCard>
+          <AdvancedSearchCard title={t("codes.title")} className="code-search-form">
+            <SearchTextField
+              label={t("codes.identifier")}
+              value={code}
+              onChange={(value) => handleChange("code", value)}
+            />
+            <SearchTextField
+              label={t("codes.label")}
+              value={codeLabel}
+              onChange={(value) => handleChange("codeLabel", value)}
+            />
+          </AdvancedSearchCard>
+        </>
+      }
+    >
+      <Pagination itemEls={dataLinks} />
+    </AdvancedSearchLayout>
   );
 };
 

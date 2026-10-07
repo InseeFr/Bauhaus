@@ -1,5 +1,7 @@
-import { waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
 import { ComponentType, ReactNode } from "react";
+import { Route, Routes } from "react-router";
 
 import { getListItems } from "@components/ui/list-group/testing";
 
@@ -72,9 +74,38 @@ export const itRendersCreatorsInput = (renderPage: RenderSearchPage) =>
     expect(getByTestId("creators-input")).toHaveValue(ORGANIZATION_IRI);
   });
 
+export const itResetsTheCriteria = (renderPage: RenderSearchPage) =>
+  it("resets the criteria when the reset button is clicked", async () => {
+    await renderPage({ labelLg1: "test" });
+
+    await userEvent.click(screen.getByRole("button", { name: "Reinitialize" }));
+
+    expect(vi.mocked(useUrlQueryParameters).mock.results[0].value.reset).toHaveBeenCalledOnce();
+  });
+
+export const itGoesBackToTheList = (
+  Component: ComponentType,
+  formSelector: string,
+  listPath: string,
+) =>
+  it("goes back to the list when the back button is clicked", async () => {
+    await renderSearchPage(
+      <Routes>
+        <Route path="/" element={<Component />} />
+        <Route path={listPath} element={<p>Liste</p>} />
+      </Routes>,
+      formSelector,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Back" }));
+
+    expect(screen.getByText("Liste")).toBeVisible();
+  });
+
 /**
  * Suite d'une page de recherche avancée : `searchMethod` renvoie `data`, chaque cas de `cases`
- * filtre ces données, puis le filtre créateur passe par CreatorsInput. La spec doit mocker
+ * filtre ces données, le filtre créateur passe par CreatorsInput, le bouton de réinitialisation
+ * vide les critères et le bouton de retour ramène à `listPath`. La spec doit mocker
  * `@utils/hooks/useUrlQueryParameters`, `@sdk/index` et `@components/business/creators-input`.
  */
 export const itBehavesAsAnAdvancedSearchPage = ({
@@ -83,12 +114,14 @@ export const itBehavesAsAnAdvancedSearchPage = ({
   searchMethod,
   data,
   cases,
+  listPath,
 }: {
   Component: ComponentType;
   formSelector: string;
   searchMethod: string;
   data: unknown[];
   cases: SearchFilterCase[];
+  listPath: string;
 }) => {
   const renderPage: RenderSearchPage = (form) =>
     renderSearchPage(<Component />, formSelector, form);
@@ -98,4 +131,8 @@ export const itBehavesAsAnAdvancedSearchPage = ({
   itFiltersSearchResults(renderPage, cases);
 
   itRendersCreatorsInput(renderPage);
+
+  itResetsTheCriteria(renderPage);
+
+  itGoesBackToTheList(Component, formSelector, listPath);
 };

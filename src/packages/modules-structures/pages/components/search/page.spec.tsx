@@ -46,6 +46,7 @@ describe("<SearchFormList /> component-search", () => {
     Component,
     formSelector: ".component-search-form",
     searchMethod: "getMutualizedComponentsForSearch",
+    listPath: "/structures/components",
     data,
     cases: [
       { name: "returns all data when the form is empty", form: {}, expected: 3 },

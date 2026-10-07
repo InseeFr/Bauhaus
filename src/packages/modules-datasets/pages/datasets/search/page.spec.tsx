@@ -1,5 +1,6 @@
 import { screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
+import { Route, Routes } from "react-router";
 
 import { renderWithRouter } from "../../../../tests/render";
 import { AdvancedSearchForm, FieldsForDatasetsAdvancedSearch } from "./page";
@@ -86,5 +87,33 @@ describe("advanced search component", () => {
 
     expect(screen.getByText("Dataset One")).toBeInTheDocument();
     expect(screen.queryByText("Dataset Two")).not.toBeInTheDocument();
+  });
+
+  it("AdvancedSearchForm clears every criterion when the reset button is clicked", async () => {
+    const data = [
+      datasetRow("1", "Dataset One", "ALT-XYZ"),
+      datasetRow("2", "Dataset Two", "OTHER-001"),
+    ];
+    renderWithRouter(<AdvancedSearchForm data={data} seriesOperationsOptions={[]} />, [
+      "/?altIdentifier=XYZ",
+    ]);
+    expect(screen.queryByText("Dataset Two")).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Reinitialize" }));
+
+    expect(screen.getByText("Dataset Two")).toBeInTheDocument();
+  });
+
+  it("AdvancedSearchForm goes back to the list of datasets when the back button is clicked", async () => {
+    renderWithRouter(
+      <Routes>
+        <Route path="/" element={<AdvancedSearchForm data={[]} seriesOperationsOptions={[]} />} />
+        <Route path="/datasets" element={<p>Liste des jeux de données</p>} />
+      </Routes>,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Back" }));
+
+    expect(screen.getByText("Liste des jeux de données")).toBeVisible();
   });
 });

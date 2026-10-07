@@ -1,4 +1,7 @@
+import { screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
 import { ChangeEvent } from "react";
+import { Route, Routes } from "react-router";
 import { Mock } from "vitest";
 
 import { getListItems } from "@components/ui/list-group/testing";
@@ -79,5 +82,39 @@ describe("<SearchFormList /> codelists-search", () => {
   it("renders the CreatorsInput (not a stamp dropdown) for the creator filter", () => {
     const { getByTestId } = renderForm({ creator: ORGANIZATION_IRI });
     expect(getByTestId("creators-input")).toHaveValue(ORGANIZATION_IRI);
+  });
+});
+
+describe("codelists advanced search page", () => {
+  it("resets the criteria when the reset button is clicked", async () => {
+    const reset = vi.fn();
+    (useUrlQueryParameters as Mock).mockReturnValue({
+      form: { labelLg1: "test" },
+      reset,
+      handleChange: vi.fn(),
+    });
+    renderWithRouter(<SearchFormList data={data} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Reinitialize" }));
+
+    expect(reset).toHaveBeenCalledOnce();
+  });
+
+  it("goes back to the list of codelists when the back button is clicked", async () => {
+    (useUrlQueryParameters as Mock).mockReturnValue({
+      form: {},
+      reset: vi.fn(),
+      handleChange: vi.fn(),
+    });
+    renderWithRouter(
+      <Routes>
+        <Route path="/" element={<SearchFormList data={data} />} />
+        <Route path="/codelists" element={<p>Liste des listes de codes</p>} />
+      </Routes>,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Back" }));
+
+    expect(screen.getByText("Liste des listes de codes")).toBeVisible();
   });
 });

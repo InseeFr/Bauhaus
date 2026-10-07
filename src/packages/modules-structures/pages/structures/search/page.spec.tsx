@@ -43,6 +43,7 @@ describe("<SearchFormList /> structure-search", () => {
     Component,
     formSelector: ".structure-search-form",
     searchMethod: "getStructuresForSearch",
+    listPath: "/structures",
     data,
     cases: [
       {
