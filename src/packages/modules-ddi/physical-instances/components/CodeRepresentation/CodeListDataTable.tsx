@@ -43,13 +43,6 @@ interface CodeListDataTableProps {
   readOnly?: boolean;
 }
 
-/**
- * Au-delà de ce nombre de codes, le tableau est virtualisé : seules les lignes visibles sont
- * rendues. Une liste mutualisée peut compter des dizaines de milliers de codes (45 000 → ~90 000
- * champs dans le DOM, onglet figé) ; les petites listes gardent un rendu complet.
- */
-export const VIRTUALIZATION_THRESHOLD = 200;
-
 /** Hauteur d'une ligne (taille « small », champ de saisie compris), requise par le virtual scroller. */
 const VIRTUAL_ROW_HEIGHT = 46;
 
@@ -71,6 +64,9 @@ export const CodeListDataTable = ({
   const readOnlyClassName = readOnly ? "code-list-readonly-input" : "";
   const overlayRefs = useRef<Map<string, OverlayPanel | null>>(new Map());
   const inputRefs = useRef<Map<string, HTMLInputElement | null>>(new Map());
+  const tableRef = useRef<DataTable<CodeTableRow[]>>(null);
+  /** Code ajouté hors de la zone rendue par le virtual scroller : focalisé dès que sa ligne monte. */
+  const pendingFocusId = useRef<string | null>(null);
   const [shouldFocusNewCode, setShouldFocusNewCode] = useState(false);
   const previousCodesLength = useRef(codes.length);
 
@@ -81,6 +77,9 @@ export const CodeListDataTable = ({
         const inputElement = inputRefs.current.get(lastCode.id);
         if (inputElement) {
           inputElement.focus();
+        } else {
+          pendingFocusId.current = lastCode.id;
+          tableRef.current?.getVirtualScroller()?.scrollToIndex(codes.length - 1);
         }
       }
       setShouldFocusNewCode(false);
@@ -179,6 +178,10 @@ export const CodeListDataTable = ({
       ref={(el) => {
         if (el) {
           inputRefs.current.set(rowData.id, el);
+          if (pendingFocusId.current === rowData.id) {
+            pendingFocusId.current = null;
+            el.focus();
+          }
         }
       }}
     />
@@ -291,6 +294,7 @@ export const CodeListDataTable = ({
         />
       </div>
       <DataTable
+        ref={tableRef}
         value={codes}
         className="code-list-table"
         header={
@@ -309,11 +313,12 @@ export const CodeListDataTable = ({
         // ligne ne change pas — la cellule resterait gelée après la décision. Le tableau tient
         // quelques codes : rien à gagner à la mémoïsation.
         cellMemo={false}
-        {...(codes.length > VIRTUALIZATION_THRESHOLD && {
-          scrollable: true,
-          scrollHeight: "60vh",
-          virtualScrollerOptions: { itemSize: VIRTUAL_ROW_HEIGHT },
-        })}
+        // Tableau virtualisé quelle que soit la liste : seules les lignes visibles sont rendues.
+        // Une liste peut compter des dizaines de milliers de codes (45 000 → ~90 000 champs dans le
+        // DOM, onglet figé).
+        scrollable
+        scrollHeight="60vh"
+        virtualScrollerOptions={{ itemSize: VIRTUAL_ROW_HEIGHT }}
       >
         <Column
           field="value"

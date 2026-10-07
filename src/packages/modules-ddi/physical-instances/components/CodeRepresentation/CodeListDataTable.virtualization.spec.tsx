@@ -1,7 +1,9 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, within, fireEvent, waitFor } from "@testing-library/react";
+import { useState } from "react";
 import { describe, it, expect, vi } from "vitest";
 
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
+import { withScreenLayout } from "./virtualScrollerLayout.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -38,19 +40,7 @@ const bodyRows = () => {
 
 describe("CodeListDataTable — volumétrie", () => {
   it("does not render every row of a very large code list", async () => {
-    // happy-dom ne calcule aucune mise en page : on donne au viewport la taille d'un écran pour que
-    // le virtual scroller sache combien de lignes afficher.
-    using _height = vi.spyOn(HTMLElement.prototype, "offsetHeight", "get").mockReturnValue(600);
-    using _width = vi.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockReturnValue(800);
-    using _rect = vi
-      .spyOn(HTMLElement.prototype, "getBoundingClientRect")
-      .mockReturnValue(DOMRect.fromRect({ width: 800, height: 600 }));
-    // Le scroller retranche paddings et bordures lus via getComputedStyle : sans feuille de style,
-    // happy-dom les rend vides (NaN une fois parsés) et aucune ligne n'est calculée.
-    const style = document.createElement("style");
-    style.textContent = "* { padding: 0px; border-width: 0px; }";
-    document.head.appendChild(style);
-    using _style = { [Symbol.dispose]: () => style.remove() };
+    using _layout = withScreenLayout();
 
     renderTable(codesOf(5_000));
 
@@ -58,9 +48,49 @@ describe("CodeListDataTable — volumétrie", () => {
     expect(bodyRows().length).toBeLessThan(5_000);
   });
 
-  it("renders every row of a small code list", () => {
-    renderTable(codesOf(5), false);
+  it("virtualizes an editable code list of any size", async () => {
+    using _layout = withScreenLayout();
 
-    expect(bodyRows()).toHaveLength(5);
+    renderTable(codesOf(150), false);
+
+    expect(await screen.findByDisplayValue("Modalité 0")).toBeInTheDocument();
+    expect(bodyRows().length).toBeLessThan(150);
+  });
+
+  it("focuses a code added at the end of a list longer than the screen", async () => {
+    using _layout = withScreenLayout();
+    const Harness = () => {
+      const [codes, setCodes] = useState(codesOf(150));
+      return (
+        <CodeListDataTable
+          codeListLabel="Liste"
+          codes={codes}
+          onCodeListLabelChange={vi.fn()}
+          onCellEdit={vi.fn()}
+          onDeleteCode={vi.fn()}
+          onAddCode={() =>
+            setCodes((current) => [
+              ...current,
+              { id: "new-code", value: "", label: "", categoryId: "new-category", isNew: true },
+            ])
+          }
+        />
+      );
+    };
+    const { container } = render(<Harness />);
+    await screen.findByDisplayValue("Modalité 0");
+
+    fireEvent.click(screen.getByRole("button", { name: "physicalInstance.view.code.addCode" }));
+    // happy-dom applique le défilement demandé sans émettre l'événement `scroll` du navigateur,
+    // celui sur lequel le virtual scroller recalcule les lignes à rendre.
+    fireEvent.scroll(container.querySelector(".p-virtualscroller")!);
+
+    await waitFor(() =>
+      expect(document.activeElement).toHaveAttribute(
+        "placeholder",
+        "physicalInstance.view.code.value",
+      ),
+    );
+    expect(screen.queryByDisplayValue("Modalité 0")).not.toBeInTheDocument();
   });
 });
