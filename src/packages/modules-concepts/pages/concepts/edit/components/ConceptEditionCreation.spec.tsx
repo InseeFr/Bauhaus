@@ -134,7 +134,7 @@ describe("concept-edition-creation", () => {
       expect(summaryEntry(/General information/).textContent).toContain("To fix");
     });
 
-    it("n'affiche pas la note précédente quand le sommaire en demande une autre", () => {
+    it("n'affiche pas la note précédente quand le sommaire en demande une autre", async () => {
       renderForm({
         notes: {
           ...emptyConceptNotes,
@@ -142,7 +142,8 @@ describe("concept-edition-creation", () => {
         } as unknown as ConceptNotes,
         section: "conceptsScopeNote",
       });
-      expect(screen.getByRole("region", { name: "Définition courte" })).toHaveTextContent("Courte");
+      const scopeNote = screen.getByRole("region", { name: "Définition courte" });
+      expect(await within(scopeNote).findByText("Courte")).toBeInTheDocument();
 
       chooseInSummary(/^Définition(?! courte)/);
 
@@ -300,10 +301,10 @@ describe("concept-edition-creation", () => {
 
     // Vider la note éditoriale la fait changer sans rendre le formulaire invalide,
     // contrairement à la définition, qui est obligatoire.
-    const emptyEditorialNote = () => {
+    const emptyEditorialNote = async () => {
       chooseInSummary(/Note éditoriale/);
       const note = screen.getByRole("region", { name: "Note éditoriale" });
-      fireEvent.click(within(note).getAllByTitle("Delete")[0]);
+      fireEvent.click((await within(note).findAllByTitle("Delete"))[0]);
     };
 
     const buildPublishedWithNote = (save: ReturnType<typeof vi.fn>) => {
@@ -318,16 +319,16 @@ describe("concept-edition-creation", () => {
     };
 
     /** Rend un concept publié, vide sa note éditoriale puis tente de sauvegarder. */
-    const saveChangedPublishedConcept = (save: ReturnType<typeof vi.fn>) => {
+    const saveChangedPublishedConcept = async (save: ReturnType<typeof vi.fn>) => {
       renderWithAppContext(<ConceptEditionCreation {...buildPublishedWithNote(save)} />);
 
-      emptyEditorialNote();
+      await emptyEditorialNote();
       clickSave();
     };
 
-    it("demande quoi faire de la version quand une note impactante a changé", () => {
+    it("demande quoi faire de la version quand une note impactante a changé", async () => {
       const save = vi.fn();
-      saveChangedPublishedConcept(save);
+      await saveChangedPublishedConcept(save);
 
       expect(screen.getByText("Please select versioning type")).toBeInTheDocument();
       expect(save).not.toHaveBeenCalled();
@@ -335,7 +336,7 @@ describe("concept-edition-creation", () => {
 
     it("écrase la version en place quand l'utilisateur le demande", async () => {
       const save = vi.fn();
-      saveChangedPublishedConcept(save);
+      await saveChangedPublishedConcept(save);
       fireEvent.click(screen.getByRole("button", { name: "Overwrite version" }));
 
       await expectVersioningQuestionClosed();
@@ -352,7 +353,7 @@ describe("concept-edition-creation", () => {
     for (const { name, button } of dismissals) {
       it(name, async () => {
         const save = vi.fn();
-        saveChangedPublishedConcept(save);
+        await saveChangedPublishedConcept(save);
         const modal = screen.getByRole("dialog");
         fireEvent.click(within(modal).getByRole("button", { name: button }));
 
@@ -361,8 +362,8 @@ describe("concept-edition-creation", () => {
       });
     }
 
-    it("interdit la version majeure tant que la note de changement n'a pas été reprise", () => {
-      saveChangedPublishedConcept(vi.fn());
+    it("interdit la version majeure tant que la note de changement n'a pas été reprise", async () => {
+      await saveChangedPublishedConcept(vi.fn());
 
       expect(screen.getByRole("button", { name: "New version" })).toBeDisabled();
     });

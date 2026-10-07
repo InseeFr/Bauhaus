@@ -100,10 +100,6 @@ export function htmlFromEditorState(editorState: typeof EditorState) {
   return cleanHtml(html);
 }
 
-export function editorStateFromHtml(html: string) {
-  return EditorState.createWithContent(stateFromHTML(html));
-}
-
 export function mdFromEditorState(editorState: typeof EditorState) {
   /*
    * Sometimes the React editor  include space when formatting text (bold or italic).

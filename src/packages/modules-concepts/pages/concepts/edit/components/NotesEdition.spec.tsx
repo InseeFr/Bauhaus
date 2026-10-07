@@ -43,10 +43,10 @@ describe("concept-edition-creation-notes", () => {
     expect(screen.queryByRole("region", { name: "Définition courte" })).not.toBeInTheDocument();
   });
 
-  it("ouvre les deux langues de la note, sans rien demander de plus", () => {
+  it("ouvre les deux langues de la note, sans rien demander de plus", async () => {
     renderNotes({}, { activeNote: "conceptsEditorialNote" });
 
-    expect(screen.getAllByRole("textbox")).toHaveLength(2);
+    expect(await screen.findAllByRole("textbox")).toHaveLength(2);
     expect(screen.queryByRole("button", { name: "Write" })).not.toBeInTheDocument();
   });
 

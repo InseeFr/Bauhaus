@@ -36,3 +36,8 @@
   color: black;
   text-align: center;
 }
+
+/* Même hauteur que l'ancien éditeur draft-js (`.DraftEditor-root`). */
+.editor-html .ql-editor {
+  min-height: 200px;
+}
