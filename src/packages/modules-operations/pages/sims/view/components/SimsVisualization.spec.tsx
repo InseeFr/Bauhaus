@@ -363,4 +363,24 @@ describe("SimsVisualization - export", () => {
       mockSims,
     );
   });
+
+  it("should invalidate the cached documents before leaving, as their page lists the SIMS citing them", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["documents", "document", "d1"], { id: "d1" });
+    let invalidatedAtNavigation: boolean | undefined;
+    navigateMock.mockImplementationOnce(() => {
+      invalidatedAtNavigation = queryClient.getQueryState([
+        "documents",
+        "document",
+        "d1",
+      ])?.isInvalidated;
+    });
+    renderComponent(vi.fn(), { id: "3", idSeries: "s42", rubrics: {} }, queryClient);
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
+    expect(invalidatedAtNavigation).toBe(true);
+  });
 });

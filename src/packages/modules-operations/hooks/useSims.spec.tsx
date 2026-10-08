@@ -203,6 +203,22 @@ describe("useSaveSims", () => {
       true,
     );
   });
+
+  it("périme les documents, dont la fiche liste les SIMS qui les citent", async () => {
+    vi.mocked(OperationsApi.putSims).mockResolvedValue("1500");
+    const wrapperAndClient = createQueryWrapper();
+    wrapperAndClient.queryClient.setQueryData(["documents", "document", "d1"], { id: "d1" });
+
+    await runMutation(
+      useSaveSims,
+      { id: "1500", idSeries: "s1", labelLg1: "un" },
+      wrapperAndClient,
+    );
+
+    expect(
+      wrapperAndClient.queryClient.getQueryState(["documents", "document", "d1"])?.isInvalidated,
+    ).toBe(true);
+  });
 });
 
 describe("usePublishSims", () => {

@@ -23,7 +23,7 @@ import { Document } from "@model/operations/document";
 import { GeneralApi } from "@sdk/general-api";
 
 import { toFormErrors } from "@utils/api-errors";
-import { useDocumentsAndLinks } from "@utils/hooks/documents";
+import { useDocumentsAndLinks, useInvalidateDocuments } from "@utils/hooks/documents";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -228,6 +228,7 @@ export const OperationsDocumentationEdition = (
   );
 
   const goBack = useGoBack();
+  const invalidateDocuments = useInvalidateDocuments();
 
   const defaultDocument: Document = useMemo(() => {
     return {
@@ -286,8 +287,11 @@ export const OperationsDocumentationEdition = (
     const isCreation = !document.id;
     // Après un retour par goBack, pas de retour au formulaire : la navigation est asynchrone, le
     // formulaire réapparaîtrait le temps qu'elle aboutisse. Avec onSave, la page hôte le garde.
+    // Les documents en cache sont périmés avant de rendre la main : la fiche et la liste en sont
+    // servies.
     saveDocument(document, type, files).then(
-      (id = document.id) => {
+      async (id = document.id) => {
+        await invalidateDocuments();
         if (props.onSave) {
           dispatch({ type: "SET_SAVING", saving: false });
           props.onSave(id as string);

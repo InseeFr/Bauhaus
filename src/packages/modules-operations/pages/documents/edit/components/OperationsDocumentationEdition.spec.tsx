@@ -23,7 +23,8 @@ vi.mock("@sdk/general-api", () => ({
 
 // Référence stable : la liste est une dépendance d'effet dans le composant.
 const documentsAndLinks: unknown[] = [];
-vi.mock("@utils/hooks/documents", () => ({
+vi.mock("@utils/hooks/documents", async (importOriginal) => ({
+  ...(await importOriginal()),
   useDocumentsAndLinks: () => ({ data: documentsAndLinks }),
 }));
 
@@ -73,10 +74,11 @@ const selectFile = (container: HTMLElement, file: File) =>
 const renderEdition = (
   document: Partial<Document> = {},
   props: Partial<ComponentProps<typeof OperationsDocumentationEdition>> = {},
+  queryClient = new QueryClient(),
 ) =>
   render(
     <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <QueryClientProvider client={new QueryClient()}>
+      <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <OperationsDocumentationEdition
             document={document}
@@ -284,6 +286,24 @@ describe("OperationsDocumentationEdition, after a successful save", () => {
 
     await waitFor(() => expect(onSave).toHaveBeenCalledWith("d1"));
     expect(await screen.findByRole("button", { name: /Sauvegarder|Save/ })).toBeInTheDocument();
+  });
+
+  it.each([
+    ["the list of documents and links", ["documents"]],
+    ["the document page, served from the cache", ["documents", "document", "d1"]],
+  ])("invalidates %s before handing back", async (_, queryKey) => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(queryKey, {});
+    let invalidatedAtSave: boolean | undefined;
+    const onSave = vi.fn(() => {
+      invalidatedAtSave = queryClient.getQueryState(queryKey)?.isInvalidated;
+    });
+    renderEdition(existingDocument, { onSave }, queryClient);
+
+    await userEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
+
+    await waitFor(() => expect(onSave).toHaveBeenCalled());
+    expect(invalidatedAtSave).toBe(true);
   });
 });
 

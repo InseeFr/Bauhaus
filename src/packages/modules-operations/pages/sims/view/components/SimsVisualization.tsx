@@ -20,6 +20,7 @@ import { Rubric, Sims } from "@model/Sims";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
+import { useInvalidateDocuments } from "@utils/hooks/documents";
 import { useInvalidateOperations } from "@utils/hooks/operations";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useInvalidateSeries } from "@utils/hooks/series";
@@ -118,6 +119,8 @@ export function SimsVisualization({
 
   const invalidateOperations = useInvalidateOperations();
 
+  const invalidateDocuments = useInvalidateDocuments();
+
   const handleNo = () => {
     setModalOpened(false);
   };
@@ -129,6 +132,8 @@ export function SimsVisualization({
       .then(() => sims.idIndicator && invalidateIndicators())
       .then(() => sims.idSeries && invalidateSeries())
       .then(() => sims.idOperation && invalidateOperations())
+      // La fiche d'un document liste les SIMS qui le citent.
+      .then(() => invalidateDocuments())
       .then(() => {
         setModalOpened(false);
         navigate(getParentUri(sims) ?? "");
