@@ -108,16 +108,16 @@ const mockUseCodeListUsers = vi.fn(() => ({
   isError: false,
 }));
 
-const mockFetchCodeListUsers = vi.fn(
-  (_agencyId: string, _id: string): Promise<any[]> => Promise.resolve([]),
+const mockFetchCodeListUsers = vi.fn((_agencyId: string, _id: string): Promise<any[]> =>
+  Promise.resolve([]),
 );
 vi.mock("../../../hooks/useCodeListUsers", () => ({
   useCodeListUsers: () => mockUseCodeListUsers(),
   useFetchCodeListUsers: () => mockFetchCodeListUsers,
 }));
 
-const mockFetchCategoryUsers = vi.fn(
-  (_agencyId: string, _id: string): Promise<any[]> => Promise.resolve([]),
+const mockFetchCategoryUsers = vi.fn((_agencyId: string, _id: string): Promise<any[]> =>
+  Promise.resolve([]),
 );
 const mockUseCategoryUsers = vi.fn((_agencyId: string, _id: string, _enabled?: boolean) => ({
   data: [] as any[],
