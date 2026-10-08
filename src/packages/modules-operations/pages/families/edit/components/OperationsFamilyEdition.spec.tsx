@@ -141,6 +141,29 @@ describe("OperationsFamilyEdition", () => {
       expect(input.value).toBe("Updated Label 1");
     });
 
+    it.each([
+      ["Résumé", "abstractLg1"],
+      ["Summary", "abstractLg2"],
+    ])(
+      "should send to the API the markdown typed in the %s editor",
+      async (label, field) => {
+        OperationsApi.updateFamily.mockResolvedValueOnce();
+        renderEdition(defaultProps);
+
+        fireEvent.change(screen.getByRole("textbox", { name: label }), {
+          target: { value: "Un **résumé**\n\n- point" },
+        });
+        clickSave();
+
+        await waitFor(() =>
+          expect(OperationsApi.updateFamily).toHaveBeenCalledWith({
+            ...defaultProps.family,
+            [field]: "Un **résumé**\n\n- point",
+          }),
+        );
+      },
+    );
+
     it("should update prefLabelLg2 when input changes", () => {
       renderEdition(defaultProps);
 

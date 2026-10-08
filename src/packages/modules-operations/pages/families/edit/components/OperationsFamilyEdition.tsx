@@ -9,7 +9,7 @@ import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
-import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
+import { MDEditor } from "@components/rich-editor/react-md-editor";
 
 import { Family } from "@model/operations/family";
 
@@ -238,16 +238,18 @@ export const OperationsFamilyEdition = ({
         <Row>
           <div className="col-md-6 form-group">
             <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={state.family.abstractLg1}
-              handleChange={onChange("abstractLg1")}
+              handleChange={(value) => onChange("abstractLg1")(value ?? "")}
+              textareaProps={{ id: "abstractLg1" }}
             />
           </div>
           <div className="col-md-6 form-group">
             <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={state.family.abstractLg2}
-              handleChange={onChange("abstractLg2")}
+              handleChange={(value) => onChange("abstractLg2")(value ?? "")}
+              textareaProps={{ id: "abstractLg2" }}
             />
           </div>
         </Row>
