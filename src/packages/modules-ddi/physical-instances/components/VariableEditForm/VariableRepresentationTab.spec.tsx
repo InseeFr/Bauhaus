@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { useCallback } from "react";
 import { describe, it, expect, vi } from "vitest";
 
 import {
@@ -18,27 +19,36 @@ vi.mock("react-i18next", async () =>
 vi.mock("primereact/dropdown", () => import("../representation.testing"));
 
 vi.mock("../NumericRepresentation/NumericRepresentation", () => ({
-  NumericRepresentation: ({ onChange }: any) => (
-    <div data-testid="numeric-representation">
-      <button onClick={() => onChange({ NumericTypeCode: "Integer" })}>Set Numeric</button>
-    </div>
-  ),
+  NumericRepresentation: ({ onChange }: any) => {
+    const setNumeric = useCallback(() => onChange({ NumericTypeCode: "Integer" }), [onChange]);
+    return (
+      <div data-testid="numeric-representation">
+        <button onClick={setNumeric}>Set Numeric</button>
+      </div>
+    );
+  },
 }));
 
 vi.mock("../DateRepresentation/DateRepresentation", () => ({
-  DateRepresentation: ({ onChange }: any) => (
-    <div data-testid="date-representation">
-      <button onClick={() => onChange({ DateTypeCode: "Date" })}>Set Date</button>
-    </div>
-  ),
+  DateRepresentation: ({ onChange }: any) => {
+    const setDate = useCallback(() => onChange({ DateTypeCode: "Date" }), [onChange]);
+    return (
+      <div data-testid="date-representation">
+        <button onClick={setDate}>Set Date</button>
+      </div>
+    );
+  },
 }));
 
 vi.mock("../TextRepresentation/TextRepresentation", () => ({
-  TextRepresentation: ({ onChange }: any) => (
-    <div data-testid="text-representation">
-      <button onClick={() => onChange({ MaxLength: 100 })}>Set Text</button>
-    </div>
-  ),
+  TextRepresentation: ({ onChange }: any) => {
+    const setText = useCallback(() => onChange({ MaxLength: 100 }), [onChange]);
+    return (
+      <div data-testid="text-representation">
+        <button onClick={setText}>Set Text</button>
+      </div>
+    );
+  },
 }));
 
 vi.mock("../SentinelValues/SentinelValues", () => ({
@@ -46,11 +56,14 @@ vi.mock("../SentinelValues/SentinelValues", () => ({
 }));
 
 vi.mock("../CodeRepresentation/CodeRepresentation", () => ({
-  CodeRepresentation: ({ onChange }: any) => (
-    <div data-testid="code-representation">
-      <button onClick={() => onChange({ BlankIsMissingValue: false })}>Set Code</button>
-    </div>
-  ),
+  CodeRepresentation: ({ onChange }: any) => {
+    const setCode = useCallback(() => onChange({ BlankIsMissingValue: false }), [onChange]);
+    return (
+      <div data-testid="code-representation">
+        <button onClick={setCode}>Set Code</button>
+      </div>
+    );
+  },
 }));
 
 describe("VariableRepresentationTab", () => {

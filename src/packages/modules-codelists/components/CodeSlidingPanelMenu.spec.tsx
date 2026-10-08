@@ -8,10 +8,11 @@ import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
 
 vi.mock("@utils/hooks/users", () => import("../testing/users.testing"));
 
+const codelist = { contributor: "test-contributor" } as unknown as Codelist;
+
 describe("CodeSlidingPanelMenu", () => {
   const mockHandleSubmit = vi.fn();
   const mockHandleBack = vi.fn();
-  const codelist = { contributor: "test-contributor" } as unknown as Codelist;
 
   const renderMenu = (creation = false) =>
     render(

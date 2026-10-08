@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import { useCallback } from "react";
 import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
@@ -25,14 +26,20 @@ vi.mock("./components/ConceptsToValidate", () => ({
   }: {
     concepts: { id: string; label: string }[];
     handleValidateConceptList: (ids: string[]) => void;
-  }) => (
-    <div data-testid="concepts-to-validate">
-      <span data-testid="concepts-count">{concepts.length}</span>
-      <button data-testid="validate-button" onClick={() => handleValidateConceptList(["1", "2"])}>
-        Valider
-      </button>
-    </div>
-  ),
+  }) => {
+    const validate = useCallback(
+      () => handleValidateConceptList(["1", "2"]),
+      [handleValidateConceptList],
+    );
+    return (
+      <div data-testid="concepts-to-validate">
+        <span data-testid="concepts-count">{concepts.length}</span>
+        <button data-testid="validate-button" onClick={validate}>
+          Valider
+        </button>
+      </div>
+    );
+  },
 }));
 
 // Mock de l'API

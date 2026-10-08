@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { type ChangeEvent, useCallback } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { Variable } from "../../types/api";
@@ -14,31 +15,33 @@ vi.mock("../../../hooks/useStudyUnitVariables", () => ({
 vi.mock("primereact/dialog", () => ({
   Dialog: ({ visible, children, header, footer }: any) =>
     visible ? (
-      <div role="dialog" aria-label={header}>
+      <dialog open aria-label={header}>
         {children}
         {footer}
-      </div>
+      </dialog>
     ) : null,
 }));
 
 vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ value, options, onChange, emptyMessage, "aria-label": ariaLabel }: any) => (
-    <>
-      <select
-        aria-label={ariaLabel}
-        value={value || ""}
-        onChange={(e) => onChange({ value: e.target.value || null })}
-      >
-        <option value="">-</option>
-        {options.map((option: any) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      {options.length === 0 && <p>{emptyMessage}</p>}
-    </>
-  ),
+  Dropdown: ({ value, options, onChange, emptyMessage, "aria-label": ariaLabel }: any) => {
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value || null }),
+      [onChange],
+    );
+    return (
+      <>
+        <select aria-label={ariaLabel} value={value || ""} onChange={handleChange}>
+          <option value="">-</option>
+          {options.map((option: any) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        {options.length === 0 && <p>{emptyMessage}</p>}
+      </>
+    );
+  },
 }));
 
 const fr = (value: string) => [{ "@language": "fr-FR", "@value": value }];
@@ -56,6 +59,9 @@ const variable = (id: string, name: string, label: string): Variable =>
 const sexe = variable("var-sexe", "SEXE", "Sexe");
 const age = variable("var-age", "AGE", "Âge");
 
+const studyUnit = { agency: "fr.insee", id: "su-1" };
+const NO_EXCLUDED_VARIABLE_IDS: string[] = [];
+
 const SELECT = "physicalInstance.view.reuseVariable.select";
 const CONFIRM = "physicalInstance.view.reuseVariable.confirm";
 
@@ -64,8 +70,8 @@ const renderDialog = (props: Partial<Parameters<typeof ReuseVariableDialog>[0]> 
   const onHide = vi.fn();
   render(
     <ReuseVariableDialog
-      studyUnit={{ agency: "fr.insee", id: "su-1" }}
-      excludedVariableIds={[]}
+      studyUnit={studyUnit}
+      excludedVariableIds={NO_EXCLUDED_VARIABLE_IDS}
       onReuse={onReuse}
       onHide={onHide}
       {...props}

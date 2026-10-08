@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useCallback } from "react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
@@ -29,15 +30,22 @@ vi.mock("../hooks/useDocumentsList", () => ({
 // L'écran est un assembleur : on remplace la vue par un pilote qui expose les deux
 // callbacks qu'elle reçoit, seuls chemins par lesquels le reducer de la page est atteint.
 vi.mock("./components/SimsVisualization", () => ({
-  SimsVisualization: ({ sims, publishSims, exportCallback, missingDocuments, owners }: any) => (
-    <div>
-      <span>sims:{sims.labelLg1 ?? "(vide)"}</span>
-      <span>owners:{owners.length}</span>
-      <span>missing:{[...missingDocuments].join(",")}</span>
-      <button onClick={() => publishSims({ id: "sims-1" }, onPublishError)}>publier</button>
-      <button onClick={() => exportCallback("sims-1", "config", true)}>exporter</button>
-    </div>
-  ),
+  SimsVisualization: ({ sims, publishSims, exportCallback, missingDocuments, owners }: any) => {
+    const publish = useCallback(() => publishSims({ id: "sims-1" }, onPublishError), [publishSims]);
+    const exportSims = useCallback(
+      () => exportCallback("sims-1", "config", true),
+      [exportCallback],
+    );
+    return (
+      <div>
+        <span>sims:{sims.labelLg1 ?? "(vide)"}</span>
+        <span>owners:{owners.length}</span>
+        <span>missing:{[...missingDocuments].join(",")}</span>
+        <button onClick={publish}>publier</button>
+        <button onClick={exportSims}>exporter</button>
+      </div>
+    );
+  },
 }));
 vi.mock("../components/MSDLayout", () => ({
   MSDLayout: ({ children, baseUrl }: any) => <div data-testid={`msd-${baseUrl}`}>{children}</div>,

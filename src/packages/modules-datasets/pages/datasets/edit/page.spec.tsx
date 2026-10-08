@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { ReactElement } from "react";
 import { MemoryRouter, Route, Routes } from "react-router";
 
 import { AppContextProvider } from "../../../../application/app-context";
@@ -80,20 +81,26 @@ vi.mock("./components/InternalManagement", () => ({ InternalManagement: () => nu
 vi.mock("./components/Notes", () => ({ Notes: () => null }));
 vi.mock("./components/StatisticalInformation", () => ({ StatisticalInformation: () => null }));
 
-const renderPage = async (path: string, route: string) => {
-  const { Component } = await import("./page");
+const NO_PROPERTIES = {} as any;
+
+const renderRoute = (page: ReactElement, initialEntries: string[], route: string) => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
     <QueryClientProvider client={queryClient}>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        <MemoryRouter initialEntries={[path]}>
+      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
+        <MemoryRouter initialEntries={initialEntries}>
           <Routes>
-            <Route path={route} element={<Component />} />
+            <Route path={route} element={page} />
           </Routes>
         </MemoryRouter>
       </AppContextProvider>
     </QueryClientProvider>,
   );
+};
+
+const renderPage = async (path: string, route: string) => {
+  const { Component } = await import("./page");
+  return renderRoute(<Component />, [path], route);
 };
 
 const editedDataset = () => JSON.parse(screen.getByTestId("editing-dataset").textContent!);

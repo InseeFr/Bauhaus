@@ -33,12 +33,14 @@ const parentCodes = [
   { code: "A", labelLg1: "Alpha" },
 ];
 
+const NO_CODELIST = {};
+
 const renderForm = (props: Partial<Parameters<typeof PartialCodelistDetailEdit>[0]> = {}) => {
   const handleSave = vi.fn();
   const handleBack = vi.fn();
   const rendered = renderWithProviders(
     <PartialCodelistDetailEdit
-      codelist={{}}
+      codelist={NO_CODELIST}
       handleSave={handleSave}
       handleBack={handleBack}
       updateMode={false}

@@ -6,11 +6,13 @@ import { MODULES, PRIVILEGE, PRIVILEGES } from "@utils/hooks/rbac-constants";
 
 import { rbacFor, renderWithRbac, resetRbacMocks } from "../../menu-rbac.testing";
 
+const EMPTY_FAMILY = {} as Family;
+
 const renderMenu = (privileges: PRIVILEGE[]) =>
   renderWithRbac(
     [rbacFor(MODULES.OPERATION_FAMILY, privileges)],
     () => import("./menu"),
-    ({ Menu }) => <Menu family={{} as Family} publish={vi.fn()} />,
+    ({ Menu }) => <Menu family={EMPTY_FAMILY} publish={vi.fn()} />,
   );
 
 describe("Family Home Page Menu", () => {

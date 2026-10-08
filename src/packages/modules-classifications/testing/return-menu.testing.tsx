@@ -18,7 +18,7 @@ export const itBehavesLikeAReturnMenu = (menu: ReactElement, segment: string) =>
   const pathname = `/classifications/classification/coicop2016/${segment}`;
 
   const renderMenu = (initialPath = pathname) =>
-    render(<MemoryRouter initialEntries={[initialPath]}>{menu}</MemoryRouter>);
+    render(<MemoryRouter initialEntries={Array.of(initialPath)}>{menu}</MemoryRouter>);
 
   beforeEach(() => {
     vi.clearAllMocks();

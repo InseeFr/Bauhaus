@@ -4,7 +4,7 @@
 import { QueryClientProvider, useMutation } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { ReactNode, useEffect } from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { createQueryClient } from "../query-client";
@@ -12,6 +12,7 @@ import { GlobalErrorToast } from "./index";
 
 const forbidden = "You do not have permission to perform this action.";
 const notFound = "The requested item could not be found.";
+const SILENT_META = { globalErrorToast: false };
 
 const FailingMutation = ({
   rejection,
@@ -79,10 +80,7 @@ describe("GlobalErrorToast", () => {
   it("does not notify a mutation whose screen displays the error itself", async () => {
     renderWithNotifier(
       <>
-        <FailingMutation
-          rejection={sdkRejection.emptyBody(403)}
-          meta={{ globalErrorToast: false }}
-        />
+        <FailingMutation rejection={sdkRejection.emptyBody(403)} meta={SILENT_META} />
         <FailingMutation rejection={sdkRejection.emptyBody(404)} />
       </>,
     );
@@ -97,9 +95,9 @@ describe("GlobalErrorToast", () => {
       <>
         <FailingMutation
           rejection={sdkRejection.emptyBody(403)}
-          onError={() => {
+          onError={vi.fn(() => {
             handled = true;
-          }}
+          })}
         />
         <FailingMutation rejection={sdkRejection.emptyBody(404)} />
       </>,

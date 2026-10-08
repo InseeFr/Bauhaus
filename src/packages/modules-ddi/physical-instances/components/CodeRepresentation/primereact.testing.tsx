@@ -4,7 +4,7 @@
  * Chaque export remplace le composant de même nom ; usage :
  * `vi.mock("primereact/inputtext", () => import("./primereact.testing"));`
  */
-import { forwardRef, useImperativeHandle } from "react";
+import { ChangeEvent, forwardRef, useCallback, useImperativeHandle } from "react";
 
 export const InputText = ({ id, value, onChange, placeholder, ...props }: any) => (
   <input
@@ -48,24 +48,30 @@ export const Dropdown = ({
   optionLabel,
   optionValue,
   itemTemplate,
-}: any) => (
-  <select
-    data-testid="code-list-dropdown"
-    value={value || ""}
-    onChange={(e) => onChange({ value: e.target.value })}
-    className={className}
-  >
-    <option value="" disabled>
-      {placeholder}
-    </option>
-    {options?.map((group: any) => (
-      <optgroup key={group[optionGroupLabel]} label={group[optionGroupLabel]}>
-        {group[optionGroupChildren].map((option: any) => (
-          <option key={option[optionValue]} value={option[optionValue]}>
-            {itemTemplate ? itemTemplate(option) : option[optionLabel]}
-          </option>
-        ))}
-      </optgroup>
-    ))}
-  </select>
-);
+}: any) => {
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value }),
+    [onChange],
+  );
+  return (
+    <select
+      data-testid="code-list-dropdown"
+      value={value || ""}
+      onChange={handleChange}
+      className={className}
+    >
+      <option value="" disabled>
+        {placeholder}
+      </option>
+      {options?.map((group: any) => (
+        <optgroup key={group[optionGroupLabel]} label={group[optionGroupLabel]}>
+          {group[optionGroupChildren].map((option: any) => (
+            <option key={option[optionValue]} value={option[optionValue]}>
+              {itemTemplate ? itemTemplate(option) : option[optionLabel]}
+            </option>
+          ))}
+        </optgroup>
+      ))}
+    </select>
+  );
+};

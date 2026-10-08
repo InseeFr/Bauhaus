@@ -5,6 +5,8 @@ import userEvent from "@testing-library/user-event";
 
 import { ModalButton, ModalRmes, ModalRmesTypes } from "./modal-rmes";
 
+const NO_BUTTONS: ModalButton[] = [];
+
 const renderModal = (props: Partial<ModalRmesTypes> = {}) =>
   render(
     <ModalRmes
@@ -12,7 +14,7 @@ const renderModal = (props: Partial<ModalRmesTypes> = {}) =>
       isOpen={true}
       title="Confirmation"
       closeCancel={vi.fn()}
-      modalButtons={[]}
+      modalButtons={NO_BUTTONS}
       {...props}
     />,
   );

@@ -5,6 +5,8 @@ import { MemoryRouter, Route, Routes } from "react-router";
 
 import { AppContextProvider } from "../../application/app-context";
 
+const NO_PROPERTIES = {} as any;
+
 /**
  * Rend une page du module dans le contexte applicatif (fr/en) et un routeur mémoire, avec au
  * besoin un QueryClient sans relance pour les pages qui s'appuient sur react-query.
@@ -16,7 +18,7 @@ export const renderClassificationsPage = (
   const routed = <MemoryRouter>{page}</MemoryRouter>;
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
       {withQueryClient ? (
         <QueryClientProvider client={queryClient}>{routed}</QueryClientProvider>
       ) : (
@@ -33,7 +35,7 @@ export const renderClassificationsPage = (
 export const renderOnRoute = (element: ReactElement, path: string, url: string) =>
   render(
     <QueryClientProvider client={new QueryClient()}>
-      <MemoryRouter initialEntries={[url]}>
+      <MemoryRouter initialEntries={Array.of(url)}>
         <Routes>
           <Route path={path} element={element} />
         </Routes>

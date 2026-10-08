@@ -38,6 +38,8 @@ const componentDefinition = (
 
 const Wrapper = createStructuresWrapper();
 
+const C3_DEFINITIONS = [componentDefinition("c3", 1)];
+
 const defaultProps = {
   componentDefinitions: [componentDefinition("c1", 1), componentDefinition("c2", 2)],
   concepts: [
@@ -195,10 +197,7 @@ describe("StructureComponentsSelector", () => {
     const { rerender } = renderSelector();
 
     rerender(
-      <StructureComponentsSelector
-        {...defaultProps}
-        componentDefinitions={[componentDefinition("c3", 1)]}
-      />,
+      <StructureComponentsSelector {...defaultProps} componentDefinitions={C3_DEFINITIONS} />,
     );
 
     expect(screen.getByText("Composante c3")).toBeInTheDocument();

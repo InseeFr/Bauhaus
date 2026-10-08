@@ -37,6 +37,10 @@ vi.mock("./components/ComponentsPanel", () => ({
   ComponentsPanel: vi.fn(() => <div></div>),
 }));
 
+const structure = {
+  labelLg1: "labelLg1",
+} as Structure;
+
 describe("<StructureView />", () => {
   afterEach(() => {
     vi.resetModules();
@@ -50,11 +54,7 @@ describe("<StructureView />", () => {
       <StructureView
         publish={vi.fn()}
         onDeleteError={vi.fn()}
-        structure={
-          {
-            labelLg1: "labelLg1",
-          } as Structure
-        }
+        structure={structure}
       ></StructureView>,
     );
 

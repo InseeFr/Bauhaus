@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { ChangeEvent, useCallback } from "react";
 import { describe, it, expect, vi } from "vitest";
 
 import { InputMulti } from "./index";
@@ -20,19 +21,28 @@ vi.mock("primereact/chips", () => ({
     allowDuplicate?: boolean;
     addOnBlur?: boolean;
     "aria-label"?: string;
-  }) => (
-    <input
-      data-testid="chips-input"
-      value={value.join(",")}
-      onChange={(e) => onChange({ value: e.target.value?.split(",") })}
-      placeholder={placeholder}
-      data-separator={separator}
-      data-allow-duplicate={allowDuplicate}
-      data-add-on-blur={addOnBlur}
-      aria-label={ariaLabel}
-    />
-  ),
+  }) => {
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => onChange({ value: e.target.value?.split(",") }),
+      [onChange],
+    );
+    return (
+      <input
+        data-testid="chips-input"
+        value={value.join(",")}
+        onChange={handleChange}
+        placeholder={placeholder}
+        data-separator={separator}
+        data-allow-duplicate={allowDuplicate}
+        data-add-on-blur={addOnBlur}
+        aria-label={ariaLabel}
+      />
+    );
+  },
 }));
+
+const INPUT_LG1 = ["value1"];
+const INPUT_LG2 = ["value2"];
 
 describe("InputMultiRmes", () => {
   const handleChangeLg1 = vi.fn();
@@ -45,7 +55,7 @@ describe("InputMultiRmes", () => {
 
   it("should render a single input when handleChangeLg2 is not provided", () => {
     render(
-      <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
+      <InputMulti inputLg1={INPUT_LG1} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
     );
 
     expect(screen.getByText("testLabel")).toBeInTheDocument();
@@ -55,8 +65,8 @@ describe("InputMultiRmes", () => {
   it("should render two inputs when handleChangeLg2 is provided", () => {
     render(
       <InputMulti
-        inputLg1={["value1"]}
-        inputLg2={["value2"]}
+        inputLg1={INPUT_LG1}
+        inputLg2={INPUT_LG2}
         labelLg1="Libellé alternatif"
         labelLg2="Alternative label"
         handleChangeLg1={handleChangeLg1}
@@ -72,7 +82,7 @@ describe("InputMultiRmes", () => {
   it("should call handleChangeLg1 when the first input changes", () => {
     render(
       <InputMulti
-        inputLg1={["value1"]}
+        inputLg1={INPUT_LG1}
         labelLg1="altLabelTitle"
         handleChangeLg1={handleChangeLg1}
       />,
@@ -87,8 +97,8 @@ describe("InputMultiRmes", () => {
   it("should call handleChangeLg2 when the second input changes", () => {
     render(
       <InputMulti
-        inputLg1={["value1"]}
-        inputLg2={["value2"]}
+        inputLg1={INPUT_LG1}
+        inputLg2={INPUT_LG2}
         labelLg1="altLabelTitle"
         labelLg2="altLabelTitle"
         handleChangeLg1={handleChangeLg1}
@@ -105,7 +115,7 @@ describe("InputMultiRmes", () => {
   describe("UX improvements", () => {
     it("should render placeholder text for better user guidance", () => {
       render(
-        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={INPUT_LG1} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       const input = screen.getByTestId("chips-input");
@@ -114,7 +124,7 @@ describe("InputMultiRmes", () => {
 
     it("should render help text explaining how to add values", () => {
       render(
-        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={INPUT_LG1} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       expect(
@@ -125,8 +135,8 @@ describe("InputMultiRmes", () => {
     it("should render help text for both inputs when handleChangeLg2 is provided", () => {
       render(
         <InputMulti
-          inputLg1={["value1"]}
-          inputLg2={["value2"]}
+          inputLg1={INPUT_LG1}
+          inputLg2={INPUT_LG2}
           labelLg1="testLabel"
           labelLg2="testLabel"
           handleChangeLg1={handleChangeLg1}
@@ -142,7 +152,7 @@ describe("InputMultiRmes", () => {
 
     it("should configure Chips with comma separator for better UX", () => {
       render(
-        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={INPUT_LG1} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       const input = screen.getByTestId("chips-input");
@@ -151,7 +161,7 @@ describe("InputMultiRmes", () => {
 
     it("should prevent duplicate values", () => {
       render(
-        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={INPUT_LG1} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       const input = screen.getByTestId("chips-input");
@@ -160,7 +170,7 @@ describe("InputMultiRmes", () => {
 
     it("should add value on blur for better UX", () => {
       render(
-        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={INPUT_LG1} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       const input = screen.getByTestId("chips-input");
@@ -169,7 +179,7 @@ describe("InputMultiRmes", () => {
 
     it("should have accessible aria-label with instructions", () => {
       render(
-        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={INPUT_LG1} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       const input = screen.getByTestId("chips-input");

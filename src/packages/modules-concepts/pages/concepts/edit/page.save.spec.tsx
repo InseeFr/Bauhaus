@@ -1,5 +1,6 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { ChangeEvent, useCallback } from "react";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { Mock, vi } from "vitest";
@@ -43,15 +44,18 @@ vi.mock("./components/ConceptGeneralEdition", () => ({
   }: {
     general: ConceptGeneral;
     handleChange: (update: Partial<ConceptGeneral>) => void;
-  }) => (
-    <label>
-      Libellé
-      <input
-        value={general.prefLabelLg1}
-        onChange={(e) => handleChange({ prefLabelLg1: e.target.value })}
-      />
-    </label>
-  ),
+  }) => {
+    const onChange = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => handleChange({ prefLabelLg1: e.target.value }),
+      [handleChange],
+    );
+    return (
+      <label>
+        Libellé
+        <input value={general.prefLabelLg1} onChange={onChange} />
+      </label>
+    );
+  },
 }));
 
 const concept = {
@@ -69,13 +73,16 @@ const concept = {
   links: [],
 };
 
+const INITIAL_ENTRIES = ["/concepts/c1/modify"];
+const PAGE = <Component />;
+
 const renderEditPage = () =>
   render(
     <QueryClientProvider client={createTestQueryClient()}>
       <I18nextProvider i18n={testsI18n}>
-        <MemoryRouter initialEntries={["/concepts/c1/modify"]}>
+        <MemoryRouter initialEntries={INITIAL_ENTRIES}>
           <Routes>
-            <Route path="/concepts/:id/modify" element={<Component />} />
+            <Route path="/concepts/:id/modify" element={PAGE} />
           </Routes>
         </MemoryRouter>
       </I18nextProvider>

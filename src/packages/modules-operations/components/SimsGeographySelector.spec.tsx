@@ -2,9 +2,11 @@ import { render } from "@testing-library/react";
 
 import { SimsGeographySelector, Geography } from "./SimsGeographySelector";
 
+const NO_GEOGRAPHIES: Geography[] = [];
+
 const renderSelector = ({
-  includes = [],
-  excludes = [],
+  includes = NO_GEOGRAPHIES,
+  excludes = NO_GEOGRAPHIES,
 }: {
   includes?: Geography[];
   excludes?: Geography[];

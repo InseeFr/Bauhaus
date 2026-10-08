@@ -14,6 +14,8 @@ const codelists = {
   },
 };
 
+const codelistSection = (value: string | string[]) => ({ codeList: "1", value });
+
 const renderBlock = (
   value: string | string[],
   props: Partial<ComponentProps<typeof SimsBlockCodelist>> = {},
@@ -21,7 +23,7 @@ const renderBlock = (
   render(
     <SimsBlockCodelist
       codelists={codelists}
-      currentSection={{ codeList: "1", value }}
+      currentSection={codelistSection(value)}
       isSecondLang={false}
       {...props}
     />,

@@ -32,11 +32,13 @@ const items = [
   { id: "item2", label: "Item 2" },
 ];
 
+const NO_ITEMS: never[] = [];
+
 const renderComponent = (props = {}) =>
   render(
     <MemoryRouter>
       <ClassificationItems
-        items={[]}
+        items={NO_ITEMS}
         classificationId="coicop2016"
         subtitle="COICOP 2016"
         {...props}

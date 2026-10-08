@@ -5,7 +5,7 @@ import { vi } from "vitest";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { chooseIn, editionProvidersWith } from "../../../edition-form.testing";
-import { OperationsSerieEdition } from "./OperationsSerieEdition";
+import { OperationsSerieEdition, SerieEditItem } from "./OperationsSerieEdition";
 
 // Seule la source des organizations est simulée : les listes déroulantes qui s'en
 // servent (éditeur, contributeur, collecteur, propriétaire) sont bien celles de
@@ -60,6 +60,10 @@ const completeSerie = {
   creators: ["DG75-L201"],
 } as any;
 
+const editionOf = (serie: Partial<SerieEditItem>) => (
+  <OperationsSerieEdition {...defaultProps} serie={serie} />
+);
+
 const renderEdition = (props = {}, queryClient?: QueryClient) =>
   render(<OperationsSerieEdition {...defaultProps} serie={completeSerie} {...props} />, {
     wrapper: editionProvidersWith(queryClient),
@@ -71,33 +75,24 @@ describe("OperationsSerieEdition", () => {
   });
 
   it("reinitialise le formulaire quand la serie affichee change", () => {
-    const { rerender } = render(
-      <OperationsSerieEdition {...defaultProps} serie={{ id: "1", prefLabelLg1: "Série 1" }} />,
-      { wrapper: editionProvidersWith() },
-    );
+    const { rerender } = render(editionOf({ id: "1", prefLabelLg1: "Série 1" }), {
+      wrapper: editionProvidersWith(),
+    });
 
     expect(screen.getByDisplayValue("Série 1")).toBeInTheDocument();
 
-    rerender(
-      <OperationsSerieEdition {...defaultProps} serie={{ id: "2", prefLabelLg1: "Série 2" }} />,
-    );
+    rerender(editionOf({ id: "2", prefLabelLg1: "Série 2" }));
 
     expect(screen.getByDisplayValue("Série 2")).toBeInTheDocument();
     expect(screen.queryByDisplayValue("Série 1")).not.toBeInTheDocument();
   });
 
   it("conserve les saisies en cours quand la serie affichee ne change pas", () => {
-    const { rerender } = render(
-      <OperationsSerieEdition {...defaultProps} serie={{ id: "1", prefLabelLg1: "Série 1" }} />,
-      { wrapper: editionProvidersWith() },
-    );
+    const { rerender } = render(editionOf({ id: "1", prefLabelLg1: "Série 1" }), {
+      wrapper: editionProvidersWith(),
+    });
 
-    rerender(
-      <OperationsSerieEdition
-        {...defaultProps}
-        serie={{ id: "1", prefLabelLg1: "Série 1 renommée ailleurs" }}
-      />,
-    );
+    rerender(editionOf({ id: "1", prefLabelLg1: "Série 1 renommée ailleurs" }));
 
     expect(screen.getByDisplayValue("Série 1")).toBeInTheDocument();
   });

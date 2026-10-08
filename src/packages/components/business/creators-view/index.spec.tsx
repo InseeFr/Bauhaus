@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import type { ComponentProps } from "react";
 import { describe, it, expect, vi } from "vitest";
 
 import * as organizationsHook from "@utils/hooks/organizations";
@@ -15,6 +16,10 @@ const organizations = [
 
 const mockUseOrganizations = (data: unknown = organizations) =>
   vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({ data } as any);
+
+const renderNotes = (
+  organizations: ComponentProps<typeof InseeOrganizationNotes>["organizations"],
+) => render(<InseeOrganizationNotes organizations={organizations} />);
 
 const expectListItemLabels = (container: HTMLElement, labels: string[]) => {
   const listItems = container.querySelectorAll("li");
@@ -33,7 +38,7 @@ describe("InseeOrganizationNotes", () => {
   describe("Label mapping", () => {
     it("should map single organization ID to label", () => {
       using _spy = mockUseOrganizations();
-      render(<InseeOrganizationNotes organizations="DG75-L201" />);
+      renderNotes("DG75-L201");
 
       expect(screen.getByText("Propriétaire")).toBeInTheDocument();
       expect(screen.getByText("INSEE")).toBeInTheDocument();
@@ -41,7 +46,7 @@ describe("InseeOrganizationNotes", () => {
 
     it("should map multiple organization IDs to labels", () => {
       using _spy = mockUseOrganizations();
-      render(<InseeOrganizationNotes organizations={["DG75-L201", "DG75-G001"]} />);
+      renderNotes(["DG75-L201", "DG75-G001"]);
 
       expect(screen.getByText("Propriétaire")).toBeInTheDocument();
       expect(screen.getByText("INSEE")).toBeInTheDocument();
@@ -53,9 +58,7 @@ describe("InseeOrganizationNotes", () => {
 
     it("should render nothing for unknown organizations and only display known ones", () => {
       using _spy = mockUseOrganizations();
-      const { container } = render(
-        <InseeOrganizationNotes organizations={["unknown-123", "DG75-L201"]} />,
-      );
+      const { container } = renderNotes(["unknown-123", "DG75-L201"]);
 
       expect(screen.getByText("INSEE")).toBeInTheDocument();
       expect(screen.queryByText("unknown-123")).not.toBeInTheDocument();
@@ -66,7 +69,7 @@ describe("InseeOrganizationNotes", () => {
   describe("Single organization rendering", () => {
     it("should render single organization label without wrapping it in a list", () => {
       using _spy = mockUseOrganizations();
-      const { container } = render(<InseeOrganizationNotes organizations="DG75-L201" />);
+      const { container } = renderNotes("DG75-L201");
 
       expect(screen.getByText("INSEE")).toBeInTheDocument();
       expect(container.querySelector("ul")).not.toBeInTheDocument();
@@ -74,7 +77,7 @@ describe("InseeOrganizationNotes", () => {
 
     it("should render nothing in the body for unknown organization", () => {
       using _spy = mockUseOrganizations();
-      const { container } = render(<InseeOrganizationNotes organizations="unknown-id" />);
+      const { container } = renderNotes("unknown-id");
 
       expect(screen.getByText("Propriétaire")).toBeInTheDocument();
       expect(screen.queryByText("unknown-id")).not.toBeInTheDocument();
@@ -85,9 +88,7 @@ describe("InseeOrganizationNotes", () => {
   describe("Multiple organizations rendering", () => {
     it("should render multiple organizations as list", () => {
       using _spy = mockUseOrganizations();
-      const { container } = render(
-        <InseeOrganizationNotes organizations={["DG75-L201", "DG75-L202"]} />,
-      );
+      const { container } = renderNotes(["DG75-L201", "DG75-L202"]);
 
       expect(container.querySelector("ul")).toBeInTheDocument();
       expect(container.querySelectorAll("li")).toHaveLength(2);
@@ -95,18 +96,14 @@ describe("InseeOrganizationNotes", () => {
 
     it("should render mapped labels in list for multiple organizations", () => {
       using _spy = mockUseOrganizations();
-      const { container } = render(
-        <InseeOrganizationNotes organizations={["DG75-L201", "DG75-L202", "DG75-G001"]} />,
-      );
+      const { container } = renderNotes(["DG75-L201", "DG75-L202", "DG75-G001"]);
 
       expectListItemLabels(container, ["INSEE", "DARES", "Direction Générale"]);
     });
 
     it("should handle mix of known and unknown IDs in list", () => {
       using _spy = mockUseOrganizations();
-      const { container } = render(
-        <InseeOrganizationNotes organizations={["DG75-L201", "unknown-org", "DG75-G001"]} />,
-      );
+      const { container } = renderNotes(["DG75-L201", "unknown-org", "DG75-G001"]);
 
       expectListItemLabels(container, ["INSEE", "", "Direction Générale"]);
     });
@@ -115,14 +112,14 @@ describe("InseeOrganizationNotes", () => {
   describe("Empty values handling", () => {
     it("should render empty note when organizations is undefined", () => {
       using _spy = mockUseOrganizations();
-      const { container } = render(<InseeOrganizationNotes organizations={undefined} />);
+      const { container } = renderNotes(undefined);
 
       expectEmptyNote(container);
     });
 
     it("should render empty note when organizations is empty array", () => {
       using _spy = mockUseOrganizations();
-      const { container } = render(<InseeOrganizationNotes organizations={[]} />);
+      const { container } = renderNotes([]);
 
       expectEmptyNote(container);
     });
@@ -131,7 +128,7 @@ describe("InseeOrganizationNotes", () => {
       using _spy = vi
         .spyOn(organizationsHook, "useOrganizations")
         .mockReturnValue({ data: undefined } as any);
-      const { container } = render(<InseeOrganizationNotes organizations="DG75-L201" />);
+      const { container } = renderNotes("DG75-L201");
 
       expect(screen.getByText("Propriétaire")).toBeInTheDocument();
       expect(screen.queryByText("INSEE")).not.toBeInTheDocument();

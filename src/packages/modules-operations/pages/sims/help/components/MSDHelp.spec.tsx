@@ -20,9 +20,16 @@ const metadataStructure = {
   S2: { idMas: "S2", masLabelLg1: "Qualité", children: {} },
 };
 
+const NO_CODELISTS = {};
+const NO_ORGANIZATIONS: never[] = [];
+
 const renderHelp = (url = "/help") =>
   renderAtRoute(
-    <MSDHelp metadataStructure={metadataStructure} codelists={{}} organizations={[]} />,
+    <MSDHelp
+      metadataStructure={metadataStructure}
+      codelists={NO_CODELISTS}
+      organizations={NO_ORGANIZATIONS}
+    />,
     ["/help", "/help/:idSection"],
     url,
   );

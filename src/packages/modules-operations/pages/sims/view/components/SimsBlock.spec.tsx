@@ -24,8 +24,10 @@ vi.mock("./SimsBlockWithoutObject", () => ({
 }));
 
 const msd = { masLabelLg1: "Rubrique" };
+const NO_CODELISTS = {};
 
-const renderBlock = (props = {}) => render(<SimsBlock msd={msd} codelists={{}} {...props} />);
+const renderBlock = (props = {}) =>
+  render(<SimsBlock msd={msd} codelists={NO_CODELISTS} {...props} />);
 
 describe("SimsBlock", () => {
   it("ne rend rien quand la rubrique n'a pas de libellé", () => {

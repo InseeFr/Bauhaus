@@ -5,26 +5,32 @@ import { describe, expect, it, vi } from "vitest";
 
 import { AdvancedSearchLayout } from ".";
 
-const renderLayout = (props: Partial<Parameters<typeof AdvancedSearchLayout>[0]> = {}) =>
+type LayoutProps = Partial<Parameters<typeof AdvancedSearchLayout>[0]>;
+
+const INITIAL_ENTRIES = ["/items/search"];
+const CRITERIA = <span>Libellé</span>;
+const RESULTS = ["a", "b"];
+const LIST_PAGE = <p>Liste des éléments</p>;
+
+const searchPage = (props: LayoutProps) => (
+  <AdvancedSearchLayout
+    title="Recherche avancée de fichiers de données"
+    backTo="/items"
+    onReset={vi.fn()}
+    criteria={CRITERIA}
+    results={RESULTS}
+    {...props}
+  >
+    <p>Tableau des résultats</p>
+  </AdvancedSearchLayout>
+);
+
+const renderLayout = (props: LayoutProps = {}) =>
   render(
-    <MemoryRouter initialEntries={["/items/search"]}>
+    <MemoryRouter initialEntries={INITIAL_ENTRIES}>
       <Routes>
-        <Route
-          path="/items/search"
-          element={
-            <AdvancedSearchLayout
-              title="Recherche avancée de fichiers de données"
-              backTo="/items"
-              onReset={vi.fn()}
-              criteria={<label>Libellé</label>}
-              results={["a", "b"]}
-              {...props}
-            >
-              <p>Tableau des résultats</p>
-            </AdvancedSearchLayout>
-          }
-        />
-        <Route path="/items" element={<p>Liste des éléments</p>} />
+        <Route path="/items/search" element={searchPage(props)} />
+        <Route path="/items" element={LIST_PAGE} />
       </Routes>
     </MemoryRouter>,
   );

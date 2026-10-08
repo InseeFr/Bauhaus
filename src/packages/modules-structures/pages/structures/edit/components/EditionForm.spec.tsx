@@ -38,12 +38,14 @@ vi.mock("@utils/hooks/users", async (importOriginal) =>
   ),
 );
 
+const STRUCTURE_PAGE = <span>Fiche de la structure</span>;
+
 const Wrapper = createStructuresWrapper({
   initialEntries: ["/structures/edit"],
   routes: (children) => (
     <Routes>
       <Route path="/structures/edit" element={children} />
-      <Route path="/structures/:id" element={<span>Fiche de la structure</span>} />
+      <Route path="/structures/:id" element={STRUCTURE_PAGE} />
     </Routes>
   ),
 });

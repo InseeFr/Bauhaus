@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useCallback } from "react";
 import { Route, Routes } from "react-router";
 import { Mock } from "vitest";
 
@@ -14,13 +14,13 @@ import { SearchFormList } from "./page";
 vi.mock("@utils/hooks/useUrlQueryParameters");
 
 vi.mock("@components/business/creators-input", () => ({
-  CreatorsInput: ({ value, onChange }: { value?: string; onChange: (value: string) => void }) => (
-    <input
-      data-testid="creators-input"
-      value={value ?? ""}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
-    />
-  ),
+  CreatorsInput: ({ value, onChange }: { value?: string; onChange: (value: string) => void }) => {
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
+      [onChange],
+    );
+    return <input data-testid="creators-input" value={value ?? ""} onChange={handleChange} />;
+  },
 }));
 
 const ORGANIZATION_IRI = "http://bauhaus/organizations/insee/HIE2000001";
@@ -48,6 +48,9 @@ const data = [
     codes: [],
   },
 ];
+
+const SEARCH_PAGE = <SearchFormList data={data} />;
+const CODELISTS_PAGE = <p>Liste des listes de codes</p>;
 
 const renderForm = (form: Record<string, string> = {}) => {
   (useUrlQueryParameters as Mock).mockReturnValue({
@@ -108,8 +111,8 @@ describe("codelists advanced search page", () => {
     });
     renderWithRouter(
       <Routes>
-        <Route path="/" element={<SearchFormList data={data} />} />
-        <Route path="/codelists" element={<p>Liste des listes de codes</p>} />
+        <Route path="/" element={SEARCH_PAGE} />
+        <Route path="/codelists" element={CODELISTS_PAGE} />
       </Routes>,
     );
 

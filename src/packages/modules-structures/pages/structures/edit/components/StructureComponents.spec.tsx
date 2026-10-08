@@ -44,6 +44,8 @@ vi.mock("../../../../components/ComponentSelector", () => ({
 }));
 
 const onChange = vi.fn();
+const NO_COMPONENT_DEFINITIONS: never[] = [];
+const EDITED_STRUCTURE = { id: "str-1" };
 
 describe("StructureComponents", () => {
   beforeEach(() => {
@@ -53,7 +55,9 @@ describe("StructureComponents", () => {
   });
 
   it("propose un sélecteur par type de composante", async () => {
-    render(<StructureComponents componentDefinitions={[]} onChange={onChange} />);
+    render(
+      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
+    );
 
     await waitFor(() => expect(screen.getByTestId(DIMENSION_PROPERTY_TYPE)).toBeInTheDocument());
     expect(screen.getByTestId(MEASURE_PROPERTY_TYPE)).toBeInTheDocument();
@@ -61,7 +65,9 @@ describe("StructureComponents", () => {
   });
 
   it("alimente chaque sélecteur des mêmes référentiels", async () => {
-    render(<StructureComponents componentDefinitions={[]} onChange={onChange} />);
+    render(
+      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
+    );
 
     await waitFor(() =>
       expect(screen.getByTestId(DIMENSION_PROPERTY_TYPE)).toHaveTextContent(
@@ -71,7 +77,9 @@ describe("StructureComponents", () => {
   });
 
   it("part d'une structure vide quand aucune n'est fournie", async () => {
-    render(<StructureComponents componentDefinitions={[]} onChange={onChange} />);
+    render(
+      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
+    );
 
     await waitFor(() =>
       expect(screen.getByTestId(MEASURE_PROPERTY_TYPE)).toHaveTextContent("structure:(aucune)"),
@@ -81,9 +89,9 @@ describe("StructureComponents", () => {
   it("transmet la structure en cours d'édition", async () => {
     render(
       <StructureComponents
-        componentDefinitions={[]}
+        componentDefinitions={NO_COMPONENT_DEFINITIONS}
         onChange={onChange}
-        structure={{ id: "str-1" }}
+        structure={EDITED_STRUCTURE}
       />,
     );
 
@@ -97,7 +105,9 @@ describe("StructureComponents", () => {
       sdkRejection.json(500, { message: "Le dépôt RDF est indisponible." }),
     );
 
-    render(<StructureComponents componentDefinitions={[]} onChange={onChange} />);
+    render(
+      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
+    );
 
     await waitFor(() =>
       expect(screen.getByTestId(ATTRIBUTE_PROPERTY_TYPE)).toHaveTextContent(

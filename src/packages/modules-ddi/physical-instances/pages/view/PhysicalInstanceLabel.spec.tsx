@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { useCallback } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { mockDdiAccess } from "../../components/GlobalActionsCard/actions.testing";
@@ -20,30 +21,34 @@ vi.mock("@utils/hooks/users", async (importOriginal) =>
 vi.mock("primereact/button", () => import("../../components/GlobalActionsCard/actions.testing"));
 
 vi.mock("../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog", () => ({
-  PhysicalInstanceDialog: ({ visible, onHide, onSubmitEdit, initialData }: any) =>
-    visible ? (
-      <div role="dialog" data-testid="physical-instance-dialog">
+  PhysicalInstanceDialog: ({ visible, onHide, onSubmitEdit, initialData }: any) => {
+    const submit = useCallback(
+      () =>
+        onSubmitEdit({
+          label: "Updated Label",
+          dataRelationshipLabel: "Updated DR",
+          logicalRecordLabel: "Updated LR",
+          group: { id: "group-1", agency: "agency-1" },
+          studyUnit: { id: "study-1", agency: "agency-1" },
+        } as PhysicalInstanceUpdateData),
+      [onSubmitEdit],
+    );
+    if (!visible) return null;
+    return (
+      <dialog open data-testid="physical-instance-dialog">
         <button onClick={onHide} data-testid="close-dialog">
           Close
         </button>
-        <button
-          onClick={() =>
-            onSubmitEdit({
-              label: "Updated Label",
-              dataRelationshipLabel: "Updated DR",
-              logicalRecordLabel: "Updated LR",
-              group: { id: "group-1", agency: "agency-1" },
-              studyUnit: { id: "study-1", agency: "agency-1" },
-            } as PhysicalInstanceUpdateData)
-          }
-          data-testid="submit-dialog"
-        >
+        <button onClick={submit} data-testid="submit-dialog">
           Submit
         </button>
         <span data-testid="initial-label">{initialData.label}</span>
-      </div>
-    ) : null,
+      </dialog>
+    );
+  },
 }));
+
+const PARENT_STAMPS = ["STAMP1", "STAMP2"];
 
 describe("PhysicalInstanceLabel", () => {
   const mockOnSave = vi.fn();
@@ -178,11 +183,7 @@ describe("PhysicalInstanceLabel", () => {
       mockDdiAccess("UPDATE", "STAMP", ["STAMP1"]);
 
       render(
-        <PhysicalInstanceLabel
-          label="Test Label"
-          onSave={mockOnSave}
-          stamps={["STAMP1", "STAMP2"]}
-        />,
+        <PhysicalInstanceLabel label="Test Label" onSave={mockOnSave} stamps={PARENT_STAMPS} />,
       );
 
       expect(screen.queryByLabelText("physicalInstance.view.editTitle")).toBeInTheDocument();
@@ -192,11 +193,7 @@ describe("PhysicalInstanceLabel", () => {
       mockDdiAccess("UPDATE", "STAMP", ["STAMP9"]);
 
       render(
-        <PhysicalInstanceLabel
-          label="Test Label"
-          onSave={mockOnSave}
-          stamps={["STAMP1", "STAMP2"]}
-        />,
+        <PhysicalInstanceLabel label="Test Label" onSave={mockOnSave} stamps={PARENT_STAMPS} />,
       );
 
       expect(screen.queryByLabelText("physicalInstance.view.editTitle")).not.toBeInTheDocument();

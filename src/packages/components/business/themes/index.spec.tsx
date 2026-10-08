@@ -16,6 +16,11 @@ const wrapper = ({ children }: PropsWithChildren) => (
   <QueryClientProvider client={new QueryClient()}>{children}</QueryClientProvider>
 );
 
+const SELECTED_THEMES = ["http://theme/emp"];
+const NO_THEMES: string[] = [];
+const KNOWN_THEMES = ["http://theme/eco", "http://theme/emp"];
+const THEMES_WITH_UNKNOWN = ["http://theme/eco", "http://theme/disparu"];
+
 describe("themes", () => {
   beforeEach(() => {
     (ThemesApi.getThemes as Mock).mockResolvedValue([
@@ -27,7 +32,7 @@ describe("themes", () => {
   describe("ThemesSelect", () => {
     it("ajoute le thème choisi à ceux déjà sélectionnés", async () => {
       const onChange = vi.fn();
-      render(<ThemesSelect label="Thèmes" value={["http://theme/emp"]} onChange={onChange} />, {
+      render(<ThemesSelect label="Thèmes" value={SELECTED_THEMES} onChange={onChange} />, {
         wrapper,
       });
 
@@ -39,7 +44,9 @@ describe("themes", () => {
     });
 
     it("marque le champ comme obligatoire quand il l'est", () => {
-      render(<ThemesSelect label="Thème" required value={[]} onChange={vi.fn()} />, { wrapper });
+      render(<ThemesSelect label="Thème" required value={NO_THEMES} onChange={vi.fn()} />, {
+        wrapper,
+      });
 
       expect(screen.getByText("Thème").closest("label")).toHaveClass("wilco-label-required");
     });
@@ -47,14 +54,14 @@ describe("themes", () => {
 
   describe("ThemesList", () => {
     it("affiche le libellé de chaque thème", async () => {
-      render(<ThemesList iris={["http://theme/eco", "http://theme/emp"]} />, { wrapper });
+      render(<ThemesList iris={KNOWN_THEMES} />, { wrapper });
 
       expect(await screen.findByText("Économie")).toBeInTheDocument();
       expect(screen.getByText("Emploi")).toBeInTheDocument();
     });
 
     it("affiche l'IRI d'un thème absent du référentiel", async () => {
-      render(<ThemesList iris={["http://theme/eco", "http://theme/disparu"]} />, { wrapper });
+      render(<ThemesList iris={THEMES_WITH_UNKNOWN} />, { wrapper });
 
       await screen.findByText("Économie");
       expect(screen.getByText("http://theme/disparu")).toBeInTheDocument();

@@ -3,7 +3,7 @@ import { userEvent } from "@testing-library/user-event";
 import { Route, Routes } from "react-router";
 
 import { renderWithRouter } from "../../../../tests/render";
-import { AdvancedSearchForm, FieldsForDatasetsAdvancedSearch } from "./page";
+import { AdvancedSearchForm, FieldsForDatasetsAdvancedSearch, SearchDataset } from "./page";
 
 vi.mock("@tanstack/react-query", () => ({
   useQuery: vi.fn().mockReturnValue({
@@ -21,6 +21,18 @@ vi.mock("@components/business/creators-input", () => ({
   },
 }));
 
+const NO_DATASETS: SearchDataset[] = [];
+const NO_OPTIONS: never[] = [];
+
+const renderSearchForm = (data: SearchDataset[] = NO_DATASETS, initialEntries?: string[]) =>
+  renderWithRouter(
+    <AdvancedSearchForm data={data} seriesOperationsOptions={NO_OPTIONS} />,
+    initialEntries,
+  );
+
+const SEARCH_PAGE = <AdvancedSearchForm data={NO_DATASETS} seriesOperationsOptions={NO_OPTIONS} />;
+const DATASETS_LIST_PAGE = <p>Liste des jeux de données</p>;
+
 const renderEmptyFields = () =>
   renderWithRouter(
     <FieldsForDatasetsAdvancedSearch
@@ -33,7 +45,7 @@ const renderEmptyFields = () =>
       created=""
       updated=""
       handleChange={vi.fn()}
-      seriesOperationsOptions={[]}
+      seriesOperationsOptions={NO_OPTIONS}
     />,
   );
 
@@ -57,7 +69,7 @@ describe("advanced search component", () => {
   });
 
   it("AdvancedSearchForm renders without crashing", () => {
-    renderWithRouter(<AdvancedSearchForm data={[]} seriesOperationsOptions={[]} />);
+    renderSearchForm();
   });
 
   it("FieldsForDatasetsAdvancedSearch renders without crashing", () => {
@@ -77,7 +89,7 @@ describe("advanced search component", () => {
       datasetRow("2", "Dataset Two", "OTHER-001"),
     ];
 
-    renderWithRouter(<AdvancedSearchForm data={data} seriesOperationsOptions={[]} />);
+    renderSearchForm(data);
 
     expect(screen.getByText("Dataset One")).toBeInTheDocument();
     expect(screen.getByText("Dataset Two")).toBeInTheDocument();
@@ -94,9 +106,7 @@ describe("advanced search component", () => {
       datasetRow("1", "Dataset One", "ALT-XYZ"),
       datasetRow("2", "Dataset Two", "OTHER-001"),
     ];
-    renderWithRouter(<AdvancedSearchForm data={data} seriesOperationsOptions={[]} />, [
-      "/?altIdentifier=XYZ",
-    ]);
+    renderSearchForm(data, ["/?altIdentifier=XYZ"]);
     expect(screen.queryByText("Dataset Two")).not.toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: "Reinitialize" }));
@@ -107,8 +117,8 @@ describe("advanced search component", () => {
   it("AdvancedSearchForm goes back to the list of datasets when the back button is clicked", async () => {
     renderWithRouter(
       <Routes>
-        <Route path="/" element={<AdvancedSearchForm data={[]} seriesOperationsOptions={[]} />} />
-        <Route path="/datasets" element={<p>Liste des jeux de données</p>} />
+        <Route path="/" element={SEARCH_PAGE} />
+        <Route path="/datasets" element={DATASETS_LIST_PAGE} />
       </Routes>,
     );
 

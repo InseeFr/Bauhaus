@@ -16,15 +16,18 @@ vi.mock("@sdk/operations-api", () => ({
   },
 }));
 
+const NO_PROPERTIES = {} as any;
+const operationEditPage = <Component />;
+
 // Un client neuf par rendu : la fiche chargée par un test ne sert pas le suivant depuis le cache.
 const renderAtRoute = (url: string, routePath: string) => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
       <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={[url]}>
+        <MemoryRouter initialEntries={Array.of(url)}>
           <Routes>
-            <Route path={routePath} element={<Component />} />
+            <Route path={routePath} element={operationEditPage} />
           </Routes>
         </MemoryRouter>
       </QueryClientProvider>

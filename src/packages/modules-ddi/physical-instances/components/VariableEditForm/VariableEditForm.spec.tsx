@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import type { ComponentProps } from "react";
+import { useCallback, type ChangeEvent, type ComponentProps } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
@@ -66,14 +66,13 @@ vi.mock("primereact/dropdown", () => import("../representation.testing"));
 vi.mock("primereact/button", () => import("../representation.testing"));
 
 vi.mock("primereact/checkbox", () => ({
-  Checkbox: ({ inputId, checked, onChange }: any) => (
-    <input
-      type="checkbox"
-      id={inputId}
-      checked={checked}
-      onChange={(e) => onChange({ checked: e.target.checked })}
-    />
-  ),
+  Checkbox: ({ inputId, checked, onChange }: any) => {
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => onChange({ checked: e.target.checked }),
+      [onChange],
+    );
+    return <input type="checkbox" id={inputId} checked={checked} onChange={handleChange} />;
+  },
 }));
 
 vi.mock("primereact/inputtextarea", () => ({
@@ -82,26 +81,35 @@ vi.mock("primereact/inputtextarea", () => ({
   ),
 }));
 
-vi.mock("primereact/tabview", () => ({
-  TabView: ({ children, activeIndex, onTabChange }: any) => (
-    <div data-testid="tabview" data-active-index={activeIndex}>
-      <div role="tablist">
-        {(Array.isArray(children) ? children : [children]).map((_child: any, index: number) => (
-          <div key={index} role="tab" onClick={() => onTabChange?.({ index })}>
-            {`Tab ${index}`}
-          </div>
-        ))}
+vi.mock("primereact/tabview", () => {
+  const Tab = ({ index, onTabChange }: any) => {
+    const select = useCallback(() => onTabChange?.({ index }), [index, onTabChange]);
+    return (
+      <button type="button" role="tab" onClick={select}>
+        {`Tab ${index}`}
+      </button>
+    );
+  };
+
+  return {
+    TabView: ({ children, activeIndex, onTabChange }: any) => (
+      <div data-testid="tabview" data-active-index={activeIndex}>
+        <div role="tablist">
+          {(Array.isArray(children) ? children : [children]).map((_child: any, index: number) => (
+            <Tab key={index} index={index} onTabChange={onTabChange} />
+          ))}
+        </div>
+        {children}
       </div>
-      {children}
-    </div>
-  ),
-  TabPanel: ({ header, children }: any) => (
-    <div>
-      <h3>{header}</h3>
-      {children}
-    </div>
-  ),
-}));
+    ),
+    TabPanel: ({ header, children }: any) => (
+      <div>
+        <h3>{header}</h3>
+        {children}
+      </div>
+    ),
+  };
+});
 
 vi.mock("../NumericRepresentation/NumericRepresentation", () => ({
   NumericRepresentation: () => (
@@ -135,31 +143,35 @@ vi.mock("./VariableInformationTab", () => ({
     onNameChange,
     onLabelChange,
     onDescriptionChange,
-  }: any) => (
-    <div data-testid="variable-information-tab">
-      <label htmlFor="variable-name">Nom</label>
-      <input
-        id="variable-name"
-        value={name}
-        onChange={(e) => onNameChange(e.target.value)}
-        required
-      />
-      <label htmlFor="variable-label">Label</label>
-      <input
-        id="variable-label"
-        value={label}
-        onChange={(e) => onLabelChange(e.target.value)}
-        required
-      />
-      <label htmlFor="variable-description">Description</label>
-      <textarea
-        id="variable-description"
-        value={description}
-        onChange={(e) => onDescriptionChange(e.target.value)}
-        rows={5}
-      />
-    </div>
-  ),
+  }: any) => {
+    const handleNameChange = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => onNameChange(e.target.value),
+      [onNameChange],
+    );
+    const handleLabelChange = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => onLabelChange(e.target.value),
+      [onLabelChange],
+    );
+    const handleDescriptionChange = useCallback(
+      (e: ChangeEvent<HTMLTextAreaElement>) => onDescriptionChange(e.target.value),
+      [onDescriptionChange],
+    );
+    return (
+      <div data-testid="variable-information-tab">
+        <label htmlFor="variable-name">Nom</label>
+        <input id="variable-name" value={name} onChange={handleNameChange} required />
+        <label htmlFor="variable-label">Label</label>
+        <input id="variable-label" value={label} onChange={handleLabelChange} required />
+        <label htmlFor="variable-description">Description</label>
+        <textarea
+          id="variable-description"
+          value={description}
+          onChange={handleDescriptionChange}
+          rows={5}
+        />
+      </div>
+    );
+  },
 }));
 
 // Chaque rendu de l'onglet est enregistré : c'est le seul moyen d'observer un rendu intermédiaire
@@ -171,15 +183,14 @@ const { representationTabRenders } = vi.hoisted(() => ({
 vi.mock("./VariableRepresentationTab", () => ({
   VariableRepresentationTab: ({ variableId, selectedType, onTypeChange, typeOptions }: any) => {
     representationTabRenders.push({ variableId, selectedType });
+    const handleTypeChange = useCallback(
+      (e: ChangeEvent<HTMLSelectElement>) => onTypeChange(e.target.value),
+      [onTypeChange],
+    );
     return (
       <div data-testid="variable-representation-tab">
         <label htmlFor="variable-type">Type</label>
-        <select
-          id="variable-type"
-          value={selectedType}
-          onChange={(e) => onTypeChange(e.target.value)}
-          required
-        >
+        <select id="variable-type" value={selectedType} onChange={handleTypeChange} required>
           {typeOptions.map((option: any) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -213,17 +224,27 @@ vi.mock("./DdiPreview", () => ({
 
 type FormProps = ComponentProps<typeof VariableEditForm>;
 
+const defaultVariable = {
+  id: "var-1",
+  label: "Test Variable",
+  name: "testVar",
+  description: "Test description",
+  type: "numeric",
+};
+
+const storedVariable = {
+  id: "var-1",
+  label: "Test Variable",
+  name: "testVar",
+  type: "numeric",
+  versionDate: "2026-01-15T09:30:00+01:00",
+};
+
+const numericTypeOption = [{ label: "Numérique", value: "numeric" }];
+
 describe("VariableEditForm", () => {
   const mockOnSave = vi.fn();
   const mockOnDuplicate = vi.fn();
-
-  const defaultVariable = {
-    id: "var-1",
-    label: "Test Variable",
-    name: "testVar",
-    description: "Test description",
-    type: "numeric",
-  };
 
   const emptyNewVariable = {
     id: "new",
@@ -829,14 +850,8 @@ describe("VariableEditForm DDI preview", () => {
   it("should forward the stored versionDate of the variable to the DDI preview", () => {
     render(
       <VariableEditForm
-        variable={{
-          id: "var-1",
-          label: "Test Variable",
-          name: "testVar",
-          type: "numeric",
-          versionDate: "2026-01-15T09:30:00+01:00",
-        }}
-        typeOptions={[{ label: "Numérique", value: "numeric" }]}
+        variable={storedVariable}
+        typeOptions={numericTypeOption}
         onSave={vi.fn()}
       />,
     );

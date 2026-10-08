@@ -12,6 +12,8 @@ import { useConcept } from "../../../hooks/useConcept";
 import { emptyConceptNotes } from "../../../utils/emptyConceptNotes";
 import { Component } from "./page";
 
+const PAGE = <Component />;
+
 vi.mock("@sdk/index", () => ({
   ConceptsApi: { getConceptExport: vi.fn() },
 }));
@@ -56,7 +58,7 @@ describe("Export d'un concept depuis sa fiche qui échoue", () => {
   it("affiche le message du serveur et laisse l'export de nouveau utilisable", async () => {
     renderWithAppContext(
       <Routes>
-        <Route path="/" element={<Component />} />
+        <Route path="/" element={PAGE} />
       </Routes>,
     );
 

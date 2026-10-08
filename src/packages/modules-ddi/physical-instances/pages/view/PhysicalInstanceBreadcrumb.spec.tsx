@@ -40,10 +40,11 @@ const CurrentPath = () => <output aria-label="current-path">{useLocation().pathn
 const group = { id: "grp-1", label: "Base permanente des équipements" };
 const studyUnit = { agency: "fr.insee", id: "su-1", label: "Enquête emploi" };
 const current = { agency: "fr.insee", id: "pi-1", label: "PI Un" };
+const initialEntries = ["/ddi/physical-instances/fr.insee/pi-1"];
 
 const renderBreadcrumb = (props: Partial<Parameters<typeof PhysicalInstanceBreadcrumb>[0]> = {}) =>
   render(
-    <MemoryRouter initialEntries={["/ddi/physical-instances/fr.insee/pi-1"]}>
+    <MemoryRouter initialEntries={initialEntries}>
       <Routes>
         <Route
           path="/ddi/physical-instances/:agencyId/:id"

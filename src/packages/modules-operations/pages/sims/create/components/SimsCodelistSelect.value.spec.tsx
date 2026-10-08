@@ -11,6 +11,16 @@ const options = [
   { value: "option2", label: "Option 2" },
 ];
 
+const renderMultiSelect = (currentSection: { value: unknown }) =>
+  render(
+    <SimsCodelistSelect
+      multi
+      currentSection={currentSection}
+      options={options}
+      onChange={vi.fn()}
+    />,
+  );
+
 describe("SimsCodelistSelect - value normalization (multi)", () => {
   // Boucle plutôt que it.each : les titres interpolés sont tronqués par Vitest.
   for (const { name, value, expected } of [
@@ -38,14 +48,7 @@ describe("SimsCodelistSelect - value normalization (multi)", () => {
   ]) {
     it(name, () => {
       selectSpy.mockClear();
-      render(
-        <SimsCodelistSelect
-          multi
-          currentSection={{ value }}
-          options={options}
-          onChange={vi.fn()}
-        />,
-      );
+      renderMultiSelect({ value });
       expect(lastSelectProps()?.value).toEqual(expected);
     });
   }

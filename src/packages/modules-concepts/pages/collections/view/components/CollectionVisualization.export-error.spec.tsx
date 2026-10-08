@@ -4,6 +4,7 @@ import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router";
 import { Mock, vi } from "vitest";
 
+import { CollectionGeneral } from "@model/concepts/collection";
 import { UNPUBLISHED } from "@model/ValidationState";
 
 import { CollectionApi } from "@sdk/collection-api";
@@ -31,6 +32,14 @@ vi.mock(
   () => import("../../../../testing/export-buttons.testing"),
 );
 
+const GENERAL: CollectionGeneral = {
+  id: "c1",
+  prefLabelLg1: "Collection A",
+  creator: "",
+  validationState: UNPUBLISHED,
+};
+const NO_MEMBERS: never[] = [];
+
 const renderCollection = () =>
   render(
     <QueryClientProvider client={createTestQueryClient()}>
@@ -38,13 +47,8 @@ const renderCollection = () =>
         <MemoryRouter>
           <CollectionVisualization
             id="c1"
-            general={{
-              id: "c1",
-              prefLabelLg1: "Collection A",
-              creator: "",
-              validationState: UNPUBLISHED,
-            }}
-            members={[]}
+            general={GENERAL}
+            members={NO_MEMBERS}
             validateCollection={vi.fn()}
             secondLang={false}
           />

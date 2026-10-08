@@ -26,7 +26,7 @@ const mockOptions = (...options: Option[]) =>
   (useDisseminationStatusOptions as Mock).mockReturnValue(options);
 
 const renderInput = (props: Partial<ComponentProps<typeof DisseminationStatusInput>> = {}) =>
-  render(<DisseminationStatusInput value="PublicGenerique" handleChange={() => {}} {...props} />);
+  render(<DisseminationStatusInput value="PublicGenerique" handleChange={vi.fn()} {...props} />);
 
 const expectDropdown = (container: HTMLElement) =>
   expect(container.querySelector(".p-dropdown")).toBeInTheDocument();

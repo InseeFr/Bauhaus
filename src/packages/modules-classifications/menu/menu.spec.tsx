@@ -23,7 +23,7 @@ vi.mock("react-i18next", () => ({
 }));
 
 const renderWithRouter = (ui: React.ReactElement, pathname = "/") =>
-  render(<MemoryRouter initialEntries={[pathname]}>{ui}</MemoryRouter>);
+  render(<MemoryRouter initialEntries={Array.of(pathname)}>{ui}</MemoryRouter>);
 
 vi.mock("react-router", async (importOriginal) =>
   (await import("../../tests/react-router.testing")).withMockedUseLocation(await importOriginal()),

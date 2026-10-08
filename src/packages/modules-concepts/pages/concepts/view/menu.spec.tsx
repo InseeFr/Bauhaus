@@ -11,6 +11,7 @@ import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 type Privileges = { privilege: PRIVILEGE; strategy: STRATEGY }[];
 
 const OWNER_STAMPS = [{ stamp: "DG75-L201" }];
+const GENERAL = { creator: "DG75-L201" };
 
 const renderControls = async (
   privileges: Privileges,
@@ -32,7 +33,7 @@ const renderControls = async (
     <WithRouter>
       <ConceptVisualizationControls
         id="c1"
-        general={{ creator: "DG75-L201" }}
+        general={GENERAL}
         validationState={validationState}
         conceptVersion={conceptVersion}
         onValidate={vi.fn()}

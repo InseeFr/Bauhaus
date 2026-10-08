@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useCallback } from "react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
@@ -59,20 +60,29 @@ vi.mock("../menu", () => ({
 }));
 
 vi.mock("@components/select-rmes", () => ({
-  Select: ({ options, onChange, disabled }: any) => (
-    <button disabled={disabled} onClick={() => onChange(options[0]?.value)}>
-      dupliquer:{options.map((option: any) => option.label).join(",") || "(aucun)"}
-    </button>
-  ),
+  Select: ({ options, onChange, disabled }: any) => {
+    const selectFirst = useCallback(() => onChange(options[0]?.value), [onChange, options]);
+    return (
+      <button disabled={disabled} onClick={selectFirst}>
+        dupliquer:{options.map((option: any) => option.label).join(",") || "(aucun)"}
+      </button>
+    );
+  },
 }));
 
 vi.mock("./SimsField", () => ({
   SimsFieldMemo: () => null,
-  SimsField: ({ msd, secondLang, handleChange, alone }: any) => (
-    <button onClick={() => handleChange({ id: msd.idMas, override: { value: "saisi" } })}>
-      {`champ:${msd.idMas}|lg${secondLang ? "2" : "1"}|seul:${String(alone)}`}
-    </button>
-  ),
+  SimsField: ({ msd, secondLang, handleChange, alone }: any) => {
+    const fill = useCallback(
+      () => handleChange({ id: msd.idMas, override: { value: "saisi" } }),
+      [handleChange, msd.idMas],
+    );
+    return (
+      <button onClick={fill}>
+        {`champ:${msd.idMas}|lg${secondLang ? "2" : "1"}|seul:${String(alone)}`}
+      </button>
+    );
+  },
 }));
 vi.mock("./SimsDocumentField", () => ({
   SimsDocumentFieldMemo: ({ msd, lang }: any) => (
@@ -80,13 +90,16 @@ vi.mock("./SimsDocumentField", () => ({
   ),
 }));
 vi.mock("./DocumentFormPanel", () => ({
-  DocumentFormPanel: ({ opened, onHide, onAdd }: any) => (
-    <div>
-      <span>panneau:{String(opened)}</span>
-      <button onClick={onHide}>fermer le panneau</button>
-      <button onClick={() => onAdd("S1", "lg1", { id: "doc-1" })}>ajouter un document</button>
-    </div>
-  ),
+  DocumentFormPanel: ({ opened, onHide, onAdd }: any) => {
+    const addDocument = useCallback(() => onAdd("S1", "lg1", { id: "doc-1" }), [onAdd]);
+    return (
+      <div>
+        <span>panneau:{String(opened)}</span>
+        <button onClick={onHide}>fermer le panneau</button>
+        <button onClick={addDocument}>ajouter un document</button>
+      </div>
+    );
+  },
 }));
 
 const metadataStructure = {
@@ -120,20 +133,24 @@ const rubrics = {
 
 const onSubmit = vi.fn();
 
+const NO_PROPERTIES = {} as any;
+const DEFAULT_SIMS = { id: "sims-1", rubrics, updated: "2026-01-01" };
+const ORGANISATIONS = [
+  { id: "org-2", label: "Zèbre", labelLg2: "Zebra" },
+  { id: "org-1", label: "Abeille", labelLg2: "Bee" },
+];
+
 const renderCreation = (props: any = {}) =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
       <AdvancedSimsCreation
         mode="CREATE"
         idParent="op-1"
-        sims={{ id: "sims-1", rubrics, updated: "2026-01-01" }}
+        sims={DEFAULT_SIMS}
         metadataStructure={metadataStructure}
         parentType="operation"
         onSubmit={onSubmit}
-        organisations={[
-          { id: "org-2", label: "Zèbre", labelLg2: "Zebra" },
-          { id: "org-1", label: "Abeille", labelLg2: "Bee" },
-        ]}
+        organisations={ORGANISATIONS}
         {...props}
       />
     </AppContextProvider>,

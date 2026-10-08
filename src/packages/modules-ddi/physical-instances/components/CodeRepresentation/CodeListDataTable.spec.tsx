@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ComponentProps } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
@@ -88,17 +88,17 @@ vi.mock("primereact/datatable", () => ({
 
 vi.mock("primereact/column", () => import("./primereact.testing"));
 
+const mockCodes: CodeTableRow[] = [
+  { id: "code-1", value: "1", label: "Label 1", categoryId: "category-1" },
+  { id: "code-2", value: "2", label: "Label 2", categoryId: "category-2" },
+];
+
 describe("CodeListDataTable", () => {
   const mockOnCodeListLabelChange = vi.fn();
   const mockOnCellEdit = vi.fn();
   const mockOnDeleteCode = vi.fn();
   const mockOnAddCode = vi.fn();
   const mockOnMoveCode = vi.fn();
-
-  const mockCodes: CodeTableRow[] = [
-    { id: "code-1", value: "1", label: "Label 1", categoryId: "category-1" },
-    { id: "code-2", value: "2", label: "Label 2", categoryId: "category-2" },
-  ];
 
   const renderDataTable = (props: Partial<ComponentProps<typeof CodeListDataTable>> = {}) =>
     render(
@@ -275,23 +275,26 @@ describe("CodeListDataTable", () => {
     const Harness = ({ initialLabel = "Test Label" }: { initialLabel?: string }) => {
       const [codes, setCodes] = useState(mockCodes);
       const [label, setLabel] = useState(initialLabel);
+      const onCodeListLabelChange = useCallback((newLabel: string) => {
+        mockOnCodeListLabelChange(newLabel);
+        setLabel(newLabel);
+      }, []);
+      const onCellEdit = useCallback(
+        (rowData: CodeTableRow, field: "value" | "label", newValue: string) => {
+          mockOnCellEdit(rowData, field, newValue);
+          setCodes((current) =>
+            current.map((code) => (code.id === rowData.id ? { ...code, [field]: newValue } : code)),
+          );
+        },
+        [],
+      );
       return (
         <CodeListDataTable
           codeListLabel={label}
           codes={codes}
-          onCodeListLabelChange={(newLabel) => {
-            mockOnCodeListLabelChange(newLabel);
-            setLabel(newLabel);
-          }}
+          onCodeListLabelChange={onCodeListLabelChange}
           onCodeListLabelCommit={mockOnCodeListLabelCommit}
-          onCellEdit={(rowData, field, newValue) => {
-            mockOnCellEdit(rowData, field, newValue);
-            setCodes((current) =>
-              current.map((code) =>
-                code.id === rowData.id ? { ...code, [field]: newValue } : code,
-              ),
-            );
-          }}
+          onCellEdit={onCellEdit}
           onCellCommit={mockOnCellCommit}
           onDeleteCode={mockOnDeleteCode}
           onAddCode={mockOnAddCode}

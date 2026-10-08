@@ -8,14 +8,16 @@ import { renderWithRouter } from "../../../../../tests/render";
 import { emptyConceptNotes } from "../../../../utils/emptyConceptNotes";
 import { ConceptSummary } from "./ConceptSummary";
 
+const NO_LINKS: never[] = [];
+
 const renderSummary = (props: Partial<React.ComponentProps<typeof ConceptSummary>> = {}) => {
   const onSelect = vi.fn();
   const { rerender: rerenderWith } = renderWithRouter(
     <ConceptSummary
       notes={emptyConceptNotes as unknown as ConceptNotes}
       maxLengthScopeNote={350}
-      conceptsWithLinks={[]}
-      equivalentLinks={[]}
+      conceptsWithLinks={NO_LINKS}
+      equivalentLinks={NO_LINKS}
       activeSection="general"
       activeNote="conceptsScopeNote"
       activeLinkType={NARROWER}
@@ -28,8 +30,8 @@ const renderSummary = (props: Partial<React.ComponentProps<typeof ConceptSummary
       <ConceptSummary
         notes={emptyConceptNotes as unknown as ConceptNotes}
         maxLengthScopeNote={350}
-        conceptsWithLinks={[]}
-        equivalentLinks={[]}
+        conceptsWithLinks={NO_LINKS}
+        equivalentLinks={NO_LINKS}
         activeSection="general"
         activeNote="conceptsScopeNote"
         activeLinkType={NARROWER}

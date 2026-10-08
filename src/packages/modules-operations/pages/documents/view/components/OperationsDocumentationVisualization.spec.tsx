@@ -17,6 +17,9 @@ const document = {
   sims: [],
 } as unknown as Document;
 
+const renderDocumentation = (attr: Document, secondLang: boolean) =>
+  render(<OperationsDocumentationVisualization attr={attr} secondLang={secondLang} />);
+
 describe("OperationsDocumentationVisualization", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -52,20 +55,16 @@ describe("OperationsDocumentationVisualization", () => {
   });
 
   it("should display a note if the object is a document", async () => {
-    const d = {
-      ...document,
-      uri: "/document/uri",
-    };
-    const { container } = render(
-      <OperationsDocumentationVisualization attr={d} secondLang={true} />,
-    );
+    const { container } = renderDocumentation({ ...document, uri: "/document/uri" }, true);
     const notes = container.querySelectorAll(".note");
     expect(notes).toHaveLength(7);
   });
 
   it("should display the size of the file on the right of the download link", async () => {
-    const d = { ...document, uri: "/document/uri", labelLg1: "Note technique", size: 130048 };
-    render(<OperationsDocumentationVisualization attr={d} secondLang={false} />);
+    renderDocumentation(
+      { ...document, uri: "/document/uri", labelLg1: "Note technique", size: 130048 },
+      false,
+    );
 
     const link = screen.getByRole("link", { name: "Note technique" });
     const size = screen.getByText("(130 kB)");
@@ -75,19 +74,13 @@ describe("OperationsDocumentationVisualization", () => {
   });
 
   it("should not display any size when the file size is unknown", async () => {
-    const d = { ...document, uri: "/document/uri", labelLg1: "Note technique" };
-    render(<OperationsDocumentationVisualization attr={d} secondLang={false} />);
+    renderDocumentation({ ...document, uri: "/document/uri", labelLg1: "Note technique" }, false);
 
     expect(screen.getByRole("link", { name: "Note technique" }).nextElementSibling).toBeNull();
   });
 
   it("should not display the date if this one is not valid", async () => {
-    const d = {
-      ...document,
-      uri: "/document/page/1",
-      updatedDate: undefined,
-    };
-    render(<OperationsDocumentationVisualization attr={d} secondLang={true} />);
+    renderDocumentation({ ...document, uri: "/document/page/1", updatedDate: undefined }, true);
     const date = screen.getByRole("region", { name: "Updated date" });
     expect(date.textContent).toBe("");
   });

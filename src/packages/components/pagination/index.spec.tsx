@@ -46,8 +46,11 @@ const createItems = (count: number): React.JSX.Element[] => {
   ));
 };
 
+const NO_ITEMS: React.JSX.Element[] = [];
+
 const renderWithRouter = (component: React.ReactElement, { route = "/" } = {}) => {
-  return render(<MemoryRouter initialEntries={[route]}>{component}</MemoryRouter>);
+  const initialEntries = Array.of(route);
+  return render(<MemoryRouter initialEntries={initialEntries}>{component}</MemoryRouter>);
 };
 
 const findPageLink = (text: string) =>
@@ -214,8 +217,7 @@ describe("Pagination", () => {
 
   describe("Edge cases", () => {
     it("should handle empty items array", () => {
-      const items: React.JSX.Element[] = [];
-      renderWithRouter(<Pagination itemEls={items} />);
+      renderWithRouter(<Pagination itemEls={NO_ITEMS} />);
 
       const lists = screen.getAllByRole("list");
       expect(lists[0]).toBeInTheDocument();

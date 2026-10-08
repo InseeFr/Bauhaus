@@ -17,31 +17,41 @@ vi.mock("react-i18next", () => {
   };
 });
 
+const operationWithMainLang = {
+  prefLabelLg1: "prefLabelLg1",
+  prefLabelLg2: "prefLabelLg2",
+  altLabelLg1: "altLabel1",
+  year: "2024",
+} as unknown as Operation;
+
+const operationWithBothLangs = {
+  prefLabelLg1: "prefLabelLg1",
+  prefLabelLg2: "prefLabelLg2",
+  altLabelLg1: "altLabel1",
+  altLabelLg2: "altLabel2",
+  year: "2024",
+} as unknown as Operation;
+
+const operationWithId = {
+  id: "s1234",
+  prefLabelLg1: "prefLabelLg1",
+  year: "2024",
+} as unknown as Operation;
+
+const physicalInstances = [{ id: "pi-1", label: "Individus", agency: "fr.insee" }];
+
 describe("OperationVisualization", () => {
   it("should renderer all informations for the main lang", () => {
-    const attr = {
-      prefLabelLg1: "prefLabelLg1",
-      prefLabelLg2: "prefLabelLg2",
-      altLabelLg1: "altLabel1",
-      year: "2024",
-    } as unknown as Operation;
     const { container } = render(
-      <OperationsOperationVisualization attr={attr} secondLang={false} />,
+      <OperationsOperationVisualization attr={operationWithMainLang} secondLang={false} />,
     );
     expect(container.querySelectorAll(".row:first-child .note")).toHaveLength(1);
     screen.getByText("Year : 2024");
   });
 
   it("should renderer all informations for the second lang", () => {
-    const attr = {
-      prefLabelLg1: "prefLabelLg1",
-      prefLabelLg2: "prefLabelLg2",
-      altLabelLg1: "altLabel1",
-      altLabelLg2: "altLabel2",
-      year: "2024",
-    } as unknown as Operation;
     const { container } = render(
-      <OperationsOperationVisualization attr={attr} secondLang={true} />,
+      <OperationsOperationVisualization attr={operationWithBothLangs} secondLang={true} />,
     );
 
     expect(container.querySelectorAll(".note")).toHaveLength(5);
@@ -50,18 +60,12 @@ describe("OperationVisualization", () => {
   });
 
   it("place les fichiers de données DDI dans le bloc des liens", () => {
-    const attr = {
-      id: "s1234",
-      prefLabelLg1: "prefLabelLg1",
-      year: "2024",
-    } as unknown as Operation;
-
     render(
       <MemoryRouter>
         <OperationsOperationVisualization
-          attr={attr}
+          attr={operationWithId}
           secondLang={false}
-          physicalInstances={[{ id: "pi-1", label: "Individus", agency: "fr.insee" }]}
+          physicalInstances={physicalInstances}
         />
       </MemoryRouter>,
     );

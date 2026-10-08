@@ -43,16 +43,16 @@ const createWrapper = () => {
   );
 };
 
-describe("GlobalInformationsPanel", () => {
-  const mockStructure: Structure = {
-    identifiant: "12345",
-    created: "2022-01-01",
-    modified: "2022-02-01",
-    creator: "STAMP CREATOR",
-    contributor: ["STAMP CONTRIBUTOR"],
-    disseminationStatus: "http:/id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
-  } as Structure;
+const mockStructure: Structure = {
+  identifiant: "12345",
+  created: "2022-01-01",
+  modified: "2022-02-01",
+  creator: "STAMP CREATOR",
+  contributor: ["STAMP CONTRIBUTOR"],
+  disseminationStatus: "http:/id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
+} as Structure;
 
+describe("GlobalInformationsPanel", () => {
   it("should render the structure information correctly", () => {
     render(<GlobalInformationsPanel structure={mockStructure} />, {
       wrapper: createWrapper(),

@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MouseEvent, useCallback } from "react";
 import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
@@ -26,16 +27,22 @@ vi.mock("@sdk/index", () => ({ StructureApi: { getMutualizedComponents: vi.fn() 
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("@components/filter-toggle-buttons", () => ({
-  FilterToggleButtons: ({ currentValue, handleSelection, options }: any) => (
-    <div>
-      <span>filtre:{currentValue}</span>
-      {options.map(([value, label]: [string, string]) => (
-        <button key={value} onClick={() => handleSelection(value)}>
-          {label}
-        </button>
-      ))}
-    </div>
-  ),
+  FilterToggleButtons: ({ currentValue, handleSelection, options }: any) => {
+    const select = useCallback(
+      (e: MouseEvent<HTMLButtonElement>) => handleSelection(e.currentTarget.value),
+      [handleSelection],
+    );
+    return (
+      <div>
+        <span>filtre:{currentValue}</span>
+        {options.map(([value, label]: [string, string]) => (
+          <button key={value} value={value} onClick={select}>
+            {label}
+          </button>
+        ))}
+      </div>
+    );
+  },
 }));
 vi.mock("@components/searchable-list", () => ({
   SearchableList: ({ items }: any) => (

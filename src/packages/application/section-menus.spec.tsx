@@ -27,6 +27,18 @@ const APPLICATIONS: Record<AppName, MODULE> = {
 
 const ALL_MODULES = Object.keys(APPLICATIONS) as AppName[];
 
+const buildProperties = (shown: AppName[]): AppProperties => ({
+  modules: ALL_MODULES.map((identifier) => ({
+    identifier,
+    show: shown.includes(identifier),
+    directAccess: true,
+  })),
+  defaultContributor: "",
+  maxLengthScopeNote: "",
+  extraMandatoryFields: "",
+  defaultAgencyId: "",
+});
+
 /* Rend le menu sur `pathname`, pour un utilisateur qui a accès en lecture aux seuls
    modules `readable`, quand la configuration ne déclare visibles que les modules `shown`. */
 const renderMenu = (
@@ -41,21 +53,12 @@ const renderMenu = (
   }));
   vi.mocked(usePrivileges).mockReturnValue({ isPending: false, privileges });
 
-  const properties: AppProperties = {
-    modules: ALL_MODULES.map((identifier) => ({
-      identifier,
-      show: shown.includes(identifier),
-      directAccess: true,
-    })),
-    defaultContributor: "",
-    maxLengthScopeNote: "",
-    extraMandatoryFields: "",
-    defaultAgencyId: "",
-  };
+  const properties = buildProperties(shown);
+  const initialEntries = Array.of(pathname);
 
   return render(
     <AppContextProvider lg1="fr" lg2="en" properties={properties}>
-      <MemoryRouter initialEntries={[pathname]}>{menu}</MemoryRouter>
+      <MemoryRouter initialEntries={initialEntries}>{menu}</MemoryRouter>
     </AppContextProvider>,
   );
 };

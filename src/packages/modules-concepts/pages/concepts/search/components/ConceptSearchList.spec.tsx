@@ -37,21 +37,33 @@ const concept = (overrides: Partial<ConceptForAdvancedSearch>): ConceptForAdvanc
   ...overrides,
 });
 
+const NO_CONCEPTS: ConceptForAdvancedSearch[] = [];
+
+const renderSearch = (
+  conceptSearchList: ConceptForAdvancedSearch[] = NO_CONCEPTS,
+  initialEntries?: string[],
+) =>
+  renderWithRouter(
+    <AdvancedSearch conceptSearchList={conceptSearchList} onExport={vi.fn()} />,
+    initialEntries,
+  );
+
+const SEARCH_PAGE = <AdvancedSearch conceptSearchList={NO_CONCEPTS} onExport={vi.fn()} />;
+const CONCEPTS_LIST_PAGE = <p>Liste des concepts</p>;
+
 describe("concepts-advanced-search", () => {
   it("renders without crashing", () => {
-    renderWithRouter(<AdvancedSearch conceptSearchList={[]} onExport={vi.fn()} />);
+    renderSearch();
   });
 
   it("titles the document with the module name first, then Advanced search", () => {
-    renderWithRouter(<AdvancedSearch conceptSearchList={[]} onExport={vi.fn()} />);
+    renderSearch();
 
     expect(document.title).toBe("Concepts - Advanced search - Bauhaus");
   });
 
   it("renders a labelled, search-icon input for each free-text criterion", () => {
-    const { container } = renderWithRouter(
-      <AdvancedSearch conceptSearchList={[]} onExport={vi.fn()} />,
-    );
+    const { container } = renderSearch();
 
     const searchInputs = container.querySelectorAll(".p-icon-field input.p-inputtext");
     expect(searchInputs).toHaveLength(3);
@@ -63,7 +75,7 @@ describe("concepts-advanced-search", () => {
   });
 
   it("lets the user filter creators by organization (HIE) and not by stamp", () => {
-    renderWithRouter(<AdvancedSearch conceptSearchList={[]} onExport={vi.fn()} />);
+    renderSearch();
 
     expect(screen.getByTestId("creators-input")).toBeInTheDocument();
     expect(lastCreatorsInputProps?.mode).toBe("organization");
@@ -80,9 +92,7 @@ describe("concepts-advanced-search", () => {
       }),
     ];
 
-    renderWithRouter(<AdvancedSearch conceptSearchList={concepts} onExport={vi.fn()} />, [
-      `/?creator=${encodeURIComponent(hieIri)}`,
-    ]);
+    renderSearch(concepts, [`/?creator=${encodeURIComponent(hieIri)}`]);
 
     expect(screen.getByText("Matching concept")).toBeInTheDocument();
     expect(screen.queryByText("Other concept")).not.toBeInTheDocument();
@@ -90,9 +100,7 @@ describe("concepts-advanced-search", () => {
 
   it("clears every criterion when the reset button is clicked", async () => {
     const concepts = [concept({ id: "1", label: "Alpha" }), concept({ id: "2", label: "Beta" })];
-    renderWithRouter(<AdvancedSearch conceptSearchList={concepts} onExport={vi.fn()} />, [
-      "/?label=Alpha",
-    ]);
+    renderSearch(concepts, ["/?label=Alpha"]);
     expect(screen.queryByText("Beta")).not.toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: "Reinitialize" }));
@@ -103,8 +111,8 @@ describe("concepts-advanced-search", () => {
   it("goes back to the list of concepts when the back button is clicked", async () => {
     renderWithRouter(
       <Routes>
-        <Route path="/" element={<AdvancedSearch conceptSearchList={[]} onExport={vi.fn()} />} />
-        <Route path="/concepts" element={<p>Liste des concepts</p>} />
+        <Route path="/" element={SEARCH_PAGE} />
+        <Route path="/concepts" element={CONCEPTS_LIST_PAGE} />
       </Routes>,
     );
 

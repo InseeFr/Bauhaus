@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { forwardRef, useEffect, useRef } from "react";
+import { type ChangeEvent, forwardRef, useCallback, useEffect, useRef } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { PhysicalInstanceDialog } from "./PhysicalInstanceCreationDialog";
@@ -98,19 +98,25 @@ vi.mock("primereact/inputtext", () => ({
 vi.mock("primereact/dropdown", async () => {
   const { NativeOptions } = await import("../../pages/pages.testing");
   return {
-    Dropdown: ({ id, value, options, onChange, placeholder, disabled, className }: any) => (
-      <select
-        id={id}
-        value={value || ""}
-        onChange={(e) => onChange({ value: e.target.value || null })}
-        disabled={disabled}
-        className={className}
-        data-testid={`dropdown-${id}`}
-      >
-        <option value="">{placeholder}</option>
-        <NativeOptions options={options} />
-      </select>
-    ),
+    Dropdown: ({ id, value, options, onChange, placeholder, disabled, className }: any) => {
+      const handleChange = useCallback(
+        (e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value || null }),
+        [onChange],
+      );
+      return (
+        <select
+          id={id}
+          value={value || ""}
+          onChange={handleChange}
+          disabled={disabled}
+          className={className}
+          data-testid={`dropdown-${id}`}
+        >
+          <option value="">{placeholder}</option>
+          <NativeOptions options={options} />
+        </select>
+      );
+    },
   };
 });
 
@@ -129,10 +135,15 @@ vi.mock("primereact/dialog", () => ({
   Dialog: ({ header, visible, children, onHide, onShow, className }: any) => {
     const dialogRef = useRef<HTMLDivElement>(null);
     const closeRef = useRef<HTMLButtonElement>(null);
+    const onShowRef = useRef(onShow);
+
+    useEffect(() => {
+      onShowRef.current = onShow;
+    });
 
     useEffect(() => {
       if (!visible) return;
-      onShow?.();
+      onShowRef.current?.();
       if (!dialogRef.current?.contains(document.activeElement)) {
         closeRef.current?.focus();
       }
@@ -150,6 +161,29 @@ vi.mock("primereact/dialog", () => ({
     );
   },
 }));
+
+const existingInstanceData = {
+  label: "Existing Label",
+  group: { id: "group-1", agency: "agency-1" },
+  studyUnit: { id: "study-1", agency: "agency-1" },
+};
+
+const currentGroupAndStudyUnitData = {
+  label: "Existing Label",
+  group: { id: "group-9", agency: "agency-9", label: "Groupe courant" },
+  studyUnit: { id: "study-9", agency: "agency-9", label: "Étude courante" },
+};
+
+const duplicateInitialData = {
+  label: "Existing Label (copy)",
+  group: { id: "group-1", agency: "agency-1" },
+  studyUnit: { id: "study-1", agency: "agency-1" },
+};
+
+const duplicateWithLockedGroupLabel = {
+  ...duplicateInitialData,
+  group: { id: "group-1", agency: "agency-1", label: "Groupe courant" },
+};
 
 describe("PhysicalInstanceDialog", () => {
   const mockOnHide = vi.fn();
@@ -314,14 +348,7 @@ describe("PhysicalInstanceDialog", () => {
 
     it("shows the current group and study unit labels without loading them", () => {
       render(
-        <PhysicalInstanceDialog
-          {...defaultEditProps}
-          initialData={{
-            label: "Existing Label",
-            group: { id: "group-9", agency: "agency-9", label: "Groupe courant" },
-            studyUnit: { id: "study-9", agency: "agency-9", label: "Étude courante" },
-          }}
-        />,
+        <PhysicalInstanceDialog {...defaultEditProps} initialData={currentGroupAndStudyUnitData} />,
       );
 
       expect(screen.getByTestId("dropdown-group")).toHaveDisplayValue("Groupe courant");
@@ -365,11 +392,7 @@ describe("PhysicalInstanceDialog", () => {
       visible: true,
       onHide: mockOnHide,
       mode: "duplicate" as const,
-      initialData: {
-        label: "Existing Label (copy)",
-        group: { id: "group-1", agency: "agency-1" },
-        studyUnit: { id: "study-1", agency: "agency-1" },
-      },
+      initialData: duplicateInitialData,
       onSubmitDuplicate: mockOnSubmitDuplicate,
     };
 
@@ -377,10 +400,7 @@ describe("PhysicalInstanceDialog", () => {
       render(
         <PhysicalInstanceDialog
           {...defaultDuplicateProps}
-          initialData={{
-            ...defaultDuplicateProps.initialData,
-            group: { id: "group-1", agency: "agency-1", label: "Groupe courant" },
-          }}
+          initialData={duplicateWithLockedGroupLabel}
         />,
       );
 
@@ -489,11 +509,7 @@ describe("PhysicalInstanceDialog", () => {
           visible={true}
           onHide={mockOnHide}
           mode="edit"
-          initialData={{
-            label: "Existing Label",
-            group: { id: "group-1", agency: "agency-1" },
-            studyUnit: { id: "study-1", agency: "agency-1" },
-          }}
+          initialData={existingInstanceData}
           onSubmitEdit={mockOnSubmitEdit}
         />,
       );

@@ -5,18 +5,20 @@ import { ComponentDefinition } from "@model/structures/Component";
 
 import { ComponentSpecificationModal } from "./ComponentSpecificationModal";
 
-describe("<ComponentSpecificationModal />", () => {
-  const specification = {
-    required: true,
-    attachment: ["http:/purl.org/linked-data/cube#DataSet"],
-  };
+const specification = {
+  required: true,
+  attachment: ["http:/purl.org/linked-data/cube#DataSet"],
+};
+const SELECTED_COMPONENT = { component: {} } as unknown as ComponentDefinition;
+const NO_STRUCTURE_COMPONENTS: never[] = [];
 
+describe("<ComponentSpecificationModal />", () => {
   const renderModal = (props: { onClose?: VoidFunction; onSave?: VoidFunction } = {}) =>
     render(
       <ComponentSpecificationModal
         specification={specification}
-        selectedComponent={{ component: {} } as unknown as ComponentDefinition}
-        structureComponents={[]}
+        selectedComponent={SELECTED_COMPONENT}
+        structureComponents={NO_STRUCTURE_COMPONENTS}
         onClose={props.onClose ?? vi.fn()}
         onSave={props.onSave ?? vi.fn()}
       />,

@@ -4,7 +4,7 @@
  * Les composants s'emploient comme module de remplacement :
  * `vi.mock("primereact/dropdown", () => import("../representation.testing"));`
  */
-import type { ChangeEvent } from "react";
+import { useCallback, type ChangeEvent } from "react";
 
 /** Module `react-i18next` qui traduit les clés connues et renvoie les autres telles quelles. */
 export const mockTranslations = (translations: Record<string, string>) => ({
@@ -23,18 +23,21 @@ export const appContextModule = {
 };
 
 /** `<select>` natif alimenté par des options `{ label, value }`, au contrat onChange de PrimeReact. */
-export const OptionsSelect = ({ options, onChange, ...props }: any) => (
-  <select
-    {...props}
-    onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value })}
-  >
-    {options.map((option: any) => (
-      <option key={option.value} value={option.value}>
-        {option.label}
-      </option>
-    ))}
-  </select>
-);
+export const OptionsSelect = ({ options, onChange, ...props }: any) => {
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value }),
+    [onChange],
+  );
+  return (
+    <select {...props} onChange={handleChange}>
+      {options.map((option: any) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  );
+};
 
 export const Dropdown = ({ id, value, onChange, options, required }: any) => (
   <OptionsSelect id={id} value={value} onChange={onChange} options={options} required={required} />

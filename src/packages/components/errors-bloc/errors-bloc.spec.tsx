@@ -9,6 +9,17 @@ import { appI18n } from "../../i18n";
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { ClientSideError, GlobalClientSideErrorBloc, ErrorBloc, LoadingErrorBloc } from "./index";
 
+const CLIENT_SIDE_ERRORS = ["error1"];
+const NO_CLIENT_SIDE_ERRORS: string[] = [];
+const MIXED_ERRORS = [
+  sdkRejection.json(400, { code: "1101", message: "The codelist already exists" }),
+  sdkRejection.json(500, { message: "message" }),
+  sdkRejection.json(500, { message: "object" }),
+  "Plain error message",
+];
+const HTML_INJECTION_ERROR = { message: '<img src="x" onerror="alert(1)">' };
+const INVALID_JSON_ERRORS = ["Invalid JSON"];
+
 describe("ClientSideError", () => {
   it("renders error message when error is provided", () => {
     render(<ClientSideError error="<strong>Error occurred</strong>" id="error1" />);
@@ -31,7 +42,7 @@ describe("ClientSideError", () => {
 
 describe("GlobalClientSideErrorBloc", () => {
   it("renders global error message when clientSideErrors are provided", () => {
-    render(<GlobalClientSideErrorBloc clientSideErrors={["error1"]} />);
+    render(<GlobalClientSideErrorBloc clientSideErrors={CLIENT_SIDE_ERRORS} />);
     const errorElement = screen.getByRole("alert");
     expect(errorElement).toHaveTextContent("You have errors in this form.");
   });
@@ -43,7 +54,7 @@ describe("GlobalClientSideErrorBloc", () => {
   });
 
   it("does not render anything when clientSideErrors is an empty array", () => {
-    render(<GlobalClientSideErrorBloc clientSideErrors={[]} />);
+    render(<GlobalClientSideErrorBloc clientSideErrors={NO_CLIENT_SIDE_ERRORS} />);
     const errorElement = screen.queryByRole("alert");
     expect(errorElement).toBeNull();
   });
@@ -51,13 +62,7 @@ describe("GlobalClientSideErrorBloc", () => {
 
 describe("ErrorBloc", () => {
   it("renders formatted errors for an array of error messages", () => {
-    const errors = [
-      sdkRejection.json(400, { code: "1101", message: "The codelist already exists" }),
-      sdkRejection.json(500, { message: "message" }),
-      sdkRejection.json(500, { message: "object" }),
-      "Plain error message",
-    ];
-    render(<ErrorBloc error={errors} />);
+    render(<ErrorBloc error={MIXED_ERRORS} />);
 
     screen.getByText("The codelist already exists.");
     screen.getByText(
@@ -75,9 +80,7 @@ describe("ErrorBloc", () => {
   });
 
   it("does not inject event handlers coming from a server error message", () => {
-    const { container } = render(
-      <ErrorBloc error={{ message: '<img src="x" onerror="alert(1)">' }} />,
-    );
+    const { container } = render(<ErrorBloc error={HTML_INJECTION_ERROR} />);
 
     expect(container.querySelector("[onerror]")).toBeNull();
   });
@@ -89,8 +92,7 @@ describe("ErrorBloc", () => {
   });
 
   it("renders fallback message when JSON parsing fails", () => {
-    const invalidError = "Invalid JSON";
-    render(<ErrorBloc error={[invalidError]} />);
+    render(<ErrorBloc error={INVALID_JSON_ERRORS} />);
     screen.getByText("Invalid JSON");
   });
 

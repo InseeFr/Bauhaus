@@ -31,26 +31,26 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-describe("GlobalInformationBlock", () => {
-  const mockDataset = {
-    catalogRecord: {
-      created: "2021-01-01",
-      updated: "2022-01-01",
-    },
-    issued: "2021-06-01",
-    accessRights: "public",
-    accrualPeriodicity: "annual",
-    confidentialityStatus: "open",
-    creators: ["org1", "org2"],
-    publisher: "org3",
-    wasGeneratedIRIs: ["iri1", "iri2"],
-    themes: ["theme1", "theme2"],
-    keywords: {
-      lg1: ["keyword1", "keyword2"],
-      lg2: ["keyword3", "keyword4"],
-    },
-  } as unknown as Dataset;
+const mockDataset = {
+  catalogRecord: {
+    created: "2021-01-01",
+    updated: "2022-01-01",
+  },
+  issued: "2021-06-01",
+  accessRights: "public",
+  accrualPeriodicity: "annual",
+  confidentialityStatus: "open",
+  creators: ["org1", "org2"],
+  publisher: "org3",
+  wasGeneratedIRIs: ["iri1", "iri2"],
+  themes: ["theme1", "theme2"],
+  keywords: {
+    lg1: ["keyword1", "keyword2"],
+    lg2: ["keyword3", "keyword4"],
+  },
+} as unknown as Dataset;
 
+describe("GlobalInformationBlock", () => {
   beforeEach(() => {
     vi.spyOn(useThemesHook, "useThemes").mockReturnValue({
       data: [

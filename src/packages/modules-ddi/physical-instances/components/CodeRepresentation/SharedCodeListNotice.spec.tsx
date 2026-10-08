@@ -5,15 +5,19 @@ import { SharedCodeListNotice } from "./SharedCodeListNotice";
 
 vi.mock("react-i18next", () => import("../../../i18n.testing"));
 
+const NO_OTHER_VARIABLES: string[] = [];
+const ONE_OTHER_VARIABLE = ["Âge"];
+const TWO_OTHER_VARIABLES = ["Sexe", "Âge"];
+
 describe("SharedCodeListNotice", () => {
   it("renders nothing when the list belongs to this variable alone", () => {
-    const { container } = render(<SharedCodeListNotice otherVariableNames={[]} />);
+    const { container } = render(<SharedCodeListNotice otherVariableNames={NO_OTHER_VARIABLES} />);
 
     expect(container).toBeEmptyDOMElement();
   });
 
   it("names the single other variable that would be impacted", () => {
-    render(<SharedCodeListNotice otherVariableNames={["Âge"]} />);
+    render(<SharedCodeListNotice otherVariableNames={ONE_OTHER_VARIABLE} />);
 
     expect(
       screen.getByText('physicalInstance.view.code.sharedNotice.message|{"count":1}'),
@@ -22,7 +26,7 @@ describe("SharedCodeListNotice", () => {
   });
 
   it("counts and enumerates the impacted variables when there are several", () => {
-    render(<SharedCodeListNotice otherVariableNames={["Sexe", "Âge"]} />);
+    render(<SharedCodeListNotice otherVariableNames={TWO_OTHER_VARIABLES} />);
 
     expect(
       screen.getByText('physicalInstance.view.code.sharedNotice.message|{"count":2}'),
@@ -33,7 +37,7 @@ describe("SharedCodeListNotice", () => {
   it("stays out of the accessibility tree as an alert, being a permanent reminder", () => {
     // Un `role="alert"` serait relu à chaque re-rendu du tableau : c'est un rappel de contexte,
     // pas une notification.
-    render(<SharedCodeListNotice otherVariableNames={["Âge"]} />);
+    render(<SharedCodeListNotice otherVariableNames={ONE_OTHER_VARIABLE} />);
 
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
   });

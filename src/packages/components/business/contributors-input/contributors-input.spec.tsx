@@ -8,6 +8,8 @@ vi.mock("../stamps-input/stamps-input", async () => ({
   StampsInput: (await import("../stamps-input/stamps-input.testing")).StampsInputMock,
 }));
 
+const SINGLE_CONTRIBUTOR = ["contributor1"];
+
 describe("ContributorsInput", () => {
   it("renders StampsInput with contributor labels for first lang", () => {
     const mockOnChange = vi.fn();
@@ -51,7 +53,7 @@ describe("ContributorsInput", () => {
     const mockOnChange = vi.fn();
     render(
       <ContributorsInput
-        value={["contributor1"]}
+        value={SINGLE_CONTRIBUTOR}
         onChange={mockOnChange}
         lang="first"
         multi={true}

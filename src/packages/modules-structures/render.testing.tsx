@@ -3,10 +3,12 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { PropsWithChildren, ReactNode } from "react";
 import { MemoryRouter } from "react-router";
 
-import { AppContextProvider } from "../application/app-context";
+import { AppContextProvider, AppProperties } from "../application/app-context";
+
+const NO_PROPERTIES = {} as AppProperties;
 
 const TestAppContextProvider = ({ children }: PropsWithChildren) => (
-  <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+  <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
     {children}
   </AppContextProvider>
 );

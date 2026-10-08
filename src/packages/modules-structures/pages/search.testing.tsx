@@ -1,6 +1,6 @@
 import { screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { ComponentType, ReactNode } from "react";
+import { ComponentType, createElement, ReactNode } from "react";
 import { Route, Routes } from "react-router";
 
 import { getListItems } from "@components/ui/list-group/testing";
@@ -10,6 +10,8 @@ import { ConceptsApi, StructureApi } from "@sdk/index";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { renderWithRouter } from "../../tests/render";
+
+const LIST_PAGE = <p>Liste</p>;
 
 export const ORGANIZATION_IRI = "https://bauhaus/organizations/insee/HIE2000001";
 export const OTHER_ORGANIZATION_IRI = "https://bauhaus/organizations/insee/OTHER";
@@ -91,8 +93,8 @@ export const itGoesBackToTheList = (
   it("goes back to the list when the back button is clicked", async () => {
     await renderSearchPage(
       <Routes>
-        <Route path="/" element={<Component />} />
-        <Route path={listPath} element={<p>Liste</p>} />
+        <Route path="/" element={createElement(Component)} />
+        <Route path={listPath} element={LIST_PAGE} />
       </Routes>,
       formSelector,
     );

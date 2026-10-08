@@ -88,17 +88,22 @@ const dataset = {
   catalogRecord: { creator: "http://org/insee", contributor: ["http://org/dares"] },
 } as unknown as Dataset;
 
+const NO_PROPERTIES = {} as any;
+const INITIAL_ENTRIES = ["/datasets/jd1000"];
+const PAGE = <Component />;
+const DATASET_LIST_PAGE = <div>Dataset list</div>;
+
 const renderPage = () =>
   render(
     <QueryClientProvider
       client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
     >
       <I18nextProvider i18n={i18n}>
-        <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-          <MemoryRouter initialEntries={["/datasets/jd1000"]}>
+        <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
+          <MemoryRouter initialEntries={INITIAL_ENTRIES}>
             <Routes>
-              <Route path="/datasets/:id" element={<Component />} />
-              <Route path="/datasets" element={<div>Dataset list</div>} />
+              <Route path="/datasets/:id" element={PAGE} />
+              <Route path="/datasets" element={DATASET_LIST_PAGE} />
             </Routes>
           </MemoryRouter>
         </AppContextProvider>

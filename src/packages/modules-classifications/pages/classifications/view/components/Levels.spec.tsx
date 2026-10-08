@@ -14,6 +14,8 @@ const levels = [
   { id: "groupes", labelLg1: "Groupes", labelLg2: "Groups EN" },
 ];
 
+const NO_LEVELS: never[] = [];
+
 const renderLevels = (props = {}) =>
   render(
     <MemoryRouter>
@@ -66,7 +68,7 @@ describe("<Levels />", () => {
   it("se rend avec une liste vide de niveaux", () => {
     render(
       <MemoryRouter>
-        <Levels levels={[]} classificationId="coicop2016" secondLang={false} />
+        <Levels levels={NO_LEVELS} classificationId="coicop2016" secondLang={false} />
       </MemoryRouter>,
     );
     expect(screen.queryAllByRole("link")).toHaveLength(0);

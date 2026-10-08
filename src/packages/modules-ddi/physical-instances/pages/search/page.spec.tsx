@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { ReactNode } from "react";
+import { ChangeEvent, ReactNode, useCallback } from "react";
 import { MemoryRouter } from "react-router";
 
 import "../../../i18n";
@@ -17,17 +17,18 @@ vi.mock("@utils/hooks/useTitle");
 vi.mock("@components/select-rmes", async () => {
   const { NativeOptions } = await import("../pages.testing");
   return {
-    Select: ({ inputId, value, options, onChange, disabled }: any) => (
-      <select
-        id={inputId}
-        value={value ?? ""}
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.value || null)}
-      >
-        <option value="" />
-        <NativeOptions options={options} />
-      </select>
-    ),
+    Select: ({ inputId, value, options, onChange, disabled }: any) => {
+      const handleChange = useCallback(
+        (e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value || null),
+        [onChange],
+      );
+      return (
+        <select id={inputId} value={value ?? ""} disabled={disabled} onChange={handleChange}>
+          <option value="">-</option>
+          <NativeOptions options={options} />
+        </select>
+      );
+    },
   };
 });
 

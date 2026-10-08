@@ -40,13 +40,15 @@ vi.mock("@components/check-second-lang", () => ({
   CheckSecondLang: () => null,
 }));
 
+const COLLECTION_ENTRIES = ["/concepts/collections/c1"];
+
 const renderCollection = () =>
   render(
     <QueryClientProvider client={createTestQueryClient()}>
       <I18nextProvider i18n={conceptsI18n}>
-        <MemoryRouter initialEntries={["/concepts/collections/c1"]}>
+        <MemoryRouter initialEntries={COLLECTION_ENTRIES}>
           <Routes>
-            <Route path="/concepts/collections/:id" element={<Component />} />
+            <Route path="/concepts/collections/:id" Component={Component} />
           </Routes>
         </MemoryRouter>
       </I18nextProvider>

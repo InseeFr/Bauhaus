@@ -5,6 +5,14 @@ import { AppContextProvider, AppProperties } from "../../application/app-context
 import { renderWithAppContext } from "../../tests/render";
 import { NoteEdition } from "./";
 
+const NOTES = {
+  scopeNoteLg1: "scopeNote1",
+  scopeNoteLg2: "scopeNote2",
+  definitionLg1: "definitionLg1",
+};
+
+const EMPTY_PROPERTIES = {} as AppProperties;
+
 const noteEdition = (
   errorMessage: ComponentProps<typeof NoteEdition>["errorMessage"] = {
     errorMessage: [],
@@ -12,11 +20,7 @@ const noteEdition = (
   },
 ) => (
   <NoteEdition
-    notes={{
-      scopeNoteLg1: "scopeNote1",
-      scopeNoteLg2: "scopeNote2",
-      definitionLg1: "definitionLg1",
-    }}
+    notes={NOTES}
     noteLg1Name="scopeNoteLg1"
     noteLg2Name="scopeNoteLg2"
     handleChangeLg1={vi.fn()}
@@ -38,7 +42,7 @@ describe("note-edition", () => {
 
   it("nomme la langue de chaque colonne en toutes lettres", () => {
     render(
-      <AppContextProvider lg1="fr" lg2="en" properties={{} as AppProperties}>
+      <AppContextProvider lg1="fr" lg2="en" properties={EMPTY_PROPERTIES}>
         {noteEdition()}
       </AppContextProvider>,
     );

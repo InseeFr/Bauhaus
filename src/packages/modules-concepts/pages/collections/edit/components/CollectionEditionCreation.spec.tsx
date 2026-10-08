@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { useCallback } from "react";
 
 import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
 
@@ -34,15 +35,21 @@ vi.mock("./CollectionGeneralEdition", () => ({
     general: CollectionGeneral;
     handleChange: (update: Partial<CollectionGeneral>) => void;
     creation?: boolean;
-  }) => (
-    <div>
-      <span data-testid="general-label">{general.prefLabelLg1}</span>
-      <span data-testid="general-creation">{String(creation)}</span>
-      <button type="button" onClick={() => handleChange({ prefLabelLg1: "Libellé modifié" })}>
-        change-general
-      </button>
-    </div>
-  ),
+  }) => {
+    const changeGeneral = useCallback(
+      () => handleChange({ prefLabelLg1: "Libellé modifié" }),
+      [handleChange],
+    );
+    return (
+      <div>
+        <span data-testid="general-label">{general.prefLabelLg1}</span>
+        <span data-testid="general-creation">{String(creation)}</span>
+        <button type="button" onClick={changeGeneral}>
+          change-general
+        </button>
+      </div>
+    );
+  },
 }));
 
 vi.mock("./CollectionMembersEdition", () => ({
@@ -52,16 +59,22 @@ vi.mock("./CollectionMembersEdition", () => ({
   }: {
     members: { id: string; label: string }[];
     handleChange: (members: { id: string; label: string }[]) => void;
-  }) => (
-    <div>
-      <span data-testid="members">
-        {members.map(({ id, label }) => `${id}:${label}`).join("|")}
-      </span>
-      <button type="button" onClick={() => handleChange([{ id: "c3", label: "Concept 3" }])}>
-        change-members
-      </button>
-    </div>
-  ),
+  }) => {
+    const changeMembers = useCallback(
+      () => handleChange([{ id: "c3", label: "Concept 3" }]),
+      [handleChange],
+    );
+    return (
+      <div>
+        <span data-testid="members">
+          {members.map(({ id, label }) => `${id}:${label}`).join("|")}
+        </span>
+        <button type="button" onClick={changeMembers}>
+          change-members
+        </button>
+      </div>
+    );
+  },
 }));
 
 const aGeneral = (overrides: Partial<CollectionGeneral> = {}): CollectionGeneral => ({
@@ -77,6 +90,8 @@ const members: CollectionMember[] = [
   { id: "c2", prefLabelLg1: "Concept 2", prefLabelLg2: null },
 ];
 
+const NO_ITEMS: never[] = [];
+
 const renderComponent = (
   props: Partial<React.ComponentProps<typeof CollectionEditionCreation>> = {},
 ) => {
@@ -87,8 +102,8 @@ const renderComponent = (
       title="Titre"
       general={aGeneral()}
       members={members}
-      collectionList={[]}
-      conceptList={[]}
+      collectionList={NO_ITEMS}
+      conceptList={NO_ITEMS}
       save={save}
       submitting={false}
       setSubmitting={setSubmitting}

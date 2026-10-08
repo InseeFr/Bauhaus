@@ -3,6 +3,8 @@ import { vi } from "vitest";
 
 import { AppContextProvider, AppProperties, useAppContext } from "./app-context";
 
+const EMPTY_PROPERTIES = {} as AppProperties;
+
 const TestComponent = () => {
   const { lg1, lg2, secondLang } = useAppContext();
   return (
@@ -20,7 +22,7 @@ const TestComponent = () => {
 describe("AppContext", () => {
   it("provides the correct context values", () => {
     render(
-      <AppContextProvider lg1="English" lg2="French" properties={{} as AppProperties}>
+      <AppContextProvider lg1="English" lg2="French" properties={EMPTY_PROPERTIES}>
         <TestComponent />
       </AppContextProvider>,
     );

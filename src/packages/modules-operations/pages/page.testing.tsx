@@ -32,7 +32,7 @@ export const renderAtRoute = (
   properties: Properties = {},
 ) =>
   renderWithProperties(
-    <MemoryRouter initialEntries={[url]}>
+    <MemoryRouter initialEntries={Array.of(url)}>
       <Routes>
         {[paths].flat().map((path) => (
           <Route key={path} path={path} element={ui} />

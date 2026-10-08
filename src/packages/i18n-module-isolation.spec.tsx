@@ -21,6 +21,8 @@ const modules = ["ddi", "codelists"].map((identifier) => ({
   directAccess: true,
 }));
 
+const PROPERTIES = { modules } as any;
+
 /* Chaque module embarque son propre catalogue de traductions. Tant qu'ils partagent
    la même instance i18next, le dernier module chargé écrase les ressources des
    précédents : ceux-ci retombent alors sur leurs clés brutes jusqu'au prochain
@@ -62,7 +64,7 @@ describe("isolation des catalogues i18n entre modules", () => {
     );
 
     render(
-      <AppContextProvider lg1="fr" lg2="en" properties={{ modules } as any}>
+      <AppContextProvider lg1="fr" lg2="en" properties={PROPERTIES}>
         <Suspense fallback={null}>
           <RouterProvider router={router} />
         </Suspense>

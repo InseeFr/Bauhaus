@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, fireEvent, waitFor, act, within } from "@testing-library/react";
-import type { ReactNode } from "react";
+import { useCallback, type ChangeEvent, type MouseEvent, type ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 
 import { DDIApi } from "@sdk/index";
@@ -218,38 +218,49 @@ vi.mock("primereact/dropdown", () => ({
     optionGroupLabel: _optionGroupLabel,
     optionGroupChildren: _optionGroupChildren,
     ...props
-  }: any) => (
-    <select
-      id={id}
-      value={value || ""}
-      onChange={(e) => onChange({ value: e.target.value || null })}
-      disabled={disabled}
-      data-testid={id ? `dropdown-${id}` : undefined}
-      {...props}
-    >
-      <option value="">Select...</option>
-      {options?.map((opt: any) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.label}
-        </option>
-      ))}
-    </select>
-  ),
+  }: any) => {
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value || null }),
+      [onChange],
+    );
+    return (
+      <select
+        id={id}
+        value={value || ""}
+        onChange={handleChange}
+        disabled={disabled}
+        data-testid={id ? `dropdown-${id}` : undefined}
+        {...props}
+      >
+        <option value="">Select...</option>
+        {options?.map((opt: any) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    );
+  },
 }));
 
 vi.mock("primereact/dialog", () => ({
   Dialog: ({ visible, children, header }: any) =>
     visible ? (
-      <div role="dialog" aria-label={header}>
+      <dialog open aria-label={header}>
         <h2>{header}</h2>
         {children}
-      </div>
+      </dialog>
     ) : null,
 }));
 
 vi.mock("primereact/tabview", () => ({
   TabView: ({ children, activeIndex, onTabChange }: any) => {
     const panels = Array.isArray(children) ? children : [children];
+    const handleTabClick = useCallback(
+      (e: MouseEvent<HTMLButtonElement>) =>
+        onTabChange?.({ index: Number(e.currentTarget.dataset.index) }),
+      [onTabChange],
+    );
     return (
       <div data-testid="tabview" data-active-index={activeIndex}>
         <div role="tablist">
@@ -261,9 +272,15 @@ vi.mock("primereact/tabview", () => ({
                 })
               : child?.props?.header || `Tab ${index}`;
             return (
-              <div key={index} role="tab" onClick={() => onTabChange?.({ index })}>
+              <button
+                key={index}
+                type="button"
+                role="tab"
+                data-index={index}
+                onClick={handleTabClick}
+              >
                 {headerContent}
-              </div>
+              </button>
             );
           })}
         </div>

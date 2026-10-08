@@ -44,21 +44,17 @@ const treeData = [
   { id: "3", labelLg1: "Child Item", labelLg2: "Child Item EN", parent: "1" },
 ];
 
+const TREE_ENTRIES = ["/classifications/classification/coicop2016/tree"];
+
+const treeElement = (props: Record<string, any>) => (
+  <ClassificationTree data={treeData} prefLabel="COICOP 2016" secondLang={false} {...props} />
+);
+
 const renderTree = (props: Record<string, any> = {}) =>
   render(
-    <MemoryRouter initialEntries={["/classifications/classification/coicop2016/tree"]}>
+    <MemoryRouter initialEntries={TREE_ENTRIES}>
       <Routes>
-        <Route
-          path="/classifications/classification/:id/tree"
-          element={
-            <ClassificationTree
-              data={treeData}
-              prefLabel="COICOP 2016"
-              secondLang={false}
-              {...props}
-            />
-          }
-        />
+        <Route path="/classifications/classification/:id/tree" element={treeElement(props)} />
       </Routes>
     </MemoryRouter>,
   );

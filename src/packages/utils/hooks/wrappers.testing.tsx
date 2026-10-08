@@ -3,6 +3,8 @@ import type { PropsWithChildren } from "react";
 
 import { AppContextProvider, AppProperties } from "../../application/app-context";
 
+const NO_PROPERTIES = {} as AppProperties;
+
 export const queryClientWrapper = ({ children }: PropsWithChildren) => (
   <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
     {children}
@@ -10,7 +12,7 @@ export const queryClientWrapper = ({ children }: PropsWithChildren) => (
 );
 
 export const englishFrenchAppContextWrapper = ({ children }: PropsWithChildren) => (
-  <AppContextProvider lg1="English" lg2="French" properties={{} as AppProperties}>
+  <AppContextProvider lg1="English" lg2="French" properties={NO_PROPERTIES}>
     {children}
   </AppContextProvider>
 );

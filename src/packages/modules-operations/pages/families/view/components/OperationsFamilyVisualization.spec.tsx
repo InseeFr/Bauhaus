@@ -30,6 +30,12 @@ const mockFamily = {
   ],
 };
 
+const familyWithoutAbstract = {
+  ...mockFamily,
+  abstractLg1: "",
+  abstractLg2: "",
+};
+
 describe("OperationsFamilyVisualization", () => {
   it("should render global information note with creation and update dates", () => {
     renderWithAppContext(<OperationsFamilyVisualization attr={mockFamily} secondLang={false} />);
@@ -78,12 +84,6 @@ describe("OperationsFamilyVisualization", () => {
   });
 
   it("should handle empty abstract gracefully", () => {
-    const familyWithoutAbstract = {
-      ...mockFamily,
-      abstractLg1: "",
-      abstractLg2: "",
-    };
-
     const { container } = renderWithAppContext(
       <OperationsFamilyVisualization attr={familyWithoutAbstract} secondLang={false} />,
     );

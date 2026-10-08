@@ -23,6 +23,9 @@ vi.mock("../../../../../application/visible-modules", () => ({
   useVisibleModules: () => mockVisibleModules,
 }));
 
+const physicalInstances = [{ id: "pi-1", label: "Individus", agency: "fr.insee" }];
+const NO_PHYSICAL_INSTANCES: typeof physicalInstances = [];
+
 describe("useOperationPhysicalInstances", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -62,10 +65,7 @@ describe("OperationPhysicalInstancesLinks", () => {
   it("liste les fichiers de données sous leur intitulé, avec un lien vers le module DDI", () => {
     render(
       <MemoryRouter>
-        <OperationPhysicalInstancesLinks
-          lng="en"
-          physicalInstances={[{ id: "pi-1", label: "Individus", agency: "fr.insee" }]}
-        />
+        <OperationPhysicalInstancesLinks lng="en" physicalInstances={physicalInstances} />
       </MemoryRouter>,
     );
 
@@ -78,7 +78,7 @@ describe("OperationPhysicalInstancesLinks", () => {
 
   it("n'affiche rien sans fichier de données", () => {
     const { container } = render(
-      <OperationPhysicalInstancesLinks lng="fr" physicalInstances={[]} />,
+      <OperationPhysicalInstancesLinks lng="fr" physicalInstances={NO_PHYSICAL_INSTANCES} />,
     );
 
     expect(container).toBeEmptyDOMElement();

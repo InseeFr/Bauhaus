@@ -27,6 +27,11 @@ const organizations: OrganizationType[] = [
   },
 ];
 
+const ALL_CREATORS = ["creator1", "creator2"];
+const SINGLE_CREATOR = ["creator1"];
+const NO_CREATORS: string[] = [];
+const NO_ORGANIZATIONS: OrganizationType[] = [];
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -48,10 +53,8 @@ const mockUseOrganizations = (data: OrganizationType[] = organizations) =>
 
 describe("Organizations component", () => {
   it("renders a list of organizations", () => {
-    const creators = ["creator1", "creator2"];
-
     const { getByText } = render(
-      <Organizations creators={creators} organizations={organizations} />,
+      <Organizations creators={ALL_CREATORS} organizations={organizations} />,
     );
 
     getByText("Organization 1");
@@ -59,14 +62,17 @@ describe("Organizations component", () => {
   });
 
   it("renders nothing when creators list is empty", () => {
-    const { container } = render(<Organizations creators={[]} organizations={organizations} />);
+    const { container } = render(
+      <Organizations creators={NO_CREATORS} organizations={organizations} />,
+    );
 
     expect(container.querySelector("ul")).toBeNull();
   });
 
   it("renders nothing when organizations list is empty", () => {
-    const creators = ["creator1"];
-    const { container } = render(<Organizations creators={creators} organizations={[]} />);
+    const { container } = render(
+      <Organizations creators={SINGLE_CREATOR} organizations={NO_ORGANIZATIONS} />,
+    );
 
     expect(container.querySelector("ul")).not.toBeNull();
   });
@@ -95,7 +101,9 @@ describe("Organization component", () => {
 
   it("renders nothing when organizations list is empty", () => {
     const creator = "creator1";
-    const { container } = render(<Organization creator={creator} organizations={[]} />);
+    const { container } = render(
+      <Organization creator={creator} organizations={NO_ORGANIZATIONS} />,
+    );
 
     expect(container.textContent).toBe("");
   });
@@ -105,8 +113,7 @@ describe("InseeOrganizations component", () => {
   it("renders organizations by calling useOrganizations hook", () => {
     using _useOrgsSpy = mockUseOrganizations();
 
-    const creators = ["creator1", "creator2"];
-    const { getByText } = render(<InseeOrganizations creators={creators} />, {
+    const { getByText } = render(<InseeOrganizations creators={ALL_CREATORS} />, {
       wrapper,
     });
 
@@ -117,8 +124,7 @@ describe("InseeOrganizations component", () => {
   it("renders nothing when organizations data is empty", () => {
     using _useOrgsSpy = mockUseOrganizations([]);
 
-    const creators = ["creator1"];
-    const { container } = render(<InseeOrganizations creators={creators} />, {
+    const { container } = render(<InseeOrganizations creators={SINGLE_CREATOR} />, {
       wrapper,
     });
 

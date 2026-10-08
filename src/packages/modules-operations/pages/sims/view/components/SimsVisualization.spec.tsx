@@ -121,6 +121,11 @@ const mockSims = {
   rubrics: {},
 };
 
+const NO_METADATA_STRUCTURE = {};
+const NO_CODELISTS = {};
+const NO_ORGANIZATIONS: never[] = [];
+const NO_OWNERS: never[] = [];
+
 const renderComponent = (
   publishSims: (sims: any, errorCallback: (err: any) => void) => void,
   sims: Record<string, unknown> = mockSims,
@@ -129,13 +134,13 @@ const renderComponent = (
   return render(
     <SimsVisualization
       sims={sims as any}
-      metadataStructure={{}}
-      codelists={{}}
-      organizations={[]}
+      metadataStructure={NO_METADATA_STRUCTURE}
+      codelists={NO_CODELISTS}
+      organizations={NO_ORGANIZATIONS}
       publishSims={publishSims}
       exportCallback={vi.fn()}
       missingDocuments={new Set()}
-      owners={[]}
+      owners={NO_OWNERS}
     />,
     { wrapper: createQueryWrapper(queryClient).wrapper },
   );
@@ -342,13 +347,13 @@ describe("SimsVisualization - export", () => {
     render(
       <SimsVisualization
         sims={mockSims as any}
-        metadataStructure={{}}
-        codelists={{}}
-        organizations={[]}
+        metadataStructure={NO_METADATA_STRUCTURE}
+        codelists={NO_CODELISTS}
+        organizations={NO_ORGANIZATIONS}
         publishSims={vi.fn()}
         exportCallback={exportCallback}
         missingDocuments={new Set()}
-        owners={[]}
+        owners={NO_OWNERS}
       />,
       { wrapper: createQueryWrapper().wrapper },
     );

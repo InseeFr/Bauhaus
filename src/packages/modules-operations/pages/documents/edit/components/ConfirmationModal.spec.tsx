@@ -20,10 +20,18 @@ vi.mock("react-i18next", async (importOriginal) => {
   };
 });
 
+const documentWithoutSims = { sims: [] };
+const documentWithSims = { sims: [{ id: "1", labelLg1: "Rapport A" }] };
+
 describe("ConfirmationModal", () => {
   it("should display two confirmation buttons", async () => {
     render(
-      <ConfirmationModal isOpen={true} document={{ sims: [] }} onNo={vi.fn()} onYes={vi.fn()} />,
+      <ConfirmationModal
+        isOpen={true}
+        document={documentWithoutSims}
+        onNo={vi.fn()}
+        onYes={vi.fn()}
+      />,
     );
     await screen.findByText("Yes");
     await screen.findByText("No");
@@ -33,7 +41,7 @@ describe("ConfirmationModal", () => {
     render(
       <ConfirmationModal
         isOpen={true}
-        document={{ sims: [{ id: "1", labelLg1: "Rapport A" }] }}
+        document={documentWithSims}
         onNo={vi.fn()}
         onYes={vi.fn()}
       />,
@@ -44,7 +52,12 @@ describe("ConfirmationModal", () => {
 
   it("renders nothing when closed", () => {
     render(
-      <ConfirmationModal isOpen={false} document={{ sims: [] }} onNo={vi.fn()} onYes={vi.fn()} />,
+      <ConfirmationModal
+        isOpen={false}
+        document={documentWithoutSims}
+        onNo={vi.fn()}
+        onYes={vi.fn()}
+      />,
     );
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -52,7 +65,14 @@ describe("ConfirmationModal", () => {
 
   it("calls onNo when closed with the cross", async () => {
     const onNo = vi.fn();
-    render(<ConfirmationModal isOpen={true} document={{ sims: [] }} onNo={onNo} onYes={vi.fn()} />);
+    render(
+      <ConfirmationModal
+        isOpen={true}
+        document={documentWithoutSims}
+        onNo={onNo}
+        onYes={vi.fn()}
+      />,
+    );
 
     await userEvent.click(screen.getByRole("button", { name: /close|fermer/i }));
 

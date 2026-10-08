@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { useCallback } from "react";
 import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
@@ -12,15 +13,17 @@ vi.mock("@components/action-toolbar", () => import("../../../testing/component-m
 vi.mock("@components/buttons/buttons-with-icons", async () => {
   const { mockGoBack } = await import("../../../testing/component-mocks.testing");
   return {
-    CancelButton: ({ action }: { action: string | (() => void) }) => (
-      <button
-        data-testid="cancel-button"
-        type="button"
-        onClick={() => (typeof action === "string" ? mockGoBack(action) : action())}
-      >
-        Annuler
-      </button>
-    ),
+    CancelButton: ({ action }: { action: string | (() => void) }) => {
+      const handleClick = useCallback(
+        () => (typeof action === "string" ? mockGoBack(action) : action()),
+        [action],
+      );
+      return (
+        <button data-testid="cancel-button" type="button" onClick={handleClick}>
+          Annuler
+        </button>
+      );
+    },
     SaveButton: ({
       disabled,
       type,

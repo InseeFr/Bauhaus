@@ -34,12 +34,16 @@ const general = {
   prefLabelLg2: "NAF rev. 2",
 } as any;
 
+const NO_PROPERTIES = {} as any;
+
+const classificationWith = (overrides: any) => ({ general, levels: [], ...overrides });
+
 const renderVisualization = ({ classification, ...props }: any = {}) =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
       <MemoryRouter>
         <ClassificationVisualization
-          classification={{ general, levels: [], ...classification }}
+          classification={classificationWith(classification)}
           classificationId="nafr2"
           secondLang={false}
           publish={vi.fn()}

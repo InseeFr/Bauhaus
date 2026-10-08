@@ -32,6 +32,9 @@ const completeIndicator = {
   wasGeneratedBy: [{ id: "s1", type: "series" }],
 } as any;
 
+const otherIndicator = { ...completeIndicator, id: "i2", prefLabelLg1: "Indicateur 2" };
+const sameIndicatorRenamedElsewhere = { ...completeIndicator, prefLabelLg1: "Renommé ailleurs" };
+
 const defaultProps = {
   frequencies: { codes: [{ code: "A", labelLg1: "Annuelle" }] },
   indicators: [
@@ -63,12 +66,7 @@ describe("OperationsIndicatorEdition", () => {
 
     expect(screen.getByDisplayValue("Indicateur 1")).toBeInTheDocument();
 
-    rerender(
-      <OperationsIndicatorEdition
-        {...defaultProps}
-        indicator={{ ...completeIndicator, id: "i2", prefLabelLg1: "Indicateur 2" }}
-      />,
-    );
+    rerender(<OperationsIndicatorEdition {...defaultProps} indicator={otherIndicator} />);
 
     expect(screen.getByDisplayValue("Indicateur 2")).toBeInTheDocument();
   });
@@ -77,10 +75,7 @@ describe("OperationsIndicatorEdition", () => {
     const { rerender } = renderEdition();
 
     rerender(
-      <OperationsIndicatorEdition
-        {...defaultProps}
-        indicator={{ ...completeIndicator, prefLabelLg1: "Renommé ailleurs" }}
-      />,
+      <OperationsIndicatorEdition {...defaultProps} indicator={sameIndicatorRenamedElsewhere} />,
     );
 
     expect(screen.getByDisplayValue("Indicateur 1")).toBeInTheDocument();

@@ -19,6 +19,15 @@ vi.mock("primereact/inputtext", () => import("../representation.testing"));
 vi.mock("primereact/dropdown", () => import("../representation.testing"));
 vi.mock("primereact/button", () => import("../representation.testing"));
 
+const decimalBoundsRepresentation: NumericRepresentationType = {
+  $type: "NumericRepresentationBaseType",
+  NumericTypeCode: "Decimal",
+  NumberRange: {
+    Low: { IsInclusive: true, value: 0.1 },
+    High: { IsInclusive: true, value: 12.34 },
+  },
+};
+
 describe("NumericRepresentation", () => {
   const mockOnChange = vi.fn();
 
@@ -64,14 +73,7 @@ describe("NumericRepresentation", () => {
   it("should display a decimal bound coming from the representation", () => {
     render(
       <NumericRepresentation
-        representation={{
-          $type: "NumericRepresentationBaseType",
-          NumericTypeCode: "Decimal",
-          NumberRange: {
-            Low: { IsInclusive: true, value: 0.1 },
-            High: { IsInclusive: true, value: 12.34 },
-          },
-        }}
+        representation={decimalBoundsRepresentation}
         onChange={mockOnChange}
       />,
     );

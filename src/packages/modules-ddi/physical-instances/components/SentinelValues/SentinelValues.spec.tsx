@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useState, type ComponentProps } from "react";
+import { useCallback, useState, type ComponentProps } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import type { Reference } from "../../types/api";
@@ -218,14 +218,17 @@ describe("SentinelValues", () => {
   // Câblage réel : le parent renvoie en props les items émis, comme VariableEditForm.
   const ControlledSentinelValues = ({ initialReference }: { initialReference?: Reference }) => {
     const [props, setProps] = useState<any>({ missingValuesReference: initialReference });
+    const handleChange = useCallback<ComponentProps<typeof SentinelValues>["onChange"]>(
+      (missingValuesReference, mmvr, sentinelCodeList, sentinelCategories) =>
+        setProps({ missingValuesReference, mmvr, sentinelCodeList, sentinelCategories }),
+      [],
+    );
     return (
       <SentinelValues
         key="var-1-sentinel"
         currentVariableId="var-1"
         {...props}
-        onChange={(missingValuesReference, mmvr, sentinelCodeList, sentinelCategories) =>
-          setProps({ missingValuesReference, mmvr, sentinelCodeList, sentinelCategories })
-        }
+        onChange={handleChange}
       />
     );
   };

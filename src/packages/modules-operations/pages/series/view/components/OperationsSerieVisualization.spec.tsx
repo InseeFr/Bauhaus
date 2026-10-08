@@ -102,17 +102,20 @@ const attr = {
     },
   ],
 };
+
+const attrWithThemes = {
+  ...attr,
+  themes: ["http://bauhaus/concepts/theme/eco", "http://bauhaus/concepts/theme/agr"],
+};
+
+const attrWithSingleCreator = {
+  ...attr,
+  creators: attr.creators[0],
+};
+
 describe("SerieInformation", () => {
   it("affiche les libellés des thèmes de la série", () => {
-    renderWithRouter(
-      <OperationsSerieVisualization
-        attr={{
-          ...attr,
-          themes: ["http://bauhaus/concepts/theme/eco", "http://bauhaus/concepts/theme/agr"],
-        }}
-        secondLang={false}
-      />,
-    );
+    renderWithRouter(<OperationsSerieVisualization attr={attrWithThemes} secondLang={false} />);
 
     const themesNote = screen.getByText("Thèmes").closest(".note") as HTMLElement;
     expect(within(themesNote).getByText("Économie")).toBeInTheDocument();
@@ -141,11 +144,9 @@ describe("SerieInformation", () => {
   });
 
   it("should display the creator", () => {
-    const attr2 = {
-      ...attr,
-      creators: attr.creators[0],
-    };
-    renderWithRouter(<OperationsSerieVisualization attr={attr2} secondLang={true} />);
+    renderWithRouter(
+      <OperationsSerieVisualization attr={attrWithSingleCreator} secondLang={true} />,
+    );
     expect(screen.getByText("Direction Générale")).toBeInTheDocument();
   });
   it("should display the publisher label", () => {

@@ -6,13 +6,16 @@ import { renderWithAppContext } from "../../../../../tests/render";
 import { emptyConceptNotes } from "../../../../utils/emptyConceptNotes";
 import { NotesEdition as ConceptNotes } from "./NotesEdition";
 
+const notesWith = (notes: Partial<ConceptNotesType>) =>
+  ({ ...emptyConceptNotes, ...notes }) as unknown as ConceptNotesType;
+
 const renderNotes = (
   notes: Partial<ConceptNotesType> = {},
   props: Partial<React.ComponentProps<typeof ConceptNotes>> = {},
 ) =>
   renderWithAppContext(
     <ConceptNotes
-      notes={{ ...emptyConceptNotes, ...notes } as unknown as ConceptNotesType}
+      notes={notesWith(notes)}
       disseminationStatus=""
       handleChange={vi.fn()}
       maxLengthScopeNote={350}

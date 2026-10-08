@@ -18,6 +18,8 @@ const categoryUsage = (codeListId: string) =>
 
 const OTHER_VARIABLE = listUsage("other-variable", "Autre variable");
 const CURRENT_VARIABLE = listUsage("current-variable", "Client");
+const OTHER_VARIABLE_USAGES = [OTHER_VARIABLE];
+const NO_CATEGORY_USAGES: never[] = [];
 
 const renderDialog = (props: Partial<Parameters<typeof OverrideDialog>[0]> = {}) => {
   const handlers = { onCancel: vi.fn(), onVariant: vi.fn(), onConfirm: vi.fn() };
@@ -25,8 +27,8 @@ const renderDialog = (props: Partial<Parameters<typeof OverrideDialog>[0]> = {})
     <MemoryRouter>
       <OverrideDialog
         dialogCase="list"
-        listUsages={[OTHER_VARIABLE]}
-        categoryUsages={[]}
+        listUsages={OTHER_VARIABLE_USAGES}
+        categoryUsages={NO_CATEGORY_USAGES}
         codeListLabel="Liste de codes test"
         currentVariableId="current-variable"
         currentVariableName="Client"

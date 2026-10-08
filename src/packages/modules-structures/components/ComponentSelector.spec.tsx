@@ -7,6 +7,8 @@ import { UNPUBLISHED } from "@model/ValidationState";
 
 import { StructureApi } from "@sdk/index";
 
+import { EMPTY_ARRAY } from "@utils/array-utils";
+
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import {
   ATTRIBUTE_PROPERTY_TYPE,
@@ -53,14 +55,18 @@ const Wrapper = createStructuresWrapper();
 
 const handleUpdate = vi.fn();
 
+const NO_STRUCTURE = {} as Structure;
+const COMPONENT_DEFINITIONS = [definition("d1", 1), definition("d2", 2)];
+const MUTUALIZED_COMPONENTS = [component("m1"), component("d1")];
+
 const renderSelector = (props: Record<string, unknown> = {}) =>
   render(
     <ComponentSelector
-      structure={{} as Structure}
-      componentDefinitions={[definition("d1", 1), definition("d2", 2)]}
-      mutualizedComponents={[component("m1"), component("d1")]}
-      concepts={[]}
-      codelists={[]}
+      structure={NO_STRUCTURE}
+      componentDefinitions={COMPONENT_DEFINITIONS}
+      mutualizedComponents={MUTUALIZED_COMPONENTS}
+      concepts={EMPTY_ARRAY}
+      codelists={EMPTY_ARRAY}
       handleUpdate={handleUpdate}
       type={DIMENSION_PROPERTY_TYPE}
       {...props}

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { describe, it, expect, vi } from "vitest";
 
 import { CodeListDataTable, type CodeTableRow } from "./CodeListDataTable";
@@ -22,33 +22,38 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-describe("CodeListDataTable rendered with the real DataTable", () => {
-  const initialCodes: CodeTableRow[] = [
-    { id: "code-1", value: "1", label: "Oui", categoryId: "category-1" },
-  ];
+const initialCodes: CodeTableRow[] = [
+  { id: "code-1", value: "1", label: "Oui", categoryId: "category-1" },
+];
 
+const Harness = ({ onCellCommit }: { onCellCommit: () => Promise<boolean> }) => {
+  const [codes, setCodes] = useState(initialCodes);
+  const onCellEdit = useCallback(
+    (rowData: CodeTableRow, field: "value" | "label", newValue: string) =>
+      setCodes((rows) =>
+        rows.map((row) => (row.id === rowData.id ? { ...row, [field]: newValue } : row)),
+      ),
+    [],
+  );
+  return (
+    <CodeListDataTable
+      codeListLabel="Liste de codes test"
+      codes={codes}
+      onCodeListLabelChange={vi.fn()}
+      onCellEdit={onCellEdit}
+      onCellCommit={onCellCommit}
+      onDeleteCode={vi.fn()}
+      onAddCode={vi.fn()}
+    />
+  );
+};
+
+describe("CodeListDataTable rendered with the real DataTable", () => {
   /** Garde pilotée à la main, pour observer le champ pendant puis après la décision. */
   const renderWithPendingGuard = () => {
     let decide: (interrupted: boolean) => void = () => {};
-    const Harness = () => {
-      const [codes, setCodes] = useState(initialCodes);
-      return (
-        <CodeListDataTable
-          codeListLabel="Liste de codes test"
-          codes={codes}
-          onCodeListLabelChange={() => {}}
-          onCellEdit={(rowData, field, newValue) =>
-            setCodes((rows) =>
-              rows.map((row) => (row.id === rowData.id ? { ...row, [field]: newValue } : row)),
-            )
-          }
-          onCellCommit={() => new Promise<boolean>((resolve) => (decide = resolve))}
-          onDeleteCode={() => {}}
-          onAddCode={() => {}}
-        />
-      );
-    };
-    render(<Harness />);
+    const onCellCommit = vi.fn(() => new Promise<boolean>((resolve) => (decide = resolve)));
+    render(<Harness onCellCommit={onCellCommit} />);
     return { decide: (interrupted: boolean) => decide(interrupted) };
   };
 

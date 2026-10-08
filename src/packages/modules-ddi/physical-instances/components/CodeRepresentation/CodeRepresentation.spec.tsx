@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, within, waitFor } from "@testing-library/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ComponentProps } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
@@ -256,18 +256,19 @@ const renderHarness = (
     const [rep, setRep] = useState<any>(initial.representation);
     const [cl, setCl] = useState<CodeList | undefined>(initial.codeList);
     const [cats, setCats] = useState<Category[] | undefined>(initial.categories);
+    const onChange = useCallback<CodeRepresentationProps["onChange"]>((r, c, k) => {
+      changes.last = [r, c, k];
+      setRep(r);
+      setCl(c);
+      setCats(k);
+    }, []);
     return (
       <CodeRepresentation
         {...props}
         representation={rep}
         codeList={cl}
         categories={cats}
-        onChange={(r, c, k) => {
-          changes.last = [r, c, k];
-          setRep(r);
-          setCl(c);
-          setCats(k);
-        }}
+        onChange={onChange}
       />
     );
   };
@@ -314,6 +315,73 @@ vi.mock("primereact/message", () => import("./primereact.testing"));
 
 vi.mock("primereact/dropdown", () => import("./primereact.testing"));
 
+const mockRepresentation: CodeRepresentationType = {
+  $type: "CodeRepresentationBaseType",
+  BlankIsMissingValue: false,
+  CodeListReference: {
+    $type: "CodeList",
+    URN: "urn:ddi:fr.insee:codelist-1:1",
+    Agency: "fr.insee",
+    ID: "codelist-1",
+    Version: "1",
+  },
+};
+
+const mockCodeList: CodeList = {
+  $type: "CodeList",
+  VersionDate: { DateTime: "2024-01-01T00:00:00Z" },
+  URN: "urn:ddi:fr.insee:codelist-1:1",
+  Agency: "fr.insee",
+  ID: "codelist-1",
+  Version: "1",
+  Label: [{ "@language": "fr-FR", "@value": "Liste de codes test" }],
+  Code: [
+    {
+      $type: "CodeType",
+      URN: "urn:ddi:fr.insee:code-1:1",
+      Agency: "fr.insee",
+      ID: "code-1",
+      Version: "1",
+      CategoryReference: {
+        $type: "Category",
+        URN: "urn:ddi:fr.insee:category-1:1",
+        Agency: "fr.insee",
+        ID: "category-1",
+        Version: "1",
+      },
+      Value: { StringValue: "1" },
+    },
+  ],
+};
+
+const mockCategories: Category[] = [
+  {
+    $type: "Category",
+    VersionDate: { DateTime: "2024-01-01T00:00:00Z" },
+    URN: "urn:ddi:fr.insee:category-1:1",
+    Agency: "fr.insee",
+    ID: "category-1",
+    Version: "1",
+    Label: [{ "@language": "fr-FR", "@value": "Oui" }],
+  },
+];
+
+const NO_CATEGORIES: Category[] = [];
+
+/** Harnais qui ne re-injecte que la représentation, sans liste de codes ni catégories. */
+const StatefulHarness = () => {
+  const [rep, setRep] = useState<CodeRepresentationType | undefined>(undefined);
+  const onChange = useCallback<CodeRepresentationProps["onChange"]>((r) => setRep(r), []);
+  return (
+    <CodeRepresentation
+      representation={rep}
+      codeList={undefined}
+      categories={NO_CATEGORIES}
+      onChange={onChange}
+    />
+  );
+};
+
 describe("CodeRepresentation", () => {
   const mockOnChange = vi.fn();
 
@@ -322,57 +390,6 @@ describe("CodeRepresentation", () => {
    * DERNIER appel qui porte l'état retenu une fois la décision prise.
    */
   const lastChange = () => mockOnChange.mock.calls.at(-1)!;
-
-  const mockRepresentation: CodeRepresentationType = {
-    $type: "CodeRepresentationBaseType",
-    BlankIsMissingValue: false,
-    CodeListReference: {
-      $type: "CodeList",
-      URN: "urn:ddi:fr.insee:codelist-1:1",
-      Agency: "fr.insee",
-      ID: "codelist-1",
-      Version: "1",
-    },
-  };
-
-  const mockCodeList: CodeList = {
-    $type: "CodeList",
-    VersionDate: { DateTime: "2024-01-01T00:00:00Z" },
-    URN: "urn:ddi:fr.insee:codelist-1:1",
-    Agency: "fr.insee",
-    ID: "codelist-1",
-    Version: "1",
-    Label: [{ "@language": "fr-FR", "@value": "Liste de codes test" }],
-    Code: [
-      {
-        $type: "CodeType",
-        URN: "urn:ddi:fr.insee:code-1:1",
-        Agency: "fr.insee",
-        ID: "code-1",
-        Version: "1",
-        CategoryReference: {
-          $type: "Category",
-          URN: "urn:ddi:fr.insee:category-1:1",
-          Agency: "fr.insee",
-          ID: "category-1",
-          Version: "1",
-        },
-        Value: { StringValue: "1" },
-      },
-    ],
-  };
-
-  const mockCategories: Category[] = [
-    {
-      $type: "Category",
-      VersionDate: { DateTime: "2024-01-01T00:00:00Z" },
-      URN: "urn:ddi:fr.insee:category-1:1",
-      Agency: "fr.insee",
-      ID: "category-1",
-      Version: "1",
-      Label: [{ "@language": "fr-FR", "@value": "Oui" }],
-    },
-  ];
 
   /** Le composant sur la liste « Liste de codes test » (un code « 1 / Oui »). */
   const codeRepresentation = (props: Partial<CodeRepresentationProps> = {}) => (
@@ -759,18 +776,6 @@ describe("CodeRepresentation", () => {
         if (loadedKeys.has(`${agency}-${id}`)) return buildSuccess(id);
         return { data: undefined, isLoading: true, isSuccess: false, error: null };
       });
-
-      const StatefulHarness = () => {
-        const [rep, setRep] = useState<CodeRepresentationType | undefined>(undefined);
-        return (
-          <CodeRepresentation
-            representation={rep}
-            codeList={undefined}
-            categories={[]}
-            onChange={(r) => setRep(r)}
-          />
-        );
-      };
 
       const { rerender } = render(<StatefulHarness />);
 

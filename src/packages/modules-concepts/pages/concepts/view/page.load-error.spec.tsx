@@ -11,10 +11,12 @@ vi.mock("../../../hooks/useConcept", () => ({
   useConcept: vi.fn(),
 }));
 
+const PAGE = <Component />;
+
 const renderPage = () =>
   renderWithAppContext(
     <Routes>
-      <Route path="/" element={<Component />} />
+      <Route path="/" element={PAGE} />
     </Routes>,
   );
 

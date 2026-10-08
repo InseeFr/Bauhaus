@@ -9,6 +9,28 @@ const mockItems = [
   { id: "3", label: "Third Item" },
 ];
 
+const itemsWithCustomLabel = [
+  { id: "1", name: "Custom Name 1" },
+  { id: "2", name: "Custom Name 2" },
+];
+
+const conceptsWithAltLabel = [
+  { id: "1", label: "Répertoire des personnes physiques", altLabel: "RNIPP" },
+  { id: "2", label: "Second Item", altLabel: null },
+];
+
+const documents = [
+  { id: "1", label: "Rapport annuel", lang: "fr" },
+  { id: "2", label: "Fréquentation", lang: "en" },
+];
+
+const LABEL_SEARCH_FIELDS = ["label"];
+const ALT_LABEL_SEARCH_ENTRIES = ["/?search=RNIPP"];
+const LANG_SEARCH_ENTRIES = ["/?search=fr"];
+
+const customChildPath = (item: any) => `custom-${item.id}`;
+const upperCaseFormatter = (content: string) => content.toUpperCase();
+
 const manyItems = (count: number) =>
   Array.from({ length: count }, (_, i) => ({ id: String(i + 1), label: `Item ${i + 1}` }));
 
@@ -19,7 +41,7 @@ const LocationProbe = () => {
 
 const renderAt = (url: string, items: { id: string; label: string }[]) =>
   render(
-    <MemoryRouter initialEntries={[url]}>
+    <MemoryRouter initialEntries={Array.of(url)}>
       <SearchableList items={items} childPath="items" />
       <LocationProbe />
     </MemoryRouter>,
@@ -107,11 +129,9 @@ describe("SearchableList", () => {
   });
 
   it("renders items with function childPath", () => {
-    const childPathFn = (item: any) => `custom-${item.id}`;
-
     render(
       <MemoryRouter>
-        <SearchableList items={mockItems} childPath={childPathFn} />
+        <SearchableList items={mockItems} childPath={customChildPath} />
       </MemoryRouter>,
     );
 
@@ -137,11 +157,6 @@ describe("SearchableList", () => {
   });
 
   it("uses custom label property", () => {
-    const itemsWithCustomLabel = [
-      { id: "1", name: "Custom Name 1" },
-      { id: "2", name: "Custom Name 2" },
-    ];
-
     render(
       <MemoryRouter>
         <SearchableList items={itemsWithCustomLabel} childPath="items" label="name" />
@@ -153,11 +168,9 @@ describe("SearchableList", () => {
   });
 
   it("applies itemFormatter function", () => {
-    const itemFormatter = (content: string) => content.toUpperCase();
-
     render(
       <MemoryRouter>
-        <SearchableList items={mockItems} childPath="items" itemFormatter={itemFormatter} />
+        <SearchableList items={mockItems} childPath="items" itemFormatter={upperCaseFormatter} />
       </MemoryRouter>,
     );
 
@@ -217,13 +230,8 @@ describe("SearchableList", () => {
   });
 
   it("filters items on a field other than the label, such as the alternative label", () => {
-    const conceptsWithAltLabel = [
-      { id: "1", label: "Répertoire des personnes physiques", altLabel: "RNIPP" },
-      { id: "2", label: "Second Item", altLabel: null },
-    ];
-
     render(
-      <MemoryRouter initialEntries={["/?search=RNIPP"]}>
+      <MemoryRouter initialEntries={ALT_LABEL_SEARCH_ENTRIES}>
         <SearchableList items={conceptsWithAltLabel} childPath="concepts" />
       </MemoryRouter>,
     );
@@ -233,14 +241,13 @@ describe("SearchableList", () => {
   });
 
   it("only searches the given fields when searchFields is set", () => {
-    const documents = [
-      { id: "1", label: "Rapport annuel", lang: "fr" },
-      { id: "2", label: "Fréquentation", lang: "en" },
-    ];
-
     render(
-      <MemoryRouter initialEntries={["/?search=fr"]}>
-        <SearchableList items={documents} childPath="documents" searchFields={["label"]} />
+      <MemoryRouter initialEntries={LANG_SEARCH_ENTRIES}>
+        <SearchableList
+          items={documents}
+          childPath="documents"
+          searchFields={LABEL_SEARCH_FIELDS}
+        />
       </MemoryRouter>,
     );
 

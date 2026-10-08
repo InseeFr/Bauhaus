@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, render, screen, waitFor } from "@testing-library/react";
+import { useCallback } from "react";
 import { MemoryRouter, useLocation } from "react-router";
 
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
@@ -28,18 +29,21 @@ vi.mock("./components/CollectionsToValidate", () => ({
     collections: { id: string; label: string }[];
     handleValidateCollectionList: (ids: string[]) => void;
     serverSideError?: string;
-  }) => (
-    <div data-testid="collections-to-validate">
-      <span data-testid="collections-count">{collections.length}</span>
-      <span data-testid="server-side-error">{serverSideError}</span>
-      <button
-        data-testid="validate-button"
-        onClick={() => handleValidateCollectionList(["1", "2"])}
-      >
-        Valider
-      </button>
-    </div>
-  ),
+  }) => {
+    const validate = useCallback(
+      () => handleValidateCollectionList(["1", "2"]),
+      [handleValidateCollectionList],
+    );
+    return (
+      <div data-testid="collections-to-validate">
+        <span data-testid="collections-count">{collections.length}</span>
+        <span data-testid="server-side-error">{serverSideError}</span>
+        <button data-testid="validate-button" onClick={validate}>
+          Valider
+        </button>
+      </div>
+    );
+  },
 }));
 
 const mockGetCollectionValidateList = vi.fn();
@@ -58,6 +62,7 @@ vi.mock("@sdk/index", () => ({
 }));
 
 const VALIDATION_ROUTE = "/concepts/collections/validation";
+const VALIDATION_ENTRIES = [VALIDATION_ROUTE];
 
 const LocationProbe = () => <span data-testid="location">{useLocation().pathname}</span>;
 
@@ -67,7 +72,7 @@ const createWrapper = (): Wrapper => {
   const queryClient = createTestQueryClient();
   return ({ children }) => (
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={[VALIDATION_ROUTE]}>
+      <MemoryRouter initialEntries={VALIDATION_ENTRIES}>
         {children}
         <LocationProbe />
       </MemoryRouter>

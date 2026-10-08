@@ -20,7 +20,7 @@ vi.mock("@components/rich-editor/editor-markdown", () => ({
   EditorMarkdown: () => <div>EditorMarkdown</div>,
 }));
 vi.mock("@components/select-rmes", () => ({
-  Select: () => <select data-testid="Select" />,
+  Select: () => <select aria-label="Select" data-testid="Select" />,
 }));
 vi.mock("@components/form/input", () => ({
   TextInput: (props: any) => (

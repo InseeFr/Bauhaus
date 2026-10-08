@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { MemoryRouter } from "react-router";
 import { vi } from "vitest";
 
@@ -62,16 +62,20 @@ const PanelWithPendingChanges = ({
   ...props
 }: Record<string, unknown> & { onCodeChangesChange: (changes: CodeChanges) => void }) => {
   const [codeChanges, setCodeChanges] = useState<CodeChanges>({});
+  const handleCodeChangesChange = useCallback(
+    (changes: CodeChanges) => {
+      setCodeChanges(changes);
+      onCodeChangesChange(changes);
+    },
+    [onCodeChangesChange],
+  );
   return (
     <CodesPanel
       codelist={codelist}
       hidden={false}
       editable
       codeChanges={codeChanges}
-      onCodeChangesChange={(changes) => {
-        setCodeChanges(changes);
-        onCodeChangesChange(changes);
-      }}
+      onCodeChangesChange={handleCodeChangesChange}
       {...props}
     />
   );

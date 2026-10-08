@@ -4,6 +4,8 @@ import { describe, expect, it, vi } from "vitest";
 
 import { Button } from "./button";
 
+const EXTRA_CLASSES = ["extra"];
+
 describe("Button", () => {
   it("renders a PrimeReact button calling the handler action", () => {
     const action = vi.fn<() => void>();
@@ -59,7 +61,7 @@ describe("Button", () => {
   });
 
   it("adds the extra classes", () => {
-    render(<Button action={vi.fn<() => void>()} label="Save" classes={["extra"]} />);
+    render(<Button action={vi.fn<() => void>()} label="Save" classes={EXTRA_CLASSES} />);
 
     expect(screen.getByRole("button", { name: "Save" })).toHaveClass("p-button", "extra");
   });

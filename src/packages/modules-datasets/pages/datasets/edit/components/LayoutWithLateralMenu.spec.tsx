@@ -18,10 +18,12 @@ const layoutConfiguration = {
 
 const Search = () => <span data-testid="search">{useLocation().search}</span>;
 
-const renderLayout = (url = "/datasets/create") => {
+const CREATE_ENTRIES = ["/datasets/create"];
+
+const renderLayout = (initialEntries = CREATE_ENTRIES) => {
   const children = vi.fn((key: string) => <div>{`Contenu de ${key}`}</div>);
   render(
-    <MemoryRouter initialEntries={[url]}>
+    <MemoryRouter initialEntries={initialEntries}>
       <LayoutWithLateralMenu layoutConfiguration={layoutConfiguration}>
         {children}
       </LayoutWithLateralMenu>
@@ -91,7 +93,7 @@ describe("LayoutWithLateralMenu", () => {
 
   describe("mémoire de la partie affichée", () => {
     it("ouvre la partie indiquée par l'URL", () => {
-      renderLayout("/datasets/create?section=notes");
+      renderLayout(["/datasets/create?section=notes"]);
 
       expect(screen.getByText("Contenu de notes")).toBeInTheDocument();
     });
@@ -105,7 +107,7 @@ describe("LayoutWithLateralMenu", () => {
     });
 
     it("ignore une partie inconnue et ouvre la première", () => {
-      renderLayout("/datasets/create?section=inexistante");
+      renderLayout(["/datasets/create?section=inexistante"]);
 
       expect(screen.getByText("Contenu de globalInformation")).toBeInTheDocument();
     });

@@ -159,6 +159,9 @@ vi.mock("../../../../utils/hooks/organizations", () => ({
   }),
 }));
 
+const SEARCH_FORM = <SearchFormList data={data} />;
+const SERIES_LIST_PAGE = <p>Liste des séries</p>;
+
 describe("<SearchFormList />", () => {
   it("should return all data when the form is empty", () => {
     const form = {};
@@ -197,8 +200,8 @@ describe("<SearchFormList /> controls", () => {
     (useUrlQueryParameters as Mock).mockReturnValue({ form: {} });
     renderWithRouter(
       <Routes>
-        <Route path="/" element={<SearchFormList data={data} />} />
-        <Route path="/operations/series" element={<p>Liste des séries</p>} />
+        <Route path="/" element={SEARCH_FORM} />
+        <Route path="/operations/series" element={SERIES_LIST_PAGE} />
       </Routes>,
     );
 

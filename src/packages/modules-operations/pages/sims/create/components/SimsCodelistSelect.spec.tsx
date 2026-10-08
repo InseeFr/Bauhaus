@@ -9,25 +9,31 @@ type Props = ComponentProps<typeof SimsCodelistSelect>;
 const DROPDOWN = ".p-dropdown";
 const MULTISELECT = ".p-multiselect";
 
+const mockOnChange = vi.fn();
+const mockOptions = [
+  { value: "option1", label: "Option 1" },
+  { value: "option2", label: "Option 2" },
+  { value: "option3", label: "Option 3" },
+];
+const newOptions = [
+  { value: "newOption1", label: "New Option 1" },
+  { value: "newOption2", label: "New Option 2" },
+];
+const DEFAULT_SECTION = { value: "option1" };
+
+const selectElement = (props: Partial<Props> = {}) => (
+  <SimsCodelistSelect
+    multi={false}
+    currentSection={DEFAULT_SECTION}
+    options={mockOptions}
+    onChange={mockOnChange}
+    {...props}
+  />
+);
+
+const renderSelect = (props: Partial<Props> = {}) => render(selectElement(props));
+
 describe("SimsCodelistSelect", () => {
-  const mockOnChange = vi.fn();
-  const mockOptions = [
-    { value: "option1", label: "Option 1" },
-    { value: "option2", label: "Option 2" },
-    { value: "option3", label: "Option 3" },
-  ];
-
-  const renderSelect = (props: Partial<Props> = {}) =>
-    render(
-      <SimsCodelistSelect
-        multi={false}
-        currentSection={{ value: "option1" }}
-        options={mockOptions}
-        onChange={mockOnChange}
-        {...props}
-      />,
-    );
-
   const expectRendered = (name: string, props: Partial<Props>, selector: string) => ({
     name,
     props,
@@ -177,23 +183,11 @@ describe("SimsCodelistSelect", () => {
     });
 
     it("should handle dynamic options updates", () => {
-      const newOptions = [
-        { value: "newOption1", label: "New Option 1" },
-        { value: "newOption2", label: "New Option 2" },
-      ];
-
       const { container, rerender } = renderSelect();
 
       expect(container.querySelector(DROPDOWN)).toBeTruthy();
 
-      rerender(
-        <SimsCodelistSelect
-          multi={false}
-          currentSection={{ value: "option1" }}
-          options={newOptions}
-          onChange={mockOnChange}
-        />,
-      );
+      rerender(selectElement({ options: newOptions }));
 
       expect(container.querySelector(DROPDOWN)).toBeTruthy();
     });

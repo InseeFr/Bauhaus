@@ -21,6 +21,8 @@ const conceptsWithLinks = [
   { id: "self", label: "Concept courant", typesOfLink: [] },
 ];
 
+const NO_EQUIVALENT_LINKS: never[] = [];
+
 const renderComponent = (props: Partial<React.ComponentProps<typeof ConceptLinks>> = {}) => {
   const handleChange = vi.fn();
   const handleChangeEquivalentLinks = vi.fn();
@@ -29,7 +31,7 @@ const renderComponent = (props: Partial<React.ComponentProps<typeof ConceptLinks
       conceptsWithLinks={conceptsWithLinks}
       currentId="self"
       handleChange={handleChange}
-      equivalentLinks={[]}
+      equivalentLinks={NO_EQUIVALENT_LINKS}
       handleChangeEquivalentLinks={handleChangeEquivalentLinks}
       activeLinkType={NARROWER}
       {...props}

@@ -29,13 +29,14 @@ const general = {
   prefLabelLg2: "Agriculture EN",
 };
 
+const NO_PROPERTIES = {} as any;
+
+const itemWith = (overrides: any) => ({ general, notes: undefined, narrowers: [], ...overrides });
+
 const renderItem = (item: any = {}, secondLang = false) =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <ItemVisualization
-        item={{ general, notes: undefined, narrowers: [], ...item }}
-        secondLang={secondLang}
-      />
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
+      <ItemVisualization item={itemWith(item)} secondLang={secondLang} />
     </AppContextProvider>,
   );
 

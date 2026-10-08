@@ -7,6 +7,8 @@ import { MemoryRouter } from "react-router";
 import { AppContextProvider } from "../../application/app-context";
 import { testsI18n as i18n } from "../../tests/i18n";
 
+const NO_PROPERTIES = {} as any;
+
 /** Rend `ui` avec react-query (sans retry), i18n, un routeur mémoire et le contexte applicatif. */
 export const renderWithProviders = (ui: ReactNode) =>
   render(
@@ -15,7 +17,7 @@ export const renderWithProviders = (ui: ReactNode) =>
     >
       <I18nextProvider i18n={i18n}>
         <MemoryRouter>
-          <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+          <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
             {ui}
           </AppContextProvider>
         </MemoryRouter>

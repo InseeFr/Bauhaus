@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useCallback } from "react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
@@ -49,17 +50,20 @@ const onSaveFailed = vi.fn();
 // Le formulaire est remplacé par un pilote : il rend ce que la page lui passe et expose
 // `onSubmit`, seul chemin par lequel l'erreur serveur remonte dans le reducer.
 vi.mock("./components/AdvancedSimsCreation", () => ({
-  AdvancedSimsCreation: ({ parent, sims, idParent, mode, parentType, error, onSubmit }: any) => (
-    <div>
-      <span>mode:{mode ?? "(aucun)"}</span>
-      <span>parent:{parent?.prefLabelLg1 ?? "(aucun)"}</span>
-      <span>idParent:{idParent ?? "(aucun)"}</span>
-      <span>parentType:{parentType ?? "(aucun)"}</span>
-      <span>titre:{sims.labelLg1 ?? "(aucun)"}</span>
-      <span>erreur:{(error as { message?: string } | undefined)?.message ?? "(aucune)"}</span>
-      <button onClick={() => onSubmit({ id: "sims-1" }, onSaved, onSaveFailed)}>enregistrer</button>
-    </div>
-  ),
+  AdvancedSimsCreation: ({ parent, sims, idParent, mode, parentType, error, onSubmit }: any) => {
+    const submit = useCallback(() => onSubmit({ id: "sims-1" }, onSaved, onSaveFailed), [onSubmit]);
+    return (
+      <div>
+        <span>mode:{mode ?? "(aucun)"}</span>
+        <span>parent:{parent?.prefLabelLg1 ?? "(aucun)"}</span>
+        <span>idParent:{idParent ?? "(aucun)"}</span>
+        <span>parentType:{parentType ?? "(aucun)"}</span>
+        <span>titre:{sims.labelLg1 ?? "(aucun)"}</span>
+        <span>erreur:{(error as { message?: string } | undefined)?.message ?? "(aucune)"}</span>
+        <button onClick={submit}>enregistrer</button>
+      </div>
+    );
+  },
 }));
 vi.mock("../components/MSDLayout", () => ({
   MSDLayout: ({ children }: any) => <div>{children}</div>,

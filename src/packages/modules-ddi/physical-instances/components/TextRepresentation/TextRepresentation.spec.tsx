@@ -14,6 +14,12 @@ vi.mock("react-i18next", async () =>
 
 vi.mock("primereact/inputtext", () => import("../representation.testing"));
 
+const updatedRepresentation: TextRepresentationType = {
+  $type: "TextRepresentationBaseType",
+  MinLength: 20,
+  MaxLength: 200,
+};
+
 describe("TextRepresentation", () => {
   const mockOnChange = vi.fn();
 
@@ -122,13 +128,7 @@ describe("TextRepresentation", () => {
   it("should update when representation prop changes", () => {
     const { rerender } = renderText();
 
-    const newRepresentation: TextRepresentationType = {
-      $type: "TextRepresentationBaseType",
-      MinLength: 20,
-      MaxLength: 200,
-    };
-
-    rerender(<TextRepresentation representation={newRepresentation} onChange={mockOnChange} />);
+    rerender(<TextRepresentation representation={updatedRepresentation} onChange={mockOnChange} />);
 
     const { minLengthInput, maxLengthInput } = getInputs();
 

@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { type ChangeEvent, useCallback } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { mockDdiAccess } from "../GlobalActionsCard/actions.testing";
@@ -34,16 +35,17 @@ vi.mock("primereact/inputtext", () => ({
 vi.mock("primereact/dropdown", async () => {
   const { NativeOptions } = await import("../../pages/pages.testing");
   return {
-    Dropdown: ({ value, options, onChange, className, ...props }: any) => (
-      <select
-        value={value}
-        onChange={(e) => onChange({ value: e.target.value })}
-        className={className}
-        {...props}
-      >
-        <NativeOptions options={options} />
-      </select>
-    ),
+    Dropdown: ({ value, options, onChange, className, ...props }: any) => {
+      const handleChange = useCallback(
+        (e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value }),
+        [onChange],
+      );
+      return (
+        <select value={value} onChange={handleChange} className={className} {...props}>
+          <NativeOptions options={options} />
+        </select>
+      );
+    },
   };
 });
 
@@ -56,6 +58,8 @@ vi.mock("primereact/iconfield", () => ({
 vi.mock("primereact/inputicon", () => ({
   InputIcon: ({ className, children }: any) => <span className={className}>{children}</span>,
 }));
+
+const PARENT_STAMPS = ["STAMP1", "STAMP2"];
 
 describe("SearchFilters", () => {
   const mockOnSearchChange = vi.fn();
@@ -183,7 +187,7 @@ describe("SearchFilters", () => {
     it("affiche les boutons quand un stamp utilisateur appartient à parents.stamps", () => {
       mockDdiAccess("UPDATE", "STAMP", ["STAMP1"]);
 
-      render(<SearchFilters {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+      render(<SearchFilters {...defaultProps} stamps={PARENT_STAMPS} />);
 
       expect(screen.queryByText("Tout enregistrer")).toBeInTheDocument();
       expect(screen.queryByText("Nouvelle Variable")).toBeInTheDocument();
@@ -192,7 +196,7 @@ describe("SearchFilters", () => {
     it("masque les boutons quand aucun stamp utilisateur n'appartient à parents.stamps", () => {
       mockDdiAccess("UPDATE", "STAMP", ["STAMP9"]);
 
-      render(<SearchFilters {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+      render(<SearchFilters {...defaultProps} stamps={PARENT_STAMPS} />);
 
       expect(screen.queryByText("Tout enregistrer")).not.toBeInTheDocument();
       expect(screen.queryByText("Nouvelle Variable")).not.toBeInTheDocument();

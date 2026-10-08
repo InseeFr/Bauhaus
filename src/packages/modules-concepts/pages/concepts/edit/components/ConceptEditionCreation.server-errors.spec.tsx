@@ -30,22 +30,25 @@ const validationError = (errors: { field: string; message: string }[]) =>
     errors,
   });
 
+const aGeneral = () =>
+  ({
+    ...emptyConceptGeneral(),
+    contributor: "DG75-L201",
+    prefLabelLg1: "Libellé FR",
+    prefLabelLg2: "Libellé EN",
+  }) as unknown as ConceptGeneral;
+const NO_NOTES = {} as ConceptNotes;
+const NO_CONCEPTS_WITH_LINKS: never[] = [];
+
 const renderForm = (serverSideError: unknown, section?: string) =>
   renderWithAppContext(
     <ConceptEditionCreation
       id="c1"
       creation={false}
       title="title"
-      general={
-        {
-          ...emptyConceptGeneral(),
-          contributor: "DG75-L201",
-          prefLabelLg1: "Libellé FR",
-          prefLabelLg2: "Libellé EN",
-        } as unknown as ConceptGeneral
-      }
-      notes={{} as ConceptNotes}
-      conceptsWithLinks={[]}
+      general={aGeneral()}
+      notes={NO_NOTES}
+      conceptsWithLinks={NO_CONCEPTS_WITH_LINKS}
       save={vi.fn()}
       setSubmitting={vi.fn()}
       submitting={false}

@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render as rtlRender, screen, waitFor, fireEvent } from "@testing-library/react";
-import type { ReactElement, ReactNode } from "react";
+import { useMemo, type ReactElement, type ReactNode } from "react";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
@@ -26,14 +26,17 @@ vi.mock("primereact/button", () => import("./codePreview.testing"));
 vi.mock("primereact/dropdown", async () => {
   const { OptionsSelect } = await import("../representation.testing");
   return {
-    Dropdown: ({ value, options, onChange }: any) => (
-      <OptionsSelect
-        data-testid="format-select"
-        value={value}
-        onChange={onChange}
-        options={options ?? []}
-      />
-    ),
+    Dropdown: ({ value, options, onChange }: any) => {
+      const availableOptions = useMemo(() => options ?? [], [options]);
+      return (
+        <OptionsSelect
+          data-testid="format-select"
+          value={value}
+          onChange={onChange}
+          options={availableOptions}
+        />
+      );
+    },
   };
 });
 
@@ -72,6 +75,8 @@ vi.mock("../../../../sdk", () => ({
   },
 }));
 
+const previewInitialEntries = ["/physical-instances/fr.insee/pi-1"];
+
 /**
  * L'aperçu résout lui-même les items seulement référencés (liste de codes réutilisée, MMVR
  * réutilisée) : il lui faut le cache react-query et les paramètres de route de la PI ouverte.
@@ -80,7 +85,7 @@ const render = (ui: ReactElement) => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   const wrapper = ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={["/physical-instances/fr.insee/pi-1"]}>
+      <MemoryRouter initialEntries={previewInitialEntries}>
         <Routes>
           <Route path="/physical-instances/:agencyId/:id" element={children} />
         </Routes>
@@ -110,6 +115,47 @@ const missingValuesReference = {
   ID: "mmvr-1",
   Version: "1",
 };
+
+const textRepresentation = { $type: "TextRepresentationBaseType" as const, MaxLength: 100 };
+
+const sentinelMmvr = {
+  $type: "ManagedMissingValuesRepresentation" as const,
+  ID: "mmvr-1",
+  Agency: "fr.insee",
+  Version: "1",
+};
+
+const sentinelCodeList = {
+  $type: "CodeList" as const,
+  URN: "urn:ddi:fr.insee:cl-sent:1",
+  Agency: "fr.insee",
+  ID: "cl-sent",
+  Version: "1",
+} as any;
+
+const locallyEditedSentinelMmvr = {
+  ...sentinelMmvr,
+  Label: [{ "@language": "fr-FR", "@value": "Libellé en cours de saisie" }],
+};
+
+const reusedCodeListRepresentation = {
+  $type: "CodeRepresentationBaseType",
+  CodeListReference: {
+    $type: "CodeList",
+    URN: "urn:ddi:fr.insee:cl-mut:1",
+    Agency: "fr.insee",
+    ID: "cl-mut",
+    Version: "1",
+  },
+} as const;
+
+const materializedCodeList = {
+  $type: "CodeList" as const,
+  ID: "cl-mut",
+  Agency: "fr.insee",
+  Version: "1",
+  Code: [],
+} as any;
 
 /** PI rattachée à un groupe sans MMVR ni liste mutualisée. */
 const mockEmptyGroup = () => {
@@ -267,8 +313,6 @@ describe("DdiPreview", () => {
   it("should include TextRepresentation when type is text", async () => {
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
-    const textRepresentation = { $type: "TextRepresentationBaseType" as const, MaxLength: 100 };
-
     render(
       <DdiPreview {...defaultProps} variableType="text" textRepresentation={textRepresentation} />,
     );
@@ -308,20 +352,6 @@ describe("DdiPreview", () => {
 
   it("should include the locally edited MMVR and its sentinel code list (#1566)", async () => {
     mockConvertToDDI3.mockResolvedValue(mockXml);
-
-    const sentinelMmvr = {
-      $type: "ManagedMissingValuesRepresentation" as const,
-      ID: "mmvr-1",
-      Agency: "fr.insee",
-      Version: "1",
-    };
-    const sentinelCodeList = {
-      $type: "CodeList" as const,
-      URN: "urn:ddi:fr.insee:cl-sent:1",
-      Agency: "fr.insee",
-      ID: "cl-sent",
-      Version: "1",
-    } as any;
 
     render(
       <DdiPreview
@@ -395,17 +425,6 @@ describe("DdiPreview items référencés", () => {
     Category: [{ ID: "cat-9", Label: [{ "@language": "fr-FR", "@value": "Non réponse" }] }],
   });
 
-  const reusedCodeListRepresentation = {
-    $type: "CodeRepresentationBaseType",
-    CodeListReference: {
-      $type: "CodeList",
-      URN: "urn:ddi:fr.insee:cl-mut:1",
-      Agency: "fr.insee",
-      ID: "cl-mut",
-      Version: "1",
-    },
-  } as const;
-
   /** Attend que la conversion ait reçu un item correspondant à `item`. */
   const expectLastPreviewToContain = (item: Record<string, unknown>) =>
     waitFor(() => {
@@ -463,19 +482,11 @@ describe("DdiPreview items référencés", () => {
   });
 
   it("laisse la MMVR modifiée localement telle quelle, sans la résoudre", async () => {
-    const sentinelMmvr = {
-      $type: "ManagedMissingValuesRepresentation" as const,
-      ID: "mmvr-1",
-      Agency: "fr.insee",
-      Version: "1",
-      Label: [{ "@language": "fr-FR", "@value": "Libellé en cours de saisie" }],
-    };
-
     render(
       <DdiPreview
         {...baseProps}
         missingValuesReference={missingValuesReference}
-        sentinelMmvr={sentinelMmvr}
+        sentinelMmvr={locallyEditedSentinelMmvr}
       />,
     );
 
@@ -483,7 +494,7 @@ describe("DdiPreview items référencés", () => {
     const mmvrs = lastPreviewedItems().filter(
       (item: any) => item.$type === "ManagedMissingValuesRepresentation",
     );
-    expect(mmvrs).toEqual([sentinelMmvr]);
+    expect(mmvrs).toEqual([locallyEditedSentinelMmvr]);
   });
 
   it("ne déclenche aucune résolution quand la variable ne référence ni liste ni MMVR", async () => {
@@ -530,25 +541,17 @@ describe("DdiPreview items référencés", () => {
   });
 
   it("ne duplique pas une liste de codes déjà matérialisée dans le formulaire", async () => {
-    const codeList = {
-      $type: "CodeList" as const,
-      ID: "cl-mut",
-      Agency: "fr.insee",
-      Version: "1",
-      Code: [],
-    } as any;
-
     render(
       <DdiPreview
         {...baseProps}
         variableType="code"
         codeRepresentation={reusedCodeListRepresentation}
-        codeList={codeList}
+        codeList={materializedCodeList}
       />,
     );
 
     await waitFor(() => expect(mockConvertToDDI3).toHaveBeenCalled());
     const codeLists = lastPreviewedItems().filter((item: any) => item.$type === "CodeList");
-    expect(codeLists).toEqual([codeList]);
+    expect(codeLists).toEqual([materializedCodeList]);
   });
 });

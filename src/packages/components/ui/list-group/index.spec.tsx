@@ -6,6 +6,8 @@ import { describe, expect, it, vi } from "vitest";
 import { List } from "./index";
 import { getListItems } from "./testing";
 
+const HALF_OPACITY = { opacity: 0.5 };
+
 describe("<List.Container />", () => {
   it("rend un ul portant la classe de liste de l'application, sans classe Bootstrap", () => {
     const { container } = render(<List.Container />);
@@ -50,7 +52,7 @@ describe("<List.Item />", () => {
   it("transmet les attributs natifs du li", async () => {
     const handleClick = vi.fn();
     render(
-      <List.Item onClick={handleClick} style={{ opacity: 0.5 }}>
+      <List.Item onClick={handleClick} style={HALF_OPACITY}>
         Cliquable
       </List.Item>,
     );

@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { useCallback, useMemo } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
@@ -59,51 +60,95 @@ vi.mock("primereact/button", () => ({
   ),
 }));
 
-vi.mock("primereact/datatable", () => ({
-  DataTable: ({
-    value,
-    children,
-    onRowClick,
-    header,
-    stripedRows: _stripedRows,
-    selectionMode: _selectionMode,
-    rowClassName: _rowClassName,
-    ...props
-  }: any) => {
-    // Convert children to array to handle both single and multiple Column components
-    const columns = Array.isArray(children) ? children : [children];
-
+vi.mock("primereact/datatable", () => {
+  const Row = ({ item, columns, onRowClick }: any) => {
+    const handleClick = useCallback(() => onRowClick?.({ data: item }), [onRowClick, item]);
     return (
-      <table {...props}>
-        {header && <caption data-testid="datatable-header">{header}</caption>}
-        <thead>
-          <tr>
-            {columns.map((col: any, idx: number) => (
-              <th key={idx} data-sortable={String(Boolean(col.props.sortable))}>
-                {col.props.header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {value.map((item: any, index: number) => (
-            <tr key={index} onClick={() => onRowClick?.({ data: item })}>
-              {columns.map((col: any, colIdx: number) => (
-                <td key={colIdx}>
-                  {col.props.body ? col.props.body(item) : item[col.props.field]}
-                </td>
+      <tr onClick={handleClick}>
+        {columns.map((col: any, colIdx: number) => (
+          <td key={colIdx}>{col.props.body ? col.props.body(item) : item[col.props.field]}</td>
+        ))}
+      </tr>
+    );
+  };
+
+  return {
+    DataTable: ({
+      value,
+      children,
+      onRowClick,
+      header,
+      stripedRows: _stripedRows,
+      selectionMode: _selectionMode,
+      rowClassName: _rowClassName,
+      ...props
+    }: any) => {
+      // Convert children to array to handle both single and multiple Column components
+      const columns = useMemo(() => (Array.isArray(children) ? children : [children]), [children]);
+
+      return (
+        <table {...props}>
+          {header && <caption data-testid="datatable-header">{header}</caption>}
+          <thead>
+            <tr>
+              {columns.map((col: any, idx: number) => (
+                <th key={idx} data-sortable={String(Boolean(col.props.sortable))}>
+                  {col.props.header}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  },
-}));
+          </thead>
+          <tbody>
+            {value.map((item: any, index: number) => (
+              <Row key={index} item={item} columns={columns} onRowClick={onRowClick} />
+            ))}
+          </tbody>
+        </table>
+      );
+    },
+  };
+});
 
 vi.mock("primereact/column", () => ({
   Column: () => null,
 }));
+
+const NO_VARIABLES: typeof mockVariables = [];
+const NO_VARIABLE_IDS: string[] = [];
+const FIRST_VARIABLE_ID = ["1"];
+const SECOND_VARIABLE_ID = ["2"];
+const INSTANCE_STAMPS = ["STAMP1", "STAMP2"];
+
+const variablesWithISODates = [
+  {
+    id: "1",
+    name: "Variable1",
+    label: "Label 1",
+    type: "Code",
+    lastModified: "2024-03-15T10:30:00.000Z",
+  },
+];
+
+const variablesWithEmptyDate = [
+  {
+    id: "1",
+    name: "Variable1",
+    label: "Label 1",
+    type: "Code",
+    lastModified: "",
+  },
+];
+
+const moreVariables = [
+  ...mockVariables,
+  {
+    id: "3",
+    name: "Variable3",
+    label: "Label 3",
+    type: "Text",
+    lastModified: "2024-01-03",
+  },
+];
 
 describe("PhysicalInstancesDataTable", () => {
   const mockOnRowClick = vi.fn();
@@ -155,7 +200,7 @@ describe("PhysicalInstancesDataTable", () => {
   });
 
   it("should render empty table when no variables", () => {
-    render(<PhysicalInstancesDataTable {...defaultProps} variables={[]} />);
+    render(<PhysicalInstancesDataTable {...defaultProps} variables={NO_VARIABLES} />);
 
     const table = screen.getByLabelText("Tableau des variables");
     expect(table).toBeInTheDocument();
@@ -211,7 +256,7 @@ describe("PhysicalInstancesDataTable", () => {
       (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
       (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
 
-      render(<PhysicalInstancesDataTable {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+      render(<PhysicalInstancesDataTable {...defaultProps} stamps={INSTANCE_STAMPS} />);
 
       expect(screen.getAllByLabelText("Supprimer")).toHaveLength(mockVariables.length);
     });
@@ -220,7 +265,7 @@ describe("PhysicalInstancesDataTable", () => {
       (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
       (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
 
-      render(<PhysicalInstancesDataTable {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+      render(<PhysicalInstancesDataTable {...defaultProps} stamps={INSTANCE_STAMPS} />);
 
       expect(screen.queryByLabelText("Supprimer")).not.toBeInTheDocument();
     });
@@ -257,32 +302,12 @@ describe("PhysicalInstancesDataTable", () => {
 
   describe("Date formatting", () => {
     it("should format ISO date to DD/MM/YYYY format", () => {
-      const variablesWithISODates = [
-        {
-          id: "1",
-          name: "Variable1",
-          label: "Label 1",
-          type: "Code",
-          lastModified: "2024-03-15T10:30:00.000Z",
-        },
-      ];
-
       render(<PhysicalInstancesDataTable {...defaultProps} variables={variablesWithISODates} />);
 
       expect(screen.getByText("15/03/2024")).toBeInTheDocument();
     });
 
     it("should handle empty date string", () => {
-      const variablesWithEmptyDate = [
-        {
-          id: "1",
-          name: "Variable1",
-          label: "Label 1",
-          type: "Code",
-          lastModified: "",
-        },
-      ];
-
       render(<PhysicalInstancesDataTable {...defaultProps} variables={variablesWithEmptyDate} />);
 
       // Should not throw and should render the table
@@ -293,7 +318,7 @@ describe("PhysicalInstancesDataTable", () => {
   describe("Unsaved variables styling", () => {
     it("should apply italic styling to unsaved variables", () => {
       const { container } = render(
-        <PhysicalInstancesDataTable {...defaultProps} unsavedVariableIds={["1"]} />,
+        <PhysicalInstancesDataTable {...defaultProps} unsavedVariableIds={FIRST_VARIABLE_ID} />,
       );
 
       // The rowClassName function is called internally by DataTable
@@ -303,7 +328,7 @@ describe("PhysicalInstancesDataTable", () => {
 
     it("should not apply italic styling when no unsaved variables", () => {
       const { container } = render(
-        <PhysicalInstancesDataTable {...defaultProps} unsavedVariableIds={[]} />,
+        <PhysicalInstancesDataTable {...defaultProps} unsavedVariableIds={NO_VARIABLE_IDS} />,
       );
 
       expect(container).toBeInTheDocument();
@@ -312,7 +337,9 @@ describe("PhysicalInstancesDataTable", () => {
 
   describe("Validation errors (#1608)", () => {
     it("should flag the variables in error next to their name", () => {
-      render(<PhysicalInstancesDataTable {...defaultProps} invalidVariableIds={["2"]} />);
+      render(
+        <PhysicalInstancesDataTable {...defaultProps} invalidVariableIds={SECOND_VARIABLE_ID} />,
+      );
 
       const flagged = screen.getAllByLabelText(
         "physicalInstance.view.validation.variableHasErrors",
@@ -340,7 +367,7 @@ describe("PhysicalInstancesDataTable", () => {
     });
 
     it("should display count of 0 when no variables", () => {
-      render(<PhysicalInstancesDataTable {...defaultProps} variables={[]} />);
+      render(<PhysicalInstancesDataTable {...defaultProps} variables={NO_VARIABLES} />);
 
       const header = screen.getByTestId("datatable-header");
       expect(header).toBeInTheDocument();
@@ -351,17 +378,6 @@ describe("PhysicalInstancesDataTable", () => {
       const { rerender } = render(<PhysicalInstancesDataTable {...defaultProps} />);
 
       expect(screen.getByTestId("datatable-header")).toHaveTextContent("Total: 2 variables");
-
-      const moreVariables = [
-        ...mockVariables,
-        {
-          id: "3",
-          name: "Variable3",
-          label: "Label 3",
-          type: "Text",
-          lastModified: "2024-01-03",
-        },
-      ];
 
       rerender(<PhysicalInstancesDataTable {...defaultProps} variables={moreVariables} />);
 

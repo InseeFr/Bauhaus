@@ -26,6 +26,8 @@ vi.mock("@components/note", () => ({
   ),
 }));
 
+const renderExtraLinks = (lng: "fr" | "en") => <p>complément {lng}</p>;
+
 describe("RelationsView Component", () => {
   const parent = {
     id: "parent1",
@@ -76,7 +78,7 @@ describe("RelationsView Component", () => {
   it("ajoute les liens complémentaires à la fin du bloc, dans chaque langue", () => {
     render(
       <Router>
-        <RelationsView secondLang={true} extraLinks={(lng) => <p>complément {lng}</p>} />
+        <RelationsView secondLang={true} extraLinks={renderExtraLinks} />
       </Router>,
     );
 

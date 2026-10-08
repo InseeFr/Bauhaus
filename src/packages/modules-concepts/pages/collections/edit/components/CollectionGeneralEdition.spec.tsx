@@ -17,12 +17,14 @@ vi.mock(
 );
 vi.mock("@components/required-icon", () => ({ RequiredIcon: () => <></> }));
 
+const NO_ERRORS = { errorMessage: [], fields: {} };
+
 const renderGeneral = (creation?: boolean) =>
   renderWithRouter(
     <CollectionGeneral
       general={emptyCollectionGeneral()}
       handleChange={vi.fn()}
-      errors={{ errorMessage: [], fields: {} }}
+      errors={NO_ERRORS}
       creation={creation}
     />,
   );

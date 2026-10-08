@@ -55,6 +55,8 @@ const cases = [
   }),
 ];
 
+const NO_DISTRIBUTION = {} as Distribution;
+
 describe("Distribution View Menu", () => {
   afterEach(() => {
     vi.resetModules();
@@ -70,7 +72,7 @@ describe("Distribution View Menu", () => {
         return (
           <ViewMenu
             dataset={dataset as Dataset}
-            distribution={{} as Distribution}
+            distribution={NO_DISTRIBUTION}
             onPublish={vi.fn()}
             onDelete={vi.fn()}
           ></ViewMenu>

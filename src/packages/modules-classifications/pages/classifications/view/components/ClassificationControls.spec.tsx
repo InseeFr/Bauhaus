@@ -40,10 +40,11 @@ vi.mock("../../../../../auth/components/auth", () => ({
 import { ClassificationControls } from "./ClassificationControls";
 
 const classification = { id: "pcs2020" } as any;
+const CLASSIFICATION_ENTRIES = ["/classifications/classification/pcs2020"];
 
 const renderMenu = (pathname = "/classifications/classification/pcs2020") =>
   render(
-    <MemoryRouter initialEntries={[pathname]}>
+    <MemoryRouter initialEntries={Array.of(pathname)}>
       <ClassificationControls classification={classification} publish={vi.fn()} />
     </MemoryRouter>,
   );
@@ -95,7 +96,7 @@ describe("<Menu />", () => {
   it("appelle publish au clic sur le bouton Publier", () => {
     const publish = vi.fn();
     render(
-      <MemoryRouter initialEntries={["/classifications/classification/pcs2020"]}>
+      <MemoryRouter initialEntries={CLASSIFICATION_ENTRIES}>
         <ClassificationControls classification={classification} publish={publish} />
       </MemoryRouter>,
     );

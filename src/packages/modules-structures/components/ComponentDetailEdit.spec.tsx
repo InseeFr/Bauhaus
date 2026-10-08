@@ -3,6 +3,8 @@ import { vi } from "vitest";
 
 import { CodelistsApi, StructureApi } from "@sdk/index";
 
+import { EMPTY_ARRAY } from "@utils/array-utils";
+
 import {
   MEASURE_PROPERTY_TYPE,
   XSD_CODE_LIST,
@@ -48,15 +50,18 @@ const component = {
   contributor: ["DG75-L201"],
 };
 
+const concepts = [{ id: "concept1", label: "Concept 1" }];
+const codelists = [{ id: "cl1", label: "Liste 1", notation: "CL_1" }];
+
 const renderEdit = (props: Record<string, unknown> = {}) =>
   render(
     <ComponentDetailEdit
-      attributes={[]}
+      attributes={EMPTY_ARRAY}
       serverSideError=""
       type={undefined}
       component={component}
-      concepts={[{ id: "concept1", label: "Concept 1" }]}
-      codelists={[{ id: "cl1", label: "Liste 1", notation: "CL_1" }]}
+      concepts={concepts}
+      codelists={codelists}
       handleSave={handleSave}
       handleBack={handleBack}
       {...props}

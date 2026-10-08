@@ -71,19 +71,22 @@ const selectFile = (container: HTMLElement, file: File) =>
     target: { files: [file] },
   });
 
+const NO_PROPERTIES = {} as any;
+const NO_LANG_OPTIONS = { codes: [] } as any;
+
 const renderEdition = (
   document: Partial<Document> = {},
   props: Partial<ComponentProps<typeof OperationsDocumentationEdition>> = {},
   queryClient = new QueryClient(),
 ) =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <OperationsDocumentationEdition
             document={document}
             type={DOCUMENT}
-            langOptions={{ codes: [] } as any}
+            langOptions={NO_LANG_OPTIONS}
             {...props}
           />
         </MemoryRouter>

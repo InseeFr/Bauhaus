@@ -26,6 +26,14 @@ vi.mock("primereact/dropdown", async () => {
   };
 });
 
+const DATE_TIME_REPRESENTATION: DateTimeRepresentation = {
+  DateTypeCode: "DateTime",
+};
+
+const TIME_REPRESENTATION: DateTimeRepresentation = {
+  DateTypeCode: "Time",
+};
+
 describe("DateRepresentation", () => {
   const mockOnChange = vi.fn();
 
@@ -47,11 +55,9 @@ describe("DateRepresentation", () => {
   });
 
   it("should display initial value from representation", () => {
-    const representation: DateTimeRepresentation = {
-      DateTypeCode: "DateTime",
-    };
-
-    render(<DateRepresentation representation={representation} onChange={mockOnChange} />);
+    render(
+      <DateRepresentation representation={DATE_TIME_REPRESENTATION} onChange={mockOnChange} />,
+    );
 
     const dropdown = screen.getByLabelText("Sélectionnez un type de date") as HTMLSelectElement;
     expect(dropdown.value).toBe("DateTime");
@@ -104,11 +110,7 @@ describe("DateRepresentation", () => {
       <DateRepresentation representation={undefined} onChange={mockOnChange} />,
     );
 
-    const newRepresentation: DateTimeRepresentation = {
-      DateTypeCode: "Time",
-    };
-
-    rerender(<DateRepresentation representation={newRepresentation} onChange={mockOnChange} />);
+    rerender(<DateRepresentation representation={TIME_REPRESENTATION} onChange={mockOnChange} />);
 
     const dropdown = screen.getByLabelText("Sélectionnez un type de date") as HTMLSelectElement;
     expect(dropdown.value).toBe("Time");

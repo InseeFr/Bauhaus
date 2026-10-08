@@ -29,6 +29,16 @@ vi.mock("./PhysicalInstanceBreadcrumb", () => ({
 
 const noop = vi.fn();
 const physicalInstance = { agency: "fr.insee", id: "pi-1" };
+const group = { agency: "fr.insee", id: "grp-1" };
+const studyUnit = { agency: "fr.insee", id: "su-1" };
+const groupMirroringSeries = {
+  ...group,
+  operationsIri: "http://id.insee.fr/operations/serie/s1001",
+};
+const studyUnitMirroringOperation = {
+  ...studyUnit,
+  operationsIri: "http://id.insee.fr/operations/operation/s2001",
+};
 
 describe("PhysicalInstanceHeader", () => {
   it("affiche le fil d'Ariane série › opération › fichier de données courant", () => {
@@ -36,9 +46,9 @@ describe("PhysicalInstanceHeader", () => {
       <PhysicalInstanceHeader
         label="Ma PI"
         onSave={noop}
-        group={{ agency: "fr.insee", id: "grp-1" }}
+        group={group}
         groupLabel="Base permanente des équipements"
-        studyUnit={{ agency: "fr.insee", id: "su-1" }}
+        studyUnit={studyUnit}
         studyUnitLabel="Enquête emploi 2024"
         physicalInstance={physicalInstance}
       />,
@@ -56,17 +66,9 @@ describe("PhysicalInstanceHeader", () => {
       <PhysicalInstanceHeader
         label="Ma PI"
         onSave={noop}
-        group={{
-          agency: "fr.insee",
-          id: "grp-1",
-          operationsIri: "http://id.insee.fr/operations/serie/s1001",
-        }}
+        group={groupMirroringSeries}
         groupLabel="Base permanente des équipements"
-        studyUnit={{
-          agency: "fr.insee",
-          id: "su-1",
-          operationsIri: "http://id.insee.fr/operations/operation/s2001",
-        }}
+        studyUnit={studyUnitMirroringOperation}
         studyUnitLabel="Enquête emploi 2024"
         physicalInstance={physicalInstance}
       />,

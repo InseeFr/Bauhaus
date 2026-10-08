@@ -46,6 +46,8 @@ vi.mock("primereact/splitbutton", () => ({
   ),
 }));
 
+const SOURCE_STAMPS = ["STAMP1", "STAMP2"];
+
 describe("GlobalActionToolbar", () => {
   const mockOnExport = vi.fn();
   const mockOnDuplicate = vi.fn();
@@ -193,7 +195,7 @@ describe("GlobalActionToolbar", () => {
         <GlobalActionToolbar
           onExport={mockOnExport}
           onDuplicate={mockOnDuplicate}
-          stamps={["STAMP1", "STAMP2"]}
+          stamps={SOURCE_STAMPS}
         />,
       );
 
@@ -207,7 +209,7 @@ describe("GlobalActionToolbar", () => {
         <GlobalActionToolbar
           onExport={mockOnExport}
           onDuplicate={mockOnDuplicate}
-          stamps={["STAMP1", "STAMP2"]}
+          stamps={SOURCE_STAMPS}
         />,
       );
 

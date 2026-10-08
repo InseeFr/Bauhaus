@@ -3,10 +3,12 @@ import { describe, expect, it } from "vitest";
 
 import { HomePageLayout } from ".";
 
+const MENU = <button type="button">Nouveau</button>;
+
 describe("HomePageLayout", () => {
   it("displays the title of the page as its main heading", () => {
     render(
-      <HomePageLayout title="Fichiers de données" menu={<button type="button">Nouveau</button>}>
+      <HomePageLayout title="Fichiers de données" menu={MENU}>
         <p>Liste</p>
       </HomePageLayout>,
     );
@@ -16,7 +18,7 @@ describe("HomePageLayout", () => {
 
   it("displays the menu and the content of the page", () => {
     render(
-      <HomePageLayout title="Fichiers de données" menu={<button type="button">Nouveau</button>}>
+      <HomePageLayout title="Fichiers de données" menu={MENU}>
         <p>Liste</p>
       </HomePageLayout>,
     );
