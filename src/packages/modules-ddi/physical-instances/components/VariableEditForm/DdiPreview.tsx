@@ -215,7 +215,7 @@ export const DdiPreview = ({
 
   // Items seulement référencés (liste de codes ou MMVR réutilisée) : résolus pour l'affichage,
   // afin que l'aperçu montre les mêmes codes que le panneau de représentation.
-  const previewData = useSelfContainedPreview(ddi4Data);
+  const { envelope: previewData, isResolving } = useSelfContainedPreview(ddi4Data);
 
   const ddiJson = useMemo(() => JSON.stringify(previewData, null, 2), [previewData]);
 
@@ -224,6 +224,7 @@ export const DdiPreview = ({
   useEffect(() => {
     const currentRequestId = ++requestIdRef.current;
     dispatch({ type: "LOADING" });
+    if (isResolving) return;
 
     const parsedData = JSON.parse(ddi4DataSerialized);
 
@@ -239,7 +240,7 @@ export const DdiPreview = ({
           dispatch({ type: "LOAD_ERROR" });
         }
       });
-  }, [ddi4DataSerialized, formatXml]);
+  }, [ddi4DataSerialized, isResolving, formatXml]);
 
   const formatOptions = [
     { value: "DDI3" as DdiFormat, label: FORMAT_LABELS.DDI3 },
