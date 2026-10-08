@@ -232,6 +232,22 @@ describe("SearchableList", () => {
     expect(screen.queryByText("Second Item")).not.toBeInTheDocument();
   });
 
+  it("only searches the given fields when searchFields is set", () => {
+    const documents = [
+      { id: "1", label: "Rapport annuel", lang: "fr" },
+      { id: "2", label: "Fréquentation", lang: "en" },
+    ];
+
+    render(
+      <MemoryRouter initialEntries={["/?search=fr"]}>
+        <SearchableList items={documents} childPath="documents" searchFields={["label"]} />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText("Fréquentation")).toBeInTheDocument();
+    expect(screen.queryByText("Rapport annuel")).not.toBeInTheDocument();
+  });
+
   it("displays result count", () => {
     render(
       <MemoryRouter>

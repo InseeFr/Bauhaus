@@ -1,18 +1,13 @@
-import DOMPurify from "dompurify";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 import { FilterToggleButtons } from "@components/filter-toggle-buttons";
-import { TextInput } from "@components/form/input";
 import { HomePageLayout } from "@components/home-page-layout";
-import { NumberResults } from "@components/number-results";
-import { Pagination } from "@components/pagination";
-import { List } from "@components/ui/list-group";
+import { SearchableList } from "@components/searchable-list";
 
 import { HomeDocument } from "@model/operations/document";
 
-import { EMPTY_ARRAY, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { BOTH, DOCUMENT, LINK } from "../../../../../constants/documentType";
@@ -20,7 +15,7 @@ import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
 import { Menu } from "../menu";
 
-const formatter = (content: HomeDocument, label: keyof typeof content) => {
+const formatter = (content: HomeDocument) => {
   const extraInformations = [];
 
   if (content.lang) {
@@ -34,87 +29,13 @@ const formatter = (content: HomeDocument, label: keyof typeof content) => {
 
   return (
     <>
-      {content[label]}{" "}
+      {content.label}{" "}
       <i>{extraInformations.length > 0 ? `(${extraInformations.join("-")})` : ""}</i>
     </>
   );
 };
 
 const sessionStorageKey = "documents-displayMode";
-
-const SearchableList = ({
-  items = EMPTY_ARRAY,
-  placeholder,
-  childPath,
-  label,
-  autoFocus,
-  searchValue = "",
-}: Readonly<{
-  items: HomeDocument[];
-  placeholder?: string;
-  searchValue?: string;
-  autoFocus: boolean;
-  label: keyof HomeDocument;
-  childPath: (document: HomeDocument) => string;
-}>) => {
-  const { t } = useTranslation();
-
-  const navigate = useNavigate();
-
-  const location = useLocation();
-
-  const [search, setSearch] = useState(searchValue);
-
-  const url = document.URL;
-
-  useEffect(() => {
-    const searchQuery = new URL(url).searchParams;
-    if (searchQuery.has("search")) {
-      setSearch(DOMPurify.sanitize(searchQuery.get("search") ?? ""));
-    }
-  }, [url]);
-
-  const handleSearch = (value: string) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("search", value);
-    navigate(location.pathname + "?" + searchParams.toString(), {
-      replace: true,
-    });
-  };
-
-  const filter = filterKeyDeburr(["label"]);
-
-  const hits = items.filter(filter(search));
-
-  const hitEls = hits.map((item) => (
-    <List.Item key={item.id}>
-      <Link to={`/${childPath(item)}/${item.id}`}>{formatter(item, label)}</Link>
-    </List.Item>
-  ));
-
-  return (
-    <>
-      <div className="row form-group">
-        <div className="col-md-12">
-          <TextInput
-            value={search}
-            onChange={(e) => {
-              handleSearch(e.target.value);
-              setSearch(e.target.value);
-            }}
-            placeholder={t("app.searchLabelPlaceholder") || placeholder}
-            aria-label={t("app.search")}
-            autoFocus={autoFocus}
-          />
-        </div>
-      </div>
-      <p className="text-center" aria-live="assertive">
-        <NumberResults results={hits} />
-      </p>
-      <Pagination itemEls={hitEls} />
-    </>
-  );
-};
 
 export function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[] }>) {
   const { t } = useTranslation();
@@ -163,8 +84,9 @@ export function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[]
           }
           return "operations/link";
         }}
-        label="label"
-        autoFocus={true}
+        itemFormatter={(_label: string, document: HomeDocument) => formatter(document)}
+        searchFields={["label"]}
+        autoFocus
       />
     </HomePageLayout>
   );

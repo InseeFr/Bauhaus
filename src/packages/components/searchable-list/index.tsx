@@ -28,6 +28,8 @@ interface SearchableListTypes {
   label?: string;
   autoFocus?: boolean;
   itemFormatter?: any;
+  /** Fields matched by the search; every field but `id` when omitted. */
+  searchFields?: string[];
 }
 export const SearchableList = ({
   items = [],
@@ -38,6 +40,7 @@ export const SearchableList = ({
   label = "label",
   autoFocus = false,
   itemFormatter = (content: any) => content,
+  searchFields,
 }: SearchableListTypes) => {
   const { t } = useTranslation("translation", { i18n: componentsI18n });
 
@@ -46,7 +49,7 @@ export const SearchableList = ({
   const perPage = searchParams.get("perPage");
   const rows = readPositiveInt(perPage, DEFAULT_ROWS_PER_PAGE);
 
-  const filter = filterKeyDeburr();
+  const filter = filterKeyDeburr(searchFields);
 
   const hits = items.filter(filter(search));
 
