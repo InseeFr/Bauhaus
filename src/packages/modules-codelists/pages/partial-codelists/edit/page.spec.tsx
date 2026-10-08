@@ -52,4 +52,45 @@ describe("Partial codelist edit page", () => {
       ),
     );
   });
+
+  describe("partial codelist refused by the server", () => {
+    beforeEach(() => {
+      vi.mocked(CodelistsApi.getCodelistPartial).mockResolvedValue({ ...partialCodelist });
+    });
+
+    it("should display a server field error next to its field, like a client-side error", async () => {
+      vi.mocked(CodelistsApi.putCodelistPartial).mockRejectedValue({
+        status: 400,
+        message: "Validation failed",
+        errors: [{ field: "labelLg1", message: "size must be between 0 and 3" }],
+      });
+      renderWithProviders(<Component />);
+
+      await screen.findByDisplayValue("Liste partielle");
+      clickSave();
+
+      await waitFor(() =>
+        expect(screen.getByDisplayValue("Liste partielle")).toHaveAccessibleDescription(
+          "size must be between 0 and 3",
+        ),
+      );
+      expect(screen.getByDisplayValue("Liste partielle")).toHaveAttribute("aria-invalid", "true");
+    });
+
+    it("should display in the error banner a server error on a field absent from the form", async () => {
+      vi.mocked(CodelistsApi.putCodelistPartial).mockRejectedValue({
+        status: 400,
+        message: "Validation failed",
+        errors: [{ field: "codes[A].iri", message: "must not be blank" }],
+      });
+      renderWithProviders(<Component />);
+
+      await screen.findByDisplayValue("Liste partielle");
+      clickSave();
+
+      expect(await screen.findByRole("alert")).toHaveTextContent(
+        "codes[A].iri : must not be blank",
+      );
+    });
+  });
 });
