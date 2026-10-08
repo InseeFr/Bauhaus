@@ -20,11 +20,11 @@ test("liste les jeux de données sans doublon", async ({ page }) => {
   await page.goto("/datasets");
   await expect(page.getByRole("heading", { name: "Datasets - Search" })).toBeVisible();
 
-  // `ul.bauhaus-list` est la liste des résultats : les menus et la pagination
-  // ont leurs propres classes. On compare les URL, pas les intitulés — deux
+  // Le tableau est la liste des résultats : les menus et la pagination
+  // n'en font pas partie. On compare les URL, pas les intitulés — deux
   // jeux de données distincts ont le droit de porter le même libellé, le
   // doublon à traquer est la même fiche listée deux fois.
-  const links = page.locator("ul.bauhaus-list a");
+  const links = page.getByRole("table").getByRole("link");
   const hrefs = await links.evaluateAll((anchors) => anchors.map((a) => a.getAttribute("href")));
   expect(hrefs.length).toBeGreaterThan(0);
   expect(new Set(hrefs).size, `fiches dupliquées : ${hrefs}`).toBe(hrefs.length);
