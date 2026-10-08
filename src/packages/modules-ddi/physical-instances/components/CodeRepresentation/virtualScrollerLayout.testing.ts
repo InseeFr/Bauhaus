@@ -14,7 +14,7 @@ export const withScreenLayout = (): Disposable => withLayout(() => 600);
 export const withRowsSizedLayout = (): Disposable =>
   withLayout(function (this: HTMLElement) {
     return this.classList.contains("p-virtualscroller")
-      ? parseFloat(this.style.height) || 600
+      ? Number.parseFloat(this.style.height) || 600
       : 600;
   });
 

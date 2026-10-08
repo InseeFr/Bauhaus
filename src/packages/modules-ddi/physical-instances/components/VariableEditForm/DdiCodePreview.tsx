@@ -37,7 +37,7 @@ export const DdiCodePreview = ({ code, language, fileName }: Readonly<DdiCodePre
           outlined
           size="small"
           onClick={() => {
-            navigator.clipboard.writeText(code);
+            void navigator.clipboard.writeText(code);
           }}
         />
         {/* Le presse-papiers de certains navigateurs tronque au-delà : le fichier, lui, est complet. */}

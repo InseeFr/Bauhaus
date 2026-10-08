@@ -40,24 +40,23 @@ const WholeCode = ({ code, language }: Readonly<CodeBlockProps>) => {
  * Chaque ligne est colorée seule, au rendu : le XML formaté porte une balise par ligne et le JSON
  * indenté aucune chaîne sur plusieurs lignes, la coloration ligne à ligne est donc fidèle.
  */
+const lineTemplate = (highlight: ReturnType<typeof useHighlighter>) => (line: string) =>
+  highlight === null ? (
+    <code className="ddi-preview-line">{line}</code>
+  ) : (
+    <code className="ddi-preview-line" dangerouslySetInnerHTML={{ __html: highlight(line) }} />
+  );
+
 const VirtualizedCode = ({ lines, language }: { lines: string[]; language: HighlightLanguage }) => {
   const highlight = useHighlighter(language);
+  const itemTemplate = useMemo(() => lineTemplate(highlight), [highlight]);
 
   return (
     <VirtualScroller
       items={lines}
       itemSize={LINE_HEIGHT}
       className={`ddi-preview-code ddi-preview-code--virtual hljs language-${language}`}
-      itemTemplate={(line: string) =>
-        highlight === null ? (
-          <code className="ddi-preview-line">{line}</code>
-        ) : (
-          <code
-            className="ddi-preview-line"
-            dangerouslySetInnerHTML={{ __html: highlight(line) }}
-          />
-        )
-      }
+      itemTemplate={itemTemplate}
     />
   );
 };
