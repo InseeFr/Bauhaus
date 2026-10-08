@@ -45,6 +45,19 @@ interface CodeListDataTableProps {
 
 /** Hauteur d'une ligne (taille « small », champ de saisie compris), requise par le virtual scroller. */
 const VIRTUAL_ROW_HEIGHT = 46;
+/** Hauteur de l'en-tête des colonnes (25px mesurés), avec une marge contre une barre de défilement. */
+const COLUMN_HEADER_HEIGHT = 28;
+
+/**
+ * Le virtual scroller prend `scrollHeight` comme hauteur fixe : une hauteur d'écran laisserait un
+ * vide sous la dernière ligne d'une liste courte, éloignant le bouton d'ajout. On demande donc la
+ * hauteur de l'en-tête et des lignes (au moins une, pour le message de liste vide), plafonnée à
+ * 60 % de la fenêtre.
+ */
+const scrollHeightFor = (rowCount: number) => {
+  const rowsHeight = COLUMN_HEADER_HEIGHT + Math.max(rowCount, 1) * VIRTUAL_ROW_HEIGHT;
+  return `${Math.min(rowsHeight, Math.floor(window.innerHeight * 0.6))}px`;
+};
 
 export const CodeListDataTable = ({
   codeListLabel,
@@ -69,6 +82,7 @@ export const CodeListDataTable = ({
   const pendingFocusId = useRef<string | null>(null);
   const [shouldFocusNewCode, setShouldFocusNewCode] = useState(false);
   const previousCodesLength = useRef(codes.length);
+  const scrollHeight = scrollHeightFor(codes.length);
 
   useEffect(() => {
     if (shouldFocusNewCode && codes.length > previousCodesLength.current) {
@@ -79,7 +93,19 @@ export const CodeListDataTable = ({
           inputElement.focus();
         } else {
           pendingFocusId.current = lastCode.id;
-          tableRef.current?.getVirtualScroller()?.scrollToIndex(codes.length - 1);
+          // Défilement natif plutôt que scrollToIndex : ce dernier déplace la plage rendue même
+          // quand il n'y a rien à faire défiler (scroller pas encore agrandi pour la nouvelle
+          // ligne), sans en recalculer la fin — les lignes précédentes disparaissaient alors.
+          // Ici, c'est l'événement `scroll`, s'il a lieu, qui recalcule une plage cohérente.
+          const scrollToEnd = () =>
+            tableRef.current
+              ?.getElement()
+              ?.querySelector(".p-virtualscroller")
+              ?.scrollTo({ top: codes.length * VIRTUAL_ROW_HEIGHT });
+          scrollToEnd();
+          // Relancé une fois le scroller rerendu : sa zone de défilement n'inclut peut-être pas
+          // encore la nouvelle ligne, qui ne serait alors jamais montée ni focalisée.
+          setTimeout(scrollToEnd);
         }
       }
       setShouldFocusNewCode(false);
@@ -307,7 +333,10 @@ export const CodeListDataTable = ({
         size="small"
         emptyMessage={t("physicalInstance.view.code.noCodes")}
         dataKey="id"
-        key={codes.map((c) => c.id).join("-")}
+        // L'autoSize que la DataTable impose au virtual scroller fige sa hauteur à celle de son
+        // premier rendu : il faut le remonter pour qu'il suive une liste courte qui grandit. Une
+        // fois la hauteur plafonnée, la clé ne bouge plus et le scroller garde sa position.
+        key={scrollHeight}
         // Les cellules de PrimeReact sont mémoïsées sur la seule ligne de données : un état du
         // tableau (le gel de la saisie pendant la garde) n'atteindrait pas les champs tant que la
         // ligne ne change pas — la cellule resterait gelée après la décision. Le tableau tient
@@ -317,7 +346,7 @@ export const CodeListDataTable = ({
         // Une liste peut compter des dizaines de milliers de codes (45 000 → ~90 000 champs dans le
         // DOM, onglet figé).
         scrollable
-        scrollHeight="60vh"
+        scrollHeight={scrollHeight}
         virtualScrollerOptions={{ itemSize: VIRTUAL_ROW_HEIGHT }}
       >
         <Column

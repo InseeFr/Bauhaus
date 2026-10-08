@@ -3,7 +3,7 @@ import { useState } from "react";
 import { describe, it, expect, vi } from "vitest";
 
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
-import { withScreenLayout } from "./virtualScrollerLayout.testing";
+import { withRowsSizedLayout, withScreenLayout } from "./virtualScrollerLayout.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -55,6 +55,51 @@ describe("CodeListDataTable — volumétrie", () => {
 
     expect(await screen.findByDisplayValue("Modalité 0")).toBeInTheDocument();
     expect(bodyRows().length).toBeLessThan(150);
+  });
+
+  it("sizes the table to its rows so the add button follows the last code", () => {
+    // Sans mise en page simulée : l'autoSize du scroller réécrirait sinon la hauteur avec la
+    // taille d'écran factice, masquant celle demandée par le tableau.
+    const { container } = renderTable(codesOf(2), false);
+
+    const scroller = container.querySelector<HTMLElement>(".p-virtualscroller")!;
+    // L'en-tête des colonnes (28px) et deux lignes de 46px.
+    expect(scroller.style.height).toBe("120px");
+  });
+
+  it("keeps every code displayed when codes are added to a short list", async () => {
+    using _layout = withRowsSizedLayout();
+    const Harness = () => {
+      const [codes, setCodes] = useState(codesOf(4));
+      return (
+        <CodeListDataTable
+          codeListLabel="Liste"
+          codes={codes}
+          onCodeListLabelChange={vi.fn()}
+          onCellEdit={vi.fn()}
+          onDeleteCode={vi.fn()}
+          onAddCode={() =>
+            setCodes((current) => [
+              ...current,
+              { id: "new-code", value: "", label: "", categoryId: "new-category", isNew: true },
+            ])
+          }
+        />
+      );
+    };
+    render(<Harness />);
+    await screen.findByDisplayValue("Modalité 0");
+
+    fireEvent.click(screen.getByRole("button", { name: "physicalInstance.view.code.addCode" }));
+
+    await waitFor(() =>
+      expect(document.activeElement).toHaveAttribute(
+        "placeholder",
+        "physicalInstance.view.code.value",
+      ),
+    );
+    expect(screen.getByDisplayValue("Modalité 0")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Modalité 3")).toBeInTheDocument();
   });
 
   it("focuses a code added at the end of a list longer than the screen", async () => {
