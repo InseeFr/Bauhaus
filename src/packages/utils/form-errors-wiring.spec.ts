@@ -49,8 +49,6 @@ const SCREENS = {
 type Screen = keyof typeof SCREENS;
 
 const FROZEN: ReadonlySet<Screen> = new Set<Screen>([
-  "classifications",
-  "items de classification",
   "datasets",
   "distributions",
   "territoires",

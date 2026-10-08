@@ -13,6 +13,8 @@ import { Select } from "@components/select-rmes";
 
 import { ClassificationsApi } from "@sdk/classification";
 
+import { toFormErrors } from "@utils/api-errors";
+
 import {
   useClassificationItem,
   useClassificationParentLevels,
@@ -20,6 +22,9 @@ import {
 import { NotesInputs } from "./components/NotesInputs";
 import { Menu } from "./menu";
 import { validate } from "./validation";
+
+/** Champs qui affichent leur erreur sous la saisie ; les autres erreurs du back vont au bandeau. */
+const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2"] as const;
 
 export const Component = () => {
   const { t } = useTranslation();
@@ -43,6 +48,12 @@ export const Component = () => {
       queryClient.refetchQueries({
         queryKey: ["classifications-item", classificationId, itemId],
       });
+    },
+    onError: (err) => {
+      const formErrors = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
+      setSubmitting(true);
+      setClientSideErrors(formErrors.clientSideErrors ?? {});
+      setServerSideError(formErrors.serverSideError);
     },
   });
 
@@ -74,6 +85,8 @@ export const Component = () => {
   const [clientSideErrors, setClientSideErrors] = useState<any>({});
 
   const [submitting, setSubmitting] = useState(false);
+
+  const [serverSideError, setServerSideError] = useState<unknown>();
 
   if (loadError && !item?.general) return <LoadingErrorBloc error={loadError} />;
 
@@ -117,6 +130,7 @@ export const Component = () => {
       setClientSideErrors(clientSideErrors);
     } else {
       setClientSideErrors({});
+      setServerSideError(undefined);
       formatAndSave(value);
     }
   };
@@ -140,11 +154,14 @@ export const Component = () => {
       <form onSubmit={onSubmit}>
         <Menu disabled={clientSideErrors.errorMessage?.length > 0} />
         {submitting && clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} />}
+        <ErrorBloc error={serverSideError} />
         <Row>
           <div className="col-md-6 form-group">
             <LabelRequired htmlFor="prefLabelLg1">{t("item.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
+              aria-describedby="prefLabelLg1-error"
+              aria-invalid={!!clientSideErrors?.fields?.prefLabelLg1}
               value={general.prefLabelLg1}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setValue({
@@ -166,6 +183,8 @@ export const Component = () => {
             <LabelRequired htmlFor="prefLabelLg2">{t("item.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
+              aria-describedby="prefLabelLg2-error"
+              aria-invalid={!!clientSideErrors?.fields?.prefLabelLg2}
               value={general.prefLabelLg2}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setValue({

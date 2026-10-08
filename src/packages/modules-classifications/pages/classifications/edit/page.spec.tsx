@@ -31,11 +31,13 @@ vi.mock("../../../../utils/transformer", () => ({
 }));
 
 vi.mock("./components/ClassificationSelect", () => ({
-  ClassificationSelect: () => <select data-testid="classification-select" />,
+  ClassificationSelect: () => (
+    <select aria-label="classification" data-testid="classification-select" />
+  ),
 }));
 
 vi.mock("@components/select-rmes", () => ({
-  Select: () => <select data-testid="select" />,
+  Select: () => <select aria-label="select" data-testid="select" />,
 }));
 
 vi.mock("@components/form/input", () => ({
@@ -69,7 +71,9 @@ vi.mock("@components/label-required", () => ({
 }));
 
 vi.mock("@components/dissemination-status/disseminationStatus", () => ({
-  DisseminationStatusInput: () => <select data-testid="dissemination-select" />,
+  DisseminationStatusInput: () => (
+    <select aria-label="dissemination" data-testid="dissemination-select" />
+  ),
 }));
 
 vi.mock("@components/business/contributors-input/contributors-input", () => ({
@@ -216,6 +220,7 @@ describe("<Component />", () => {
       expect.objectContaining({
         general: expect.objectContaining({ id: "coicop2016" }),
       }),
+      expect.anything(),
     );
   });
 
