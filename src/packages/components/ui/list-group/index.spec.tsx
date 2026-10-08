@@ -7,11 +7,12 @@ import { List } from "./index";
 import { getListItems } from "./testing";
 
 describe("<List.Container />", () => {
-  it("rend un ul portant la classe de liste", () => {
+  it("rend un ul portant la classe de liste de l'application, sans classe Bootstrap", () => {
     const { container } = render(<List.Container />);
 
     const list = container.querySelector("ul");
-    expect(list).toHaveClass("list-group");
+    expect(list).toHaveClass("bauhaus-list");
+    expect(list).not.toHaveClass("list-group");
   });
 
   it("rend ses enfants", () => {
@@ -27,21 +28,23 @@ describe("<List.Container />", () => {
   it("conserve les classes fournies par l'appelant", () => {
     const { container } = render(<List.Container className="ma-liste" />);
 
-    expect(container.querySelector("ul")).toHaveClass("list-group", "ma-liste");
+    expect(container.querySelector("ul")).toHaveClass("bauhaus-list", "ma-liste");
   });
 });
 
 describe("<List.Item />", () => {
-  it("rend un li portant la classe d'élément de liste", () => {
+  it("rend un li portant la classe d'élément de liste de l'application, sans classe Bootstrap", () => {
     const { container } = render(<List.Item>Contenu</List.Item>);
 
-    expect(container.querySelector("li")).toHaveClass("list-group-item");
+    const item = container.querySelector("li");
+    expect(item).toHaveClass("bauhaus-list-item");
+    expect(item).not.toHaveClass("list-group-item");
   });
 
   it("conserve les classes fournies par l'appelant", () => {
     const { container } = render(<List.Item className="documentbloc__item">Contenu</List.Item>);
 
-    expect(container.querySelector("li")).toHaveClass("list-group-item", "documentbloc__item");
+    expect(container.querySelector("li")).toHaveClass("bauhaus-list-item", "documentbloc__item");
   });
 
   it("transmet les attributs natifs du li", async () => {
