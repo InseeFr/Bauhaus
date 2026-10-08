@@ -5,15 +5,22 @@ import { useTranslation } from "react-i18next";
 import { exceedsClipboardSafeSize } from "../../../utils/clipboard";
 import { downloadTextFile } from "../../../utils/downloadTextFile";
 import { CodeBlock } from "./CodeBlock";
+import type { HighlightLanguage } from "./useHighlight";
 import "./DdiPreview.css";
 
-interface DdiJsonPreviewProps {
+const MIME_TYPES: Record<HighlightLanguage, string> = {
+  xml: "application/xml",
+  json: "application/json",
+};
+
+interface DdiCodePreviewProps {
   code: string;
+  language: HighlightLanguage;
   /** Nom du fichier téléchargé. */
   fileName: string;
 }
 
-export const DdiJsonPreview = ({ code, fileName }: Readonly<DdiJsonPreviewProps>) => {
+export const DdiCodePreview = ({ code, language, fileName }: Readonly<DdiCodePreviewProps>) => {
   const { t } = useTranslation();
   const isTooLargeToCopy = useMemo(() => exceedsClipboardSafeSize(code), [code]);
 
@@ -41,11 +48,11 @@ export const DdiJsonPreview = ({ code, fileName }: Readonly<DdiJsonPreviewProps>
             label={t("physicalInstance.view.downloadCode")}
             outlined
             size="small"
-            onClick={() => downloadTextFile(code, fileName, "application/json")}
+            onClick={() => downloadTextFile(code, fileName, MIME_TYPES[language])}
           />
         )}
       </div>
-      <CodeBlock code={code} language="json" />
+      <CodeBlock code={code} language={language} />
     </div>
   );
 };

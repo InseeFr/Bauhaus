@@ -19,9 +19,8 @@ import type {
   Ddi4Item,
   PhysicalInstanceResponse,
 } from "../../types/api";
-import { DdiJsonPreview } from "./DdiJsonPreview";
+import { DdiCodePreview } from "./DdiCodePreview";
 import { ddiPreviewReducer, initialState, type DdiFormat } from "./DdiPreview.reducer";
-import { DdiXmlPreview } from "./DdiXmlPreview";
 import { useSelfContainedPreview } from "./useSelfContainedPreview";
 
 interface DdiPreviewProps {
@@ -267,7 +266,7 @@ export const DdiPreview = ({
       )}
 
       {state.format === "DDI3" && !state.isLoading && state.ddiXml && (
-        <DdiXmlPreview code={state.ddiXml} fileName={`${fileBaseName}-ddi3.xml`} />
+        <DdiCodePreview code={state.ddiXml} language="xml" fileName={`${fileBaseName}-ddi3.xml`} />
       )}
 
       {state.format === "DDI3" && !state.isLoading && !state.ddiXml && (
@@ -275,7 +274,7 @@ export const DdiPreview = ({
       )}
 
       {state.format === "DDI4" && (
-        <DdiJsonPreview code={ddiJson} fileName={`${fileBaseName}-ddi4.json`} />
+        <DdiCodePreview code={ddiJson} language="json" fileName={`${fileBaseName}-ddi4.json`} />
       )}
     </div>
   );
