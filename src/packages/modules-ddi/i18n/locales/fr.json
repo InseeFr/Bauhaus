@@ -156,7 +156,9 @@
       },
       "confirmDelete": "Supprimer",
       "copyCode": "Copier le code",
+      "copyCodeTooLarge": "Au-delà de 4 Mo, certains navigateurs (Chrome, Vivaldi…) tronquent la copie : utilisez Télécharger",
       "copyXml": "Copier le XML",
+      "downloadCode": "Télécharger",
       "date": {
         "selectType": "Sélectionnez un type de date",
         "type": "Type de date"

@@ -1,37 +1,51 @@
 import { Button } from "primereact/button";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useHighlight } from "./useHighlight";
+import { exceedsClipboardSafeSize } from "../../../utils/clipboard";
+import { downloadTextFile } from "../../../utils/downloadTextFile";
+import { CodeBlock } from "./CodeBlock";
 import "./DdiPreview.css";
 
 interface DdiJsonPreviewProps {
   code: string;
+  /** Nom du fichier téléchargé. */
+  fileName: string;
 }
 
-export const DdiJsonPreview = ({ code }: Readonly<DdiJsonPreviewProps>) => {
+export const DdiJsonPreview = ({ code, fileName }: Readonly<DdiJsonPreviewProps>) => {
   const { t } = useTranslation();
-  const highlightedHtml = useHighlight(code, "json");
+  const isTooLargeToCopy = useMemo(() => exceedsClipboardSafeSize(code), [code]);
 
   return (
     <div className="ddi-preview-code-container">
-      <Button
-        className="ddi-preview-copy-btn"
-        icon="pi pi-copy"
-        label={t("physicalInstance.view.copyCode")}
-        outlined
-        size="small"
-        onClick={() => {
-          navigator.clipboard.writeText(code);
-        }}
-      />
-      <pre className="ddi-preview-code">
-        <code
-          className="hljs language-json"
-          dangerouslySetInnerHTML={{
-            __html: highlightedHtml ?? code,
+      <div className="ddi-preview-actions">
+        <Button
+          type="button"
+          className="ddi-preview-copy-btn"
+          icon="pi pi-copy"
+          label={t("physicalInstance.view.copyCode")}
+          tooltip={isTooLargeToCopy ? t("physicalInstance.view.copyCodeTooLarge") : undefined}
+          tooltipOptions={{ position: "bottom" }}
+          outlined
+          size="small"
+          onClick={() => {
+            navigator.clipboard.writeText(code);
           }}
         />
-      </pre>
+        {/* Le presse-papiers de certains navigateurs tronque au-delà : le fichier, lui, est complet. */}
+        {isTooLargeToCopy && (
+          <Button
+            type="button"
+            icon="pi pi-download"
+            label={t("physicalInstance.view.downloadCode")}
+            outlined
+            size="small"
+            onClick={() => downloadTextFile(code, fileName, "application/json")}
+          />
+        )}
+      </div>
+      <CodeBlock code={code} language="json" />
     </div>
   );
 };

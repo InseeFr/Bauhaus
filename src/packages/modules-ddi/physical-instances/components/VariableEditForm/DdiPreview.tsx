@@ -242,6 +242,9 @@ export const DdiPreview = ({
       });
   }, [ddi4DataSerialized, isResolving, formatXml]);
 
+  // Même assainissement que l'export de la PI.
+  const fileBaseName = (variableName || variableId).replace(/[^a-z0-9]/gi, "_").toLowerCase();
+
   const formatOptions = [
     { value: "DDI3" as DdiFormat, label: FORMAT_LABELS.DDI3 },
     { value: "DDI4" as DdiFormat, label: FORMAT_LABELS.DDI4 },
@@ -264,14 +267,16 @@ export const DdiPreview = ({
       )}
 
       {state.format === "DDI3" && !state.isLoading && state.ddiXml && (
-        <DdiXmlPreview code={state.ddiXml} />
+        <DdiXmlPreview code={state.ddiXml} fileName={`${fileBaseName}-ddi3.xml`} />
       )}
 
       {state.format === "DDI3" && !state.isLoading && !state.ddiXml && (
         <div className="text-center text-gray-500">{t("physicalInstance.view.noDdiXml")}</div>
       )}
 
-      {state.format === "DDI4" && <DdiJsonPreview code={ddiJson} />}
+      {state.format === "DDI4" && (
+        <DdiJsonPreview code={ddiJson} fileName={`${fileBaseName}-ddi4.json`} />
+      )}
     </div>
   );
 };
