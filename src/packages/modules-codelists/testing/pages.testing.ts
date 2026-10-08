@@ -24,15 +24,18 @@ export const detailedCodelistSdk = (
     ...extraApi,
   });
 
-/** `@sdk/index` des pages d'une liste partielle, dont `parent` est la seule liste globale. */
+/** `@sdk/index` des pages d'une liste partielle, dont `parent` est la seule liste globale,
+ * enrichi de `extraApi`. */
 export const partialCodelistSdk = (
   importOriginal: ImportOriginal,
   parent: Record<string, string>,
+  extraApi: Record<string, unknown> = {},
 ) =>
   withCodelistsApi(importOriginal, {
     getCodelists: vi.fn(() => Promise.resolve([parent])),
     getCodelistPartial: vi.fn(),
     getCodelistCodes: vi.fn(() => Promise.resolve({ items: [] })),
+    ...extraApi,
   });
 
 /** `react-router` dont `useParams` désigne une liste inconnue. */

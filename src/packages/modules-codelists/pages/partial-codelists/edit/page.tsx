@@ -89,12 +89,8 @@ export const Component = () => {
     if (id && globalCodelistOptions?.[0]) {
       CodelistsApi.getCodelistPartial(id)
         .then((cl: any) => {
-          const idParent = globalCodelistOptions.find(
-            (parent) => parent.iriParent === cl.iriParent,
-          )!.value;
-          return CodelistsApi.getCodelistCodes(idParent, 1, 0).then((codes: any) => {
-            setCodelist(formatPartialCodelist(cl, codes.items));
-          });
+          const parent = globalCodelistOptions.find((parent) => parent.iriParent === cl.iriParent)!;
+          setCodelist(formatPartialCodelist(cl, { id: parent.value, labelLg1: parent.label }));
         })
         .catch(setLoadError)
         .finally(() => setLoadingList(false));
