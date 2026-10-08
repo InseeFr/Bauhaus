@@ -12,7 +12,7 @@ import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
-import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
+import { MDEditor } from "@components/rich-editor/react-md-editor";
 import { Select } from "@components/select-rmes";
 
 import { Codelist } from "@model/Codelist";
@@ -346,32 +346,44 @@ export const OperationsSerieEdition = ({
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={serie.abstractLg1 ?? ""}
-              handleChange={(value) => onChange({ target: { value, id: "abstractLg1" } })}
+              handleChange={(value) =>
+                onChange({ target: { value: value ?? "", id: "abstractLg1" } })
+              }
+              textareaProps={{ id: "abstractLg1" }}
             />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={serie.abstractLg2 ?? ""}
-              handleChange={(value) => onChange({ target: { value, id: "abstractLg2" } })}
+              handleChange={(value) =>
+                onChange({ target: { value: value ?? "", id: "abstractLg2" } })
+              }
+              textareaProps={{ id: "abstractLg2" }}
             />
           </div>
         </Row>
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="historyNoteLg1">{t("common.history", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={serie.historyNoteLg1 ?? ""}
-              handleChange={(value) => onChange({ target: { value, id: "historyNoteLg1" } })}
+              handleChange={(value) =>
+                onChange({ target: { value: value ?? "", id: "historyNoteLg1" } })
+              }
+              textareaProps={{ id: "historyNoteLg1" }}
             />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="historyNoteLg2">{t("common.history", { lng: "en" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={serie.historyNoteLg2 ?? ""}
-              handleChange={(value) => onChange({ target: { value, id: "historyNoteLg2" } })}
+              handleChange={(value) =>
+                onChange({ target: { value: value ?? "", id: "historyNoteLg2" } })
+              }
+              textareaProps={{ id: "historyNoteLg2" }}
             />
           </div>
         </Row>

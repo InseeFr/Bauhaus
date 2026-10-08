@@ -129,6 +129,27 @@ describe("OperationsSerieEdition — saisie et enregistrement", () => {
     );
   });
 
+  it.each([
+    ["Résumé", "abstractLg1"],
+    ["Summary", "abstractLg2"],
+    ["Historique", "historyNoteLg1"],
+    ["History", "historyNoteLg2"],
+  ])("envoie à l'API le markdown saisi dans l'éditeur %s", async (label, field) => {
+    OperationsApi.putSeries.mockResolvedValue(undefined);
+    renderEdition();
+
+    fireEvent.change(screen.getByRole("textbox", { name: label }), {
+      target: { value: "Un **texte**\n\n- point" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() =>
+      expect(OperationsApi.putSeries).toHaveBeenCalledWith(
+        expect.objectContaining({ [field]: "Un **texte**\n\n- point" }),
+      ),
+    );
+  });
+
   it("périme les indicateurs en cache, qui affichent le libellé de leurs séries", async () => {
     const queryClient = new QueryClient();
     queryClient.setQueryData(["indicators", "i1"], { id: "i1" });
@@ -387,11 +408,8 @@ describe("OperationsSerieEdition — textes longs", () => {
     OperationsApi.putSeries.mockResolvedValue(undefined);
   });
 
-  // Chaque éditeur markdown ne remonte sa valeur qu'à la sortie du champ.
   const clearEditorOf = (label: string) => {
-    const group = screen.getByText(label).closest(".form-group")!;
-    fireEvent.click(group.querySelector('[title="Delete"]')!);
-    fireEvent.blur(group.querySelector(".public-DraftEditor-content")!);
+    fireEvent.change(screen.getByRole("textbox", { name: label }), { target: { value: "" } });
   };
 
   it("enregistre le résumé et l'historique vidés par l'utilisateur", async () => {
