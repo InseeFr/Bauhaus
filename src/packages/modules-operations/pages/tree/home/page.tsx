@@ -1,5 +1,5 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
@@ -75,6 +75,40 @@ const formatOperation = (operation: OperationItem, seriesId: string): TreeNode =
   };
 };
 
+const loadChildren = (queryClient: QueryClient, nodeData: TreeNodeData): Promise<TreeNode[]> => {
+  if (nodeData.type === "family") {
+    return queryClient
+      .fetchQuery(familyQuery(nodeData.id))
+      .then(({ series = [] }) => series.map((s) => formatSeries(s, nodeData.id)));
+  }
+  return queryClient
+    .fetchQuery(serieQuery<{ operations?: OperationItem[] }>(nodeData.id))
+    .then(({ operations = [] }) => operations.map((o) => formatOperation(o, nodeData.id)));
+};
+
+const nodeTemplate = (node: TreeNode) => {
+  const nodeData = node.data as TreeNodeData;
+  let linkPath = "";
+  switch (nodeData.type) {
+    case "family":
+      linkPath = `/operations/family/${nodeData.id}`;
+      break;
+    case "series":
+      linkPath = `/operations/series/${nodeData.id}`;
+      break;
+    case "operation":
+      linkPath = `/operations/operation/${nodeData.id}`;
+      break;
+    default:
+      return <span>{node.label}</span>;
+  }
+  return (
+    <Link to={linkPath} className="operations-tree-link">
+      {node.label}
+    </Link>
+  );
+};
+
 export const Component = () => {
   const { t } = useTranslation();
 
@@ -92,6 +126,7 @@ export const Component = () => {
   const [expandError, setExpandError] = useState<unknown>();
 
   const goBack = useGoBack();
+  const handleBack = useCallback(() => goBack("/operations"), [goBack]);
 
   const treeData = useMemo(() => {
     const withChildren = (node: TreeNode): TreeNode => {
@@ -101,59 +136,30 @@ export const Component = () => {
     return (families ?? []).map((family) => withChildren(formatFamily(family)));
   }, [families, childrenByKey]);
 
-  const loadChildren = (nodeData: TreeNodeData): Promise<TreeNode[]> => {
-    if (nodeData.type === "family") {
-      return queryClient
-        .fetchQuery(familyQuery(nodeData.id))
-        .then(({ series = [] }) => series.map((s) => formatSeries(s, nodeData.id)));
-    }
-    return queryClient
-      .fetchQuery(serieQuery<{ operations?: OperationItem[] }>(nodeData.id))
-      .then(({ operations = [] }) => operations.map((o) => formatOperation(o, nodeData.id)));
-  };
-
-  const onExpand = (event: TreeEventNodeEvent) => {
-    const node = event.node;
-    const nodeData = node.data as TreeNodeData;
-    if (nodeData.type === "operation" || (node.children && node.children.length > 0)) {
-      return;
-    }
-    setExpandError(undefined);
-    setLoadingNodes((prev) => new Set(prev).add(node.key));
-    loadChildren(nodeData)
-      .then((children) => setChildrenByKey((prev) => ({ ...prev, [node.key as string]: children })))
-      .catch(setExpandError)
-      .finally(() =>
-        setLoadingNodes((prev) => {
-          const newSet = new Set(prev);
-          newSet.delete(node.key);
-          return newSet;
-        }),
-      );
-  };
-
-  const nodeTemplate = (node: TreeNode) => {
-    const nodeData = node.data as TreeNodeData;
-    let linkPath = "";
-    switch (nodeData.type) {
-      case "family":
-        linkPath = `/operations/family/${nodeData.id}`;
-        break;
-      case "series":
-        linkPath = `/operations/series/${nodeData.id}`;
-        break;
-      case "operation":
-        linkPath = `/operations/operation/${nodeData.id}`;
-        break;
-      default:
-        return <span>{node.label}</span>;
-    }
-    return (
-      <Link to={linkPath} style={{ textDecoration: "none", color: "inherit" }}>
-        {node.label}
-      </Link>
-    );
-  };
+  const onExpand = useCallback(
+    (event: TreeEventNodeEvent) => {
+      const node = event.node;
+      const nodeData = node.data as TreeNodeData;
+      if (nodeData.type === "operation" || (node.children && node.children.length > 0)) {
+        return;
+      }
+      setExpandError(undefined);
+      setLoadingNodes((prev) => new Set(prev).add(node.key));
+      loadChildren(queryClient, nodeData)
+        .then((children) =>
+          setChildrenByKey((prev) => ({ ...prev, [node.key as string]: children })),
+        )
+        .catch(setExpandError)
+        .finally(() =>
+          setLoadingNodes((prev) => {
+            const newSet = new Set(prev);
+            newSet.delete(node.key);
+            return newSet;
+          }),
+        );
+    },
+    [queryClient],
+  );
 
   if (isLoading) return <Loading />;
 
@@ -163,12 +169,12 @@ export const Component = () => {
     <div className="container">
       <PageTitle title={t("tree.title")} col={12} offset={0} />
       <ActionToolbar>
-        <ReturnButton action={() => goBack("/operations")} />
+        <ReturnButton action={handleBack} />
       </ActionToolbar>
       {expandError !== undefined && <LoadingErrorBloc error={expandError} />}
       <Row>
         <div className="col-md-12 text-center pull-right operations-list">
-          <div style={{ height: "100vh" }}>
+          <div className="operations-tree">
             <Tree
               value={treeData}
               onExpand={onExpand}
