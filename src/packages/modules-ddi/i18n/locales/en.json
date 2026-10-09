@@ -290,6 +290,14 @@
       "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "The operation \"{{studyUnit}}\" has no LogicalProduct to file its variables: it must be created beforehand.",
       "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "The operation \"{{studyUnit}}\" has {{count}} LogicalProducts: only one is expected to file its variables.",
       "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "The operation \"{{studyUnit}}\" has no VariableScheme to file its variables: it must be created beforehand."
+    },
+    "cache": {
+      "evict": "Clear cache",
+      "evicting": "Clearing cache…",
+      "successTitle": "Cache cleared",
+      "successMessage": "Data is now read again from Colectica.",
+      "errorTitle": "Cache clearing failed",
+      "errorMessage": "The cache could not be cleared."
     }
   }
 }

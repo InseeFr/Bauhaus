@@ -290,6 +290,14 @@
       "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "L'opération « {{studyUnit}} » n'a pas de LogicalProduct pour ranger ses variables : il doit être créé en amont.",
       "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "L'opération « {{studyUnit}} » a {{count}} LogicalProducts : un seul est attendu pour ranger ses variables.",
       "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "L'opération « {{studyUnit}} » n'a pas de VariableScheme pour ranger ses variables : il doit être créé en amont."
+    },
+    "cache": {
+      "evict": "Vider le cache",
+      "evicting": "Vidage du cache…",
+      "successTitle": "Cache vidé",
+      "successMessage": "Les données sont désormais relues depuis Colectica.",
+      "errorTitle": "Échec du vidage du cache",
+      "errorMessage": "Le cache n'a pas pu être vidé."
     }
   }
 }
