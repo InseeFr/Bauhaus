@@ -605,7 +605,9 @@ export const OperationsSerieEdition = ({
                       value: value.map((v: string) => {
                         return {
                           id: v,
-                          type: v.startsWith("indicator") ? "indicator" : "series",
+                          type: indicatorsOptions.some((option) => option.value === v)
+                            ? "indicator"
+                            : "series",
                         };
                       }),
                       id: "seeAlso",

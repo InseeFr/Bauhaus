@@ -448,7 +448,9 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
                     value.map((v: string) => {
                       return {
                         id: v,
-                        type: v.startsWith("indicator") ? "indicator" : "series",
+                        type: indicatorsOptions.some((option) => option.value === v)
+                          ? "indicator"
+                          : "series",
                       };
                     }),
                   )

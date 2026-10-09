@@ -349,7 +349,7 @@ describe("OperationsSerieEdition — champs à choix", () => {
       expect.objectContaining({
         replaces: [{ id: "other", type: "series" }],
         isReplacedBy: [{ id: "other", type: "series" }],
-        seeAlso: [expect.objectContaining({ id: "i1" })],
+        seeAlso: [{ id: "i1", type: "indicator" }],
       }),
     );
   });

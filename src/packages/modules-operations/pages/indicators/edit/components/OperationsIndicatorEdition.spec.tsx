@@ -266,6 +266,16 @@ describe("OperationsIndicatorEdition — champs à choix", () => {
     );
   });
 
+  it("enregistre un indicateur lié comme un lien vers un indicateur", async () => {
+    renderEdition();
+
+    chooseIn("Séries ou Indicateurs liés", "indicator - Autre indicateur");
+
+    expect(await saveAndRead()).toEqual(
+      expect.objectContaining({ seeAlso: [{ id: "other", type: "indicator" }] }),
+    );
+  });
+
   it("réaffiche les liens déjà enregistrés comme de simples identifiants", async () => {
     renderEdition({
       indicator: {
