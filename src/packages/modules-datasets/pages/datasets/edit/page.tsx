@@ -14,6 +14,7 @@ import { Dataset } from "@model/Dataset";
 
 import { DatasetsApi } from "@sdk/index";
 
+import { toFormErrors } from "@utils/api-errors";
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 import { useGoBack } from "@utils/hooks/useGoBack";
@@ -42,6 +43,39 @@ type ClientSideErrors = {
   fields?: Record<string, string>;
 };
 
+/** Champs dont une erreur renvoyée par le serveur s'affiche sous la saisie. */
+const FIELDS_WITH_ERROR_SLOT = [
+  "labelLg1",
+  "labelLg2",
+  "altIdentifier",
+  "creator",
+  "contributor",
+  "disseminationStatus",
+];
+
+/**
+ * Le back nomme les champs du `catalogRecord` par leur chemin dans le corps, le formulaire par leur
+ * seul nom (voir `validation.ts`).
+ */
+const FORM_FIELD_BY_SERVER_FIELD: Record<string, string> = {
+  "catalogRecord.creator": "creator",
+  "catalogRecord.contributor": "contributor",
+};
+
+const withFormFieldNames = (err: unknown): unknown => {
+  const errors = (err as { errors?: unknown } | null)?.errors;
+  if (!Array.isArray(errors)) return err;
+
+  return {
+    ...(err as object),
+    errors: errors.map((error: { field?: unknown }) =>
+      typeof error?.field === "string" && error.field in FORM_FIELD_BY_SERVER_FIELD
+        ? { ...error, field: FORM_FIELD_BY_SERVER_FIELD[error.field] }
+        : error,
+    ),
+  };
+};
+
 export const Component = () => {
   const { t } = useTranslation();
 
@@ -56,6 +90,8 @@ export const Component = () => {
   const [clientSideErrors, setClientSideErrors] = useState<ClientSideErrors>({});
 
   const [submitting, setSubmitting] = useState(false);
+
+  const [serverSideError, setServerSideError] = useState<unknown>();
 
   const hasErrors = (keys: string[]) => {
     const fieldsInError = keys.filter((key) => clientSideErrors.fields?.[key]);
@@ -84,11 +120,7 @@ export const Component = () => {
 
   const queryClient = useQueryClient();
 
-  const {
-    isPending: isSaving,
-    mutate: save,
-    error: serverSideError,
-  } = useMutation({
+  const { isPending: isSaving, mutate: save } = useMutation({
     meta: { globalErrorToast: false },
     mutationFn: () => {
       const formattedDataset = {
@@ -107,6 +139,12 @@ export const Component = () => {
       queryClient.invalidateQueries({ queryKey: ["datasets"] });
 
       goBack(`/datasets/${id}`, !isEditing);
+    },
+    onError: (err) => {
+      const formErrors = toFormErrors(withFormFieldNames(err), FIELDS_WITH_ERROR_SLOT);
+      setSubmitting(true);
+      setClientSideErrors(formErrors.clientSideErrors ?? {});
+      setServerSideError(formErrors.serverSideError);
     },
   });
 
@@ -182,6 +220,7 @@ export const Component = () => {
       setClientSideErrors(clientSideErrors);
     } else {
       setClientSideErrors({});
+      setServerSideError(undefined);
       save();
     }
   };
@@ -198,7 +237,7 @@ export const Component = () => {
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={[serverSideError]} />
+      <ErrorBloc error={serverSideError} />
       <form>
         <LayoutWithLateralMenu layoutConfiguration={layoutConfiguration}>
           {(key) => layoutConfiguration[key].content}

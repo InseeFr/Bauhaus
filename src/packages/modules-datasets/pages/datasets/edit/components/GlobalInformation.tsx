@@ -60,6 +60,8 @@ const GlobalInformationTab = ({
           </LabelRequired>
           <TextInput
             id="labelLg1"
+            aria-describedby="labelLg1-error"
+            aria-invalid={!!clientSideErrors?.fields?.labelLg1}
             value={editingDataset.labelLg1}
             onChange={(e) => {
               setEditingDataset({
@@ -83,6 +85,8 @@ const GlobalInformationTab = ({
           </LabelRequired>
           <TextInput
             id="labelLg2"
+            aria-describedby="labelLg2-error"
+            aria-invalid={!!clientSideErrors?.fields?.labelLg2}
             value={editingDataset.labelLg2}
             onChange={(e) => {
               setEditingDataset({

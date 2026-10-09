@@ -49,7 +49,6 @@ const SCREENS = {
 type Screen = keyof typeof SCREENS;
 
 const FROZEN: ReadonlySet<Screen> = new Set<Screen>([
-  "datasets",
   "distributions",
   "territoires",
   "rapports SIMS",
