@@ -1,4 +1,4 @@
-import { render, screen, within, fireEvent, waitFor } from "@testing-library/react";
+import { act, render, screen, within, fireEvent, waitFor } from "@testing-library/react";
 import { useState } from "react";
 import { describe, it, expect, vi } from "vitest";
 
@@ -100,6 +100,26 @@ describe("CodeListDataTable — volumétrie", () => {
     );
     expect(screen.getByDisplayValue("Modalité 0")).toBeInTheDocument();
     expect(screen.getByDisplayValue("Modalité 3")).toBeInTheDocument();
+  });
+
+  it("shows the first codes once scrolling settles back at the top", async () => {
+    using _layout = withScreenLayout();
+    const { container } = renderTable(codesOf(2_000));
+    await screen.findByDisplayValue("Modalité 0");
+    const scroller = container.querySelector<HTMLElement>(".p-virtualscroller")!;
+
+    // Course relevée sous Firefox : deux `scroll` traités sans rendu React entre eux. Le second
+    // (retour en haut) est comparé à un état périmé, jugé sans effet, et la plage du milieu de la
+    // liste reste rendue alors qu'on est revenu en haut : tableau blanc.
+    act(() => {
+      scroller.scrollTop = 60 * 46;
+      scroller.dispatchEvent(new Event("scroll"));
+      scroller.scrollTop = 0;
+      scroller.dispatchEvent(new Event("scroll"));
+    });
+    expect(screen.queryByDisplayValue("Modalité 0")).not.toBeInTheDocument();
+
+    expect(await screen.findByDisplayValue("Modalité 0")).toBeInTheDocument();
   });
 
   it("focuses a code added at the end of a list longer than the screen", async () => {

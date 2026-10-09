@@ -47,6 +47,8 @@ interface CodeListDataTableProps {
 const VIRTUAL_ROW_HEIGHT = 46;
 /** Hauteur de l'en-tête des colonnes (25px mesurés), avec une marge contre une barre de défilement. */
 const COLUMN_HEADER_HEIGHT = 28;
+/** Pause après le dernier `scroll` au-delà de laquelle le défilement est considéré terminé. */
+const SCROLL_SETTLE_DELAY = 100;
 
 /**
  * Le virtual scroller prend `scrollHeight` comme hauteur fixe : une hauteur d'écran laisserait un
@@ -112,6 +114,38 @@ export const CodeListDataTable = ({
     }
     previousCodesLength.current = codes.length;
   }, [codes, shouldFocusNewCode]);
+
+  // Sous Firefox, revenir vite en haut de la liste laisse parfois rendue la plage du milieu : le
+  // scroller traite la position finale avec un état pas encore rendu par React, la juge inchangée,
+  // et le tableau reste blanc tant qu'on ne redéfile pas. Une fois le défilement retombé (rendu
+  // appliqué), on lui fait recalculer sa plage depuis la position réelle ; il n'en change pas si
+  // elle était déjà la bonne. `scrollend` ne convient pas : il suit le dernier `scroll` de trop près.
+  useEffect(() => {
+    const scroller = tableRef.current?.getElement()?.querySelector(".p-virtualscroller");
+    if (!scroller) {
+      return;
+    }
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let resyncing = false;
+    const resyncRange = () => {
+      resyncing = true;
+      scroller.dispatchEvent(new Event("scroll"));
+      resyncing = false;
+    };
+    const onScroll = () => {
+      if (resyncing) {
+        return;
+      }
+      clearTimeout(timer);
+      timer = setTimeout(resyncRange, SCROLL_SETTLE_DELAY);
+    };
+    scroller.addEventListener("scroll", onScroll);
+    return () => {
+      clearTimeout(timer);
+      scroller.removeEventListener("scroll", onScroll);
+    };
+    // Le tableau est remonté à chaque changement de hauteur (sa clé) : nouveau scroller.
+  }, [scrollHeight]);
 
   const handleAddCode = () => {
     setShouldFocusNewCode(true);
