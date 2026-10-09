@@ -21,6 +21,7 @@ import { Component } from "./page";
 vi.mock("@sdk/datasets-api", () => ({
   DatasetsApi: {
     getById: vi.fn(),
+    getAll: vi.fn(),
     getArchivageUnits: vi.fn(),
     publish: vi.fn(),
     deleteDataset: vi.fn(),
@@ -114,6 +115,7 @@ const renderPage = () =>
 describe("Dataset view page", () => {
   beforeEach(() => {
     (DatasetsApi.getById as Mock).mockResolvedValue(dataset);
+    (DatasetsApi.getAll as Mock).mockResolvedValue([{ id: "jd900", label: "Enquête source" }]);
     (DatasetsApi.getArchivageUnits as Mock).mockResolvedValue([
       { value: "http://archive/u1", label: "Unité 1" },
     ]);
@@ -191,6 +193,20 @@ describe("Dataset view page", () => {
     const link = await screen.findByRole("link", { name: "http://doc1" });
     expect(link).toHaveAttribute("href", "http://doc1");
     expect(screen.getByRole("link", { name: "http://doc2" })).toBeInTheDocument();
+  });
+
+  it("links the datasets it is built from", async () => {
+    (DatasetsApi.getById as Mock).mockResolvedValue({
+      ...dataset,
+      wasDerivedFrom: { datasets: ["jd900"], descriptionLg1: "Agrégation" },
+    });
+    renderPage();
+
+    expect(await screen.findByRole("link", { name: "Enquête source" })).toHaveAttribute(
+      "href",
+      "/datasets/jd900",
+    );
+    expect(screen.getByText("Agrégation")).toBeInTheDocument();
   });
 
   it("displays the internal management block resolved against its reference data", async () => {

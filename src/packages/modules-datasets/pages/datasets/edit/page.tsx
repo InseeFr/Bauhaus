@@ -26,6 +26,7 @@ import { buildDuplicatedDataset } from "./buildDuplicatedDataset";
 import { GlobalInformation } from "./components/GlobalInformation";
 import { InternalManagement } from "./components/InternalManagement";
 import { LayoutItemConfiguration, LayoutWithLateralMenu } from "./components/LayoutWithLateralMenu";
+import { Lineage } from "./components/Lineage";
 import { Notes } from "./components/Notes";
 import { StatisticalInformation } from "./components/StatisticalInformation";
 import { validate } from "./validation";
@@ -167,6 +168,10 @@ export const Component = () => {
           clientSideErrors={clientSideErrors}
         />
       ),
+    },
+    lineage: {
+      title: t("dataset.lineage.title"),
+      content: <Lineage editingDataset={editingDataset} setEditingDataset={setEditingDataset} />,
     },
   };
 

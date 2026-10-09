@@ -39,6 +39,7 @@ export interface Dataset {
   creators: string[];
   publisher: string;
   wasGeneratedIRIs: string[];
+  wasDerivedFrom?: WasDerivedFrom;
   themes: string[];
   statisticalUnit: string[];
   dataStructure: string;
@@ -51,6 +52,12 @@ export interface Dataset {
   descriptionLg2?: string;
   cautionLg1?: string;
   cautionLg2?: string;
+}
+
+export interface WasDerivedFrom {
+  datasets: string[];
+  descriptionLg1?: string;
+  descriptionLg2?: string;
 }
 
 export interface CatalogRecord {

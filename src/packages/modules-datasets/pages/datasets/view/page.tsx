@@ -30,6 +30,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { CL_PROCESS_STEP } from "../../../../constants/code-lists";
 import { useDataset } from "../../../hooks/useDataset";
 import { GlobalInformationBlock } from "./components/GlobalInformationBlock";
+import { LineageBlock } from "./components/LineageBlock";
 import { StatisticalInformations } from "./components/StatisticalInformations";
 import { ViewMenu } from "./menu";
 
@@ -256,6 +257,7 @@ const Dataset = (props: Readonly<DatasetTypes>) => {
         )}
       </Row>
       <StatisticalInformations dataset={dataset}></StatisticalInformations>
+      <LineageBlock wasDerivedFrom={dataset.wasDerivedFrom} />
     </div>
   );
 };

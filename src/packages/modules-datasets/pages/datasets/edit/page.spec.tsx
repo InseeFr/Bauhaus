@@ -80,6 +80,7 @@ vi.mock("./components/GlobalInformation", () => ({ GlobalInformation: editingDat
 vi.mock("./components/InternalManagement", () => ({ InternalManagement: () => null }));
 vi.mock("./components/Notes", () => ({ Notes: () => null }));
 vi.mock("./components/StatisticalInformation", () => ({ StatisticalInformation: () => null }));
+vi.mock("./components/Lineage", () => ({ Lineage: () => null }));
 
 const NO_PROPERTIES = {} as any;
 
@@ -166,6 +167,12 @@ describe("Dataset Edit Page", () => {
   });
 
   describe("when updating a dataset", () => {
+    it("offers a lineage section to link the datasets it is built from", async () => {
+      await renderPage("/datasets/jd1000/modify", "/datasets/:id/modify");
+
+      expect(screen.getByText("dataset.lineage.title")).toBeInTheDocument();
+    });
+
     it("updates the source dataset", async () => {
       await renderPage("/datasets/jd1000/modify", "/datasets/:id/modify");
 
