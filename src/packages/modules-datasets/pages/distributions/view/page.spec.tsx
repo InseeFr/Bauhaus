@@ -1,11 +1,14 @@
-import { render } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
 
 import { PageTitleBlock } from "@components/page-title-block";
 
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { useDistribution } from "../../../hooks/useDistribution";
 import { Component } from "./page";
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useParams: () => ({ id: "test-id" }),
   MemoryRouter: vi.fn(),
   Route: vi.fn(),
@@ -18,7 +21,8 @@ vi.mock("@components/check-second-lang", () => ({
   CheckSecondLang: () => <div data-testid="check-second-lang" />,
 }));
 
-vi.mock("@components/errors-bloc", () => ({
+vi.mock("@components/errors-bloc", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@components/errors-bloc")>()),
   ErrorBloc: () => <div data-testid="error-bloc" />,
 }));
 
@@ -53,10 +57,7 @@ vi.mock("../../../hooks/useDatasetPublisher", () => ({
 }));
 
 vi.mock("../../../hooks/useDistribution", () => ({
-  useDistribution: () => ({
-    data: { labelLg1: "Title 1", labelLg2: "Title 2", idDataset: "dataset-id" },
-    isLoading: false,
-  }),
+  useDistribution: vi.fn(),
 }));
 
 vi.mock("./menu", () => ({
@@ -68,6 +69,13 @@ vi.mock("./components/ViewMainBlock", () => ({
 }));
 
 describe("Component", () => {
+  beforeEach(() => {
+    (useDistribution as Mock).mockReturnValue({
+      data: { labelLg1: "Title 1", labelLg2: "Title 2", idDataset: "dataset-id" },
+      isLoading: false,
+    });
+  });
+
   it("renders PageTitleBlock with correct props", () => {
     render(<Component />);
 
@@ -78,5 +86,18 @@ describe("Component", () => {
       },
       {},
     );
+  });
+
+  it("says the distribution could not be found instead of the page on a 404", async () => {
+    (useDistribution as Mock).mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      error: sdkRejection.emptyBody(404),
+    });
+
+    render(<Component />);
+
+    await expectItemNotFound();
+    expect(screen.queryByTestId("view-main-block")).not.toBeInTheDocument();
   });
 });

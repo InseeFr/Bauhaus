@@ -1,6 +1,7 @@
-import { ComponentProps, PropsWithChildren, ReactNode } from "react";
+import { ComponentPropsWithoutRef, PropsWithChildren, ReactNode } from "react";
 
 import { ExternalLink, Link } from "../link";
+import { Button as PrimeButton } from "../ui/button";
 import "./button.css";
 
 const DEFAULT_CLASSES: string[] = [];
@@ -12,7 +13,7 @@ type ButtonTypes = {
   wrapper?: boolean;
   classes?: string[];
   externalLink?: boolean;
-} & ComponentProps<"button">;
+} & ComponentPropsWithoutRef<"button">;
 
 export const Button = ({
   action,
@@ -26,19 +27,20 @@ export const Button = ({
 }: Readonly<PropsWithChildren<ButtonTypes>>) => {
   const content = label || children;
 
-  const className = `btn bauhaus-btn btn-lg col-md-12 ${classes.join(" ")}`;
+  // Un lien ne peut pas contenir de <button> : il reçoit les classes du bouton PrimeReact.
+  const linkClassName = ["p-button", "p-component", "bauhaus-btn", ...classes].join(" ");
 
   let button;
   if (typeof action === "string") {
     if (externalLink) {
       button = (
-        <ExternalLink className={className} href={action}>
+        <ExternalLink className={linkClassName} href={action}>
           {content}
         </ExternalLink>
       );
     } else {
       button = (
-        <Link className={className} to={action} disabled={disabled}>
+        <Link className={linkClassName} to={action} disabled={disabled}>
           {content}
         </Link>
       );
@@ -46,9 +48,15 @@ export const Button = ({
   } else {
     //if action is a function, it means a handler was passed in instead of an URL
     button = (
-      <button type="button" className={className} onClick={action} disabled={disabled} {...rest}>
+      <PrimeButton
+        type="button"
+        className={["bauhaus-btn", ...classes].join(" ")}
+        onClick={action}
+        disabled={disabled}
+        {...rest}
+      >
         {content}
-      </button>
+      </PrimeButton>
     );
   }
 

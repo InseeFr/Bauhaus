@@ -14,6 +14,11 @@ const raw = (blocks: unknown[], entityMap: Record<string, unknown> = {}) => ({
   entityMap,
 });
 
+/** Bloc atomique (image, vidéo) : un espace insécable porteur de l'entité d'indice 0. */
+const atomicBlocks = () => [
+  block({ type: "atomic", text: " ", entityRanges: [{ offset: 0, length: 1, key: "0" }] }),
+];
+
 describe("draftjsToMd", () => {
   it("rend le texte brut tel quel", () => {
     expect(draftjsToMd(raw([block({ text: "un texte" })]))).toBe("un texte");
@@ -154,34 +159,27 @@ describe("draftjsToMd", () => {
     });
 
     it("rend un bloc atomique image avec son nom de fichier", () => {
-      const blocks = [
-        block({ type: "atomic", text: " ", entityRanges: [{ offset: 0, length: 1, key: "0" }] }),
-      ];
       const entityMap = {
         0: { type: "IMAGE", data: { url: "https://insee.fr/logo.png", fileName: "logo" } },
       };
-      expect(draftjsToMd(raw(blocks, entityMap))).toBe("![logo](https://insee.fr/logo.png)");
+      expect(draftjsToMd(raw(atomicBlocks(), entityMap))).toBe(
+        "![logo](https://insee.fr/logo.png)",
+      );
     });
 
     it("se rabat sur src et un nom de fichier vide pour une image", () => {
-      const blocks = [
-        block({ type: "atomic", text: " ", entityRanges: [{ offset: 0, length: 1, key: "0" }] }),
-      ];
       const entityMap = { 0: { type: "IMAGE", data: { src: "https://insee.fr/logo.png" } } };
-      expect(draftjsToMd(raw(blocks, entityMap))).toBe("![](https://insee.fr/logo.png)");
+      expect(draftjsToMd(raw(atomicBlocks(), entityMap))).toBe("![](https://insee.fr/logo.png)");
     });
 
     it("rend un bloc atomique vidéo sous forme d'embed", () => {
-      const blocks = [
-        block({ type: "atomic", text: " ", entityRanges: [{ offset: 0, length: 1, key: "0" }] }),
-      ];
       const entityMap = {
         0: {
           type: "draft-js-video-plugin-video",
           data: { url: "https://insee.fr/video.mp4" },
         },
       };
-      expect(draftjsToMd(raw(blocks, entityMap))).toBe(
+      expect(draftjsToMd(raw(atomicBlocks(), entityMap))).toBe(
         "[[ embed url=https://insee.fr/video.mp4 ]]",
       );
     });

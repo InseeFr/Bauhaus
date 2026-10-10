@@ -1,5 +1,6 @@
-import { Card } from "primereact/card";
 import { useTranslation } from "react-i18next";
+
+import { Card } from "@components/ui/card";
 
 import { GlobalActionToolbar } from "./GlobalActionToolbar";
 import { PhysicalInstancesDataTable } from "./PhysicalInstancesDataTable";
@@ -13,6 +14,10 @@ interface GlobalActionsCardProps {
   onRowClick?: (data: any) => void;
   onDeleteClick?: (data: any) => void;
   unsavedVariableIds?: string[];
+  /** Variables signalées en erreur par la validation globale (#1608). */
+  invalidVariableIds?: string[];
+  /** Variables partagées avec d'autres fichiers de l'étude (#1387). */
+  sharedVariableIds?: string[];
   selectedVariableId?: string | null;
   /** Stamps de l'instance — gating STAMP de la duplication et des suppressions. */
   stamps?: string[];
@@ -26,6 +31,8 @@ export const GlobalActionsCard = ({
   onRowClick,
   onDeleteClick,
   unsavedVariableIds = [],
+  invalidVariableIds = [],
+  sharedVariableIds = [],
   selectedVariableId,
   stamps,
 }: Readonly<GlobalActionsCardProps>) => {
@@ -44,6 +51,8 @@ export const GlobalActionsCard = ({
         onRowClick={onRowClick}
         onDeleteClick={onDeleteClick}
         unsavedVariableIds={unsavedVariableIds}
+        invalidVariableIds={invalidVariableIds}
+        sharedVariableIds={sharedVariableIds}
         selectedVariableId={selectedVariableId}
         stamps={stamps}
       />

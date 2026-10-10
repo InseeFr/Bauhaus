@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router";
 
 import { CheckSecondLang } from "@components/check-second-lang";
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
-import { Document } from "@model/operations/document";
-
-import { GeneralApi } from "@sdk/general-api";
-
 import { useCodelist } from "@utils/hooks/codelist";
+import { useDocument } from "@utils/hooks/documents";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { OperationsDocumentationVisualization } from "./components/OperationsDocumentationVisualization";
@@ -30,16 +27,9 @@ export const Component = () => {
 
   const langOptions = useCodelist("ISO-639");
 
-  const [document, setDocument] = useState<Document>();
-  useEffect(() => {
-    GeneralApi.getDocument(id, type).then((results: unknown) => {
-      const result = results as Document;
-      setDocument({
-        ...result,
-        id: result.uri!.substring(result.uri!.lastIndexOf("/") + 1),
-      });
-    });
-  }, [id, type]);
+  const { data: document, error: loadError } = useDocument(id, type);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!document) return <Loading />;
 

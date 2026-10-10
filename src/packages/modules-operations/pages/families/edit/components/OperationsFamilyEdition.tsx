@@ -9,13 +9,20 @@ import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
-import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
+import { MDEditor } from "@components/rich-editor/react-md-editor";
 
 import { Family } from "@model/operations/family";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { toFormErrors } from "@utils/api-errors";
+import { useInvalidateSeries } from "@utils/hooks/series";
+
+import { useInvalidateFamilies } from "../../../../hooks/useFamilies";
 import { validate } from "../validation";
+
+/** Champs dont une erreur de validation du back s'affiche à côté de la saisie. */
+const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2"];
 
 const defaultFamily: Partial<Family> = {
   prefLabelLg1: "",
@@ -37,7 +44,7 @@ interface State {
     errorMessage: string[];
     fields?: Record<string, string>;
   };
-  serverSideError: string;
+  serverSideError: unknown;
   submitting: boolean;
   saving: boolean;
 }
@@ -46,7 +53,7 @@ type Action =
   | { type: "RESET_STATE"; payload: Family }
   | { type: "UPDATE_FIELD"; payload: { field: string; value: string } }
   | { type: "SET_CLIENT_ERRORS"; payload: State["clientSideErrors"] }
-  | { type: "SET_SERVER_ERROR"; payload: string }
+  | { type: "SET_SERVER_ERROR"; payload: unknown }
   | { type: "SET_SAVING"; payload: boolean }
   | { type: "SET_SUBMITTING"; payload: boolean };
 
@@ -111,6 +118,12 @@ export const OperationsFamilyEdition = ({
 }: Readonly<OperationsFamilyEditionProps>) => {
   const { t } = useTranslation();
 
+  // La liste des familles est proposée à l'édition d'une série, dont la fiche affiche le libellé
+  // de sa famille.
+  const invalidateFamilies = useInvalidateFamilies();
+
+  const invalidateSeries = useInvalidateSeries();
+
   const [state, dispatch] = useReducer(reducer, {
     family: {
       ...defaultFamily,
@@ -147,18 +160,25 @@ export const OperationsFamilyEdition = ({
       dispatch({ type: "SET_SAVING", payload: true });
       const isCreation = !state.family.id;
       const method = isCreation ? "createFamily" : "updateFamily";
-      return OperationsApi[method](state.family)
-        .then(
-          (id = state.family.id) => {
-            goBack(`/operations/family/${id}`, isCreation);
-          },
-          (err: string) => {
-            dispatch({ type: "SET_SERVER_ERROR", payload: err });
-          },
-        )
-        .finally(() => dispatch({ type: "SET_SAVING", payload: false }));
+      // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
+      // le formulaire réapparaîtrait le temps qu'elle aboutisse.
+      return OperationsApi[method](state.family).then(
+        async (id = state.family.id) => {
+          await Promise.all([invalidateFamilies(), invalidateSeries()]);
+          goBack(`/operations/family/${id}`, isCreation);
+        },
+        (err: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
+          if (clientSideErrors) {
+            dispatch({ type: "SET_SUBMITTING", payload: true });
+            dispatch({ type: "SET_CLIENT_ERRORS", payload: clientSideErrors });
+          }
+          dispatch({ type: "SET_SERVER_ERROR", payload: serverSideError });
+          dispatch({ type: "SET_SAVING", payload: false });
+        },
+      );
     }
-  }, [state.family, goBack]);
+  }, [state.family, goBack, invalidateFamilies, invalidateSeries]);
 
   if (state.saving) return <Saving />;
 
@@ -179,7 +199,7 @@ export const OperationsFamilyEdition = ({
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={[state.serverSideError]} />
+      <ErrorBloc error={state.serverSideError} />
       <form>
         <Row>
           <div className="col-md-6 form-group">
@@ -218,16 +238,18 @@ export const OperationsFamilyEdition = ({
         <Row>
           <div className="col-md-6 form-group">
             <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={state.family.abstractLg1}
-              handleChange={onChange("abstractLg1")}
+              handleChange={(value) => onChange("abstractLg1")(value ?? "")}
+              textareaProps={{ id: "abstractLg1" }}
             />
           </div>
           <div className="col-md-6 form-group">
             <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={state.family.abstractLg2}
-              handleChange={onChange("abstractLg2")}
+              handleChange={(value) => onChange("abstractLg2")(value ?? "")}
+              textareaProps={{ id: "abstractLg2" }}
             />
           </div>
         </Row>

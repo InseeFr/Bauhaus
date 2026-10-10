@@ -79,7 +79,7 @@ export const EquivalentLinks = ({
                   updateEquivalentLinks(links.filter(({ urn }) => urn !== link.urn));
                 }}
               >
-                <span className="glyphicon glyphicon-trash" aria-hidden="true" />
+                <span className="pi pi-trash" aria-hidden="true" />
               </button>
             </List.Item>
           );

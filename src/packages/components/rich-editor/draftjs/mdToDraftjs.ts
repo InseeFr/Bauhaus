@@ -111,6 +111,10 @@ const parseMdLine = (line: any, existingEntities: any, extraStyles: any = {}) =>
     );
 
   const addLink = (child: any) => {
+    // Un lien javascript:, data:… rendu tel quel est une XSS : seul le texte est conservé.
+    if (!/^https?:\/\//i.test(child.url)) {
+      return;
+    }
     const entityKey = Object.keys(entityMap).length;
     entityMap[entityKey] = {
       type: "LINK",

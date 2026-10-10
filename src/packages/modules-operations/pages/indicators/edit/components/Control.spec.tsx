@@ -10,24 +10,26 @@ vi.mock("@utils/hooks/useGoBack", () => ({
   useGoBack: vi.fn(),
 }));
 
+const renderControl = (disabled = false) => {
+  const mockGoBack = vi.fn();
+  (useGoBack as Mock).mockReturnValue(mockGoBack);
+  const mockOnSubmit = vi.fn();
+
+  render(<Control onSubmit={mockOnSubmit} disabled={disabled} />);
+
+  return { mockGoBack, mockOnSubmit };
+};
+
 describe("Control component", () => {
   it("renders CancelButton and SaveButton", () => {
-    const mockGoBack = vi.fn();
-    (useGoBack as Mock).mockReturnValue(mockGoBack);
-    const mockOnSubmit = vi.fn();
-
-    render(<Control onSubmit={mockOnSubmit} disabled={false} />);
+    renderControl();
 
     screen.getByRole("button", { name: /cancel/i });
     screen.getByRole("button", { name: /save/i });
   });
 
   it("calls goBack with the correct path when CancelButton is clicked", () => {
-    const mockGoBack = vi.fn();
-    (useGoBack as Mock).mockReturnValue(mockGoBack);
-    const mockOnSubmit = vi.fn();
-
-    render(<Control onSubmit={mockOnSubmit} disabled={false} />);
+    const { mockGoBack } = renderControl();
 
     fireEvent.click(screen.getByRole("button", { name: /cancel/i }));
 
@@ -35,11 +37,7 @@ describe("Control component", () => {
   });
 
   it("calls onSubmit when SaveButton is clicked", () => {
-    const mockGoBack = vi.fn();
-    (useGoBack as Mock).mockReturnValue(mockGoBack);
-    const mockOnSubmit = vi.fn();
-
-    render(<Control onSubmit={mockOnSubmit} disabled={false} />);
+    const { mockOnSubmit } = renderControl();
 
     fireEvent.click(screen.getByRole("button", { name: /save/i }));
 
@@ -47,11 +45,7 @@ describe("Control component", () => {
   });
 
   it("disables SaveButton when disabled prop is true", () => {
-    const mockGoBack = vi.fn();
-    (useGoBack as Mock).mockReturnValue(mockGoBack);
-    const mockOnSubmit = vi.fn();
-
-    render(<Control onSubmit={mockOnSubmit} disabled={true} />);
+    renderControl(true);
 
     const input = screen.getByRole("button", { name: /save/i });
     expect(input.getAttribute("disabled")).not.toBeNull();

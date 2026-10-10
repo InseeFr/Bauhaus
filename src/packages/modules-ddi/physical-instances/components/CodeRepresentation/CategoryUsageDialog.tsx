@@ -1,5 +1,6 @@
-import { Dialog } from "primereact/dialog";
 import { useTranslation } from "react-i18next";
+
+import { Dialog } from "@components/ui/dialog";
 
 import { useCategoryUsers } from "../../../hooks/useCategoryUsers";
 import { CategoryUsersPanel } from "./CategoryUsersPanel";

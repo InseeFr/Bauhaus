@@ -1,7 +1,5 @@
 import { linkTypes, type Link } from "@model/concepts/concept";
 
-import { NONE } from "@sdk/constants";
-
 const getType = (typeOfLink: keyof typeof linkTypes) => {
   const type: string = linkTypes[typeOfLink];
 
@@ -10,15 +8,16 @@ const getType = (typeOfLink: keyof typeof linkTypes) => {
   throw new TypeError(`The type of a link was not recognized: \`${typeOfLink}\``);
 };
 
+// Un même concept peut être lié par plusieurs types (référence et remplace, par
+// exemple) : le back renvoie alors un lien par type, qu'il faut tous garder.
 export const mergeWithAllConcepts = (concepts: { id: string; label: string }[], links: Link[]) =>
   concepts.map(({ id, label }: { id: string; label: string }) => {
-    const link = links.find(({ id: idLinked }: Link) => idLinked === id);
-    const typeOfLink = link ? getType(link.typeOfLink) : NONE;
+    const conceptLinks = links.filter(({ id: idLinked }: Link) => idLinked === id);
     return {
       id,
       label,
-      typeOfLink,
-      prefLabelLg1: link?.prefLabelLg1,
-      prefLabelLg2: link?.prefLabelLg2,
+      typesOfLink: conceptLinks.map((link) => getType(link.typeOfLink)),
+      prefLabelLg1: conceptLinks[0]?.prefLabelLg1,
+      prefLabelLg2: conceptLinks[0]?.prefLabelLg2,
     };
   });

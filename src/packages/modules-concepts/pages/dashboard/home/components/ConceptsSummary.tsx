@@ -1,9 +1,9 @@
-import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
 
 import { InseeOrganization } from "@components/business/organizations/organizations";
 import { DataTable } from "@components/datatable";
 import { Panel } from "@components/panel";
+import { Column } from "@components/ui/table-column";
 
 import { VALIDATED } from "@model/ValidationState";
 

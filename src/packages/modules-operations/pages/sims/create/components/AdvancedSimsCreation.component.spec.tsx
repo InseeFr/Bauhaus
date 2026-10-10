@@ -1,24 +1,29 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useCallback } from "react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
 import { AppContextProvider } from "../../../../../application/app-context";
+import { appI18n } from "../../../../../i18n";
+import { expectItemLoadFailed } from "../../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 import { rangeType } from "../../../../constants/rangeType";
 import { getSiblingSims } from "../utils/getSiblingSims";
 import { AdvancedSimsCreation } from "./AdvancedSimsCreation";
 
 const blocker = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual<typeof import("react-router")>("react-router")),
   useBlocker: (predicate: any) => blocker(predicate),
 }));
 
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual<typeof import("react-i18next")>("react-i18next")),
-  useTranslation: () => ({ t: (key: string, options?: any) => `${key}${options?.id ?? ""}` }),
-}));
+vi.mock("react-i18next", async () =>
+  (await import("../../translationMock.testing")).withMockedTranslation(
+    (key, options) => `${key}${options?.id ?? ""}`,
+  ),
+);
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: {
@@ -41,11 +46,6 @@ vi.mock("../../hooks/useDocumentsStoreContext", () => ({
   useDocumentsStoreContext: () => documentsStore(),
 }));
 
-// Modal met son contenu dans un portail : on le remplace par un rendu conditionnel simple.
-vi.mock("react-modal", () => ({
-  default: ({ isOpen, children }: any) => (isOpen ? <div>{children}</div> : null),
-}));
-
 vi.mock("../../components/RubricEssentialMsg", () => ({
   RubricEssentialMsg: () => <p>rubriques essentielles</p>,
 }));
@@ -60,20 +60,29 @@ vi.mock("../menu", () => ({
 }));
 
 vi.mock("@components/select-rmes", () => ({
-  Select: ({ options, onChange, disabled }: any) => (
-    <button disabled={disabled} onClick={() => onChange(options[0]?.value)}>
-      dupliquer:{options.map((option: any) => option.label).join(",") || "(aucun)"}
-    </button>
-  ),
+  Select: ({ options, onChange, disabled }: any) => {
+    const selectFirst = useCallback(() => onChange(options[0]?.value), [onChange, options]);
+    return (
+      <button disabled={disabled} onClick={selectFirst}>
+        dupliquer:{options.map((option: any) => option.label).join(",") || "(aucun)"}
+      </button>
+    );
+  },
 }));
 
 vi.mock("./SimsField", () => ({
   SimsFieldMemo: () => null,
-  SimsField: ({ msd, secondLang, handleChange, alone }: any) => (
-    <button onClick={() => handleChange({ id: msd.idMas, override: { value: "saisi" } })}>
-      {`champ:${msd.idMas}|lg${secondLang ? "2" : "1"}|seul:${String(alone)}`}
-    </button>
-  ),
+  SimsField: ({ msd, secondLang, handleChange, alone }: any) => {
+    const fill = useCallback(
+      () => handleChange({ id: msd.idMas, override: { value: "saisi" } }),
+      [handleChange, msd.idMas],
+    );
+    return (
+      <button onClick={fill}>
+        {`champ:${msd.idMas}|lg${secondLang ? "2" : "1"}|seul:${String(alone)}`}
+      </button>
+    );
+  },
 }));
 vi.mock("./SimsDocumentField", () => ({
   SimsDocumentFieldMemo: ({ msd, lang }: any) => (
@@ -81,13 +90,16 @@ vi.mock("./SimsDocumentField", () => ({
   ),
 }));
 vi.mock("./DocumentFormPanel", () => ({
-  DocumentFormPanel: ({ opened, onHide, onAdd }: any) => (
-    <div>
-      <span>panneau:{String(opened)}</span>
-      <button onClick={onHide}>fermer le panneau</button>
-      <button onClick={() => onAdd("S1", "lg1", { id: "doc-1" })}>ajouter un document</button>
-    </div>
-  ),
+  DocumentFormPanel: ({ opened, onHide, onAdd }: any) => {
+    const addDocument = useCallback(() => onAdd("S1", "lg1", { id: "doc-1" }), [onAdd]);
+    return (
+      <div>
+        <span>panneau:{String(opened)}</span>
+        <button onClick={onHide}>fermer le panneau</button>
+        <button onClick={addDocument}>ajouter un document</button>
+      </div>
+    );
+  },
 }));
 
 const metadataStructure = {
@@ -121,20 +133,24 @@ const rubrics = {
 
 const onSubmit = vi.fn();
 
+const NO_PROPERTIES = {} as any;
+const DEFAULT_SIMS = { id: "sims-1", rubrics, updated: "2026-01-01" };
+const ORGANISATIONS = [
+  { id: "org-2", label: "Zèbre", labelLg2: "Zebra" },
+  { id: "org-1", label: "Abeille", labelLg2: "Bee" },
+];
+
 const renderCreation = (props: any = {}) =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
       <AdvancedSimsCreation
         mode="CREATE"
         idParent="op-1"
-        sims={{ id: "sims-1", rubrics, updated: "2026-01-01" }}
+        sims={DEFAULT_SIMS}
         metadataStructure={metadataStructure}
         parentType="operation"
         onSubmit={onSubmit}
-        organisations={[
-          { id: "org-2", label: "Zèbre", labelLg2: "Zebra" },
-          { id: "org-1", label: "Abeille", labelLg2: "Bee" },
-        ]}
+        organisations={ORGANISATIONS}
         {...props}
       />
     </AppContextProvider>,
@@ -239,6 +255,21 @@ describe("AdvancedSimsCreation", () => {
     await waitFor(() => expect(screen.getByText("champ:S1|lg1|seul:false")).toBeInTheDocument());
   });
 
+  it("sort du chargement et signale l'échec quand le rapport à recopier ne peut pas être lu", async () => {
+    vi.mocked(OperationsApi.getOperationsWithReport).mockResolvedValue([
+      { labelLg1: "Abeille", idSims: "sims-a" },
+    ] as any);
+    vi.mocked(getSiblingSims).mockRejectedValue(sdkRejection.emptyBody(500));
+    renderCreation({ parent: { series: { id: "s-1" } } });
+    await waitFor(() => expect(screen.getByRole("button", { name: /Abeille/ })).toBeEnabled());
+
+    await userEvent.click(screen.getByRole("button", { name: /Abeille/ }));
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "enregistrer" })).toBeInTheDocument();
+  });
+
   it("charge les rapports frères d'une série depuis sa famille", async () => {
     renderCreation({ parentType: "series", parent: { family: { id: "f-1" } } });
 
@@ -259,10 +290,35 @@ describe("AdvancedSimsCreation", () => {
     expect(OperationsApi.getOperationsWithReport).not.toHaveBeenCalled();
   });
 
-  it("affiche l'erreur serveur, identifiant compris", () => {
-    renderCreation({ error: { code: 409, details: "sims-1" } });
+  describe("quand l'enregistrement échoue", () => {
+    it("traduit le code d'erreur du serveur", () => {
+      renderCreation({
+        error: sdkRejection.json(400, {
+          code: "861",
+          message: "Cannot deserialize value",
+        }),
+      });
 
-    expect(screen.getByText("errors.409sims-1")).toBeInTheDocument();
+      expect(screen.getByText(appI18n.t("errors.861"))).toBeInTheDocument();
+    });
+
+    it("affiche un message de repli pour une réponse sans code ni corps", () => {
+      renderCreation({ error: sdkRejection.emptyBody(500) });
+
+      expect(screen.getByText(appI18n.t("errors.fallback.server"))).toBeInTheDocument();
+      expect(screen.queryByText(/errors\./)).not.toBeInTheDocument();
+    });
+
+    it("affiche les erreurs de validation détaillées", () => {
+      renderCreation({
+        error: sdkRejection.json(400, {
+          message: "The submitted data is invalid",
+          errors: [{ field: "labelLg1", message: "must not be blank" }],
+        }),
+      });
+
+      expect(screen.getByText("labelLg1 : must not be blank")).toBeInTheDocument();
+    });
   });
 
   it("prévient avant de quitter la page avec des modifications non enregistrées", async () => {
@@ -271,7 +327,9 @@ describe("AdvancedSimsCreation", () => {
     blocker.mockReturnValue({ state: "blocked", proceed, reset });
     renderCreation();
 
-    expect(screen.getByText("app.quitWithoutSaving")).toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: "app.deleteTitle" })).toHaveTextContent(
+      "app.quitWithoutSaving",
+    );
 
     await userEvent.click(screen.getByRole("button", { name: "app.yes" }));
     expect(proceed).toHaveBeenCalled();

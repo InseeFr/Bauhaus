@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
@@ -26,15 +27,20 @@ export const Component = () => {
 
   const [structure, setStructure] = useState<Structure>({} as Structure);
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   useTitle(t("structure.pluralTitle"), structure?.labelLg1);
 
   useEffect(() => {
     StructureApi.getStructure(id!)
       .then((res: Structure) => setStructure(res))
+      .catch(setLoadError)
       .finally(() => {
         setLoading(false);
       });
   }, [id]);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (loading) return <Loading />;
 

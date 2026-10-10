@@ -21,6 +21,7 @@ interface IdWithValid {
 interface ConceptsToValidateProps {
   concepts: ConceptToValidate[];
   handleValidateConceptList: (ids: string[]) => void;
+  serverSideError?: unknown;
 }
 
 const toIdWithValid = (concepts: ConceptToValidate[]): IdWithValid[] =>
@@ -32,6 +33,7 @@ const toIdWithValid = (concepts: ConceptToValidate[]): IdWithValid[] =>
 export const ConceptsToValidate = ({
   concepts,
   handleValidateConceptList,
+  serverSideError,
 }: Readonly<ConceptsToValidateProps>) => {
   const { t } = useTranslation();
 
@@ -83,6 +85,7 @@ export const ConceptsToValidate = ({
         labelWarning={t("concept.validation.hasNot")}
         handleAction={handleAction}
         context="concepts"
+        serverSideError={serverSideError}
         ValidationButton={({ action, disabled }) => (
           <PublishButton action={action} disabled={disabled} />
         )}

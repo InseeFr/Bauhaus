@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";

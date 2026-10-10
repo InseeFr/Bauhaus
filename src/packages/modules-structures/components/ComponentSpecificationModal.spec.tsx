@@ -1,44 +1,52 @@
-import { render, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { ComponentDefinition } from "@model/structures/Component";
 
-import { ComponentSpecificationModalBody } from "./ComponentSpecificationModal";
+import { ComponentSpecificationModal } from "./ComponentSpecificationModal";
+
+const specification = {
+  required: true,
+  attachment: ["http:/purl.org/linked-data/cube#DataSet"],
+};
+const SELECTED_COMPONENT = { component: {} } as unknown as ComponentDefinition;
+const NO_STRUCTURE_COMPONENTS: never[] = [];
 
 describe("<ComponentSpecificationModal />", () => {
-  beforeEach(() => {
-    vi.resetAllMocks();
-  });
-  const specification = {
-    required: true,
-    attachment: ["http:/purl.org/linked-data/cube#DataSet"],
-  };
-
-  it("should call the onClose prop", () => {
-    const onClose = vi.fn();
-    const { container } = render(
-      <ComponentSpecificationModalBody
+  const renderModal = (props: { onClose?: VoidFunction; onSave?: VoidFunction } = {}) =>
+    render(
+      <ComponentSpecificationModal
         specification={specification}
-        selectedComponent={{ component: {} } as unknown as ComponentDefinition}
-        structureComponents={[]}
-        onClose={onClose}
-        onSave={vi.fn()}
+        selectedComponent={SELECTED_COMPONENT}
+        structureComponents={NO_STRUCTURE_COMPONENTS}
+        onClose={props.onClose ?? vi.fn()}
+        onSave={props.onSave ?? vi.fn()}
       />,
     );
-    fireEvent.click(container.querySelector(".modal-header button")!);
+
+  it("is a dialog named by its title", () => {
+    renderModal();
+
+    expect(
+      screen.getByRole("dialog", { name: /componentSpecification|spécification|specification/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("should call the onClose prop", async () => {
+    const onClose = vi.fn();
+    renderModal({ onClose });
+
+    await userEvent.click(screen.getByRole("button", { name: /close|fermer/i }));
+
     expect(onClose).toHaveBeenCalled();
   });
-  it("should call the onSave prop", () => {
+
+  it("should call the onSave prop with the specification", async () => {
     const onSave = vi.fn();
-    const { container } = render(
-      <ComponentSpecificationModalBody
-        specification={specification}
-        selectedComponent={{ component: {} } as unknown as ComponentDefinition}
-        structureComponents={[]}
-        onSave={onSave}
-        onClose={vi.fn()}
-      />,
-    );
-    fireEvent.click(container.querySelector(".modal-footer button")!);
-    expect(onSave).toHaveBeenCalled();
+    renderModal({ onSave });
+
+    await userEvent.click(screen.getByRole("button", { name: /save|sauvegarder|enregistrer/i }));
+
+    expect(onSave).toHaveBeenCalledWith(specification);
   });
 });

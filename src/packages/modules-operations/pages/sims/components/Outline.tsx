@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 import { cx } from "@utils/cx";
 
@@ -64,7 +64,7 @@ export const Outline = ({
             title={opened ? t("app.hide") : t("app.display")}
             onClick={expandOrCollapseItem}
           >
-            <span className={cx("glyphicon", `glyphicon-chevron-${opened ? "up" : "down"}`)} />
+            <span className={cx("pi", `pi-chevron-${opened ? "up" : "down"}`)} />
           </button>
         )}
       </div>

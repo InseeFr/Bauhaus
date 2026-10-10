@@ -6,18 +6,16 @@ import { Rubric } from "@model/Sims";
 import { DocumentsStoreProvider } from "../../hooks/useDocumentsStoreContext";
 import { SimsBlockRichText } from "./SimsBlockRichText";
 
+const emptyDocumentsStore = {
+  documentStores: { lg1: [], lg2: [] },
+  updateDocumentStores: vi.fn(),
+  rubricIdForNewDocument: null,
+  setRubricIdForNewDocument: vi.fn(),
+};
+
 export const renderWithStore = (component: ReactElement) => {
   return render(
-    <DocumentsStoreProvider
-      value={{
-        documentStores: { lg1: [], lg2: [] },
-        updateDocumentStores: vi.fn(),
-        rubricIdForNewDocument: null,
-        setRubricIdForNewDocument: vi.fn(),
-      }}
-    >
-      {component}
-    </DocumentsStoreProvider>,
+    <DocumentsStoreProvider value={emptyDocumentsStore}>{component}</DocumentsStoreProvider>,
   );
 };
 

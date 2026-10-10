@@ -1,8 +1,7 @@
 import { useTranslation } from "react-i18next";
 
-import { Row } from "@components/layout";
+import { HomePageLayout } from "@components/home-page-layout";
 import { Loading } from "@components/loading";
-import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
@@ -20,21 +19,15 @@ export const Component = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="container">
-      <Row>
-        <Menu />
-        <div className="col-md-8 text-center pull-right">
-          <PageTitle title={t("concept.advancedSearch")} col={12} offset={0} />
-          <SearchableList
-            items={concepts}
-            childPath="concepts"
-            advancedSearch
-            searchUrl="/concepts/search"
-            placeholder={t("concept.searchPlaceholder")}
-            autoFocus
-          />
-        </div>
-      </Row>
-    </div>
+    <HomePageLayout title={t("concept.advancedSearch")} menu={<Menu />}>
+      <SearchableList
+        items={concepts}
+        childPath="concepts"
+        advancedSearch
+        searchUrl="/concepts/search"
+        placeholder={t("concept.searchPlaceholder")}
+        autoFocus
+      />
+    </HomePageLayout>
   );
 };

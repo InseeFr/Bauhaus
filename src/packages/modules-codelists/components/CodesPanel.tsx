@@ -2,16 +2,28 @@ import { ChangeEvent, MouseEvent, useEffect, useReducer, useState } from "react"
 import { useTranslation } from "react-i18next";
 
 import { SeeButton } from "@components/buttons/see";
-import { ClientSideError, GlobalClientSideErrorBloc } from "@components/errors-bloc";
+import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
+import { Select } from "@components/select-rmes";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { Code, Codelist } from "@model/Codelist";
 
 import { CodelistsApi } from "@sdk/index";
 
+import { toFormErrors } from "@utils/api-errors";
+
+import {
+  CodeChanges,
+  EditableCode,
+  mergeCodeChanges,
+  RefusedCode,
+  withCreatedCode,
+  withDeletedCode,
+  withUpdatedCode,
+} from "../utils/code-changes";
 import { validateCode } from "../utils/validateCode";
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
 import { CodesPanelAddButton } from "./CodesPanelAddButton";
@@ -19,14 +31,10 @@ import { CollapsiblePanel } from "./CollapsiblePanel";
 import "./CodesPanel.css";
 import { Table, TableTypes } from "./Table";
 
-/** Valeurs saisies dans le formulaire d'édition d'un code. */
-interface CodeFormState {
-  code?: string;
-  labelLg1?: string;
-  labelLg2?: string;
-  descriptionLg1?: string;
-  descriptionLg2?: string;
-}
+type CodeFormState = EditableCode;
+
+/** Champs du panneau qui ont un emplacement pour une erreur renvoyée par le serveur. */
+const FIELDS_WITH_ERROR_SLOT = ["code", "labelLg1", "labelLg2"];
 
 interface CodeSlidingPanelTypes {
   code: CodeFormState;
@@ -34,6 +42,12 @@ interface CodeSlidingPanelTypes {
   handleSave: (code: CodeFormState, creation: boolean) => void;
   creation: boolean;
   codelist: Codelist;
+  /** Codes affichés, pour refuser la création d'un doublon. */
+  existingCodes: CodeFormState[];
+  /** Tous les codes de la liste, parmi lesquels choisir parents et enfants. */
+  linkableCodes: CodeFormState[];
+  /** Refus du serveur à la dernière sauvegarde de ce code. */
+  serverError?: unknown;
 }
 
 const CodeSlidingPanel = ({
@@ -42,6 +56,9 @@ const CodeSlidingPanel = ({
   handleSave,
   creation,
   codelist,
+  existingCodes,
+  linkableCodes,
+  serverError,
 }: Readonly<CodeSlidingPanelTypes>) => {
   const { t } = useTranslation();
 
@@ -54,11 +71,23 @@ const CodeSlidingPanel = ({
 
   const [submitting, setSubmitting] = useState(false);
 
+  const [serverSideError, setServerSideError] = useState<unknown>();
+
   useEffect(() => {
     setCode({ ...initialCode });
   }, [initialCode]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (!serverError) return;
+    const formErrors = toFormErrors(serverError, FIELDS_WITH_ERROR_SLOT);
+    if (formErrors.clientSideErrors) {
+      setSubmitting(true);
+      setClientSideErrors(formErrors.clientSideErrors);
+    }
+    setServerSideError(formErrors.serverSideError);
+  }, [serverError]);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setClientSideErrors({
       ...clientSideErrors,
@@ -70,8 +99,14 @@ const CodeSlidingPanel = ({
     });
   };
 
+  // Un même code ne peut être à la fois parent et enfant : chaque liste écarte les choix de l'autre.
+  const linkOptions = (excluded: string[] = []) =>
+    linkableCodes
+      .filter((c) => c.code !== code.code && !excluded.includes(c.code!))
+      .map((c) => ({ value: c.code!, label: `${c.code} - ${c.labelLg1}` }));
+
   const handleSubmit = () => {
-    const clientSideErrors = validateCode(code, [], !creation);
+    const clientSideErrors = validateCode(code, existingCodes, !creation);
 
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
@@ -93,6 +128,7 @@ const CodeSlidingPanel = ({
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
+      <ErrorBloc error={serverSideError} />
       <Row>
         <div className="col-md-12 form-group">
           <LabelRequired htmlFor="code">{t("codes.title")}</LabelRequired>
@@ -143,7 +179,8 @@ const CodeSlidingPanel = ({
       <Row>
         <div className="col-md-6 form-group">
           <label htmlFor="descriptionLg1">{t("codes.description", { lng: "fr" })}</label>
-          <TextInput
+          <textarea
+            className="form-control"
             id="descriptionLg1"
             name="descriptionLg1"
             onChange={handleChange}
@@ -152,11 +189,34 @@ const CodeSlidingPanel = ({
         </div>
         <div className="col-md-6 form-group">
           <label htmlFor="descriptionLg2">{t("codes.description", { lng: "en" })}</label>
-          <TextInput
+          <textarea
+            className="form-control"
             id="descriptionLg2"
             name="descriptionLg2"
             onChange={handleChange}
             value={code.descriptionLg2 || ""}
+          />
+        </div>
+      </Row>
+      <Row>
+        <div className="col-md-6 form-group" id="broader-field">
+          <label htmlFor="broader">{t("codes.broader")}</label>
+          <Select
+            inputId="broader"
+            multi
+            value={code.broader ?? []}
+            options={linkOptions(code.narrower)}
+            onChange={(broader: string[]) => setCode({ ...code, broader })}
+          />
+        </div>
+        <div className="col-md-6 form-group" id="narrower-field">
+          <label htmlFor="narrower">{t("codes.narrower")}</label>
+          <Select
+            inputId="narrower"
+            multi
+            value={code.narrower ?? []}
+            options={linkOptions(code.broader)}
+            onChange={(narrower: string[]) => setCode({ ...code, narrower })}
           />
         </div>
       </Row>
@@ -172,6 +232,8 @@ interface CodesPanelState {
   loading: boolean;
   openPanel: boolean;
   selectedCode: CodeFormState;
+  /** Refus du serveur pour le code ouvert. */
+  selectedCodeError?: unknown;
 }
 
 type CodesPanelAction =
@@ -181,7 +243,7 @@ type CodesPanelAction =
   | { type: "SET_LAZY_STATE"; lazyState: CodesPanelState["lazyState"] }
   | { type: "SET_LOADING"; loading: boolean }
   | { type: "OPEN_CREATION_PANEL" }
-  | { type: "OPEN_EDIT_PANEL"; code: CodeFormState }
+  | { type: "OPEN_EDIT_PANEL"; code: CodeFormState; error?: unknown }
   | { type: "CLOSE_PANEL" };
 
 const initialCodesPanelState: CodesPanelState = {
@@ -209,9 +271,14 @@ function codesPanelReducer(state: CodesPanelState, action: CodesPanelAction): Co
     case "OPEN_CREATION_PANEL":
       return { ...state, openPanel: true };
     case "OPEN_EDIT_PANEL":
-      return { ...state, selectedCode: action.code, openPanel: true };
+      return {
+        ...state,
+        selectedCode: action.code,
+        selectedCodeError: action.error,
+        openPanel: true,
+      };
     case "CLOSE_PANEL":
-      return { ...state, selectedCode: {}, openPanel: false };
+      return { ...state, selectedCode: {}, selectedCodeError: undefined, openPanel: false };
     default:
       return state;
   }
@@ -221,14 +288,62 @@ interface CodesPanelTypes {
   codelist: Codelist;
   hidden?: boolean;
   editable: boolean;
+  /** Modifications de codes en attente, envoyées à la sauvegarde de la liste. */
+  codeChanges?: CodeChanges;
+  onCodeChangesChange?: (changes: CodeChanges) => void;
+  /** Code refusé par le serveur à la dernière sauvegarde, rouvert avec son erreur. */
+  refusedCode?: RefusedCode;
 }
 
-export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTypes>) => {
+export const CodesPanel = ({
+  codelist,
+  hidden,
+  editable,
+  codeChanges = {},
+  onCodeChangesChange = () => {},
+  refusedCode,
+}: Readonly<CodesPanelTypes>) => {
   const { t } = useTranslation();
 
   const [state, dispatch] = useReducer(codesPanelReducer, initialCodesPanelState);
 
-  const { codes, searchCode, searchLabel, lazyState, loading, openPanel, selectedCode } = state;
+  const {
+    codes,
+    searchCode,
+    searchLabel,
+    lazyState,
+    loading,
+    openPanel,
+    selectedCode,
+    selectedCodeError,
+  } = state;
+
+  // Le code refusé est encore en attente : on le rouvre tel qu'il a été envoyé.
+  useEffect(() => {
+    const change = refusedCode && codeChanges[refusedCode.code];
+    if (change) {
+      dispatch({ type: "OPEN_EDIT_PANEL", code: change.code, error: refusedCode.error });
+    }
+  }, [refusedCode]);
+
+  const [allCodes, setAllCodes] = useState<Code[]>([]);
+
+  // Échec de la dernière lecture des codes : le tableau n'affiche alors plus rien comme résultat.
+  const [codesError, setCodesError] = useState<unknown>();
+
+  const showCodes = (request: Promise<any>) =>
+    request.then((cl: any) => {
+      setCodesError(undefined);
+      dispatch({ type: "SET_CODES", codes: cl ?? {} });
+    }, setCodesError);
+
+  useEffect(() => {
+    if (editable && codelist.id) {
+      CodelistsApi.getCodelistCodes(codelist.id, 1, 0).then((cl: any) =>
+        setAllCodes(cl?.items ?? []),
+      );
+    }
+  }, [codelist.id, editable]);
 
   const handleSearch = (type: "code" | "label", valueCode: string, valueLabel: string) => {
     const [handledValue, otherValue, searchActionType, getCodesBySearch]: [
@@ -242,23 +357,17 @@ export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTy
         : [valueLabel, searchCode, "SET_SEARCH_LABEL", CodelistsApi.getCodesByLabel];
     dispatch({ type: searchActionType, value: handledValue });
     if (otherValue) {
-      CodelistsApi.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then((cl: any) => {
-        dispatch({ type: "SET_CODES", codes: cl ?? {} });
-      });
+      showCodes(CodelistsApi.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel));
     } else {
-      getCodesBySearch(codelist.id, handledValue).then((cl: any) => {
-        dispatch({ type: "SET_CODES", codes: cl ?? {} });
-      });
+      showCodes(getCodesBySearch(codelist.id, handledValue));
     }
   };
 
   const fetchCodes = () => {
     dispatch({ type: "SET_LOADING", loading: true });
-    CodelistsApi.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1)
-      .then((cl: any) => {
-        dispatch({ type: "SET_CODES", codes: cl ?? {} });
-      })
-      .finally(() => dispatch({ type: "SET_LOADING", loading: false }));
+    showCodes(
+      CodelistsApi.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1),
+    ).finally(() => dispatch({ type: "SET_LOADING", loading: false }));
   };
 
   useEffect(() => {
@@ -270,7 +379,9 @@ export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTy
     dispatch({ type: "OPEN_CREATION_PANEL" });
   };
 
-  const codesWithActions = (codes.items ?? []).map((code) => {
+  const displayedCodes = mergeCodeChanges(codes.items ?? [], codeChanges);
+
+  const codesWithActions = displayedCodes.map((code) => {
     return {
       ...code,
       broader: code.broader?.length ? code.broader.join(",") : "",
@@ -291,15 +402,11 @@ export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTy
               type="button"
               className="btn btn-default"
               data-component-id={code.code}
-              onClick={() => {
-                CodelistsApi.deleteCodesDetailedCodelist(codelist.id, code).then(() =>
-                  fetchCodes(),
-                );
-              }}
+              onClick={() => onCodeChangesChange(withDeletedCode(codeChanges, code))}
               aria-label={t("codes.removeCode")}
               title={t("codes.removeCode")}
             >
-              <span className="glyphicon glyphicon-minus"></span>
+              <span className="pi pi-minus"></span>
             </button>
           )}
         </>
@@ -338,18 +445,22 @@ export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTy
             />
           </div>
         </Row>
-        <Table
-          codesWithActions={codesWithActions as unknown as TableTypes["codesWithActions"]}
-          loading={loading}
-          onPage={(newLazyState) =>
-            dispatch({
-              type: "SET_LAZY_STATE",
-              lazyState: newLazyState as unknown as CodesPanelState["lazyState"],
-            })
-          }
-          total={codes.total ?? 0}
-          state={lazyState}
-        />
+        {codesError ? (
+          <ErrorBloc error={codesError} />
+        ) : (
+          <Table
+            codesWithActions={codesWithActions as unknown as TableTypes["codesWithActions"]}
+            loading={loading}
+            onPage={(newLazyState) =>
+              dispatch({
+                type: "SET_LAZY_STATE",
+                lazyState: newLazyState as unknown as CodesPanelState["lazyState"],
+              })
+            }
+            total={(codes.total ?? 0) + displayedCodes.length - (codes.items?.length ?? 0)}
+            state={lazyState}
+          />
+        )}
       </CollapsiblePanel>
       <RightSlidingPanel isOpen={openPanel} onHide={() => dispatch({ type: "CLOSE_PANEL" })}>
         <div id="code-edit-panel">
@@ -357,19 +468,14 @@ export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTy
             code={selectedCode}
             codelist={codelist}
             creation={!selectedCode.code}
+            existingCodes={displayedCodes}
+            linkableCodes={mergeCodeChanges(allCodes, codeChanges)}
+            serverError={selectedCodeError}
             handleBack={() => dispatch({ type: "CLOSE_PANEL" })}
             handleSave={(code, creation) => {
-              let promise;
-              if (creation) {
-                promise = CodelistsApi.postCodesDetailedCodelist;
-              } else {
-                promise = CodelistsApi.putCodesDetailedCodelist;
-              }
-              promise(codelist.id, code)
-                .then(() => fetchCodes())
-                .then(() => {
-                  dispatch({ type: "CLOSE_PANEL" });
-                });
+              const withCode = creation ? withCreatedCode : withUpdatedCode;
+              onCodeChangesChange(withCode(codeChanges, code));
+              dispatch({ type: "CLOSE_PANEL" });
             }}
           ></CodeSlidingPanel>
         </div>

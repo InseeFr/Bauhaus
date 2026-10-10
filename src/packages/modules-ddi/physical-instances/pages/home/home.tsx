@@ -1,17 +1,17 @@
-import type { Toast } from "primereact/toast";
 import { useMemo, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { AppDevTools } from "@components/devtools/AppDevTools";
-import { Row } from "@components/layout";
+import { HomePageLayout } from "@components/home-page-layout";
 import { Loading } from "@components/loading";
-import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
+import { Toast } from "@components/ui/toast";
 
-import { getApiErrorMessage } from "@utils/api-errors";
+import { formatApiErrors } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { appI18n } from "../../../../i18n";
 import { useCreatePhysicalInstance } from "../../../hooks/useCreatePhysicalInstance";
 import { usePhysicalInstances } from "../../../hooks/usePhysicalInstances";
 import { errorToastTiming } from "../../../utils/error-toast";
@@ -57,7 +57,11 @@ export const Component = () => {
         replace: true,
       });
     } catch (err: unknown) {
-      const errorMessage = getApiErrorMessage(err, t("physicalInstance.creation.errorMessage"));
+      const errorMessage = formatApiErrors(
+        err,
+        appI18n,
+        t("physicalInstance.creation.errorMessage"),
+      ).join("\n");
 
       toast.current?.show({
         severity: "error",
@@ -71,23 +75,22 @@ export const Component = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="container">
-      <Row>
-        <HomePageMenu onCreate={() => setVisible(true)} />
-        <div className="col-md-8 text-center pull-right">
-          <PageTitle title={t("physicalInstance.homePageTitle")} col={12} offset={0} />
-          <SearchableList
-            items={items}
-            advancedSearch
-            searchUrl="/ddi/physical-instances/search"
-            childPath={(item: { agency: string }) => "ddi/physical-instances/" + item.agency}
-            autoFocus
-            itemFormatter={(_content: any, item: any) => {
-              return `${item.label} (${item.formattedVersionDate})`;
-            }}
-          />
-        </div>
-      </Row>
+    <>
+      <HomePageLayout
+        title={t("physicalInstance.homePageTitle")}
+        menu={<HomePageMenu onCreate={() => setVisible(true)} />}
+      >
+        <SearchableList
+          items={items}
+          advancedSearch
+          searchUrl="/ddi/physical-instances/search"
+          childPath={(item: { agency: string }) => "ddi/physical-instances/" + item.agency}
+          autoFocus
+          itemFormatter={(_content: any, item: any) => {
+            return `${item.label} (${item.formattedVersionDate})`;
+          }}
+        />
+      </HomePageLayout>
 
       <PhysicalInstanceDialog
         visible={visible}
@@ -98,6 +101,6 @@ export const Component = () => {
 
       <DdiToast ref={toast} />
       <AppDevTools />
-    </div>
+    </>
   );
 };

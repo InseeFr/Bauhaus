@@ -1,4 +1,5 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { ValidationState } from "@components/status";
@@ -8,28 +9,20 @@ import { OperationsApi } from "@sdk/operations-api";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { OperationsFamilyEdition } from "./OperationsFamilyEdition";
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: () => ({
-      t: (key: string, options?: { lng?: string }) => {
-        const translations: Record<string, Record<string, string>> = {
-          fr: {
-            "common.title": "Intitulé",
-            "common.summary": "Résumé",
-          },
-          en: {
-            "common.title": "Title",
-            "common.summary": "Summary",
-          },
-        };
-        const lng = options?.lng || "en";
-        return translations[lng]?.[key] || key;
-      },
-    }),
-  };
-});
+vi.mock("react-i18next", async (importOriginal) =>
+  (
+    await import("../../../../components/translationsByLanguage.testing")
+  ).mockTranslationsByLanguage(importOriginal, {
+    fr: {
+      "common.title": "Intitulé",
+      "common.summary": "Résumé",
+    },
+    en: {
+      "common.title": "Title",
+      "common.summary": "Summary",
+    },
+  }),
+);
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: {
@@ -39,6 +32,16 @@ vi.mock("@sdk/operations-api", () => ({
 }));
 
 const mockGoBack = vi.fn();
+
+const renderEdition = (
+  props: Parameters<typeof OperationsFamilyEdition>[0],
+  queryClient = new QueryClient(),
+) =>
+  renderWithAppContext(
+    <QueryClientProvider client={queryClient}>
+      <OperationsFamilyEdition {...props} />
+    </QueryClientProvider>,
+  );
 
 describe("OperationsFamilyEdition", () => {
   const defaultProps = {
@@ -57,13 +60,43 @@ describe("OperationsFamilyEdition", () => {
     goBack: mockGoBack,
   };
 
+  const newFamilyProps = {
+    ...defaultProps,
+    id: "",
+    family: { ...defaultProps.family, id: "" },
+  };
+
+  const clickSave = () => fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+
+  const saveNewFamily = () => {
+    OperationsApi.createFamily.mockResolvedValueOnce("new-id");
+    renderEdition(newFamilyProps);
+    clickSave();
+  };
+
+  const saveExistingFamily = () => {
+    OperationsApi.updateFamily.mockResolvedValueOnce();
+    renderEdition(defaultProps);
+    clickSave();
+  };
+
+  const saveAndWaitForServerError = async () => {
+    OperationsApi.updateFamily.mockRejectedValueOnce("Server error");
+    renderEdition(defaultProps);
+    clickSave();
+
+    await waitFor(() => {
+      expect(screen.getByText("Server error")).toBeInTheDocument();
+    });
+  };
+
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   describe("Rendering", () => {
     it("should render the component correctly with all required fields", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       expect(screen.getByDisplayValue("Test Label 1")).toBeInTheDocument();
       expect(screen.getByDisplayValue("Test Label 2")).toBeInTheDocument();
@@ -72,7 +105,7 @@ describe("OperationsFamilyEdition", () => {
     });
 
     it("should display page title when editing existing family", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       expect(screen.getByText("Test Label 1")).toBeInTheDocument();
     });
@@ -83,13 +116,13 @@ describe("OperationsFamilyEdition", () => {
         id: "",
         family: { ...defaultProps.family, id: "" },
       };
-      renderWithAppContext(<OperationsFamilyEdition {...props} />);
+      renderEdition(props);
 
       expect(screen.queryByText("Test Label 1")).not.toBeInTheDocument();
     });
 
     it("should render markdown editors for both abstract fields", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       expect(screen.getByText(/Résumé/)).toBeInTheDocument();
       expect(screen.getByText(/Summary/)).toBeInTheDocument();
@@ -98,7 +131,7 @@ describe("OperationsFamilyEdition", () => {
 
   describe("User Interactions", () => {
     it("should update prefLabelLg1 when input changes", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       const input = screen.getByDisplayValue("Test Label 1") as HTMLInputElement;
       fireEvent.change(input, {
@@ -108,8 +141,28 @@ describe("OperationsFamilyEdition", () => {
       expect(input.value).toBe("Updated Label 1");
     });
 
+    it.each([
+      ["Résumé", "abstractLg1"],
+      ["Summary", "abstractLg2"],
+    ])("should send to the API the markdown typed in the %s editor", async (label, field) => {
+      OperationsApi.updateFamily.mockResolvedValueOnce();
+      renderEdition(defaultProps);
+
+      fireEvent.change(screen.getByRole("textbox", { name: label }), {
+        target: { value: "Un **résumé**\n\n- point" },
+      });
+      clickSave();
+
+      await waitFor(() =>
+        expect(OperationsApi.updateFamily).toHaveBeenCalledWith({
+          ...defaultProps.family,
+          [field]: "Un **résumé**\n\n- point",
+        }),
+      );
+    });
+
     it("should update prefLabelLg2 when input changes", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       const input = screen.getByDisplayValue("Test Label 2") as HTMLInputElement;
       fireEvent.change(input, {
@@ -120,15 +173,7 @@ describe("OperationsFamilyEdition", () => {
     });
 
     it("should clear server error when user modifies input", async () => {
-      OperationsApi.updateFamily.mockRejectedValueOnce("Server error");
-
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
-
-      await waitFor(() => {
-        expect(screen.getByText("Server error")).toBeInTheDocument();
-      });
+      await saveAndWaitForServerError();
 
       const input = screen.getByDisplayValue("Test Label 1") as HTMLInputElement;
       fireEvent.change(input, {
@@ -141,7 +186,7 @@ describe("OperationsFamilyEdition", () => {
     });
 
     it("should call goBack when cancel button is clicked", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       fireEvent.click(screen.getByRole("button", { name: /Cancel/i }));
 
@@ -155,7 +200,7 @@ describe("OperationsFamilyEdition", () => {
         ...defaultProps,
         family: { ...defaultProps.family, prefLabelLg1: "", prefLabelLg2: "" },
       };
-      renderWithAppContext(<OperationsFamilyEdition {...props} />);
+      renderEdition(props);
 
       fireEvent.click(screen.getByRole("button", { name: /Save/i }));
 
@@ -170,7 +215,7 @@ describe("OperationsFamilyEdition", () => {
         ...defaultProps,
         family: { ...defaultProps.family, prefLabelLg1: "" },
       };
-      renderWithAppContext(<OperationsFamilyEdition {...props} />);
+      renderEdition(props);
 
       fireEvent.click(screen.getByRole("button", { name: /Save/i }));
 
@@ -182,34 +227,16 @@ describe("OperationsFamilyEdition", () => {
 
   describe("API Calls - Creation", () => {
     it("should call createFamily API when creating a new family", async () => {
-      const props = {
-        ...defaultProps,
-        id: "",
-        family: { ...defaultProps.family, id: "" },
-      };
-      OperationsApi.createFamily.mockResolvedValueOnce("new-id");
-
-      renderWithAppContext(<OperationsFamilyEdition {...props} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+      saveNewFamily();
 
       await waitFor(() => {
-        expect(OperationsApi.createFamily).toHaveBeenCalledWith(props.family);
+        expect(OperationsApi.createFamily).toHaveBeenCalledWith(newFamilyProps.family);
         expect(OperationsApi.createFamily).toHaveBeenCalledTimes(1);
       });
     });
 
     it("should redirect to new family page after successful creation", async () => {
-      const props = {
-        ...defaultProps,
-        id: "",
-        family: { ...defaultProps.family, id: "" },
-      };
-      OperationsApi.createFamily.mockResolvedValueOnce("new-id");
-
-      renderWithAppContext(<OperationsFamilyEdition {...props} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+      saveNewFamily();
 
       await waitFor(() => {
         expect(mockGoBack).toHaveBeenCalledWith("/operations/family/new-id", true);
@@ -219,11 +246,7 @@ describe("OperationsFamilyEdition", () => {
 
   describe("API Calls - Update", () => {
     it("should call updateFamily API when updating an existing family", async () => {
-      OperationsApi.updateFamily.mockResolvedValueOnce();
-
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+      saveExistingFamily();
 
       await waitFor(() => {
         expect(OperationsApi.updateFamily).toHaveBeenCalledWith(defaultProps.family);
@@ -232,48 +255,72 @@ describe("OperationsFamilyEdition", () => {
     });
 
     it("should redirect to family page after successful update", async () => {
-      OperationsApi.updateFamily.mockResolvedValueOnce();
-
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+      saveExistingFamily();
 
       await waitFor(() => {
         expect(mockGoBack).toHaveBeenCalledWith("/operations/family/1", false);
       });
     });
+
+    it.each([
+      ["the series, whose page shows the label of their family", ["series", "s1"]],
+      ["the families offered when editing a series", ["families"]],
+      ["the family page, served from the cache", ["families", "1"]],
+    ])("should invalidate %s before opening the family", async (_, queryKey) => {
+      const queryClient = new QueryClient();
+      queryClient.setQueryData(queryKey, {});
+      let invalidatedAtGoBack: boolean | undefined;
+      mockGoBack.mockImplementationOnce(() => {
+        invalidatedAtGoBack = queryClient.getQueryState(queryKey)?.isInvalidated;
+      });
+      OperationsApi.updateFamily.mockResolvedValueOnce();
+      renderEdition(defaultProps, queryClient);
+
+      clickSave();
+
+      await waitFor(() => expect(mockGoBack).toHaveBeenCalled());
+      expect(invalidatedAtGoBack).toBe(true);
+    });
   });
 
   describe("Error Handling", () => {
     it("should display server-side error if API call fails", async () => {
-      OperationsApi.updateFamily.mockRejectedValueOnce("Server error");
+      await saveAndWaitForServerError();
+    });
 
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
-
-      await waitFor(() => {
-        expect(screen.getByText("Server error")).toBeInTheDocument();
+    it("should display a server field error next to its field, like a client-side error", async () => {
+      OperationsApi.updateFamily.mockRejectedValueOnce({
+        status: 400,
+        errors: [{ field: "prefLabelLg1", message: "must not be blank" }],
       });
+      renderEdition(defaultProps);
+      clickSave();
+
+      const input = await screen.findByDisplayValue("Test Label 1");
+      await waitFor(() => expect(input).toHaveAccessibleDescription("must not be blank"));
+      expect(input).toHaveAttribute("aria-invalid", "true");
+    });
+
+    it("should display in the error banner a server error on a field absent from the form", async () => {
+      OperationsApi.updateFamily.mockRejectedValueOnce({
+        status: 400,
+        errors: [{ field: "created", message: "is not a valid LocalDate" }],
+      });
+      renderEdition(defaultProps);
+      clickSave();
+
+      expect(await screen.findByText("created : is not a valid LocalDate")).toBeInTheDocument();
     });
 
     it("should not call goBack if API call fails", async () => {
-      OperationsApi.updateFamily.mockRejectedValueOnce("Server error");
-
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
-
-      await waitFor(() => {
-        expect(screen.getByText("Server error")).toBeInTheDocument();
-      });
+      await saveAndWaitForServerError();
 
       expect(mockGoBack).not.toHaveBeenCalled();
     });
   });
 
   describe("Loading State", () => {
-    it("should show loading component while saving", async () => {
+    it("should keep showing the loading component until goBack has navigated away", async () => {
       let resolveUpdate: () => void;
       OperationsApi.updateFamily.mockImplementation(
         () =>
@@ -282,7 +329,7 @@ describe("OperationsFamilyEdition", () => {
           }),
       );
 
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       fireEvent.click(screen.getByRole("button", { name: /Save/i }));
 
@@ -290,15 +337,18 @@ describe("OperationsFamilyEdition", () => {
 
       resolveUpdate!();
 
-      await waitFor(() => {
-        expect(screen.queryByText(/Saving in progress/i)).not.toBeInTheDocument();
-      });
+      // La navigation de goBack est asynchrone (navigate(-1), route chargée à la demande) : tant
+      // qu'elle n'a pas abouti, le composant reste monté et ne doit pas repasser sur le formulaire.
+      await waitFor(() => expect(mockGoBack).toHaveBeenCalled());
+      await act(async () => {});
+      expect(screen.getByText(/Saving in progress/i)).toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: /Save/i })).not.toBeInTheDocument();
     });
   });
 
   describe("Component Lifecycle", () => {
     it("should reinitialize state when id prop changes", () => {
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      renderEdition(defaultProps);
 
       expect(screen.getByDisplayValue("Test Label 1")).toBeInTheDocument();
 
@@ -312,7 +362,7 @@ describe("OperationsFamilyEdition", () => {
         },
       };
 
-      renderWithAppContext(<OperationsFamilyEdition {...newProps} />);
+      renderEdition(newProps);
 
       expect(screen.getByDisplayValue("New Family Label")).toBeInTheDocument();
     });

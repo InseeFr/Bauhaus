@@ -4,6 +4,7 @@
   },
   "physicalInstance": {
     "pluralTitle": "Fichiers de données",
+    "searchTitle": "Fichiers de données - Recherche avancée",
     "homePageTitle": "Fichiers de données - Recherche",
     "creation": {
       "cancel": "Annuler",
@@ -35,7 +36,6 @@
       }
     },
     "view": {
-      "add": "Ajouter",
       "allTypes": "Tous types",
       "cancel": "Annuler",
       "cancelDelete": "Annuler",
@@ -46,6 +46,30 @@
         "codeListLabel": "Libellé de la liste de codes",
         "codes": "Codes",
         "createNewList": "Créer une nouvelle liste",
+        "csvImport": {
+          "button": "Importer un CSV",
+          "dropzone": "Glissez-déposez un fichier CSV ici, ou",
+          "chooseFile": "Choisir un fichier",
+          "fileInput": "Fichier CSV",
+          "help": "Deux colonnes : le code, puis le libellé de sa catégorie. La première ligne est un en-tête, toujours ignorée. Séparateur « , » ou « ; », encodage UTF-8, {{max, number}} lignes au maximum. L'import crée une nouvelle liste pour la variable.",
+          "rejected_one": "Import refusé, aucun code n'a été créé : corrigez l'erreur ci-dessous puis importez à nouveau le fichier.",
+          "rejected_other": "Import refusé, aucun code n'a été créé : corrigez les {{count}} erreurs ci-dessous puis importez à nouveau le fichier.",
+          "errorsCaption": "Erreurs du fichier CSV",
+          "line": "Ligne",
+          "error": "Erreur",
+          "success_one": "Import réussi : {{count, number}} code ajouté.",
+          "success_other": "Import réussi : {{count, number}} codes ajoutés.",
+          "errors": {
+            "emptyCode": "Le code est vide",
+            "emptyValue": "La valeur est vide",
+            "invalidColumnCount": "Nombre de colonnes invalide (2 attendues)",
+            "unclosedQuote": "Guillemet ouvert jamais refermé",
+            "duplicateCode": "Le code {{code}} est en double",
+            "noData": "Le fichier ne contient aucune ligne de données",
+            "tooManyRows": "Le fichier dépasse la limite de {{max, number}} lignes de données",
+            "notCsv": "Seuls les fichiers .csv sont acceptés"
+          }
+        },
         "deleteCode": "Supprimer",
         "editCode": "Modifier le code",
         "errorLoadingCodeLists": "Erreur lors du chargement des listes de codes",
@@ -57,20 +81,20 @@
         "loadingCodeLists": "Chargement des listes de codes...",
         "missingCodeListDetail": "La variable {{variableAgency}}/{{variableId}} référence la liste de codes {{codeListAgency}}/{{codeListId}} qui n'existe pas.",
         "missingCodeListTitle": "Liste de codes introuvable",
-        "loadCodeListErrorTitle": "Impossible de charger la liste de codes",
-        "loadCodeListErrorDetail": "La liste de codes de cette variable n'a pas pu être chargée. Réessayez plus tard.",
         "moveDown": "Descendre",
         "moveUp": "Monter",
         "mutualizedCodeListsSection": "Listes mutualisées",
         "mutualizedReadOnly": "Liste mutualisée (lecture seule)",
         "noCodes": "Aucun code",
+        "codesCount_one": "{{count, number}} code",
+        "codesCount_other": "{{count, number}} codes",
         "noCodeListsAvailable": "Aucune liste de codes disponible",
         "reuseList": "Réutiliser",
         "selectCodeList": "Sélectionnez une liste de codes",
         "value": "Valeur",
         "usersPanel": {
           "title": "Utilisations de cette liste de codes",
-          "help": "Variables et fichiers de données qui réutilisent cette même liste de codes, regroupées par opération puis par fichier de données.",
+          "help": "Variables et instances physiques qui réutilisent cette même liste de codes, regroupées par opération puis par instance physique.",
           "unknownStudyUnit": "Opération inconnue"
         },
         "categoryUsage": {
@@ -154,7 +178,9 @@
       },
       "confirmDelete": "Supprimer",
       "copyCode": "Copier le code",
+      "copyCodeTooLarge": "Au-delà de 4 Mo, certains navigateurs (Chrome, Vivaldi…) tronquent la copie : utilisez Télécharger",
       "copyXml": "Copier le XML",
+      "downloadCode": "Télécharger",
       "date": {
         "selectType": "Sélectionnez un type de date",
         "type": "Type de date"
@@ -166,10 +192,10 @@
       "deleteVariableSuccess": "Variable supprimée",
       "deleteVariableSuccessDetail": "La variable a été supprimée avec succès",
       "duplicate": "Dupliquer",
-      "duplicateSuccess": "Fichier de données dupliqué",
-      "duplicateSuccessDetail": "Le fichier de données a été dupliqué avec succès",
+      "duplicateSuccess": "Instance physique dupliquée",
+      "duplicateSuccessDetail": "L'instance physique a été dupliquée avec succès",
       "duplicateError": "Erreur de duplication",
-      "duplicateErrorDetail": "Impossible de dupliquer le fichier de données",
+      "duplicateErrorDetail": "Impossible de dupliquer l'instance physique",
       "duplicateModal": {
         "cancel": "Annuler",
         "confirm": "Dupliquer",
@@ -183,7 +209,6 @@
       },
       "editTitle": "Modifier le titre",
       "editVariable": "Modifier la variable",
-      "errorLoading": "Erreur lors du chargement des données",
       "export": "Exporter",
       "exportError": "Erreur lors de l'export",
       "exportErrorDetail": "Impossible de télécharger le fichier",
@@ -191,7 +216,6 @@
       "exportSuccessDetail": "Le fichier au format {{format}} a été téléchargé",
       "validateDdi4": "Valider le DDI4",
       "validateDdi4InProgress": "Validation DDI4 en cours...",
-      "reloadingAfterSave": "Rechargement du fichier de données...",
       "validateDdi4Success": "DDI4 valide",
       "validateDdi4SuccessDetail": "Le fichier de données est conforme au schéma DDI 4.0",
       "validateDdi4Error": "DDI4 non valide",
@@ -226,9 +250,9 @@
       "saveAllSuccess": "Sauvegarde réussie",
       "saveAllSuccessDetail": "Toutes les modifications ont été sauvegardées avec succès",
       "saveError": "Erreur lors de l'enregistrement",
-      "saveErrorDetail": "Impossible d'enregistrer le fichier de données",
+      "saveErrorDetail": "Impossible d'enregistrer l'instance physique",
       "saveSuccess": "Enregistrement réussi",
-      "saveSuccessDetail": "Le fichier de données a été mis à jour",
+      "saveSuccessDetail": "L'instance physique a été mise à jour",
       "search": "Rechercher",
       "selectType": "Sélectionnez un type",
       "selectVariable": "Sélectionnez une variable pour l'éditer",
@@ -244,9 +268,6 @@
         "regExp": "Expression régulière"
       },
       "typeFilter": "Filtrer par type",
-      "update": "Mettre à jour",
-      "variableAddSuccess": "Variable ajoutée",
-      "variableAddSuccessDetail": "Variable ajoutée avec succès. Pensez à sauvegarder",
       "variableDuplicateSuccess": "Variable dupliquée",
       "variableDuplicateSuccessDetail": "La variable a été dupliquée avec succès",
       "variableTypes": {
@@ -256,36 +277,58 @@
         "text": "Texte"
       },
       "validation": {
-        "required": "Ce champ est obligatoire"
+        "required": "Ce champ est obligatoire",
+        "summary": "Certaines variables modifiées contiennent des erreurs. Corrigez-les avant de sauvegarder :",
+        "variableHasErrors": "Cette variable contient des erreurs",
+        "unnamedVariable": "Variable sans nom",
+        "errors": {
+          "nameRequired": "le nom est obligatoire",
+          "labelRequired": "le libellé est obligatoire",
+          "sentinelLabelRequired": "le libellé des valeurs sentinelles est obligatoire"
+        }
       },
-      "variableUpdateSuccess": "Variable mise à jour",
-      "variableUpdateSuccessDetail": "Variable mise à jour avec succès. Pensez à sauvegarder",
       "previousVariable": "Variable précédente",
       "nextVariable": "Variable suivante",
+      "closeVariablePanel": "Fermer",
       "variablesTable": "Tableau des variables",
       "totalVariables": "Total : {{count}} variable(s)",
-      "pendingVariableEdit": {
-        "title": "Modification de variable non validée",
-        "message": "La variable en cours d'édition contient des modifications qui n'ont pas été validées par « Mettre à jour ». Sauvegarder maintenant les perdra.",
-        "confirm": "Sauvegarder sans ces modifications",
-        "cancel": "Revenir à la variable"
-      },
       "unsavedChangesTitle": "Modifications non sauvegardées",
       "unsavedChangesMessage": "Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir quitter cette page ?",
       "leaveWithoutSaving": "Quitter sans sauvegarder",
       "stayOnPage": "Rester sur la page",
-      "groupTag": "Série : {{label}}",
-      "studyUnitTag": "Opération : {{label}}",
-      "studyUnitSelectPlaceholder": "Aller vers un fichier de données de l'opération…",
-      "studyUnitSelectEmpty": "Aucun fichier de données"
+      "breadcrumb": {
+        "label": "Arborescence du fichier de données",
+        "group": "Série :",
+        "studyUnit": "Opération :",
+        "switch": "{{label}} — changer de fichier de données de l'opération",
+        "filter": "Filtrer les fichiers de données…",
+        "loading": "Chargement…",
+        "noMatch": "Aucun fichier de données ne correspond",
+        "count_one": "{{count}} fichier de données dans l'opération",
+        "count_other": "{{count}} fichiers de données dans l'opération"
+      },
+      "reuseVariable": {
+        "open": "Réutiliser une variable",
+        "title": "Réutiliser une variable de l'étude",
+        "help": "Choisissez une variable déjà utilisée par un autre fichier de l'étude. Elle n'est pas copiée : c'est la même variable, et toute modification ultérieure sera répercutée dans tous les fichiers qui l'utilisent.",
+        "select": "Rechercher une variable",
+        "empty": "Aucune autre variable de l'étude à réutiliser",
+        "confirm": "Réutiliser",
+        "cancel": "Annuler"
+      },
+      "sharedVariable": {
+        "badge": "Variable partagée avec d'autres fichiers",
+        "message_one": "Variable partagée avec 1 autre fichier : toute modification y sera répercutée",
+        "message_other": "Variable partagée avec {{count}} autres fichiers : toute modification y sera répercutée"
+      }
     },
-    "errors": {
-      "GROUP_MISSING_CODE_LIST_SCHEME": "La série « {{group}} » n'a pas de CodeListScheme pour ranger ses listes de codes : il doit être créé en amont.",
-      "GROUP_MISSING_CATEGORY_SCHEME": "La série « {{group}} » n'a pas de CategoryScheme pour ranger ses catégories : il doit être créé en amont.",
-      "GROUP_MISSING_MANAGED_REPRESENTATION_SCHEME": "La série « {{group}} » n'a pas de ManagedRepresentationScheme pour ranger ses valeurs sentinelles : il doit être créé en amont.",
-      "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "L'opération « {{studyUnit}} » n'a pas de LogicalProduct pour ranger ses variables : il doit être créé en amont.",
-      "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "L'opération « {{studyUnit}} » a {{count}} LogicalProducts : un seul est attendu pour ranger ses variables.",
-      "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "L'opération « {{studyUnit}} » n'a pas de VariableScheme pour ranger ses variables : il doit être créé en amont."
+    "cache": {
+      "evict": "Vider le cache",
+      "evicting": "Vidage du cache…",
+      "successTitle": "Cache vidé",
+      "successMessage": "Les données sont désormais relues depuis Colectica.",
+      "errorTitle": "Échec du vidage du cache",
+      "errorMessage": "Le cache n'a pas pu être vidé."
     }
   }
 }

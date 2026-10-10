@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { ReturnButton } from "@components/buttons/buttons-with-icons";

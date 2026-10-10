@@ -2,12 +2,22 @@ import { render } from "@testing-library/react";
 
 import { SingleOrNestedListItem } from "./index";
 
+const SINGLE_VALUE = ["Single Value"];
+const TEST_VALUE = ["Test"];
+const THREE_VALUES = ["Value 1", "Value 2", "Value 3"];
+const TWO_ITEMS = ["Item 1", "Item 2"];
+const ORDERED_ITEMS = ["First", "Second", "Third"];
+const TWO_VALUES = ["Value 1", "Value 2"];
+const EMPTY_STRING_VALUE = [""];
+const SPECIAL_CHARACTERS_VALUE = ["Value & Co."];
+
+const customGetContent = (value: string) => `Custom: ${value}`;
+const unusedGetContent = () => "Should not be used";
+
 describe("SingleOrNestedListItem", () => {
   describe("when items array contains a single item", () => {
     it("renders a simple list item with label and value", () => {
-      const { container } = render(
-        <SingleOrNestedListItem items={["Single Value"]} label="Field" />,
-      );
+      const { container } = render(<SingleOrNestedListItem items={SINGLE_VALUE} label="Field" />);
 
       const listItem = container.querySelector("li");
       expect(listItem).not.toBeNull();
@@ -15,7 +25,7 @@ describe("SingleOrNestedListItem", () => {
     });
 
     it("formats the label and value with a colon separator", () => {
-      const { container } = render(<SingleOrNestedListItem items={["Test"]} label="Label" />);
+      const { container } = render(<SingleOrNestedListItem items={TEST_VALUE} label="Label" />);
 
       const listItem = container.querySelector("li");
       expect(listItem?.textContent).toBe("Label: Test");
@@ -24,9 +34,7 @@ describe("SingleOrNestedListItem", () => {
 
   describe("when items array contains multiple items", () => {
     it("renders a list item with a nested List component", () => {
-      const { container } = render(
-        <SingleOrNestedListItem items={["Value 1", "Value 2", "Value 3"]} label="Field" />,
-      );
+      const { container } = render(<SingleOrNestedListItem items={THREE_VALUES} label="Field" />);
 
       const listItem = container.querySelector("li");
       expect(listItem).not.toBeNull();
@@ -40,7 +48,7 @@ describe("SingleOrNestedListItem", () => {
 
     it("displays the label followed by the nested list", () => {
       const { container } = render(
-        <SingleOrNestedListItem items={["Item 1", "Item 2"]} label="Multiple Items" />,
+        <SingleOrNestedListItem items={TWO_ITEMS} label="Multiple Items" />,
       );
 
       const listItem = container.querySelector("li");
@@ -48,8 +56,7 @@ describe("SingleOrNestedListItem", () => {
     });
 
     it("renders each item in the nested list", () => {
-      const items = ["First", "Second", "Third"];
-      const { container } = render(<SingleOrNestedListItem items={items} label="Items" />);
+      const { container } = render(<SingleOrNestedListItem items={ORDERED_ITEMS} label="Items" />);
 
       const nestedItems = container.querySelectorAll("ul > li");
       expect(nestedItems[0].textContent).toBe("First");
@@ -60,13 +67,8 @@ describe("SingleOrNestedListItem", () => {
 
   describe("when passing additional props", () => {
     it("forwards props to the List component when rendering multiple items", () => {
-      const customGetContent = (value: string) => `Custom: ${value}`;
       const { container } = render(
-        <SingleOrNestedListItem
-          items={["Value 1", "Value 2"]}
-          label="Field"
-          getContent={customGetContent}
-        />,
+        <SingleOrNestedListItem items={TWO_VALUES} label="Field" getContent={customGetContent} />,
       );
 
       const nestedItems = container.querySelectorAll("ul > li");
@@ -75,13 +77,8 @@ describe("SingleOrNestedListItem", () => {
     });
 
     it("does not use additional props when rendering a single item", () => {
-      const customGetContent = () => "Should not be used";
       const { container } = render(
-        <SingleOrNestedListItem
-          items={["Single Value"]}
-          label="Field"
-          getContent={customGetContent}
-        />,
+        <SingleOrNestedListItem items={SINGLE_VALUE} label="Field" getContent={unusedGetContent} />,
       );
 
       const listItem = container.querySelector("li");
@@ -91,7 +88,9 @@ describe("SingleOrNestedListItem", () => {
 
   describe("edge cases", () => {
     it("handles empty strings in items array", () => {
-      const { container } = render(<SingleOrNestedListItem items={[""]} label="Empty" />);
+      const { container } = render(
+        <SingleOrNestedListItem items={EMPTY_STRING_VALUE} label="Empty" />,
+      );
 
       const listItem = container.querySelector("li");
       expect(listItem?.textContent).toBe("Empty: ");
@@ -99,7 +98,7 @@ describe("SingleOrNestedListItem", () => {
 
     it("handles special characters in label and values", () => {
       const { container } = render(
-        <SingleOrNestedListItem items={["Value & Co."]} label="Label <test>" />,
+        <SingleOrNestedListItem items={SPECIAL_CHARACTERS_VALUE} label="Label <test>" />,
       );
 
       const listItem = container.querySelector("li");

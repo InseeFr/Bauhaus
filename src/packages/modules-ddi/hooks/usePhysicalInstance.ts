@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { DDIApi } from "@sdk/index";
 
+import { toVariableTableData } from "../physical-instances/pages/view/toVariableTableData";
 import type {
   PhysicalInstanceResponse,
   VariableTableData,
@@ -10,33 +11,16 @@ import type {
 import { itemsOfType, singleItemOfType } from "../physical-instances/types/ddi4Items";
 import { pickLang } from "../utils/multilingual";
 
+const DEFAULT_LANG = "fr-FR";
+
 function transformVariablesToTableData(
   data: PhysicalInstanceResponse,
   lang: string,
 ): VariableTableData[] {
-  return itemsOfType(data, "Variable").map((variable: Variable) => ({
-    id: variable.ID,
-    name: pickLang(variable.VariableName, lang) ?? "",
-    label: pickLang(variable.Label, lang) ?? "",
-    type: getVariableType(variable),
-    lastModified: variable.VersionDate?.DateTime || "",
-  }));
+  return itemsOfType(data, "Variable").map((variable: Variable) =>
+    toVariableTableData(variable, lang),
+  );
 }
-
-function getVariableType(variable: Variable): string {
-  if (variable.VariableRepresentation?.CodeRepresentation) {
-    return "code";
-  }
-  if (variable.VariableRepresentation?.NumericRepresentation) {
-    return "numeric";
-  }
-  if (variable.VariableRepresentation?.DateTimeRepresentation) {
-    return "date";
-  }
-  return "text";
-}
-
-const DEFAULT_LANG = "fr-FR";
 
 export function usePhysicalInstancesData(agencyId: string, id: string) {
   const query = useQuery({

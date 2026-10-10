@@ -1,0 +1,41 @@
+name: Quality
+
+# Vérifie le front sur chaque PR et publie le rapport Sonar. Les vérifications
+# elles-mêmes, scan Sonar compris, vivent dans InseeFr/rmes-githubactions-commons,
+# partagées avec les autres fronts RMéS ; seul le token reste ici, un secret ne
+# traversant pas une action composite tout seul.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+  schedule:
+    # Tous les lundis à 12h UTC
+    - cron: '0 12 * * 1'
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+jobs:
+  test-build:
+    name: Test & Build & Deploy Sonar report
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Le contrôle du titre de PR, dans l'action `quality`, lit la pull request.
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: InseeFr/rmes-githubactions-commons/.github/actions/quality-front@main
+        with:
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          # Le seuil partagé est à 2 % ; Bauhaus est à ~3,9 % de lignes dupliquées.
+          # On porte l'écart ici plutôt que d'abaisser la règle commune : à faire
+          # redescendre vers 2 % au fil du nettoyage.
+          jscpd-threshold: '5'
+          # Analyse statique du Dockerfile (seuil `warning`, exceptions dans
+          # .hadolint.yaml) : l'étape vit dans le commons, elle remplace le
+          # workflow hadolint.yml que ce dépôt portait.
+          hadolint-dockerfile: Dockerfile

@@ -1,9 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
+import { ChangeEvent, ReactNode, useCallback } from "react";
+import { MemoryRouter } from "react-router";
 
 import "../../../i18n";
+import { useTitle } from "@utils/hooks/useTitle";
+
 import {
   PhysicalInstanceSearchRow,
   usePhysicalInstancesSearch,
@@ -12,23 +14,23 @@ import { Component } from "./page";
 
 vi.mock("../../../hooks/usePhysicalInstancesSearch");
 vi.mock("@utils/hooks/useTitle");
-vi.mock("@components/select-rmes", () => ({
-  Select: ({ inputId, value, options, onChange, disabled }: any) => (
-    <select
-      id={inputId}
-      value={value ?? ""}
-      disabled={disabled}
-      onChange={(e) => onChange(e.target.value || null)}
-    >
-      <option value="" />
-      {options.map((o: any) => (
-        <option key={o.value} value={o.value}>
-          {o.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
+vi.mock("@components/select-rmes", async () => {
+  const { NativeOptions } = await import("../pages.testing");
+  return {
+    Select: ({ inputId, value, options, onChange, disabled }: any) => {
+      const handleChange = useCallback(
+        (e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value || null),
+        [onChange],
+      );
+      return (
+        <select id={inputId} value={value ?? ""} disabled={disabled} onChange={handleChange}>
+          <option value="">-</option>
+          <NativeOptions options={options} />
+        </select>
+      );
+    },
+  };
+});
 
 const wrapper = ({ children }: { children: ReactNode }) => <MemoryRouter>{children}</MemoryRouter>;
 
@@ -54,6 +56,12 @@ describe("Physical instances advanced search page", () => {
     mockData([], true);
     render(<Component />, { wrapper });
     expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
+  });
+
+  it("titles the document with the module name first, then Advanced search", () => {
+    mockData([]);
+    render(<Component />, { wrapper });
+    expect(useTitle).toHaveBeenCalledWith("Physical Instances - Advanced search");
   });
 
   const twoRows = () => [
@@ -113,13 +121,18 @@ describe("Physical instances advanced search page", () => {
     expect(studyUnitSelect).toBeEnabled();
   });
 
-  it("only offers the study units of the selected group", async () => {
+  // [0] groupe.
+  const renderWithGroupG1Selected = async () => {
     const user = userEvent.setup();
     mockData(twoRows());
 
     render(<Component />, { wrapper });
 
     await user.selectOptions(screen.getAllByRole("combobox")[0], "g1");
+  };
+
+  it("only offers the study units of the selected group", async () => {
+    await renderWithGroupG1Selected();
 
     expect(screen.getByRole("option", { name: "Étude A" })).toBeInTheDocument();
     expect(screen.queryByRole("option", { name: "Étude B" })).not.toBeInTheDocument();
@@ -149,16 +162,22 @@ describe("Physical instances advanced search page", () => {
   });
 
   it("filters the results by the selected group", async () => {
-    const user = userEvent.setup();
-    mockData(twoRows());
-
-    render(<Component />, { wrapper });
-
-    // [0] groupe.
-    await user.selectOptions(screen.getAllByRole("combobox")[0], "g1");
+    await renderWithGroupG1Selected();
 
     expect(screen.getByRole("link", { name: "Recensement" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "Enquête emploi" })).not.toBeInTheDocument();
+  });
+
+  it("clears every criterion when the reset button is clicked", async () => {
+    const user = userEvent.setup();
+    await renderWithGroupG1Selected();
+    await user.type(screen.getByRole("textbox"), "Recens");
+
+    await user.click(screen.getByRole("button", { name: "Reinitialize" }));
+
+    expect(screen.getByRole("textbox")).toHaveValue("");
+    expect(screen.getAllByRole("combobox")[0]).toHaveValue("");
+    expect(screen.getByRole("link", { name: "Enquête emploi" })).toBeInTheDocument();
   });
 
   it("filters the results by the selected study unit within a group", async () => {
@@ -190,5 +209,26 @@ describe("Physical instances advanced search page", () => {
 
     expect(screen.getByRole("link", { name: "PI Deux" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "PI Un" })).not.toBeInTheDocument();
+  });
+  it("keeps one table row per hit when a physical instance is attached to several study units", async () => {
+    const user = userEvent.setup();
+    // Le back renvoie une ligne par rattachement : la même PI (même id) sur deux études.
+    mockData([
+      row({ id: "pi-1", label: "Partagée", studyUnitId: "su-1", studyUnitLabel: "Étude A" }),
+      row({ id: "pi-2", label: "Autre", studyUnitId: "su-2", studyUnitLabel: "Étude B" }),
+      row({ id: "pi-1", label: "Partagée", studyUnitId: "su-3", studyUnitLabel: "Étude C" }),
+    ]);
+
+    render(<Component />, { wrapper });
+
+    await user.type(screen.getByRole("textbox"), "Autre");
+    await user.clear(screen.getByRole("textbox"));
+    await user.type(screen.getByRole("textbox"), "Part");
+
+    const studyUnitCells = screen
+      .getAllByRole("row")
+      .slice(1)
+      .map((tr) => tr.querySelectorAll("td")[2]?.textContent);
+    expect(studyUnitCells).toEqual(["Étude A", "Étude C"]);
   });
 });

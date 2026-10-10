@@ -1,6 +1,27 @@
 import { configure, render, screen } from "@testing-library/react";
 import { Suspense } from "react";
-import { RouterProvider, createMemoryRouter } from "react-router-dom";
+import { RouterProvider, createMemoryRouter } from "react-router";
+
+import { AppContextProvider } from "./application/app-context";
+
+/* Les menus ne proposent que les modules déclarés et accessibles à l'utilisateur. */
+vi.mock("@utils/hooks/users", () => ({
+  usePrivileges: () => ({
+    isPending: false,
+    privileges: ["DDI_PHYSICALINSTANCE", "CODESLIST_CODESLIST"].map((application) => ({
+      application,
+      privileges: [{ privilege: "READ", strategy: "ALL" }],
+    })),
+  }),
+}));
+
+const modules = ["ddi", "codelists"].map((identifier) => ({
+  identifier,
+  show: true,
+  directAccess: true,
+}));
+
+const PROPERTIES = { modules } as any;
 
 /* Chaque module embarque son propre catalogue de traductions. Tant qu'ils partagent
    la même instance i18next, le dernier module chargé écrase les ressources des
@@ -43,9 +64,11 @@ describe("isolation des catalogues i18n entre modules", () => {
     );
 
     render(
-      <Suspense fallback={null}>
-        <RouterProvider router={router} />
-      </Suspense>,
+      <AppContextProvider lg1="fr" lg2="en" properties={PROPERTIES}>
+        <Suspense fallback={null}>
+          <RouterProvider router={router} />
+        </Suspense>
+      </AppContextProvider>,
     );
     await screen.findByText("page ddi");
     const menuAvant = screen.getByRole("navigation").textContent;

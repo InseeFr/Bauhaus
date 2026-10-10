@@ -4,13 +4,10 @@ packages:
   - "documentation"
   - "scripts"
 
-allowBuilds:
-  "@parcel/watcher": true
-  "core-js": true
-  "esbuild": true
-  "sharp": true
-  "@oxlint/darwin-universal": true
-
+# `overrides` et les scripts de build autorisés vivent ici, plus dans package.json :
+# pnpm ne les lit plus depuis le manifeste. Les y laisser fait échouer
+# `pnpm install --frozen-lockfile` — pnpm calcule alors zéro override, ce qui ne
+# correspond plus à ceux enregistrés dans le lockfile.
 overrides:
   "react": "18.3.1"
   "react-dom": "18.3.1"
@@ -22,6 +19,13 @@ overrides:
   # À supprimer dès que minimatch tirera ces versions.
   "brace-expansion@2": "^2.1.6"
   "brace-expansion@5": "^5.0.11"
-  # CVE-2026-92708, GHSA-mcm9-63f2-9j32, GHSA-r9w8-h9r3-54w4 et GHSA-x5rw-q4pp-hg5g, corrigées en 5.9.3.
-  # Tirée par astro (site documentation). À supprimer dès qu'astro exigera >= 5.9.3.
-  "devalue": "^5.9.3"
+
+# Scripts d'installation autorisés. pnpm 12 ne lit plus `onlyBuiltDependencies` :
+# toute dépendance à script de build absente d'ici fait échouer `pnpm install` en
+# CI (ERR_PNPM_IGNORED_BUILDS).
+allowBuilds:
+  "@parcel/watcher": true
+  core-js: true
+  esbuild: true
+  sharp: true
+  "@oxlint/darwin-universal": true

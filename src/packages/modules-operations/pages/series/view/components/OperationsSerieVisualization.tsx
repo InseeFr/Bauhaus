@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { InseeOrganizationNotes } from "@components/business/creators-view";
+import { ThemesList } from "@components/business/themes";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -52,6 +53,8 @@ export interface SerieDetail {
   generate?: OperationsLink[];
   seeAlso?: OperationsLink[];
   family?: RelatedItem;
+  /** IRI des thèmes (`dcterms:subject`), libellés résolus via `GET /themes`. */
+  themes?: string[];
 }
 
 interface OperationsSerieVisualizationTypes {
@@ -170,6 +173,14 @@ export function OperationsSerieVisualization({
             allowEmpty={true}
           />
         )}
+      </Row>
+      <Row id="themes">
+        <Note
+          text={<ThemesList iris={attr.themes} />}
+          title={t("common.themes", { lng: "fr" })}
+          alone={true}
+          allowEmpty={true}
+        />
       </Row>
       <Row id="publishers">
         <InseeOrganizationNotes

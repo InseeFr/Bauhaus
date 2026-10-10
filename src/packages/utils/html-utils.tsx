@@ -5,6 +5,8 @@ import { stateFromHTML } from "draft-js-import-html";
 import { draftjsToMd } from "@components/rich-editor/draftjs/draftjsToMd";
 import { mdToDraftjs, REGEXPS } from "@components/rich-editor/draftjs/mdToDraftjs";
 
+import { sanitizeHtml } from "./sanitize-html";
+
 /**
  * Cherche un style non supporté dans les valeurs de `attr`.
  *
@@ -98,10 +100,6 @@ export function htmlFromEditorState(editorState: typeof EditorState) {
   return cleanHtml(html);
 }
 
-export function editorStateFromHtml(html: string) {
-  return EditorState.createWithContent(stateFromHTML(html));
-}
-
 export function mdFromEditorState(editorState: typeof EditorState) {
   /*
    * Sometimes the React editor  include space when formatting text (bold or italic).
@@ -166,5 +164,5 @@ export function renderMarkdownElement(value: string) {
     return "";
   }
 
-  return <div dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }} />;
+  return <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(markdownToHtml(value)) }} />;
 }

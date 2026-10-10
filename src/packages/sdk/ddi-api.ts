@@ -8,6 +8,10 @@ const api = {
   getPhysicalInstance: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id,
   ],
+  // PhysicalInstances de toutes les études miroirs de l'opération ; liste vide sans miroir.
+  getOperationPhysicalInstances: (operationId: string) => [
+    `operation/${operationId}/physical-instances`,
+  ],
   getPhysicalInstanceParents: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id + "/parents",
   ],
@@ -101,9 +105,9 @@ const api = {
     },
     (res: Response) => res.text(),
   ],
-  // Validation du DDI4 contre ddi-schema.json (côté back). Répond 400 + le corps
-  // `{valid, errors}` quand la PI n'est pas conforme : `buildCall` rejette alors
-  // avec ce corps, c'est là que se trouvent les erreurs de schéma.
+  // Validation du DDI4 contre ddi-schema.json (côté back). Répond 400 `ApiError` quand la
+  // PI n'est pas conforme : un `errors[]` par écart au schéma, rattaché au corps entier
+  // (`field: "body"`). `buildCall` rejette avec ce corps.
   postValidateDdi4: (data: unknown) => [
     "validate",
     {
@@ -132,7 +136,20 @@ const api = {
   ],
   getCodeListUsers: (agencyId: string, id: string) => [`codes-list/${agencyId}/${id}/users`],
   getCategoryUsers: (agencyId: string, id: string) => [`category/${agencyId}/${id}/users`],
+  // Réutilisation de variables (#1387) : le vivier = le VariableScheme de la StudyUnit, et les
+  // variables utilisées par chaque PI de l'étude pour signaler celles qui sont partagées.
+  getStudyUnitVariables: (agencyId: string, id: string) => [
+    `study-units/${agencyId}/${id}/variables`,
+  ],
+  getStudyUnitVariableUsages: (agencyId: string, id: string) => [
+    `study-units/${agencyId}/${id}/variable-usages`,
+  ],
+  // Réservé aux administrateurs (privilège ADMINISTRATION) ; 204 sans corps.
+  evictCaches: () => ["cache", { method: "DELETE" }, () => Promise.resolve(undefined)],
   getMutualizedCodeLists: () => ["mutualized-codes-list"],
+  getMutualizedCodeListCodes: (agencyId: string, id: string) => [
+    `mutualized-codes-list/${agencyId}/${id}/codes`,
+  ],
   getMutualizedCodeList: (agencyId: string, id: string) => [
     `mutualized-codes-list/${agencyId}/${id}`,
     {},

@@ -1,10 +1,11 @@
-import { Panel, PanelHeaderTemplateOptions } from "primereact/panel";
-import { Tooltip } from "primereact/tooltip";
-import { Tree } from "primereact/tree";
-import type { TreeNode } from "primereact/treenode";
 import { useState, type MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
+
+import { Panel, PanelHeaderTemplateOptions } from "@components/ui/panel";
+import { Tooltip } from "@components/ui/tooltip";
+import { Tree } from "@components/ui/tree";
+import type { TreeNode } from "@components/ui/tree-node";
 
 import { cx } from "@utils/cx";
 

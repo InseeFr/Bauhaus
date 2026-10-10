@@ -11,9 +11,9 @@ The Concepts module, also known as "Bauhaus-concepts", is used to manage concept
 To reach the homepage of the concept management module, click on the module <span style="color: blue">Concepts</span> on the homepage.
 Browsing is done with the horizontal menu bar at the top of the page.
 
-*Any unit can ask for the creation of a concept. However, in order to guarantee the integrity and quality of the database, any creation or modification of a concept, as well as the identification of the owner, can only be done by the Quality unit. The publication is the responsibility of the owner identified in the application; it is up to him/her to organize the consultation with other users. In the application, the Quality unit is authorised to publish a concept on request of the owner.*
+_Any unit can ask for the creation of a concept. However, in order to guarantee the integrity and quality of the database, any creation or modification of a concept, as well as the identification of the owner, can only be done by the Quality unit. The publication is the responsibility of the owner identified in the application; it is up to him/her to organize the consultation with other users. In the application, the Quality unit is authorised to publish a concept on request of the owner._
 
-*The creation of a collection of concepts may be requested by any unit which need to bring together several concepts for a particular purpose (for exemple : documenting an Insee-Résultats). The requesting unit is the one that owns the collection, which may include concepts that it does not own. A concept can belong to several collections, and be used by several users in different collections. The owner of a collection can modify it at any time. In the application, the Quality unit is authorised to publish a collection on request of the owner.*
+_The creation of a collection of concepts may be requested by any unit which need to bring together several concepts for a particular purpose (for exemple : documenting an Insee-Résultats). The requesting unit is the one that owns the collection, which may include concepts that it does not own. A concept can belong to several collections, and be used by several users in different collections. The owner of a collection can modify it at any time. In the application, the Quality unit is authorised to publish a collection on request of the owner._
 
 In the application, four main user profiles have been created. Each one corresponds to a level of clearance giving access to different functionalities:
 
@@ -39,7 +39,6 @@ The Concepts homepage, located on the horizontal menu bar, offers two search met
 - A main search bar, which gives access to all the concepts registered in the application (1);
 - A link to the advanced search page, which allows you to perform a refined search according to different criteria (2).
 
-
 1. The main search bar is a search engine in which you can **enter a sequence of letters corresponding to all or part of the title, acronym, short name or synonym you are looking for**. The search starts automatically as letters are entered in the search bar.
 
 The application generates a list of results under the search engine, on one or more pages depending on the number of concepts found.
@@ -50,18 +49,18 @@ Click on the desired concept to access its description page. On this page, you c
 
 - **Enter the desired filters** in the box:
 
-  - *Label*: enter the label of the concept;
-  - *Alternative label*: enter the abbreviation, acronym, or synonym;
-  - *Search the definition*: enter one or more words from the text of the definition in French;
-  - *Select the owner*: select the unit to get the list of concepts under the responsibility of this unit;
-  - *Select a dissemination status*, from the following choices:
+  - _Label_: enter the label of the concept;
+  - _Alternative label_: enter the abbreviation, acronym, or synonym;
+  - _Search the definition_: enter one or more words from the text of the definition in French;
+  - _Select the owner_: select the unit to get the list of concepts under the responsibility of this unit;
+  - _Select a dissemination status_, from the following choices:
     - Generic Audience (published in the Definitions section on insee.fr);
     - Specific audience (not published under Definitions, but available for documenting a publication);
     - Private (internal use).
-  - *Select a publication status*, from the following choices:
+  - _Select a publication status_, from the following choices:
     - Published ;
     - Provisional (being modified or awaiting publication).
-  - *Select the dates of the creation or the modification* of the desired concept.
+  - _Select the dates of the creation or the modification_ of the desired concept.
 
 The search starts automatically as letters are entered in the filters. Click on the desired concept to access its description page.
 
@@ -83,7 +82,7 @@ It is possible to export the description of one or more concepts from the Concep
 
 - Select the desired format (PDF or ODT). The download window then opens with the options « open » and « save ». If several concepts are exported, there are as many files and download windows as there are exported concepts.
 
-***NB: The ODT format allows you to exchange with other units for the editing of a definition, while the PDF format is for information purposes..***
+_**NB: The ODT format allows you to exchange with other units for the editing of a definition, while the PDF format is for information purposes..**_
 
 ---
 
@@ -99,12 +98,11 @@ The button <span style="color: blue">Cancel</span> takes you back to the Concept
 
 The button <span style="color: blue">Save</span> allows you to record the new concept in the database.
 
-***NB: Saving is impossible as long as the required box, marked with a « \* », have not been completed.***
+_**NB: Saving is impossible as long as the required box, marked with a « \* », have not been completed.**_
 
 Three tabs are available to describe a concept: <span style="color: blue">General Informations</span> (1), <span style="color: blue">Notes</span> (2) and <span style="color: blue">Links</span> (3).
 
 1. The tab <span style="color: blue">General Informations</span> allows you to fill various informations, including:
-
 
 - The **« Label »**: the label of the concept, **mandatory to create a concept**;
 - The **« Alternative label »**: the description, the acronym or the abbreviation (alternative names can be added or removed by clicking on + or -);
@@ -119,7 +117,6 @@ Three tabs are available to describe a concept: <span style="color: blue">Genera
 
 2. The tab <span style="color: blue">Notes</span> allows you to fill various informations, including:
 
-
 - **Short definition**: it generally repeats the first sentence of the definition, and must not be longer than 350 letters. The entry can be formatted with bullets points or numbers by clicking on the corresponding icons above the box. **The short definition is mandatory for all concepts, except for those with the release status « Private »;**
 
 - **Definition**: the definition is the long definition, and must begin by taking over the short definition in its entirety. The entry can be formatted with bullets points or numbers by clicking on the corresponding icons above the box;
@@ -130,18 +127,17 @@ Three tabs are available to describe a concept: <span style="color: blue">Genera
 
 3. The tab <span style="color: blue">Links</span> allows you to fill various informations, including:
 
-
 - Several types of links allow you to browse the concepts. These links are meaningful and provide additional informations to the definition, and must be published with it. To add a link, choose the type of tab corresponding to the link you want to add, then scroll through the list of concepts on the right to find the desired link, or use the search bar at the top of the list of concepts. Click on the button Add of the link to add, or the button Remove to remove it.
 
 - The tabs <span style="color: blue">Parent</span> and <span style="color: blue">Child</span>: they are hierarchical links that connect a general concept to more specific concepts and vice versa (for exemple : « Holidays » is the parent concept of « Summer holidays » and « Winter holidays »).
 
-***NB: The insertion of a Parent link from concept A to concept B automatically creates the addition of a Child link from concept B to concept A. A parent concept can therefore have several child concepts, but a child concept can only have one parent concept.***
+_**NB: The insertion of a Parent link from concept A to concept B automatically creates the addition of a Child link from concept B to concept A. A parent concept can therefore have several child concepts, but a child concept can only have one parent concept.**_
 
 - The tab <span style="color: blue">Reference</span>: it allows you to set up hyperlinks to the concepts quoted in the definition. A concept can therefore reference several concepts.
 
 - The tab <span style="color: blue">Replace</span>: these links allow you to trace the history of the concept (for exemple: the RSA replaces the RMI, the microentrepreneur replaces the auto-entrepreneur, etc.). Adding a link <span style="color: blue">Replace</span> from Concept A to Concept B results in the creation of a link « is replace by » from Concept B to Concept A.
 
-***NB: A concept can be replaced by one or more concepts, and vice versa.***
+_**NB: A concept can be replaced by one or more concepts, and vice versa.**_
 
 - Linked tab: these links belong to the category « See also » and allow you to reach related concepts.
 
@@ -185,7 +181,7 @@ When you [modify](#modify-concept) a short definition, a long definition or an e
 
 - To continue, fill in the change note, then make the modifications as described in the chapter **« Modify a concept »**.
 
-***NB: The versioning process is only activated when a published concept is modified. If the concept is awaiting publication (i.e. if its publication status is provisional), successive changes do not result in versioning. New definitions and notes overwrite old versions.***
+_**NB: The versioning process is only activated when a published concept is modified. If the concept is awaiting publication (i.e. if its publication status is provisional), successive changes do not result in versioning. New definitions and notes overwrite old versions.**_
 
 ---
 
@@ -205,7 +201,7 @@ It is possible to send a concept from the description page of a concept.
 
 - Click on the button <span style="color: blue">Send</span> on the top of the page. A new page is then displayed, allowing you to send an email to a recipient with the description of the concept in ODT format as an attachment, as well as a link to the concept page in the application. The subject of the email and the text can be changed to personalize the message;
 
-***NB: This service is not linked to the directory: you must enter the complete email address for all recipients.***
+_**NB: This service is not linked to the directory: you must enter the complete email address for all recipients.**_
 
 - When the recipient's email address is filled and the text is ready, click on the button in the top right corner <span style="color: blue">Send</span> to send the email.
 
@@ -222,6 +218,7 @@ To search for concepts awaiting publication, use the advanced search bar from th
 ---
 
 # Concept collection management tools
+
 ## Search for a concept collection
 
 It is possible to search for a collection from the homepage <span style="color: blue">Collections</span> in the horizontal menu bar. The page offers a search engine on all concept collections registered in the application.
@@ -262,7 +259,7 @@ The button <span style="color: blue">Cancel</span> allows you to come back to th
 
 The button <span style="color: blue">Save</span> allows you to record the new collection in the database.
 
-***NB: Saving is impossible as long as the required box, marked with a « \* », have not been completed.***
+_**NB: Saving is impossible as long as the required box, marked with a « \* », have not been completed.**_
 
 - At the bottom of the page, select the concepts you want to include in the collection by using the buttons Add and Remove to add or remove them. To search for a concept, you can enter a sequence of letters corresponding to all or part of the title of the concept you are looking for in the search bar above the list.
 
@@ -300,7 +297,7 @@ It is possible to send a collection of concepts from the description page of a c
 
 A new page is then displayed, allowing you to send an email to a recipient, with the list of concepts included in the collection in ODT format as an attachment, as well as a link to the collection page in the application. The subject of the email and the text can be changed to personalize the message.
 
-***NB: This service is not linked to the directory: you must enter the complete email address for all recipients.***
+_**NB: This service is not linked to the directory: you must enter the complete email address for all recipients.**_
 
 - When the recipient's email address is filled and the text is ready, click on the button in the top right corner <span style="color: blue">Send</span> to send the email.
 

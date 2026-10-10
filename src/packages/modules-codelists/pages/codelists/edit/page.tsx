@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 
 import { CodelistsApi } from "@sdk/index";
 
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
+import { CodeChanges, RefusedCode, saveCodeChanges } from "../../../utils/code-changes";
 import { formatCodelist } from "../../../utils/formatCodelist";
 import { CodelistDetailEdit } from "./components/CodelistDetailEdit";
 
@@ -22,6 +24,12 @@ export const Component = () => {
 
   const [serverSideError, setServerSideError] = useState<unknown>("");
 
+  const [loadError, setLoadError] = useState<unknown>();
+
+  const [codeChanges, setCodeChanges] = useState<CodeChanges>({});
+
+  const [refusedCode, setRefusedCode] = useState<RefusedCode>();
+
   const handleBack = useCallback(() => {
     goBackOrReplace("/codelists", true);
   }, [goBackOrReplace]);
@@ -30,18 +38,31 @@ export const Component = () => {
     (codelist: any) => {
       setSaving(true);
       setServerSideError("");
+      setRefusedCode(undefined);
       const request = id ? CodelistsApi.putCodelist : CodelistsApi.postCodelist;
       request(codelist)
+        .then(() =>
+          // Chaque code enregistré sort des modifications en attente : en cas d'échec, seules
+          // celles qui restent seront renvoyées à la sauvegarde suivante.
+          saveCodeChanges(codelist.id, codeChanges, (code) =>
+            setCodeChanges(({ [code]: _saved, ...others }) => others),
+          ),
+        )
         .then(() => {
           goBackOrReplace(`/codelists/${codelist.id}`, !!id);
         })
         .catch((error: unknown) => {
           setCodelist(codelist);
-          setServerSideError(error);
+          // Un code refusé se corrige dans son panneau : il y est rouvert avec son erreur.
+          if (error instanceof RefusedCode) {
+            setRefusedCode(error);
+          } else {
+            setServerSideError(error);
+          }
         })
         .finally(() => setSaving(false));
     },
-    [goBackOrReplace, id],
+    [goBackOrReplace, id, codeChanges],
   );
 
   useEffect(() => {
@@ -50,10 +71,14 @@ export const Component = () => {
         .then((cl: any) => {
           setCodelist(formatCodelist(cl));
         })
-        .catch((error: unknown) => setServerSideError(error))
+        .catch(setLoadError)
         .finally(() => setLoading(false));
     }
   }, [id]);
+
+  if (loadError) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if (loading) {
     return <Loading />;
@@ -70,6 +95,9 @@ export const Component = () => {
       handleSave={handleSave}
       updateMode={id !== undefined}
       serverSideError={serverSideError}
+      codeChanges={codeChanges}
+      onCodeChangesChange={setCodeChanges}
+      refusedCode={refusedCode}
     />
   );
 };

@@ -2,6 +2,7 @@ import { vi } from "vitest";
 
 import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from "../auth/constants";
 import { getOidc } from "../auth/create-oidc";
+import { appI18n } from "../i18n";
 import {
   buildApi,
   computeDscr,
@@ -136,38 +137,89 @@ describe("build call", () => {
     expect.assertions(1);
     return expect(remoteCall("john", "some text")).resolves.toEqual(42);
   });
-  it("returns an error with a JSONObject value as string", () => {
-    const resPromise = () => Promise.resolve("error");
-    const fetch = vi.fn(() =>
-      Promise.resolve({
-        ok: false,
+  const errorBodies = [
+    { name: "returns an error with a JSONObject value as string", body: "error" },
+    { name: "returns an error with a JSONObject value as object", body: '{ "message": "error" }' },
+  ];
+
+  errorBodies.forEach(({ name, body }) =>
+    it(name, () => {
+      const fetch = vi.fn(() =>
+        Promise.resolve({
+          ok: false,
+          status: 500,
+          text: () => Promise.resolve(body),
+        }),
+      );
+      window.fetch = fetch as any;
+      const remoteCall = buildCall("context", "postComment", postCommentFn);
+      expect.assertions(1);
+      return expect(remoteCall("john", "some text")).rejects.toEqual({
+        message: "error",
         status: 500,
-        text: resPromise,
-      }),
-    );
-    window.fetch = fetch as any;
-    const remoteCall = buildCall("context", "postComment", postCommentFn);
-    expect.assertions(1);
-    return expect(remoteCall("john", "some text")).rejects.toEqual({
-      message: "error",
-      status: 500,
+      });
+    }),
+  );
+
+  it("rejects the status alone, with an empty message, when the error has no body", async () => {
+    window.fetch = vi.fn(() => Promise.resolve(new Response("", { status: 401 }))) as any;
+
+    await expect(buildCall("context", "getSomething", () => ["something"])()).rejects.toEqual({
+      message: "",
+      status: 401,
     });
   });
-  it("returns an error with a JSONObject value as object", () => {
-    const resPromise = () => Promise.resolve('{ "message": "error" }');
-    const fetch = vi.fn(() =>
-      Promise.resolve({
-        ok: false,
-        status: 500,
-        text: resPromise,
-      }),
+
+  it("rejects the error body of the API (ADR-1264) with its status", async () => {
+    const body = {
+      message: "The submitted data is invalid",
+      code: "INVALID_REQUEST_BODY",
+      params: { id: "s1001" },
+      errors: [{ field: "prefLabelLg1", message: "Ce champ est obligatoire." }],
+    };
+    window.fetch = vi.fn(() =>
+      Promise.resolve(new Response(JSON.stringify(body), { status: 400 })),
+    ) as any;
+
+    await expect(buildCall("context", "postSomething", () => ["something"])()).rejects.toEqual({
+      ...body,
+      status: 400,
+    });
+  });
+
+  it("rejects an object, not a string, when the server cannot be reached", async () => {
+    const cause = new TypeError("Failed to fetch");
+    window.fetch = vi.fn(() => Promise.reject(cause)) as any;
+
+    await expect(buildCall("context", "getSomething", () => ["something"])()).rejects.toEqual({
+      status: 0,
+      code: "NETWORK_ERROR",
+      message: "The server cannot be reached. Check your connection and try again.",
+      cause,
+    });
+  });
+
+  it("writes the network failure message in the current language", async () => {
+    await appI18n.changeLanguage("fr");
+    window.fetch = vi.fn(() => Promise.reject(new TypeError("Failed to fetch"))) as any;
+
+    await expect(buildCall("context", "getSomething", () => ["something"])()).rejects.toMatchObject(
+      {
+        message: "Le serveur est injoignable. Vérifiez votre connexion et réessayez.",
+      },
     );
-    window.fetch = fetch as any;
-    const remoteCall = buildCall("context", "postComment", postCommentFn);
-    expect.assertions(1);
-    return expect(remoteCall("john", "some text")).rejects.toEqual({
-      message: "error",
-      status: 500,
+
+    await appI18n.changeLanguage("en");
+  });
+
+  it("rejects an object when a successful response cannot be read", async () => {
+    window.fetch = vi.fn(() => Promise.resolve(new Response("", { status: 200 }))) as any;
+
+    await expect(buildCall("context", "getSomething", () => ["something"])()).rejects.toEqual({
+      status: 200,
+      code: "UNREADABLE_RESPONSE",
+      message: "The server response could not be read.",
+      cause: expect.any(SyntaxError),
     });
   });
 });

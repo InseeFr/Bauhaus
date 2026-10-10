@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc } from "@components/errors-bloc";
@@ -51,7 +51,7 @@ export const ClassificationVisualization = ({
         <div className="col-md-12 text-center">
           <Link to={`/classifications/classification/${classificationId}/items`}>
             <h3>
-              <span className="glyphicon glyphicon-zoom-in mr-1"></span>
+              <span className="pi pi-search-plus mr-1"></span>
               {t("classification.allItemsTitle")}
             </h3>
           </Link>

@@ -1,10 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { createMemoryRouter, RouteObject, RouterProvider } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
+import { createMemoryRouter, RouteObject, RouterProvider } from "react-router";
 import { describe, expect, it, Mock, vi } from "vitest";
 
+import { useOidc } from "../../auth/create-oidc";
 import type { Module } from "../app-context";
 import { useAppContext } from "../app-context";
-import { buildModuleRoutes, HomePage } from "./routes";
+import { buildModuleRoutes, HomePage, Logout } from "./routes";
 
 /* Le sujet du test est le routage, pas la formulation des pages d'erreur : des marqueurs
    rendent l'assertion insensible à la langue du navigateur de test. */
@@ -84,6 +86,7 @@ describe("<HomePage />", () => {
     const routes: RouteObject[] = [
       { path: "/", element: <HomePage /> },
       { path: "/concepts", element: <div>concepts landing</div> },
+      { path: "/datasets", element: <div>datasets landing</div> },
     ];
     render(<RouterProvider router={createMemoryRouter(routes, { initialEntries: ["/"] })} />);
   };
@@ -95,5 +98,23 @@ describe("<HomePage />", () => {
     ]);
 
     expect(screen.getByText("concepts landing")).toBeInTheDocument();
+  });
+
+  it("goes straight to the only tile shown, even when it groups several modules", () => {
+    renderHomePageWith([openModule("datasets"), openModule("ddi")]);
+
+    expect(screen.getByText("datasets landing")).toBeInTheDocument();
+  });
+});
+
+describe("<Logout />", () => {
+  it("logs the user back in to the home page", async () => {
+    const login = vi.fn();
+    (useOidc as Mock).mockReturnValue({ login });
+
+    render(<Logout />);
+    await userEvent.click(screen.getByRole("button", { name: "Login" }));
+
+    expect(login).toHaveBeenCalledWith({ doesCurrentHrefRequiresAuth: true, redirectUrl: "/" });
   });
 });

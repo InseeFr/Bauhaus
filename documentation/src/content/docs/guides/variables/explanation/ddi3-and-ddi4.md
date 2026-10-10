@@ -40,9 +40,9 @@ Two consequences follow, and both are easy to trip over:
 
 ## Conversion
 
-| Direction | When it runs | Exposed as |
-|-----------|--------------|------------|
-| DDI 3.3 → DDI 4 | Every read from Colectica | `POST /ddi/convert/ddi3-to-ddi4` |
+| Direction       | When it runs                          | Exposed as                       |
+| --------------- | ------------------------------------- | -------------------------------- |
+| DDI 3.3 → DDI 4 | Every read from Colectica             | `POST /ddi/convert/ddi3-to-ddi4` |
 | DDI 4 → DDI 3.3 | Every write to Colectica; DDI3 export | `POST /ddi/convert/ddi4-to-ddi3` |
 
 The two conversion endpoints exist so a client can perform the translation on documents it holds — that is how the **DDI3 export** of a physical instance is produced: the frontend enriches the payload with the code lists that the read had omitted, then posts it to `convert/ddi4-to-ddi3` and downloads the resulting XML fragment instance.
@@ -53,14 +53,14 @@ The two conversion endpoints exist so a client can perform the translation on do
 
 The validator distinguishes two failures, and the distinction matters when reading logs:
 
-| Outcome | Status | Body |
-|---------|--------|------|
-| Valid | `200` | `{ "valid": true }` |
-| Schema violations | `400` | `{ "valid": false, "errors": [...] }` |
-| Malformed JSON | `400` | `{ "valid": false, "errors": ["Invalid JSON: …"] }` |
-| Schema could not be loaded | `500` | — |
+| Outcome                    | Status | Body                                                |
+| -------------------------- | ------ | --------------------------------------------------- |
+| Valid                      | `200`  | `{ "valid": true }`                                 |
+| Schema violations          | `400`  | `{ "valid": false, "errors": [...] }`               |
+| Malformed JSON             | `400`  | `{ "valid": false, "errors": ["Invalid JSON: …"] }` |
+| Schema could not be loaded | `500`  | —                                                   |
 
-A failure to load the schema is deliberately *not* reported as a bad request: an infrastructure problem must not disguise itself as a user input error.
+A failure to load the schema is deliberately _not_ reported as a bad request: an infrastructure problem must not disguise itself as a user input error.
 
 In the interface, validation is a development aid — the button is only rendered locally — and requires the `PUBLISH` privilege.
 

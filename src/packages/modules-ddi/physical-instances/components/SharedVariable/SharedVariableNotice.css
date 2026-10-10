@@ -1,0 +1,17 @@
+/* Même teinte d'avertissement que le bandeau « liste de codes partagée » : modifier la variable
+   modifie le travail d'autres fichiers. */
+.shared-variable-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border-left: 4px solid var(--orange-500, #f59e0b);
+  background: var(--orange-50, #fffbeb);
+  color: var(--orange-900, #78350f);
+}
+
+.shared-variable-notice .pi {
+  margin-top: 0.15rem;
+  color: var(--orange-500, #f59e0b);
+}

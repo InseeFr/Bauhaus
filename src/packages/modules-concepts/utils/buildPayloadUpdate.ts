@@ -10,7 +10,7 @@ import { processVersionableChanges } from "./processVersionableChanges";
 interface ConceptInput {
   general: ConceptGeneral;
   notes: ConceptNotes;
-  conceptsWithLinks: { id: string; typeOfLink: string }[];
+  conceptsWithLinks: { id: string; typesOfLink: string[] }[];
   equivalentLinks?: (Link & { urn: string })[];
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { ClassificationsApi } from "@sdk/classification";
@@ -31,17 +32,20 @@ export const Component = () => {
 
   const [secondLang] = useSecondLang();
 
+  const [loadError, setLoadError] = useState<unknown>();
+
   useEffect(() => {
-    Promise.all([
-      ClassificationsApi.getSeriesGeneral(id),
-      ClassificationsApi.getSeriesMembers(id),
-    ]).then(([general, members]) => {
-      setSeries({
-        general: general ?? {},
-        members: members ?? [],
-      });
-    });
+    Promise.all([ClassificationsApi.getSeriesGeneral(id), ClassificationsApi.getSeriesMembers(id)])
+      .then(([general, members]) => {
+        setSeries({
+          general: general ?? {},
+          members: members ?? [],
+        });
+      })
+      .catch(setLoadError);
   }, [id]);
+
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!series) return <Loading />;
 

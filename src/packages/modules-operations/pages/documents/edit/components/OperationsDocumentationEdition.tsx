@@ -1,7 +1,3 @@
-import { Button } from "primereact/button";
-import { FileUpload, FileUploadSelectEvent } from "primereact/fileupload";
-import { Tag } from "primereact/tag";
-import { Tooltip } from "primereact/tooltip";
 import { ReactNode, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -16,13 +12,18 @@ import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
 import { Select } from "@components/select-rmes";
+import { Button } from "@components/ui/button";
+import { FileUpload, FileUploadSelectEvent } from "@components/ui/file-upload";
+import { Tag } from "@components/ui/tag";
+import { Tooltip } from "@components/ui/tooltip";
 
 import { Codelist } from "@model/Codelist";
 import { Document } from "@model/operations/document";
 
 import { GeneralApi } from "@sdk/general-api";
 
-import { useDocumentsAndLinks } from "@utils/hooks/documents";
+import { toFormErrors } from "@utils/api-errors";
+import { useDocumentsAndLinks, useInvalidateDocuments } from "@utils/hooks/documents";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -30,6 +31,12 @@ import { DOCUMENT, LINK } from "../../../../../constants/documentType";
 import { operationsI18n } from "../../../../i18n";
 import { validate } from "../validation";
 import { ConfirmationModal } from "./ConfirmationModal";
+
+/** Champs dont une erreur de validation du back s'affiche à côté de la saisie, selon le type. */
+const FIELDS_WITH_ERROR_SLOT: Record<string, readonly string[]> = {
+  [DOCUMENT]: ["labelLg1", "labelLg2", "updatedDate", "lang"],
+  [LINK]: ["labelLg1", "labelLg2", "url", "lang"],
+};
 
 /** Fichier sélectionné pour envoi, ou pièce jointe existante représentée par son seul nom. */
 type DocumentFile = File | { name: string; size?: number };
@@ -221,6 +228,7 @@ export const OperationsDocumentationEdition = (
   );
 
   const goBack = useGoBack();
+  const invalidateDocuments = useInvalidateDocuments();
 
   const defaultDocument: Document = useMemo(() => {
     return {
@@ -248,7 +256,8 @@ export const OperationsDocumentationEdition = (
     if (documentsAndLinksList) {
       dispatch({
         type: "SET_CURRENT_DOCUMENT",
-        currentDocument: documentsAndLinksList.find((doc) => doc.id === document?.id),
+        // L'uri, pas l'id : un document et un lien historiques peuvent partager le même id.
+        currentDocument: documentsAndLinksList.find((doc) => doc.uri === document?.uri),
       });
     }
   }, [documentsAndLinksList, document]);
@@ -276,20 +285,32 @@ export const OperationsDocumentationEdition = (
   const saveDocumentOrLink = () => {
     dispatch({ type: "SET_SAVING", saving: true });
     const isCreation = !document.id;
-    saveDocument(document, type, files)
-      .then(
-        (id = document.id) => {
-          if (props.onSave) {
-            props.onSave(id as string);
-          } else {
-            goBack(`/operations/${type}/${id}`, isCreation);
-          }
-        },
-        (err) => {
-          dispatch({ type: "SET_SERVER_SIDE_ERROR", error: err });
-        },
-      )
-      .finally(() => dispatch({ type: "SET_SAVING", saving: false }));
+    // Après un retour par goBack, pas de retour au formulaire : la navigation est asynchrone, le
+    // formulaire réapparaîtrait le temps qu'elle aboutisse. Avec onSave, la page hôte le garde.
+    // Les documents en cache sont périmés avant de rendre la main : la fiche et la liste en sont
+    // servies.
+    saveDocument(document, type, files).then(
+      async (id = document.id) => {
+        await invalidateDocuments();
+        if (props.onSave) {
+          dispatch({ type: "SET_SAVING", saving: false });
+          props.onSave(id as string);
+        } else {
+          goBack(`/operations/${type}/${id}`, isCreation);
+        }
+      },
+      (err: unknown) => {
+        const { clientSideErrors, serverSideError } = toFormErrors(
+          err,
+          FIELDS_WITH_ERROR_SLOT[type] ?? [],
+        );
+        if (clientSideErrors) {
+          dispatch({ type: "SET_VALIDATION_ERRORS", clientSideErrors });
+        }
+        dispatch({ type: "SET_SERVER_SIDE_ERROR", error: serverSideError });
+        dispatch({ type: "SET_SAVING", saving: false });
+      },
+    );
   };
 
   const onSubmit = () => {

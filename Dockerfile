@@ -6,11 +6,12 @@ WORKDIR /bauhaus
 
 COPY ./ ./
 
-RUN rm -f package-lock.json
-RUN rm -rf node_modules
-RUN npm i -g pnpm@10
-
-RUN pnpm install && pnpm build
+# pnpm aligné sur la version de la CI, déclarée dans l'action setup-front du
+# commons. `--frozen-lockfile` : l'image résout exactement ce que la CI a
+# validé, ou elle échoue — plutôt que de dériver en silence.
+RUN npm i -g pnpm@12 \
+    && pnpm install --frozen-lockfile \
+    && pnpm build
 
 ### EXECUTION STEP ###
 

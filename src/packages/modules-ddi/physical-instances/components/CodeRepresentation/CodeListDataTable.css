@@ -8,3 +8,16 @@
 .p-datatable-tbody > tr > td .code-list-readonly-input.p-inputtext {
   background-color: var(--surface-300, #d1d5db) !important;
 }
+
+/* Nombre total de codes, dans l'en-tête du tableau : rattaché à la liste, séparé du libellé.
+   Tailles en px : la racine à 10px (bootstrap) rétrécit les rem de PrimeReact. */
+.code-list-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-color, #374151);
+}
+
+/* Sépare le tableau (et son en-tête) du champ libellé au-dessus. */
+.code-list-table {
+  margin-top: 12px;
+}

@@ -112,59 +112,59 @@ DDI identification and technical metadata are not considered user-editable field
 
 Typical examples for the creation of an item include:
 
-| Property | Origin |
-|---|---|
-| `ID` | Generated |
-| `URN` | Generated |
-| `Agency` | Defined in the configuration |
-| `Version` | Set to `1`; DDI versioning is not supported by the application |
-| `versionDate` | Generated |
-| `isUniversallyUnique` | Set to `true` |
+| Property              | Origin                                                         |
+| --------------------- | -------------------------------------------------------------- |
+| `ID`                  | Generated                                                      |
+| `URN`                 | Generated                                                      |
+| `Agency`              | Defined in the configuration                                   |
+| `Version`             | Set to `1`; DDI versioning is not supported by the application |
+| `versionDate`         | Generated                                                      |
+| `isUniversallyUnique` | Set to `true`                                                  |
 
 These properties apply to all identifiable objects: `PhysicalInstance`, `DataRelationship`, `LogicalRecord`, `Variable`, `ManagedMissingValuesRepresentation`, `CodeList`, `Code` and `Category`.
 
 ### Objects and properties
 
-| DDI path | Mode | Cardinality | Application restriction | Comment |
-|---|---|---:|---|---|
-| `PhysicalInstance` | Container | - | 1 | |
-| `PhysicalInstance/Citation/Title` | Editable | 0..1 | 1 | |
-| `PhysicalInstance/DataRelationshipReference` | Reference | 0..n | 1 | |
-| `DataRelationship` | Container | - | - | |
-| `DataRelationship/Label` | Inferred | - | - | Inferred as `Structure: ` + `PhysicalInstance/Label` |
-| `DataRelationship/LogicalRecord` | Generated | 0..n | 1 | |
-| `LogicalRecord/Label` | Inferred | 0..n | 1 | Inferred as `LogicalRecord: ` + `PhysicalInstance/Label` |
-| `LogicalRecord/VariablesInRecord` | Generated | 0..1 | 0..1 | |
-| `VariablesInRecord/VariableUsedReference` | Reference | 0..n | 0..n | |
-| `Variable` | Container | - | - | |
-| `Variable/VariableName` | Editable | 0..n | 1 | 1 supported language defined in the configuration |
-| `Variable/Label` | Editable | 0..n | 1 | 1 supported language defined in the configuration |
-| `Variable/Description` | Editable | 0..n | 0..1 | Markdown supported |
-| `Variable/VariableRepresentation` | Editable | 0..1 | 1 | |
-| `VariableRepresentation/TextRepresentation` | Editable | 0..1 | 0..1 | |
-| `TextRepresentation/minLength` | Editable | 0..1 | 0..1 | |
-| `TextRepresentation/maxLength` | Editable | 0..1 | 0..1 | |
-| `TextRepresentation/regExp` | Editable | 0..1 | 0..1 | |
-| `VariableRepresentation/NumericRepresentation` | Editable | 0..1 | 0..1 | |
-| `NumericRepresentation/NumericTypeCode` | Editable | 0..1 | 1 | [Enumerated values](https://rdf-vocabulary.ddialliance.org/ddi-cv/NumericType/1.0.0/NumericType.html) |
-| `NumericRepresentation/NumberRange` | Container | 0..1 | 0..1 | |
-| `NumberRange/Low` | Editable | 0..1 | 0..1 | `isInclusive` set to `true` |
-| `NumberRange/High` | Editable | 0..1 | 0..1 | `isInclusive` set to `true` |
-| `VariableRepresentation/DateTimeRepresentation` | Editable | 0..1 | 0..1 | |
-| `DateTimeRepresentation/DateTypeCode` | Editable | 0..1 | 1 | [Enumerated values](https://rdf-vocabulary.ddialliance.org/ddi-cv/DateType/1.1.2/DateType.html) |
-| `VariableRepresentation/CodeRepresentation` | Editable | 0..1 | 0..1 | |
-| `CodeRepresentation/CodeListReference` | Reference | 0..1 | 0..1 | |
-| `CodeList` | Container | - | - | |
-| `CodeList/BasedOnObject` | Reference | 0..1 | 0..1 | References the original `CodeList` for a derived variant |
-| `CodeList/Label` | Editable | 0..1 | 0..1 | 1 supported language defined in the configuration |
-| `CodeList/Code` | Editable | 0..n | 0..n | |
-| `Code/Value` | Editable | 0..n | 0..n | |
-| `Code/CategoryReference` | Reference | 0..1 | 0..1 | |
-| `Category` | Container | - | - | |
-| `Category/BasedOnObject` | Reference | 0..1 | 0..1 | References the original `Category` for a derived variant |
-| `Category/Label` | Editable | 0..n | 0..1 | |
-| `VariableRepresentation/MissingValuesReference` | Reference | 0..1 | 0..1 | |
-| `ManagedMissingValuesRepresentation` | Container | - | - | |
-| `ManagedMissingValuesRepresentation/Label` | Inferred | 0..1 | 0..1 | 1 supported language defined in the configuration. Same label as the `CodeList` |
-| `ManagedMissingValuesRepresentation/MissingCodeRepresentation` | Editable | 0..n | 0..1 | Only `MissingCodeRepresentation` supported |
-| `MissingCodeRepresentation/CodeListReference` | Reference | 0..1 | 0..1 | Same restrictions as `CodeRepresentation/CodeListReference` |
+| DDI path                                                       | Mode      | Cardinality | Application restriction | Comment                                                                                               |
+| -------------------------------------------------------------- | --------- | ----------: | ----------------------- | ----------------------------------------------------------------------------------------------------- |
+| `PhysicalInstance`                                             | Container |           - | 1                       |                                                                                                       |
+| `PhysicalInstance/Citation/Title`                              | Editable  |        0..1 | 1                       |                                                                                                       |
+| `PhysicalInstance/DataRelationshipReference`                   | Reference |        0..n | 1                       |                                                                                                       |
+| `DataRelationship`                                             | Container |           - | -                       |                                                                                                       |
+| `DataRelationship/Label`                                       | Inferred  |           - | -                       | Inferred as `Structure: ` + `PhysicalInstance/Label`                                                  |
+| `DataRelationship/LogicalRecord`                               | Generated |        0..n | 1                       |                                                                                                       |
+| `LogicalRecord/Label`                                          | Inferred  |        0..n | 1                       | Inferred as `LogicalRecord: ` + `PhysicalInstance/Label`                                              |
+| `LogicalRecord/VariablesInRecord`                              | Generated |        0..1 | 0..1                    |                                                                                                       |
+| `VariablesInRecord/VariableUsedReference`                      | Reference |        0..n | 0..n                    |                                                                                                       |
+| `Variable`                                                     | Container |           - | -                       |                                                                                                       |
+| `Variable/VariableName`                                        | Editable  |        0..n | 1                       | 1 supported language defined in the configuration                                                     |
+| `Variable/Label`                                               | Editable  |        0..n | 1                       | 1 supported language defined in the configuration                                                     |
+| `Variable/Description`                                         | Editable  |        0..n | 0..1                    | Markdown supported                                                                                    |
+| `Variable/VariableRepresentation`                              | Editable  |        0..1 | 1                       |                                                                                                       |
+| `VariableRepresentation/TextRepresentation`                    | Editable  |        0..1 | 0..1                    |                                                                                                       |
+| `TextRepresentation/minLength`                                 | Editable  |        0..1 | 0..1                    |                                                                                                       |
+| `TextRepresentation/maxLength`                                 | Editable  |        0..1 | 0..1                    |                                                                                                       |
+| `TextRepresentation/regExp`                                    | Editable  |        0..1 | 0..1                    |                                                                                                       |
+| `VariableRepresentation/NumericRepresentation`                 | Editable  |        0..1 | 0..1                    |                                                                                                       |
+| `NumericRepresentation/NumericTypeCode`                        | Editable  |        0..1 | 1                       | [Enumerated values](https://rdf-vocabulary.ddialliance.org/ddi-cv/NumericType/1.0.0/NumericType.html) |
+| `NumericRepresentation/NumberRange`                            | Container |        0..1 | 0..1                    |                                                                                                       |
+| `NumberRange/Low`                                              | Editable  |        0..1 | 0..1                    | `isInclusive` set to `true`                                                                           |
+| `NumberRange/High`                                             | Editable  |        0..1 | 0..1                    | `isInclusive` set to `true`                                                                           |
+| `VariableRepresentation/DateTimeRepresentation`                | Editable  |        0..1 | 0..1                    |                                                                                                       |
+| `DateTimeRepresentation/DateTypeCode`                          | Editable  |        0..1 | 1                       | [Enumerated values](https://rdf-vocabulary.ddialliance.org/ddi-cv/DateType/1.1.2/DateType.html)       |
+| `VariableRepresentation/CodeRepresentation`                    | Editable  |        0..1 | 0..1                    |                                                                                                       |
+| `CodeRepresentation/CodeListReference`                         | Reference |        0..1 | 0..1                    |                                                                                                       |
+| `CodeList`                                                     | Container |           - | -                       |                                                                                                       |
+| `CodeList/BasedOnObject`                                       | Reference |        0..1 | 0..1                    | References the original `CodeList` for a derived variant                                              |
+| `CodeList/Label`                                               | Editable  |        0..1 | 0..1                    | 1 supported language defined in the configuration                                                     |
+| `CodeList/Code`                                                | Editable  |        0..n | 0..n                    |                                                                                                       |
+| `Code/Value`                                                   | Editable  |        0..n | 0..n                    |                                                                                                       |
+| `Code/CategoryReference`                                       | Reference |        0..1 | 0..1                    |                                                                                                       |
+| `Category`                                                     | Container |           - | -                       |                                                                                                       |
+| `Category/BasedOnObject`                                       | Reference |        0..1 | 0..1                    | References the original `Category` for a derived variant                                              |
+| `Category/Label`                                               | Editable  |        0..n | 0..1                    |                                                                                                       |
+| `VariableRepresentation/MissingValuesReference`                | Reference |        0..1 | 0..1                    |                                                                                                       |
+| `ManagedMissingValuesRepresentation`                           | Container |           - | -                       |                                                                                                       |
+| `ManagedMissingValuesRepresentation/Label`                     | Inferred  |        0..1 | 0..1                    | 1 supported language defined in the configuration. Same label as the `CodeList`                       |
+| `ManagedMissingValuesRepresentation/MissingCodeRepresentation` | Editable  |        0..n | 0..1                    | Only `MissingCodeRepresentation` supported                                                            |
+| `MissingCodeRepresentation/CodeListReference`                  | Reference |        0..1 | 0..1                    | Same restrictions as `CodeRepresentation/CodeListReference`                                           |

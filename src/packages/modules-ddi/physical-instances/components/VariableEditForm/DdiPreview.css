@@ -1,12 +1,9 @@
-.ddi-preview-code-container {
-  position: relative;
-}
-
-.ddi-preview-code-container .ddi-preview-copy-btn {
-  position: absolute;
-  top: 1rem;
-  right: 2.5rem;
-  z-index: 1;
+/* Barre d'actions au-dessus du code : posée par-dessus, elle masquait les premières lignes. */
+.ddi-preview-code-container .ddi-preview-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .ddi-preview-code {
@@ -14,8 +11,36 @@
   overflow: auto;
   margin: 0;
   padding: 1rem;
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
-  background-color: var(--surface-ground);
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  background-color: #f6f8fa;
   font-size: 0.75rem;
+}
+
+/*
+ * Bootstrap 3 habille tout <code> (fond rose, texte bordeaux, marge interne) et le thème
+ * highlight.js pose son propre fond blanc : dans l'aperçu, seul le conteneur porte le fond.
+ */
+.ddi-preview-code.hljs {
+  background-color: #f6f8fa;
+}
+
+.ddi-preview-code code,
+.ddi-preview-code .hljs {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #24292f;
+}
+
+.ddi-preview-code--virtual {
+  height: 500px;
+}
+
+.ddi-preview-code--virtual .ddi-preview-line {
+  display: block;
+  height: 18px;
+  line-height: 18px;
+  font-size: 12px;
+  white-space: pre;
 }

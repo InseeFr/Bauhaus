@@ -36,7 +36,7 @@ export const SimsGeographySelector = ({
         aria-label={t("geography.btnDelete")}
         onClick={() => onRemoveExclude(geography)}
       >
-        <span className="glyphicon glyphicon-trash" aria-hidden="true" />
+        <span className="pi pi-trash" aria-hidden="true" />
       </button>
     </List.Item>
   ));
@@ -50,7 +50,7 @@ export const SimsGeographySelector = ({
         aria-label={t("geography.btnDelete")}
         onClick={() => onRemoveInclude(geography)}
       >
-        <span className="glyphicon glyphicon-trash" aria-hidden="true" />
+        <span className="pi pi-trash" aria-hidden="true" />
       </button>
     </List.Item>
   ));

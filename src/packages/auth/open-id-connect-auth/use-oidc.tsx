@@ -21,7 +21,7 @@ export const LoginComponent = () => {
 };
 
 export const LoggedInWrapper = ({ WrappedComponent }: OidcWrapperTypes) => {
-  const { oidcTokens, renewTokens } = useOidc({
+  const { renewTokens } = useOidc({
     assertUserLoggedIn: true,
   });
 
@@ -29,7 +29,6 @@ export const LoggedInWrapper = ({ WrappedComponent }: OidcWrapperTypes) => {
 
   const syncUserInformation = () => {
     console.debug("Fetching User Informations...");
-    console.debug({ oidcTokens });
     setUserInformationLoaded(true);
   };
 

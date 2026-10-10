@@ -10,6 +10,7 @@ export const useDatasetPublisher = (id: string) => {
     mutate: publish,
     error: validationServerSideError,
   } = useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: () => {
       return DistributionApi.publish(id);
     },

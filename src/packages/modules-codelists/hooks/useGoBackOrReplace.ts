@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 export const useGoBackOrReplace = () => {
   const navigate = useNavigate();

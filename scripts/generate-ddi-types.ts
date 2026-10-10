@@ -1,16 +1,14 @@
+import openapiTS, { astToString } from "openapi-typescript";
+
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import openapiTS, { astToString } from "openapi-typescript";
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const PROJECT_ROOT = resolve(dirname(SCRIPT_PATH), "..");
 
-export const SCHEMA_PATH = resolve(
-  PROJECT_ROOT,
-  "src/schemas/ddi-schema.json",
-);
+export const SCHEMA_PATH = resolve(PROJECT_ROOT, "src/schemas/ddi-schema.json");
 
 export const OUTPUT_PATH = resolve(
   PROJECT_ROOT,
@@ -32,9 +30,7 @@ async function readSchema(): Promise<SchemaContents> {
   return { raw, parsed: JSON.parse(raw) };
 }
 
-function wrapAsOpenApi(
-  schema: Record<string, unknown>,
-): Record<string, unknown> {
+function wrapAsOpenApi(schema: Record<string, unknown>): Record<string, unknown> {
   const defs = (schema.$defs as Record<string, unknown> | undefined) ?? {};
   const wrapper = {
     openapi: "3.1.0",
@@ -42,18 +38,12 @@ function wrapAsOpenApi(
     paths: {},
     components: { schemas: structuredClone(defs) },
   };
-  const rewritten = JSON.stringify(wrapper).replaceAll(
-    "#/$defs/",
-    "#/components/schemas/",
-  );
+  const rewritten = JSON.stringify(wrapper).replaceAll("#/$defs/", "#/components/schemas/");
   return JSON.parse(rewritten);
 }
 
 function computeHash(raw: string): string {
-  return createHash("sha256")
-    .update(`v${SCRIPT_VERSION}\n`)
-    .update(raw)
-    .digest("hex");
+  return createHash("sha256").update(`v${SCRIPT_VERSION}\n`).update(raw).digest("hex");
 }
 
 const HASH_MARKER = /^\/\/ ddi-schema-hash: ([a-f0-9]{64})$/m;
@@ -99,17 +89,14 @@ export async function generateDdiTypes(): Promise<GenerateResult> {
   return { written: true, hash, outputPath: OUTPUT_PATH };
 }
 
-const invokedDirectly =
-  process.argv[1] !== undefined && resolve(process.argv[1]) === SCRIPT_PATH;
+const invokedDirectly = process.argv[1] !== undefined && resolve(process.argv[1]) === SCRIPT_PATH;
 
 if (invokedDirectly) {
   generateDdiTypes()
     .then(({ written, hash, outputPath }) => {
       const short = hash.slice(0, 12);
       const status = written ? "wrote" : "up-to-date";
-      console.log(
-        `[generate-ddi-types] ${status} ${outputPath} (hash ${short}…)`,
-      );
+      console.log(`[generate-ddi-types] ${status} ${outputPath} (hash ${short}…)`);
     })
     .catch((err: unknown) => {
       console.error("[generate-ddi-types] failed:", err);

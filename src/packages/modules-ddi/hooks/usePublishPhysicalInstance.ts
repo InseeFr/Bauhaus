@@ -14,6 +14,7 @@ export function usePublishPhysicalInstance() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: ({ id, agencyId, data }: PublishPhysicalInstanceParams) =>
       DDIApi.putPhysicalInstance(agencyId, id, data),
     onSuccess: (_, variables) => {
@@ -46,6 +47,10 @@ export function usePublishPhysicalInstance() {
       // partagée » : la sauvegarde a pu créer une variante (la catégorie d'origine n'est plus
       // référencée par cette variable) ou au contraire partager une catégorie jusque-là propre.
       queryClient.invalidateQueries({ queryKey: ["categoryUsers"] });
+      // Réutilisation de variables (#1387) : la sauvegarde change les variables de la PI (donc
+      // celles qui sont partagées) et range les nouvelles dans le VariableScheme de l'étude.
+      queryClient.invalidateQueries({ queryKey: ["studyUnitVariableUsages"] });
+      queryClient.invalidateQueries({ queryKey: ["studyUnitVariables"] });
       // Une nouvelle liste de codes est rattachée au LogicalProduct du groupe parent :
       // invalider les listes du groupe (et non les mutualisées) pour les voir sans hard refresh.
       // Le groupe parent est déjà en cache via usePhysicalInstanceParents.

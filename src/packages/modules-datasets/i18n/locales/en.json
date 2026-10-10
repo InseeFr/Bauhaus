@@ -67,6 +67,12 @@
       "numberOfObservations": "Number of observations",
       "numberOfTimeSeries": "Number of time series"
     },
+    "lineage": {
+      "title": "Lineage",
+      "sources": "Built from",
+      "description": "Construction description",
+      "descriptionNeedsSources": "Pick at least one source dataset to describe how this one is built."
+    },
     "tabKO": "Errors occur in this tab",
     "hide": "Hide",
     "display": "Display",

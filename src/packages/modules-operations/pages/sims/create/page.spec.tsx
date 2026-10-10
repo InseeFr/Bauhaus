@@ -1,20 +1,15 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { useCallback } from "react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderWithLoaderData } from "../../page.testing";
 import { CREATE, UPDATE } from "../constants";
+import { mockMetadataStructure } from "../metadata-structure.testing";
 import { Component } from "./page";
-
-const loaderData = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
-  useLoaderData: () => loaderData(),
-  useParams: () => ({ id: "sims-1", idParent: "parent-1" }),
-}));
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string, { lng }: { lng: string }) => `${key}.${lng}:` }),
@@ -28,13 +23,10 @@ vi.mock("@sdk/operations-api", () => ({
   },
 }));
 
-const useMetadataStructure = vi.fn();
 const useSims = vi.fn();
 const saveSimsMutation = vi.fn();
 const goBack = vi.fn();
-vi.mock("../../../hooks/useMetadataStructure", () => ({
-  useMetadataStructure: () => useMetadataStructure(),
-}));
+vi.mock("../../../hooks/useMetadataStructure");
 vi.mock("../../../hooks/useCodelists", () => ({
   useCodelists: () => ({ codelists: {} }),
 }));
@@ -58,41 +50,50 @@ const onSaveFailed = vi.fn();
 // Le formulaire est remplacé par un pilote : il rend ce que la page lui passe et expose
 // `onSubmit`, seul chemin par lequel l'erreur serveur remonte dans le reducer.
 vi.mock("./components/AdvancedSimsCreation", () => ({
-  AdvancedSimsCreation: ({ parent, sims, idParent, mode, parentType, error, onSubmit }: any) => (
-    <div>
-      <span>mode:{mode ?? "(aucun)"}</span>
-      <span>parent:{parent?.prefLabelLg1 ?? "(aucun)"}</span>
-      <span>idParent:{idParent ?? "(aucun)"}</span>
-      <span>parentType:{parentType ?? "(aucun)"}</span>
-      <span>titre:{sims.labelLg1 ?? "(aucun)"}</span>
-      <span>erreur:{(error as Error)?.message ?? "(aucune)"}</span>
-      <button onClick={() => onSubmit({ id: "sims-1" }, onSaved, onSaveFailed)}>enregistrer</button>
-    </div>
-  ),
+  AdvancedSimsCreation: ({ parent, sims, idParent, mode, parentType, error, onSubmit }: any) => {
+    const submit = useCallback(() => onSubmit({ id: "sims-1" }, onSaved, onSaveFailed), [onSubmit]);
+    return (
+      <div>
+        <span>mode:{mode ?? "(aucun)"}</span>
+        <span>parent:{parent?.prefLabelLg1 ?? "(aucun)"}</span>
+        <span>idParent:{idParent ?? "(aucun)"}</span>
+        <span>parentType:{parentType ?? "(aucun)"}</span>
+        <span>titre:{sims.labelLg1 ?? "(aucun)"}</span>
+        <span>erreur:{(error as { message?: string } | undefined)?.message ?? "(aucune)"}</span>
+        <button onClick={submit}>enregistrer</button>
+      </div>
+    );
+  },
 }));
 vi.mock("../components/MSDLayout", () => ({
   MSDLayout: ({ children }: any) => <div>{children}</div>,
 }));
 
+let loaderData: unknown;
+
 const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+  renderWithLoaderData(<Component />, loaderData, {
+    path: "/series/:idParent/sims/:id",
+    url: "/series/parent-1/sims/sims-1",
+  });
+
+const renderAndSubmitOnceParentLoaded = async () => {
+  renderPage();
+  await waitFor(() => expect(screen.getByText("parent:Série FR")).toBeInTheDocument());
+
+  await userEvent.click(screen.getByRole("button", { name: "enregistrer" }));
+};
 
 describe("Sims create page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    loaderData.mockReturnValue({
+    loaderData = {
       baseUrl: "/operations/sims",
       mode: CREATE,
       disableSectionAnchor: false,
       parentType: "series",
-    });
-    useMetadataStructure.mockReturnValue({ isLoading: false, metadataStructure: {} });
+    };
+    mockMetadataStructure({ loaded: true });
     useSims.mockReturnValue({ isLoading: false, sims: undefined });
     vi.mocked(OperationsApi.getSerie).mockResolvedValue({
       id: "parent-1",
@@ -119,7 +120,7 @@ describe("Sims create page", () => {
   });
 
   it("charge un indicateur quand c'est le type du parent", async () => {
-    loaderData.mockReturnValue({ mode: CREATE, parentType: "indicator" });
+    loaderData = { mode: CREATE, parentType: "indicator" };
     vi.mocked(OperationsApi.getIndicatorById).mockResolvedValue({ prefLabelLg1: "Indicateur" });
     renderPage();
 
@@ -128,7 +129,7 @@ describe("Sims create page", () => {
   });
 
   it("charge une opération quand c'est le type du parent", async () => {
-    loaderData.mockReturnValue({ mode: CREATE, parentType: "operation" });
+    loaderData = { mode: CREATE, parentType: "operation" };
     vi.mocked(OperationsApi.getOperation).mockResolvedValue({ prefLabelLg1: "Opération" });
     renderPage();
 
@@ -136,7 +137,7 @@ describe("Sims create page", () => {
   });
 
   it("n'appelle aucune API quand le type de parent est inconnu, et sort du chargement", async () => {
-    loaderData.mockReturnValue({ mode: CREATE, parentType: "inconnu" });
+    loaderData = { mode: CREATE, parentType: "inconnu" };
     renderPage();
 
     await waitFor(() => expect(screen.getByText("parent:(aucun)")).toBeInTheDocument());
@@ -146,7 +147,7 @@ describe("Sims create page", () => {
   });
 
   it("en modification, lit le parent dans le rapport existant plutôt que dans l'URL", async () => {
-    loaderData.mockReturnValue({ mode: UPDATE });
+    loaderData = { mode: UPDATE };
     useSims.mockReturnValue({
       isLoading: false,
       sims: {
@@ -171,7 +172,7 @@ describe("Sims create page", () => {
   });
 
   it("affiche le chargement tant que la structure de métadonnées n'est pas là", async () => {
-    useMetadataStructure.mockReturnValue({ isLoading: true, metadataStructure: undefined });
+    mockMetadataStructure({ loaded: false });
     renderPage();
 
     await waitFor(() => expect(OperationsApi.getSerie).toHaveBeenCalled());
@@ -179,38 +180,54 @@ describe("Sims create page", () => {
   });
 
   it("affiche le chargement tant que le rapport à modifier n'est pas là", async () => {
-    loaderData.mockReturnValue({ mode: UPDATE });
+    loaderData = { mode: UPDATE };
     useSims.mockReturnValue({ isLoading: true, sims: undefined });
     renderPage();
 
     await waitFor(() => expect(screen.getByText(/Loading/i)).toBeInTheDocument());
   });
 
+  it("en modification, indique l'échec de lecture du rapport au lieu d'un formulaire vide", async () => {
+    loaderData = { mode: UPDATE };
+    useSims.mockReturnValue({
+      isLoading: false,
+      sims: undefined,
+      error: sdkRejection.emptyBody(500),
+    });
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByRole("button", { name: "enregistrer" })).not.toBeInTheDocument();
+  });
+
   it("appelle le rappel de succès quand l'enregistrement passe", async () => {
     saveSimsMutation.mockResolvedValue("sims-1");
-    renderPage();
-    await waitFor(() => expect(screen.getByText("parent:Série FR")).toBeInTheDocument());
 
-    await userEvent.click(screen.getByRole("button", { name: "enregistrer" }));
+    await renderAndSubmitOnceParentLoaded();
 
     await waitFor(() => expect(onSaved).toHaveBeenCalledWith("sims-1"));
     expect(screen.getByText("erreur:(aucune)")).toBeInTheDocument();
   });
 
   it("passe l'erreur serveur au formulaire quand l'enregistrement échoue", async () => {
-    saveSimsMutation.mockRejectedValue(new Error("500"));
-    renderPage();
-    await waitFor(() => expect(screen.getByText("parent:Série FR")).toBeInTheDocument());
+    saveSimsMutation.mockRejectedValue(
+      sdkRejection.json(500, {
+        message: "The report could not be created.",
+        code: "SIMS_CREATION_FAILED",
+      }),
+    );
 
-    await userEvent.click(screen.getByRole("button", { name: "enregistrer" }));
+    await renderAndSubmitOnceParentLoaded();
 
-    await waitFor(() => expect(screen.getByText("erreur:500")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByText("erreur:The report could not be created.")).toBeInTheDocument(),
+    );
     expect(onSaveFailed).toHaveBeenCalled();
     expect(onSaved).not.toHaveBeenCalled();
   });
 
   it("retombe sur des valeurs par défaut quand le loader ne fournit rien", async () => {
-    loaderData.mockReturnValue(undefined);
+    loaderData = undefined;
     renderPage();
 
     await waitFor(() => expect(screen.getByText("mode:(aucun)")).toBeInTheDocument());

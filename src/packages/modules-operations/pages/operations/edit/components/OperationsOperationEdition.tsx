@@ -12,6 +12,10 @@ import { Operation } from "@model/Operation";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { toFormErrors } from "@utils/api-errors";
+import { useInvalidateOperations } from "@utils/hooks/operations";
+import { useInvalidateSeries } from "@utils/hooks/series";
+
 import { validate } from "../validation";
 import { Controls } from "./Controls";
 import { Series } from "./Series";
@@ -24,13 +28,19 @@ interface OperationsOperationEditionTypes {
   goBack: (url: string, replace?: boolean) => void;
 }
 
+/**
+ * Champs dont une erreur de validation du back s'affiche à côté de la saisie. Le back nomme la
+ * série `series` (absente) ou `series.id` (vide) : les deux vont sous le choix de la série.
+ */
+const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2", "series", "series.id", "year"];
+
 interface ClientSideErrors {
   errorMessage?: string[];
   fields?: Record<string, string>;
 }
 
 interface State {
-  serverSideError: string;
+  serverSideError: unknown;
   clientSideErrors: ClientSideErrors;
   saving: boolean;
   submitting: boolean;
@@ -62,6 +72,11 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
   const { t } = useTranslation();
 
   const [state, setState] = useState<State>(() => setInitialState(props));
+
+  // La fiche d'une série liste ses opérations.
+  const invalidateSeries = useInvalidateSeries();
+
+  const invalidateOperations = useInvalidateOperations();
 
   const isFirstRender = useRef(true);
 
@@ -111,19 +126,23 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
       setState((state) => ({ ...state, saving: true }));
       const isCreation = !state.operation.id;
       const method = isCreation ? "postOperation" : "putOperation";
-      return OperationsApi[method](state.operation)
-        .then(
-          (id = state.operation.id) => {
-            props.goBack(`/operations/operation/${id}`, isCreation);
-          },
-          (err: string) => {
-            setState((state) => ({
-              ...state,
-              serverSideError: err,
-            }));
-          },
-        )
-        .finally(() => setState((state) => ({ ...state, saving: false })));
+      // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
+      // le formulaire réapparaîtrait le temps qu'elle aboutisse.
+      return OperationsApi[method](state.operation).then(
+        async (id = state.operation.id) => {
+          await Promise.all([invalidateOperations(), invalidateSeries()]);
+          props.goBack(`/operations/operation/${id}`, isCreation);
+        },
+        (err: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
+          setState((state) => ({
+            ...state,
+            saving: false,
+            ...(clientSideErrors && { submitting: true, clientSideErrors }),
+            serverSideError,
+          }));
+        },
+      );
     }
   };
 
@@ -156,6 +175,9 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
           <Series
             label={t("common.seriesTitle")}
             value={series.id}
+            errorMessage={
+              state.clientSideErrors.fields?.series || state.clientSideErrors.fields?.["series.id"]
+            }
             onChange={(value) =>
               onChange({
                 target: { value, id: "idSeries" },

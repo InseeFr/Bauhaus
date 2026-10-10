@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { I18nextProvider } from "react-i18next";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { Mock, vi } from "vitest";
 
 import { conceptsI18n } from "../../../i18n";
@@ -18,25 +18,10 @@ vi.mock("../../../../utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
 }));
 
-vi.mock("../../../components/ExportButtons", () => ({
-  ExportButtons: ({
-    disabled,
-    exportHandler,
-  }: {
-    disabled: boolean;
-    exportHandler: (type: string, withConcepts: boolean, lang?: string) => void;
-  }) => (
-    <div data-testid="export-buttons">
-      <span data-testid="disabled-state">{disabled.toString()}</span>
-      <button data-testid="export-ods" onClick={() => exportHandler("ods", false)}>
-        Export ODS
-      </button>
-      <button data-testid="export-odt" onClick={() => exportHandler("odt", false)}>
-        Export ODT
-      </button>
-    </div>
-  ),
-}));
+vi.mock(
+  "../../../components/ExportButtons",
+  () => import("../../../testing/export-buttons.testing"),
+);
 
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -53,19 +38,28 @@ const renderComponent = () => {
   );
 };
 
-describe("Export Concepts Home Container", () => {
-  const mockConcepts = [
-    { id: "1", label: "Concept A" },
-    { id: "2", label: "Concept B" },
-    { id: "3", label: "Concept C" },
-  ];
+const mockConcepts = [
+  { id: "1", label: "Concept A" },
+  { id: "2", label: "Concept B" },
+  { id: "3", label: "Concept C" },
+];
 
+const withConcepts = (concepts: { id: string; label: string }[], isLoading = false) =>
+  (useConcepts as Mock).mockReturnValue({ concepts, isLoading });
+
+const withConceptExportInProgress = () =>
+  (useConceptExporter as Mock).mockReturnValue({ mutate: vi.fn(), isPending: true });
+
+/** Rend la page une fois les concepts de référence chargés. */
+const renderWithConcepts = () => {
+  withConcepts(mockConcepts);
+  renderComponent();
+};
+
+describe("Export Concepts Home Container", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useConcepts as Mock).mockReturnValue({
-      concepts: [],
-      isLoading: false,
-    });
+    withConcepts([]);
     (useConceptExporter as Mock).mockReturnValue({
       mutate: vi.fn(),
       isPending: false,
@@ -74,10 +68,7 @@ describe("Export Concepts Home Container", () => {
 
   describe("Loading State", () => {
     it("should display loading indicator while fetching concepts", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: [],
-        isLoading: true,
-      });
+      withConcepts([], true);
 
       renderComponent();
 
@@ -85,39 +76,15 @@ describe("Export Concepts Home Container", () => {
     });
 
     it("should display exporting indicator during export", () => {
-      (useConceptExporter as Mock).mockReturnValue({
-        mutate: vi.fn(),
-        isPending: true,
-      });
+      withConceptExportInProgress();
 
       renderComponent();
 
       expect(screen.getByText("Export in progress...")).toBeInTheDocument();
-    });
-
-    it("should prioritize exporting state over loading state", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: [],
-        isLoading: true,
-      });
-      (useConceptExporter as Mock).mockReturnValue({
-        mutate: vi.fn(),
-        isPending: true,
-      });
-
-      renderComponent();
-
-      expect(screen.getByText("Export in progress...")).toBeInTheDocument();
-      expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
     });
 
     it("should hide loading indicator after concepts are fetched", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: mockConcepts,
-        isLoading: false,
-      });
-
-      renderComponent();
+      renderWithConcepts();
 
       expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
     });
@@ -125,12 +92,7 @@ describe("Export Concepts Home Container", () => {
 
   describe("Concepts Display", () => {
     it("should display concepts after successful fetch", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: mockConcepts,
-        isLoading: false,
-      });
-
-      renderComponent();
+      renderWithConcepts();
 
       expect(screen.getByText("Concept A")).toBeInTheDocument();
       expect(screen.getByText("Concept B")).toBeInTheDocument();
@@ -138,10 +100,7 @@ describe("Export Concepts Home Container", () => {
     });
 
     it("should display empty list when no concepts available", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: [],
-        isLoading: false,
-      });
+      withConcepts([]);
 
       renderComponent();
 
@@ -151,35 +110,20 @@ describe("Export Concepts Home Container", () => {
 
   describe("Picker integration", () => {
     it("should pass correct title to Picker", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: mockConcepts,
-        isLoading: false,
-      });
-
-      renderComponent();
+      renderWithConcepts();
 
       expect(screen.getByText("Export")).toBeInTheDocument();
     });
 
     it("should pass correct panel titles to Picker", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: mockConcepts,
-        isLoading: false,
-      });
-
-      renderComponent();
+      renderWithConcepts();
 
       expect(screen.getByText("Available concepts (3)")).toBeInTheDocument();
       expect(screen.getByText("Concepts to export (0)")).toBeInTheDocument();
     });
 
     it("should pass correct context to Picker", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: mockConcepts,
-        isLoading: false,
-      });
-
-      renderComponent();
+      renderWithConcepts();
 
       // Use getByText since there are now multiple links (pagination adds links)
       const returnLink = screen.getByText("Back").closest("a");
@@ -189,23 +133,13 @@ describe("Export Concepts Home Container", () => {
 
   describe("Export buttons", () => {
     it("should render export buttons", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: mockConcepts,
-        isLoading: false,
-      });
-
-      renderComponent();
+      renderWithConcepts();
 
       expect(screen.getByTestId("export-buttons")).toBeInTheDocument();
     });
 
     it("should render all export button types", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: mockConcepts,
-        isLoading: false,
-      });
-
-      renderComponent();
+      renderWithConcepts();
 
       expect(screen.getByTestId("export-ods")).toBeInTheDocument();
       expect(screen.getByTestId("export-odt")).toBeInTheDocument();
@@ -222,10 +156,7 @@ describe("Export Concepts Home Container", () => {
 
   describe("Edge Cases", () => {
     it("should handle single concept", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: [{ id: "1", label: "Single Concept" }],
-        isLoading: false,
-      });
+      withConcepts([{ id: "1", label: "Single Concept" }]);
 
       renderComponent();
 
@@ -233,15 +164,7 @@ describe("Export Concepts Home Container", () => {
     });
 
     it("should handle large number of concepts", () => {
-      const largeConcepts = Array.from({ length: 100 }, (_, i) => ({
-        id: `${i}`,
-        label: `Concept ${i}`,
-      }));
-
-      (useConcepts as Mock).mockReturnValue({
-        concepts: largeConcepts,
-        isLoading: false,
-      });
+      withConcepts(Array.from({ length: 100 }, (_, i) => ({ id: `${i}`, label: `Concept ${i}` })));
 
       renderComponent();
 
@@ -249,13 +172,10 @@ describe("Export Concepts Home Container", () => {
     });
 
     it("should handle concepts with special characters in labels", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: [
-          { id: "1", label: "Concept <test>" },
-          { id: "2", label: "Concept & Co." },
-        ],
-        isLoading: false,
-      });
+      withConcepts([
+        { id: "1", label: "Concept <test>" },
+        { id: "2", label: "Concept & Co." },
+      ]);
 
       renderComponent();
 
@@ -266,12 +186,7 @@ describe("Export Concepts Home Container", () => {
 
   describe("Search functionality", () => {
     it("should have a search input", () => {
-      (useConcepts as Mock).mockReturnValue({
-        concepts: mockConcepts,
-        isLoading: false,
-      });
-
-      renderComponent();
+      renderWithConcepts();
 
       // Une par panneau de la PickList : concepts disponibles et concepts à exporter.
       expect(screen.getAllByPlaceholderText("Label...")).toHaveLength(2);

@@ -1,7 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import { Message } from "primereact/message";
-import type { Toast } from "primereact/toast";
 import {
   useReducer,
   useRef,
@@ -13,7 +10,10 @@ import {
   Suspense,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router";
+
+import { ConfirmDialog, confirmDialog } from "@components/ui/confirm-dialog";
+import { Toast } from "@components/ui/toast";
 
 import "./view.css";
 import type {
@@ -26,27 +26,33 @@ const PhysicalInstanceDialog = lazy(() =>
     (module) => ({ default: module.PhysicalInstanceDialog }),
   ),
 );
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { LoadingOverlay } from "@components/loading-overlay";
 
+import { formatApiErrors } from "@utils/api-errors";
 import { cx } from "@utils/cx";
 import { useNavigationBlocker } from "@utils/hooks/useNavigationBlocker";
 
+import { appI18n } from "../../../../i18n";
 import { useDuplicatePhysicalInstance } from "../../../hooks/useDuplicatePhysicalInstance";
 import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
 import { usePhysicalInstanceParents } from "../../../hooks/usePhysicalInstanceParents";
 import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalInstance";
+import { useStudyUnitVariableUsages } from "../../../hooks/useStudyUnitVariables";
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { useValidateDdi4 } from "../../../hooks/useValidateDdi4";
-import { getDdiErrorMessage } from "../../../utils/api-errors";
 import { errorToastTiming } from "../../../utils/error-toast";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
 import { DdiToast } from "../../components/DdiToast/DdiToast";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
+import { ReuseVariableDialog } from "../../components/SharedVariable/ReuseVariableDialog";
+import { otherPhysicalInstancesByVariable } from "../../components/SharedVariable/sharedVariables";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
+import { getVariableValidationErrors } from "../../components/VariableEditForm/variableValidation";
 import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
 import type {
   VariableTableData,
@@ -61,6 +67,7 @@ import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
 import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
 import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
+import { toVariableTableData } from "./toVariableTableData";
 import { viewReducer, initialState, actions, type VariableData } from "./viewReducer";
 
 export const Component = () => {
@@ -76,14 +83,41 @@ export const Component = () => {
     id!,
   );
 
-  const { data: parents, isLoading: isLoadingParents } = usePhysicalInstanceParents(agencyId!, id!);
+  // Une PI introuvable (404) ou en erreur n'a pas de parents à résoudre : on attend son chargement.
+  const { data: parents, isLoading: isLoadingParents } = usePhysicalInstanceParents(
+    agencyId!,
+    id!,
+    { enabled: !!data },
+  );
 
   const currentGroup = parents?.group;
   const currentStudyUnit = parents?.studyUnit;
   const currentStamps = parents?.stamps;
   const [duplicateDialogVisible, setDuplicateDialogVisible] = useState(false);
-  // Modifications en cours dans le panneau d'édition, non validées par « Mettre à jour ».
+  const [reuseDialogVisible, setReuseDialogVisible] = useState(false);
+
+  // Réutilisation de variables (#1387) : une variable utilisée par d'autres fichiers de l'étude est
+  // partagée, la modifier les met à jour. On le signale dans le tableau et dans le panneau.
+  const { data: studyUnitVariableUsages } = useStudyUnitVariableUsages(
+    currentStudyUnit?.agency ?? "",
+    currentStudyUnit?.id ?? "",
+  );
+  const otherPhysicalInstances = useMemo(
+    () =>
+      otherPhysicalInstancesByVariable(studyUnitVariableUsages ?? [], {
+        agency: agencyId!,
+        id: id!,
+      }),
+    [studyUnitVariableUsages, agencyId, id],
+  );
+  const sharedVariableIds = useMemo(
+    () => Array.from(otherPhysicalInstances.keys()),
+    [otherPhysicalInstances],
+  );
+  // Saisie du panneau d'édition pas encore reportée dans le tableau (champ non quitté).
   const [isEditedVariableDirty, setEditedVariableDirty] = useState(false);
+  // Erreurs de validation affichées à partir du premier « Sauvegarder » refusé (#1608).
+  const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [isReloadingAfterSave, setReloadingAfterSave] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
@@ -124,17 +158,21 @@ export const Component = () => {
     }
   }, [state.selectedVariable, searchParams, setSearchParams]);
 
+  const handleCloseVariablePanel = useCallback(() => {
+    dispatch(actions.setSelectedVariable(null));
+  }, []);
+
   // Fermer le panneau latéral d'édition avec la touche Échap
   useEffect(() => {
     if (!state.selectedVariable) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        dispatch(actions.setSelectedVariable(null));
+        handleCloseVariablePanel();
       }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [state.selectedVariable]);
+  }, [state.selectedVariable, handleCloseVariablePanel]);
 
   const variableTypeOptions = useMemo(
     () => [
@@ -167,8 +205,8 @@ export const Component = () => {
 
   // Get IDs of unsaved (local) variables
   const unsavedVariableIds = useMemo(() => {
-    return state.localVariables.map((v) => v.id);
-  }, [state.localVariables]);
+    return [...state.localVariables.map((v) => v.id), ...state.reusedVariables.map((v) => v.ID)];
+  }, [state.localVariables, state.reusedVariables]);
 
   // Valeurs sentinelles (#1566) : MMVR référencées par les AUTRES variables locales non
   // sauvegardées — le back ne les connaît pas encore, ce décompte complète le sien pour la règle
@@ -187,8 +225,40 @@ export const Component = () => {
 
   // Check if there are unsaved changes
   const hasUnsavedChanges = useMemo(() => {
-    return state.localVariables.length > 0 || state.deletedVariableIds.length > 0;
-  }, [state.localVariables, state.deletedVariableIds]);
+    return (
+      state.localVariables.length > 0 ||
+      state.deletedVariableIds.length > 0 ||
+      state.reusedVariables.length > 0 ||
+      isEditedVariableDirty
+    );
+  }, [
+    state.localVariables,
+    state.deletedVariableIds,
+    state.reusedVariables,
+    isEditedVariableDirty,
+  ]);
+
+  // Validation globale (#1608) : toutes les variables modifiées, recalculée à chaque report pour
+  // que les erreurs corrigées disparaissent aussitôt.
+  const variablesInError = useMemo(
+    () =>
+      state.localVariables
+        .map((variable) => ({
+          variable,
+          errors: getVariableValidationErrors({
+            name: variable.name,
+            label: variable.label,
+            sentinelMmvr: variable.sentinelMmvr,
+          }),
+        }))
+        .filter(({ errors }) => errors.length > 0),
+    [state.localVariables],
+  );
+  const displayedVariablesInError = showValidationErrors ? variablesInError : [];
+  const invalidVariableIds = useMemo(
+    () => displayedVariablesInError.map(({ variable }) => variable.id),
+    [displayedVariablesInError],
+  );
 
   // Block navigation when there are unsaved changes (internal + F5/close tab)
   const handleNavigationBlock = useCallback(
@@ -214,7 +284,13 @@ export const Component = () => {
 
   // Merge variables from API with local modifications
   const mergedVariables = useMemo(() => {
-    const variableMap = new Map(variables.map((v) => [v.id, v]));
+    // Les variables réutilisées non encore enregistrées s'affichent comme les variables relues.
+    const variableMap = new Map<string, VariableTableData>(
+      [...variables, ...state.reusedVariables.map((v) => toVariableTableData(v))].map((v) => [
+        v.id,
+        v,
+      ]),
+    );
 
     // Remove deleted variables
     state.deletedVariableIds.forEach((deletedId) => {
@@ -254,7 +330,13 @@ export const Component = () => {
     });
 
     return merged;
-  }, [variables, state.localVariables, state.deletedVariableIds, state.newVariableAnchors]);
+  }, [
+    variables,
+    state.reusedVariables,
+    state.localVariables,
+    state.deletedVariableIds,
+    state.newVariableAnchors,
+  ]);
 
   const filteredVariables = useMemo(() => {
     const searchLower = state.searchValue ? state.searchValue.toLowerCase() : null;
@@ -322,7 +404,11 @@ export const Component = () => {
       } catch (err: unknown) {
         dispatch(actions.setFormData({ label: previousLabel }));
 
-        const errorMessage = getDdiErrorMessage(err, t, t("physicalInstance.view.saveErrorDetail"));
+        const errorMessage = formatApiErrors(
+          err,
+          appI18n,
+          t("physicalInstance.view.saveErrorDetail"),
+        ).join("\n");
 
         toast.current?.show({
           severity: "error",
@@ -338,7 +424,9 @@ export const Component = () => {
   );
 
   const handleVariableClick = useCallback(
-    async (variable: VariableTableData) => {
+    // `storedVariable` : l'item à ouvrir quand il n'est pas encore dans l'état (variable tout juste
+    // réutilisée, #1387).
+    async (variable: VariableTableData, storedVariable?: Variable) => {
       // Vérifier d'abord si la variable a des modifications locales
       const localVariable = state.localVariables.find((v) => v.id === variable.id);
 
@@ -349,9 +437,11 @@ export const Component = () => {
       }
 
       // Sinon, trouver la variable complète dans les données brutes
-      const fullVariable = itemsOfType(data, "Variable").find(
-        (v: Variable) => v.ID === variable.id,
-      );
+      const fullVariable =
+        storedVariable ??
+        [...itemsOfType(data, "Variable"), ...state.reusedVariables].find(
+          (v: Variable) => v.ID === variable.id,
+        );
 
       // Charger les informations complètes de la variable si trouvée
       // VersionDate enregistrée : l'aperçu DDI doit refléter la donnée stockée, pas un
@@ -402,18 +492,20 @@ export const Component = () => {
 
         let loaded;
         try {
-          loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
+          loaded = await loadCodeListForVariable(queryClient, codeRepresentation, {
+            skipMutualized: true,
+          });
         } catch (err: unknown) {
           // Sans sa liste de codes, la variable ne peut pas être éditée : on le dit et on la
           // laisse fermée, plutôt que de laisser l'échec sans réponse.
           toast.current?.show({
             severity: "error",
             summary: t("physicalInstance.view.code.loadCodeListErrorTitle"),
-            detail: getDdiErrorMessage(
+            detail: formatApiErrors(
               err,
-              t,
+              appI18n,
               t("physicalInstance.view.code.loadCodeListErrorDetail"),
-            ),
+            ).join("\n"),
             ...errorToastTiming(),
           });
           return;
@@ -463,7 +555,18 @@ export const Component = () => {
         }),
       );
     },
-    [data, state.localVariables, queryClient, t, agencyId],
+    [data, state.localVariables, state.reusedVariables, queryClient, t, agencyId],
+  );
+
+  // Réutilisation (#1387) : la variable choisie rejoint la PI telle quelle, et s'ouvre dans le
+  // panneau — le bandeau y signale aussitôt les autres fichiers qui la partagent.
+  const handleReuseVariable = useCallback(
+    (variable: Variable) => {
+      dispatch(actions.reuseVariable(variable));
+      setReuseDialogVisible(false);
+      void handleVariableClick(toVariableTableData(variable), variable);
+    },
+    [handleVariableClick],
   );
 
   // Restore selected variable from URL on initial load
@@ -517,40 +620,15 @@ export const Component = () => {
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
 
-  const handleVariableSave = useCallback(
-    (data: VariableData) => {
-      const isNew = data.id === "new";
-
-      // Si l'ID est 'new', c'est une nouvelle variable
-      if (isNew) {
-        const newId = crypto.randomUUID();
-        dispatch(
-          actions.addVariable({
-            ...data,
-            id: newId,
-          }),
-        );
-      } else {
-        // Mise à jour d'une variable existante
-        dispatch(actions.updateVariable(data));
-      }
-
-      // Fermer le formulaire
-      dispatch(actions.setSelectedVariable(null));
-
-      toast.current?.show({
-        severity: "success",
-        summary: isNew
-          ? t("physicalInstance.view.variableAddSuccess")
-          : t("physicalInstance.view.variableUpdateSuccess"),
-        detail: isNew
-          ? t("physicalInstance.view.variableAddSuccessDetail")
-          : t("physicalInstance.view.variableUpdateSuccessDetail"),
-        life: TOAST_DURATION,
-      });
-    },
-    [t],
-  );
+  // Report d'une saisie du panneau dans le tableau (#1608), sans le fermer : une variable en
+  // création reçoit son identifiant au premier report.
+  const handleVariableChange = useCallback((data: VariableData) => {
+    if (data.id === "new") {
+      dispatch(actions.addEditedVariable({ ...data, id: crypto.randomUUID() }));
+    } else {
+      dispatch(actions.updateVariable(data));
+    }
+  }, []);
 
   const handleVariableDuplicate = useCallback(
     (data: VariableData) => {
@@ -606,7 +684,8 @@ export const Component = () => {
     try {
       // L'enveloppe DDI 4 ne porte qu'un tableau `items` à plat : on travaille ici sur des
       // listes par type, réassemblées en `items` juste avant l'envoi.
-      let variables = itemsOfType(data, "Variable");
+      // Les variables réutilisées non modifiées partent telles que stockées (#1387).
+      let variables = [...itemsOfType(data, "Variable"), ...state.reusedVariables];
       const codeListMap = new Map(itemsOfType(data, "CodeList").map((cl) => [cl.ID, cl]));
       const categoryMap = new Map(itemsOfType(data, "Category").map((cat) => [cat.ID, cat]));
       // MMVR : valeurs sentinelles, #1566
@@ -614,8 +693,13 @@ export const Component = () => {
         itemsOfType(data, "ManagedMissingValuesRepresentation").map((mmvr) => [mmvr.ID, mmvr]),
       );
 
-      // Si on a des variables locales ou des suppressions, mettre à jour les variables
-      if (state.localVariables.length > 0 || state.deletedVariableIds.length > 0) {
+      // Si on a des variables locales, des suppressions ou des réutilisations, mettre à jour les
+      // variables (la Map dédoublonne une variable retirée puis réutilisée avant la sauvegarde)
+      if (
+        state.localVariables.length > 0 ||
+        state.deletedVariableIds.length > 0 ||
+        state.reusedVariables.length > 0
+      ) {
         const variableMap = new Map(variables.map((v: Variable) => [v.ID, v]));
 
         // Supprimer les variables marquées comme supprimées
@@ -723,13 +807,18 @@ export const Component = () => {
             });
           }
 
+          // Une variable déjà stockée garde son agence et sa version : réécrite en v1 sous l'agence
+          // de la PI, elle créait une version fantôme que les autres fichiers ne voyaient pas.
+          const storedVariable = variableMap.get(localVar.id);
+          const variableAgency = storedVariable?.Agency ?? agencyId!;
+          const variableVersion = storedVariable?.Version ?? "1";
           const ddiVariable: Variable = {
             $type: "Variable",
             VersionDate: { DateTime: new Date().toISOString() },
-            URN: `urn:ddi:${agencyId}:${localVar.id}:1`,
-            Agency: agencyId!,
+            URN: `urn:ddi:${variableAgency}:${localVar.id}:${variableVersion}`,
+            Agency: variableAgency,
             ID: localVar.id,
-            Version: "1",
+            Version: variableVersion,
             VariableName: singletonEntries("fr-FR", localVar.name),
             Label: singletonEntries("fr-FR", localVar.label),
             ...(localVar.description && {
@@ -755,10 +844,10 @@ export const Component = () => {
 
         const variableReferences = variables.map((v: Variable) => ({
           $type: "Variable" as const,
-          URN: `urn:ddi:${agencyId}:${v.ID}:1`,
-          Agency: agencyId!,
+          URN: `urn:ddi:${v.Agency}:${v.ID}:${v.Version}`,
+          Agency: v.Agency,
           ID: v.ID,
-          Version: "1",
+          Version: v.Version,
         }));
 
         return {
@@ -807,6 +896,7 @@ export const Component = () => {
 
       // Nettoyer les variables locales après une sauvegarde réussie
       dispatch(actions.clearLocalVariables());
+      setShowValidationErrors(false);
 
       // Valeurs sentinelles (#1566) : la sauvegarde peut avoir modifié une MMVR / sa CodeList ou
       // changé ses usages — invalider les caches correspondants pour relire l'état réel.
@@ -823,11 +913,11 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     } catch (err: unknown) {
-      const errorMessage = getDdiErrorMessage(
+      const errorMessage = formatApiErrors(
         err,
-        t,
+        appI18n,
         t("physicalInstance.view.saveAllErrorDetail"),
-      );
+      ).join("\n");
 
       toast.current?.show({
         severity: "error",
@@ -836,28 +926,37 @@ export const Component = () => {
         ...errorToastTiming(),
       });
     }
-  }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
+  }, [
+    id,
+    agencyId,
+    data,
+    state.localVariables,
+    state.deletedVariableIds,
+    state.reusedVariables,
+    savePhysicalInstance,
+    t,
+  ]);
 
-  // Sauvegarde globale : la variable ouverte dans le panneau latéral peut porter des
-  // modifications non validées par « Mettre à jour » — elles ne sont pas dans `localVariables`
-  // et seraient donc perdues sans avertissement. On confirme avant de sauvegarder sans elles.
+  // Sauvegarde globale : la saisie en cours a déjà été reportée dans le tableau en quittant le
+  // champ (le clic sur le bouton suffit). Rien n'est envoyé tant qu'une variable modifiée est
+  // invalide (#1608).
   const handleSaveAll = useCallback(() => {
-    if (!isEditedVariableDirty) {
-      return saveAll();
+    if (variablesInError.length > 0) {
+      setShowValidationErrors(true);
+      return;
     }
+    return saveAll();
+  }, [variablesInError, saveAll]);
 
-    confirmDialog({
-      message: t("physicalInstance.view.pendingVariableEdit.message"),
-      header: t("physicalInstance.view.pendingVariableEdit.title"),
-      icon: "pi pi-exclamation-triangle",
-      acceptLabel: t("physicalInstance.view.pendingVariableEdit.confirm"),
-      rejectLabel: t("physicalInstance.view.pendingVariableEdit.cancel"),
-      acceptClassName: "p-button-warning",
-      accept: () => {
-        void saveAll();
-      },
-    });
-  }, [isEditedVariableDirty, saveAll, t]);
+  const handleInvalidVariableClick = useCallback(
+    (variableId: string) => {
+      const variable = mergedVariables.find((v) => v.id === variableId);
+      if (variable) {
+        void handleVariableClick(variable);
+      }
+    },
+    [mergedVariables, handleVariableClick],
+  );
 
   // Ouvre la modale de duplication (la duplication n'est plus immédiate, cf. #1555).
   const handleDuplicatePhysicalInstance = useCallback(() => {
@@ -904,11 +1003,11 @@ export const Component = () => {
           life: TOAST_DURATION,
         });
       } catch (err) {
-        const errorMessage = getDdiErrorMessage(
+        const errorMessage = formatApiErrors(
           err,
-          t,
+          appI18n,
           t("physicalInstance.view.duplicateErrorDetail"),
-        );
+        ).join("\n");
 
         toast.current?.show({
           severity: "error",
@@ -927,15 +1026,10 @@ export const Component = () => {
     return <LoadingOverlay textType="loading" />;
   }
 
-  if (isError) {
-    return (
-      <div role="alert" aria-live="assertive">
-        <Message
-          severity="error"
-          text={error instanceof Error ? error.message : t("physicalInstance.view.errorLoading")}
-        />
-      </div>
-    );
+  // Même traitement que les autres fiches ; une instance déjà affichée le reste si un
+  // rechargement échoue.
+  if (isError && !data) {
+    return <LoadingErrorBloc error={error} />;
   }
 
   return (
@@ -961,10 +1055,43 @@ export const Component = () => {
               onTypeFilterChange={handleTypeFilterChange}
               typeOptions={typeOptions}
               onNewVariable={handleNewVariable}
+              onReuseVariable={currentStudyUnit ? () => setReuseDialogVisible(true) : undefined}
               onSaveAll={handleSaveAll}
               hasLocalChanges={hasUnsavedChanges}
               stamps={currentStamps}
             />
+
+            {displayedVariablesInError.length > 0 && (
+              <div
+                role="alert"
+                aria-labelledby="pi-validation-summary-title"
+                className="pi-validation-summary"
+              >
+                <p id="pi-validation-summary-title" className="pi-validation-summary-title">
+                  <i className="pi pi-times-circle" aria-hidden="true" />
+                  {t("physicalInstance.view.validation.summary")}
+                </p>
+                <ul>
+                  {displayedVariablesInError.map(({ variable, errors }) => (
+                    <li key={variable.id}>
+                      <button
+                        type="button"
+                        className="pi-validation-summary-variable"
+                        onClick={() => handleInvalidVariableClick(variable.id)}
+                      >
+                        {variable.name.trim() ||
+                          variable.label.trim() ||
+                          t("physicalInstance.view.validation.unnamedVariable")}
+                      </button>
+                      {" : "}
+                      {errors
+                        .map((error) => t(`physicalInstance.view.validation.errors.${error}`))
+                        .join(", ")}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <GlobalActionsCard
@@ -975,6 +1102,8 @@ export const Component = () => {
             onRowClick={handleVariableClick}
             onDeleteClick={handleDeleteVariable}
             unsavedVariableIds={unsavedVariableIds}
+            invalidVariableIds={invalidVariableIds}
+            sharedVariableIds={sharedVariableIds}
             selectedVariableId={state.selectedVariable?.id}
             stamps={currentStamps}
           />
@@ -986,14 +1115,16 @@ export const Component = () => {
                 variable={state.selectedVariable}
                 typeOptions={variableTypeOptions}
                 locallyUsedMmvrIds={locallyUsedMmvrIds}
+                otherPhysicalInstances={otherPhysicalInstances.get(state.selectedVariable.id)}
                 isNew={state.selectedVariable.id === "new"}
-                onSave={handleVariableSave}
+                onSave={handleVariableChange}
                 onDirtyChange={setEditedVariableDirty}
                 onDuplicate={handleVariableDuplicate}
                 onPrevious={handlePreviousVariable}
                 onNext={handleNextVariable}
                 hasPrevious={hasVariablesToNavigate}
                 hasNext={hasVariablesToNavigate}
+                onClose={handleCloseVariablePanel}
                 stamps={currentStamps}
               />
             </div>
@@ -1011,6 +1142,15 @@ export const Component = () => {
             onSubmitDuplicate={handleConfirmDuplicate}
           />
         </Suspense>
+      )}
+
+      {reuseDialogVisible && currentStudyUnit && (
+        <ReuseVariableDialog
+          studyUnit={currentStudyUnit}
+          excludedVariableIds={mergedVariables.map((variable) => variable.id)}
+          onReuse={handleReuseVariable}
+          onHide={() => setReuseDialogVisible(false)}
+        />
       )}
 
       {savePhysicalInstance.isPending && <LoadingOverlay textType="saving" />}

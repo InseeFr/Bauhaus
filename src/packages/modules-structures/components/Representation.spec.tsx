@@ -32,16 +32,22 @@ import { Representation } from "./Representation";
 
 const codelists = [{ id: "id", label: "label", notation: "id" }];
 
+const STRING_COMPONENT = {
+  range: XSD_STRING,
+} as unknown as Component;
+
+const CODE_LIST_COMPONENT = {
+  range: XSD_CODE_LIST,
+  codeList: "id",
+} as unknown as Component;
+
 describe("Representation", () => {
   it("should display the label of a XSD_TYPES", async () => {
-    const component = {
-      range: XSD_STRING,
-    } as unknown as Component;
     const handleCodelistDetail = vi.fn();
 
     render(
       <Representation
-        component={component}
+        component={STRING_COMPONENT}
         codelists={EMPTY_ARRAY}
         handleCodelistDetail={handleCodelistDetail}
       />,
@@ -50,15 +56,11 @@ describe("Representation", () => {
   });
 
   it("should display a button with the codelist", async () => {
-    const component = {
-      range: XSD_CODE_LIST,
-      codeList: "id",
-    } as unknown as Component;
     const handleCodelistDetail = vi.fn();
 
     render(
       <Representation
-        component={component}
+        component={CODE_LIST_COMPONENT}
         codelists={codelists}
         handleCodelistDetail={handleCodelistDetail}
       />,

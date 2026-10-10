@@ -1,9 +1,9 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
+import { renderQueryHook } from "./queryClient.testing";
 import { useAllCodeLists } from "./useAllCodeLists";
 
 vi.mock("../../sdk", () => ({
@@ -13,19 +13,6 @@ vi.mock("../../sdk", () => ({
     getMutualizedCodeLists: vi.fn(),
   },
 }));
-
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
 
 describe("useAllCodeLists", () => {
   const mockParents = {
@@ -55,22 +42,37 @@ describe("useAllCodeLists", () => {
     { agencyId: "fr.insee", id: "common-1", label: "Liste commune mutualisée" },
   ];
 
+  const mutualizedItem = {
+    agencyId: "fr.insee",
+    id: "mutualized-1",
+    label: "Liste mutualisée 1",
+    mutualized: true,
+  };
+
+  const renderAllCodeLists = () => renderQueryHook(() => useAllCodeLists("fr.insee", "pi-123"));
+
+  /** Les deux sources répondent ; rend le hook et attend la fin du chargement. */
+  const renderLoadedAllCodeLists = async () => {
+    vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockGroupCodeLists);
+    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
+    return waitUntilLoaded();
+  };
+
+  const waitUntilLoaded = async () => {
+    const { result } = renderAllCodeLists();
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+    return result;
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(DDIApi.getPhysicalInstanceParents).mockResolvedValue(mockParents);
   });
 
   it("should combine group and mutualized codes lists with origin marker", async () => {
-    vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockGroupCodeLists);
-    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
-
-    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
+    const result = await renderLoadedAllCodeLists();
 
     expect(result.current.data).toHaveLength(3);
     // Listes du group : éditables (la versionDate est désormais propagée).
@@ -82,25 +84,11 @@ describe("useAllCodeLists", () => {
       mutualized: false,
     });
     // Listes mutualisées : read-only.
-    expect(result.current.data).toContainEqual({
-      agencyId: "fr.insee",
-      id: "mutualized-1",
-      label: "Liste mutualisée 1",
-      mutualized: true,
-    });
+    expect(result.current.data).toContainEqual(mutualizedItem);
   });
 
   it("should expose the parent group label", async () => {
-    vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockGroupCodeLists);
-    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
-
-    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
+    const result = await renderLoadedAllCodeLists();
 
     expect(result.current.groupLabel).toBe("Base permanente des équipements");
   });
@@ -109,9 +97,7 @@ describe("useAllCodeLists", () => {
     vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockGroupCodeLists);
     vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
 
-    renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
-      wrapper: createWrapper(),
-    });
+    renderAllCodeLists();
 
     await waitFor(() => {
       expect(DDIApi.getGroupCodeLists).toHaveBeenCalledWith("fr.insee", "group-1");
@@ -119,16 +105,7 @@ describe("useAllCodeLists", () => {
   });
 
   it("should deduplicate by agencyId-id (mutualized takes precedence)", async () => {
-    vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockGroupCodeLists);
-    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
-
-    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
+    const result = await renderLoadedAllCodeLists();
 
     const commonItems = result.current.data.filter((item) => item.id === "common-1");
     expect(commonItems).toHaveLength(1);
@@ -140,9 +117,7 @@ describe("useAllCodeLists", () => {
     vi.mocked(DDIApi.getGroupCodeLists).mockRejectedValue(new Error("Error 1"));
     vi.mocked(DDIApi.getMutualizedCodeLists).mockRejectedValue(new Error("Error 2"));
 
-    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderAllCodeLists();
 
     await waitFor(() => {
       expect(result.current.error).toBeTruthy();
@@ -155,31 +130,18 @@ describe("useAllCodeLists", () => {
     vi.mocked(DDIApi.getGroupCodeLists).mockRejectedValue(new Error("group boom"));
     vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
 
-    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
+    const result = await waitUntilLoaded();
 
     // L'échec de la liste du groupe ne doit pas masquer les listes mutualisées.
     expect(result.current.error).toBeFalsy();
-    expect(result.current.data).toContainEqual({
-      agencyId: "fr.insee",
-      id: "mutualized-1",
-      label: "Liste mutualisée 1",
-      mutualized: true,
-    });
+    expect(result.current.data).toContainEqual(mutualizedItem);
   });
 
   it("should show loading when either query is loading", async () => {
     vi.mocked(DDIApi.getGroupCodeLists).mockImplementation(() => new Promise(() => {}));
     vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
 
-    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderAllCodeLists();
 
     expect(result.current.isLoading).toBe(true);
   });

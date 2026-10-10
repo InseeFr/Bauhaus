@@ -1,5 +1,4 @@
-import type { Preview } from '@storybook/react-vite'
-
+import type { Preview } from "@storybook/react-vite";
 // Mêmes styles globaux que l'application (cf. src/packages/application/app.tsx) :
 // indispensables pour que les composants PrimeReact/PrimeFlex rendent comme en vrai.
 import "primereact/resources/themes/lara-light-blue/theme.css";
@@ -10,8 +9,8 @@ const preview: Preview = {
   parameters: {
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
+        color: /(background|color)$/i,
+        date: /Date$/i,
       },
     },
 
@@ -19,8 +18,8 @@ const preview: Preview = {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
-      test: 'todo'
-    }
+      test: "todo",
+    },
   },
 };
 

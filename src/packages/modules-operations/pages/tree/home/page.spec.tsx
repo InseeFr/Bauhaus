@@ -2,7 +2,9 @@ import { fireEvent, waitFor, within } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { renderWithRouter } from "../../../../tests/render";
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderAtRoute } from "../../page.testing";
 import { Component as OperationsTree } from "./page";
 
 const mockGoBack = vi.fn();
@@ -39,11 +41,27 @@ describe("OperationsTree", () => {
   });
 
   const renderTree = async () => {
-    const utils = renderWithRouter(<OperationsTree />);
+    const utils = renderAtRoute(<OperationsTree />, "/operations/tree", "/operations/tree");
     await waitFor(() => {
       expect(utils.getByRole("treeitem", { name: "Family 1" })).toBeInTheDocument();
     });
     return utils;
+  };
+
+  // Famille 1 contenant la seule série « Series 1 ».
+  const mockFamilyWithOneSeries = () =>
+    vi.mocked(OperationsApi).getFamilyById.mockResolvedValue({
+      series: [{ id: "s1", label: "Series 1" }],
+    });
+
+  const expandUntilSeriesShown = async (
+    getByRole: Awaited<ReturnType<typeof renderTree>>["getByRole"],
+    family = getByRole("treeitem", { name: "Family 1" }),
+  ) => {
+    fireEvent.click(togglerOf(family));
+    await waitFor(() => {
+      expect(getByRole("treeitem", { name: "Series 1" })).toBeInTheDocument();
+    });
   };
 
   it("affiche un lien vers chaque famille chargée au montage", async () => {
@@ -81,9 +99,7 @@ describe("OperationsTree", () => {
   });
 
   it("charge et affiche les opérations d'une série au dépliage", async () => {
-    vi.mocked(OperationsApi).getFamilyById.mockResolvedValue({
-      series: [{ id: "s1", label: "Series 1" }],
-    });
+    mockFamilyWithOneSeries();
     vi.mocked(OperationsApi).getSerie.mockResolvedValue({
       operations: [
         { id: "o1", label: "Operation 1" },
@@ -93,10 +109,7 @@ describe("OperationsTree", () => {
 
     const { getByRole } = await renderTree();
 
-    fireEvent.click(togglerOf(getByRole("treeitem", { name: "Family 1" })));
-    await waitFor(() => {
-      expect(getByRole("treeitem", { name: "Series 1" })).toBeInTheDocument();
-    });
+    await expandUntilSeriesShown(getByRole);
 
     fireEvent.click(togglerOf(getByRole("treeitem", { name: "Series 1" })));
 
@@ -114,17 +127,12 @@ describe("OperationsTree", () => {
   });
 
   it("ne recharge pas les séries d'une famille déjà dépliée", async () => {
-    vi.mocked(OperationsApi).getFamilyById.mockResolvedValue({
-      series: [{ id: "s1", label: "Series 1" }],
-    });
+    mockFamilyWithOneSeries();
 
     const { getByRole } = await renderTree();
     const family = getByRole("treeitem", { name: "Family 1" });
 
-    fireEvent.click(togglerOf(family));
-    await waitFor(() => {
-      expect(getByRole("treeitem", { name: "Series 1" })).toBeInTheDocument();
-    });
+    await expandUntilSeriesShown(getByRole, family);
 
     fireEvent.click(togglerOf(family)); // repli
     fireEvent.click(togglerOf(family)); // dépliage à nouveau
@@ -150,17 +158,12 @@ describe("OperationsTree", () => {
   });
 
   it("gère une série sans opération", async () => {
-    vi.mocked(OperationsApi).getFamilyById.mockResolvedValue({
-      series: [{ id: "s1", label: "Series 1" }],
-    });
+    mockFamilyWithOneSeries();
     vi.mocked(OperationsApi).getSerie.mockResolvedValue({});
 
     const { getByRole } = await renderTree();
 
-    fireEvent.click(togglerOf(getByRole("treeitem", { name: "Family 1" })));
-    await waitFor(() => {
-      expect(getByRole("treeitem", { name: "Series 1" })).toBeInTheDocument();
-    });
+    await expandUntilSeriesShown(getByRole);
 
     const series = getByRole("treeitem", { name: "Series 1" });
     fireEvent.click(togglerOf(series));
@@ -194,6 +197,42 @@ describe("OperationsTree", () => {
     await waitFor(() => {
       expect(container.querySelector(".p-tree-loading")).not.toBeInTheDocument();
     });
+  });
+
+  it("affiche l'échec de chargement des familles au lieu d'un arbre vide", async () => {
+    vi.mocked(OperationsApi).getAllFamilies.mockRejectedValue(sdkRejection.emptyBody(500));
+    const { queryByRole } = renderAtRoute(
+      <OperationsTree />,
+      "/operations/tree",
+      "/operations/tree",
+    );
+
+    await expectItemLoadFailed();
+    expect(queryByRole("tree")).not.toBeInTheDocument();
+  });
+
+  it("affiche l'échec du dépliage d'une famille et cesse de signaler le chargement", async () => {
+    vi.mocked(OperationsApi).getFamilyById.mockRejectedValue(sdkRejection.emptyBody(500));
+
+    const { getByRole, container } = await renderTree();
+
+    fireEvent.click(togglerOf(getByRole("treeitem", { name: "Family 1" })));
+
+    await expectItemLoadFailed();
+    expect(container.querySelector(".p-tree-loading")).not.toBeInTheDocument();
+    expect(getByRole("treeitem", { name: "Family 1" })).toBeInTheDocument();
+  });
+
+  it("affiche l'échec du dépliage d'une série", async () => {
+    mockFamilyWithOneSeries();
+    vi.mocked(OperationsApi).getSerie.mockRejectedValue(sdkRejection.emptyBody(500));
+
+    const { getByRole } = await renderTree();
+
+    await expandUntilSeriesShown(getByRole);
+    fireEvent.click(togglerOf(getByRole("treeitem", { name: "Series 1" })));
+
+    await expectItemLoadFailed();
   });
 
   it("revient à l'accueil des opérations", async () => {

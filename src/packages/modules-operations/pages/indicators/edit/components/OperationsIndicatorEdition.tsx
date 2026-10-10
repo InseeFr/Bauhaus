@@ -20,12 +20,18 @@ import { Series } from "@model/Series";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { toFormErrors } from "@utils/api-errors";
+import { useInvalidateSeries } from "@utils/hooks/series";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
 import { PublishersInput } from "../../../../components/PublishersInput";
+import { useInvalidateIndicators } from "../../../../hooks/useIndicators";
 import { validate } from "../validation";
 import { Control } from "./Control";
+
+/** Champs dont une erreur de validation du back s'affiche à côté de la saisie. */
+const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2", "creators", "wasGeneratedBy"];
 
 interface OperationsIndicatorEditionTypes {
   indicator: Indicator;
@@ -41,7 +47,7 @@ interface ClientSideErrors {
 }
 
 interface State {
-  serverSideError: string;
+  serverSideError: unknown;
   clientSideErrors: ClientSideErrors;
   submitting: boolean;
   saving: boolean;
@@ -88,6 +94,11 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
   const { t } = useTranslation();
 
   const [state, setState] = useState<State>(() => setInitialState(props));
+
+  const invalidateIndicators = useInvalidateIndicators();
+
+  // La fiche d'une série liste les indicateurs qu'elle produit.
+  const invalidateSeries = useInvalidateSeries();
 
   const isFirstRender = useRef(true);
 
@@ -142,19 +153,23 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
       setState((state) => ({ ...state, saving: true }));
       const isCreation = !state.indicator.id;
       const method = isCreation ? "createIndicator" : "updateIndicator";
-      return OperationsApi[method](state.indicator)
-        .then(
-          (id = state.indicator.id) => {
-            props.goBack(`/operations/indicator/${id}`, isCreation);
-          },
-          (err: string) => {
-            setState((state) => ({
-              ...state,
-              serverSideError: err,
-            }));
-          },
-        )
-        .finally(() => setState((state) => ({ ...state, saving: false })));
+      // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
+      // le formulaire réapparaîtrait le temps qu'elle aboutisse.
+      return OperationsApi[method](state.indicator).then(
+        async (id = state.indicator.id) => {
+          await Promise.all([invalidateIndicators(), invalidateSeries()]);
+          props.goBack(`/operations/indicator/${id}`, isCreation);
+        },
+        (err: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
+          setState((state) => ({
+            ...state,
+            saving: false,
+            ...(clientSideErrors && { submitting: true, clientSideErrors }),
+            serverSideError,
+          }));
+        },
+      );
     }
   };
 
@@ -199,7 +214,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
-      {state.serverSideError && <ErrorBloc error={state.serverSideError} />}
+      <ErrorBloc error={state.serverSideError} />
       <form>
         <h4 className="text-center">
           ( <RequiredIcon /> : {t("app.requiredFields", { lng: "fr" })})
@@ -433,7 +448,9 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
                     value.map((v: string) => {
                       return {
                         id: v,
-                        type: v.startsWith("indicator") ? "indicator" : "series",
+                        type: indicatorsOptions.some((option) => option.value === v)
+                          ? "indicator"
+                          : "series",
                       };
                     }),
                   )

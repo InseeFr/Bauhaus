@@ -1,85 +1,91 @@
-vi.mock("../../../i18n", () => ({
-  classificationsI18n: {
-    t: (key: string, options?: { lng?: string; length?: number }) => {
-      const translations: Record<string, Record<string, string>> = {
-        fr: {
-          "item.title": "Intitulé",
-          "item.altLabelError": `Le titre abrégé (${options?.length}) doit contenir maximum ${options?.length} caractères`,
-        },
-        en: {
-          "item.title": "Title",
-          "item.altLabelError": `The short title (${options?.length}) should contain ${options?.length} characters max`,
-        },
-      };
-      const lng = options?.lng ?? "fr";
-      return translations[lng]?.[key] ?? key;
-    },
-  },
-}));
+import { i18nStub, mandatoryPropertyError } from "@utils/validation.testing";
 
 import { validate } from "./validation";
 
-describe("validation", function () {
-  it("should return an error for prefLabelLg1 and prefLabelLg2", function () {
-    expect(
-      validate(
-        {
-          prefLabelLg1: "",
-          prefLabelLg2: "",
-        },
-        "65",
-      ),
-    ).toEqual({
-      errorMessage: [
-        "The property <strong>Intitulé</strong> is required.",
-        "The property <strong>Title</strong> is required.",
-      ],
-      fields: {
-        prefLabelLg1: "The property <strong>Intitulé</strong> is required.",
-        prefLabelLg2: "The property <strong>Title</strong> is required.",
-        altLabelsLg1_: "",
-        altLabelsLg2_: "",
+vi.mock("../../../i18n", () => ({
+  classificationsI18n: i18nStub(
+    {
+      fr: {
+        "item.title": "Intitulé",
+        "item.altLabelError":
+          "Le titre abrégé ({{length}}) doit contenir maximum {{length}} caractères",
       },
-    });
-  });
-  it("should return an error if altLabelsLg1_ is too long", function () {
-    expect(
-      validate(
-        {
-          prefLabelLg1: "prefLabelLg1",
-          prefLabelLg2: "prefLabelLg2",
-          altLabelsLg1_:
-            "a way way way way way way way way way way way way way way way way too long string",
-        },
-        "65",
-      ),
-    ).toEqual({
-      errorMessage: ["Le titre abrégé (65) doit contenir maximum 65 caractères"],
-      fields: {
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        altLabelsLg1_: "Le titre abrégé (65) doit contenir maximum 65 caractères",
-        altLabelsLg2_: "",
+      en: {
+        "item.title": "Title",
+        "item.altLabelError":
+          "The short title ({{length}}) should contain {{length}} characters max",
       },
-    });
-  });
-  it("should return no error", function () {
-    expect(
-      validate(
-        {
-          prefLabelLg1: "prefLabelLg1",
-          prefLabelLg2: "prefLabelLg2",
-        },
-        "65",
-      ),
-    ).toEqual({
+    },
+    "fr",
+  ),
+}));
+
+const ALT_LABELS_LENGTH = "65";
+
+const titleLg1Required = mandatoryPropertyError("Intitulé");
+const titleLg2Required = mandatoryPropertyError("Title");
+const altLabelTooLong = "Le titre abrégé (65) doit contenir maximum 65 caractères";
+
+const NO_FIELD_ERROR = {
+  prefLabelLg1: "",
+  prefLabelLg2: "",
+  altLabelsLg1_: "",
+  altLabelsLg2_: "",
+};
+
+const cases: {
+  name: string;
+  item: Parameters<typeof validate>[0];
+  expected: ReturnType<typeof validate>;
+}[] = [
+  {
+    name: "should return an error for prefLabelLg1 and prefLabelLg2",
+    item: {
+      prefLabelLg1: "",
+      prefLabelLg2: "",
+    },
+    expected: {
+      errorMessage: [titleLg1Required, titleLg2Required],
+      fields: {
+        ...NO_FIELD_ERROR,
+        prefLabelLg1: titleLg1Required,
+        prefLabelLg2: titleLg2Required,
+      },
+    },
+  },
+  {
+    name: "should return an error if altLabelsLg1_ is too long",
+    item: {
+      prefLabelLg1: "prefLabelLg1",
+      prefLabelLg2: "prefLabelLg2",
+      altLabelsLg1_:
+        "a way way way way way way way way way way way way way way way way too long string",
+    },
+    expected: {
+      errorMessage: [altLabelTooLong],
+      fields: {
+        ...NO_FIELD_ERROR,
+        altLabelsLg1_: altLabelTooLong,
+      },
+    },
+  },
+  {
+    name: "should return no error",
+    item: {
+      prefLabelLg1: "prefLabelLg1",
+      prefLabelLg2: "prefLabelLg2",
+    },
+    expected: {
       errorMessage: [],
-      fields: {
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        altLabelsLg1_: "",
-        altLabelsLg2_: "",
-      },
+      fields: NO_FIELD_ERROR,
+    },
+  },
+];
+
+describe("validation", function () {
+  cases.forEach(({ name, item, expected }) => {
+    it(name, function () {
+      expect(validate(item, ALT_LABELS_LENGTH)).toEqual(expected);
     });
   });
 });

@@ -4,47 +4,29 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { NumericRepresentation as NumericRepresentationType } from "../../types/api";
 import { NumericRepresentation } from "./NumericRepresentation";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "physicalInstance.view.numeric.type": "Type",
-        "physicalInstance.view.numeric.min": "Valeur minimale",
-        "physicalInstance.view.numeric.max": "Valeur maximale",
-        "physicalInstance.view.numeric.addMinBound": "Ajouter une borne minimale",
-        "physicalInstance.view.numeric.addMaxBound": "Ajouter une borne maximale",
-        "physicalInstance.view.delete": "Supprimer",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("../representation.testing")).mockTranslations({
+    "physicalInstance.view.numeric.type": "Type",
+    "physicalInstance.view.numeric.min": "Valeur minimale",
+    "physicalInstance.view.numeric.max": "Valeur maximale",
+    "physicalInstance.view.numeric.addMinBound": "Ajouter une borne minimale",
+    "physicalInstance.view.numeric.addMaxBound": "Ajouter une borne maximale",
+    "physicalInstance.view.delete": "Supprimer",
   }),
-}));
+);
 
-vi.mock("primereact/inputtext", () => ({
-  InputText: ({ id, value, onChange, type, ...props }: any) => (
-    <input id={id} type={type} value={value} onChange={onChange} {...props} />
-  ),
-}));
+vi.mock("primereact/inputtext", () => import("../representation.testing"));
+vi.mock("primereact/dropdown", () => import("../representation.testing"));
+vi.mock("primereact/button", () => import("../representation.testing"));
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ id, value, onChange, options }: any) => (
-    <select id={id} value={value} onChange={(e) => onChange({ value: e.target.value })}>
-      {options.map((option: any) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
-
-vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, type }: any) => (
-    <button type={type} onClick={onClick}>
-      {label}
-    </button>
-  ),
-}));
+const decimalBoundsRepresentation: NumericRepresentationType = {
+  $type: "NumericRepresentationBaseType",
+  NumericTypeCode: "Decimal",
+  NumberRange: {
+    Low: { IsInclusive: true, value: 0.1 },
+    High: { IsInclusive: true, value: 12.34 },
+  },
+};
 
 describe("NumericRepresentation", () => {
   const mockOnChange = vi.fn();
@@ -91,14 +73,7 @@ describe("NumericRepresentation", () => {
   it("should display a decimal bound coming from the representation", () => {
     render(
       <NumericRepresentation
-        representation={{
-          $type: "NumericRepresentationBaseType",
-          NumericTypeCode: "Decimal",
-          NumberRange: {
-            Low: { IsInclusive: true, value: 0.1 },
-            High: { IsInclusive: true, value: 12.34 },
-          },
-        }}
+        representation={decimalBoundsRepresentation}
         onChange={mockOnChange}
       />,
     );

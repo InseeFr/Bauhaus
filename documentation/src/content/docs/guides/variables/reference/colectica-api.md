@@ -87,10 +87,10 @@ Content-Type: application/json
 }
 ```
 
-| Direction | Meaning | Used for |
-|-----------|---------|----------|
-| `bysubject` | Items the target references — its children | Walking down `Group → LogicalProduct → scheme → item` |
-| `byobject` | Items that reference the target — its parents | Answering "who uses this code list / category / sentinel representation?" |
+| Direction   | Meaning                                       | Used for                                                                  |
+| ----------- | --------------------------------------------- | ------------------------------------------------------------------------- |
+| `bysubject` | Items the target references — its children    | Walking down `Group → LogicalProduct → scheme → item`                     |
+| `byobject`  | Items that reference the target — its parents | Answering "who uses this code list / category / sentinel representation?" |
 
 `itemTypes` filters **server-side**, so the response carries only the references that matter. This is the cheap alternative to downloading a whole `set/` just to read each item's type. The response also carries the items' `ItemName` and `Label` dictionaries, which spares a separate label query.
 
@@ -120,17 +120,17 @@ Content-Type: application/json
 }
 ```
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `ItemType` | UUID | DDI type — see [DDI Item Types](/Bauhaus/guides/variables/reference/ddi-item-types/) |
-| `AgencyId` | String | Responsible organisation, `fr.insee` by default |
-| `Version` | Integer | Version number |
-| `Identifier` | UUID | Item identifier |
-| `Item` | XML String | The DDI 3.3 fragment |
-| `VersionDate` | ISO DateTime | Stamped by Bauhaus — Colectica does not fill it in |
-| `VersionResponsibility` | String | From `server.versionResponsibility`. Also written inside the fragment, as `r:VersionResponsibility` right after `r:Version` |
-| `IsPublished` / `IsDeprecated` / `IsProvisional` | Boolean | Item state flags |
-| `ItemFormat` | UUID | Format of the `Item` payload |
+| Field                                            | Type         | Description                                                                                                                 |
+| ------------------------------------------------ | ------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `ItemType`                                       | UUID         | DDI type — see [DDI Item Types](/Bauhaus/guides/variables/reference/ddi-item-types/)                                        |
+| `AgencyId`                                       | String       | Responsible organisation, `fr.insee` by default                                                                             |
+| `Version`                                        | Integer      | Version number                                                                                                              |
+| `Identifier`                                     | UUID         | Item identifier                                                                                                             |
+| `Item`                                           | XML String   | The DDI 3.3 fragment                                                                                                        |
+| `VersionDate`                                    | ISO DateTime | Stamped by Bauhaus — Colectica does not fill it in                                                                          |
+| `VersionResponsibility`                          | String       | From `server.versionResponsibility`. Also written inside the fragment, as `r:VersionResponsibility` right after `r:Version` |
+| `IsPublished` / `IsDeprecated` / `IsProvisional` | Boolean      | Item state flags                                                                                                            |
+| `ItemFormat`                                     | UUID         | Format of the `Item` payload                                                                                                |
 
 `RegisterOrReplace` replaces the item when it already exists and creates it otherwise. **A save sends one request** carrying every item it touches — the physical instance, its variables, the code lists and categories, the schemes that had to be provisioned — so the write is atomic.
 

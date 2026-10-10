@@ -1,41 +1,40 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 
 import { Sims } from "@model/Sims";
 
-import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+import { MODULES, PRIVILEGES, STRATEGIES, UserStamp } from "@utils/hooks/rbac-constants";
 
-import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
+import { rbacFor, renderWithRbac, resetRbacMocks } from "../../menu-rbac.testing";
+
+const renderMenu = (
+  rbac: Parameters<typeof rbacFor>,
+  sims: object,
+  owners: string[],
+  stamps?: UserStamp[],
+) =>
+  renderWithRbac(
+    [rbacFor(...rbac)],
+    () => import("./menu"),
+    ({ Menu }) => (
+      <Menu
+        sims={sims as unknown as Sims}
+        onPublish={vi.fn()}
+        onExport={vi.fn()}
+        onDelete={vi.fn()}
+        owners={owners}
+      />
+    ),
+    stamps,
+  );
 
 describe("Sims Visualization Menu", () => {
-  afterEach(() => {
-    vi.resetModules();
-    vi.clearAllMocks();
-  });
+  afterEach(resetRbacMocks);
   describe("As an SERIES_CONTRIBUTOR", () => {
     it("can see the Back button", async () => {
-      mockReactQueryForRbac([
-        {
-          application: MODULES.OPERATION_SIMS,
-          privileges: [
-            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
-            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
-            { privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL },
-          ],
-        },
-      ]);
-
-      const { Menu } = await import("./menu");
-
-      render(
-        <WithRouter>
-          <Menu
-            sims={{ series: { creators: [] } } as unknown as Sims}
-            onPublish={vi.fn()}
-            onExport={vi.fn()}
-            onDelete={vi.fn()}
-            owners={[]}
-          />
-        </WithRouter>,
+      await renderMenu(
+        [MODULES.OPERATION_SIMS, [PRIVILEGES.PUBLISH, PRIVILEGES.UPDATE, PRIVILEGES.READ]],
+        { series: { creators: [] } },
+        [],
       );
 
       screen.getByText("Back");
@@ -45,82 +44,24 @@ describe("Sims Visualization Menu", () => {
     });
 
     it("can not see the Sims View button if defined with good stamp but no siblings", async () => {
-      mockReactQueryForRbac([
-        {
-          application: MODULES.OPERATION_SIMS,
-          privileges: [],
-        },
-      ]);
-
-      const { Menu } = await import("./menu");
-
-      render(
-        <WithRouter>
-          <Menu
-            sims={{} as unknown as Sims}
-            onPublish={vi.fn()}
-            onExport={vi.fn()}
-            onDelete={vi.fn()}
-            owners={["stamp"]}
-          />
-        </WithRouter>,
-      );
+      await renderMenu([MODULES.OPERATION_SIMS], {}, ["stamp"]);
 
       expect(screen.queryByText("Publish")).toBeNull();
       expect(screen.queryByText("Update")).toBeNull();
     });
 
     it("hides the Export button when the user has no READ privilege on OPERATION_SIMS", async () => {
-      mockReactQueryForRbac([
-        {
-          application: MODULES.OPERATION_SIMS,
-          privileges: [],
-        },
-      ]);
-
-      const { Menu } = await import("./menu");
-
-      render(
-        <WithRouter>
-          <Menu
-            sims={{} as unknown as Sims}
-            onPublish={vi.fn()}
-            onExport={vi.fn()}
-            onDelete={vi.fn()}
-            owners={[]}
-          />
-        </WithRouter>,
-      );
+      await renderMenu([MODULES.OPERATION_SIMS], {}, []);
 
       expect(screen.queryByText("Export")).toBeNull();
     });
 
     it("displays Update and Publish when user HIE stamp matches a short-form owner stamp", async () => {
-      mockReactQueryForRbac(
-        [
-          {
-            application: MODULES.OPERATION_SIMS,
-            privileges: [
-              { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.STAMP },
-              { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP },
-            ],
-          },
-        ],
+      await renderMenu(
+        [MODULES.OPERATION_SIMS, [PRIVILEGES.PUBLISH, PRIVILEGES.UPDATE], STRATEGIES.STAMP],
+        { idSeries: "s1" },
+        ["HIE2000069"],
         [{ stamp: "HIE2000069" }],
-      );
-
-      const { Menu } = await import("./menu");
-
-      render(
-        <WithRouter>
-          <Menu
-            sims={{ idSeries: "s1" } as unknown as Sims}
-            onPublish={vi.fn()}
-            onExport={vi.fn()}
-            onDelete={vi.fn()}
-            owners={["HIE2000069"]}
-          />
-        </WithRouter>,
       );
 
       screen.getByText("Update");

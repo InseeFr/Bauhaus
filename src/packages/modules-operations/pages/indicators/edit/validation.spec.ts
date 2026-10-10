@@ -1,131 +1,101 @@
-vi.mock("../../../i18n", () => ({
-  operationsI18n: {
-    t: (key: string, options?: { lng?: string }) => {
-      const translations: Record<string, Record<string, string>> = {
-        fr: {
-          "common.title": "Intitulé",
-        },
-        en: {
-          "common.title": "Title",
-          "app.creatorsTitle": "Owners",
-          "common.generatedBy": "Produced from",
-        },
-      };
-      const lng = options?.lng || "en";
-      return translations[lng]?.[key] || key;
-    },
-  },
-}));
+import { i18nStub, mandatoryPropertyError } from "@utils/validation.testing";
 
 import { validate } from "./validation";
 
-describe("validation", function () {
-  it("should return an error for prefLabelLg1", function () {
-    expect(
-      validate({
-        prefLabelLg1: "",
-        prefLabelLg2: "prefLabelLg2",
-        creators: ["creator"],
-        wasGeneratedBy: [{ id: "i", type: "series" }],
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Intitulé</strong> is required."],
-      fields: {
-        prefLabelLg1: "The property <strong>Intitulé</strong> is required.",
-        prefLabelLg2: "",
-        creators: "",
-        wasGeneratedBy: "",
+vi.mock("../../../i18n", () => ({
+  operationsI18n: i18nStub(
+    {
+      fr: {
+        "common.title": "Intitulé",
       },
-    });
-  });
-  it("should return an error for prefLabelLg2", function () {
-    expect(
-      validate({
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "",
-        creators: ["creator"],
-        wasGeneratedBy: [{ id: "i", type: "series" }],
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Title</strong> is required."],
-      fields: {
-        prefLabelLg1: "",
-        prefLabelLg2: "The property <strong>Title</strong> is required.",
-        creators: "",
-        wasGeneratedBy: "",
+      en: {
+        "common.title": "Title",
+        "app.creatorsTitle": "Owners",
+        "common.generatedBy": "Produced from",
       },
-    });
-  });
-  it("should return an error for creators", function () {
-    expect(
-      validate({
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "prefLabelLg2",
-        wasGeneratedBy: [{ id: "i", type: "series" }],
-        creators: [],
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Owners</strong> is required."],
-      fields: {
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        creators: "The property <strong>Owners</strong> is required.",
-        wasGeneratedBy: "",
-      },
-    });
-  });
-  it("should return an error if creators is an empty array", function () {
-    expect(
-      validate({
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "prefLabelLg2",
-        creators: [],
-        wasGeneratedBy: [{ id: "i", type: "series" }],
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Owners</strong> is required."],
-      fields: {
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        creators: "The property <strong>Owners</strong> is required.",
-        wasGeneratedBy: "",
-      },
-    });
-  });
-  it("should return an error if wasGeneratedBy is an empty array", function () {
-    expect(
-      validate({
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "prefLabelLg2",
-        creators: ["creator"],
-        wasGeneratedBy: [],
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Produced from</strong> is required."],
-      fields: {
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        creators: "",
-        wasGeneratedBy: "The property <strong>Produced from</strong> is required.",
-      },
-    });
-  });
-  it("should return no error", function () {
-    expect(
-      validate({
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "prefLabelLg2",
-        creators: ["creator"],
-        wasGeneratedBy: [{ id: "i", type: "series" }],
-      }),
-    ).toEqual({
+    },
+    "en",
+  ),
+}));
+
+const validIndicator = {
+  prefLabelLg1: "prefLabelLg1",
+  prefLabelLg2: "prefLabelLg2",
+  creators: ["creator"],
+  wasGeneratedBy: [{ id: "i", type: "series" }],
+};
+
+const NO_FIELD_ERROR = {
+  prefLabelLg1: "",
+  prefLabelLg2: "",
+  creators: "",
+  wasGeneratedBy: "",
+};
+
+const titleLg1Required = mandatoryPropertyError("Intitulé");
+const titleLg2Required = mandatoryPropertyError("Title");
+const creatorsRequired = mandatoryPropertyError("Owners");
+const generatedByRequired = mandatoryPropertyError("Produced from");
+
+const cases: {
+  name: string;
+  indicator: Parameters<typeof validate>[0];
+  expected: ReturnType<typeof validate>;
+}[] = [
+  {
+    name: "should return an error for prefLabelLg1",
+    indicator: { ...validIndicator, prefLabelLg1: "" },
+    expected: {
+      errorMessage: [titleLg1Required],
+      fields: { ...NO_FIELD_ERROR, prefLabelLg1: titleLg1Required },
+    },
+  },
+  {
+    name: "should return an error for prefLabelLg2",
+    indicator: { ...validIndicator, prefLabelLg2: "" },
+    expected: {
+      errorMessage: [titleLg2Required],
+      fields: { ...NO_FIELD_ERROR, prefLabelLg2: titleLg2Required },
+    },
+  },
+  {
+    name: "should return an error for creators",
+    indicator: { ...validIndicator, creators: [] },
+    expected: {
+      errorMessage: [creatorsRequired],
+      fields: { ...NO_FIELD_ERROR, creators: creatorsRequired },
+    },
+  },
+  {
+    name: "should return an error if creators is an empty array",
+    indicator: { ...validIndicator, creators: [] },
+    expected: {
+      errorMessage: [creatorsRequired],
+      fields: { ...NO_FIELD_ERROR, creators: creatorsRequired },
+    },
+  },
+  {
+    name: "should return an error if wasGeneratedBy is an empty array",
+    indicator: { ...validIndicator, wasGeneratedBy: [] },
+    expected: {
+      errorMessage: [generatedByRequired],
+      fields: { ...NO_FIELD_ERROR, wasGeneratedBy: generatedByRequired },
+    },
+  },
+  {
+    name: "should return no error",
+    indicator: validIndicator,
+    expected: {
       errorMessage: [],
-      fields: {
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        creators: "",
-        wasGeneratedBy: "",
-      },
+      fields: NO_FIELD_ERROR,
+    },
+  },
+];
+
+describe("validation", function () {
+  cases.forEach(({ name, indicator, expected }) => {
+    it(name, function () {
+      expect(validate(indicator)).toEqual(expected);
     });
   });
 });

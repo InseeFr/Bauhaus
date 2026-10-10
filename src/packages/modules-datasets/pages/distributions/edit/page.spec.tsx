@@ -1,11 +1,13 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
 const mockUseParams = vi.fn();
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useParams: () => mockUseParams(),
 }));
 
@@ -52,16 +54,11 @@ vi.mock("@utils/hooks/useGoBack", () => ({
   useGoBack: vi.fn(() => vi.fn()),
 }));
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "distribution.mediaType": "Media type",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("./translations.testing")).translationsModule({
+    "distribution.mediaType": "Media type",
   }),
-}));
+);
 
 describe("Distribution Edit Page", () => {
   const mockSave = vi.fn();
@@ -114,6 +111,21 @@ describe("Distribution Edit Page", () => {
       render(<Component />);
 
       expect(screen.getByText(/loading/i)).not.toBeNull();
+    });
+
+    it("says the distribution could not be loaded instead of loading forever on a 500", async () => {
+      mockUseParams.mockReturnValue({ id: "123" });
+      mockUseDistribution.mockReturnValue({
+        data: undefined,
+        status: "error",
+        error: sdkRejection.emptyBody(500),
+      });
+
+      render(<Component />);
+
+      await expectItemLoadFailed();
+      expect(screen.queryByText(/loading/i)).toBeNull();
+      expect(screen.queryByRole("button", { name: /save/i })).toBeNull();
     });
 
     it("should render the form in edit mode with distribution data", () => {

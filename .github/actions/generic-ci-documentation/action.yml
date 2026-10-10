@@ -1,8 +1,12 @@
-name: 'Build Documentation'
+name: "Build Documentation"
+description: Builds the Astro documentation and Storybook into ./website, ready to be deployed
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
-    # Node and pnpm versions are shared by every RMéS front-end.
+    # Node et pnpm : les versions partagées, déclarées une seule fois dans le
+    # commons. Cette action lisait auparavant le `packageManager` du manifeste,
+    # qui n'existe plus — sans version ni de l'un ni de l'autre côté,
+    # pnpm/action-setup refuse de démarrer.
     - uses: InseeFr/rmes-githubactions-commons/.github/actions/setup-front@main
     - name: 🏗️ Generate Astro Documentation
       shell: bash

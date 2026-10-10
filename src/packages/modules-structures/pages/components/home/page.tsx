@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { FilterToggleButtons } from "@components/filter-toggle-buttons";
-import { Row } from "@components/layout";
+import { HomePageLayout } from "@components/home-page-layout";
 import { Loading } from "@components/loading";
-import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
 import { Component as ComponentModel } from "@model/structures/Component";
@@ -68,34 +67,30 @@ export const Component = () => {
   }
 
   return (
-    <div className="container structures-components-list">
-      <Row>
-        <HomePageMenu filter={filter} />
-        <div className="col-md-8 text-center pull-right">
-          <PageTitle title={t("component.homePageTitle")} col={12} offset={0} />
-          <FilterToggleButtons
-            currentValue={filter}
-            handleSelection={onFilter}
-            // `FilterToggleButtons` is typed for its original document-filter use (`BOTH` /
-            // `document` / `link`) but is fully generic at runtime; reused here for component
-            // types, so its overly-narrow literal typing is cast away rather than widened.
-            options={
-              [
-                [ALL, t("all")],
-                ...MUTUALIZED_COMPONENT_TYPES.map((type) => [type.value, type.labelPlural]),
-              ] as unknown as ["BOTH" | "document" | "link", string][]
-            }
-          />
-          <SearchableList
-            items={filteredItems}
-            childPath="structures/components"
-            advancedSearch
-            searchUrl="/structures/components/search"
-            autoFocus
-            itemFormatter={(_: unknown, component: any) => formatLabel(component)}
-          />
-        </div>
-      </Row>
-    </div>
+    <HomePageLayout title={t("component.homePageTitle")} menu={<HomePageMenu filter={filter} />}>
+      <div className="structures-components-list">
+        <FilterToggleButtons
+          currentValue={filter}
+          handleSelection={onFilter}
+          // `FilterToggleButtons` is typed for its original document-filter use (`BOTH` /
+          // `document` / `link`) but is fully generic at runtime; reused here for component
+          // types, so its overly-narrow literal typing is cast away rather than widened.
+          options={
+            [
+              [ALL, t("all")],
+              ...MUTUALIZED_COMPONENT_TYPES.map((type) => [type.value, type.labelPlural]),
+            ] as unknown as ["BOTH" | "document" | "link", string][]
+          }
+        />
+        <SearchableList
+          items={filteredItems}
+          childPath="structures/components"
+          advancedSearch
+          searchUrl="/structures/components/search"
+          autoFocus
+          itemFormatter={(_: unknown, component: any) => formatLabel(component)}
+        />
+      </div>
+    </HomePageLayout>
   );
 };

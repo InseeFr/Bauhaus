@@ -1,8 +1,13 @@
 import { useEffect, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
-import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
+import {
+  ClientSideError,
+  ErrorBloc,
+  GlobalClientSideErrorBloc,
+  LoadingErrorBloc,
+} from "@components/errors-bloc";
 import { TextInput, UrlInputBlock } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -45,7 +50,7 @@ export const Component = () => {
     updateField(field)(e.target.value);
   };
 
-  const { data: distribution, status } = useDistribution(id);
+  const { data: distribution, status, error: loadError } = useDistribution(id);
 
   useEffect(() => {
     if (status === "success") {
@@ -56,6 +61,10 @@ export const Component = () => {
   const { isSaving, save, serverSideError } = useCreateOrUpdateDistribution(isEditing);
 
   useTitle(t("distribution.title"), state.editingDistribution?.labelLg1);
+
+  if (loadError && !distribution) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if (!distribution && isEditing) {
     return <Loading />;

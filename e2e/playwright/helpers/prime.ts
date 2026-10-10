@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from "@playwright/test";
 
 /**
  * Les listes déroulantes de Bauhaus sont des composants PrimeReact
@@ -8,35 +8,35 @@ import { expect, Locator, Page } from '@playwright/test';
  * panneau ouvert.
  */
 
-const widget = (page: Page, label: string, kind: '.p-dropdown' | '.p-multiselect'): Locator =>
-	page
-		.locator('.form-group, .p-field, label')
-		.filter({ hasText: label })
-		.filter({ has: page.locator(kind) })
-		.first()
-		.locator(kind)
-		.first();
+const widget = (page: Page, label: string, kind: ".p-dropdown" | ".p-multiselect"): Locator =>
+  page
+    .locator(".form-group, .p-field, label")
+    .filter({ hasText: label })
+    .filter({ has: page.locator(kind) })
+    .first()
+    .locator(kind)
+    .first();
 
 const openPanel = async (trigger: Locator, page: Page, panelSelector: string) => {
-	await trigger.click();
-	const panel = page.locator(panelSelector);
-	await expect(panel).toBeVisible();
-	return panel;
+  await trigger.click();
+  const panel = page.locator(panelSelector);
+  await expect(panel).toBeVisible();
+  return panel;
 };
 
 const filterPanel = async (panel: Locator, value: string) => {
-	const filter = panel.locator('input.p-dropdown-filter, input.p-multiselect-filter');
-	if (await filter.count()) {
-		await filter.fill(value);
-	}
+  const filter = panel.locator("input.p-dropdown-filter, input.p-multiselect-filter");
+  if (await filter.count()) {
+    await filter.fill(value);
+  }
 };
 
 /** Sélectionne une valeur nommée dans un `Dropdown` (choix simple). */
 export const selectOne = async (page: Page, label: string, option: string) => {
-	const panel = await openPanel(widget(page, label, '.p-dropdown'), page, '.p-dropdown-panel');
-	await filterPanel(panel, option);
-	await panel.getByRole('option', { name: option, exact: true }).first().click();
-	await expect(panel).toBeHidden();
+  const panel = await openPanel(widget(page, label, ".p-dropdown"), page, ".p-dropdown-panel");
+  await filterPanel(panel, option);
+  await panel.getByRole("option", { name: option, exact: true }).first().click();
+  await expect(panel).toBeHidden();
 };
 
 /**
@@ -45,27 +45,27 @@ export const selectOne = async (page: Page, label: string, option: string) => {
  * données de référence n'a alors pas à être figé dans le test.
  */
 export const selectFirstOne = async (page: Page, label: string): Promise<string> => {
-	const panel = await openPanel(widget(page, label, '.p-dropdown'), page, '.p-dropdown-panel');
-	const first = panel.getByRole('option').first();
-	const text = ((await first.textContent()) ?? '').trim();
-	await first.click();
-	await expect(panel).toBeHidden();
-	return text;
+  const panel = await openPanel(widget(page, label, ".p-dropdown"), page, ".p-dropdown-panel");
+  const first = panel.getByRole("option").first();
+  const text = ((await first.textContent()) ?? "").trim();
+  await first.click();
+  await expect(panel).toBeHidden();
+  return text;
 };
 
 /** Coche une ou plusieurs valeurs nommées dans un `MultiSelect`. */
 export const selectMany = async (page: Page, label: string, options: string[]) => {
-	const panel = await openPanel(
-		widget(page, label, '.p-multiselect'),
-		page,
-		'.p-multiselect-panel',
-	);
-	for (const option of options) {
-		await filterPanel(panel, option);
-		await panel.getByRole('option', { name: option, exact: true }).first().click();
-	}
-	await page.keyboard.press('Escape');
-	await expect(panel).toBeHidden();
+  const panel = await openPanel(
+    widget(page, label, ".p-multiselect"),
+    page,
+    ".p-multiselect-panel",
+  );
+  for (const option of options) {
+    await filterPanel(panel, option);
+    await panel.getByRole("option", { name: option, exact: true }).first().click();
+  }
+  await page.keyboard.press("Escape");
+  await expect(panel).toBeHidden();
 };
 
 /**
@@ -77,32 +77,32 @@ export const selectMany = async (page: Page, label: string, options: string[]) =
  * `structures/components.spec.ts`.
  */
 export const clearChips = async (page: Page, label: string) => {
-	const chips = page
-		.locator('.form-group, .p-field, label')
-		.filter({ hasText: label })
-		.filter({ has: page.locator('.p-multiselect') })
-		.first()
-		.locator('.p-multiselect-token-icon');
+  const chips = page
+    .locator(".form-group, .p-field, label")
+    .filter({ hasText: label })
+    .filter({ has: page.locator(".p-multiselect") })
+    .first()
+    .locator(".p-multiselect-token-icon");
 
-	for (let remaining = await chips.count(); remaining > 0; remaining--) {
-		await chips.first().click();
-	}
-	await expect(chips).toHaveCount(0);
+  for (let remaining = await chips.count(); remaining > 0; remaining--) {
+    await chips.first().click();
+  }
+  await expect(chips).toHaveCount(0);
 };
 
 /** Coche la première valeur disponible d'un `MultiSelect` et retourne son libellé. */
 export const selectFirstMany = async (page: Page, label: string): Promise<string> => {
-	const panel = await openPanel(
-		widget(page, label, '.p-multiselect'),
-		page,
-		'.p-multiselect-panel',
-	);
-	const first = panel.getByRole('option').first();
-	const text = ((await first.textContent()) ?? '').trim();
-	await first.click();
-	await page.keyboard.press('Escape');
-	await expect(panel).toBeHidden();
-	return text;
+  const panel = await openPanel(
+    widget(page, label, ".p-multiselect"),
+    page,
+    ".p-multiselect-panel",
+  );
+  const first = panel.getByRole("option").first();
+  const text = ((await first.textContent()) ?? "").trim();
+  await first.click();
+  await page.keyboard.press("Escape");
+  await expect(panel).toBeHidden();
+  return text;
 };
 
 /**
@@ -110,6 +110,6 @@ export const selectFirstMany = async (page: Page, label: string): Promise<string
  * mais un `contenteditable` exposé avec `aria-label="rdw-editor"`.
  */
 export const fillRichText = async (editor: Locator, text: string) => {
-	await editor.click();
-	await editor.fill(text);
+  await editor.click();
+  await editor.fill(text);
 };

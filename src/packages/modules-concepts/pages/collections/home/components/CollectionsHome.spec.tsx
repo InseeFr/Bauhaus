@@ -35,12 +35,12 @@ vi.mock("../menu", () => ({
   Menu: vi.fn(() => <div>Menu</div>),
 }));
 
-describe("CollectionsHome", () => {
-  const collectionsMock = [
-    { id: "1", label: "Collection 1" },
-    { id: "2", label: "Collection 2" },
-  ];
+const collectionsMock = [
+  { id: "1", label: "Collection 1" },
+  { id: "2", label: "Collection 2" },
+];
 
+describe("CollectionsHome", () => {
   it("should render the page title and the searchable list with correct data", () => {
     render(<CollectionsHome collections={collectionsMock} />);
 

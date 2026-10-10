@@ -1,4 +1,7 @@
-import { ChangeEvent } from "react";
+import { screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
+import { ChangeEvent, useCallback } from "react";
+import { Route, Routes } from "react-router";
 import { Mock } from "vitest";
 
 import { getListItems } from "@components/ui/list-group/testing";
@@ -11,13 +14,13 @@ import { SearchFormList } from "./page";
 vi.mock("@utils/hooks/useUrlQueryParameters");
 
 vi.mock("@components/business/creators-input", () => ({
-  CreatorsInput: ({ value, onChange }: { value?: string; onChange: (value: string) => void }) => (
-    <input
-      data-testid="creators-input"
-      value={value ?? ""}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
-    />
-  ),
+  CreatorsInput: ({ value, onChange }: { value?: string; onChange: (value: string) => void }) => {
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
+      [onChange],
+    );
+    return <input data-testid="creators-input" value={value ?? ""} onChange={handleChange} />;
+  },
 }));
 
 const ORGANIZATION_IRI = "http://bauhaus/organizations/insee/HIE2000001";
@@ -45,6 +48,9 @@ const data = [
     codes: [],
   },
 ];
+
+const SEARCH_PAGE = <SearchFormList data={data} />;
+const CODELISTS_PAGE = <p>Liste des listes de codes</p>;
 
 const renderForm = (form: Record<string, string> = {}) => {
   (useUrlQueryParameters as Mock).mockReturnValue({
@@ -79,5 +85,39 @@ describe("<SearchFormList /> codelists-search", () => {
   it("renders the CreatorsInput (not a stamp dropdown) for the creator filter", () => {
     const { getByTestId } = renderForm({ creator: ORGANIZATION_IRI });
     expect(getByTestId("creators-input")).toHaveValue(ORGANIZATION_IRI);
+  });
+});
+
+describe("codelists advanced search page", () => {
+  it("resets the criteria when the reset button is clicked", async () => {
+    const reset = vi.fn();
+    (useUrlQueryParameters as Mock).mockReturnValue({
+      form: { labelLg1: "test" },
+      reset,
+      handleChange: vi.fn(),
+    });
+    renderWithRouter(<SearchFormList data={data} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Reinitialize" }));
+
+    expect(reset).toHaveBeenCalledOnce();
+  });
+
+  it("goes back to the list of codelists when the back button is clicked", async () => {
+    (useUrlQueryParameters as Mock).mockReturnValue({
+      form: {},
+      reset: vi.fn(),
+      handleChange: vi.fn(),
+    });
+    renderWithRouter(
+      <Routes>
+        <Route path="/" element={SEARCH_PAGE} />
+        <Route path="/codelists" element={CODELISTS_PAGE} />
+      </Routes>,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Back" }));
+
+    expect(screen.getByText("Liste des listes de codes")).toBeVisible();
   });
 });

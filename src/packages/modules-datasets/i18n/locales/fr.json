@@ -67,6 +67,12 @@
       "numberOfObservations": "Nombre d'observations",
       "numberOfTimeSeries": "Nombre de séries temporelles"
     },
+    "lineage": {
+      "title": "Lignage",
+      "sources": "Construit à partir de",
+      "description": "Description de la construction",
+      "descriptionNeedsSources": "Choisissez au moins un jeu de données source pour décrire la construction de celui-ci."
+    },
     "tabKO": "Il y a des erreurs dans cet onglet",
     "hide": "Cacher",
     "display": "Afficher",

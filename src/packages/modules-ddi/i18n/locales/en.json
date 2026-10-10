@@ -4,6 +4,7 @@
   },
   "physicalInstance": {
     "pluralTitle": "Physical Instances",
+    "searchTitle": "Physical Instances - Advanced search",
     "homePageTitle": "Physical Instances - Search",
     "creation": {
       "cancel": "Cancel",
@@ -35,7 +36,6 @@
       }
     },
     "view": {
-      "add": "Add",
       "allTypes": "All types",
       "cancel": "Cancel",
       "cancelDelete": "Cancel",
@@ -46,6 +46,30 @@
         "codeListLabel": "Code list label",
         "codes": "Codes",
         "createNewList": "Create new list",
+        "csvImport": {
+          "button": "Import a CSV",
+          "dropzone": "Drag and drop a CSV file here, or",
+          "chooseFile": "Choose a file",
+          "fileInput": "CSV file",
+          "help": "Two columns: the code, then its category label. The first line is a header and is always ignored. Separator \",\" or \";\", UTF-8 encoding, {{max, number}} lines at most. The import creates a new list for the variable.",
+          "rejected_one": "Import rejected, no code was created: fix the error below and import the file again.",
+          "rejected_other": "Import rejected, no code was created: fix the {{count}} errors below and import the file again.",
+          "errorsCaption": "CSV file errors",
+          "line": "Line",
+          "error": "Error",
+          "success_one": "Import successful: {{count, number}} code added.",
+          "success_other": "Import successful: {{count, number}} codes added.",
+          "errors": {
+            "emptyCode": "Code is empty",
+            "emptyValue": "Value is empty",
+            "invalidColumnCount": "Invalid number of columns (2 expected)",
+            "unclosedQuote": "Quote opened but never closed",
+            "duplicateCode": "Code {{code}} is duplicated",
+            "noData": "The file contains no data line",
+            "tooManyRows": "The file exceeds the limit of {{max, number}} data lines",
+            "notCsv": "Only .csv files are supported"
+          }
+        },
         "deleteCode": "Delete",
         "editCode": "Edit code",
         "errorLoadingCodeLists": "Error loading code lists",
@@ -57,13 +81,13 @@
         "loadingCodeLists": "Loading code lists...",
         "missingCodeListDetail": "Variable {{variableAgency}}/{{variableId}} references code list {{codeListAgency}}/{{codeListId}}, which does not exist.",
         "missingCodeListTitle": "Code list not found",
-        "loadCodeListErrorTitle": "Unable to load the code list",
-        "loadCodeListErrorDetail": "The code list of this variable could not be loaded. Please try again later.",
         "moveDown": "Move down",
         "moveUp": "Move up",
         "mutualizedCodeListsSection": "Mutualized code lists",
         "mutualizedReadOnly": "Mutualized code list (read-only)",
         "noCodes": "No codes",
+        "codesCount_one": "{{count, number}} code",
+        "codesCount_other": "{{count, number}} codes",
         "noCodeListsAvailable": "No code lists available",
         "reuseList": "Reuse",
         "selectCodeList": "Select a code list",
@@ -154,7 +178,9 @@
       },
       "confirmDelete": "Delete",
       "copyCode": "Copy code",
+      "copyCodeTooLarge": "Above 4 MB, some browsers (Chrome, Vivaldi…) truncate the copy: use Download",
       "copyXml": "Copy XML",
+      "downloadCode": "Download",
       "date": {
         "selectType": "Select a date type",
         "type": "Date type"
@@ -183,7 +209,6 @@
       },
       "editTitle": "Edit title",
       "editVariable": "Edit Variable",
-      "errorLoading": "Error loading data",
       "export": "Export",
       "exportError": "Export error",
       "exportErrorDetail": "Unable to download file",
@@ -191,7 +216,6 @@
       "exportSuccessDetail": "File in {{format}} format has been downloaded",
       "validateDdi4": "Validate DDI4",
       "validateDdi4InProgress": "DDI4 validation in progress...",
-      "reloadingAfterSave": "Reloading the physical instance...",
       "validateDdi4Success": "Valid DDI4",
       "validateDdi4SuccessDetail": "The physical instance complies with the DDI 4.0 schema",
       "validateDdi4Error": "Invalid DDI4",
@@ -244,9 +268,6 @@
         "regExp": "Regular expression"
       },
       "typeFilter": "Filter by type",
-      "update": "Update",
-      "variableAddSuccess": "Variable added",
-      "variableAddSuccessDetail": "Variable successfully added. Remember to save",
       "variableDuplicateSuccess": "Variable duplicated",
       "variableDuplicateSuccessDetail": "The variable has been successfully duplicated",
       "variablesTable": "Variables table",
@@ -257,35 +278,57 @@
         "text": "Text"
       },
       "validation": {
-        "required": "This field is required"
+        "required": "This field is required",
+        "summary": "Some modified variables contain errors. Fix them before saving:",
+        "variableHasErrors": "This variable contains errors",
+        "unnamedVariable": "Unnamed variable",
+        "errors": {
+          "nameRequired": "the name is required",
+          "labelRequired": "the label is required",
+          "sentinelLabelRequired": "the sentinel values label is required"
+        }
       },
-      "variableUpdateSuccess": "Variable updated",
-      "variableUpdateSuccessDetail": "Variable successfully updated. Remember to save",
       "previousVariable": "Previous variable",
       "nextVariable": "Next variable",
+      "closeVariablePanel": "Close",
       "totalVariables": "Total: {{count}} variable(s)",
-      "pendingVariableEdit": {
-        "title": "Unconfirmed variable change",
-        "message": "The variable being edited has changes that have not been applied with “Update”. Saving now will discard them.",
-        "confirm": "Save without these changes",
-        "cancel": "Go back to the variable"
-      },
       "unsavedChangesTitle": "Unsaved changes",
       "unsavedChangesMessage": "You have unsaved changes. Are you sure you want to leave this page?",
       "leaveWithoutSaving": "Leave without saving",
       "stayOnPage": "Stay on page",
-      "groupTag": "Group: {{label}}",
-      "studyUnitTag": "Study unit: {{label}}",
-      "studyUnitSelectPlaceholder": "Go to a data file of the study unit…",
-      "studyUnitSelectEmpty": "No data file"
+      "breadcrumb": {
+        "label": "Data file hierarchy",
+        "group": "Group:",
+        "studyUnit": "Study unit:",
+        "switch": "{{label}} — switch to another data file of the study unit",
+        "filter": "Filter data files…",
+        "loading": "Loading…",
+        "noMatch": "No matching data file",
+        "count_one": "{{count}} data file in the study unit",
+        "count_other": "{{count}} data files in the study unit"
+      },
+      "reuseVariable": {
+        "open": "Reuse a variable",
+        "title": "Reuse a variable of the study",
+        "help": "Choose a variable already used by another file of the study. It is not copied: it is the same variable, and any later change will apply to every file that uses it.",
+        "select": "Search for a variable",
+        "empty": "No other variable of the study to reuse",
+        "confirm": "Reuse",
+        "cancel": "Cancel"
+      },
+      "sharedVariable": {
+        "badge": "Variable shared with other files",
+        "message_one": "Variable shared with 1 other file: any change will apply to it as well",
+        "message_other": "Variable shared with {{count}} other files: any change will apply to them as well"
+      }
     },
-    "errors": {
-      "GROUP_MISSING_CODE_LIST_SCHEME": "The series \"{{group}}\" has no CodeListScheme to file its code lists: it must be created beforehand.",
-      "GROUP_MISSING_CATEGORY_SCHEME": "The series \"{{group}}\" has no CategoryScheme to file its categories: it must be created beforehand.",
-      "GROUP_MISSING_MANAGED_REPRESENTATION_SCHEME": "The series \"{{group}}\" has no ManagedRepresentationScheme to file its sentinel values: it must be created beforehand.",
-      "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "The operation \"{{studyUnit}}\" has no LogicalProduct to file its variables: it must be created beforehand.",
-      "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "The operation \"{{studyUnit}}\" has {{count}} LogicalProducts: only one is expected to file its variables.",
-      "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "The operation \"{{studyUnit}}\" has no VariableScheme to file its variables: it must be created beforehand."
+    "cache": {
+      "evict": "Clear cache",
+      "evicting": "Clearing cache…",
+      "successTitle": "Cache cleared",
+      "successMessage": "Data is now read again from Colectica.",
+      "errorTitle": "Cache clearing failed",
+      "errorMessage": "The cache could not be cleared."
     }
   }
 }

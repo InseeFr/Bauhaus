@@ -40,7 +40,7 @@ const renderOrganizationField = (
   fieldName: "creator" | "contributor",
   label: string,
   value: string,
-): JSX.Element => {
+): React.JSX.Element => {
   return (
     <li key={fieldName}>
       {label}: <InseeOrganization creator={value} />
@@ -52,7 +52,7 @@ const renderArrayField = (
   fieldName: "altLabelLg1" | "altLabelLg2",
   label: string,
   value: string[],
-): JSX.Element => {
+): React.JSX.Element => {
   return <SingleOrNestedListItem key={fieldName} label={label} items={value} />;
 };
 
@@ -60,7 +60,7 @@ const renderDateField = (
   fieldName: "created" | "modified" | "valid",
   label: string,
   value: string,
-): JSX.Element => {
+): React.JSX.Element => {
   return <li key={fieldName}>{`${label}: ${stringToDate(value)}`}</li>;
 };
 
@@ -68,7 +68,7 @@ const renderLinkField = (
   fieldName: "additionalMaterial",
   label: string,
   value: string,
-): JSX.Element => {
+): React.JSX.Element => {
   return (
     <li key={fieldName}>
       {`${label}: `}
@@ -77,7 +77,10 @@ const renderLinkField = (
   );
 };
 
-const renderDisseminationField = (fieldName: "disseminationStatus", value: string): JSX.Element => {
+const renderDisseminationField = (
+  fieldName: "disseminationStatus",
+  value: string,
+): React.JSX.Element => {
   return (
     <li key={fieldName}>
       <DisseminationStatusVisualization disseminationStatus={value} />
@@ -89,7 +92,7 @@ const renderValidationField = (
   fieldName: "validationState",
   label: string,
   value: string,
-): JSX.Element => {
+): React.JSX.Element => {
   return (
     <PublicationStatusItem
       key={fieldName}
@@ -100,7 +103,11 @@ const renderValidationField = (
   );
 };
 
-const renderSimpleField = (fieldName: FieldName, label: string, value: string): JSX.Element => {
+const renderSimpleField = (
+  fieldName: FieldName,
+  label: string,
+  value: string,
+): React.JSX.Element => {
   return <li key={fieldName}>{`${label}: ${value}`}</li>;
 };
 
@@ -109,7 +116,7 @@ const renderFieldItem = (
   label: string,
   concept: ConceptGeneral,
   secondLang: boolean,
-): JSX.Element | null => {
+): React.JSX.Element | null => {
   const value = concept[fieldName];
 
   if (isEmpty(value)) return null;

@@ -1,7 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen, within } from "@testing-library/react";
-import { ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
+import { render, screen, within } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { Component, ComponentDefinition } from "@model/structures/Component";
@@ -10,40 +7,30 @@ import { UNPUBLISHED } from "@model/ValidationState";
 
 import { StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../application/app-context";
+import { EMPTY_ARRAY } from "@utils/array-utils";
+
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import {
   ATTRIBUTE_PROPERTY_TYPE,
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
 } from "../constants";
+import { clickIcon, createStructuresWrapper, rowOf } from "../render.testing";
 import { ComponentSelector } from "./ComponentSelector";
 
-vi.mock("@sdk/index", () => ({
-  CodelistsApi: {
-    getCodelistsPartial: vi.fn().mockResolvedValue([]),
-    getPartialsByParent: vi.fn().mockResolvedValue([]),
-  },
+vi.mock("@sdk/index", async () => ({
+  ...(await import("../mocks.testing")).emptyCodelistsAndStampsApi(),
   StructureApi: {
     getMutualizedComponent: vi.fn(),
   },
-  StampsApi: { getStamps: vi.fn().mockResolvedValue([]) },
 }));
 
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return {
-    ...actual,
-    usePrivileges: () => ({
-      privileges: [
-        {
-          application: "STRUCTURE_COMPONENT",
-          privileges: [{ privilege: "CREATE", strategy: "ALL" }],
-        },
-      ],
-    }),
-    useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-  };
-});
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../mocks.testing")).usersHookWithCreatePrivilege(
+    await importOriginal(),
+    "STRUCTURE_COMPONENT",
+  ),
+);
 
 const component = (identifiant: string, type = DIMENSION_PROPERTY_TYPE): Component => ({
   id: identifiant,
@@ -64,26 +51,22 @@ const definition = (
   component: component(identifiant, type),
 });
 
-const Wrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-    <MemoryRouter>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        {children}
-      </AppContextProvider>
-    </MemoryRouter>
-  </QueryClientProvider>
-);
+const Wrapper = createStructuresWrapper();
 
 const handleUpdate = vi.fn();
+
+const NO_STRUCTURE = {} as Structure;
+const COMPONENT_DEFINITIONS = [definition("d1", 1), definition("d2", 2)];
+const MUTUALIZED_COMPONENTS = [component("m1"), component("d1")];
 
 const renderSelector = (props: Record<string, unknown> = {}) =>
   render(
     <ComponentSelector
-      structure={{} as Structure}
-      componentDefinitions={[definition("d1", 1), definition("d2", 2)]}
-      mutualizedComponents={[component("m1"), component("d1")]}
-      concepts={[]}
-      codelists={[]}
+      structure={NO_STRUCTURE}
+      componentDefinitions={COMPONENT_DEFINITIONS}
+      mutualizedComponents={MUTUALIZED_COMPONENTS}
+      concepts={EMPTY_ARRAY}
+      codelists={EMPTY_ARRAY}
       handleUpdate={handleUpdate}
       type={DIMENSION_PROPERTY_TYPE}
       {...props}
@@ -91,16 +74,32 @@ const renderSelector = (props: Record<string, unknown> = {}) =>
     { wrapper: Wrapper },
   );
 
-/** Les gestionnaires lisent `dataset.componentId` sur le parent de la cible : on clique l'icône. */
-const clickIcon = (button: HTMLElement) =>
-  fireEvent.click(button.querySelector("span, svg") ?? button);
-
-const rowOf = (identifiant: string) =>
-  screen.getByText(`Composante ${identifiant}`).closest("tr") as HTMLElement;
+/** Vérifie que la structure est mise à jour avec les composantes `ids`, dans cet ordre. */
+const expectUpdatedOrder = (...ids: string[]) =>
+  expect(handleUpdate).toHaveBeenCalledWith(
+    ids.map((id, index) =>
+      expect.objectContaining({ order: index + 1, component: expect.objectContaining({ id }) }),
+    ),
+  );
 
 describe("ComponentSelector", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("affiche l'erreur à la place des composantes mutualisées quand elles n'ont pas pu être chargées", () => {
+    renderSelector({
+      mutualizedComponents: [],
+      mutualizedComponentsError: sdkRejection.json(500, {
+        message: "Le dépôt RDF est indisponible.",
+      }),
+    });
+
+    const picker = document.getElementById("mutualized-components-pickerbody")!;
+    expect(within(picker).getByRole("alert", { hidden: true })).toHaveTextContent(
+      "Le dépôt RDF est indisponible.",
+    );
+    expect(within(picker).queryByRole("table", { hidden: true })).toBeNull();
   });
 
   it("n'affiche que les composantes de la structure du type demandé", () => {
@@ -125,11 +124,7 @@ describe("ComponentSelector", () => {
 
     clickIcon(within(rowOf("m1")).getByLabelText("Add"));
 
-    expect(handleUpdate).toHaveBeenCalledWith([
-      expect.objectContaining({ order: 1, component: expect.objectContaining({ id: "d1" }) }),
-      expect.objectContaining({ order: 2, component: expect.objectContaining({ id: "d2" }) }),
-      expect.objectContaining({ order: 3, component: expect.objectContaining({ id: "m1" }) }),
-    ]);
+    expectUpdatedOrder("d1", "d2", "m1");
   });
 
   it("rattache un attribut ajouté seul à l'observation", () => {
@@ -183,37 +178,22 @@ describe("ComponentSelector", () => {
 
     clickIcon(within(rowOf("d2")).getByLabelText("Remove"));
 
-    expect(handleUpdate).toHaveBeenCalledWith([
-      expect.objectContaining({ order: 1, component: expect.objectContaining({ id: "d1" }) }),
-      expect.objectContaining({ order: 2, component: expect.objectContaining({ id: "d3" }) }),
-    ]);
+    expectUpdatedOrder("d1", "d3");
   });
 
   it("intervertit deux composantes quand on en descend une", () => {
-    renderSelector({
-      componentDefinitions: [definition("d1", 1), definition("d2", 2)],
-      mutualizedComponents: [],
-    });
+    renderSelector({ mutualizedComponents: [] });
 
     clickIcon(within(rowOf("d1")).getByLabelText("Down"));
 
-    expect(handleUpdate).toHaveBeenCalledWith([
-      expect.objectContaining({ order: 1, component: expect.objectContaining({ id: "d2" }) }),
-      expect.objectContaining({ order: 2, component: expect.objectContaining({ id: "d1" }) }),
-    ]);
+    expectUpdatedOrder("d2", "d1");
   });
 
   it("intervertit deux composantes quand on en monte une", () => {
-    renderSelector({
-      componentDefinitions: [definition("d1", 1), definition("d2", 2)],
-      mutualizedComponents: [],
-    });
+    renderSelector({ mutualizedComponents: [] });
 
     clickIcon(within(rowOf("d2")).getByLabelText("Up"));
 
-    expect(handleUpdate).toHaveBeenCalledWith([
-      expect.objectContaining({ order: 1, component: expect.objectContaining({ id: "d2" }) }),
-      expect.objectContaining({ order: 2, component: expect.objectContaining({ id: "d1" }) }),
-    ]);
+    expectUpdatedOrder("d2", "d1");
   });
 });

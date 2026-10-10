@@ -24,24 +24,30 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+const mockDataset = {
+  type: "type1",
+  statisticalUnit: ["unit1"],
+  dataStructure: "structure1",
+  temporalCoverageDataType: "dataType1",
+  temporalCoverageStartDate: "2023-01-01",
+  temporalCoverageEndDate: "2023-12-31",
+  temporalResolution: "resolution1",
+  spacialCoverage: "geo1",
+  spacialTemporal: "2023-05-01",
+  spacialResolutions: ["resolutionGeo1"],
+  observationNumber: 100,
+  timeSeriesNumber: 10,
+} as unknown as Dataset;
+
+const mockStructures = [{ iri: "structure1", labelLg1: "Structure 1" }];
+
+const datasetWithoutOptionalFields: Dataset = {
+  ...mockDataset,
+  observationNumber: undefined,
+  timeSeriesNumber: undefined,
+} as unknown as Dataset;
+
 describe("StatisticalInformations Component", () => {
-  const mockDataset = {
-    type: "type1",
-    statisticalUnit: ["unit1"],
-    dataStructure: "structure1",
-    temporalCoverageDataType: "dataType1",
-    temporalCoverageStartDate: "2023-01-01",
-    temporalCoverageEndDate: "2023-12-31",
-    temporalResolution: "resolution1",
-    spacialCoverage: "geo1",
-    spacialTemporal: "2023-05-01",
-    spacialResolutions: ["resolutionGeo1"],
-    observationNumber: 100,
-    timeSeriesNumber: 10,
-  } as unknown as Dataset;
-
-  const mockStructures = [{ iri: "structure1", labelLg1: "Structure 1" }];
-
   it("renders all statistical information correctly", () => {
     (hooks.useCodelist as Mock).mockReturnValue([]);
     (structureHooks.useStructures as Mock).mockReturnValue({
@@ -73,12 +79,6 @@ describe("StatisticalInformations Component", () => {
     (structureHooks.useStructures as Mock).mockReturnValue({
       data: mockStructures,
     });
-
-    const datasetWithoutOptionalFields: Dataset = {
-      ...mockDataset,
-      observationNumber: undefined,
-      timeSeriesNumber: undefined,
-    } as unknown as Dataset;
 
     const { queryByText } = render(
       <StatisticalInformations dataset={datasetWithoutOptionalFields} />,

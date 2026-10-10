@@ -1,40 +1,28 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { useCallback } from "react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderWithLoaderData } from "../../page.testing";
+import { mockMetadataStructure } from "../metadata-structure.testing";
 import { Component } from "./page";
-
-const loaderData = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
-  useLoaderData: () => loaderData(),
-  useParams: () => ({ id: "sims-1" }),
-}));
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getOwners: vi.fn(), exportSims: vi.fn() },
 }));
 
-const useMetadataStructure = vi.fn();
 const useSims = vi.fn();
 const publishSimsMutation = vi.fn();
-vi.mock("../../../hooks/useMetadataStructure", () => ({
-  useMetadataStructure: () => useMetadataStructure(),
-}));
-vi.mock("../../../hooks/useCodelists", () => ({
-  useCodelists: () => ({ codelists: { CL_1: [] } }),
-}));
+vi.mock("../../../hooks/useMetadataStructure");
+vi.mock("../../../hooks/useCodelists", () => import("../msd-hooks.testing"));
 vi.mock("../../../hooks/useSims", () => ({
   useSims: () => useSims(),
   usePublishSims: () => ({ mutateAsync: publishSimsMutation }),
 }));
-vi.mock("@utils/hooks/organizations", () => ({
-  useOrganizations: () => ({ data: [{ id: "org-1" }] }),
-}));
+vi.mock("@utils/hooks/organizations", () => import("../msd-hooks.testing"));
 vi.mock("../hooks/useDocumentsList", () => ({
   useDocumentsList: () => ({ documentStores: [], setDocumentStores: vi.fn() }),
 }));
@@ -42,15 +30,22 @@ vi.mock("../hooks/useDocumentsList", () => ({
 // L'écran est un assembleur : on remplace la vue par un pilote qui expose les deux
 // callbacks qu'elle reçoit, seuls chemins par lesquels le reducer de la page est atteint.
 vi.mock("./components/SimsVisualization", () => ({
-  SimsVisualization: ({ sims, publishSims, exportCallback, missingDocuments, owners }: any) => (
-    <div>
-      <span>sims:{sims.labelLg1 ?? "(vide)"}</span>
-      <span>owners:{owners.length}</span>
-      <span>missing:{[...missingDocuments].join(",")}</span>
-      <button onClick={() => publishSims({ id: "sims-1" }, onPublishError)}>publier</button>
-      <button onClick={() => exportCallback("sims-1", "config", true)}>exporter</button>
-    </div>
-  ),
+  SimsVisualization: ({ sims, publishSims, exportCallback, missingDocuments, owners }: any) => {
+    const publish = useCallback(() => publishSims({ id: "sims-1" }, onPublishError), [publishSims]);
+    const exportSims = useCallback(
+      () => exportCallback("sims-1", "config", true),
+      [exportCallback],
+    );
+    return (
+      <div>
+        <span>sims:{sims.labelLg1 ?? "(vide)"}</span>
+        <span>owners:{owners.length}</span>
+        <span>missing:{[...missingDocuments].join(",")}</span>
+        <button onClick={publish}>publier</button>
+        <button onClick={exportSims}>exporter</button>
+      </div>
+    );
+  },
 }));
 vi.mock("../components/MSDLayout", () => ({
   MSDLayout: ({ children, baseUrl }: any) => <div data-testid={`msd-${baseUrl}`}>{children}</div>,
@@ -58,27 +53,23 @@ vi.mock("../components/MSDLayout", () => ({
 
 const onPublishError = vi.fn();
 
+let loaderData: unknown;
+
 const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+  renderWithLoaderData(<Component />, loaderData, { path: "/sims/:id", url: "/sims/sims-1" });
 
 describe("Sims view page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    loaderData.mockReturnValue({ baseUrl: "/operations/sims", disableSectionAnchor: false });
-    useMetadataStructure.mockReturnValue({ isLoading: false, metadataStructure: {} });
+    loaderData = { baseUrl: "/operations/sims", disableSectionAnchor: false };
+    mockMetadataStructure({ loaded: true });
     useSims.mockReturnValue({ isLoading: false, sims: { id: "sims-1", labelLg1: "Rapport" } });
     vi.mocked(OperationsApi.getOwners).mockResolvedValue([{ id: "owner-1" }]);
     vi.mocked(OperationsApi.exportSims).mockResolvedValue(new Set(["doc-1"]));
   });
 
   it("affiche le chargement tant que la structure de métadonnées n'est pas là", () => {
-    useMetadataStructure.mockReturnValue({ isLoading: true, metadataStructure: undefined });
+    mockMetadataStructure({ loaded: false });
     renderPage();
 
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
@@ -98,6 +89,28 @@ describe("Sims view page", () => {
     expect(screen.getByTestId("msd-/operations/sims")).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText("owners:1")).toBeInTheDocument());
     expect(OperationsApi.getOwners).toHaveBeenCalledWith("sims-1");
+  });
+
+  it("indique que le rapport est introuvable au lieu d'un rapport vide", async () => {
+    useSims.mockReturnValue({
+      isLoading: false,
+      sims: undefined,
+      error: sdkRejection.emptyBody(404),
+    });
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText("sims:(vide)")).not.toBeInTheDocument();
+  });
+
+  it("signale l'échec de lecture des propriétaires sans masquer le rapport", async () => {
+    vi.mocked(OperationsApi.getOwners).mockRejectedValue(
+      sdkRejection.json(503, { message: "Owners unavailable" }),
+    );
+    renderPage();
+
+    expect(await screen.findByText("Owners unavailable")).toBeInTheDocument();
+    expect(screen.getByText("sims:Rapport")).toBeInTheDocument();
   });
 
   it("tolère un rapport absent sans planter", () => {
@@ -147,8 +160,20 @@ describe("Sims view page", () => {
     await waitFor(() => expect(screen.getByText("missing:doc-1,doc-2")).toBeInTheDocument());
   });
 
+  it("sort du chargement et affiche le message du serveur quand l'export échoue", async () => {
+    vi.mocked(OperationsApi.exportSims).mockRejectedValue(
+      sdkRejection.json(500, { message: "L'export a échoué" }),
+    );
+    renderPage();
+
+    await userEvent.click(screen.getByRole("button", { name: "exporter" }));
+
+    expect(await screen.findByText(/L'export a échoué/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "exporter" })).toBeEnabled();
+  });
+
   it("retombe sur des valeurs par défaut quand le loader ne fournit rien", () => {
-    loaderData.mockReturnValue(undefined);
+    loaderData = undefined;
     renderPage();
 
     expect(screen.getByTestId("msd-")).toBeInTheDocument();

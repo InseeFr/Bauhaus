@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next";
-import Modal from "react-modal";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
-import { CloseIconButton } from "@components/buttons/buttons-with-icons";
+import { Dialog } from "@components/ui/dialog";
 
 import { isDocument } from "../../../../utils/isDocument";
 
@@ -40,35 +39,27 @@ export const ConfirmationModal = ({
   ));
 
   return (
-    <Modal
-      className="Modal__Bootstrap modal-dialog operations"
+    <Dialog
+      className="operations"
       id="updating-document-modal"
-      isOpen={isOpen}
-      onRequestClose={onNo}
-      ariaHideApp={false}
+      visible={isOpen}
+      onHide={onNo}
+      header={t("app.confirmation")}
+      style={{ width: "50rem", maxWidth: "95vw" }}
+      blockScroll
+      footer={<ActionToolbar>{buttons}</ActionToolbar>}
     >
-      <div className="modal-content">
-        <div className="modal-header">
-          <CloseIconButton onClick={onNo} />
-          <h4 className="modal-title">{t("app.confirmation")}</h4>
-        </div>
-        <div className="modal-body">
-          <p>
-            {isDocument(document)
-              ? t("app.warningDocumentWithSimsPrefix")
-              : t("app.warningLinkWithSimsPrefix")}
-          </p>
-          <ul>
-            {document.sims?.map((sims: any) => (
-              <li key={sims.id}>{sims.labelLg1}</li>
-            ))}
-          </ul>
-          <p>{t("app.warningDocumentLinksWithSimsSuffix")}</p>
-        </div>
-        <div className="modal-footer">
-          <ActionToolbar>{buttons}</ActionToolbar>
-        </div>
-      </div>
-    </Modal>
+      <p>
+        {isDocument(document)
+          ? t("app.warningDocumentWithSimsPrefix")
+          : t("app.warningLinkWithSimsPrefix")}
+      </p>
+      <ul>
+        {document.sims?.map((sims: any) => (
+          <li key={sims.id}>{sims.labelLg1}</li>
+        ))}
+      </ul>
+      <p>{t("app.warningDocumentLinksWithSimsSuffix")}</p>
+    </Dialog>
   );
 };

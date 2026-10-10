@@ -63,8 +63,8 @@ The frontend reads the current user's privileges from the API; the quickest chec
 
 ## Roles shipped by default
 
-| Role | Strategy on every privilege |
-|------|------------------------------|
-| `Gestionnaire_variables_RMESGNCS` | `STAMP` |
-| `Betatest_OeDDIp_RMESGNCS` | `ALL` |
-| `Administrateur_RMESGNCS` | `ALL` |
+| Role                              | Strategy on every privilege |
+| --------------------------------- | --------------------------- |
+| `Gestionnaire_variables_RMESGNCS` | `STAMP`                     |
+| `Betatest_OeDDIp_RMESGNCS`        | `ALL`                       |
+| `Administrateur_RMESGNCS`         | `ALL`                       |

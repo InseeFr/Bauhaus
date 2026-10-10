@@ -39,7 +39,7 @@ export const Ddi4Plugin = ({ data }: Readonly<Ddi4PluginProps>) => {
     });
   };
 
-  const renderValue = (value: unknown, path: string = "", depth: number = 0): JSX.Element => {
+  const renderValue = (value: unknown, path: string = "", depth: number = 0): React.JSX.Element => {
     if (value === null) {
       return <span style={{ color: "#999", fontStyle: "italic" }}>null</span>;
     }

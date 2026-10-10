@@ -1,25 +1,21 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import { vi } from "vitest";
 
 import { ConceptsApi, saveComponent, StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { createStructuresWrapper } from "../../../render.testing";
 import { Component } from "./page";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/index", async () => ({
   StructureApi: {
     getMutualizedComponent: vi.fn(),
     getMutualizedAttributes: vi.fn(),
   },
   ConceptsApi: { getConceptList: vi.fn() },
-  CodelistsApi: {
-    getCodelistsPartial: vi.fn().mockResolvedValue([]),
-    getPartialsByParent: vi.fn().mockResolvedValue([]),
-  },
-  StampsApi: { getStamps: vi.fn().mockResolvedValue([]) },
+  ...(await import("../../../mocks.testing")).emptyCodelistsAndStampsApi(),
   saveComponent: vi.fn(),
 }));
 
@@ -35,21 +31,12 @@ vi.mock("@components/business/contributors-input/contributors-input", () => ({
   ContributorsInput: () => <div />,
 }));
 
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return {
-    ...actual,
-    usePrivileges: () => ({
-      privileges: [
-        {
-          application: "STRUCTURE_COMPONENT",
-          privileges: [{ privilege: "CREATE", strategy: "ALL" }],
-        },
-      ],
-    }),
-    useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-  };
-});
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../../../mocks.testing")).usersHookWithCreatePrivilege(
+    await importOriginal(),
+    "STRUCTURE_COMPONENT",
+  ),
+);
 
 const mutualizedComponent = {
   id: "c1",
@@ -59,22 +46,16 @@ const mutualizedComponent = {
   type: "http://purl.org/linked-data/cube#DimensionProperty",
 };
 
-const Wrapper =
-  (path: string) =>
-  ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider
-      client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
-    >
-      <MemoryRouter initialEntries={[path]}>
-        <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-          <Routes>
-            <Route path="/structures/components/edit/:id" element={children} />
-            <Route path="/structures/components/create" element={children} />
-          </Routes>
-        </AppContextProvider>
-      </MemoryRouter>
-    </QueryClientProvider>
-  );
+const Wrapper = (path: string) =>
+  createStructuresWrapper({
+    initialEntries: [path],
+    routes: (children) => (
+      <Routes>
+        <Route path="/structures/components/edit/:id" element={children} />
+        <Route path="/structures/components/create" element={children} />
+      </Routes>
+    ),
+  });
 
 const renderPage = async (path = "/structures/components/edit/c1") => {
   const view = render(<Component />, { wrapper: Wrapper(path) });
@@ -95,6 +76,17 @@ describe("page d'édition d'une composante mutualisée", () => {
 
     expect(StructureApi.getMutualizedComponent).toHaveBeenCalledWith("c1");
     expect(screen.getByDisplayValue("Composante 1")).toBeInTheDocument();
+  });
+
+  it("indique que la composante à modifier est introuvable au lieu d'un formulaire vide", async () => {
+    vi.mocked(StructureApi.getMutualizedComponent).mockRejectedValue(
+      sdkRejection.json(404, { message: "Component not found" }),
+    );
+    render(<Component />, { wrapper: Wrapper("/structures/components/edit/c1") });
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /save|sauvegarder/i })).not.toBeInTheDocument();
   });
 
   it("ne charge aucune composante à la création", async () => {
@@ -123,5 +115,40 @@ describe("page d'édition d'une composante mutualisée", () => {
     fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
 
     expect(await screen.findByText("Erreur serveur")).toBeInTheDocument();
+  });
+
+  it("affiche une erreur de champ du serveur sous la saisie, comme une erreur client", async () => {
+    vi.mocked(saveComponent).mockRejectedValue(
+      sdkRejection.json(400, {
+        message: "Validation failed",
+        errors: [{ field: "labelLg1", message: "size must be between 0 and 3" }],
+      }),
+    );
+    await renderPage();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() =>
+      expect(screen.getByDisplayValue("Composante 1")).toHaveAccessibleDescription(
+        "size must be between 0 and 3",
+      ),
+    );
+    expect(screen.getByDisplayValue("Composante 1")).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("affiche dans le bandeau une erreur du serveur sur un champ absent du formulaire", async () => {
+    vi.mocked(saveComponent).mockRejectedValue(
+      sdkRejection.json(400, {
+        message: "Validation failed",
+        errors: [{ field: "altLabelLg1", message: "size must be between 0 and 3" }],
+      }),
+    );
+    await renderPage();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    expect(
+      await screen.findByText("altLabelLg1 : size must be between 0 and 3"),
+    ).toBeInTheDocument();
   });
 });

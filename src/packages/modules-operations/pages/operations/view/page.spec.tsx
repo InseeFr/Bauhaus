@@ -1,47 +1,74 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { screen, waitFor } from "@testing-library/react";
 
+import { DDIApi } from "@sdk/ddi-api";
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import type { AppName } from "../../../../application/app-context";
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { itPublishesThenReloads, itShowsPublicationError, renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
-
-const params = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
-  useParams: () => params(),
-}));
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getOperation: vi.fn(), publishOperation: vi.fn() },
 }));
 
+vi.mock("@sdk/ddi-api", () => ({
+  DDIApi: { getOperationPhysicalInstances: vi.fn() },
+}));
+
+let mockVisibleModules: AppName[] = [];
+vi.mock("../../../../application/visible-modules", () => ({
+  useVisibleModules: () => mockVisibleModules,
+}));
+
 vi.mock("./components/OperationsOperationVisualization", () => ({
-  OperationsOperationVisualization: ({ attr }: any) => <div>opération:{attr.prefLabelLg1}</div>,
+  OperationsOperationVisualization: ({ attr, physicalInstances = [] }: any) => (
+    <div>
+      opération:{attr.prefLabelLg1}
+      {physicalInstances.map((pi: any) => (
+        <span key={pi.id}>fichier:{pi.label}</span>
+      ))}
+    </div>
+  ),
 }));
-vi.mock("./menu", () => ({
-  Menu: ({ onPublish }: any) => <button onClick={onPublish}>publier</button>,
-}));
+vi.mock("./menu", async () => (await import("../../page.testing")).publishMenuModule("onPublish"));
 
 const operation = { id: "op-1", prefLabelLg1: "Opération FR", prefLabelLg2: "Operation EN" };
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = (url = "/operation/op-1") =>
+  renderAtRoute(<Component />, "/operation/:id?", url);
+
+const publication = {
+  renderPage,
+  publish: OperationsApi.publishOperation,
+  load: OperationsApi.getOperation,
+  entity: operation,
+};
 
 describe("Operations view page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    params.mockReturnValue({ id: "op-1" });
     vi.mocked(OperationsApi.getOperation).mockResolvedValue(operation);
     vi.mocked(OperationsApi.publishOperation).mockResolvedValue({});
+    mockVisibleModules = ["operations"];
+  });
+
+  it("attend les fichiers de données DDI avant d'afficher l'opération", async () => {
+    mockVisibleModules = ["operations", "ddi"];
+    let resolvePhysicalInstances!: (rows: unknown[]) => void;
+    vi.mocked(DDIApi.getOperationPhysicalInstances).mockReturnValue(
+      new Promise((resolve) => (resolvePhysicalInstances = resolve)),
+    );
+
+    renderPage();
+
+    await waitFor(() => expect(DDIApi.getOperationPhysicalInstances).toHaveBeenCalledWith("op-1"));
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+
+    resolvePhysicalInstances([{ id: "pi-1", label: "Individus", agency: "fr.insee" }]);
+
+    await waitFor(() => expect(screen.getByText("fichier:Individus")).toBeInTheDocument());
   });
 
   it("charge l'opération et l'affiche", async () => {
@@ -54,34 +81,22 @@ describe("Operations view page", () => {
   });
 
   it("ne demande rien sans identifiant dans l'URL", async () => {
-    params.mockReturnValue({});
-    renderPage();
+    renderPage("/operation");
 
     await waitFor(() => expect(screen.getByText(/Loading/i)).toBeInTheDocument());
     expect(OperationsApi.getOperation).not.toHaveBeenCalled();
   });
 
-  it("publie l'opération puis la recharge", async () => {
+  itPublishesThenReloads("publie l'opération puis la recharge", publication);
+
+  itShowsPublicationError("affiche l'erreur serveur quand la publication échoue", publication);
+
+  it("dit que l'opération n'a pu être chargée quand le serveur échoue", async () => {
+    vi.mocked(OperationsApi.getOperation).mockRejectedValue(sdkRejection.emptyBody(500));
+
     renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
-    );
 
-    await userEvent.click(screen.getByRole("button", { name: "publier" }));
-
-    await waitFor(() => expect(OperationsApi.publishOperation).toHaveBeenCalledWith(operation));
-    await waitFor(() => expect(OperationsApi.getOperation).toHaveBeenCalledTimes(2));
-  });
-
-  it("affiche l'erreur serveur quand la publication échoue", async () => {
-    vi.mocked(OperationsApi.publishOperation).mockRejectedValue("Publication refusée");
-    renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
-    );
-
-    await userEvent.click(screen.getByRole("button", { name: "publier" }));
-
-    await waitFor(() => expect(screen.getByText("Publication refusée")).toBeInTheDocument());
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 });

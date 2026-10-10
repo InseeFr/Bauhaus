@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Row } from "@components/layout";
+import { HomePageLayout } from "@components/home-page-layout";
 import { Loading } from "@components/loading";
-import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
 import { CodelistsApi } from "@sdk/index";
@@ -35,21 +34,15 @@ export const Component = () => {
   }
 
   return (
-    <div className="container codelists-list">
-      <Row>
-        <HomePageMenu />
-        <div className="col-md-8 text-center pull-right">
-          <PageTitle title={t("codelists.homePageTitle")} col={12} offset={0} />
-          <SearchableList
-            items={items}
-            childPath="codelists"
-            advancedSearch
-            searchUrl="/codelists/search"
-            autoFocus
-            itemFormatter={(_: any, codelist: any) => formatLabel(codelist)}
-          />
-        </div>
-      </Row>
-    </div>
+    <HomePageLayout title={t("codelists.homePageTitle")} menu={<HomePageMenu />}>
+      <SearchableList
+        items={items}
+        childPath="codelists"
+        advancedSearch
+        searchUrl="/codelists/search"
+        autoFocus
+        itemFormatter={(_: any, codelist: any) => formatLabel(codelist)}
+      />
+    </HomePageLayout>
   );
 };

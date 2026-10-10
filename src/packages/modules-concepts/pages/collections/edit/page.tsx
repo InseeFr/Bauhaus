@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 
 import { CollectionWithMembers } from "@model/concepts/collection";
@@ -24,13 +25,13 @@ export const Component = () => {
 
   const [submitting, setSubmitting] = useState(false);
 
-  const { data: collection, isLoading: loadingCollection } = useCollection(id);
+  const { data: collection, isLoading: loadingCollection, error: loadError } = useCollection(id);
 
   const { data: collectionList = [] } = useCollections();
 
   const { concepts, isLoading: isConceptLoading } = useConcepts();
 
-  const { save, isSaving } = useCollectionSave(id);
+  const { save, isSaving, saveError } = useCollectionSave(id);
   // Le formulaire fige `general` dans son état à l'initialisation : on attend
   // que le contributeur par défaut soit résolu avant de le monter.
   const isDefaultContributorPending = useIsDefaultContributorPending();
@@ -41,6 +42,10 @@ export const Component = () => {
 
   if (isSaving) {
     return <Saving />;
+  }
+
+  if (loadError && !collection) {
+    return <LoadingErrorBloc error={loadError} />;
   }
 
   if (
@@ -64,6 +69,7 @@ export const Component = () => {
       save={save}
       submitting={submitting}
       setSubmitting={setSubmitting}
+      serverSideError={saveError}
     />
   );
 };

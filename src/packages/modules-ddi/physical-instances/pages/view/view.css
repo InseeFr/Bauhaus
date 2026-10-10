@@ -60,6 +60,15 @@
   overflow: hidden auto;
 }
 
+/* Physical instance title, a flex item next to the edit button.
+   A flex item won't shrink below its longest unbreakable word (min-width: auto),
+   so a long label without spaces overflowed the main column once the variable
+   panel halved its width. Let it shrink and break anywhere instead. */
+.pi-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 /* Sticky header for search filters */
 .sticky-header {
   position: sticky;
@@ -68,4 +77,56 @@
   background: linear-gradient(to bottom, var(--surface-ground, #fff) 85%, transparent);
   padding: 1rem 1rem 1.5rem;
   margin: 1rem -1rem 0;
+}
+
+/* Global validation summary shown when "Save all" is refused (#1608).
+   Lives in the sticky header so it stays visible while scrolling the table;
+   capped in height so a long list doesn't swallow the page. */
+.pi-validation-summary {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  max-height: 12rem;
+  overflow-y: auto;
+  border: 1px solid #e24c4c;
+  border-left-width: 6px;
+  border-radius: 6px;
+  background: #ffe7e6;
+  color: #73000c;
+}
+
+.pi-validation-summary-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.pi-validation-summary ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+/* The variable name opens it in the side panel. */
+.pi-validation-summary-variable {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Error marker next to the name of an invalid variable in the table. */
+.variable-error-indicator {
+  margin-left: 0.5rem;
+  color: #e24c4c;
+}
+
+/* Marker next to the name of a variable shared with other physical instances of the study (#1387). */
+.variable-shared-indicator {
+  margin-left: 0.5rem;
+  color: var(--orange-500, #f59e0b);
 }

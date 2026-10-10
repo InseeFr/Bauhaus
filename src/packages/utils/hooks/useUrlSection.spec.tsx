@@ -1,16 +1,18 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { MemoryRouter, useLocation } from "react-router-dom";
+import { useCallback } from "react";
+import { MemoryRouter, useLocation } from "react-router";
 
 import { useUrlSection } from "./useUrlSection";
 
 const Probe = ({ fallback = "first" }: { fallback?: string }) => {
   const [section, setSection] = useUrlSection(fallback);
   const { search } = useLocation();
+  const goToNotes = useCallback(() => setSection("notes"), [setSection]);
   return (
     <>
       <span data-testid="section">{section}</span>
       <span data-testid="search">{search}</span>
-      <button type="button" onClick={() => setSection("notes")}>
+      <button type="button" onClick={goToNotes}>
         Aller aux notes
       </button>
     </>
@@ -19,7 +21,7 @@ const Probe = ({ fallback = "first" }: { fallback?: string }) => {
 
 const renderProbe = (url: string, fallback?: string) =>
   render(
-    <MemoryRouter initialEntries={[url]}>
+    <MemoryRouter initialEntries={Array.of(url)}>
       <Probe fallback={fallback} />
     </MemoryRouter>,
   );

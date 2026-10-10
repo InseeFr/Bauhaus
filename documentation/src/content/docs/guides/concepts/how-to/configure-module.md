@@ -21,23 +21,23 @@ fr.insee.rmes.bauhaus:
 
 ## Three flags per module
 
-| Flag             | Default | Effect when false                                            |
-| ---------------- | ------- | ------------------------------------------------------------ |
-| `enabled`        | `true`  | The module does not exist: no REST controller, no route, no tile. |
-| `show`           | see below | No tile on the home page.                                  |
-| `direct-access`  | see below | The module pages cannot be reached.                        |
+| Flag            | Default   | Effect when false                                                 |
+| --------------- | --------- | ----------------------------------------------------------------- |
+| `enabled`       | `true`    | The module does not exist: no REST controller, no route, no tile. |
+| `show`          | see below | No tile on the home page.                                         |
+| `direct-access` | see below | The module pages cannot be reached.                               |
 
 `show` and `direct-access` are both optional, and **the one you leave out is deduced from the
 one you write**, so a minimal declaration already says everything:
 
-| Declared               | show    | direct-access | Result                                  |
-| ---------------------- | ------- | ------------- | --------------------------------------- |
-| nothing                | `true`  | `true`        | fully open module                       |
-| `show: true`           | `true`  | `true`        | same                                    |
-| `show: false`          | `false` | `false`       | closed module, REST API still served    |
-| `direct-access: false` | `true`  | `false`       | tile shown, pages under maintenance     |
-| `direct-access: true`  | `false` | `true`        | module hidden, still reachable by link  |
-| `enabled: false`       | `false` | `false`       | module absent, REST API included        |
+| Declared               | show    | direct-access | Result                                 |
+| ---------------------- | ------- | ------------- | -------------------------------------- |
+| nothing                | `true`  | `true`        | fully open module                      |
+| `show: true`           | `true`  | `true`        | same                                   |
+| `show: false`          | `false` | `false`       | closed module, REST API still served   |
+| `direct-access: false` | `true`  | `false`       | tile shown, pages under maintenance    |
+| `direct-access: true`  | `false` | `true`        | module hidden, still reachable by link |
+| `enabled: false`       | `false` | `false`       | module absent, REST API included       |
 
 Access follows the tile, and writing `direct-access` on its own is only worth it for the
 setting the tile does not already give — hence the opposite value.

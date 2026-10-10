@@ -1,9 +1,13 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
+import {
+  expectIdleQuery,
+  renderQueryHook,
+  renderQueryHookFromLoadingToSuccess,
+  renderQueryHookUntil,
+} from "./queryClient.testing";
 import { usePhysicalCodeLists } from "./usePhysicalCodeLists";
 
 vi.mock("../../sdk", () => ({
@@ -11,19 +15,6 @@ vi.mock("../../sdk", () => ({
     getPhysicalCodeLists: vi.fn(),
   },
 }));
-
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
 
 describe("usePhysicalCodeLists", () => {
   const mockCodeLists = [
@@ -38,51 +29,38 @@ describe("usePhysicalCodeLists", () => {
   it("should fetch physical codes lists", async () => {
     vi.mocked(DDIApi.getPhysicalCodeLists).mockResolvedValue(mockCodeLists);
 
-    const { result } = renderHook(() => usePhysicalCodeLists("fr.insee", "pi-123"), {
-      wrapper: createWrapper(),
-    });
-
-    expect(result.current.isLoading).toBe(true);
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBe(true);
-    });
+    const { result } = await renderQueryHookFromLoadingToSuccess(() =>
+      usePhysicalCodeLists("fr.insee", "pi-123"),
+    );
 
     expect(result.current.data).toEqual(mockCodeLists);
     expect(DDIApi.getPhysicalCodeLists).toHaveBeenCalledWith("fr.insee", "pi-123");
   });
 
-  it("should not fetch when agencyId is empty", async () => {
-    const { result } = renderHook(() => usePhysicalCodeLists("", "pi-123"), {
-      wrapper: createWrapper(),
+  for (const { name, agencyId, physicalInstanceId } of [
+    { name: "should not fetch when agencyId is empty", agencyId: "", physicalInstanceId: "pi-123" },
+    {
+      name: "should not fetch when physicalInstanceId is empty",
+      agencyId: "fr.insee",
+      physicalInstanceId: "",
+    },
+  ]) {
+    it(name, async () => {
+      const { result } = renderQueryHook(() => usePhysicalCodeLists(agencyId, physicalInstanceId));
+
+      expect(result.current.isLoading).toBe(false);
+      expectIdleQuery(result.current, DDIApi.getPhysicalCodeLists);
     });
-
-    expect(result.current.isLoading).toBe(false);
-    expect(result.current.fetchStatus).toBe("idle");
-    expect(DDIApi.getPhysicalCodeLists).not.toHaveBeenCalled();
-  });
-
-  it("should not fetch when physicalInstanceId is empty", async () => {
-    const { result } = renderHook(() => usePhysicalCodeLists("fr.insee", ""), {
-      wrapper: createWrapper(),
-    });
-
-    expect(result.current.isLoading).toBe(false);
-    expect(result.current.fetchStatus).toBe("idle");
-    expect(DDIApi.getPhysicalCodeLists).not.toHaveBeenCalled();
-  });
+  }
 
   it("should handle errors", async () => {
     const error = new Error("Network error");
     vi.mocked(DDIApi.getPhysicalCodeLists).mockRejectedValue(error);
 
-    const { result } = renderHook(() => usePhysicalCodeLists("fr.insee", "pi-123"), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isError).toBe(true);
-    });
+    const { result } = await renderQueryHookUntil(
+      () => usePhysicalCodeLists("fr.insee", "pi-123"),
+      "isError",
+    );
 
     expect(result.current.error).toBe(error);
   });

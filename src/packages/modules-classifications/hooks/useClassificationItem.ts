@@ -16,6 +16,7 @@ export const useClassificationItem = (
     isLoading,
     data: item,
     status,
+    error,
   } = useQuery({
     queryKey: ["classifications-item", classificationId, itemId],
     queryFn: async () => {
@@ -56,6 +57,7 @@ export const useClassificationItem = (
     return {
       isLoading,
       status,
+      error,
       item: {
         general: item?.general,
         narrowers: item?.narrowers,
@@ -64,7 +66,7 @@ export const useClassificationItem = (
     };
   }
 
-  return { isLoading, item, status };
+  return { isLoading, item, status, error };
 };
 
 export const useClassificationParentLevels = (

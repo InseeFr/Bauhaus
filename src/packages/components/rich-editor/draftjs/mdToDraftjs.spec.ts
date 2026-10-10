@@ -44,4 +44,24 @@ describe("mdToDraftjs", () => {
       },
     });
   });
+
+  it.each(["https://insee.fr", "http://insee.fr", "HTTPS://insee.fr"])(
+    "should keep a link to %s",
+    (url) => {
+      const { blocks, entityMap } = mdToDraftjs(`[x](${url})`);
+
+      expect(blocks[0].entityRanges).toEqual([{ key: 0, length: 1, offset: 0 }]);
+      expect(entityMap).toHaveProperty("0", { type: "LINK", mutability: "MUTABLE", data: { url } });
+    },
+  );
+
+  it.each(["javascript:alert(1)", "JaVaScRiPt:alert(1)", "data:text/html,x", "mailto:a@b.fr"])(
+    "should keep only the text of a link to %s",
+    (url) => {
+      const { blocks } = mdToDraftjs(`[x](${url})`);
+
+      expect(blocks[0].text).toBe("x");
+      expect(blocks[0].entityRanges).toEqual([]);
+    },
+  );
 });
