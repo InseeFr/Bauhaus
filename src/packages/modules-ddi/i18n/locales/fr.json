@@ -86,6 +86,8 @@
         "mutualizedCodeListsSection": "Listes mutualisées",
         "mutualizedReadOnly": "Liste mutualisée (lecture seule)",
         "noCodes": "Aucun code",
+        "codesCount_one": "{{count, number}} code",
+        "codesCount_other": "{{count, number}} codes",
         "noCodeListsAvailable": "Aucune liste de codes disponible",
         "reuseList": "Réutiliser",
         "selectCodeList": "Sélectionnez une liste de codes",
@@ -176,7 +178,9 @@
       },
       "confirmDelete": "Supprimer",
       "copyCode": "Copier le code",
+      "copyCodeTooLarge": "Au-delà de 4 Mo, certains navigateurs (Chrome, Vivaldi…) tronquent la copie : utilisez Télécharger",
       "copyXml": "Copier le XML",
+      "downloadCode": "Télécharger",
       "date": {
         "selectType": "Sélectionnez un type de date",
         "type": "Type de date"
@@ -317,6 +321,14 @@
         "message_one": "Variable partagée avec 1 autre fichier : toute modification y sera répercutée",
         "message_other": "Variable partagée avec {{count}} autres fichiers : toute modification y sera répercutée"
       }
+    },
+    "cache": {
+      "evict": "Vider le cache",
+      "evicting": "Vidage du cache…",
+      "successTitle": "Cache vidé",
+      "successMessage": "Les données sont désormais relues depuis Colectica.",
+      "errorTitle": "Échec du vidage du cache",
+      "errorMessage": "Le cache n'a pas pu être vidé."
     }
   }
 }

@@ -50,6 +50,16 @@ const buildOptions = (
     .sort((a, b) => a.label.localeCompare(b.label));
 };
 
+/**
+ * Clé de ligne : le back renvoie une ligne par rattachement (PI × StudyUnit × Group), une PI
+ * réutilisée apparaît donc plusieurs fois avec le même `id`. Une clé dupliquée fait garder à
+ * React des lignes fantômes au filtrage et à la pagination.
+ */
+const rowKey = (row: PhysicalInstanceSearchRow) =>
+  [row.agency, row.id, row.studyUnitAgency, row.studyUnitId, row.groupAgency, row.groupId].join(
+    "|",
+  );
+
 export const Component = () => {
   const { t } = useTranslation();
   useTitle(t("physicalInstance.searchTitle"));
@@ -133,7 +143,7 @@ export const Component = () => {
         </AdvancedSearchCard>
       }
     >
-      <DataTable value={hits} stripedRows paginator rows={20} dataKey="id">
+      <DataTable value={hits} stripedRows paginator rows={20} dataKey={rowKey}>
         <Column
           field="label"
           header={t("physicalInstance.search.columns.label")}

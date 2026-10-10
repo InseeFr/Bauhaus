@@ -8,13 +8,7 @@ const OPTIONS = ["Apple", "Banana"];
 const renderInput = (value = "") => {
   const onChange = vi.fn();
   const rendered = render(
-    <DatalistInput
-      id="fruit"
-      label="Fruit"
-      options={OPTIONS}
-      value={value}
-      onChange={onChange}
-    />,
+    <DatalistInput id="fruit" label="Fruit" options={OPTIONS} value={value} onChange={onChange} />,
   );
   return { ...rendered, onChange };
 };

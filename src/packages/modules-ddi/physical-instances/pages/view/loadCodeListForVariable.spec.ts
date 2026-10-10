@@ -9,6 +9,7 @@ import { newQueryClient } from "./queryClient.testing";
 vi.mock("../../../../sdk", () => ({
   DDIApi: {
     getMutualizedCodeList: vi.fn(),
+    getMutualizedCodeLists: vi.fn(),
   },
 }));
 
@@ -75,5 +76,58 @@ describe("loadCodeListForVariable", () => {
     expect(DDIApi.getMutualizedCodeList).toHaveBeenCalledWith("fr.insee", "cl-absente");
     expect(result.codeList).toBeUndefined();
     expect(result.missing).toBe(true);
+  });
+
+  describe("with skipMutualized (opening a variable)", () => {
+    it("does not load the content of a mutualized list: the editor reuses it like a new variable", async () => {
+      vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue([
+        { id: "mut-1", agencyId: "fr.insee", label: "Liste mutualisée" },
+      ]);
+
+      const result = await loadCodeListForVariable(
+        newQueryClient(),
+        { CodeListReference: { Agency: "fr.insee", ID: "mut-1", Version: "1" } } as any,
+        { skipMutualized: true },
+      );
+
+      expect(result).toEqual({});
+      expect(DDIApi.getMutualizedCodeList).not.toHaveBeenCalled();
+    });
+
+    it("falls back to the full content when the mutualized catalog cannot be fetched", async () => {
+      vi.mocked(DDIApi.getMutualizedCodeLists).mockRejectedValue({ message: "", status: 500 });
+      vi.mocked(DDIApi.getMutualizedCodeList).mockResolvedValue(
+        envelope({
+          CodeList: [{ $type: "CodeList", Agency: "fr.insee", ID: "mut-1" }],
+        } as any) as any,
+      );
+
+      const result = await loadCodeListForVariable(
+        newQueryClient(),
+        { CodeListReference: { Agency: "fr.insee", ID: "mut-1", Version: "1" } } as any,
+        { skipMutualized: true },
+      );
+
+      expect(result.codeList?.ID).toBe("mut-1");
+    });
+
+    it("still loads the full content of a list that is not mutualized", async () => {
+      vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue([
+        { id: "mut-1", agencyId: "fr.insee", label: "Liste mutualisée" },
+      ]);
+      vi.mocked(DDIApi.getMutualizedCodeList).mockResolvedValue(
+        envelope({
+          CodeList: [{ $type: "CodeList", Agency: "fr.insee", ID: "grp-1" }],
+        } as any) as any,
+      );
+
+      const result = await loadCodeListForVariable(
+        newQueryClient(),
+        { CodeListReference: { Agency: "fr.insee", ID: "grp-1", Version: "1" } } as any,
+        { skipMutualized: true },
+      );
+
+      expect(result.codeList?.ID).toBe("grp-1");
+    });
   });
 });

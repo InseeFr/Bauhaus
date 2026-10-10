@@ -492,7 +492,9 @@ export const Component = () => {
 
         let loaded;
         try {
-          loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
+          loaded = await loadCodeListForVariable(queryClient, codeRepresentation, {
+            skipMutualized: true,
+          });
         } catch (err: unknown) {
           // Sans sa liste de codes, la variable ne peut pas être éditée : on le dit et on la
           // laisse fermée, plutôt que de laisser l'échec sans réponse.

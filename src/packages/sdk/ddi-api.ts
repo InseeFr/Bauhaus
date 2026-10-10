@@ -144,7 +144,12 @@ const api = {
   getStudyUnitVariableUsages: (agencyId: string, id: string) => [
     `study-units/${agencyId}/${id}/variable-usages`,
   ],
+  // Réservé aux administrateurs (privilège ADMINISTRATION) ; 204 sans corps.
+  evictCaches: () => ["cache", { method: "DELETE" }, () => Promise.resolve(undefined)],
   getMutualizedCodeLists: () => ["mutualized-codes-list"],
+  getMutualizedCodeListCodes: (agencyId: string, id: string) => [
+    `mutualized-codes-list/${agencyId}/${id}/codes`,
+  ],
   getMutualizedCodeList: (agencyId: string, id: string) => [
     `mutualized-codes-list/${agencyId}/${id}`,
     {},

@@ -11,6 +11,7 @@ import { useAllCodeLists } from "../../../hooks/useAllCodeLists";
 import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useMutualizedCodeList } from "../../../hooks/useMutualizedCodeList";
+import { useMutualizedCodeListCodes } from "../../../hooks/useMutualizedCodeListCodes";
 import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
@@ -139,13 +140,19 @@ export const CodeRepresentation = ({
     });
 
   // Contenu (codes + catégories) de la liste sélectionnée, récupéré par agency/id.
-  // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back (il délègue à
-  // getCodeList) : il sert donc aussi bien aux listes mutualisées qu'aux listes du groupe.
-  // On charge le contenu dès qu'une liste est sélectionnée, quel que soit son type.
+  // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back : il sert aux listes
+  // du groupe, éditables, qui ont besoin du DDI4 complet. Une liste mutualisée, en lecture seule,
+  // n'a besoin que de la valeur et du libellé de chaque code : elle passe par la vue allégée
+  // (`.../codes`), ~15 fois plus légère pour une grosse nomenclature.
   const { data: selectedListCodes, isLoading: isLoadingSelectedListCodes } = useMutualizedCodeList(
-    selectedAgency,
-    selectedListId,
+    isSelectedListMutualized ? "" : selectedAgency,
+    isSelectedListMutualized ? "" : selectedListId,
   );
+  const { data: selectedMutualizedCodes, isLoading: isLoadingSelectedMutualizedCodes } =
+    useMutualizedCodeListCodes(
+      isSelectedListMutualized ? selectedAgency : "",
+      isSelectedListMutualized ? selectedListId : "",
+    );
 
   // Ligne dont le menu « Utilisation » est ouvert : la popup reste montée après fermeture pour
   // laisser jouer l'animation, mais ne charge plus rien (le hook est désactivé avec `visible`).
@@ -182,8 +189,11 @@ export const CodeRepresentation = ({
 
     if (codeList) {
       // Cas où on a une codeList complète (création ou liste existante chargée)
+      // Index par ID : un find() par code serait quadratique (45 000 codes → ~2 milliards de
+      // comparaisons, onglet figé).
+      const categoryById = new Map(categories.map((cat) => [cat.ID, cat]));
       const tableData: CodeTableRow[] = (codeList.Code ?? []).map((code) => {
-        const category = categories.find((cat) => cat.ID === code.CategoryReference?.ID);
+        const category = categoryById.get(code.CategoryReference?.ID ?? "");
         return {
           id: code.ID,
           value: code.Value?.StringValue ?? "",
@@ -266,6 +276,19 @@ export const CodeRepresentation = ({
       );
     }
   }, [selectedListCodes]);
+
+  // Même chargement pour une liste mutualisée, depuis sa vue allégée : lecture seule, donc rien à
+  // matérialiser dans la variable.
+  useEffect(() => {
+    if (!selectedMutualizedCodes) return;
+    dispatch({
+      type: "LOAD_REUSED_CODES",
+      payload: {
+        label: selectedMutualizedCodes.label,
+        codes: selectedMutualizedCodes.codes.map((code) => ({ ...code, categoryId: "" })),
+      },
+    });
+  }, [selectedMutualizedCodes]);
 
   /**
    * Frappe dans le libellé de la liste : appliquée telle quelle. La décision est demandée dans la
@@ -586,7 +609,7 @@ export const CodeRepresentation = ({
           }}
         />
       )}
-      {isLoadingSelectedListCodes && (
+      {(isLoadingSelectedListCodes || isLoadingSelectedMutualizedCodes) && (
         <div className="flex gap-2 align-items-center">
           {/* Décoratif : le texte qui suit porte le message. */}
           <ProgressSpinner

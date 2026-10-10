@@ -37,13 +37,12 @@ fr.insee.rmes.bauhaus.colectica:
   mutualized-codes-groups:
     - agency-id: fr.insee
       identifier: 6755ebd7-82a4-4e8d-9b49-ba39a9ab3281
-      version: 1
 ```
 
-Cost: one relationship query per group. Prefer this when the tree is stable and you know the groups.
+Cost: one batched latest-version lookup, then one relationship query per group. Prefer this when the tree is stable and you know the groups.
 
 - `agency-id` may be omitted or left blank — the instance's `defaultAgencyId` is then used.
-- `version` is accepted for symmetry with `mutualized-codes-package`, but the relationship query is not versioned and ignores it.
+- There is no `version`: the latest version of each group is always read, so a code list removed from a group stops being mutualized as soon as the new group version is saved. A group unknown to Colectica is skipped.
 
 Only one strategy is active at a time; `mutualized-codes-package` is read only by `package-walk`, and `mutualized-codes-groups` only by `configured-groups`.
 

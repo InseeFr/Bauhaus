@@ -25,4 +25,15 @@ describe("ddi api", () => {
       expect.objectContaining({ method: "PUT" }),
     );
   });
+
+  it("vide les caches Colectica par un DELETE et résout sur la réponse 204 sans corps", async () => {
+    using fetch = vi.spyOn(window, "fetch").mockResolvedValue(new Response(null, { status: 204 }));
+
+    await expect(DDIApi.evictCaches()).resolves.toBeUndefined();
+
+    expect(fetch).toHaveBeenCalledWith(
+      "http://back/ddi/cache",
+      expect.objectContaining({ method: "DELETE" }),
+    );
+  });
 });

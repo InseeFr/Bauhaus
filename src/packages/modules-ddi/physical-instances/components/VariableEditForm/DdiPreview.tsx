@@ -20,9 +20,8 @@ import type {
   Ddi4Item,
   PhysicalInstanceResponse,
 } from "../../types/api";
-import { DdiJsonPreview } from "./DdiJsonPreview";
+import { DdiCodePreview } from "./DdiCodePreview";
 import { ddiPreviewReducer, initialState, type DdiFormat } from "./DdiPreview.reducer";
-import { DdiXmlPreview } from "./DdiXmlPreview";
 import { useSelfContainedPreview } from "./useSelfContainedPreview";
 
 interface DdiPreviewProps {
@@ -216,7 +215,7 @@ export const DdiPreview = ({
 
   // Items seulement référencés (liste de codes ou MMVR réutilisée) : résolus pour l'affichage,
   // afin que l'aperçu montre les mêmes codes que le panneau de représentation.
-  const previewData = useSelfContainedPreview(ddi4Data);
+  const { envelope: previewData, isResolving } = useSelfContainedPreview(ddi4Data);
 
   const ddiJson = useMemo(() => JSON.stringify(previewData, null, 2), [previewData]);
 
@@ -225,6 +224,7 @@ export const DdiPreview = ({
   useEffect(() => {
     const currentRequestId = ++requestIdRef.current;
     dispatch({ type: "LOADING" });
+    if (isResolving) return;
 
     const parsedData = JSON.parse(ddi4DataSerialized);
 
@@ -240,7 +240,10 @@ export const DdiPreview = ({
           dispatch({ type: "LOAD_ERROR" });
         }
       });
-  }, [ddi4DataSerialized, formatXml]);
+  }, [ddi4DataSerialized, isResolving, formatXml]);
+
+  // Même assainissement que l'export de la PI.
+  const fileBaseName = (variableName || variableId).replace(/[^a-z0-9]/gi, "_").toLowerCase();
 
   const formatOptions = [
     { value: "DDI3" as DdiFormat, label: FORMAT_LABELS.DDI3 },
@@ -264,14 +267,16 @@ export const DdiPreview = ({
       )}
 
       {state.format === "DDI3" && !state.isLoading && state.ddiXml && (
-        <DdiXmlPreview code={state.ddiXml} />
+        <DdiCodePreview code={state.ddiXml} language="xml" fileName={`${fileBaseName}-ddi3.xml`} />
       )}
 
       {state.format === "DDI3" && !state.isLoading && !state.ddiXml && (
         <div className="text-center text-gray-500">{t("physicalInstance.view.noDdiXml")}</div>
       )}
 
-      {state.format === "DDI4" && <DdiJsonPreview code={ddiJson} />}
+      {state.format === "DDI4" && (
+        <DdiCodePreview code={ddiJson} language="json" fileName={`${fileBaseName}-ddi4.json`} />
+      )}
     </div>
   );
 };

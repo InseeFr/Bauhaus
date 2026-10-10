@@ -7,7 +7,10 @@ import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string) => {
+    t: (key: string, options?: { count?: number }) => {
+      if (key === "physicalInstance.view.code.codesCount") {
+        return `${options?.count} codes`;
+      }
       const translations: Record<string, string> = {
         "physicalInstance.view.code.codeListLabel": "Libellé de la liste de codes",
         "physicalInstance.view.code.value": "Valeur",
@@ -38,28 +41,20 @@ vi.mock("primereact/button", () => ({
 vi.mock("primereact/overlaypanel", () => import("./primereact.testing"));
 
 vi.mock("primereact/datatable", () => ({
-  DataTable: ({ value, children, emptyMessage }: any) => {
-    const columns = Array.isArray(children) ? children : [children];
+  DataTable: ({ value, children, emptyMessage, header }: any) => (
+    <>
+      {header && <div data-testid="datatable-header">{header}</div>}
+      <MockTable
+        value={value}
+        columns={Array.isArray(children) ? children : [children]}
+        emptyMessage={emptyMessage}
+      />
+    </>
+  ),
+}));
 
-    if (!value || value.length === 0) {
-      return (
-        <table>
-          <thead>
-            <tr>
-              {columns.map((column: any, colIndex: number) => (
-                <th key={colIndex}>{column?.props?.header}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colSpan={columns.length}>{emptyMessage}</td>
-            </tr>
-          </tbody>
-        </table>
-      );
-    }
-
+const MockTable = ({ value, columns, emptyMessage }: any) => {
+  if (!value || value.length === 0) {
     return (
       <table>
         <thead>
@@ -70,21 +65,38 @@ vi.mock("primereact/datatable", () => ({
           </tr>
         </thead>
         <tbody>
-          {value?.map((row: any, index: number) => (
-            <tr key={index} data-testid={`row-${index}`}>
-              {columns.map((column: any, colIndex: number) => {
-                if (column?.props?.body) {
-                  return <td key={colIndex}>{column.props.body(row, { rowIndex: index })}</td>;
-                }
-                return <td key={colIndex}>{row[column?.props?.field]}</td>;
-              })}
-            </tr>
-          ))}
+          <tr>
+            <td colSpan={columns.length}>{emptyMessage}</td>
+          </tr>
         </tbody>
       </table>
     );
-  },
-}));
+  }
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          {columns.map((column: any, colIndex: number) => (
+            <th key={colIndex}>{column?.props?.header}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {value?.map((row: any, index: number) => (
+          <tr key={index} data-testid={`row-${index}`}>
+            {columns.map((column: any, colIndex: number) => {
+              if (column?.props?.body) {
+                return <td key={colIndex}>{column.props.body(row, { rowIndex: index })}</td>;
+              }
+              return <td key={colIndex}>{row[column?.props?.field]}</td>;
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
 
 vi.mock("primereact/column", () => import("./primereact.testing"));
 
@@ -123,6 +135,41 @@ describe("CodeListDataTable", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("shows the total number of codes before the list", () => {
+    render(
+      <CodeListDataTable
+        codeListLabel="Test Label"
+        codes={mockCodes}
+        onCodeListLabelChange={mockOnCodeListLabelChange}
+        onCellEdit={mockOnCellEdit}
+        onDeleteCode={mockOnDeleteCode}
+        onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
+      />,
+    );
+
+    const count = screen.getByText("2 codes");
+    expect(
+      count.compareDocumentPosition(screen.getByRole("table")) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("does not show a count for an empty list, which already says it has no code", () => {
+    render(
+      <CodeListDataTable
+        codeListLabel=""
+        codes={[]}
+        onCodeListLabelChange={mockOnCodeListLabelChange}
+        onCellEdit={mockOnCellEdit}
+        onDeleteCode={mockOnDeleteCode}
+        onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
+      />,
+    );
+
+    expect(screen.queryByText(/\d+ codes/)).not.toBeInTheDocument();
   });
 
   it("should render code list label input", () => {

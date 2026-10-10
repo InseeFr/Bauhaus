@@ -1,11 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useCallback, useState, type ComponentProps } from "react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 import type { Reference } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
 import { envelope } from "../../types/ddi4Items.testing";
+import { withScreenLayout } from "../CodeRepresentation/virtualScrollerLayout.testing";
 import { SentinelValues } from "./SentinelValues";
 
 vi.mock("react-i18next", async () =>
@@ -144,8 +145,12 @@ const localMmvr = {
 } as any;
 
 describe("SentinelValues", () => {
+  // Le tableau des codes est virtualisé : sans mise en page, aucune ligne ne serait rendue.
+  let layout: Disposable;
+
   beforeEach(() => {
     vi.clearAllMocks();
+    layout = withScreenLayout();
     mockUseAllMissingValuesRepresentations.mockReturnValue({
       data: groupMmvrs,
       groupLabel: "Mon groupe",
@@ -155,6 +160,8 @@ describe("SentinelValues", () => {
     mockUseMutualizedCodeList.mockReturnValue({ data: undefined, isLoading: false });
     mockUseMmvrUsers.mockReturnValue({ data: [], isLoading: false });
   });
+
+  afterEach(() => layout[Symbol.dispose]());
 
   /** Variable var-1 qui référence déjà la MMVR `reference`. */
   const renderWithReference = (props: Partial<ComponentProps<typeof SentinelValues>> = {}) =>

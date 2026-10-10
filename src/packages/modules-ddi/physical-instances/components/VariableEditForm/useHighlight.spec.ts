@@ -1,7 +1,7 @@
 import { configure, renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
 
-import { useHighlight } from "./useHighlight";
+import { MAX_HIGHLIGHTED_LENGTH, useHighlight } from "./useHighlight";
 
 // Le hook charge highlight.js par import dynamique. À froid, la transformation du chunk
 // par Vite dépasse la seconde par défaut de `waitFor` quand les 414 fichiers de spec
@@ -55,6 +55,20 @@ describe("useHighlight", () => {
     });
 
     expect(result.current).toContain("different-tag");
+  });
+
+  it("should not highlight code above the size limit", async () => {
+    const hugeCode = `<root>${"x".repeat(MAX_HIGHLIGHTED_LENGTH)}</root>`;
+
+    const { result } = renderHook(() => ({
+      small: useHighlight("<root/>", "xml"),
+      huge: useHighlight(hugeCode, "xml"),
+    }));
+
+    await waitFor(() => {
+      expect(result.current.small).not.toBeNull();
+    });
+    expect(result.current.huge).toBeNull();
   });
 
   it("should degrade to no highlighting when the highlight chunk fails to load", async () => {

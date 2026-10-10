@@ -3,6 +3,9 @@ import { VerticalMenu } from "@components/vertical-menu";
 
 import { usePrivileges } from "@utils/hooks/users";
 
+import { useAuthorizationGuard } from "../../../../auth/components/auth";
+import { EvictCachesButton } from "./EvictCachesButton";
+
 interface HomePageMenuProps {
   onCreate: () => void;
 }
@@ -19,10 +22,15 @@ export const HomePageMenu = ({ onCreate }: Readonly<HomePageMenuProps>) => {
     ?.find((p) => p.application === "DDI_PHYSICALINSTANCE")
     ?.privileges.find((p) => p.privilege === "CREATE")?.strategy;
   const canCreate = !!createStrategy && createStrategy !== "NONE";
+  const isAdministrator = useAuthorizationGuard({
+    module: "DDI_PHYSICALINSTANCE",
+    privilege: "ADMINISTRATION",
+  });
 
   return (
     <VerticalMenu>
       {canCreate && <MasculineButton action={onCreate} component="button" />}
+      {isAdministrator && <EvictCachesButton />}
     </VerticalMenu>
   );
 };

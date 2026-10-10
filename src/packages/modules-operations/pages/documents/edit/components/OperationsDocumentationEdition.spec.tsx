@@ -28,13 +28,11 @@ vi.mock("@utils/hooks/documents", async (importOriginal) => ({
   useDocumentsAndLinks: () => ({ data: documentsAndLinks }),
 }));
 
-const mockTranslations = vi.hoisted(
-  (): Record<string, string> => ({
-    "documents.drag": "Drag n drop some files here, or click to select files",
-    "documents.chooseFile": "Choose a file",
-    "documents.removeFile": "Remove the file",
-  }),
-);
+const mockTranslations = vi.hoisted((): Record<string, string> => ({
+  "documents.drag": "Drag n drop some files here, or click to select files",
+  "documents.chooseFile": "Choose a file",
+  "documents.removeFile": "Remove the file",
+}));
 
 // Mock partiel : `initReactI18next` doit rester réel, l'i18n du module est
 // initialisé au chargement de son bootstrap.

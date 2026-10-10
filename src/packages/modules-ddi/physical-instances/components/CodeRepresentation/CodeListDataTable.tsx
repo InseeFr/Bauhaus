@@ -44,6 +44,24 @@ interface CodeListDataTableProps {
   readOnly?: boolean;
 }
 
+/** Hauteur d'une ligne (taille « small », champ de saisie compris), requise par le virtual scroller. */
+const VIRTUAL_ROW_HEIGHT = 46;
+/** Hauteur de l'en-tête des colonnes (25px mesurés), avec une marge contre une barre de défilement. */
+const COLUMN_HEADER_HEIGHT = 28;
+/** Pause après le dernier `scroll` au-delà de laquelle le défilement est considéré terminé. */
+const SCROLL_SETTLE_DELAY = 100;
+
+/**
+ * Le virtual scroller prend `scrollHeight` comme hauteur fixe : une hauteur d'écran laisserait un
+ * vide sous la dernière ligne d'une liste courte, éloignant le bouton d'ajout. On demande donc la
+ * hauteur de l'en-tête et des lignes (au moins une, pour le message de liste vide), plafonnée à
+ * 60 % de la fenêtre.
+ */
+const scrollHeightFor = (rowCount: number) => {
+  const rowsHeight = COLUMN_HEADER_HEIGHT + Math.max(rowCount, 1) * VIRTUAL_ROW_HEIGHT;
+  return `${Math.min(rowsHeight, Math.floor(window.innerHeight * 0.6))}px`;
+};
+
 export const CodeListDataTable = ({
   codeListLabel,
   codes,
@@ -62,8 +80,12 @@ export const CodeListDataTable = ({
   const readOnlyClassName = readOnly ? "code-list-readonly-input" : "";
   const overlayRefs = useRef<Map<string, OverlayPanel | null>>(new Map());
   const inputRefs = useRef<Map<string, HTMLInputElement | null>>(new Map());
+  const tableRef = useRef<DataTable<CodeTableRow[]>>(null);
+  /** Code ajouté hors de la zone rendue par le virtual scroller : focalisé dès que sa ligne monte. */
+  const pendingFocusId = useRef<string | null>(null);
   const [shouldFocusNewCode, setShouldFocusNewCode] = useState(false);
   const previousCodesLength = useRef(codes.length);
+  const scrollHeight = scrollHeightFor(codes.length);
 
   useEffect(() => {
     if (shouldFocusNewCode && codes.length > previousCodesLength.current) {
@@ -72,12 +94,59 @@ export const CodeListDataTable = ({
         const inputElement = inputRefs.current.get(lastCode.id);
         if (inputElement) {
           inputElement.focus();
+        } else {
+          pendingFocusId.current = lastCode.id;
+          // Défilement natif plutôt que scrollToIndex : ce dernier déplace la plage rendue même
+          // quand il n'y a rien à faire défiler (scroller pas encore agrandi pour la nouvelle
+          // ligne), sans en recalculer la fin — les lignes précédentes disparaissaient alors.
+          // Ici, c'est l'événement `scroll`, s'il a lieu, qui recalcule une plage cohérente.
+          const scrollToEnd = () =>
+            tableRef.current
+              ?.getElement()
+              ?.querySelector(".p-virtualscroller")
+              ?.scrollTo({ top: codes.length * VIRTUAL_ROW_HEIGHT });
+          scrollToEnd();
+          // Relancé une fois le scroller rerendu : sa zone de défilement n'inclut peut-être pas
+          // encore la nouvelle ligne, qui ne serait alors jamais montée ni focalisée.
+          setTimeout(scrollToEnd);
         }
       }
       setShouldFocusNewCode(false);
     }
     previousCodesLength.current = codes.length;
   }, [codes, shouldFocusNewCode]);
+
+  // Sous Firefox, revenir vite en haut de la liste laisse parfois rendue la plage du milieu : le
+  // scroller traite la position finale avec un état pas encore rendu par React, la juge inchangée,
+  // et le tableau reste blanc tant qu'on ne redéfile pas. Une fois le défilement retombé (rendu
+  // appliqué), on lui fait recalculer sa plage depuis la position réelle ; il n'en change pas si
+  // elle était déjà la bonne. `scrollend` ne convient pas : il suit le dernier `scroll` de trop près.
+  useEffect(() => {
+    const scroller = tableRef.current?.getElement()?.querySelector(".p-virtualscroller");
+    if (!scroller) {
+      return;
+    }
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let resyncing = false;
+    const resyncRange = () => {
+      resyncing = true;
+      scroller.dispatchEvent(new Event("scroll"));
+      resyncing = false;
+    };
+    const onScroll = () => {
+      if (resyncing) {
+        return;
+      }
+      clearTimeout(timer);
+      timer = setTimeout(resyncRange, SCROLL_SETTLE_DELAY);
+    };
+    scroller.addEventListener("scroll", onScroll);
+    return () => {
+      clearTimeout(timer);
+      scroller.removeEventListener("scroll", onScroll);
+    };
+    // Le tableau est remonté à chaque changement de hauteur (sa clé) : nouveau scroller.
+  }, [scrollHeight]);
 
   const handleAddCode = () => {
     setShouldFocusNewCode(true);
@@ -170,6 +239,10 @@ export const CodeListDataTable = ({
       ref={(el) => {
         if (el) {
           inputRefs.current.set(rowData.id, el);
+          if (pendingFocusId.current === rowData.id) {
+            pendingFocusId.current = null;
+            el.focus();
+          }
         }
       }}
     />
@@ -282,16 +355,34 @@ export const CodeListDataTable = ({
         />
       </div>
       <DataTable
+        ref={tableRef}
         value={codes}
+        className="code-list-table"
+        header={
+          codes.length > 0 && (
+            <span className="code-list-count">
+              {t("physicalInstance.view.code.codesCount", { count: codes.length })}
+            </span>
+          )
+        }
         size="small"
         emptyMessage={t("physicalInstance.view.code.noCodes")}
         dataKey="id"
-        key={codes.map((c) => c.id).join("-")}
+        // L'autoSize que la DataTable impose au virtual scroller fige sa hauteur à celle de son
+        // premier rendu : il faut le remonter pour qu'il suive une liste courte qui grandit. Une
+        // fois la hauteur plafonnée, la clé ne bouge plus et le scroller garde sa position.
+        key={scrollHeight}
         // Les cellules de PrimeReact sont mémoïsées sur la seule ligne de données : un état du
         // tableau (le gel de la saisie pendant la garde) n'atteindrait pas les champs tant que la
         // ligne ne change pas — la cellule resterait gelée après la décision. Le tableau tient
         // quelques codes : rien à gagner à la mémoïsation.
         cellMemo={false}
+        // Tableau virtualisé quelle que soit la liste : seules les lignes visibles sont rendues.
+        // Une liste peut compter des dizaines de milliers de codes (45 000 → ~90 000 champs dans le
+        // DOM, onglet figé).
+        scrollable
+        scrollHeight={scrollHeight}
+        virtualScrollerOptions={{ itemSize: VIRTUAL_ROW_HEIGHT }}
       >
         <Column
           field="value"

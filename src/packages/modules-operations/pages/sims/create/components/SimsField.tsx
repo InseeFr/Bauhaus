@@ -228,20 +228,19 @@ const SimsFieldComponent = ({
                     <MDEditor text={localMdValue} handleChange={handleMdChange} />
                   </div>
                 )}
-                {msd.rangeType === CODE_LIST &&
-                  codelist && (
-                    // `aria-label` est transmis tel quel au `Select` sous-jacent via `...rest`,
-                    // mais n'apparaît pas dans `SimsCodelistSelectTypes`.
-                    <SimsCodelistSelect
-                      {...({
-                        "aria-label": codelist.codeListLabelLg1,
-                        currentSection,
-                        options: secondLang ? codelistOptionsLg2 : codelistOptions,
-                        onChange: handleCodelistInput,
-                        multi: unbounded,
-                      } as any)}
-                    />
-                  )}
+                {msd.rangeType === CODE_LIST && codelist && (
+                  // `aria-label` est transmis tel quel au `Select` sous-jacent via `...rest`,
+                  // mais n'apparaît pas dans `SimsCodelistSelectTypes`.
+                  <SimsCodelistSelect
+                    {...({
+                      "aria-label": codelist.codeListLabelLg1,
+                      currentSection,
+                      options: secondLang ? codelistOptionsLg2 : codelistOptions,
+                      onChange: handleCodelistInput,
+                      multi: unbounded,
+                    } as any)}
+                  />
+                )}
                 {msd.rangeType === GEOGRAPHY && (
                   // `loadGeographies` est requis par `SimsGeographyPicker` mais n'a jamais été
                   // fourni ici : comportement historique inchangé (le composant partagé

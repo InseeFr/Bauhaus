@@ -86,6 +86,8 @@
         "mutualizedCodeListsSection": "Mutualized code lists",
         "mutualizedReadOnly": "Mutualized code list (read-only)",
         "noCodes": "No codes",
+        "codesCount_one": "{{count, number}} code",
+        "codesCount_other": "{{count, number}} codes",
         "noCodeListsAvailable": "No code lists available",
         "reuseList": "Reuse",
         "selectCodeList": "Select a code list",
@@ -176,7 +178,9 @@
       },
       "confirmDelete": "Delete",
       "copyCode": "Copy code",
+      "copyCodeTooLarge": "Above 4 MB, some browsers (Chrome, Vivaldi…) truncate the copy: use Download",
       "copyXml": "Copy XML",
+      "downloadCode": "Download",
       "date": {
         "selectType": "Select a date type",
         "type": "Date type"
@@ -317,6 +321,14 @@
         "message_one": "Variable shared with 1 other file: any change will apply to it as well",
         "message_other": "Variable shared with {{count}} other files: any change will apply to them as well"
       }
+    },
+    "cache": {
+      "evict": "Clear cache",
+      "evicting": "Clearing cache…",
+      "successTitle": "Cache cleared",
+      "successMessage": "Data is now read again from Colectica.",
+      "errorTitle": "Cache clearing failed",
+      "errorMessage": "The cache could not be cleared."
     }
   }
 }
