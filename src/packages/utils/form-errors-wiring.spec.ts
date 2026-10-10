@@ -8,8 +8,10 @@
  */
 
 // Littéraux exigés par Vite : tout fichier ajouté à `SCREENS` doit être couvert par l'un
-// de ces motifs, ce que vérifie le dernier test.
-const SOURCES = import.meta.glob<string>(
+// de ces motifs, ce que vérifie le dernier test. Le type est annoncé : sans les types que
+// vite-envs génère au premier lancement de Vite (absents d'une installation neuve, donc
+// en CI), `import.meta.glob` rend `any` et `Object.entries` des `unknown`.
+const SOURCES: Record<string, string> = import.meta.glob<string>(
   [
     "../modules-*/pages/*/edit/**/*.{ts,tsx}",
     "../modules-operations/pages/sims/create/**/*.{ts,tsx}",
