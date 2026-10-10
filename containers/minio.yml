@@ -26,7 +26,8 @@ services:
     #   66   -> Notaires_m3_2p_juin2019.pdf
     #   593  -> Methodologie_DADS_2012.pdf
     #   1070 -> Doc_Estimations_emploi_fr.pdf
-    image: quay.io/minio/mc:RELEASE.2024-11-05T11-29-45Z
+    # Même image que minio, qui embarque mc : quay.io/minio/mc répond 401 en CI.
+    image: pgsty/minio:RELEASE.2026-08-04T00-00-00Z
     depends_on:
       minio:
         condition: service_healthy
