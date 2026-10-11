@@ -994,7 +994,7 @@ export const Component = () => {
         });
 
         setDuplicateDialogVisible(false);
-        navigate(`/ddi/physical-instances/${copy.agency}/${copy.id}`);
+        void navigate(`/ddi/physical-instances/${copy.agency}/${copy.id}`);
 
         toast.current?.show({
           severity: "success",

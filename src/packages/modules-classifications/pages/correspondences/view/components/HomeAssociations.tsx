@@ -51,7 +51,7 @@ export const HomeAssociations = ({
             globalFilterFields={["source", "target"]}
             value={data}
             onRowSelect={(e: any) => {
-              navigate(`association/${e.data.id}`);
+              void navigate(`association/${e.data.id}`);
             }}
           >
             <Column

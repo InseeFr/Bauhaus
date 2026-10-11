@@ -40,7 +40,7 @@ export const useCollectionSave = (id: string | undefined) => {
         ? CollectionApi.postCollection(buildCollectionPayload(payloadInput, "CREATE")).then(
             (newId) => {
               queryClient.invalidateQueries({ queryKey: ["collections"] });
-              navigate(`/concepts/collections/${newId}`);
+              void navigate(`/concepts/collections/${newId}`);
             },
           )
         : CollectionApi.putCollection(
@@ -49,7 +49,7 @@ export const useCollectionSave = (id: string | undefined) => {
           ).then(() => {
             queryClient.invalidateQueries({ queryKey: ["collections"] });
             queryClient.invalidateQueries({ queryKey: ["collection", id] });
-            navigate(`/concepts/collections/${data.general.id}`);
+            void navigate(`/concepts/collections/${data.general.id}`);
           });
 
       promise.catch((e: unknown) => {

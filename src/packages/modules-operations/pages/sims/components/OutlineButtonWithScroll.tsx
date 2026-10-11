@@ -16,7 +16,7 @@ export const OutlineButtonWithScroll = ({
 
   const scrollTo = () => {
     const url = `${baseUrl}#${id}`;
-    navigate(url, { replace: true });
+    void navigate(url, { replace: true });
   };
 
   return (

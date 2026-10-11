@@ -38,7 +38,7 @@ export const Component = () => {
 
   const onFilter = useCallback(
     (mode: string) => {
-      navigate(window.location.pathname + "?page=1");
+      void navigate(window.location.pathname + "?page=1");
       setFilter(mode);
     },
     [navigate],

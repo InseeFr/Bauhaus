@@ -60,7 +60,7 @@ export function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[]
     (mode: typeof BOTH | typeof DOCUMENT | typeof LINK) => {
       sessionStorage.setItem(sessionStorageKey, mode);
       setFilter(mode);
-      navigate(window.location.pathname + "?page=1", { replace: true });
+      void navigate(window.location.pathname + "?page=1", { replace: true });
     },
     [navigate],
   );

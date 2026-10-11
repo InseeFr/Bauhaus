@@ -136,7 +136,7 @@ export function SimsVisualization({
       .then(() => invalidateDocuments())
       .then(() => {
         setModalOpened(false);
-        navigate(getParentUri(sims) ?? "");
+        void navigate(getParentUri(sims) ?? "");
       })
       .catch((err: unknown) => {
         // Le SDK rejette l'objet d'erreur nu { message, status } : ErrorBloc sait le rendre.

@@ -83,7 +83,7 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
       const searchParams = new URLSearchParams(search);
       searchParams.set("perPage", value);
       searchParams.set("page", "1"); // Reset to first page
-      navigate(`${pathname}?${searchParams.toString()}`, { replace: true });
+      void navigate(`${pathname}?${searchParams.toString()}`, { replace: true });
     },
     [navigate, pathname, search],
   );

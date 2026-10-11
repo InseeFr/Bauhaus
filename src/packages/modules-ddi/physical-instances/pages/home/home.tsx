@@ -53,7 +53,7 @@ export const Component = () => {
       });
 
       setVisible(false);
-      navigate(`/ddi/physical-instances/${result.agency}/${result.id}`, {
+      void navigate(`/ddi/physical-instances/${result.agency}/${result.id}`, {
         replace: true,
       });
     } catch (err: unknown) {

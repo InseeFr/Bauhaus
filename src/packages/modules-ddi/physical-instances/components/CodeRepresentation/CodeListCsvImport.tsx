@@ -59,7 +59,7 @@ export const CodeListCsvImport = ({ onImport }: Readonly<CodeListCsvImportProps>
     event.preventDefault();
     setDragOver(false);
     const file = event.dataTransfer.files[0];
-    if (file) importFile(file);
+    if (file) void importFile(file);
   };
 
   const lineErrors = errors.filter((error) => "line" in error);
@@ -98,7 +98,7 @@ export const CodeListCsvImport = ({ onImport }: Readonly<CodeListCsvImportProps>
             const file = event.target.files?.[0];
             // Vidé pour qu'une nouvelle sélection du même fichier, une fois corrigé, soit relue.
             event.target.value = "";
-            if (file) importFile(file);
+            if (file) void importFile(file);
           }}
         />
       </div>

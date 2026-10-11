@@ -357,15 +357,15 @@ export const CodesPanel = ({
         : [valueLabel, searchCode, "SET_SEARCH_LABEL", CodelistsApi.getCodesByLabel];
     dispatch({ type: searchActionType, value: handledValue });
     if (otherValue) {
-      showCodes(CodelistsApi.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel));
+      void showCodes(CodelistsApi.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel));
     } else {
-      showCodes(getCodesBySearch(codelist.id, handledValue));
+      void showCodes(getCodesBySearch(codelist.id, handledValue));
     }
   };
 
   const fetchCodes = () => {
     dispatch({ type: "SET_LOADING", loading: true });
-    showCodes(
+    void showCodes(
       CodelistsApi.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1),
     ).finally(() => dispatch({ type: "SET_LOADING", loading: false }));
   };
