@@ -32,9 +32,12 @@ test("crée une opération, la publie et initialise son rapport qualité", async
   await page.getByRole("button", { name: "Publish" }).click();
   await expect(page.getByText("Published")).toBeVisible();
 
-  // Initialisation du rapport qualité (SIMS).
+  // Initialisation du rapport qualité (SIMS). Le formulaire monte une centaine
+  // d'éditeurs Markdown, et chacun force un recalcul des styles de toute la
+  // page, invalidés entre-temps par les <style> que PrimeReact réécrit à chaque
+  // montage de composant : une dizaine de secondes sur un runner CI.
   await page.getByRole("link", { name: "Create the report" }).click();
   await expect(
     page.getByRole("heading", { name: `Rapport qualité : ${prefLabelLg1}` }),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 30_000 });
 });
