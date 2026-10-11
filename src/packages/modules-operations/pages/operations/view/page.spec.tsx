@@ -54,7 +54,7 @@ describe("Operations view page", () => {
     mockVisibleModules = ["operations"];
   });
 
-  it("attend les fichiers de données DDI avant d'afficher l'opération", async () => {
+  it("affiche l'opération sans attendre ses fichiers de données DDI, puis les ajoute", async () => {
     mockVisibleModules = ["operations", "ddi"];
     let resolvePhysicalInstances!: (rows: unknown[]) => void;
     vi.mocked(DDIApi.getOperationPhysicalInstances).mockReturnValue(
@@ -63,8 +63,8 @@ describe("Operations view page", () => {
 
     renderPage();
 
-    await waitFor(() => expect(DDIApi.getOperationPhysicalInstances).toHaveBeenCalledWith("op-1"));
-    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText("opération:Opération FR")).toBeInTheDocument());
+    expect(DDIApi.getOperationPhysicalInstances).toHaveBeenCalledWith("op-1");
 
     resolvePhysicalInstances([{ id: "pi-1", label: "Individus", agency: "fr.insee" }]);
 

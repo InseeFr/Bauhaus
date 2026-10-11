@@ -18,7 +18,8 @@ const labelOf = (physicalInstance: OperationPhysicalInstance) =>
 
 /**
  * Fichiers de données (PhysicalInstances DDI) des études dont l'opération est le miroir, triés par
- * libellé. Rien n'est demandé quand le module DDI n'est pas proposé à l'utilisateur.
+ * libellé. Rien n'est demandé quand le module DDI n'est pas proposé à l'utilisateur, et un échec
+ * n'est pas retenté : ces fichiers ne sont qu'un complément de la fiche.
  */
 export const useOperationPhysicalInstances = (operationId: string | undefined) => {
   const ddiOpen = useVisibleModules().includes("ddi");
@@ -30,6 +31,7 @@ export const useOperationPhysicalInstances = (operationId: string | undefined) =
         [...rows].sort((a, b) => labelOf(a).localeCompare(labelOf(b))),
       ),
     enabled: ddiOpen && !!operationId,
+    retry: false,
   });
 };
 

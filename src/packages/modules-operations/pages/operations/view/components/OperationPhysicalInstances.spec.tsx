@@ -1,3 +1,4 @@
+import { QueryClient } from "@tanstack/react-query";
 import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 
@@ -46,6 +47,18 @@ describe("useOperationPhysicalInstances", () => {
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(result.current.data?.map((pi) => pi.id)).toEqual(["pi-1", "pi-2"]);
     expect(DDIApi.getOperationPhysicalInstances).toHaveBeenCalledWith("s1234");
+  });
+
+  it("n'insiste pas quand le module DDI échoue, l'opération restant affichable sans ses fichiers", async () => {
+    vi.mocked(DDIApi.getOperationPhysicalInstances).mockRejectedValue(new Error("500"));
+
+    const { result } = renderHook(
+      () => useOperationPhysicalInstances("s1234"),
+      createQueryWrapper(new QueryClient()),
+    );
+
+    await waitFor(() => expect(result.current.isError).toBe(true));
+    expect(DDIApi.getOperationPhysicalInstances).toHaveBeenCalledTimes(1);
   });
 
   it("n'interroge pas le module DDI quand il n'est pas proposé à l'utilisateur", () => {

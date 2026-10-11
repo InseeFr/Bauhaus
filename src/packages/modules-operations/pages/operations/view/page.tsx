@@ -22,9 +22,9 @@ export const Component = () => {
 
   const { data: operation, error: loadError } = useOperation(id);
 
-  // Une panne du module DDI ne masque pas l'opération : ses fichiers de données sont alors omis.
-  const { data: physicalInstances, isLoading: physicalInstancesLoading } =
-    useOperationPhysicalInstances(id);
+  // L'opération ne les attend pas : une panne du module DDI ne la masque pas, ses fichiers de
+  // données sont alors omis.
+  const { data: physicalInstances } = useOperationPhysicalInstances(id);
 
   const invalidateOperations = useInvalidateOperations();
 
@@ -42,7 +42,7 @@ export const Component = () => {
 
   if (loadError) return <LoadingErrorBloc error={loadError} />;
 
-  if (!operation || physicalInstancesLoading) return <Loading />;
+  if (!operation) return <Loading />;
 
   if (publishing) return <Publishing />;
 
