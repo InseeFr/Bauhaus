@@ -228,6 +228,13 @@ describe("PhysicalInstanceBreadcrumb", () => {
     expect(screen.queryByRole("link", { name: "PI Deux" })).not.toBeInTheDocument();
   });
 
+  it("place le focus dans le champ de filtre à l'ouverture du sélecteur", () => {
+    renderBreadcrumb();
+    fireEvent.click(switcherButton());
+
+    expect(filterBox()).toHaveFocus();
+  });
+
   it("referme le sélecteur sur Échap et rend le focus au bouton", () => {
     renderBreadcrumb();
     fireEvent.click(switcherButton());

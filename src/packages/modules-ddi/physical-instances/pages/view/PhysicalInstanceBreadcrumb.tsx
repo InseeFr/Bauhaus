@@ -112,6 +112,7 @@ const PhysicalInstanceSwitcher = ({
   const [filter, setFilter] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const filterRef = useRef<HTMLInputElement>(null);
   const panelId = useId();
   const { data: rows, isLoading } = usePhysicalInstancesSearch();
 
@@ -139,6 +140,10 @@ const PhysicalInstanceSwitcher = ({
     setIsOpen(false);
     setFilter("");
   };
+
+  useEffect(() => {
+    if (isOpen) filterRef.current?.focus();
+  }, [isOpen]);
 
   // Clic en dehors du bouton et du panneau → fermeture.
   useEffect(() => {
@@ -201,6 +206,8 @@ const PhysicalInstanceSwitcher = ({
       {isOpen && (
         <div
           id={panelId}
+          role="dialog"
+          aria-label={t("physicalInstance.view.breadcrumb.switch", { label: current.label })}
           className="pi-switcher-panel"
           onKeyDown={(event) => {
             if (event.key !== "Escape") return;
@@ -212,8 +219,8 @@ const PhysicalInstanceSwitcher = ({
           <div className="pi-switcher-filter">
             <i className="pi pi-search" aria-hidden="true" />
             <input
+              ref={filterRef}
               type="search"
-              autoFocus
               autoComplete="off"
               value={filter}
               onChange={(event) => setFilter(event.target.value)}
