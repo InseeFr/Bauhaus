@@ -1,0 +1,8 @@
+.modal-rmes-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.modal-rmes-buttons > .btn {
+  flex: 1;
+}

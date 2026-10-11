@@ -3,29 +3,23 @@ import { render, screen } from "@testing-library/react";
 import { PropsWithChildren } from "react";
 import { vi } from "vitest";
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: (ns?: string, options?: any) => {
-      if (options?.i18n) {
-        return actual.useTranslation(ns, options);
-      }
-      return {
-        t: (key: string) => {
-          const translations: Record<string, string> = {
-            "structure.notation": "Notation",
-            "structure.validationStatus": "Publication status",
-            "structure.creator": "Owner",
-            "structure.contributors": "Contributors",
-            "structure.globalInformation": "Global information",
-          };
-          return translations[key] ?? key;
-        },
-      };
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("../../../../../tests/react-i18next.testing")).withMockedTranslation(
+    await importOriginal(),
+    {
+      t: (key: string) => {
+        const translations: Record<string, string> = {
+          "structure.notation": "Notation",
+          "structure.validationStatus": "Publication status",
+          "structure.creator": "Owner",
+          "structure.contributors": "Contributors",
+          "structure.globalInformation": "Global information",
+        };
+        return translations[key] ?? key;
+      },
     },
-  };
-});
+  ),
+);
 
 import { Structure } from "@model/structures/Structure";
 
@@ -49,16 +43,16 @@ const createWrapper = () => {
   );
 };
 
-describe("GlobalInformationsPanel", () => {
-  const mockStructure: Structure = {
-    identifiant: "12345",
-    created: "2022-01-01",
-    modified: "2022-02-01",
-    creator: "STAMP CREATOR",
-    contributor: ["STAMP CONTRIBUTOR"],
-    disseminationStatus: "http:/id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
-  } as Structure;
+const mockStructure: Structure = {
+  identifiant: "12345",
+  created: "2022-01-01",
+  modified: "2022-02-01",
+  creator: "STAMP CREATOR",
+  contributor: ["STAMP CONTRIBUTOR"],
+  disseminationStatus: "http:/id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
+} as Structure;
 
+describe("GlobalInformationsPanel", () => {
   it("should render the structure information correctly", () => {
     render(<GlobalInformationsPanel structure={mockStructure} />, {
       wrapper: createWrapper(),

@@ -20,6 +20,7 @@ export function useUpdatePhysicalInstance() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: ({ id, agencyId, data }: UpdatePhysicalInstanceParams) =>
       DDIApi.patchPhysicalInstance(agencyId, id, data),
     onSuccess: (_, variables) => {

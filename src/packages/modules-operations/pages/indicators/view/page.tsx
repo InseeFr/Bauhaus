@@ -1,12 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useCallback, useState } from "react";
+import { useParams } from "react-router";
 
 import { CheckSecondLang } from "@components/check-second-lang";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Publishing } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
-
-import { Indicator } from "@model/operations/indicator";
 
 import { OperationsApi } from "@sdk/operations-api";
 
@@ -14,6 +12,7 @@ import { useCodelist } from "@utils/hooks/codelist";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { CL_FREQ } from "../../../../constants/code-lists";
+import { useIndicator, useInvalidateIndicators } from "../../../hooks/useIndicators";
 import { OperationsIndicatorVisualization } from "./components/OperationsIndicatorVisualization";
 import { Menu } from "./menu";
 
@@ -24,7 +23,9 @@ export const Component = () => {
 
   const frequencies = useCodelist(CL_FREQ);
 
-  const [indicator, setIndicator] = useState<Indicator>({} as Indicator);
+  const { data: indicator, error: loadError } = useIndicator(id);
+
+  const invalidateIndicators = useInvalidateIndicators();
 
   const [serverSideError, setServerSideError] = useState<string>();
 
@@ -35,18 +36,14 @@ export const Component = () => {
   const publish = useCallback(() => {
     setPublishing(true);
     OperationsApi.publishIndicator(indicator)
-      .then(() => {
-        return OperationsApi.getIndicatorById(id).then(setIndicator);
-      })
+      .then(() => invalidateIndicators())
       .catch((error: string) => setServerSideError(error))
       .finally(() => setPublishing(false));
-  }, [indicator, id]);
+  }, [indicator, invalidateIndicators]);
 
-  useEffect(() => {
-    OperationsApi.getIndicatorById(id).then((payload: Indicator) => setIndicator(payload));
-  }, [id]);
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
-  if (!indicator.id) return <Loading />;
+  if (!indicator) return <Loading />;
 
   if (publishing) return <Publishing />;
 

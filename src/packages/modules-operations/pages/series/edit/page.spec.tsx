@@ -1,17 +1,12 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
-
-const params = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
-  useParams: () => params(),
-}));
 
 vi.mock("react-i18next", async () => ({
   ...(await vi.importActual("react-i18next")),
@@ -48,24 +43,14 @@ vi.mock("./components/OperationsSerieEdition", () => ({
   ),
 }));
 
-const renderPage = (extraMandatoryFields = ["creator"]) =>
-  render(
-    <AppContextProvider
-      lg1="fr"
-      lg2="en"
-      version="2.0.0"
-      properties={{ extraMandatoryFields } as any}
-    >
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = (extraMandatoryFields = ["creator"], url = "/series/s-1/modify") =>
+  renderAtRoute(<Component />, ["/series/:id/modify", "/series/create"], url, {
+    extraMandatoryFields,
+  });
 
 describe("Series edit page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    params.mockReturnValue({ id: "s-1" });
     vi.mocked(OperationsApi.getSerie).mockResolvedValue({ id: "s-1", prefLabelLg1: "Série FR" });
     vi.mocked(OperationsApi.getAllFamilies).mockResolvedValue([{ id: "f-1" }]);
     vi.mocked(OperationsApi.getAllIndicators).mockResolvedValue([{ id: "i-1" }, { id: "i-2" }]);
@@ -85,8 +70,7 @@ describe("Series edit page", () => {
   });
 
   it("ouvre directement un formulaire vide en création", async () => {
-    params.mockReturnValue({});
-    renderPage();
+    renderPage(undefined, "/series/create");
 
     await waitFor(() => expect(screen.getByText("série:(nouvelle)")).toBeInTheDocument());
     expect(OperationsApi.getSerie).not.toHaveBeenCalled();
@@ -100,4 +84,29 @@ describe("Series edit page", () => {
       expect(screen.getByText("champsObligatoires:creator,contributor")).toBeInTheDocument(),
     );
   });
+
+  it("affiche l'échec de chargement de la série au lieu d'un chargement infini", async () => {
+    vi.mocked(OperationsApi.getSerie).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ["des familles", () => OperationsApi.getAllFamilies],
+    ["des indicateurs", () => OperationsApi.getAllIndicators],
+    ["des séries", () => OperationsApi.getSeriesList],
+  ])(
+    "affiche l'échec de chargement %s au lieu d'un formulaire sans rattachement",
+    async (_, load) => {
+      vi.mocked(load()).mockRejectedValue(sdkRejection.emptyBody(500));
+
+      renderPage(undefined, "/series/create");
+
+      await expectItemLoadFailed();
+      expect(screen.queryByText("série:(nouvelle)")).not.toBeInTheDocument();
+    },
+  );
 });

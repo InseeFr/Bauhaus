@@ -5,6 +5,12 @@ import { Rubric } from "@model/Sims";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { useInvalidateDocuments } from "@utils/hooks/documents";
+import { useInvalidateOperations } from "@utils/hooks/operations";
+import { useInvalidateSeries } from "@utils/hooks/series";
+
+import { useInvalidateIndicators } from "./useIndicators";
+
 const computeRubrics = (rubrics: Rubric[]): Record<string, Rubric & { idMas: string }> => {
   return (rubrics || []).reduce(
     (acc: Record<string, Rubric & { idMas: string }>, rubric: Rubric) => {
@@ -30,7 +36,11 @@ const getParentsWithoutSims = async (idOperation?: string) => {
 };
 
 export const useSims = (id?: string) => {
-  const { isLoading, data: sims } = useQuery({
+  const {
+    isLoading,
+    data: sims,
+    error,
+  } = useQuery({
     queryKey: ["sims", id],
     queryFn: async () => {
       const results = await OperationsApi.getSims(id);
@@ -44,7 +54,7 @@ export const useSims = (id?: string) => {
     enabled: !!id,
   });
 
-  return { isLoading, sims };
+  return { isLoading, sims, error };
 };
 
 const mergeLabels = (sims: any, parent: any, simsTitleLg1: string, simsTitleLg2: string) => {
@@ -77,12 +87,21 @@ const getFetchLabelsPromise = async (sims: any, simsTitleLg1: string, simsTitleL
 export const useSaveSims = () => {
   const queryClient = useQueryClient();
 
+  const invalidateIndicators = useInvalidateIndicators();
+
+  const invalidateSeries = useInvalidateSeries();
+
+  const invalidateOperations = useInvalidateOperations();
+
+  const invalidateDocuments = useInvalidateDocuments();
+
   const { t } = useTranslation();
 
   const simsTitleLg1 = t("sims.simsTitle", { lng: "fr" });
   const simsTitleLg2 = t("sims.simsTitle", { lng: "en" });
 
   return useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: async (sims: any) => {
       let simsToSave = sims;
       if (!sims.labelLg1) {
@@ -94,6 +113,14 @@ export const useSaveSims = () => {
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["sims", variables.id] });
+      return Promise.all([
+        // La fiche d'un document liste les SIMS qui le citent.
+        invalidateDocuments(),
+        // La fiche de l'élément documenté (indicateur, série, opération) mène à son SIMS (`idSims`).
+        variables.idIndicator && invalidateIndicators(),
+        variables.idSeries && invalidateSeries(),
+        variables.idOperation && invalidateOperations(),
+      ]);
     },
   });
 };
@@ -102,6 +129,7 @@ export const usePublishSims = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: async (sims: any) => {
       return OperationsApi.publishSims(sims);
     },

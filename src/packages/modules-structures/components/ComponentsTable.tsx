@@ -1,7 +1,7 @@
-import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
 
 import { DataTable } from "@components/datatable";
+import { Column } from "@components/ui/table-column";
 
 export const ComponentsTable = ({ components }: Readonly<{ components: any[] }>) => {
   const { t } = useTranslation();

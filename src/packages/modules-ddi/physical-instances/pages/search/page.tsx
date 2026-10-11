@@ -1,16 +1,14 @@
-import { Button } from "primereact/button";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router";
 
+import { AdvancedSearchLayout } from "@components/advanced-search-layout";
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { Loading } from "@components/loading";
-import { NumberResults } from "@components/number-results";
-import { PageTitle } from "@components/page-title";
 import { Select } from "@components/select-rmes";
+import { DataTable } from "@components/ui/data-table";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
+import { Column } from "@components/ui/table-column";
 
 import { Option } from "@model/SelectOption";
 
@@ -52,13 +50,22 @@ const buildOptions = (
     .sort((a, b) => a.label.localeCompare(b.label));
 };
 
+/**
+ * Clé de ligne : le back renvoie une ligne par rattachement (PI × StudyUnit × Group), une PI
+ * réutilisée apparaît donc plusieurs fois avec le même `id`. Une clé dupliquée fait garder à
+ * React des lignes fantômes au filtrage et à la pagination.
+ */
+const rowKey = (row: PhysicalInstanceSearchRow) =>
+  [row.agency, row.id, row.studyUnitAgency, row.studyUnitId, row.groupAgency, row.groupId].join(
+    "|",
+  );
+
 export const Component = () => {
   const { t } = useTranslation();
-  useTitle(t("physicalInstance.search.title"));
-  const navigate = useNavigate();
+  useTitle(t("physicalInstance.searchTitle"));
 
   const { data = [], isLoading } = usePhysicalInstancesSearch();
-  const { form, setForm, handleChange } = useUrlQueryParameters(defaultFormState);
+  const { form, setForm, reset, handleChange } = useUrlQueryParameters(defaultFormState);
   const { label, studyUnit, group } = form;
 
   const groupOptions = useMemo(() => buildOptions(data, "groupId", "groupLabel"), [data]);
@@ -95,54 +102,48 @@ export const Component = () => {
   );
 
   return (
-    <div className="container">
-      <PageTitle title={t("physicalInstance.search.title")} />
-      <div className="mb-3">
-        <Button
-          icon="pi pi-arrow-left"
-          text
-          label={t("physicalInstance.search.backToList")}
-          onClick={() => navigate("/ddi/physical-instances")}
-        />
-      </div>
-      <AdvancedSearchCard>
-        <SearchTextField
-          col="col-12 md:col-4"
-          label={t("physicalInstance.search.labelFilter")}
-          value={label}
-          onChange={(value) => handleChange("label", value)}
-          placeholder={t("physicalInstance.search.labelPlaceholder")}
-        />
-        <SearchField col="col-12 md:col-4" label={t("physicalInstance.search.groupFilter")}>
-          {(id) => (
-            <Select
-              inputId={id}
-              placeholder={t("physicalInstance.search.groupPlaceholder")}
-              value={group || null}
-              options={groupOptions}
-              onChange={onGroupChange}
-            />
-          )}
-        </SearchField>
-        <SearchField col="col-12 md:col-4" label={t("physicalInstance.search.studyUnitFilter")}>
-          {(id) => (
-            <Select
-              inputId={id}
-              placeholder={t("physicalInstance.search.studyUnitPlaceholder")}
-              value={studyUnit || null}
-              options={studyUnitOptions}
-              disabled={!group}
-              onChange={(value: string | null) => handleChange("studyUnit", value ?? "")}
-            />
-          )}
-        </SearchField>
-      </AdvancedSearchCard>
-
-      <div className="text-center mb-2">
-        <NumberResults results={hits} />
-      </div>
-
-      <DataTable value={hits} stripedRows paginator rows={20} dataKey="id">
+    <AdvancedSearchLayout
+      title={t("physicalInstance.search.title")}
+      backTo="/ddi/physical-instances"
+      backLabel={t("physicalInstance.search.backToList")}
+      onReset={reset}
+      results={hits}
+      criteria={
+        <AdvancedSearchCard>
+          <SearchTextField
+            col="col-12 md:col-4"
+            label={t("physicalInstance.search.labelFilter")}
+            value={label}
+            onChange={(value) => handleChange("label", value)}
+            placeholder={t("physicalInstance.search.labelPlaceholder")}
+          />
+          <SearchField col="col-12 md:col-4" label={t("physicalInstance.search.groupFilter")}>
+            {(id) => (
+              <Select
+                inputId={id}
+                placeholder={t("physicalInstance.search.groupPlaceholder")}
+                value={group || null}
+                options={groupOptions}
+                onChange={onGroupChange}
+              />
+            )}
+          </SearchField>
+          <SearchField col="col-12 md:col-4" label={t("physicalInstance.search.studyUnitFilter")}>
+            {(id) => (
+              <Select
+                inputId={id}
+                placeholder={t("physicalInstance.search.studyUnitPlaceholder")}
+                value={studyUnit || null}
+                options={studyUnitOptions}
+                disabled={!group}
+                onChange={(value: string | null) => handleChange("studyUnit", value ?? "")}
+              />
+            )}
+          </SearchField>
+        </AdvancedSearchCard>
+      }
+    >
+      <DataTable value={hits} stripedRows paginator rows={20} dataKey={rowKey}>
         <Column
           field="label"
           header={t("physicalInstance.search.columns.label")}
@@ -156,6 +157,6 @@ export const Component = () => {
           sortable
         />
       </DataTable>
-    </div>
+    </AdvancedSearchLayout>
   );
 };

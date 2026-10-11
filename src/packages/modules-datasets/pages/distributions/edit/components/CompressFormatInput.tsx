@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { TextInput } from "@components/form/input";
+import { DatalistInput } from "@components/datalist-input";
 
 const COMPRESS_FORMAT_OPTIONS = ["7Z", "TAR GZ", "ZIP"];
 
@@ -14,18 +14,13 @@ export const CompressFormatInput = ({ value, onChange }: Readonly<CompressFormat
 
   return (
     <div className="col-md-6 form-group">
-      <label htmlFor="compressFormat">{t("distribution.compressFormat")}</label>
-      <TextInput
+      <DatalistInput
         id="compressFormat"
+        label={t("distribution.compressFormat")}
+        options={COMPRESS_FORMAT_OPTIONS}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        list="compressFormat-list"
+        onChange={onChange}
       />
-      <datalist id="compressFormat-list">
-        {COMPRESS_FORMAT_OPTIONS.map((option) => (
-          <option key={option} value={option}></option>
-        ))}
-      </datalist>
     </div>
   );
 };

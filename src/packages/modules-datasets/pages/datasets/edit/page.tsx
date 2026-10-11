@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
-import { ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, GlobalClientSideErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
@@ -14,6 +14,7 @@ import { Dataset } from "@model/Dataset";
 
 import { DatasetsApi } from "@sdk/index";
 
+import { toFormErrors } from "@utils/api-errors";
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 import { useGoBack } from "@utils/hooks/useGoBack";
@@ -26,6 +27,7 @@ import { buildDuplicatedDataset } from "./buildDuplicatedDataset";
 import { GlobalInformation } from "./components/GlobalInformation";
 import { InternalManagement } from "./components/InternalManagement";
 import { LayoutItemConfiguration, LayoutWithLateralMenu } from "./components/LayoutWithLateralMenu";
+import { Lineage } from "./components/Lineage";
 import { Notes } from "./components/Notes";
 import { StatisticalInformation } from "./components/StatisticalInformation";
 import { validate } from "./validation";
@@ -39,6 +41,39 @@ type DatasetEditLayoutConfiguration = Record<string, DatasetEditLayoutItem>;
 type ClientSideErrors = {
   errorMessage?: string[];
   fields?: Record<string, string>;
+};
+
+/** Champs dont une erreur renvoyée par le serveur s'affiche sous la saisie. */
+const FIELDS_WITH_ERROR_SLOT = [
+  "labelLg1",
+  "labelLg2",
+  "altIdentifier",
+  "creator",
+  "contributor",
+  "disseminationStatus",
+];
+
+/**
+ * Le back nomme les champs du `catalogRecord` par leur chemin dans le corps, le formulaire par leur
+ * seul nom (voir `validation.ts`).
+ */
+const FORM_FIELD_BY_SERVER_FIELD: Record<string, string> = {
+  "catalogRecord.creator": "creator",
+  "catalogRecord.contributor": "contributor",
+};
+
+const withFormFieldNames = (err: unknown): unknown => {
+  const errors = (err as { errors?: unknown } | null)?.errors;
+  if (!Array.isArray(errors)) return err;
+
+  return {
+    ...(err as object),
+    errors: errors.map((error: { field?: unknown }) =>
+      typeof error?.field === "string" && error.field in FORM_FIELD_BY_SERVER_FIELD
+        ? { ...error, field: FORM_FIELD_BY_SERVER_FIELD[error.field] }
+        : error,
+    ),
+  };
 };
 
 export const Component = () => {
@@ -56,12 +91,14 @@ export const Component = () => {
 
   const [submitting, setSubmitting] = useState(false);
 
+  const [serverSideError, setServerSideError] = useState<unknown>();
+
   const hasErrors = (keys: string[]) => {
     const fieldsInError = keys.filter((key) => clientSideErrors.fields?.[key]);
     return fieldsInError.length > 0;
   };
 
-  const { data: dataset, status } = useDataset(id);
+  const { data: dataset, status, error: loadError } = useDataset(id);
 
   const isContributor = useAuthorizationGuard({
     module: "DATASET_DATASET",
@@ -83,11 +120,8 @@ export const Component = () => {
 
   const queryClient = useQueryClient();
 
-  const {
-    isPending: isSaving,
-    mutate: save,
-    error: serverSideError,
-  } = useMutation({
+  const { isPending: isSaving, mutate: save } = useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: () => {
       const formattedDataset = {
         ...editingDataset,
@@ -106,9 +140,19 @@ export const Component = () => {
 
       goBack(`/datasets/${id}`, !isEditing);
     },
+    onError: (err) => {
+      const formErrors = toFormErrors(withFormFieldNames(err), FIELDS_WITH_ERROR_SLOT);
+      setSubmitting(true);
+      setClientSideErrors(formErrors.clientSideErrors ?? {});
+      setServerSideError(formErrors.serverSideError);
+    },
   });
 
   useTitle(t("dataset.pluralTitle"), editingDataset?.labelLg1);
+
+  if (loadError && !dataset) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if ((!editingDataset.id && isEditing) || (isDuplicating && status !== "success")) {
     return <Loading />;
@@ -163,6 +207,10 @@ export const Component = () => {
         />
       ),
     },
+    lineage: {
+      title: t("dataset.lineage.title"),
+      content: <Lineage editingDataset={editingDataset} setEditingDataset={setEditingDataset} />,
+    },
   };
 
   const onSubmit = () => {
@@ -172,6 +220,7 @@ export const Component = () => {
       setClientSideErrors(clientSideErrors);
     } else {
       setClientSideErrors({});
+      setServerSideError(undefined);
       save();
     }
   };
@@ -188,7 +237,7 @@ export const Component = () => {
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={[serverSideError]} />
+      <ErrorBloc error={serverSideError} />
       <form>
         <LayoutWithLateralMenu layoutConfiguration={layoutConfiguration}>
           {(key) => layoutConfiguration[key].content}

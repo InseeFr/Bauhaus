@@ -18,7 +18,7 @@ stays in `src/**/*.spec.tsx` (see [How to run tests](../run-tests/)).
   ```
 
   The suite depends on that neighbouring checkout twice over: the Back-Office
-  image is *built* from it, and the RDF fixtures are *read* from it. Point
+  image is _built_ from it, and the RDF fixtures are _read_ from it. Point
   `BACK_OFFICE_HOME` elsewhere if your clone is not a sibling directory.
 
 - Front-end dependencies installed (`pnpm install`) and Playwright dependencies
@@ -40,16 +40,17 @@ pnpm e2e:stack
 The script (`scripts/e2e-stack.sh`) chains the three steps the suite needs, and
 fails loudly on any of them:
 
-1. `docker compose -f $BACK_OFFICE_HOME/module-bauhaus-bo/compose.yaml up -d` —
-   GraphDB, minio and the Back-Office, the latter built from the neighbouring
-   repository;
+1. `docker compose -f docker-compose.yml -f e2e/compose.e2e.yaml up -d graphdb minio minio-init` —
+   GraphDB, and minio seeded with a few test files (`containers/minio-seed/`);
+   the override `e2e/compose.e2e.yaml` runs the Back-Office without Keycloak;
 2. waits for GraphDB, then runs `e2e/playwright/db/init.sh` to load the test
    fixtures;
-3. waits for `GET /api/healthcheck` to answer 200.
+3. starts the Back-Office (`api`), built from the neighbouring repository, and
+   waits for `GET /api/healthcheck` to answer 200.
 
-Steps 2 and 3 are in that order on purpose: the healthcheck answers 500 until
-`init.sh` has created the `bauhaus` and `publication` repositories, so a freshly
-composed stack is *not* healthy before the fixtures are loaded.
+Steps 2 and 3 are in that order on purpose: the Back-Office start-up checks and
+the healthcheck fail until `init.sh` has created the `bauhaus` and
+`publication` repositories.
 
 :::caution
 `init.sh` is destructive: it deletes and recreates the `bauhaus` and
@@ -59,28 +60,28 @@ check — it refuses to destroy anything it could not reload afterwards.
 
 ### Environment variables
 
-| Variable           | Default                   | Purpose                                       |
-| ------------------ | ------------------------- | --------------------------------------------- |
-| `BACK_OFFICE_HOME` | `../Bauhaus-Back-Office`  | Root of the Back-Office checkout               |
-| `GRAPHDB_URL`      | `http://localhost:7200`   | GraphDB REST endpoint                          |
-| `API_URL`          | `http://localhost:8080/api` | Back-Office API base URL                     |
-| `STACK_TIMEOUT`    | `600`                     | Seconds to wait per service                    |
+| Variable           | Default                     | Purpose                          |
+| ------------------ | --------------------------- | -------------------------------- |
+| `BACK_OFFICE_HOME` | `../Bauhaus-Back-Office`    | Root of the Back-Office checkout |
+| `GRAPHDB_URL`      | `http://localhost:7200`     | GraphDB REST endpoint            |
+| `API_URL`          | `http://localhost:8080/api` | Back-Office API base URL         |
+| `STACK_TIMEOUT`    | `600`                       | Seconds to wait per service      |
 
-`BACK_OFFICE_HOME` is resolved to an absolute path before being handed to
-`init.sh`, which is itself run from `e2e/` and uses `../../Bauhaus-Back-Office`
-as its own default.
+`BACK_OFFICE_HOME` is resolved to an absolute path and exported: `init.sh` runs
+from `e2e/`, and each compose file would otherwise read a relative path from its
+own directory.
 
 ### How long it takes
 
 Measured on a developer workstation on 2026-09-06:
 
-| Phase                        | Cold (containers removed) | Warm (stack already up) |
-| ---------------------------- | ------------------------- | ----------------------- |
-| `docker compose up -d`       | 1 s                       | 0 s                     |
-| GraphDB reachable            | 10 s                      | 0 s                     |
-| Loading the fixtures         | 4 s                       | 3 s                     |
-| Back-Office reachable        | 1 s                       | 0 s                     |
-| **Total**                    | **16 s**                  | **3 s**                 |
+| Phase                  | Cold (containers removed) | Warm (stack already up) |
+| ---------------------- | ------------------------- | ----------------------- |
+| GraphDB, minio started | 1 s                       | 0 s                     |
+| GraphDB reachable      | 10 s                      | 0 s                     |
+| Loading the fixtures   | 4 s                       | 3 s                     |
+| Back-Office reachable  | 1 s                       | 0 s                     |
+| **Total**              | **16 s**                  | **3 s**                 |
 
 Both figures assume the Back-Office image is already built. The very first run
 also builds it — a full Maven reactor build inside Docker, around **2 min 20**.
@@ -116,7 +117,7 @@ testcontainers fixtures, at
 Two consequences:
 
 - **Renaming a `.trig` in the Back-Office breaks this suite.** `init.sh` checks
-  all eight files (plus its own two `.ttl` repository configurations) *before*
+  all eight files (plus its own two `.ttl` repository configurations) _before_
   deleting anything, and stops with the list of missing files.
 - **The content of the fixtures is pinned by a triple count.** `init.sh` compares
   the loaded size against `EXPECTED_TRIPLES` (79 287) and fails if it differs, so
@@ -129,17 +130,18 @@ Two consequences:
 
 ## Continuous integration
 
-`.github/workflows/playwright.yml` runs the same sequence on every pull request:
+`.github/workflows/playwright.yml` runs the same sequence on every pull request,
+through the shared `playwright` action of
+[InseeFr/rmes-githubactions-commons](https://github.com/InseeFr/rmes-githubactions-commons):
 it checks the Back-Office out into `./bauhaus-back-office`, brings up the same
 compose file, sets `BACK_OFFICE_HOME` and calls `init.sh`, then runs Playwright.
 The HTML report is uploaded as a `playwright-report` artifact.
 
-The workflow pins the Back-Office to the `4.21.0` branch. That pin is still
-required: on the default branch, `compose/bauhaus-back.yaml` declares
-`build: ../Dockerfile.bauhaus`, and the short form of `build` expects a build
-*context*, not a Dockerfile — the compose step fails with "unable to prepare
-context". Remove the `ref:` once the fix (`context: ../..` plus
-`dockerfile: Dockerfile.bauhaus`) reaches the default branch.
+The Back-Office branch is picked by name: the one called like the front-end
+branch under test, or the Back-Office default branch when there is none — the
+job summary says which. To test against another one, run the workflow manually
+from the Actions tab and fill in `back-office-ref` (a branch, a tag or a SHA),
+and `back-office-repository` to use another public repository, such as a fork.
 
 ## Conventions and known limitations
 

@@ -55,6 +55,12 @@ vi.mock("@utils/hooks/useTitle", async () => {
   };
 });
 
+const NO_SERIES: PartialClassificationSerie[] = [];
+const SERIES: PartialClassificationSerie[] = [
+  { id: "A", label: "Serie A" } as any,
+  { id: "B", label: "Serie B" } as any,
+];
+
 describe("SeriesHome", () => {
   beforeEach(() => {
     useTitleSpy.mockClear();
@@ -67,13 +73,13 @@ describe("SeriesHome", () => {
   });
 
   it("calls useTitle with correct titles when series is provided (even empty)", () => {
-    render(<SeriesHome series={[]} />);
+    render(<SeriesHome series={NO_SERIES} />);
     expect(useTitleSpy).toHaveBeenCalledTimes(1);
     expect(useTitleSpy).toHaveBeenCalledWith("Classifications", "Series");
   });
 
   it("renders layout, title and searchable list when series is an empty array", () => {
-    render(<SeriesHome series={[]} />);
+    render(<SeriesHome series={NO_SERIES} />);
 
     expect(screen.getByTestId("row")).toBeInTheDocument();
 
@@ -89,12 +95,7 @@ describe("SeriesHome", () => {
   });
 
   it("passes the series items to SearchableList", () => {
-    const series: PartialClassificationSerie[] = [
-      { id: "A", label: "Serie A" } as any,
-      { id: "B", label: "Serie B" } as any,
-    ];
-
-    render(<SeriesHome series={series} />);
+    render(<SeriesHome series={SERIES} />);
 
     const list = screen.getByTestId("searchable-list");
     expect(list).toHaveAttribute("data-count", "2");

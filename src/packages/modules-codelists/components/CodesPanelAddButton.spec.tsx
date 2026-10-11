@@ -1,154 +1,65 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { Mock, vi } from "vitest";
+import { vi } from "vitest";
 
 import { Codelist } from "@model/Codelist";
 
-import { usePrivileges, useUserStamps } from "@utils/hooks/users";
-
+import { mockCodelistPrivileges } from "../testing/users.testing";
 import { CodesPanelAddButton } from "./CodesPanelAddButton";
 
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return {
-    ...actual,
-    usePrivileges: vi.fn(),
-    useUserStamps: vi.fn(),
-  };
-});
+vi.mock("@utils/hooks/users", () => import("../testing/users.testing"));
 
 describe("CodesPanelAddButton", () => {
   const mockOnHandlePanel = vi.fn();
+  const contributedCodelist = { lastCodeUriSegment: "segment", contributor: "test-contributor" };
+
+  const renderButton = (codelist: object) =>
+    render(
+      <CodesPanelAddButton
+        codelist={codelist as unknown as Codelist}
+        onHandlePanel={mockOnHandlePanel}
+      />,
+    );
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("should not render if codelist.lastCodeUriSegment is missing", () => {
-    (usePrivileges as Mock).mockReturnValue({
-      privileges: [
-        {
-          application: "CODESLIST_CODESLIST",
-          privileges: [{ privilege: "CREATE", strategy: "ALL" }],
-        },
-      ],
-    });
-    (useUserStamps as Mock).mockReturnValue({
-      data: [{ stamp: "test-stamp" }],
-    });
+    mockCodelistPrivileges([{ privilege: "CREATE", strategy: "ALL" }], ["test-stamp"]);
 
-    render(
-      <CodesPanelAddButton
-        codelist={{} as unknown as Codelist}
-        onHandlePanel={mockOnHandlePanel}
-      />,
-    );
+    renderButton({});
 
     expect(screen.queryByRole("button", { name: /add/i })).toBeNull();
   });
 
   it("should render the button if user is an admin", () => {
-    (usePrivileges as Mock).mockReturnValue({
-      privileges: [
-        {
-          application: "CODESLIST_CODESLIST",
-          privileges: [{ privilege: "CREATE", strategy: "ALL" }],
-        },
-      ],
-    });
-    (useUserStamps as Mock).mockReturnValue({
-      data: [{ stamp: "test-stamp" }],
-    });
+    mockCodelistPrivileges([{ privilege: "CREATE", strategy: "ALL" }], ["test-stamp"]);
 
-    render(
-      <CodesPanelAddButton
-        codelist={{ lastCodeUriSegment: "segment" } as unknown as Codelist}
-        onHandlePanel={mockOnHandlePanel}
-      />,
-    );
+    renderButton({ lastCodeUriSegment: "segment" });
 
     screen.getByRole("button", { name: /add/i });
   });
 
   it("should render the button if user has contributor rights based on stamp", () => {
-    (usePrivileges as Mock).mockReturnValue({
-      privileges: [
-        {
-          application: "CODESLIST_CODESLIST",
-          privileges: [{ privilege: "CREATE", strategy: "STAMP" }],
-        },
-      ],
-    });
-    (useUserStamps as Mock).mockReturnValue({
-      data: [{ stamp: "test-contributor" }],
-    });
+    mockCodelistPrivileges([{ privilege: "CREATE", strategy: "STAMP" }], ["test-contributor"]);
 
-    render(
-      <CodesPanelAddButton
-        codelist={
-          {
-            lastCodeUriSegment: "segment",
-            contributor: "test-contributor",
-          } as unknown as Codelist
-        }
-        onHandlePanel={mockOnHandlePanel}
-      />,
-    );
+    renderButton(contributedCodelist);
 
     screen.getByRole("button", { name: /add/i });
   });
 
   it("should not render the button if user lacks the required permissions", () => {
-    (usePrivileges as Mock).mockReturnValue({
-      privileges: [
-        {
-          application: "CODESLIST_CODESLIST",
-          privileges: [{ privilege: "CREATE", strategy: "STAMP" }],
-        },
-      ],
-    });
-    (useUserStamps as Mock).mockReturnValue({
-      data: [{ stamp: "test-stamp" }],
-    });
+    mockCodelistPrivileges([{ privilege: "CREATE", strategy: "STAMP" }], ["test-stamp"]);
 
-    render(
-      <CodesPanelAddButton
-        codelist={
-          {
-            lastCodeUriSegment: "segment",
-            contributor: "test-contributor",
-          } as unknown as Codelist
-        }
-        onHandlePanel={mockOnHandlePanel}
-      />,
-    );
+    renderButton(contributedCodelist);
 
     expect(screen.queryByRole("button", { name: /add/i })).toBeNull();
   });
 
   it("should trigger onHandlePanel when the button is clicked", () => {
-    (usePrivileges as Mock).mockReturnValue({
-      privileges: [
-        {
-          application: "CODESLIST_CODESLIST",
-          privileges: [{ privilege: "CREATE", strategy: "STAMP" }],
-        },
-      ],
-    });
-    (useUserStamps as Mock).mockReturnValue({
-      data: [{ stamp: "test-contributor" }],
-    });
+    mockCodelistPrivileges([{ privilege: "CREATE", strategy: "STAMP" }], ["test-contributor"]);
 
-    render(
-      <CodesPanelAddButton
-        codelist={
-          {
-            lastCodeUriSegment: "segment",
-            contributor: "test-contributor",
-          } as unknown as Codelist
-        }
-        onHandlePanel={mockOnHandlePanel}
-      />,
-    );
+    renderButton(contributedCodelist);
 
     const button = screen.getByRole("button", { name: /add/i });
     fireEvent.click(button);

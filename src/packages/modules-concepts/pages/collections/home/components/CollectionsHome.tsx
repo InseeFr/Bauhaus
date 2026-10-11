@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { Row } from "@components/layout";
-import { PageTitle } from "@components/page-title";
+import { HomePageLayout } from "@components/home-page-layout";
 import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
@@ -18,14 +17,8 @@ export const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>)
   useTitle(t("concept.title"), t("collection.title"));
 
   return (
-    <div className="container">
-      <Row>
-        <Menu />
-        <div className="col-md-8 text-center pull-right">
-          <PageTitle title={t("collection.search.title")} col={12} offset={0} />
-          <SearchableList items={collections} childPath="concepts/collections" autoFocus />
-        </div>
-      </Row>
-    </div>
+    <HomePageLayout title={t("collection.search.title")} menu={<Menu />}>
+      <SearchableList items={collections} childPath="concepts/collections" autoFocus />
+    </HomePageLayout>
   );
 };

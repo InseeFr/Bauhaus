@@ -1,9 +1,34 @@
 {
-	"rules": {
-		"eslint/no-console": "off",
-		"unicorn/no-single-promise-in-promise-methods": "off",
-		"eslint/no-unsafe-optional-chaining": "off",
-		"unicorn/no-useless-fallback-in-spread": "off",
-		"typescript/triple-slash-reference": "off"
-	}
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "jsx-a11y", "react-perf"],
+  "rules": {
+    "eslint/no-console": "off",
+    "unicorn/no-single-promise-in-promise-methods": "off",
+    "eslint/no-unsafe-optional-chaining": "off",
+    "unicorn/no-useless-fallback-in-spread": "off",
+    "typescript/triple-slash-reference": "off",
+    "eslint/no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": ["primereact", "primereact/*", "!primereact/resources/*"],
+            "allowTypeImports": true,
+            "message": "Wrap the PrimeReact component in src/packages/components/ (one wrapper per component, like select-rmes) and import the wrapper instead."
+          }
+        ]
+      }
+    ],
+    "react-perf/jsx-no-new-object-as-prop": "warn",
+    "react-perf/jsx-no-new-array-as-prop": "warn",
+    "react-perf/jsx-no-new-function-as-prop": "warn",
+    "react-perf/jsx-no-jsx-as-prop": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["src/packages/components/**"],
+      "rules": {
+        "eslint/no-restricted-imports": "off"
+      }
+    }
+  ]
 }

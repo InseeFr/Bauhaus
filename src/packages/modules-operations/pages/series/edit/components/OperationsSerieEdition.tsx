@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ActionToolbar } from "@components/action-toolbar";
 import { CreatorsInput } from "@components/business/creators-input";
 import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
+import { ThemesSelect } from "@components/business/themes";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
@@ -11,7 +12,7 @@ import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
-import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
+import { MDEditor } from "@components/rich-editor/react-md-editor";
 import { Select } from "@components/select-rmes";
 
 import { Codelist } from "@model/Codelist";
@@ -22,10 +23,14 @@ import { Option } from "@model/SelectOption";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { toFormErrors } from "@utils/api-errors";
+import { useInvalidateOperations } from "@utils/hooks/operations";
+import { useInvalidateSeries } from "@utils/hooks/series";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists";
 import { PublishersInput } from "../../../../components/PublishersInput";
+import { useInvalidateIndicators } from "../../../../hooks/useIndicators";
 import { validate } from "../validation";
 
 /**
@@ -58,7 +63,19 @@ export interface SerieEditItem {
   isReplacedBy?: OperationsLink[];
   seeAlso?: OperationsLink[];
   generate?: OperationsLink[];
+  /** IRI des thèmes, enregistrés en `dcterms:subject`. */
+  themes?: string[];
 }
+
+/** Champs dont une erreur de validation du back s'affiche à côté de la saisie. */
+const FIELDS_WITH_ERROR_SLOT = [
+  "family",
+  "prefLabelLg1",
+  "prefLabelLg2",
+  "typeCode",
+  "accrualPeriodicityCode",
+  "creators",
+];
 
 export interface SeriesOrIndicatorItem {
   id: string;
@@ -84,7 +101,7 @@ interface OperationsSerieEditionTypes {
 }
 
 interface State {
-  serverSideError: string;
+  serverSideError: unknown;
   clientSideErrors: ClientSideErrors;
   submitting: boolean;
   saving: boolean;
@@ -126,6 +143,14 @@ export const OperationsSerieEdition = ({
   const [state, setState] = useState<State>(() =>
     setInitialState({ ...props, indicators, series }),
   );
+
+  // Une fiche d'indicateur affiche le libellé des séries qui le produisent.
+  const invalidateIndicators = useInvalidateIndicators();
+
+  const invalidateSeries = useInvalidateSeries();
+
+  // Une fiche d'opération affiche le libellé de sa série.
+  const invalidateOperations = useInvalidateOperations();
 
   const isFirstRender = useRef(true);
 
@@ -176,19 +201,23 @@ export const OperationsSerieEdition = ({
       setState((state) => ({ ...state, saving: true }));
       const isCreation = !state.serie.id;
       const method = isCreation ? "postSeries" : "putSeries";
-      return OperationsApi[method](state.serie)
-        .then(
-          (id: string = state.serie.id) => {
-            props.goBack(`/operations/series/${id}`, isCreation);
-          },
-          (err: string) => {
-            setState((state) => ({
-              ...state,
-              serverSideError: err,
-            }));
-          },
-        )
-        .finally(() => setState((state) => ({ ...state, saving: false })));
+      // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
+      // le formulaire réapparaîtrait le temps qu'elle aboutisse.
+      return OperationsApi[method](state.serie).then(
+        async (id: string = state.serie.id) => {
+          await Promise.all([invalidateSeries(), invalidateIndicators(), invalidateOperations()]);
+          props.goBack(`/operations/series/${id}`, isCreation);
+        },
+        (err: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
+          setState((state) => ({
+            ...state,
+            saving: false,
+            ...(clientSideErrors && { submitting: true, clientSideErrors }),
+            serverSideError,
+          }));
+        },
+      );
     }
   };
 
@@ -230,8 +259,6 @@ export const OperationsSerieEdition = ({
     seriesOptions as { type: string; label: string }[],
   ) as unknown as Option[];
 
-  const serverSideError = state.serverSideError;
-
   const isMandatoryField = (fieldName: string) => props.extraMandatoryFields.includes(fieldName);
 
   return (
@@ -249,7 +276,7 @@ export const OperationsSerieEdition = ({
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={[serverSideError]} />
+      <ErrorBloc error={state.serverSideError} />
       <form>
         {!isEditing && (
           <Row>
@@ -319,32 +346,44 @@ export const OperationsSerieEdition = ({
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={serie.abstractLg1 ?? ""}
-              handleChange={(value) => onChange({ target: { value, id: "abstractLg1" } })}
+              handleChange={(value) =>
+                onChange({ target: { value: value ?? "", id: "abstractLg1" } })
+              }
+              textareaProps={{ id: "abstractLg1" }}
             />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={serie.abstractLg2 ?? ""}
-              handleChange={(value) => onChange({ target: { value, id: "abstractLg2" } })}
+              handleChange={(value) =>
+                onChange({ target: { value: value ?? "", id: "abstractLg2" } })
+              }
+              textareaProps={{ id: "abstractLg2" }}
             />
           </div>
         </Row>
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="historyNoteLg1">{t("common.history", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={serie.historyNoteLg1 ?? ""}
-              handleChange={(value) => onChange({ target: { value, id: "historyNoteLg1" } })}
+              handleChange={(value) =>
+                onChange({ target: { value: value ?? "", id: "historyNoteLg1" } })
+              }
+              textareaProps={{ id: "historyNoteLg1" }}
             />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="historyNoteLg2">{t("common.history", { lng: "en" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={serie.historyNoteLg2 ?? ""}
-              handleChange={(value) => onChange({ target: { value, id: "historyNoteLg2" } })}
+              handleChange={(value) =>
+                onChange({ target: { value: value ?? "", id: "historyNoteLg2" } })
+              }
+              textareaProps={{ id: "historyNoteLg2" }}
             />
           </div>
         </Row>
@@ -404,6 +443,15 @@ export const OperationsSerieEdition = ({
               id="accrualPeriodicityCode-error"
               error={state.clientSideErrors?.fields?.accrualPeriodicityCode}
             ></ClientSideError>
+          </div>
+        </Row>
+        <Row>
+          <div className="form-group col-md-12">
+            <ThemesSelect
+              label={t("common.themes", { lng: "fr" })}
+              value={serie.themes}
+              onChange={(value) => onChange({ target: { value, id: "themes" } })}
+            />
           </div>
         </Row>
         <Row>
@@ -557,7 +605,9 @@ export const OperationsSerieEdition = ({
                       value: value.map((v: string) => {
                         return {
                           id: v,
-                          type: v.startsWith("indicator") ? "indicator" : "series",
+                          type: indicatorsOptions.some((option) => option.value === v)
+                            ? "indicator"
+                            : "series",
                         };
                       }),
                       id: "seeAlso",

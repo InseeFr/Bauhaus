@@ -1,10 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
 import type { CategoryUsage } from "../physical-instances/types/api";
+import { renderQueryHook } from "./queryClient.testing";
 import { useCategoryUsers, useFetchCategoryUsers } from "./useCategoryUsers";
 
 vi.mock("../../sdk", () => ({
@@ -12,19 +12,6 @@ vi.mock("../../sdk", () => ({
     getCategoryUsers: vi.fn(),
   },
 }));
-
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
 
 const mockResponse: CategoryUsage[] = [
   {
@@ -36,52 +23,35 @@ const mockResponse: CategoryUsage[] = [
   },
 ];
 
+beforeEach(() => {
+  vi.clearAllMocks();
+  vi.mocked(DDIApi.getCategoryUsers).mockResolvedValue(mockResponse);
+});
+
 describe("useCategoryUsers", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it("fetches the code lists using the category", async () => {
-    vi.mocked(DDIApi.getCategoryUsers).mockResolvedValue(mockResponse);
-
-    const { result } = renderHook(() => useCategoryUsers("fr.insee", "cat-1"), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderQueryHook(() => useCategoryUsers("fr.insee", "cat-1"));
 
     await waitFor(() => expect(result.current.data).toEqual(mockResponse));
     expect(DDIApi.getCategoryUsers).toHaveBeenCalledWith("fr.insee", "cat-1");
   });
 
   it("does not fetch while disabled", () => {
-    vi.mocked(DDIApi.getCategoryUsers).mockResolvedValue(mockResponse);
-
-    renderHook(() => useCategoryUsers("fr.insee", "cat-1", false), {
-      wrapper: createWrapper(),
-    });
+    renderQueryHook(() => useCategoryUsers("fr.insee", "cat-1", false));
 
     expect(DDIApi.getCategoryUsers).not.toHaveBeenCalled();
   });
 
   it("does not fetch without a category id", () => {
-    vi.mocked(DDIApi.getCategoryUsers).mockResolvedValue(mockResponse);
-
-    renderHook(() => useCategoryUsers("fr.insee", ""), { wrapper: createWrapper() });
+    renderQueryHook(() => useCategoryUsers("fr.insee", ""));
 
     expect(DDIApi.getCategoryUsers).not.toHaveBeenCalled();
   });
 });
 
 describe("useFetchCategoryUsers", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it("fetches the code lists using the category", async () => {
-    vi.mocked(DDIApi.getCategoryUsers).mockResolvedValue(mockResponse);
-
-    const { result } = renderHook(() => useFetchCategoryUsers(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderQueryHook(() => useFetchCategoryUsers());
 
     const usages = await result.current("fr.insee", "cat-1");
 
@@ -90,11 +60,7 @@ describe("useFetchCategoryUsers", () => {
   });
 
   it("serves subsequent calls for the same category from the query cache", async () => {
-    vi.mocked(DDIApi.getCategoryUsers).mockResolvedValue(mockResponse);
-
-    const { result } = renderHook(() => useFetchCategoryUsers(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderQueryHook(() => useFetchCategoryUsers());
 
     await result.current("fr.insee", "cat-1");
     const second = await result.current("fr.insee", "cat-1");

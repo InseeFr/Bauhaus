@@ -1,9 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { ReactElement } from "react";
+import { MemoryRouter, Route, Routes } from "react-router";
 
 import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 
 const sourceDataset = {
   id: "jd1000",
@@ -21,9 +24,15 @@ const sourceDataset = {
   },
 };
 
+let datasetLoadError: unknown;
+
 vi.mock("../../../hooks/useDataset", () => ({
-  useDataset: (id?: string) =>
-    id ? { data: sourceDataset, status: "success" } : { data: undefined, status: "pending" },
+  useDataset: (id?: string) => {
+    if (id && datasetLoadError) {
+      return { data: undefined, status: "error", error: datasetLoadError };
+    }
+    return id ? { data: sourceDataset, status: "success" } : { data: undefined, status: "pending" };
+  },
 }));
 
 const postDataset = vi.fn((_dataset: unknown) => Promise.resolve("jd2000"));
@@ -42,15 +51,11 @@ vi.mock("./validation", () => ({
 
 // `useAuthorizationGuard` n'est pas simulé : c'est la façon dont la page l'appelle
 // que ces tests couvrent. Seuls les hooks RBAC dont il dépend le sont.
-vi.mock("@utils/hooks/users", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@utils/hooks/users")>()),
-  usePrivileges: () => ({
-    privileges: [
-      { application: "DATASET_DATASET", privileges: [{ privilege: "CREATE", strategy: "ALL" }] },
-    ],
-  }),
-  useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-}));
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../users-hooks.testing")).usersHooksWithDatasetPrivileges(importOriginal, [
+    "CREATE",
+  ]),
+);
 
 vi.mock("@utils/creation/use-default-contributor", () => ({
   useDefaultContributor: () => "DG75-L001",
@@ -60,18 +65,12 @@ vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("@utils/hooks/useGoBack", () => ({ useGoBack: () => vi.fn() }));
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: (ns?: string, options?: any) => {
-      if (options?.i18n) {
-        return actual.useTranslation(ns, options);
-      }
-      return { t: (key: string) => key };
-    },
-  };
-});
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("../../../../tests/react-i18next.testing")).withMockedTranslation(
+    await importOriginal(),
+    { t: (key: string) => key },
+  ),
+);
 
 const editingDatasetProbe = ({ editingDataset }: { editingDataset: unknown }) => (
   <div data-testid="editing-dataset">{JSON.stringify(editingDataset)}</div>
@@ -81,16 +80,18 @@ vi.mock("./components/GlobalInformation", () => ({ GlobalInformation: editingDat
 vi.mock("./components/InternalManagement", () => ({ InternalManagement: () => null }));
 vi.mock("./components/Notes", () => ({ Notes: () => null }));
 vi.mock("./components/StatisticalInformation", () => ({ StatisticalInformation: () => null }));
+vi.mock("./components/Lineage", () => ({ Lineage: () => null }));
 
-const renderPage = async (path: string, route: string) => {
-  const { Component } = await import("./page");
+const NO_PROPERTIES = {} as any;
+
+const renderRoute = (page: ReactElement, initialEntries: string[], route: string) => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
     <QueryClientProvider client={queryClient}>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        <MemoryRouter initialEntries={[path]}>
+      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
+        <MemoryRouter initialEntries={initialEntries}>
           <Routes>
-            <Route path={route} element={<Component />} />
+            <Route path={route} element={page} />
           </Routes>
         </MemoryRouter>
       </AppContextProvider>
@@ -98,11 +99,17 @@ const renderPage = async (path: string, route: string) => {
   );
 };
 
+const renderPage = async (path: string, route: string) => {
+  const { Component } = await import("./page");
+  return renderRoute(<Component />, [path], route);
+};
+
 const editedDataset = () => JSON.parse(screen.getByTestId("editing-dataset").textContent!);
 
 describe("Dataset Edit Page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    datasetLoadError = undefined;
   });
 
   describe("when duplicating a dataset", () => {
@@ -139,7 +146,33 @@ describe("Dataset Edit Page", () => {
     });
   });
 
+  describe("when the dataset cannot be read", () => {
+    it("says the dataset could not be found instead of loading forever on a 404", async () => {
+      datasetLoadError = sdkRejection.emptyBody(404);
+
+      await renderPage("/datasets/jd1000/modify", "/datasets/:id/modify");
+
+      await expectItemNotFound();
+      expect(screen.queryByTestId("editing-dataset")).not.toBeInTheDocument();
+    });
+
+    it("says the source dataset could not be loaded when duplicating it fails", async () => {
+      datasetLoadError = sdkRejection.emptyBody(500);
+
+      await renderPage("/datasets/jd1000/duplicate", "/datasets/:id/duplicate");
+
+      await expectItemLoadFailed();
+      expect(screen.queryByTestId("editing-dataset")).not.toBeInTheDocument();
+    });
+  });
+
   describe("when updating a dataset", () => {
+    it("offers a lineage section to link the datasets it is built from", async () => {
+      await renderPage("/datasets/jd1000/modify", "/datasets/:id/modify");
+
+      expect(screen.getByText("dataset.lineage.title")).toBeInTheDocument();
+    });
+
     it("updates the source dataset", async () => {
       await renderPage("/datasets/jd1000/modify", "/datasets/:id/modify");
 

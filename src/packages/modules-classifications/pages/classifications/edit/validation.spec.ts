@@ -1,78 +1,85 @@
-vi.mock("../../../i18n", () => ({
-  classificationsI18n: {
-    t: (key: string, options?: { lng?: string }) => {
-      const translations: Record<string, Record<string, string>> = {
-        fr: {
-          "classification.title": "Intitulé",
-        },
-        en: {
-          "classification.title": "Title",
-        },
-      };
-      const lng = options?.lng ?? "fr";
-      return translations[lng]?.[key] ?? key;
-    },
-  },
-}));
+import { i18nStub, mandatoryPropertyError } from "@utils/validation.testing";
 
 import { validate } from "./validation";
 
-describe("validation", function () {
-  it("should return an error for prefLabelLg1 and prefLabelLg2", function () {
-    expect(
-      validate({
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-      }),
-    ).toEqual({
-      errorMessage: [
-        "The property <strong>Intitulé</strong> is required.",
-        "The property <strong>Title</strong> is required.",
-      ],
+vi.mock("../../../i18n", () => ({
+  classificationsI18n: i18nStub(
+    {
+      fr: { "classification.title": "Intitulé" },
+      en: { "classification.title": "Title" },
+    },
+    "fr",
+  ),
+}));
+
+const titleLg1Required = mandatoryPropertyError("Intitulé");
+const titleLg2Required = mandatoryPropertyError("Title");
+const invalidUrl = "Invalid URL";
+
+const NO_FIELD_ERROR = {
+  prefLabelLg1: "",
+  prefLabelLg2: "",
+  additionalMaterial: "",
+  legalMaterial: "",
+  homepage: "",
+};
+
+const cases: {
+  name: string;
+  classification: Parameters<typeof validate>[0];
+  expected: ReturnType<typeof validate>;
+}[] = [
+  {
+    name: "should return an error for prefLabelLg1 and prefLabelLg2",
+    classification: {
+      prefLabelLg1: "",
+      prefLabelLg2: "",
+    },
+    expected: {
+      errorMessage: [titleLg1Required, titleLg2Required],
       fields: {
-        prefLabelLg1: "The property <strong>Intitulé</strong> is required.",
-        prefLabelLg2: "The property <strong>Title</strong> is required.",
-        additionalMaterial: "",
-        legalMaterial: "",
-        homepage: "",
+        ...NO_FIELD_ERROR,
+        prefLabelLg1: titleLg1Required,
+        prefLabelLg2: titleLg2Required,
       },
-    });
-  });
-  it("should return an error for additionalMaterial, legalMaterial and homepage", function () {
-    expect(
-      validate({
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "prefLabelLg2",
-        additionalMaterial: "notAnUrl",
-        legalMaterial: "notAnUrlEither",
-        homepage: "definetelyNotAnUrl",
-      }),
-    ).toEqual({
-      errorMessage: ["Invalid URL", "Invalid URL", "Invalid URL"],
+    },
+  },
+  {
+    name: "should return an error for additionalMaterial, legalMaterial and homepage",
+    classification: {
+      prefLabelLg1: "prefLabelLg1",
+      prefLabelLg2: "prefLabelLg2",
+      additionalMaterial: "notAnUrl",
+      legalMaterial: "notAnUrlEither",
+      homepage: "definetelyNotAnUrl",
+    },
+    expected: {
+      errorMessage: [invalidUrl, invalidUrl, invalidUrl],
       fields: {
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        additionalMaterial: "Invalid URL",
-        legalMaterial: "Invalid URL",
-        homepage: "Invalid URL",
+        ...NO_FIELD_ERROR,
+        additionalMaterial: invalidUrl,
+        legalMaterial: invalidUrl,
+        homepage: invalidUrl,
       },
-    });
-  });
-  it("should return no error", function () {
-    expect(
-      validate({
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "prefLabelLg2",
-      }),
-    ).toEqual({
+    },
+  },
+  {
+    name: "should return no error",
+    classification: {
+      prefLabelLg1: "prefLabelLg1",
+      prefLabelLg2: "prefLabelLg2",
+    },
+    expected: {
       errorMessage: [],
-      fields: {
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        additionalMaterial: "",
-        legalMaterial: "",
-        homepage: "",
-      },
+      fields: NO_FIELD_ERROR,
+    },
+  },
+];
+
+describe("validation", function () {
+  cases.forEach(({ name, classification, expected }) => {
+    it(name, function () {
+      expect(validate(classification)).toEqual(expected);
     });
   });
 });

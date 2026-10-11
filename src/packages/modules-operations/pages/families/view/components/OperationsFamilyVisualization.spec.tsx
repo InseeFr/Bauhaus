@@ -5,23 +5,15 @@ import { ValidationState } from "@components/status";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { OperationsFamilyVisualization } from "./OperationsFamilyVisualization";
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: () => ({
-      t: (key: string, options?: { lng?: string }) => {
-        const translations: Record<string, Record<string, string>> = {
-          fr: {
-            "common.familyStatus": "État de la famille",
-          },
-        };
-        const lng = options?.lng || "en";
-        return translations[lng]?.[key] || key;
-      },
-    }),
-  };
-});
+vi.mock("react-i18next", async (importOriginal) =>
+  (
+    await import("../../../../components/translationsByLanguage.testing")
+  ).mockTranslationsByLanguage(importOriginal, {
+    fr: {
+      "common.familyStatus": "État de la famille",
+    },
+  }),
+);
 
 const mockFamily = {
   id: "1",
@@ -36,6 +28,12 @@ const mockFamily = {
     { id: "s1", labelLg1: "Series 1", labelLg2: "Série 1" },
     { id: "s2", labelLg1: "Series 2", labelLg2: "Série 2" },
   ],
+};
+
+const familyWithoutAbstract = {
+  ...mockFamily,
+  abstractLg1: "",
+  abstractLg2: "",
 };
 
 describe("OperationsFamilyVisualization", () => {
@@ -86,12 +84,6 @@ describe("OperationsFamilyVisualization", () => {
   });
 
   it("should handle empty abstract gracefully", () => {
-    const familyWithoutAbstract = {
-      ...mockFamily,
-      abstractLg1: "",
-      abstractLg2: "",
-    };
-
     const { container } = renderWithAppContext(
       <OperationsFamilyVisualization attr={familyWithoutAbstract} secondLang={false} />,
     );

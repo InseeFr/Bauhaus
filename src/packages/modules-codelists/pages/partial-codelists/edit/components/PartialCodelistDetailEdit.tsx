@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -16,6 +16,7 @@ import { Select } from "@components/select-rmes";
 
 import { CodelistsApi } from "@sdk/index";
 
+import { toFormErrors } from "@utils/api-errors";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
 import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
@@ -60,6 +61,10 @@ interface PartialCodelistDetailEditTypes {
   serverSideError?: unknown;
 }
 
+/** Champs du corps (`PartialCodesListRequest`) qui ont un emplacement d'erreur sur l'écran ;
+ * les autres (descriptions, contributeurs, `iriParent`, codes) restent au bandeau. */
+const FIELDS_WITH_ERROR_SLOT = ["id", "labelLg1", "labelLg2", "creator", "disseminationStatus"];
+
 const defaultCodelist: PartialCodelistFormValues = {
   created: new Date(),
 };
@@ -78,12 +83,19 @@ export const PartialCodelistDetailEdit = ({
 
   const [parentCodes, setParentCodes] = useState<PickerCode[]>([]);
 
+  // La page démonte le formulaire pendant l'enregistrement : il renaît avec le rejet, dont les
+  // erreurs de champ deviennent l'état initial des erreurs client.
+  const serverErrors = useMemo(
+    () => toFormErrors(serverSideError, FIELDS_WITH_ERROR_SLOT),
+    [serverSideError],
+  );
+
   const [clientSideErrors, setClientSideErrors] = useState<{
     fields?: Record<string, string>;
     errorMessage?: string[];
-  }>({});
+  }>(() => serverErrors.clientSideErrors ?? {});
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(() => !!serverErrors.clientSideErrors);
 
   useTitle(t("partial-codelists.pluralTitle"), codelist?.labelLg1);
 
@@ -224,7 +236,7 @@ export const PartialCodelistDetailEdit = ({
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      {serverSideError && <ErrorBloc error={serverSideError} />}
+      <ErrorBloc error={serverErrors.serverSideError} />
       <form>
         <Row>
           <div className="col-md-12 form-group">

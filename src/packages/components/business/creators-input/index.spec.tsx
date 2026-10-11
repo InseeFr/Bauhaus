@@ -1,17 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
+import { expectAllPropsForwardedToStampsInput } from "../stamps-input/stamps-input.testing";
 import { CreatorsInput } from "./index";
 
-vi.mock("../stamps-input/stamps-input", () => ({
-  StampsInput: ({ labelSingle, labelMulti, lang, value }: any) => (
-    <div data-testid="stamps-input">
-      <label>{labelSingle}</label>
-      <div data-testid="label-multi">{labelMulti}</div>
-      <div data-testid="lang">{lang}</div>
-      <div data-testid="value">{JSON.stringify(value)}</div>
-    </div>
-  ),
+vi.mock("../stamps-input/stamps-input", async () => ({
+  StampsInput: (await import("../stamps-input/stamps-input.testing")).StampsInputMock,
 }));
 
 describe("CreatorsInput", () => {
@@ -34,18 +28,7 @@ describe("CreatorsInput", () => {
   });
 
   it("forwards all props to StampsInput", () => {
-    const mockOnChange = vi.fn();
-    render(
-      <CreatorsInput
-        value={["creator1", "creator2"]}
-        onChange={mockOnChange}
-        lang="first"
-        multi={true}
-        required={true}
-      />,
-    );
-
-    expect(screen.getByTestId("value")).toHaveTextContent('["creator1","creator2"]');
+    expectAllPropsForwardedToStampsInput(CreatorsInput, ["creator1", "creator2"]);
   });
 
   it("handles empty value", () => {

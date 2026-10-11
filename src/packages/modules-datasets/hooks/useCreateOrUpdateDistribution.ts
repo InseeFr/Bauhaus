@@ -16,6 +16,7 @@ export const useCreateOrUpdateDistribution = (isEditing: boolean) => {
     mutate: save,
     error: serverSideError,
   } = useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: (distribution: Partial<Distribution>) => {
       const promise = isEditing
         ? DistributionApi.putDistribution

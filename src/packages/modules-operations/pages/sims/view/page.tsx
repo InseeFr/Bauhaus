@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router";
 
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -25,6 +26,10 @@ interface State {
   owners: any[];
   exportPending: boolean;
   missingDocuments: Set<any>;
+  /** Rejet du dernier export. */
+  exportError?: unknown;
+  /** Rejet de la lecture des propriétaires : les actions réservées aux propriétaires sont masquées. */
+  ownersError?: unknown;
 }
 
 const initialState: State = {
@@ -35,21 +40,27 @@ const initialState: State = {
 
 type Action =
   | { type: "SET_OWNERS"; owners: any[] }
+  | { type: "OWNERS_FAILED"; error: unknown }
   | { type: "EXPORT_STARTED" }
-  | { type: "EXPORT_FINISHED"; missingDocuments: Set<any> };
+  | { type: "EXPORT_FINISHED"; missingDocuments: Set<any> }
+  | { type: "EXPORT_FAILED"; error: unknown };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_OWNERS":
       return { ...state, owners: action.owners };
+    case "OWNERS_FAILED":
+      return { ...state, ownersError: action.error };
     case "EXPORT_STARTED":
-      return { ...state, exportPending: true, missingDocuments: new Set() };
+      return { ...state, exportPending: true, missingDocuments: new Set(), exportError: undefined };
     case "EXPORT_FINISHED":
       return {
         ...state,
         exportPending: false,
         missingDocuments: action.missingDocuments,
       };
+    case "EXPORT_FAILED":
+      return { ...state, exportPending: false, exportError: action.error };
     default:
       return state;
   }
@@ -66,7 +77,7 @@ export const Component = () => {
 
   const { codelists } = useCodelists(metadataStructure);
 
-  const { isLoading: simsLoading, sims } = useSims(id);
+  const { isLoading: simsLoading, sims, error: simsError } = useSims(id);
 
   const { mutateAsync: publishSimsMutation } = usePublishSims();
 
@@ -74,13 +85,15 @@ export const Component = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { owners, exportPending, missingDocuments } = state;
+  const { owners, exportPending, missingDocuments, exportError, ownersError } = state;
 
   useEffect(() => {
     if (id) {
-      OperationsApi.getOwners(id).then((ownersData: any) => {
-        dispatch({ type: "SET_OWNERS", owners: ownersData });
-      });
+      OperationsApi.getOwners(id)
+        .then((ownersData: any) => {
+          dispatch({ type: "SET_OWNERS", owners: ownersData });
+        })
+        .catch((error: unknown) => dispatch({ type: "OWNERS_FAILED", error }));
     }
   }, [id]);
 
@@ -95,9 +108,11 @@ export const Component = () => {
 
   const exportCallback = useCallback((exportId: any, config: any, exportSims: any) => {
     dispatch({ type: "EXPORT_STARTED" });
-    OperationsApi.exportSims(exportId, config, exportSims).then((missingDocs: any) => {
-      dispatch({ type: "EXPORT_FINISHED", missingDocuments: missingDocs });
-    });
+    OperationsApi.exportSims(exportId, config, exportSims)
+      .then((missingDocs: any) => {
+        dispatch({ type: "EXPORT_FINISHED", missingDocuments: missingDocs });
+      })
+      .catch((error: unknown) => dispatch({ type: "EXPORT_FAILED", error }));
   }, []);
 
   const currentSims = sims || {};
@@ -106,6 +121,8 @@ export const Component = () => {
     () => computeEssentialRubricContext(metadataStructure, currentSims.rubrics),
     [metadataStructure, currentSims.rubrics],
   );
+
+  if (simsError && !sims) return <LoadingErrorBloc error={simsError} />;
 
   if (metadataStructureLoading || simsLoading) return <Loading />;
 
@@ -127,6 +144,8 @@ export const Component = () => {
         disableSectionAnchor={disableSectionAnchor ?? false}
       >
         <PageTitleBlock titleLg1={currentSims.labelLg1} titleLg2={currentSims.labelLg2} />
+        <ErrorBloc error={ownersError} />
+        <ErrorBloc error={exportError} />
         <EssentialRubricContextProvider value={essentialRubricContext}>
           <SimsVisualization
             sims={currentSims}

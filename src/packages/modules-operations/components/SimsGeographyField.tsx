@@ -44,7 +44,7 @@ export const SimsGeographyField = ({
 
   const [selectedOption, setSelectedOption] = useState<GeographyOption | null>(null);
 
-  const [serverSideError, setServerSideError] = useState("");
+  const [serverSideError, setServerSideError] = useState<unknown>();
 
   const { isLoading, geographies, includes, excludes, setIncludes, setExcludes } =
     useGeographies(territory);
@@ -96,7 +96,7 @@ export const SimsGeographyField = ({
       .then((uri: unknown) => {
         onSave(territory.uri ?? (uri as string));
       })
-      .catch((err: unknown) => setServerSideError(JSON.parse(err as string).message));
+      .catch(setServerSideError);
   }, [territory, name, nameLg2, includes, excludes, onSave]);
 
   if (isLoading) {

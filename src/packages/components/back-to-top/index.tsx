@@ -42,7 +42,7 @@ export function BackToTop({ label }: Readonly<BackToTopTypes>) {
 
   return (
     <button type="button" onClick={clickHandler} className={className} style={{ display: "none" }}>
-      <span className="glyphicon glyphicon-chevron-up" />
+      <span className="pi pi-chevron-up" />
       <span className="sticky-text">{text}</span>
     </button>
   );

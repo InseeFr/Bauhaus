@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { CreatorsInput } from "@components/business/creators-input";
@@ -15,6 +15,7 @@ import { Structure } from "@model/structures/Structure";
 
 import { StructureApi } from "@sdk/index";
 
+import { toFormErrors } from "@utils/api-errors";
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 
@@ -39,6 +40,19 @@ const defaultDSD = {
   isRequiredBy: "",
 } as unknown as Structure;
 
+// Les erreurs du serveur sur ces champs s'affichent sous la saisie ; les autres
+// (définitions de composants…) restent dans le bandeau.
+const FIELDS_WITH_ERROR_SLOT = [
+  "identifiant",
+  "labelLg1",
+  "labelLg2",
+  "descriptionLg1",
+  "descriptionLg2",
+  "creator",
+  "contributor",
+  "disseminationStatus",
+];
+
 interface EditionFormTypes {
   creation: boolean;
   initialStructure?: Partial<Structure>;
@@ -57,7 +71,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
 
   const [redirectId, setRedirectId] = useState("");
 
-  const [serverSideError, setServerSideError] = useState("");
+  const [serverSideError, setServerSideError] = useState<unknown>();
 
   const [clientSideError, setClientSideError] = useState<{
     fields?: Record<string, string>;
@@ -112,13 +126,19 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
       setSubmitting(true);
       setClientSideError(clientSideErrors);
     } else {
+      setClientSideError({});
       setLoading(true);
       (creation ? StructureApi.postStructure(structure) : StructureApi.putStructure(structure))
         .then((id: string) => {
           setRedirectId(id);
         })
-        .catch((error: string) => {
-          setServerSideError(error);
+        .catch((error: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(error, FIELDS_WITH_ERROR_SLOT);
+          if (clientSideErrors) {
+            setSubmitting(true);
+            setClientSideError(clientSideErrors);
+          }
+          setServerSideError(serverSideError);
         })
         .finally(() => setLoading(false));
     }
@@ -164,7 +184,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
           ></ClientSideError>
         </div>
         <div className="col-md-6">
-          <LabelRequired htmlFor="labelLg1">{t("structure.label", { lng: "en" })}</LabelRequired>
+          <LabelRequired htmlFor="labelLg2">{t("structure.label", { lng: "en" })}</LabelRequired>
           <TextInput
             id="labelLg2"
             value={labelLg2}
@@ -187,7 +207,15 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
             id="descriptionLg1"
             value={descriptionLg1}
             onChange={(e) => onChange("descriptionLg1")(e.target.value)}
+            aria-invalid={!!clientSideError.fields?.descriptionLg1}
+            aria-describedby={
+              clientSideError.fields?.descriptionLg1 ? "descriptionLg1-error" : undefined
+            }
           />
+          <ClientSideError
+            id="descriptionLg1-error"
+            error={clientSideError?.fields?.descriptionLg1}
+          ></ClientSideError>
         </div>
         <div className="col-md-6">
           <label htmlFor="descriptionLg2">
@@ -197,11 +225,23 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
             id="descriptionLg2"
             value={descriptionLg2}
             onChange={(e) => onChange("descriptionLg2")(e.target.value)}
+            aria-invalid={!!clientSideError.fields?.descriptionLg2}
+            aria-describedby={
+              clientSideError.fields?.descriptionLg2 ? "descriptionLg2-error" : undefined
+            }
           />
+          <ClientSideError
+            id="descriptionLg2-error"
+            error={clientSideError?.fields?.descriptionLg2}
+          ></ClientSideError>
         </div>
       </Row>
       <div className="form-group">
         <CreatorsInput mode="organization" value={creator} onChange={onChange("creator")} />
+        <ClientSideError
+          id="creator-error"
+          error={clientSideError?.fields?.creator}
+        ></ClientSideError>
       </div>
       <div className="form-group">
         <ContributorsInput
@@ -210,12 +250,20 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
           onChange={onChange("contributor")}
           multi
         />
+        <ClientSideError
+          id="contributor-error"
+          error={clientSideError?.fields?.contributor}
+        ></ClientSideError>
       </div>
       <div className="form-group">
         <DisseminationStatusInput
           value={disseminationStatus}
           handleChange={onChange("disseminationStatus")}
         />
+        <ClientSideError
+          id="disseminationStatus-error"
+          error={clientSideError?.fields?.disseminationStatus}
+        ></ClientSideError>
       </div>
       <StructureComponents
         creation={creation}

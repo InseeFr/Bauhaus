@@ -1,5 +1,9 @@
 export const FILTER_ALL_TYPES = "all" as const;
 
+/**
+ * Durée d'affichage des toasts de succès. Un toast d'erreur n'en a pas : il est `sticky` et reste
+ * affiché jusqu'à ce que l'utilisateur le ferme.
+ */
 export const TOAST_DURATION = 3000 as const;
 
 export const VARIABLE_TYPES = {

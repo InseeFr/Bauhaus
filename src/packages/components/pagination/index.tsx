@@ -1,6 +1,6 @@
 import { useMemo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 
 import { componentsI18n } from "../i18n";
 import { Link } from "../link";
@@ -17,7 +17,7 @@ const numberPerPageOptions = [
 ];
 
 interface PaginationProps {
-  itemEls: JSX.Element[];
+  itemEls: React.JSX.Element[];
 }
 
 export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
@@ -83,7 +83,7 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
       const searchParams = new URLSearchParams(search);
       searchParams.set("perPage", value);
       searchParams.set("page", "1"); // Reset to first page
-      navigate(`${pathname}?${searchParams.toString()}`, { replace: true });
+      void navigate(`${pathname}?${searchParams.toString()}`, { replace: true });
     },
     [navigate, pathname, search],
   );

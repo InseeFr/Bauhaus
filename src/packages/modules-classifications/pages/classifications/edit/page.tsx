@@ -1,11 +1,11 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router";
 
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { CreatorsInput } from "@components/business/creators-input";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
-import { GlobalClientSideErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, GlobalClientSideErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { TextInputBlock, UrlInputBlock } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -14,6 +14,7 @@ import { PageTitleBlock } from "@components/page-title-block";
 import { MDEditor } from "@components/rich-editor/react-md-editor";
 import { Select } from "@components/select-rmes";
 
+import { toFormErrors } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";
 import { transformModelToSelectOptions } from "@utils/transformer";
 
@@ -26,16 +27,27 @@ import { Menu } from "./menu";
 import { reducer, initialState } from "./page.reducer";
 import { validate } from "./validation";
 
+/** Champs qui affichent leur erreur sous la saisie ; les autres erreurs du back vont au bandeau. */
+const FIELDS_WITH_ERROR_SLOT = [
+  "prefLabelLg1",
+  "prefLabelLg2",
+  "additionalMaterial",
+  "legalMaterial",
+  "homepage",
+] as const;
+
 export const Component = () => {
   const { t } = useTranslation();
 
   const { id = "" } = useParams<{ id: string }>();
 
-  const { isLoading, classification, status } = useClassification(id);
+  const { isLoading, classification, status, error: loadError } = useClassification(id);
 
   const { series } = useClassificationSeries();
 
   const [{ clientSideErrors, submitting, value }, dispatch] = useReducer(reducer, initialState);
+
+  const [serverSideError, setServerSideError] = useState<unknown>();
 
   useTitle(t("classification.pluralTitle"), classification?.general?.prefLabelLg1);
 
@@ -48,6 +60,8 @@ export const Component = () => {
       dispatch({ type: "SET_VALUE", payload: classification });
     }
   }, [status, classification]);
+
+  if (loadError && !classification) return <LoadingErrorBloc error={loadError} />;
 
   if (isLoading) return <Loading />;
 
@@ -81,10 +95,18 @@ export const Component = () => {
             dispatch({ type: "SET_ERRORS", payload: errors });
           } else {
             dispatch({ type: "SET_ERRORS", payload: {} });
-            (save as unknown as (payload: { general: Classification; levels: unknown[] }) => void)({
-              general: { ...classification.general, ...general },
-              levels: classification.levels,
-            });
+            setServerSideError(undefined);
+            save(
+              { general: { ...classification.general, ...general }, levels: classification.levels },
+              {
+                onError: (err) => {
+                  const formErrors = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
+                  dispatch({ type: "SET_SUBMITTING" });
+                  dispatch({ type: "SET_ERRORS", payload: formErrors.clientSideErrors ?? {} });
+                  setServerSideError(formErrors.serverSideError);
+                },
+              },
+            );
           }
         }}
       >
@@ -92,6 +114,7 @@ export const Component = () => {
         {submitting && clientSideErrors && (
           <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
         )}
+        <ErrorBloc error={serverSideError} />
         <Row>
           <div className="col-md-6 form-group">
             <TextInputBlock

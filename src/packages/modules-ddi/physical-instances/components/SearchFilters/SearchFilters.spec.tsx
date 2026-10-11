@@ -1,39 +1,24 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { type ChangeEvent, useCallback } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { usePrivileges, useUserStamps } from "@utils/hooks/users";
-
+import { mockDdiAccess } from "../GlobalActionsCard/actions.testing";
 import { SearchFilters } from "./SearchFilters";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "physicalInstance.view.search": "Rechercher",
-        "physicalInstance.view.typeFilter": "Filtrer par type",
-        "physicalInstance.view.newVariable": "Nouvelle Variable",
-        "physicalInstance.view.saveAll": "Tout enregistrer",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("../GlobalActionsCard/translations.testing")).mockTranslations({
+    "physicalInstance.view.search": "Rechercher",
+    "physicalInstance.view.typeFilter": "Filtrer par type",
+    "physicalInstance.view.newVariable": "Nouvelle Variable",
+    "physicalInstance.view.saveAll": "Tout enregistrer",
   }),
-}));
+);
 
 // On monte le vrai <HasAccess> ; seules les sources de privilèges et de
 // stamps sont mockées.
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
-});
-
-const ddiPrivileges = (strategy: string) => ({
-  privileges: [
-    {
-      application: "DDI_PHYSICALINSTANCE",
-      privileges: [{ privilege: "UPDATE", strategy }],
-    },
-  ],
-});
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../../../privileges.testing")).mockUsersHooks(importOriginal),
+);
 
 vi.mock("primereact/inputtext", () => ({
   InputText: ({ value, onChange, placeholder, className, ...props }: any) => (
@@ -47,31 +32,24 @@ vi.mock("primereact/inputtext", () => ({
   ),
 }));
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ value, options, onChange, className, ...props }: any) => (
-    <select
-      value={value}
-      onChange={(e) => onChange({ value: e.target.value })}
-      className={className}
-      {...props}
-    >
-      {options.map((opt: any) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
+vi.mock("primereact/dropdown", async () => {
+  const { NativeOptions } = await import("../../pages/pages.testing");
+  return {
+    Dropdown: ({ value, options, onChange, className, ...props }: any) => {
+      const handleChange = useCallback(
+        (e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value }),
+        [onChange],
+      );
+      return (
+        <select value={value} onChange={handleChange} className={className} {...props}>
+          <NativeOptions options={options} />
+        </select>
+      );
+    },
+  };
+});
 
-vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, icon, ...props }: any) => (
-    <button type="button" onClick={onClick} {...props}>
-      {icon && <span className={icon} />}
-      {label}
-    </button>
-  ),
-}));
+vi.mock("primereact/button", () => import("../GlobalActionsCard/actions.testing"));
 
 vi.mock("primereact/iconfield", () => ({
   IconField: ({ children, className }: any) => <div className={className}>{children}</div>,
@@ -80,6 +58,8 @@ vi.mock("primereact/iconfield", () => ({
 vi.mock("primereact/inputicon", () => ({
   InputIcon: ({ className, children }: any) => <span className={className}>{children}</span>,
 }));
+
+const PARENT_STAMPS = ["STAMP1", "STAMP2"];
 
 describe("SearchFilters", () => {
   const mockOnSearchChange = vi.fn();
@@ -105,8 +85,7 @@ describe("SearchFilters", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // Par défaut : stratégie ALL → les boutons UPDATE sont rendus.
-    (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+    mockDdiAccess("UPDATE", "ALL");
   });
 
   it("should render search input with placeholder", () => {
@@ -206,20 +185,18 @@ describe("SearchFilters", () => {
 
   describe("gating STAMP des boutons UPDATE", () => {
     it("affiche les boutons quand un stamp utilisateur appartient à parents.stamps", () => {
-      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
-      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+      mockDdiAccess("UPDATE", "STAMP", ["STAMP1"]);
 
-      render(<SearchFilters {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+      render(<SearchFilters {...defaultProps} stamps={PARENT_STAMPS} />);
 
       expect(screen.queryByText("Tout enregistrer")).toBeInTheDocument();
       expect(screen.queryByText("Nouvelle Variable")).toBeInTheDocument();
     });
 
     it("masque les boutons quand aucun stamp utilisateur n'appartient à parents.stamps", () => {
-      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
-      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
+      mockDdiAccess("UPDATE", "STAMP", ["STAMP9"]);
 
-      render(<SearchFilters {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+      render(<SearchFilters {...defaultProps} stamps={PARENT_STAMPS} />);
 
       expect(screen.queryByText("Tout enregistrer")).not.toBeInTheDocument();
       expect(screen.queryByText("Nouvelle Variable")).not.toBeInTheDocument();

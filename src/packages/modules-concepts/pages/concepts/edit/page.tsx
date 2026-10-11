@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 
 import { Link } from "@model/concepts/concept";
@@ -33,9 +34,9 @@ export const Component = () => {
 
   const { concepts, isLoading: isLoadingConcepts } = useConcepts();
 
-  const { data: concept, isLoading: isLoadingConcept } = useConcept(id);
+  const { data: concept, isLoading: isLoadingConcept, error: loadError } = useConcept(id);
 
-  const { save, isSaving } = useConceptSave(id);
+  const { save, isSaving, saveError } = useConceptSave(id);
 
   // Le formulaire fige `general` dans son état à l'initialisation : on attend
   // que le contributeur par défaut soit résolu avant de le monter.
@@ -47,6 +48,10 @@ export const Component = () => {
 
   useTitle(t("concept.title"), concept?.general?.prefLabelLg1);
 
+  if (loadError && !concept) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
+
   if (
     isLoadingConcept ||
     isLoadingConcepts ||
@@ -54,10 +59,6 @@ export const Component = () => {
     (isCreation && isDefaultContributorPending)
   ) {
     return <Loading />;
-  }
-
-  if (isSaving) {
-    return <Saving />;
   }
 
   const { general, notes, links } = concept;
@@ -71,22 +72,30 @@ export const Component = () => {
     ? []
     : (links.filter((link: Link) => link.typeOfLink === CLOSE_MATCH) as (Link & { urn: string })[]);
 
+  // Le formulaire reste monté pendant l'enregistrement : démonté, il perdrait la
+  // saisie, qu'un échec doit laisser intacte.
   return (
-    <ConceptEditionCreation
-      id={id}
-      creation={isCreation}
-      title={isCreation ? t("concept.create.title") : t("concept.update.title")}
-      subtitle={general?.prefLabelLg1}
-      general={general}
-      notes={notes}
-      equivalentLinks={equivalentLinks}
-      conceptsWithLinks={conceptsWithLinks}
-      maxLengthScopeNote={maxLengthScopeNote}
-      save={save}
-      submitting={submitting}
-      setSubmitting={setSubmitting}
-      section={section}
-      onSectionChange={setSection}
-    />
+    <>
+      {isSaving && <Saving />}
+      <div hidden={isSaving}>
+        <ConceptEditionCreation
+          id={id}
+          creation={isCreation}
+          title={isCreation ? t("concept.create.title") : t("concept.update.title")}
+          subtitle={general?.prefLabelLg1}
+          general={general}
+          notes={notes}
+          equivalentLinks={equivalentLinks}
+          conceptsWithLinks={conceptsWithLinks}
+          maxLengthScopeNote={maxLengthScopeNote}
+          save={save}
+          submitting={submitting}
+          setSubmitting={setSubmitting}
+          section={section}
+          onSectionChange={setSection}
+          serverSideError={saveError}
+        />
+      </div>
+    </>
   );
 };

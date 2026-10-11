@@ -1,15 +1,16 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderPageWithAppContext } from "../../../render.testing";
 import { Component } from "./page";
 
 const location = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
   useParams: () => ({ id: "str-1" }),
   useLocation: () => location(),
 }));
@@ -43,14 +44,7 @@ const structure: any = {
   ],
 };
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = () => renderPageWithAppContext(<Component />);
 
 describe("Structures edit page", () => {
   beforeEach(() => {
@@ -91,5 +85,23 @@ describe("Structures edit page", () => {
 
     await waitFor(() => expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument());
     expect(screen.getByText("création:false")).toBeInTheDocument();
+  });
+
+  it("indique que la structure à modifier est introuvable au lieu d'un formulaire vide", async () => {
+    vi.mocked(StructureApi.getStructure).mockRejectedValue(sdkRejection.emptyBody(404));
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+    expect(screen.queryByText("création:false")).not.toBeInTheDocument();
+  });
+
+  it("indique que la structure à dupliquer n'a pas pu être chargée", async () => {
+    location.mockReturnValue({ pathname: "/structures/str-1/duplicate" });
+    vi.mocked(StructureApi.getStructure).mockRejectedValue(sdkRejection.emptyBody(500));
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText("création:true")).not.toBeInTheDocument();
   });
 });

@@ -1,14 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { I18nextProvider } from "react-i18next";
-import { MemoryRouter } from "react-router-dom";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
 import { DisseminationStatus } from "@sdk/dissemination-status";
 import { CodelistsApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../../../../application/app-context";
-import { testsI18n as i18n } from "../../../../../tests/i18n";
+import { renderWithProviders } from "../../../../testing/render.testing";
 import { PartialCodelistDetailEdit } from "./PartialCodelistDetailEdit";
 
 vi.mock("@sdk/index", async (importOriginal) => ({
@@ -37,28 +33,20 @@ const parentCodes = [
   { code: "A", labelLg1: "Alpha" },
 ];
 
+const NO_CODELIST = {};
+
 const renderForm = (props: Partial<Parameters<typeof PartialCodelistDetailEdit>[0]> = {}) => {
   const handleSave = vi.fn();
   const handleBack = vi.fn();
-  const rendered = render(
-    <QueryClientProvider
-      client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
-    >
-      <I18nextProvider i18n={i18n}>
-        <MemoryRouter>
-          <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-            <PartialCodelistDetailEdit
-              codelist={{}}
-              handleSave={handleSave}
-              handleBack={handleBack}
-              updateMode={false}
-              globalCodelistOptions={globalCodelistOptions}
-              {...props}
-            />
-          </AppContextProvider>
-        </MemoryRouter>
-      </I18nextProvider>
-    </QueryClientProvider>,
+  const rendered = renderWithProviders(
+    <PartialCodelistDetailEdit
+      codelist={NO_CODELIST}
+      handleSave={handleSave}
+      handleBack={handleBack}
+      updateMode={false}
+      globalCodelistOptions={globalCodelistOptions}
+      {...props}
+    />,
   );
   return { ...rendered, handleSave, handleBack };
 };
@@ -157,19 +145,17 @@ describe("Partial codelist edition form", () => {
   });
 
   it("moves a single code in and out of the partial codelist", async () => {
-    const { container } = renderForm();
+    renderForm();
 
     await pickParentCodelist();
     const selected = () =>
-      Array.from(container.querySelectorAll(".panel .picker-item, .card-body li")).map(
-        (item) => item.textContent,
-      );
+      screen.getByRole("region", { name: "Partial codelist" }).textContent ?? "";
 
     fireEvent.click(await screen.findByText("Alpha"));
-    await waitFor(() => expect(selected().join()).toContain("Alpha"));
+    await waitFor(() => expect(selected()).toContain("Alpha"));
 
     fireEvent.click(screen.getByText("Alpha"));
-    await waitFor(() => expect(selected().join()).not.toContain("Alpha"));
+    await waitFor(() => expect(selected()).not.toContain("Alpha"));
   });
 
   it("moves every code in and out of the partial codelist at once", async () => {

@@ -1,4 +1,3 @@
-import { QueryClient } from "@tanstack/react-query";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
@@ -6,14 +5,13 @@ import { DDIApi } from "@sdk/index";
 import { itemsOfType } from "../../types/ddi4Items";
 import { envelope } from "../../types/ddi4Items.testing";
 import { enrichDataWithCodeLists } from "./enrichDataWithCodeLists";
+import { newQueryClient } from "./queryClient.testing";
 
 vi.mock("../../../../sdk", () => ({
   DDIApi: {
     getMutualizedCodeList: vi.fn(),
   },
 }));
-
-const newQueryClient = () => new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
 const codeVariable = (codeListId: string, agency = "fr.insee") => ({
   $type: "Variable",

@@ -1,6 +1,16 @@
-import { fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 
 import { renderWithRouter } from "../../../../../tests/render";
+import {
+  expectBackLinkTo,
+  expectFilterOnEachPanel,
+  expectPanelTitles,
+  filterSource,
+  moveToTarget as pick,
+  optionLabels,
+  sourceList as availableList,
+  targetList as toPublishList,
+} from "../../../../testing/pick-list.testing";
 import { CollectionsToValidate } from "./CollectionsToValidate";
 
 const mockCollections = [
@@ -9,34 +19,28 @@ const mockCollections = [
   { id: "3", label: "Collection C", creator: "DG75-H320" },
 ];
 
-const availableList = () => screen.getAllByRole("listbox")[0];
-const toPublishList = () => screen.getAllByRole("listbox")[1];
-
-const optionLabels = (list: HTMLElement) =>
-  within(list)
-    .queryAllByRole("option")
-    .map((option) => option.textContent);
-
-const pick = (label: string) => {
-  fireEvent.click(within(availableList()).getByRole("option", { name: label }));
-  fireEvent.click(screen.getByRole("button", { name: "Move to Target" }));
+const renderComponent = (
+  props: Partial<React.ComponentProps<typeof CollectionsToValidate>> = {},
+) => {
+  const handleValidateCollectionList = vi.fn();
+  renderWithRouter(
+    <CollectionsToValidate
+      collections={mockCollections}
+      handleValidateCollectionList={handleValidateCollectionList}
+      {...props}
+    />,
+  );
+  return { handleValidateCollectionList };
 };
 
 describe("CollectionsToValidate", () => {
   describe("Rendering", () => {
     it("renders without crashing", () => {
-      renderWithRouter(
-        <CollectionsToValidate collections={[]} handleValidateCollectionList={vi.fn()} />,
-      );
+      renderComponent({ collections: [] });
     });
 
     it("renders collections in the list", () => {
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
-        />,
-      );
+      renderComponent();
 
       expect(screen.getByText("Collection A")).toBeInTheDocument();
       expect(screen.getByText("Collection B")).toBeInTheDocument();
@@ -44,12 +48,7 @@ describe("CollectionsToValidate", () => {
     });
 
     it("renders the page title", () => {
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
-        />,
-      );
+      renderComponent();
 
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
         "Publication of the provisional collections",
@@ -57,36 +56,21 @@ describe("CollectionsToValidate", () => {
     });
 
     it("renders the panel titles", () => {
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
-        />,
-      );
+      renderComponent();
 
-      expect(screen.getByText("Provisional collections (3)")).toBeInTheDocument();
-      expect(screen.getByText("Collections to publish (0)")).toBeInTheDocument();
+      expectPanelTitles("Provisional collections (3)", "Collections to publish (0)");
     });
 
     it("renders return button with correct link", () => {
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
-        />,
-      );
+      renderComponent();
 
-      // Use getByText since there are now multiple links (pagination adds links)
-      const returnButton = screen.getByText("Back").closest("a");
-      expect(returnButton).toHaveAttribute("href", "/concepts/collections");
+      expectBackLinkTo("/concepts/collections");
     });
   });
 
   describe("Empty state", () => {
     it("renders empty list without errors", () => {
-      renderWithRouter(
-        <CollectionsToValidate collections={[]} handleValidateCollectionList={vi.fn()} />,
-      );
+      renderComponent({ collections: [] });
 
       expect(screen.queryByText("Collection A")).not.toBeInTheDocument();
     });
@@ -94,12 +78,7 @@ describe("CollectionsToValidate", () => {
 
   describe("Item selection", () => {
     it("moves a collection to the panel of collections to publish", () => {
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
-        />,
-      );
+      renderComponent();
 
       pick("Collection A");
 
@@ -108,13 +87,7 @@ describe("CollectionsToValidate", () => {
     });
 
     it("publishes every selected collection", () => {
-      const handleValidateCollectionList = vi.fn();
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={handleValidateCollectionList}
-        />,
-      );
+      const { handleValidateCollectionList } = renderComponent();
 
       pick("Collection A");
       pick("Collection B");
@@ -124,13 +97,7 @@ describe("CollectionsToValidate", () => {
     });
 
     it("warns when no collection is selected", () => {
-      const handleValidateCollectionList = vi.fn();
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={handleValidateCollectionList}
-        />,
-      );
+      const { handleValidateCollectionList } = renderComponent();
 
       fireEvent.click(screen.getByRole("button", { name: "Publish" }));
 
@@ -141,25 +108,13 @@ describe("CollectionsToValidate", () => {
 
   describe("Server-side error", () => {
     it("displays the error reported by the back-office", () => {
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
-          serverSideError="The publication failed"
-        />,
-      );
+      renderComponent({ serverSideError: "The publication failed" });
 
       expect(screen.getByRole("alert")).toHaveTextContent("The publication failed");
     });
 
     it("displays no error when the back-office reported none", () => {
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
-          serverSideError=""
-        />,
-      );
+      renderComponent({ serverSideError: "" });
 
       expect(screen.queryByRole("alert")).not.toBeInTheDocument();
     });
@@ -167,12 +122,7 @@ describe("CollectionsToValidate", () => {
 
   describe("Validation", () => {
     it("renders publish button", () => {
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
-        />,
-      );
+      renderComponent();
 
       expect(screen.getByText("Publish")).toBeInTheDocument();
     });
@@ -180,27 +130,15 @@ describe("CollectionsToValidate", () => {
 
   describe("Search functionality", () => {
     it("has a filter input on each panel", () => {
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
-        />,
-      );
+      renderComponent();
 
-      expect(screen.getAllByPlaceholderText("Label...")).toHaveLength(2);
+      expectFilterOnEachPanel();
     });
 
     it("filters the available collections on their label", () => {
-      renderWithRouter(
-        <CollectionsToValidate
-          collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
-        />,
-      );
+      renderComponent();
 
-      fireEvent.input(screen.getAllByPlaceholderText("Label...")[0], {
-        target: { value: "Collection A" },
-      });
+      filterSource("Collection A");
 
       expect(optionLabels(availableList())).toEqual(["Collection A"]);
     });

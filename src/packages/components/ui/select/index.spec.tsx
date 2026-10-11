@@ -1,39 +1,49 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { ChangeEvent, useCallback, useMemo } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { Select } from "./";
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ value, onChange, placeholder }: any) => (
-    <select
-      data-testid="dropdown"
-      value={value ?? ""}
-      onChange={(e) => onChange({ value: e.target.value })}
-    >
+const { renderOptions } = vi.hoisted(() => ({
+  renderOptions: (placeholder: string) => (
+    <>
       <option value="">{placeholder}</option>
       <option value="a">A</option>
       <option value="b">B</option>
-    </select>
+    </>
   ),
 }));
 
+vi.mock("primereact/dropdown", () => ({
+  Dropdown: ({ value, onChange, placeholder }: any) => {
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value }),
+      [onChange],
+    );
+    return (
+      <select data-testid="dropdown" value={value ?? ""} onChange={handleChange}>
+        {renderOptions(placeholder)}
+      </select>
+    );
+  },
+}));
+
 vi.mock("primereact/multiselect", () => ({
-  MultiSelect: ({ value, onChange, placeholder }: any) => (
-    <select
-      data-testid="multiselect"
-      multiple
-      value={value ?? []}
-      onChange={(e) =>
+  MultiSelect: ({ value, onChange, placeholder }: any) => {
+    const selected = useMemo(() => value ?? [], [value]);
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLSelectElement>) =>
         onChange({
           value: Array.from(e.target.selectedOptions).map((o) => (o as HTMLOptionElement).value),
-        })
-      }
-    >
-      <option value="">{placeholder}</option>
-      <option value="a">A</option>
-      <option value="b">B</option>
-    </select>
-  ),
+        }),
+      [onChange],
+    );
+    return (
+      <select data-testid="multiselect" multiple value={selected} onChange={handleChange}>
+        {renderOptions(placeholder)}
+      </select>
+    );
+  },
 }));
 
 const baseProps = {
@@ -46,6 +56,8 @@ const baseProps = {
   value: "a",
   onChange: vi.fn(),
 };
+
+const MULTI_VALUE = ["a"];
 
 describe("Select", () => {
   it("wraps the control inside the label so they are associated", () => {
@@ -87,7 +99,7 @@ describe("Select", () => {
   });
 
   it("renders a MultiSelect in multi mode", () => {
-    render(<Select {...baseProps} value={["a"]} multi />);
+    render(<Select {...baseProps} value={MULTI_VALUE} multi />);
 
     expect(screen.getByTestId("multiselect")).toBeInTheDocument();
     expect(screen.queryByTestId("dropdown")).toBeNull();

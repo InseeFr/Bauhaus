@@ -1,8 +1,6 @@
-import { NONE } from "@sdk/constants";
-
 interface LinkInput {
   id: string;
-  typeOfLink: string;
+  typesOfLink: string[];
 }
 
 interface LinkOutput {
@@ -12,10 +10,11 @@ interface LinkOutput {
 
 export function processLinks(conceptsWithLinks: LinkInput[]): LinkOutput[] {
   const linksObj = conceptsWithLinks.reduce<Record<string, string[]>>(
-    (links, { id, typeOfLink }) => {
-      if (typeOfLink === NONE) return links;
-      if (!links[typeOfLink]) links[typeOfLink] = [id];
-      else links[typeOfLink].push(id);
+    (links, { id, typesOfLink }) => {
+      typesOfLink.forEach((typeOfLink) => {
+        if (!links[typeOfLink]) links[typeOfLink] = [id];
+        else links[typeOfLink].push(id);
+      });
       return links;
     },
     {},

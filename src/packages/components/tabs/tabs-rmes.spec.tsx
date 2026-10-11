@@ -2,13 +2,13 @@ import { render, fireEvent, screen } from "@testing-library/react";
 
 import { Tabs } from "./tabs";
 
-describe("TabsRmes Component", () => {
-  const tabsMock = [
-    { title: "Tab 1", content: "Content 1", disabled: false },
-    { title: "Tab 2", content: "Content 2", disabled: false },
-    { title: "Tab 3", content: "Content 3", disabled: true },
-  ];
+const tabsMock = [
+  { title: "Tab 1", content: "Content 1", disabled: false },
+  { title: "Tab 2", content: "Content 2", disabled: false },
+  { title: "Tab 3", content: "Content 3", disabled: true },
+];
 
+describe("TabsRmes Component", () => {
   it("should render correctly with initial active tab", () => {
     render(<Tabs tabs={tabsMock} />);
     expect(screen.getByText("Content 1")).toBeVisible();

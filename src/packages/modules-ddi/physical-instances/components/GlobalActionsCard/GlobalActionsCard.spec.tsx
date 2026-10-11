@@ -1,7 +1,9 @@
 import { render, screen } from "@testing-library/react";
+import { useCallback } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { GlobalActionsCard } from "./GlobalActionsCard";
+import { mockVariables } from "./variables.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -24,13 +26,16 @@ vi.mock("primereact/card", () => ({
 }));
 
 vi.mock("./GlobalActionToolbar", () => ({
-  GlobalActionToolbar: ({ onExport, onDuplicate, onValidateDdi4 }: any) => (
-    <div data-testid="global-action-toolbar">
-      <button onClick={() => onExport("DDI3")}>Export Toolbar</button>
-      {onDuplicate && <button onClick={onDuplicate}>Duplicate Toolbar</button>}
-      {onValidateDdi4 && <button onClick={onValidateDdi4}>Validate Toolbar</button>}
-    </div>
-  ),
+  GlobalActionToolbar: ({ onExport, onDuplicate, onValidateDdi4 }: any) => {
+    const exportDdi3 = useCallback(() => onExport("DDI3"), [onExport]);
+    return (
+      <div data-testid="global-action-toolbar">
+        <button onClick={exportDdi3}>Export Toolbar</button>
+        {onDuplicate && <button onClick={onDuplicate}>Duplicate Toolbar</button>}
+        {onValidateDdi4 && <button onClick={onValidateDdi4}>Validate Toolbar</button>}
+      </div>
+    );
+  },
 }));
 
 vi.mock("./PhysicalInstancesDataTable", () => ({
@@ -43,28 +48,14 @@ vi.mock("./PhysicalInstancesDataTable", () => ({
   ),
 }));
 
+const UNSAVED_VARIABLE_IDS = ["1", "2"];
+const INSTANCE_STAMPS = ["STAMP1", "STAMP2"];
+
 describe("GlobalActionsCard", () => {
   const mockOnExport = vi.fn();
   const mockOnDuplicate = vi.fn();
   const mockOnRowClick = vi.fn();
   const mockOnDeleteClick = vi.fn();
-
-  const mockVariables = [
-    {
-      id: "1",
-      name: "Variable1",
-      label: "Label 1",
-      type: "Code",
-      lastModified: "2024-01-01",
-    },
-    {
-      id: "2",
-      name: "Variable2",
-      label: "Label 2",
-      type: "Numeric",
-      lastModified: "2024-01-02",
-    },
-  ];
 
   const defaultProps = {
     variables: mockVariables,
@@ -112,7 +103,7 @@ describe("GlobalActionsCard", () => {
   });
 
   it("should pass unsavedVariableIds to PhysicalInstancesDataTable", () => {
-    render(<GlobalActionsCard {...defaultProps} unsavedVariableIds={["1", "2"]} />);
+    render(<GlobalActionsCard {...defaultProps} unsavedVariableIds={UNSAVED_VARIABLE_IDS} />);
 
     expect(screen.getByText("Unsaved: 2")).toBeInTheDocument();
   });
@@ -171,7 +162,7 @@ describe("GlobalActionsCard", () => {
   });
 
   it("transmet les stamps de l'instance au tableau des variables", () => {
-    render(<GlobalActionsCard {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+    render(<GlobalActionsCard {...defaultProps} stamps={INSTANCE_STAMPS} />);
 
     expect(screen.getByText("Table stamps: STAMP1,STAMP2")).toBeInTheDocument();
   });

@@ -1,2 +1,7 @@
 node_modules
-*.spec.ts{,x}
+
+# Un motif par extension : .dockerignore suit filepath.Match, qui ne connaît pas
+# l'expansion d'accolades du shell. `*.spec.ts{,x}` ne correspondait à rien, et
+# les 498 fichiers de test partaient dans le contexte de build.
+*.spec.ts
+*.spec.tsx

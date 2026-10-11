@@ -1,7 +1,6 @@
 {
   "errors": {
-    "804": "This quality report cannot be published before its target (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) is published.",
-    "847": "This label already exists"
+    "804": "This quality report cannot be published before its target (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) is published."
   },
   "creators": {
     "title": "Owners",
@@ -31,8 +30,10 @@
     "childrenOperations": "Daughter operations:",
     "parentFamily": "Parent family:",
     "parentSeries": "Parent series:",
+    "physicalInstances": "Data files:",
     "title": "Title",
     "theme": "Theme",
+    "themes": "Themes",
     "summary": "Summary",
     "history": "History",
     "year": "Year",
@@ -164,11 +165,6 @@
     "badUrl": "The link is not valid",
     "requiredFile": "The file is required",
     "requiredUpdatedDate": "The update date is required",
-    "wrongFileName": "The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols",
-    "documents": {
-      "serverSideErrors": {
-        "304": "You cannot edit the file if the document has a quality report attached. To modify the file, please first remove it from the quality report. For more information, please contact the administration team"
-      }
-    }
+    "wrongFileName": "The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols"
   }
 }

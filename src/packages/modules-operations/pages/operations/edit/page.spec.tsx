@@ -1,11 +1,13 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { MemoryRouter, Route, Routes } from "react-router";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
 import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
 vi.mock("@sdk/operations-api", () => ({
@@ -14,21 +16,18 @@ vi.mock("@sdk/operations-api", () => ({
   },
 }));
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    },
-  },
-});
+const NO_PROPERTIES = {} as any;
+const operationEditPage = <Component />;
 
-const renderWithRouter = (id: string) => {
+// Un client neuf par rendu : la fiche chargée par un test ne sert pas le suivant depuis le cache.
+const renderAtRoute = (url: string, routePath: string) => {
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
       <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={[`/operations/operation/${id}`]}>
+        <MemoryRouter initialEntries={Array.of(url)}>
           <Routes>
-            <Route path="/operations/operation/:id" element={<Component />} />
+            <Route path={routePath} element={operationEditPage} />
           </Routes>
         </MemoryRouter>
       </QueryClientProvider>
@@ -36,7 +35,14 @@ const renderWithRouter = (id: string) => {
   );
 };
 
+const renderWithRouter = (id: string) =>
+  renderAtRoute(`/operations/operation/${id}`, "/operations/operation/:id");
+
+const renderWithoutId = () => renderAtRoute("/operations/operation/", "/operations/operation/");
+
 describe("Operations Edition Index Component", () => {
+  beforeEach(() => vi.clearAllMocks());
+
   it("should display loading state when operation is being fetched", () => {
     vi.mocked(OperationsApi.getOperation).mockImplementation(
       () =>
@@ -92,17 +98,7 @@ describe("Operations Edition Index Component", () => {
   it("should render OperationsOperationEdition with empty operation when creating new", async () => {
     vi.mocked(OperationsApi.getOperation).mockResolvedValue({});
 
-    render(
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        <QueryClientProvider client={queryClient}>
-          <MemoryRouter initialEntries={["/operations/operation/"]}>
-            <Routes>
-              <Route path="/operations/operation/" element={<Component />} />
-            </Routes>
-          </MemoryRouter>
-        </QueryClientProvider>
-      </AppContextProvider>,
-    );
+    renderWithoutId();
 
     await waitFor(() => {
       expect(OperationsApi.getOperation).not.toHaveBeenCalled();
@@ -140,18 +136,17 @@ describe("Operations Edition Index Component", () => {
   });
 
   it("should handle undefined operation id", () => {
-    render(
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        <QueryClientProvider client={queryClient}>
-          <MemoryRouter initialEntries={["/operations/operation/"]}>
-            <Routes>
-              <Route path="/operations/operation/" element={<Component />} />
-            </Routes>
-          </MemoryRouter>
-        </QueryClientProvider>
-      </AppContextProvider>,
-    );
+    renderWithoutId();
 
     expect(OperationsApi.getOperation).not.toHaveBeenCalled();
+  });
+
+  it("says the operation could not be loaded instead of loading forever", async () => {
+    vi.mocked(OperationsApi.getOperation).mockRejectedValue(sdkRejection.network());
+
+    renderWithRouter("123");
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument();
   });
 });

@@ -1,14 +1,11 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { PropsWithChildren } from "react";
-import { I18nextProvider } from "react-i18next";
-import { MemoryRouter } from "react-router-dom";
+import { QueryClient } from "@tanstack/react-query";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../../application/app-context";
-import { operationsI18n } from "../../../../i18n";
-import { OperationsSerieEdition } from "./OperationsSerieEdition";
+import { chooseIn, editionProvidersWith } from "../../../edition-form.testing";
+import { OperationsSerieEdition, SerieEditItem } from "./OperationsSerieEdition";
 
 // Seule la source des organizations est simulée : les listes déroulantes qui s'en
 // servent (éditeur, contributeur, collecteur, propriétaire) sont bien celles de
@@ -22,22 +19,21 @@ vi.mock("@utils/hooks/organizations", () => ({
   }),
 }));
 
+vi.mock("@utils/hooks/themes", () => ({
+  useThemes: () => ({
+    data: [
+      { value: "http://bauhaus/concepts/theme/agr", label: "Agriculture" },
+      { value: "http://bauhaus/concepts/theme/eco", label: "Économie" },
+    ],
+  }),
+}));
+
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: {
     postSeries: vi.fn(),
     putSeries: vi.fn(),
   },
 }));
-
-const Providers = ({ children }: PropsWithChildren) => (
-  <I18nextProvider i18n={operationsI18n}>
-    <MemoryRouter>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        {children}
-      </AppContextProvider>
-    </MemoryRouter>
-  </I18nextProvider>
-);
 
 const defaultProps = {
   families: [
@@ -64,9 +60,13 @@ const completeSerie = {
   creators: ["DG75-L201"],
 } as any;
 
-const renderEdition = (props = {}) =>
+const editionOf = (serie: Partial<SerieEditItem>) => (
+  <OperationsSerieEdition {...defaultProps} serie={serie} />
+);
+
+const renderEdition = (props = {}, queryClient?: QueryClient) =>
   render(<OperationsSerieEdition {...defaultProps} serie={completeSerie} {...props} />, {
-    wrapper: Providers,
+    wrapper: editionProvidersWith(queryClient),
   });
 
 describe("OperationsSerieEdition", () => {
@@ -75,33 +75,24 @@ describe("OperationsSerieEdition", () => {
   });
 
   it("reinitialise le formulaire quand la serie affichee change", () => {
-    const { rerender } = render(
-      <OperationsSerieEdition {...defaultProps} serie={{ id: "1", prefLabelLg1: "Série 1" }} />,
-      { wrapper: Providers },
-    );
+    const { rerender } = render(editionOf({ id: "1", prefLabelLg1: "Série 1" }), {
+      wrapper: editionProvidersWith(),
+    });
 
     expect(screen.getByDisplayValue("Série 1")).toBeInTheDocument();
 
-    rerender(
-      <OperationsSerieEdition {...defaultProps} serie={{ id: "2", prefLabelLg1: "Série 2" }} />,
-    );
+    rerender(editionOf({ id: "2", prefLabelLg1: "Série 2" }));
 
     expect(screen.getByDisplayValue("Série 2")).toBeInTheDocument();
     expect(screen.queryByDisplayValue("Série 1")).not.toBeInTheDocument();
   });
 
   it("conserve les saisies en cours quand la serie affichee ne change pas", () => {
-    const { rerender } = render(
-      <OperationsSerieEdition {...defaultProps} serie={{ id: "1", prefLabelLg1: "Série 1" }} />,
-      { wrapper: Providers },
-    );
+    const { rerender } = render(editionOf({ id: "1", prefLabelLg1: "Série 1" }), {
+      wrapper: editionProvidersWith(),
+    });
 
-    rerender(
-      <OperationsSerieEdition
-        {...defaultProps}
-        serie={{ id: "1", prefLabelLg1: "Série 1 renommée ailleurs" }}
-      />,
-    );
+    rerender(editionOf({ id: "1", prefLabelLg1: "Série 1 renommée ailleurs" }));
 
     expect(screen.getByDisplayValue("Série 1")).toBeInTheDocument();
   });
@@ -128,8 +119,91 @@ describe("OperationsSerieEdition — saisie et enregistrement", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
 
-    await waitFor(() => expect(OperationsApi.putSeries).toHaveBeenCalled());
-    expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/series/s1", false);
+    await waitFor(() =>
+      expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/series/s1", false),
+    );
+  });
+
+  it.each([
+    ["Résumé", "abstractLg1"],
+    ["Summary", "abstractLg2"],
+    ["Historique", "historyNoteLg1"],
+    ["History", "historyNoteLg2"],
+  ])("envoie à l'API le markdown saisi dans l'éditeur %s", async (label, field) => {
+    OperationsApi.putSeries.mockResolvedValue(undefined);
+    renderEdition();
+
+    fireEvent.change(screen.getByRole("textbox", { name: label }), {
+      target: { value: "Un **texte**\n\n- point" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() =>
+      expect(OperationsApi.putSeries).toHaveBeenCalledWith(
+        expect.objectContaining({ [field]: "Un **texte**\n\n- point" }),
+      ),
+    );
+  });
+
+  it("périme les indicateurs en cache, qui affichent le libellé de leurs séries", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["indicators", "i1"], { id: "i1" });
+    let invalidatedAtGoBack: boolean | undefined;
+    defaultProps.goBack.mockImplementationOnce(() => {
+      invalidatedAtGoBack = queryClient.getQueryState(["indicators", "i1"])?.isInvalidated;
+    });
+    OperationsApi.putSeries.mockResolvedValue(undefined);
+    renderEdition({}, queryClient);
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toBe(true);
+  });
+
+  it("périme les opérations en cache, qui affichent le libellé de leur série", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["operations", "o1"], { id: "o1" });
+    let invalidatedAtGoBack: boolean | undefined;
+    defaultProps.goBack.mockImplementationOnce(() => {
+      invalidatedAtGoBack = queryClient.getQueryState(["operations", "o1"])?.isInvalidated;
+    });
+    OperationsApi.putSeries.mockResolvedValue(undefined);
+    renderEdition({}, queryClient);
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toBe(true);
+  });
+
+  it("périme la série en cache avant de revenir sur sa fiche", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["series", "s1"], { id: "s1" });
+    let invalidatedAtGoBack: boolean | undefined;
+    defaultProps.goBack.mockImplementationOnce(() => {
+      invalidatedAtGoBack = queryClient.getQueryState(["series", "s1"])?.isInvalidated;
+    });
+    OperationsApi.putSeries.mockResolvedValue(undefined);
+    renderEdition({}, queryClient);
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toBe(true);
+  });
+
+  it("ne réaffiche pas le formulaire pendant le retour sur la fiche après l'enregistrement", async () => {
+    // La navigation de goBack est asynchrone (navigate(-1), route chargée à la demande) : tant
+    // qu'elle n'a pas abouti, le composant reste monté et ne doit pas repasser sur le formulaire.
+    OperationsApi.putSeries.mockResolvedValue(undefined);
+    renderEdition();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    await act(async () => {});
+    expect(screen.queryByRole("button", { name: /save|sauvegarder/i })).not.toBeInTheDocument();
   });
 
   it("crée une série puis ouvre la fiche renvoyée par le serveur", async () => {
@@ -138,8 +212,9 @@ describe("OperationsSerieEdition — saisie et enregistrement", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
 
-    await waitFor(() => expect(OperationsApi.postSeries).toHaveBeenCalled());
-    expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/series/s2", true);
+    await waitFor(() =>
+      expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/series/s2", true),
+    );
   });
 
   it("affiche les erreurs de saisie et n'appelle pas le serveur", async () => {
@@ -159,6 +234,46 @@ describe("OperationsSerieEdition — saisie et enregistrement", () => {
 
     expect(await screen.findByText("Erreur serveur")).toBeInTheDocument();
     expect(defaultProps.goBack).not.toHaveBeenCalled();
+  });
+
+  it("affiche une erreur de validation du serveur sous le champ concerné", async () => {
+    OperationsApi.putSeries.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "prefLabelLg1", message: "prefLabelLg1 is required" }],
+    });
+    renderEdition();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    const input = await screen.findByDisplayValue("Série 1");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("prefLabelLg1 is required"));
+    expect(input).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("n'affiche pas d'erreur générique quand toutes les erreurs du serveur sont sous leur champ", async () => {
+    OperationsApi.putSeries.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "prefLabelLg1", message: "prefLabelLg1 is required" }],
+    });
+    renderEdition();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    const input = await screen.findByDisplayValue("Série 1");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("prefLabelLg1 is required"));
+    expect(screen.queryByText(/An error has occurred|Une erreur s'est produite/)).toBeNull();
+  });
+
+  it("affiche dans le bandeau une erreur du serveur sur un champ absent du formulaire", async () => {
+    OperationsApi.putSeries.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "created", message: "is not a valid LocalDate" }],
+    });
+    renderEdition();
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    expect(await screen.findByText("created : is not a valid LocalDate")).toBeInTheDocument();
   });
 
   it("revient à la liste des séries quand on annule", () => {
@@ -195,25 +310,6 @@ describe("OperationsSerieEdition — champs à choix", () => {
     OperationsApi.putSeries.mockResolvedValue(undefined);
     OperationsApi.postSeries.mockResolvedValue("s9");
   });
-
-  // Le libellé est tantôt le parent direct de la liste, tantôt son voisin dans le
-  // groupe de champs : on retient celui des deux qui la contient.
-  const fieldLabelled = (label: string | RegExp) => {
-    const node = screen.getByText(label);
-    const holder = [node.closest("label"), node.closest(".form-group")].find((el) =>
-      el?.querySelector(".p-dropdown, .p-multiselect"),
-    )!;
-    return holder.querySelector<HTMLElement>(".p-dropdown, .p-multiselect")!;
-  };
-
-  // Une liste PrimeReact s'ouvre au clic sur son champ et pose son panneau en fin
-  // de document ; le clic suivant hors du panneau le referme.
-  const chooseIn = (label: string | RegExp, option: string) => {
-    fireEvent.click(fieldLabelled(label));
-    const items = screen.getAllByText(option);
-    fireEvent.click(items[items.length - 1]);
-    fireEvent.mouseDown(document.body);
-  };
 
   const saveAndRead = async (api: "putSeries" | "postSeries" = "putSeries") => {
     fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
@@ -253,7 +349,7 @@ describe("OperationsSerieEdition — champs à choix", () => {
       expect.objectContaining({
         replaces: [{ id: "other", type: "series" }],
         isReplacedBy: [{ id: "other", type: "series" }],
-        seeAlso: [expect.objectContaining({ id: "i1" })],
+        seeAlso: [{ id: "i1", type: "indicator" }],
       }),
     );
   });
@@ -270,6 +366,20 @@ describe("OperationsSerieEdition — champs à choix", () => {
         publishers: [{ id: "http://org/insee" }],
         contributors: [{ id: "http://org/dares" }],
         dataCollectors: [{ id: "http://org/insee" }],
+      }),
+    );
+  });
+
+  it("ajoute le thème choisi à ceux déjà enregistrés", async () => {
+    renderEdition({
+      serie: { ...completeSerie, themes: ["http://bauhaus/concepts/theme/agr"] },
+    });
+
+    chooseIn("Thèmes", "Économie");
+
+    expect(await saveAndRead()).toEqual(
+      expect.objectContaining({
+        themes: ["http://bauhaus/concepts/theme/agr", "http://bauhaus/concepts/theme/eco"],
       }),
     );
   });
@@ -293,11 +403,8 @@ describe("OperationsSerieEdition — textes longs", () => {
     OperationsApi.putSeries.mockResolvedValue(undefined);
   });
 
-  // Chaque éditeur markdown ne remonte sa valeur qu'à la sortie du champ.
   const clearEditorOf = (label: string) => {
-    const group = screen.getByText(label).closest(".form-group")!;
-    fireEvent.click(group.querySelector('[title="Delete"]')!);
-    fireEvent.blur(group.querySelector(".public-DraftEditor-content")!);
+    fireEvent.change(screen.getByRole("textbox", { name: label }), { target: { value: "" } });
   };
 
   it("enregistre le résumé et l'historique vidés par l'utilisateur", async () => {

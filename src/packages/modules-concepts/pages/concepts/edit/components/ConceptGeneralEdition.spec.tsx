@@ -15,12 +15,14 @@ vi.mock("@utils/hooks/useLocales", () => ({
   useLocales: () => ({ lg1: "fr", lg2: "en" }),
 }));
 
-vi.mock("@components/business/creators-input", () => ({
-  CreatorsInput: () => <></>,
-}));
-vi.mock("@components/business/contributors-input/contributors-input", () => ({
-  ContributorsInput: () => <></>,
-}));
+vi.mock(
+  "@components/business/creators-input",
+  () => import("../../../../testing/form-stubs.testing"),
+);
+vi.mock(
+  "@components/business/contributors-input/contributors-input",
+  () => import("../../../../testing/form-stubs.testing"),
+);
 vi.mock("@components/dissemination-status/disseminationStatus", () => ({
   DisseminationStatusInput: () => <></>,
 }));

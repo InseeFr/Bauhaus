@@ -34,7 +34,7 @@ export const Representation = ({
           aria-label={t("component.seeCodelistDetails")}
           title={t("component.seeCodelistDetails")}
         >
-          <span className="glyphicon glyphicon-th"></span>
+          <span className="pi pi-th-large"></span>
         </button>
       </div>
     );

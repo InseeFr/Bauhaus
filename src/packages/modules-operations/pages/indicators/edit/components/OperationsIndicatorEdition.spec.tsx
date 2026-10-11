@@ -1,13 +1,10 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { PropsWithChildren } from "react";
-import { I18nextProvider } from "react-i18next";
-import { MemoryRouter } from "react-router-dom";
+import { QueryClient } from "@tanstack/react-query";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../../application/app-context";
-import { operationsI18n } from "../../../../i18n";
+import { chooseIn, editionProvidersWith, fieldLabelled } from "../../../edition-form.testing";
 import { OperationsIndicatorEdition } from "./OperationsIndicatorEdition";
 
 vi.mock("@components/business/stamps-input/stamps-input", () => ({
@@ -27,16 +24,6 @@ vi.mock("@sdk/operations-api", () => ({
   },
 }));
 
-const Providers = ({ children }: PropsWithChildren) => (
-  <I18nextProvider i18n={operationsI18n}>
-    <MemoryRouter>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        {children}
-      </AppContextProvider>
-    </MemoryRouter>
-  </I18nextProvider>
-);
-
 const completeIndicator = {
   id: "i1",
   prefLabelLg1: "Indicateur 1",
@@ -44,6 +31,9 @@ const completeIndicator = {
   creators: ["DG75-L201"],
   wasGeneratedBy: [{ id: "s1", type: "series" }],
 } as any;
+
+const otherIndicator = { ...completeIndicator, id: "i2", prefLabelLg1: "Indicateur 2" };
+const sameIndicatorRenamedElsewhere = { ...completeIndicator, prefLabelLg1: "Renommé ailleurs" };
 
 const defaultProps = {
   frequencies: { codes: [{ code: "A", labelLg1: "Annuelle" }] },
@@ -58,12 +48,10 @@ const defaultProps = {
   goBack: vi.fn(),
 } as any;
 
-const renderEdition = (props = {}) =>
+const renderEdition = (props = {}, queryClient?: QueryClient) =>
   render(
     <OperationsIndicatorEdition {...defaultProps} indicator={completeIndicator} {...props} />,
-    {
-      wrapper: Providers,
-    },
+    { wrapper: editionProvidersWith(queryClient) },
   );
 
 const saveButton = () => screen.getByRole("button", { name: /save|sauvegarder/i });
@@ -78,12 +66,7 @@ describe("OperationsIndicatorEdition", () => {
 
     expect(screen.getByDisplayValue("Indicateur 1")).toBeInTheDocument();
 
-    rerender(
-      <OperationsIndicatorEdition
-        {...defaultProps}
-        indicator={{ ...completeIndicator, id: "i2", prefLabelLg1: "Indicateur 2" }}
-      />,
-    );
+    rerender(<OperationsIndicatorEdition {...defaultProps} indicator={otherIndicator} />);
 
     expect(screen.getByDisplayValue("Indicateur 2")).toBeInTheDocument();
   });
@@ -92,10 +75,7 @@ describe("OperationsIndicatorEdition", () => {
     const { rerender } = renderEdition();
 
     rerender(
-      <OperationsIndicatorEdition
-        {...defaultProps}
-        indicator={{ ...completeIndicator, prefLabelLg1: "Renommé ailleurs" }}
-      />,
+      <OperationsIndicatorEdition {...defaultProps} indicator={sameIndicatorRenamedElsewhere} />,
     );
 
     expect(screen.getByDisplayValue("Indicateur 1")).toBeInTheDocument();
@@ -117,8 +97,59 @@ describe("OperationsIndicatorEdition", () => {
 
     fireEvent.click(saveButton());
 
-    await waitFor(() => expect(OperationsApi.updateIndicator).toHaveBeenCalled());
-    expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/indicator/i1", false);
+    await waitFor(() =>
+      expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/indicator/i1", false),
+    );
+  });
+
+  it("périme les séries en cache, dont la fiche liste les indicateurs qu'elles produisent", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["series", "s1"], { id: "s1" });
+    let invalidatedAtGoBack: boolean | undefined;
+    defaultProps.goBack.mockImplementationOnce(() => {
+      invalidatedAtGoBack = queryClient.getQueryState(["series", "s1"])?.isInvalidated;
+    });
+    OperationsApi.updateIndicator.mockResolvedValue(undefined);
+    renderEdition({}, queryClient);
+
+    fireEvent.click(saveButton());
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toBe(true);
+  });
+
+  it("périme les indicateurs en cache avant de revenir sur la fiche", async () => {
+    // Sans cela, la fiche et la liste réaffichent l'indicateur d'avant la modification.
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["indicators"], defaultProps.indicators);
+    queryClient.setQueryData(["indicators", "i1"], completeIndicator);
+    const invalidatedAtGoBack: (boolean | undefined)[] = [];
+    defaultProps.goBack.mockImplementationOnce(() =>
+      invalidatedAtGoBack.push(
+        queryClient.getQueryState(["indicators"])?.isInvalidated,
+        queryClient.getQueryState(["indicators", "i1"])?.isInvalidated,
+      ),
+    );
+    OperationsApi.updateIndicator.mockResolvedValue(undefined);
+    renderEdition({}, queryClient);
+
+    fireEvent.click(saveButton());
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    expect(invalidatedAtGoBack).toEqual([true, true]);
+  });
+
+  it("ne réaffiche pas le formulaire pendant le retour sur la fiche après l'enregistrement", async () => {
+    // La navigation de goBack est asynchrone (navigate(-1), route chargée à la demande) : tant
+    // qu'elle n'a pas abouti, le composant reste monté et ne doit pas repasser sur le formulaire.
+    OperationsApi.updateIndicator.mockResolvedValue(undefined);
+    renderEdition();
+
+    fireEvent.click(saveButton());
+
+    await waitFor(() => expect(defaultProps.goBack).toHaveBeenCalled());
+    await act(async () => {});
+    expect(screen.queryByRole("button", { name: /save|sauvegarder/i })).not.toBeInTheDocument();
   });
 
   it("crée un indicateur puis ouvre la fiche renvoyée par le serveur", async () => {
@@ -127,8 +158,9 @@ describe("OperationsIndicatorEdition", () => {
 
     fireEvent.click(saveButton());
 
-    await waitFor(() => expect(OperationsApi.createIndicator).toHaveBeenCalled());
-    expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/indicator/i2", true);
+    await waitFor(() =>
+      expect(defaultProps.goBack).toHaveBeenCalledWith("/operations/indicator/i2", true),
+    );
   });
 
   it("affiche les erreurs de saisie et n'appelle pas le serveur", async () => {
@@ -150,6 +182,32 @@ describe("OperationsIndicatorEdition", () => {
     expect(defaultProps.goBack).not.toHaveBeenCalled();
   });
 
+  it("affiche une erreur de validation du serveur sous le champ concerné", async () => {
+    OperationsApi.updateIndicator.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "prefLabelLg1", message: "must not be blank" }],
+    });
+    renderEdition();
+
+    fireEvent.click(saveButton());
+
+    const input = await screen.findByDisplayValue("Indicateur 1");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("must not be blank"));
+    expect(input).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("affiche dans le bandeau une erreur du serveur sur un champ absent du formulaire", async () => {
+    OperationsApi.updateIndicator.mockRejectedValue({
+      status: 400,
+      errors: [{ field: "created", message: "is not a valid LocalDate" }],
+    });
+    renderEdition();
+
+    fireEvent.click(saveButton());
+
+    expect(await screen.findByText("created : is not a valid LocalDate")).toBeInTheDocument();
+  });
+
   it("n'affiche pas le titre de page tant que l'indicateur n'est pas créé", () => {
     renderEdition({ indicator: { ...completeIndicator, id: undefined } });
 
@@ -162,23 +220,6 @@ describe("OperationsIndicatorEdition — champs à choix", () => {
     vi.clearAllMocks();
     OperationsApi.updateIndicator.mockResolvedValue(undefined);
   });
-
-  const fieldLabelled = (label: string | RegExp) => {
-    const node = screen.getByText(label);
-    const holder = [node.closest("label"), node.closest(".form-group")].find((el) =>
-      el?.querySelector(".p-dropdown, .p-multiselect"),
-    )!;
-    return holder.querySelector<HTMLElement>(".p-dropdown, .p-multiselect")!;
-  };
-
-  // Une liste PrimeReact s'ouvre au clic sur son champ et pose son panneau en fin
-  // de document ; le clic suivant hors du panneau le referme.
-  const chooseIn = (label: string | RegExp, option: string) => {
-    fireEvent.click(fieldLabelled(label));
-    const items = screen.getAllByText(option);
-    fireEvent.click(items[items.length - 1]);
-    fireEvent.mouseDown(document.body);
-  };
 
   const saveAndRead = async () => {
     fireEvent.click(saveButton());
@@ -222,6 +263,16 @@ describe("OperationsIndicatorEdition — champs à choix", () => {
         ],
         seeAlso: [{ id: "s1", type: "series" }],
       }),
+    );
+  });
+
+  it("enregistre un indicateur lié comme un lien vers un indicateur", async () => {
+    renderEdition();
+
+    chooseIn("Séries ou Indicateurs liés", "indicator - Autre indicateur");
+
+    expect(await saveAndRead()).toEqual(
+      expect.objectContaining({ seeAlso: [{ id: "other", type: "indicator" }] }),
     );
   });
 

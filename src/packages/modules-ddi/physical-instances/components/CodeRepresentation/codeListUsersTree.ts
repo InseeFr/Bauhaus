@@ -1,4 +1,4 @@
-import type { TreeNode } from "primereact/treenode";
+import type { TreeNode } from "@components/ui/tree-node";
 
 import type { CodeListUsage } from "../../types/api";
 

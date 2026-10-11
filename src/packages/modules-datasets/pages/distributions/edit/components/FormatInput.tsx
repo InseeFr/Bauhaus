@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { TextInput } from "@components/form/input";
+import { DatalistInput } from "@components/datalist-input";
 
 const FORMAT_OPTIONS = ["CSV", "PARQUET"];
 
@@ -14,18 +14,13 @@ export const FormatInput = ({ value, onChange }: Readonly<FormatInputProps>) => 
 
   return (
     <div className="col-md-12 form-group">
-      <label htmlFor="format">{t("distribution.format")}</label>
-      <TextInput
+      <DatalistInput
         id="format"
+        label={t("distribution.format")}
+        options={FORMAT_OPTIONS}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        list="format-list"
+        onChange={onChange}
       />
-      <datalist id="format-list">
-        {FORMAT_OPTIONS.map((option) => (
-          <option key={option} value={option}></option>
-        ))}
-      </datalist>
     </div>
   );
 };

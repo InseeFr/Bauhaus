@@ -3,7 +3,9 @@ import { beforeEach, describe, it, expect, vi } from "vitest";
 
 import { GeographieApi } from "@sdk/geographie";
 
+import { appI18n } from "../../i18n";
 import { renderWithRouterAndQuery } from "../../tests/render";
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { SimsGeographyField, SimsGeographyFieldTypes } from "./SimsGeographyField";
 import { removeAccents } from "./SimsGeographyPicker";
 
@@ -18,62 +20,50 @@ vi.mock("@sdk/geographie", () => ({
 // renderWithRouterAndQuery does not wrap components in an I18nextProvider, so useTranslation()
 // falls back to whichever i18next singleton happens to be initialized in this test file's module
 // graph (none, here). Mock it directly with the real operations translations this component needs.
-// Mock partiel : `initReactI18next` doit rester réel, l'i18n du module est
-// initialisé au chargement de son bootstrap.
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: (ns?: string, options?: any) => {
-      if (options?.i18n) {
-        return actual.useTranslation(ns, options);
-      }
-      const translations: Record<string, string> = {
-        "geography.include": "Include",
-        "geography.exclude": "Exclude",
-        "geography.zoneName": "Zone name",
-        "geography.includedZone": "Included zones",
-        "geography.excludedZone": "Excluded zones",
-        "geography.btnDelete": "Delete",
-      };
-      const t = (key: string) => translations[key] ?? key;
-      return { t };
-    },
-  };
-});
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("../react-i18next.testing")).mockTranslations(importOriginal, {
+    "geography.include": "Include",
+    "geography.exclude": "Exclude",
+    "geography.zoneName": "Zone name",
+    "geography.includedZone": "Included zones",
+    "geography.excludedZone": "Excluded zones",
+    "geography.btnDelete": "Delete",
+  }),
+);
 
 const renderComponent = (props: Partial<SimsGeographyFieldTypes> = {}) => {
   return renderWithRouterAndQuery(<SimsGeographyField {...(props as SimsGeographyFieldTypes)} />);
 };
 
+const aTerritory = (overrides: Record<string, string> = {}) => ({
+  id: "123",
+  uri: "http://territory1",
+  labelLg1: "Test Territory",
+  labelLg2: "Territoire Test",
+  unions: [],
+  difference: [],
+  ...overrides,
+});
+
+const clickSave = () => fireEvent.click(screen.getByText("Save"));
+
 describe("SimsGeographyField", () => {
   const mockOnCancel = vi.fn();
   const mockOnSave = vi.fn();
 
+  const renderField = (props: Partial<SimsGeographyFieldTypes> = {}) =>
+    renderComponent({ onCancel: mockOnCancel, onSave: mockOnSave, ...props });
+
   it("should render the component with empty territory", () => {
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    const { container } = renderField();
     expect(container.querySelectorAll('input[type="text"]')).toHaveLength(3);
     expect(container.querySelector(".bauhaus-sims-geography-field")).toBeTruthy();
   });
 
   it("should render with existing territory data", () => {
-    const territory = {
-      id: "123",
-      uri: "http://territory1",
-      labelLg1: "Test Territory",
-      labelLg2: "Territoire Test",
-      unions: [],
-      difference: [],
-    };
+    const territory = aTerritory();
 
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-      territory,
-    });
+    const { container } = renderField({ territory });
 
     const inputs = container.querySelectorAll<HTMLInputElement>('input[type="text"]');
     expect(inputs[0].value).toBe("Test Territory");
@@ -81,10 +71,7 @@ describe("SimsGeographyField", () => {
   });
 
   it("should update name input fields", () => {
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    const { container } = renderField();
 
     const inputs = container.querySelectorAll<HTMLInputElement>('input[type="text"]');
     const nameInput = inputs[0];
@@ -98,10 +85,7 @@ describe("SimsGeographyField", () => {
   });
 
   it("should call onCancel when cancel button is clicked", () => {
-    renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    renderField();
 
     const cancelButton = screen.getByText("Cancel");
     fireEvent.click(cancelButton);
@@ -110,10 +94,7 @@ describe("SimsGeographyField", () => {
   });
 
   it("should enable include/exclude buttons when geography is selected", () => {
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    const { container } = renderField();
 
     const buttons = container.querySelectorAll<HTMLButtonElement>(".btn-group button");
     const includeButton = buttons[0];
@@ -124,10 +105,7 @@ describe("SimsGeographyField", () => {
   });
 
   it("should add geography to includes list when include button is clicked", () => {
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    const { container } = renderField();
 
     const buttons = container.querySelectorAll<HTMLButtonElement>("fieldset.btn-group button");
     const includeButton = buttons[0];
@@ -138,17 +116,13 @@ describe("SimsGeographyField", () => {
   it("should call postTerritory when saving new territory", async () => {
     GeographieApi.postTerritory.mockResolvedValue("http://new-territory");
 
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    const { container } = renderField();
 
     const inputs = container.querySelectorAll<HTMLInputElement>('input[type="text"]');
     fireEvent.change(inputs[0], { target: { value: "New Territory" } });
     fireEvent.change(inputs[1], { target: { value: "Nouveau Territoire" } });
 
-    const saveButton = screen.getByText("Save");
-    fireEvent.click(saveButton);
+    clickSave();
 
     await waitFor(() => {
       expect(GeographieApi.postTerritory).toHaveBeenCalledWith(
@@ -167,25 +141,13 @@ describe("SimsGeographyField", () => {
   });
 
   it("should call putTerritory when updating existing territory", async () => {
-    const territory = {
-      id: "123",
-      uri: "http://territory1",
-      labelLg1: "Test Territory",
-      labelLg2: "Territoire Test",
-      unions: [],
-      difference: [],
-    };
+    const territory = aTerritory();
 
     GeographieApi.putTerritory.mockResolvedValue("http://territory1");
 
-    renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-      territory,
-    });
+    renderField({ territory });
 
-    const saveButton = screen.getByText("Save");
-    fireEvent.click(saveButton);
+    clickSave();
 
     await waitFor(() => {
       expect(GeographieApi.putTerritory).toHaveBeenCalledWith(
@@ -204,31 +166,40 @@ describe("SimsGeographyField", () => {
     });
   });
 
-  it("should display error message when save fails", async () => {
-    const errorMessage = "Save failed";
-    GeographieApi.postTerritory.mockRejectedValue(JSON.stringify({ message: errorMessage }));
+  describe("when the save fails", () => {
+    const saveWithRejection = (rejection: unknown) => {
+      GeographieApi.postTerritory.mockRejectedValue(rejection);
 
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
+      const { container } = renderField();
+      const inputs = container.querySelectorAll<HTMLInputElement>('input[type="text"]');
+      fireEvent.change(inputs[0], { target: { value: "Test" } });
+
+      clickSave();
+    };
+
+    it("displays the message of the API error", async () => {
+      saveWithRejection(sdkRejection.json(409, { message: "Territory already exists" }));
+
+      expect(await screen.findByText("Territory already exists")).toBeInTheDocument();
     });
 
-    const inputs = container.querySelectorAll<HTMLInputElement>('input[type="text"]');
-    fireEvent.change(inputs[0], { target: { value: "Test" } });
+    it("translates the error code of a business refusal", async () => {
+      saveWithRejection(
+        sdkRejection.json(400, { code: "847", message: "The labelLg1 already exists" }),
+      );
 
-    const saveButton = screen.getByText("Save");
-    fireEvent.click(saveButton);
+      expect(await screen.findByText(appI18n.t("errors.847"))).toBeInTheDocument();
+    });
 
-    await waitFor(() => {
-      expect(container.querySelector(".alert-danger")).toBeTruthy();
+    it("displays the network error message on a network failure", async () => {
+      saveWithRejection(sdkRejection.network());
+
+      expect(await screen.findByText(appI18n.t("errors.NETWORK_ERROR"))).toBeInTheDocument();
     });
   });
 
   it("should render included and excluded geographies sections", () => {
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    const { container } = renderField();
 
     // Check that the component has sections for included and excluded zones
     const headers = container.querySelectorAll("h4");
@@ -236,45 +207,22 @@ describe("SimsGeographyField", () => {
   });
 
   it("should render with existing territory data including unions and difference", () => {
-    const territory = {
-      id: "123",
-      uri: "http://territory1",
-      labelLg1: "Test Territory",
-      labelLg2: "Territoire Test",
-      unions: [],
-      difference: [],
-    };
+    const territory = aTerritory();
 
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-      territory,
-    });
+    const { container } = renderField({ territory });
 
     // Verify the component renders without crashing
     expect(container.querySelector(".bauhaus-sims-geography-field")).toBeTruthy();
   });
 
   it("should pass territory data to save callback", async () => {
-    const territory = {
-      id: "123",
-      uri: "http://territory1",
-      labelLg1: "Test",
-      labelLg2: "Test",
-      unions: [],
-      difference: [],
-    };
+    const territory = aTerritory({ labelLg1: "Test", labelLg2: "Test" });
 
     GeographieApi.putTerritory.mockResolvedValue("http://territory1");
 
-    renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-      territory,
-    });
+    renderField({ territory });
 
-    const saveButton = screen.getByText("Save");
-    fireEvent.click(saveButton);
+    clickSave();
 
     await waitFor(() => {
       expect(GeographieApi.putTerritory).toHaveBeenCalledWith(
@@ -288,10 +236,7 @@ describe("SimsGeographyField", () => {
   });
 
   it("should render Select component", () => {
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    const { container } = renderField();
 
     // The component should have a select/dropdown for geographies
     const selectContainer = container.querySelector(".form-group");
@@ -299,20 +244,14 @@ describe("SimsGeographyField", () => {
   });
 
   it("should render ActionToolbar with Cancel and Save buttons", () => {
-    renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    renderField();
 
     expect(screen.getByText("Cancel")).toBeInTheDocument();
     expect(screen.getByText("Save")).toBeInTheDocument();
   });
 
   it("should have include button with correct text", () => {
-    renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    renderField();
 
     const includeButton = screen.getByText("Include");
     expect(includeButton).toBeInTheDocument();
@@ -320,10 +259,7 @@ describe("SimsGeographyField", () => {
   });
 
   it("should have exclude button with correct text", () => {
-    renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    renderField();
 
     const excludeButton = screen.getByText("Exclude");
     expect(excludeButton).toBeInTheDocument();
@@ -331,11 +267,7 @@ describe("SimsGeographyField", () => {
   });
 
   it("should initialize with empty strings when territory labels are not provided", () => {
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-      territory: {},
-    });
+    const { container } = renderField({ territory: {} });
 
     const inputs = container.querySelectorAll<HTMLInputElement>('input[type="text"]');
     expect(inputs[0].value).toBe("");
@@ -343,25 +275,17 @@ describe("SimsGeographyField", () => {
   });
 
   it("should handle save with uri from territory when updating", async () => {
-    const territory = {
-      id: "123",
+    const territory = aTerritory({
       uri: "http://existing-uri",
       labelLg1: "Test",
       labelLg2: "Test",
-      unions: [],
-      difference: [],
-    };
+    });
 
     GeographieApi.putTerritory.mockResolvedValue("http://new-uri");
 
-    renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-      territory,
-    });
+    renderField({ territory });
 
-    const saveButton = screen.getByText("Save");
-    fireEvent.click(saveButton);
+    clickSave();
 
     await waitFor(() => {
       expect(mockOnSave).toHaveBeenCalledWith("http://existing-uri");
@@ -369,10 +293,7 @@ describe("SimsGeographyField", () => {
   });
 
   it("should render SimsGeographySelector component", () => {
-    const { container } = renderComponent({
-      onCancel: mockOnCancel,
-      onSave: mockOnSave,
-    });
+    const { container } = renderField();
 
     const headers = container.querySelectorAll("h4");
     expect(headers.length).toBeGreaterThanOrEqual(2);

@@ -1,0 +1,28 @@
+/* Certains modules élargissent leurs conteneurs (le DDI : `.ddi .container`, 95 % et marge de
+   2em) et enveloppent déjà chaque page dans un conteneur. Les pages d'accueil gardent la même
+   géométrie partout : largeur Bootstrap, pas de marge en plus. Le `div` en tête des sélecteurs
+   l'emporte sur `.ddi .container`, quel que soit l'ordre de chargement des feuilles. */
+div.container.home-page-layout {
+  max-width: 1170px;
+  margin: 0 auto;
+}
+
+/* Le conteneur que certains modules (DDI, listes de codes, structures) mettent autour de chaque
+   page : sans marge haute ni padding, il laisse au layout ses 1170px sans le décaler. */
+div.container:has(> .home-page-layout) {
+  margin-top: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* Le menu (col-md-3) garde la largeur qu'il a sur un conteneur de 1170px. */
+.home-page-layout .btn-group-vertical {
+  max-width: 292.5px;
+}
+
+/* Sous 1000px, la liste prend toute la largeur (repris de `.operations-list`). */
+@media (width <= 1000px) {
+  .home-page-layout__content {
+    width: 100%;
+  }
+}

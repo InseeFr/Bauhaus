@@ -1,14 +1,17 @@
-import { Button } from "primereact/button";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { useReducer, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
+
+import { Button } from "@components/ui/button";
+import { Message } from "@components/ui/message";
+import { ProgressSpinner } from "@components/ui/spinner";
 
 import { useAppContext } from "../../../../application/app-context";
 import { useAllCodeLists } from "../../../hooks/useAllCodeLists";
 import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useMutualizedCodeList } from "../../../hooks/useMutualizedCodeList";
+import { useMutualizedCodeListCodes } from "../../../hooks/useMutualizedCodeListCodes";
 import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
@@ -16,6 +19,8 @@ import type {
 } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
 import { CategoryUsageDialog } from "./CategoryUsageDialog";
+import type { CsvCodeRow } from "./codeListCsv";
+import { CodeListCsvImport } from "./CodeListCsvImport";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
 import { CodeListUsersPanel } from "./CodeListUsersPanel";
 import { codeRepresentationReducer, initialState } from "./CodeRepresentation.reducer";
@@ -71,7 +76,15 @@ export const CodeRepresentation = ({
     codeListLabel: getLocalizedText(codeList?.Label) ?? "",
   });
 
-  const { codeListLabel, codes, showDataTable, showReuseSelect, selectedCodeListId } = state;
+  const {
+    codeListLabel,
+    codes,
+    showDataTable,
+    showReuseSelect,
+    showCsvImport,
+    selectedCodeListId,
+    importedCodesCount,
+  } = state;
 
   const referencedCodeListAgency = codeList?.Agency ?? representation?.CodeListReference?.Agency;
   const referencedCodeListId = codeList?.ID ?? representation?.CodeListReference?.ID;
@@ -127,13 +140,19 @@ export const CodeRepresentation = ({
     });
 
   // Contenu (codes + catégories) de la liste sélectionnée, récupéré par agency/id.
-  // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back (il délègue à
-  // getCodeList) : il sert donc aussi bien aux listes mutualisées qu'aux listes du groupe.
-  // On charge le contenu dès qu'une liste est sélectionnée, quel que soit son type.
+  // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back : il sert aux listes
+  // du groupe, éditables, qui ont besoin du DDI4 complet. Une liste mutualisée, en lecture seule,
+  // n'a besoin que de la valeur et du libellé de chaque code : elle passe par la vue allégée
+  // (`.../codes`), ~15 fois plus légère pour une grosse nomenclature.
   const { data: selectedListCodes, isLoading: isLoadingSelectedListCodes } = useMutualizedCodeList(
-    selectedAgency,
-    selectedListId,
+    isSelectedListMutualized ? "" : selectedAgency,
+    isSelectedListMutualized ? "" : selectedListId,
   );
+  const { data: selectedMutualizedCodes, isLoading: isLoadingSelectedMutualizedCodes } =
+    useMutualizedCodeListCodes(
+      isSelectedListMutualized ? selectedAgency : "",
+      isSelectedListMutualized ? selectedListId : "",
+    );
 
   // Ligne dont le menu « Utilisation » est ouvert : la popup reste montée après fermeture pour
   // laisser jouer l'animation, mais ne charge plus rien (le hook est désactivé avec `visible`).
@@ -170,8 +189,11 @@ export const CodeRepresentation = ({
 
     if (codeList) {
       // Cas où on a une codeList complète (création ou liste existante chargée)
+      // Index par ID : un find() par code serait quadratique (45 000 codes → ~2 milliards de
+      // comparaisons, onglet figé).
+      const categoryById = new Map(categories.map((cat) => [cat.ID, cat]));
       const tableData: CodeTableRow[] = (codeList.Code ?? []).map((code) => {
-        const category = categories.find((cat) => cat.ID === code.CategoryReference?.ID);
+        const category = categoryById.get(code.CategoryReference?.ID ?? "");
         return {
           id: code.ID,
           value: code.Value?.StringValue ?? "",
@@ -254,6 +276,19 @@ export const CodeRepresentation = ({
       );
     }
   }, [selectedListCodes]);
+
+  // Même chargement pour une liste mutualisée, depuis sa vue allégée : lecture seule, donc rien à
+  // matérialiser dans la variable.
+  useEffect(() => {
+    if (!selectedMutualizedCodes) return;
+    dispatch({
+      type: "LOAD_REUSED_CODES",
+      payload: {
+        label: selectedMutualizedCodes.label,
+        codes: selectedMutualizedCodes.codes.map((code) => ({ ...code, categoryId: "" })),
+      },
+    });
+  }, [selectedMutualizedCodes]);
 
   /**
    * Frappe dans le libellé de la liste : appliquée telle quelle. La décision est demandée dans la
@@ -457,6 +492,41 @@ export const CodeRepresentation = ({
     onChange(newRepresentation, newCodeList, [newCategory]);
   };
 
+  /**
+   * Import CSV validé : comme « Créer une nouvelle liste », la variable reçoit une liste neuve
+   * (nouvel ID), avec un code et une catégorie neufs par ligne. Rien n'est rapproché de l'existant.
+   */
+  const handleImportCsv = (rows: CsvCodeRow[], fileName: string) => {
+    const newCodeListId = crypto.randomUUID();
+    const tableRows: CodeTableRow[] = rows.map(({ code, value }) => ({
+      id: crypto.randomUUID(),
+      value: code,
+      label: value,
+      categoryId: crypto.randomUUID(),
+    }));
+
+    dispatch({ type: "IMPORT_CODES", payload: { label: fileName, codes: tableRows } });
+    // L'état local vient d'être initialisé avec la liste importée : l'effet d'initialisation ne
+    // doit pas le réinitialiser (et effacer le message de succès) quand le parent la renverra.
+    codeListIdRef.current = newCodeListId;
+    hasInitializedRef.current = true;
+    resetAcknowledgements();
+
+    const newCodeList: CodeList = {
+      ...createDefaultCodeList(newCodeListId, fileName, defaultAgencyId, defaultLocale),
+      Code: tableRows.map((row) => createCode(row.id, row.categoryId, row.value, defaultAgencyId)),
+    };
+    const newCategories = tableRows.map((row) =>
+      createCategory(row.categoryId, row.label, defaultAgencyId, defaultLocale),
+    );
+
+    onChange(
+      createDefaultRepresentation(newCodeListId, defaultAgencyId),
+      newCodeList,
+      newCategories,
+    );
+  };
+
   const handleMoveCode = (codeId: string, direction: "up" | "down") =>
     withOverrideGuard((commit) => {
       const currentIndex = codes.findIndex((c) => c.id === codeId);
@@ -505,7 +575,21 @@ export const CodeRepresentation = ({
             dispatch({ type: "SHOW_REUSE_SELECT" });
           }}
         />
+        <Button
+          type="button"
+          icon="pi pi-file-import"
+          label={t("physicalInstance.view.code.csvImport.button")}
+          outlined
+          onClick={() => dispatch({ type: "SHOW_CSV_IMPORT" })}
+        />
       </div>
+      {showCsvImport && <CodeListCsvImport onImport={handleImportCsv} />}
+      {importedCodesCount !== null && (
+        <Message
+          severity="success"
+          text={t("physicalInstance.view.code.csvImport.success", { count: importedCodesCount })}
+        />
+      )}
       {showReuseSelect && (
         <ReuseCodeListSelect
           selectedCodeListId={selectedCodeListId}
@@ -525,7 +609,7 @@ export const CodeRepresentation = ({
           }}
         />
       )}
-      {isLoadingSelectedListCodes && (
+      {(isLoadingSelectedListCodes || isLoadingSelectedMutualizedCodes) && (
         <div className="flex gap-2 align-items-center">
           {/* Décoratif : le texte qui suit porte le message. */}
           <ProgressSpinner

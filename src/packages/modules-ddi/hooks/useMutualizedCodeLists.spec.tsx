@@ -1,9 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
+import { renderQueryHookFromLoadingToSuccess, renderQueryHookUntil } from "./queryClient.testing";
 import { useMutualizedCodeLists } from "./useMutualizedCodeLists";
 
 vi.mock("../../sdk", () => ({
@@ -11,19 +10,6 @@ vi.mock("../../sdk", () => ({
     getMutualizedCodeLists: vi.fn(),
   },
 }));
-
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
 
 describe("useMutualizedCodeLists", () => {
   const mockCodeLists = [
@@ -38,15 +24,7 @@ describe("useMutualizedCodeLists", () => {
   it("should fetch mutualized codes lists", async () => {
     vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockCodeLists);
 
-    const { result } = renderHook(() => useMutualizedCodeLists(), {
-      wrapper: createWrapper(),
-    });
-
-    expect(result.current.isLoading).toBe(true);
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBe(true);
-    });
+    const { result } = await renderQueryHookFromLoadingToSuccess(() => useMutualizedCodeLists());
 
     expect(result.current.data).toEqual(mockCodeLists);
     expect(DDIApi.getMutualizedCodeLists).toHaveBeenCalled();
@@ -56,13 +34,7 @@ describe("useMutualizedCodeLists", () => {
     const error = new Error("Network error");
     vi.mocked(DDIApi.getMutualizedCodeLists).mockRejectedValue(error);
 
-    const { result } = renderHook(() => useMutualizedCodeLists(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isError).toBe(true);
-    });
+    const { result } = await renderQueryHookUntil(() => useMutualizedCodeLists(), "isError");
 
     expect(result.current.error).toBe(error);
   });

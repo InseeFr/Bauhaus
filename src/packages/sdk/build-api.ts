@@ -1,5 +1,6 @@
 import { OPEN_ID_CONNECT_AUTH } from "../auth/constants";
 import { getOidc } from "../auth/create-oidc";
+import { appI18n } from "../i18n";
 
 /**
  * @param advancedSearch `false` pour les entités dont le back n'expose pas
@@ -137,7 +138,17 @@ export const buildCall = (context: string, resource: string, fn: any) => {
 
     return fetch(url, options).then(
       (res) => {
-        if (res.ok) return Promise.resolve(res).then(thenHandler);
+        if (res.ok)
+          return Promise.resolve(res)
+            .then(thenHandler)
+            .catch((cause) =>
+              Promise.reject({
+                status: res.status,
+                code: "UNREADABLE_RESPONSE",
+                message: appI18n.t("errors.UNREADABLE_RESPONSE"),
+                cause,
+              }),
+            );
         else
           return res.text().then((text) => {
             try {
@@ -154,9 +165,13 @@ export const buildCall = (context: string, resource: string, fn: any) => {
             }
           });
       },
-      (err) => {
-        return Promise.reject(err.toString());
-      },
+      (cause) =>
+        Promise.reject({
+          status: 0,
+          code: "NETWORK_ERROR",
+          message: appI18n.t("errors.NETWORK_ERROR"),
+          cause,
+        }),
     );
   };
 };

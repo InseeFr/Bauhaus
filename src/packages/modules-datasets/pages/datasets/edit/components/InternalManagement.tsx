@@ -74,6 +74,8 @@ const InternalManagementTab = ({
           <label htmlFor="altIdentifier">{t("dataset.internalManagement.altId.title")}</label>
           <TextInput
             id="altIdentifier"
+            aria-describedby="altIdentifier-error"
+            aria-invalid={!!clientSideErrors?.fields?.altIdentifier}
             value={editingDataset.altIdentifier}
             onChange={(e) => {
               setEditingDataset({
