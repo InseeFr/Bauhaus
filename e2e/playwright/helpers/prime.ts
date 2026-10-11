@@ -106,8 +106,8 @@ export const selectFirstMany = async (page: Page, label: string): Promise<string
 };
 
 /**
- * Remplit un éditeur riche (react-draft-wysiwyg), qui n'est pas un `<input>`
- * mais un `contenteditable` exposé avec `aria-label="rdw-editor"`.
+ * Remplit un éditeur riche (Quill), qui n'est pas un `<input>` mais un
+ * `contenteditable` exposé avec le rôle `textbox`.
  */
 export const fillRichText = async (editor: Locator, text: string) => {
   await editor.click();

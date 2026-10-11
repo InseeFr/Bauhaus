@@ -24,13 +24,14 @@ test("crée un concept, le retrouve dans la liste et le publie", async ({ page }
   // Section « Notes » : la définition en langue 1 est obligatoire. Le sommaire
   // a remplacé les onglets — chaque entrée est un bouton dont le nom accessible
   // porte aussi l'état de la note (« Empty » tant qu'elle est vide), et
-  // l'ancrage de fin distingue « Définition » de « Définition courte ».
+  // l'ancrage de fin distingue « Définition » de « Définition courte ». La
+  // section contient un éditeur Quill par langue, le premier étant le français.
   const summary = page.getByRole("navigation", { name: "General information" });
   await summary.getByRole("button", { name: "Notes", exact: true }).click();
   await summary.getByRole("button", { name: /^Définition Empty$/ }).click();
   const definition = page
     .getByRole("region", { name: "Définition", exact: true })
-    .getByRole("textbox", { name: "rdw-editor" })
+    .getByRole("textbox")
     .first();
   await definition.click();
   await definition.fill("Définition posée par le test e2e.");
