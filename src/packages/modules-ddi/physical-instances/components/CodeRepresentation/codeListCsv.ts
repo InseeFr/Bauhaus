@@ -38,29 +38,47 @@ const detectSeparator = (text: string): string => {
 const isBlank = (record: CsvRecord) =>
   record.fields.length === 1 && record.fields[0].trim() === "" && !record.unclosedQuote;
 
+/**
+ * Lit un champ entre guillemets à partir de `start` (juste après le guillemet ouvrant). `end` est
+ * l'index du guillemet fermant, ou la longueur du texte si le champ n'est jamais refermé.
+ */
+const readQuoted = (
+  text: string,
+  start: number,
+): { value: string; end: number; closed: boolean } => {
+  let value = "";
+  let i = start;
+  while (i < text.length) {
+    if (text[i] !== '"') {
+      value += text[i];
+      i++;
+    } else if (text[i + 1] === '"') {
+      value += '"';
+      i += 2;
+    } else {
+      return { value, end: i, closed: true };
+    }
+  }
+  return { value, end: i, closed: false };
+};
+
+const countNewlines = (value: string) => value.split("\n").length - 1;
+
 /** Découpe le texte en enregistrements selon les règles CSV usuelles (RFC 4180). */
 const tokenize = (text: string, separator: string): CsvRecord[] => {
   const records: CsvRecord[] = [];
   let line = 1;
   let record: CsvRecord = { line, fields: [], unclosedQuote: false };
   let field = "";
-  let inQuotes = false;
 
   for (let i = 0; i < text.length; i++) {
     const char = text[i];
-    if (inQuotes) {
-      if (char === '"' && text[i + 1] === '"') {
-        field += '"';
-        i++;
-      } else if (char === '"') {
-        inQuotes = false;
-      } else {
-        if (char === "\n") line++;
-        field += char;
-      }
-    } else if (char === '"' && field.trim() === "") {
-      field = "";
-      inQuotes = true;
+    if (char === '"' && field.trim() === "") {
+      const quoted = readQuoted(text, i + 1);
+      field = quoted.value;
+      line += countNewlines(quoted.value);
+      record.unclosedQuote = !quoted.closed;
+      i = quoted.end;
     } else if (char === separator) {
       record.fields.push(field);
       field = "";
@@ -75,10 +93,26 @@ const tokenize = (text: string, separator: string): CsvRecord[] => {
     }
   }
   record.fields.push(field);
-  record.unclosedQuote = inQuotes;
   records.push(record);
 
   return records.filter((r) => !isBlank(r));
+};
+
+/** Erreurs d'une ligne de deux colonnes ; mémorise son code pour détecter les doublons suivants. */
+const rowErrors = (
+  line: number,
+  { code, value }: CsvCodeRow,
+  seenCodes: Set<string>,
+): CsvImportError[] => {
+  const errors: CsvImportError[] = [];
+  if (code === "") errors.push({ line, kind: "emptyCode" });
+  if (value === "") errors.push({ line, kind: "emptyValue" });
+  if (code !== "") {
+    const key = code.toLowerCase();
+    if (seenCodes.has(key)) errors.push({ line, kind: "duplicateCode", code });
+    seenCodes.add(key);
+  }
+  return errors;
 };
 
 /**
@@ -111,14 +145,9 @@ export const parseCodeListCsv = (text: string): CsvImportResult => {
       continue;
     }
     const [code, value] = fields.map((f) => f.trim());
-    if (code === "") errors.push({ line, kind: "emptyCode" });
-    if (value === "") errors.push({ line, kind: "emptyValue" });
-    if (code !== "") {
-      const key = code.toLowerCase();
-      if (seenCodes.has(key)) errors.push({ line, kind: "duplicateCode", code });
-      seenCodes.add(key);
-    }
-    rows.push({ code, value });
+    const row = { code, value };
+    errors.push(...rowErrors(line, row, seenCodes));
+    rows.push(row);
   }
 
   return { rows, errors };
