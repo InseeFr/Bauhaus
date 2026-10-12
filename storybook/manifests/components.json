@@ -51,11 +51,11 @@
           "description": "Message sur mesure fourni par l'appelant."
         }
       ],
-      "import": "import { LoadingOverlay } from \"bauhaus\";"
+      "import": "import { LoadingOverlay } from 'bauhaus';"
     }
   },
   "meta": {
     "docgen": "react-docgen",
-    "durationMs": 54
+    "durationMs": 34
   }
 }
