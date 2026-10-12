@@ -13,6 +13,10 @@ vi.mock("@components/new-button", () => ({
   ),
 }));
 
+vi.mock("./EvictCachesButton", () => ({
+  EvictCachesButton: () => <button type="button">Vider le cache</button>,
+}));
+
 vi.mock("@components/vertical-menu", () => ({
   VerticalMenu: ({ children }: any) => <div data-testid="vertical-menu">{children}</div>,
 }));
@@ -24,14 +28,12 @@ vi.mock("@utils/hooks/users", async (importOriginal) => {
   return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
 });
 
-const ddiCreatePrivileges = (strategy: string) => ({
-  privileges: [
-    {
-      application: "DDI_PHYSICALINSTANCE",
-      privileges: [{ privilege: "CREATE", strategy }],
-    },
-  ],
+const ddiPrivileges = (privileges: { privilege: string; strategy: string }[]) => ({
+  privileges: [{ application: "DDI_PHYSICALINSTANCE", privileges }],
 });
+
+const ddiCreatePrivileges = (strategy: string) =>
+  ddiPrivileges([{ privilege: "CREATE", strategy }]);
 
 describe("HomePageMenu", () => {
   const mockOnCreate = vi.fn();
@@ -92,5 +94,28 @@ describe("HomePageMenu", () => {
     render(<HomePageMenu onCreate={mockOnCreate} />);
 
     expect(screen.getByText("Nouveau")).toHaveAttribute("data-component", "button");
+  });
+
+  it("affiche le bouton de vidage du cache aux administrateurs", () => {
+    (usePrivileges as any).mockReturnValue(
+      ddiPrivileges([
+        { privilege: "CREATE", strategy: "ALL" },
+        { privilege: "ADMINISTRATION", strategy: "ALL" },
+      ]),
+    );
+
+    render(<HomePageMenu onCreate={mockOnCreate} />);
+
+    expect(screen.getByRole("button", { name: "Vider le cache" })).toBeInTheDocument();
+  });
+
+  it("masque le bouton de vidage du cache sans privilège ADMINISTRATION", () => {
+    (usePrivileges as any).mockReturnValue(
+      ddiPrivileges([{ privilege: "CREATE", strategy: "ALL" }]),
+    );
+
+    render(<HomePageMenu onCreate={mockOnCreate} />);
+
+    expect(screen.queryByRole("button", { name: "Vider le cache" })).not.toBeInTheDocument();
   });
 });

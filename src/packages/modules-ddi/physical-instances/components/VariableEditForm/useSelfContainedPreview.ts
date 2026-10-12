@@ -72,7 +72,7 @@ const itemKey = (item: { $type: string; ID?: string }) => `${item.$type}:${item.
  */
 export const useSelfContainedPreview = (
   envelope: PhysicalInstanceResponse,
-): PhysicalInstanceResponse => {
+): { envelope: PhysicalInstanceResponse; isResolving: boolean } => {
   const { id: physicalInstanceId = "", agencyId = "" } = useParams<{
     id: string;
     agencyId: string;
@@ -85,7 +85,7 @@ export const useSelfContainedPreview = (
   const codeListMissing =
     Boolean(codeListReference?.ID) &&
     !itemsOfType(envelope, "CodeList").some((cl) => cl.ID === codeListReference?.ID);
-  const { data: codeListContent } = useMutualizedCodeList(
+  const { data: codeListContent, isLoading: isCodeListLoading } = useMutualizedCodeList(
     codeListMissing ? (codeListReference?.Agency ?? "") : "",
     codeListMissing ? (codeListReference?.ID ?? "") : "",
   );
@@ -98,7 +98,7 @@ export const useSelfContainedPreview = (
     );
   // Les MMVR du groupe portent le libellé et l'ID de la liste de sentinelles : même source que le
   // sélecteur de réutilisation, donc déjà en cache dès que la section a été affichée.
-  const { data: reusableMmvrs } = useAllMissingValuesRepresentations(
+  const { data: reusableMmvrs, isLoading: areMmvrsLoading } = useAllMissingValuesRepresentations(
     mmvrMissing ? agencyId : "",
     mmvrMissing ? physicalInstanceId : "",
   );
@@ -107,12 +107,16 @@ export const useSelfContainedPreview = (
         (item) => item.agency === mmvrReference?.Agency && item.id === mmvrReference?.ID,
       )
     : undefined;
-  const { data: sentinelContent } = useMutualizedCodeList(
+  const { data: sentinelContent, isLoading: areSentinelsLoading } = useMutualizedCodeList(
     reusedMmvr?.agency ?? "",
     reusedMmvr?.codeListId ?? "",
   );
 
-  return useMemo(() => {
+  // Tant qu'un item référencé se charge, l'enveloppe serait incomplète : sa conversion afficherait
+  // brièvement un XML sans la liste ni les sentinelles, aussitôt remplacé.
+  const isResolving = isCodeListLoading || areMmvrsLoading || areSentinelsLoading;
+
+  const resolvedEnvelope = useMemo(() => {
     const known = new Set((envelope.items ?? []).map(itemKey));
     const resolved = [
       ...(reusedMmvr ? [reusedMmvrItem(reusedMmvr, defaultLocale)] : []),
@@ -134,4 +138,6 @@ export const useSelfContainedPreview = (
     reusedMmvr,
     defaultLocale,
   ]);
+
+  return { envelope: resolvedEnvelope, isResolving };
 };

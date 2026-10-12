@@ -3,6 +3,7 @@ import { useState } from "react";
 import { describe, it, expect, vi } from "vitest";
 
 import { CodeListDataTable, type CodeTableRow } from "./CodeListDataTable";
+import { withScreenLayout } from "./virtualScrollerLayout.testing";
 
 /**
  * Ce fichier est le seul à monter le tableau avec les VRAIS composants PrimeReact : les cellules
@@ -55,6 +56,7 @@ describe("CodeListDataTable rendered with the real DataTable", () => {
   const labelInput = () => screen.getAllByPlaceholderText("Libellé")[0];
 
   it("unfreezes the edited cell once the guard has answered", async () => {
+    using _layout = withScreenLayout();
     // Régression : après « Annuler » dans la popup de surcharge, le champ restait en lecture
     // seule et plus aucune frappe n'était possible — la ligne n'ayant pas changé, la cellule
     // mémoïsée gardait le rendu gelé.

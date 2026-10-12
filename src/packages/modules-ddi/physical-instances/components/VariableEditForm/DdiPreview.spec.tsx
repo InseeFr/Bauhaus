@@ -4,6 +4,7 @@ import type { ReactElement, ReactNode } from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+import type { PhysicalInstanceResponse } from "../../types/api";
 import { envelope } from "../../types/ddi4Items.testing";
 import { DdiPreview } from "./DdiPreview";
 
@@ -103,6 +104,15 @@ const render = (ui: ReactElement) => {
     </QueryClientProvider>
   );
   return rtlRender(ui, { wrapper });
+};
+
+/** Réponse retenue jusqu'à ce que le test la libère. */
+const deferred = <T,>() => {
+  let resolve!: (value: T) => void;
+  const promise = new Promise<T>((res) => {
+    resolve = res;
+  });
+  return { promise, resolve };
 };
 
 /** Dernière enveloppe envoyée à la conversion : ce que l'aperçu affiche réellement. */
@@ -596,6 +606,59 @@ describe("DdiPreview items référencés", () => {
     await waitFor(() => expect(mockConvertToDDI3).toHaveBeenCalled());
     expect(mockGetPhysicalInstanceParents).not.toHaveBeenCalled();
     expect(mockGetMutualizedCodesList).not.toHaveBeenCalled();
+  });
+
+  it("n'affiche aucun XML tant que la liste de codes réutilisée n'est pas chargée", async () => {
+    const codeList = deferred<PhysicalInstanceResponse>();
+    mockGetMutualizedCodesList.mockReturnValue(codeList.promise);
+
+    render(
+      <DdiPreview
+        {...baseProps}
+        variableType="code"
+        codeRepresentation={{
+          $type: "CodeRepresentationBaseType",
+          CodeListReference: {
+            $type: "CodeList",
+            URN: "urn:ddi:fr.insee:cl-mut:1",
+            Agency: "fr.insee",
+            ID: "cl-mut",
+            Version: "1",
+          },
+        }}
+      />,
+    );
+
+    await waitFor(() => expect(mockGetMutualizedCodesList).toHaveBeenCalled());
+    expect(screen.getByText("Chargement du XML DDI...")).toBeInTheDocument();
+    expect(mockConvertToDDI3).not.toHaveBeenCalled();
+
+    codeList.resolve(
+      envelope({ CodeList: [{ ID: "cl-mut", Agency: "fr.insee", Version: "1", Code: [] }] }),
+    );
+
+    await waitFor(() => expect(mockConvertToDDI3).toHaveBeenCalledTimes(1));
+    expect(lastPreviewedItems()).toContainEqual(
+      expect.objectContaining({ $type: "CodeList", ID: "cl-mut" }),
+    );
+  });
+
+  it("n'affiche aucun XML tant que la MMVR réutilisée et ses sentinelles ne sont pas chargées", async () => {
+    const sentinels = deferred<PhysicalInstanceResponse>();
+    mockGetMutualizedCodesList.mockReturnValue(sentinels.promise);
+
+    render(<DdiPreview {...baseProps} missingValuesReference={missingValuesReference} />);
+
+    await waitFor(() => expect(mockGetMutualizedCodesList).toHaveBeenCalled());
+    expect(screen.getByText("Chargement du XML DDI...")).toBeInTheDocument();
+    expect(mockConvertToDDI3).not.toHaveBeenCalled();
+
+    sentinels.resolve(sentinelContent);
+
+    await waitFor(() => expect(mockConvertToDDI3).toHaveBeenCalledTimes(1));
+    expect(lastPreviewedItems()).toContainEqual(
+      expect.objectContaining({ $type: "CodeList", ID: "cl-sent" }),
+    );
   });
 
   it("affiche les codes d'une liste de codes réutilisée non matérialisée", async () => {

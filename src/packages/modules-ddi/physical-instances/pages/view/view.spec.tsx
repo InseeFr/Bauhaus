@@ -2262,6 +2262,7 @@ describe("View Component", () => {
 
   describe("Opening a code variable", () => {
     it("shows the module error toast when the code list of the variable cannot be loaded", async () => {
+      using _catalogSpy = vi.spyOn(DDIApi, "getMutualizedCodeLists").mockResolvedValue([]);
       using _codeListSpy = vi
         .spyOn(DDIApi, "getMutualizedCodeList")
         // Rejet réel du SDK pour une 500 à corps vide : un objet nu, jamais une Error.
@@ -2294,6 +2295,38 @@ describe("View Component", () => {
           }),
         ),
       );
+    });
+  });
+
+  describe("Opening a variable bound to a mutualized code list", () => {
+    it("does not download the full DDI4 content of the mutualized list", async () => {
+      using _catalogSpy = vi
+        .spyOn(DDIApi, "getMutualizedCodeLists")
+        .mockResolvedValue([{ id: "mut-1", agencyId: "agency-1", label: "Liste mutualisée" }]);
+      using codeListSpy = vi.spyOn(DDIApi, "getMutualizedCodeList").mockResolvedValue({});
+      mockSearchParams = new URLSearchParams("variableId=1");
+      mockUsePhysicalInstancesData.mockReturnValue({
+        ...mockUsePhysicalInstancesData(),
+        data: envelope({
+          Variable: [
+            {
+              ID: "1",
+              VariableName: [{ "@language": "fr-FR", "@value": "Variable1" }],
+              VariableRepresentation: {
+                CodeRepresentation: {
+                  CodeListReference: { Agency: "agency-1", ID: "mut-1", TypeOfObject: "CodeList" },
+                },
+              },
+            },
+          ],
+        }),
+      });
+
+      render(<Component />, { wrapper });
+
+      await waitFor(() => expect(DDIApi.getMutualizedCodeLists).toHaveBeenCalled());
+      expect(codeListSpy).not.toHaveBeenCalled();
+      expect(mockToastShow).not.toHaveBeenCalled();
     });
   });
 

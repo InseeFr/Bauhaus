@@ -150,6 +150,17 @@ export interface CodeListUsage {
   variableLabel: string | null;
 }
 
+// Vue allégée d'une liste de codes mutualisée renvoyée par
+// `GET /ddi/mutualized-codes-list/{agency}/{id}/codes` : valeur et libellé de chaque code, pour
+// l'affichage en lecture seule, sans le DDI4 complet (~15 fois plus lourd).
+export interface MutualizedCodeListCodes {
+  agencyId: string;
+  id: string;
+  version: string;
+  label: string;
+  codes: { id: string; value: string; label: string }[];
+}
+
 // UI-only row model used by the variables table; not a DDI type.
 export interface VariableTableData {
   id: string;

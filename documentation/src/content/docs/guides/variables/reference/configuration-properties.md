@@ -47,8 +47,7 @@ Prefix: `fr.insee.rmes.bauhaus.colectica`
 | `mutualized-codes-package.identifier` | UUID | — | Identifier of the root package. Absent ⇒ no mutualized code list |
 | `mutualized-codes-package.version` | Integer | — | Version of the root package |
 | `mutualized-codes-groups[].agency-id` | String | `defaultAgencyId` | Agency of a code list group. Read only by `configured-groups`; blank falls back to the instance's default agency |
-| `mutualized-codes-groups[].identifier` | UUID | — | Identifier of the code list group |
-| `mutualized-codes-groups[].version` | Integer | — | Accepted for symmetry; the relationship query is not versioned and ignores it |
+| `mutualized-codes-groups[].identifier` | UUID | — | Identifier of the code list group; its latest version is always read |
 
 ## Caching
 
