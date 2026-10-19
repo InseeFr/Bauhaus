@@ -46,7 +46,7 @@ Those `seriesIris` are written by the [operations mirror](/Bauhaus/guides/variab
 
 Two mechanisms coexist, because they answer different questions.
 
-**Listings filter their results.** `GET /ddi/physical-instance`, `GET /ddi/physical-instance/search` and `GET /ddi/group` look up the user's `READ` strategy: under `STAMP` they return only the rows whose group resolves to one of the user's stamps, otherwise the full list. Resolution is memoised per group within a request, not per row — a series' creators are looked up once, however many data files it has.
+**Listings filter their results.** `GET /ddi/physical-instance`, `GET /ddi/physical-instance/search` and `GET /ddi/group` look up the user's `READ` strategy — the same one `/users/info` reports, so a user whose source is `insee` reads everything whatever their role: under `ALL` they return the full list, under `STAMP` only the rows whose group resolves to one of the user's stamps, and under `NONE` — or when the user cannot be resolved — an empty list. Both lists are built from the same cached search rows, so they stay consistent after a write; data files attached to no group appear only under `ALL`. Series creators are cached for five minutes and only fetched for series not yet in the cache; the cache-eviction button clears them along with the search rows. Write checks always read the creators afresh.
 
 **Creation checks the target.** A physical instance does not exist yet when it is created, so there is nothing to stamp-check on the object. Instead, `POST /ddi/physical-instance` checks `CREATE` against the **group** named in the request body, identified as `groupAgency|groupId`.
 

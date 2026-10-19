@@ -11,6 +11,7 @@ import {
   generateGenericApiEndpoints,
   setAuthType,
 } from "./build-api";
+import { clearDevUser, saveDevUser } from "./dev-user";
 
 vi.mock("../auth/create-oidc", () => ({
   getOidc: vi.fn(() => Promise.resolve(null)),
@@ -119,6 +120,50 @@ describe("compute api call description", () => {
 
       expect(options.headers).toHaveProperty("Authorization", "Bearer sso-token");
     });
+  });
+});
+
+describe("dev user headers", () => {
+  afterEach(() => {
+    setAuthType(undefined);
+    clearDevUser();
+  });
+
+  it("sends the overridden roles, stamps and source when the application runs without authentication", async () => {
+    setAuthType(NO_AUTH);
+    saveDevUser({
+      roles: ["Gestionnaire_variables_RMESGNCS"],
+      stamps: ["DG75-A001", "HIE9990001"],
+      source: "ssm",
+    });
+
+    const [, options] = await computeDscr(postCommentFn, ["john", "some raw text"]);
+
+    expect(options.headers).toMatchObject({
+      "X-Dev-User-Roles": "Gestionnaire_variables_RMESGNCS",
+      "X-Dev-User-Stamps": "DG75-A001,HIE9990001",
+      "X-Dev-User-Source": "ssm",
+    });
+  });
+
+  it("omits the fields left empty so the back-end keeps its configured values", async () => {
+    setAuthType(NO_AUTH);
+    saveDevUser({ roles: [], stamps: ["DG75-A001"], source: "" });
+
+    const [, options] = await computeDscr(postCommentFn, ["john", "some raw text"]);
+
+    expect(options.headers).toHaveProperty("X-Dev-User-Stamps", "DG75-A001");
+    expect(options.headers).not.toHaveProperty("X-Dev-User-Roles");
+    expect(options.headers).not.toHaveProperty("X-Dev-User-Source");
+  });
+
+  it("is never sent when the application runs with OpenID Connect", async () => {
+    setAuthType(OPEN_ID_CONNECT_AUTH);
+    saveDevUser({ roles: ["Administrateur_RMESGNCS"], stamps: [], source: "" });
+
+    const [, options] = await computeDscr(postCommentFn, ["john", "some raw text"]);
+
+    expect(options.headers).not.toHaveProperty("X-Dev-User-Roles");
   });
 });
 

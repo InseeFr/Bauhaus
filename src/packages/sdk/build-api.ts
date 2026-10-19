@@ -1,5 +1,6 @@
 import { OPEN_ID_CONNECT_AUTH } from "../auth/constants";
 import { getOidc } from "../auth/create-oidc";
+import { devUserHeaders } from "./dev-user";
 
 /**
  * @param advancedSearch `false` pour les entités dont le back n'expose pas
@@ -112,6 +113,8 @@ export const computeDscr = async (fn: any, [...args]) => {
       ...options,
       headers: { ...options.headers, Authorization: `Bearer ${accessToken}` },
     };
+  } else if (authType !== OPEN_ID_CONNECT_AUTH) {
+    options = { ...options, headers: { ...options.headers, ...devUserHeaders() } };
   }
 
   thenHandler = thenHandler || defaultThenHandler;
