@@ -10,7 +10,7 @@ import { Row } from "@components/layout";
 import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 import { RequiredIcon } from "@components/required-icon";
-import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
+import { MDEditor } from "@components/rich-editor/react-md-editor";
 import { Select } from "@components/select-rmes";
 
 import { Codelist } from "@model/Codelist";
@@ -83,11 +83,15 @@ const ONCHANGE_FIELDS: (keyof Indicator)[] = [
   "prefLabelLg2",
   "altLabelLg1",
   "altLabelLg2",
+  "accrualPeriodicityCode",
+];
+
+/** Champs saisis dans l'éditeur markdown, qui remonte `undefined` quand il est vidé. */
+const MARKDOWN_FIELDS: (keyof Indicator)[] = [
   "abstractLg1",
   "abstractLg2",
   "historyNoteLg1",
   "historyNoteLg2",
-  "accrualPeriodicityCode",
 ];
 
 export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEditionTypes>) => {
@@ -135,6 +139,18 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
         (acc, selector) => ({
           ...acc,
           [selector]: onChange(selector),
+        }),
+        {},
+      ),
+    [onChange],
+  );
+
+  const onMarkdownChanges = useMemo(
+    () =>
+      MARKDOWN_FIELDS.reduce<Record<string, (value?: string) => void>>(
+        (acc, selector) => ({
+          ...acc,
+          [selector]: (value?: string) => onChange(selector)(value ?? ""),
         }),
         {},
       ),
@@ -280,32 +296,36 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={indicator.abstractLg1 ?? ""}
-              handleChange={onChanges.abstractLg1}
+              handleChange={onMarkdownChanges.abstractLg1}
+              textareaProps={{ id: "abstractLg1" }}
             />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={indicator.abstractLg2 ?? ""}
-              handleChange={onChanges.abstractLg2}
+              handleChange={onMarkdownChanges.abstractLg2}
+              textareaProps={{ id: "abstractLg2" }}
             />
           </div>
         </Row>
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="historyNoteLg1">{t("common.history", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={indicator.historyNoteLg1 ?? ""}
-              handleChange={onChanges.historyNoteLg1}
+              handleChange={onMarkdownChanges.historyNoteLg1}
+              textareaProps={{ id: "historyNoteLg1" }}
             />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="historyNoteLg2">{t("common.history", { lng: "en" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={indicator.historyNoteLg2 ?? ""}
-              handleChange={onChanges.historyNoteLg2}
+              handleChange={onMarkdownChanges.historyNoteLg2}
+              textareaProps={{ id: "historyNoteLg2" }}
             />
           </div>
         </Row>

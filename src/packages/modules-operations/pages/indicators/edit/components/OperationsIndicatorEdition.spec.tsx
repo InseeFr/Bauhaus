@@ -102,6 +102,27 @@ describe("OperationsIndicatorEdition", () => {
     );
   });
 
+  it.each([
+    ["Résumé", "abstractLg1"],
+    ["Summary", "abstractLg2"],
+    ["Historique", "historyNoteLg1"],
+    ["History", "historyNoteLg2"],
+  ])("envoie à l'API le markdown saisi dans l'éditeur %s", async (label, field) => {
+    OperationsApi.updateIndicator.mockResolvedValue(undefined);
+    renderEdition();
+
+    fireEvent.change(screen.getByRole("textbox", { name: label }), {
+      target: { value: "Un **texte**\n\n- point" },
+    });
+    fireEvent.click(saveButton());
+
+    await waitFor(() =>
+      expect(OperationsApi.updateIndicator).toHaveBeenCalledWith(
+        expect.objectContaining({ [field]: "Un **texte**\n\n- point" }),
+      ),
+    );
+  });
+
   it("périme les séries en cache, dont la fiche liste les indicateurs qu'elles produisent", async () => {
     const queryClient = new QueryClient();
     queryClient.setQueryData(["series", "s1"], { id: "s1" });
