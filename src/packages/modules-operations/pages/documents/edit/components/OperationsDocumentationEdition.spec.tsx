@@ -345,3 +345,53 @@ describe("OperationsDocumentationEdition, title already used", () => {
     await waitFor(() => expect(onSave).toHaveBeenCalledWith("4"));
   });
 });
+
+describe("OperationsDocumentationEdition, description", () => {
+  const existingDocument = {
+    id: "d1",
+    labelLg1: "Rapport",
+    labelLg2: "Report",
+    lang: "fr",
+    updatedDate: "2026-01-01",
+    url: "file:///documents/rapport.pdf",
+    sims: [],
+  };
+
+  beforeEach(() => {
+    vi.mocked(GeneralApi.putDocument).mockResolvedValue("d1");
+  });
+
+  afterEach(() => {
+    vi.mocked(GeneralApi.putDocument).mockReset();
+  });
+
+  // Les deux libellés traduisent la même clé : on distingue les éditeurs par leur rang.
+  it.each([
+    [0, "descriptionLg1"],
+    [1, "descriptionLg2"],
+  ])("sends to the API the markdown typed in description editor #%i", async (index, field) => {
+    renderEdition(existingDocument, { onSave: vi.fn() });
+
+    fireEvent.change(screen.getAllByRole("textbox", { name: "app.descriptionTitle" })[index], {
+      target: { value: "Un **texte**\n\n- point" },
+    });
+    await userEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
+
+    await waitFor(() =>
+      expect(GeneralApi.putDocument).toHaveBeenCalledWith(
+        expect.objectContaining({ [field]: "Un **texte**\n\n- point" }),
+      ),
+    );
+  });
+});
+
+describe("OperationsDocumentationEdition, titles", () => {
+  it.each([
+    [0, "Rapport"],
+    [1, "Report"],
+  ])("labels title input #%i with its label", (index, value) => {
+    renderEdition({ labelLg1: "Rapport", labelLg2: "Report" });
+
+    expect(screen.getAllByLabelText(/common\.title/)[index]).toHaveValue(value);
+  });
+});

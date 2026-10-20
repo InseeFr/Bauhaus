@@ -10,7 +10,7 @@ import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
-import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
+import { MDEditor } from "@components/rich-editor/react-md-editor";
 import { Select } from "@components/select-rmes";
 import { Button } from "@components/ui/button";
 import { FileUpload, FileUploadSelectEvent } from "@components/ui/file-upload";
@@ -375,7 +375,7 @@ export const OperationsDocumentationEdition = (
       <form>
         <Row>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
+            <LabelRequired htmlFor="labelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="labelLg1"
               value={document.labelLg1}
@@ -389,7 +389,7 @@ export const OperationsDocumentationEdition = (
             ></ClientSideError>
           </div>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
+            <LabelRequired htmlFor="labelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="labelLg2"
               value={document.labelLg2}
@@ -405,17 +405,23 @@ export const OperationsDocumentationEdition = (
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="abstractLg1">{t("app.descriptionTitle", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <label htmlFor="descriptionLg1">{t("app.descriptionTitle", { lng: "fr" })}</label>
+            <MDEditor
               text={document.descriptionLg1 ?? ""}
-              handleChange={(value) => onChange({ target: { value, id: "descriptionLg1" } })}
+              handleChange={(value) =>
+                onChange({ target: { value: value ?? "", id: "descriptionLg1" } })
+              }
+              textareaProps={{ id: "descriptionLg1" }}
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="abstractLg2">{t("app.descriptionTitle", { lng: "en" })}</label>
-            <EditorMarkdown
+            <label htmlFor="descriptionLg2">{t("app.descriptionTitle", { lng: "en" })}</label>
+            <MDEditor
               text={document.descriptionLg2 ?? ""}
-              handleChange={(value) => onChange({ target: { value, id: "descriptionLg2" } })}
+              handleChange={(value) =>
+                onChange({ target: { value: value ?? "", id: "descriptionLg2" } })
+              }
+              textareaProps={{ id: "descriptionLg2" }}
             />
           </div>
         </Row>

@@ -16,9 +16,6 @@ vi.mock("@sdk/classification", () => ({
 }));
 
 // Mocks for UI components
-vi.mock("@components/rich-editor/editor-markdown", () => ({
-  EditorMarkdown: () => <div>EditorMarkdown</div>,
-}));
 vi.mock("@components/select-rmes", () => ({
   Select: () => <select aria-label="Select" data-testid="Select" />,
 }));
