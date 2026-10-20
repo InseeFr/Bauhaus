@@ -97,8 +97,11 @@ pnpm --dir e2e test          # or: pnpm e2e
 pnpm --dir e2e test smoke    # one directory only
 ```
 
-Playwright starts the UI itself (`pnpm start`, via the `webServer` entry of
-`playwright.config.ts`), so there is nothing to launch by hand. Useful options:
+Playwright starts the UI itself (vite, via the `webServer` entry of
+`playwright.config.ts`), so there is nothing to launch by hand. Vite is called
+directly rather than through `pnpm start`: since pnpm 12.6, Playwright can no
+longer stop a server started through pnpm, and the run hangs after the last
+test. Useful options:
 
 ```shell
 pnpm --dir e2e test --ui

@@ -30,7 +30,7 @@ Depuis la racine de `Bauhaus/`, deux commandes :
 
 ```bash
 pnpm e2e:stack   # GraphDB + minio + Back-Office, puis chargement des fixtures
-pnpm e2e         # les tests — Playwright démarre `pnpm start` tout seul
+pnpm e2e         # les tests — Playwright démarre vite tout seul
 ```
 
 `pnpm e2e:stack` (`scripts/e2e-stack.sh`) démarre GraphDB et minio (le compose
