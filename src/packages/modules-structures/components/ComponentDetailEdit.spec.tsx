@@ -177,4 +177,68 @@ describe("ComponentDetailEdit", () => {
     await waitFor(() => expect(StructureApi.getMutualizedComponent).toHaveBeenCalledWith("a1"));
     expect(await screen.findByDisplayValue("valeur")).toBeInTheDocument();
   });
+
+  describe("attributs liés à une mesure", () => {
+    const measure = {
+      ...component,
+      type: MEASURE_PROPERTY_TYPE,
+      attribute_0: "http://bauhaus/attribut1",
+      attributeValue_0: "valeur",
+    };
+    const attributes = [{ id: "a1", iri: "http://bauhaus/attribut1", labelLg1: "Attribut 1" }];
+
+    beforeEach(() => {
+      vi.mocked(StructureApi.getMutualizedComponent).mockResolvedValue({ range: XSD_STRING });
+    });
+
+    it("propose une ligne vide pour lier un attribut de plus", async () => {
+      renderEdit({ component: measure, attributes });
+
+      expect(await screen.findByDisplayValue("valeur")).toBeInTheDocument();
+      expect(screen.getAllByText(/^Attribut(e)?$/, { selector: "label" })).toHaveLength(2);
+    });
+
+    it("n'enregistre pas la ligne vide proposée", async () => {
+      renderEdit({ component: measure, attributes });
+      await screen.findByDisplayValue("valeur");
+
+      fireEvent.click(saveButton());
+
+      expect(handleSave).toHaveBeenCalledWith(
+        expect.not.objectContaining({ attribute_1: expect.anything() }),
+      );
+      expect(handleSave).toHaveBeenCalledWith(
+        expect.not.objectContaining({ attributeValue_1: expect.anything() }),
+      );
+    });
+
+    it("enregistre l'attribut saisi dans la ligne proposée", async () => {
+      renderEdit({
+        component: measure,
+        attributes: [
+          ...attributes,
+          { id: "a2", iri: "http://bauhaus/attribut2", labelLg1: "Attribut 2" },
+        ],
+      });
+      await screen.findByDisplayValue("valeur");
+
+      // PrimeReact ne monte les options qu'à l'ouverture du Dropdown.
+      const emptyRow = screen
+        .getAllByText(/^Attribut(e)?$/, { selector: "label" })[1]
+        .closest(".form-group")!;
+      fireEvent.click(emptyRow.querySelector(".p-dropdown-trigger")!);
+      fireEvent.click(await screen.findByRole("option", { name: "Attribut 2", hidden: true }));
+      const valueFields = () => screen.getAllByLabelText(/^(Saisissez du texte|Insert text)$/);
+      await waitFor(() => expect(valueFields()).toHaveLength(2));
+      fireEvent.change(valueFields()[1], { target: { value: "autre valeur" } });
+      fireEvent.click(saveButton());
+
+      expect(handleSave).toHaveBeenCalledWith(
+        expect.objectContaining({
+          attribute_1: "http://bauhaus/attribut2",
+          attributeValue_1: "autre valeur",
+        }),
+      );
+    });
+  });
 });

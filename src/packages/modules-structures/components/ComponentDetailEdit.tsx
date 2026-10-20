@@ -336,17 +336,6 @@ export const ComponentDetailEdit = ({
     label,
   }));
 
-  const attributesKeys = Object.keys({
-    attribute_0: "",
-    attributeValue_0: "",
-    ...component,
-  }).filter((key) => key.startsWith("attribute_"));
-
-  if (component["attributeValue_" + (attributesKeys.length - 1)]) {
-    component["attribute_" + attributesKeys.length] = "";
-    component["attributeValue_" + attributesKeys.length] = "";
-  }
-
   const onComponentTypeChange = (option: any) => {
     // Each time we change the type of a component, we remove all linked attributes
     const newComponentWithoutAttributes = Object.keys(component).reduce((acc: any, key) => {
@@ -660,11 +649,17 @@ const AttributesArray = ({
 }: Readonly<AttributesArrayTypes>) => {
   const { t } = useTranslation();
 
-  const componentAttributes = Object.keys({
+  const filledAttributes = Object.keys({
     attribute_0: "",
     attributeValue_0: "",
     ...component,
   }).filter((key) => key.startsWith("attribute_"));
+
+  // Once the last row has a value, an empty row is offered to link one more attribute. It is
+  // only displayed: it enters the component when the user fills it in.
+  const componentAttributes = component["attributeValue_" + (filledAttributes.length - 1)]
+    ? [...filledAttributes, "attribute_" + filledAttributes.length]
+    : filledAttributes;
 
   const attributesListOptions: Options = (attributes ?? []).map((c) => ({
     value: c.iri ?? "",
