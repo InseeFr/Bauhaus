@@ -442,7 +442,7 @@ export const ComponentDetailEdit = ({
             <LabelRequired>{t("component.type.title")}</LabelRequired>
             <Select
               placeholder={t("component.type.title")}
-              value={MUTUALIZED_COMPONENT_TYPES.find((c) => c.value === component.type)}
+              value={component.type}
               options={MUTUALIZED_COMPONENT_TYPES}
               onChange={onComponentTypeChange}
               {...{ isDisabled: !!component.id }}

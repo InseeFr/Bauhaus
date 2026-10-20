@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { Component, ComponentDefinition } from "@model/structures/Component";
@@ -123,6 +123,14 @@ describe("ComponentSelector", () => {
     renderSelector();
 
     clickIcon(within(rowOf("m1")).getByLabelText("Add"));
+
+    expectUpdatedOrder("d1", "d2", "m1");
+  });
+
+  it("ajoute une composante mutualisée quand le clic tombe sur le bouton et non sur son icône", () => {
+    renderSelector();
+
+    fireEvent.click(within(rowOf("m1")).getByLabelText("Add"));
 
     expectUpdatedOrder("d1", "d2", "m1");
   });

@@ -17,7 +17,7 @@ export const ComponentsTable = ({ components }: Readonly<{ components: any[] }>)
       <Column field="mutualized" header={t("component.mutualized")}></Column>
       <Column field="concept" header={t("component.concept")}></Column>
       <Column field="representation" header={t("component.representation.title")}></Column>
-      <Column field="actions" header="" style={{ display: "flex" }}></Column>
+      <Column field="actions" header="" bodyStyle={{ display: "flex" }}></Column>
     </DataTable>
   );
 };

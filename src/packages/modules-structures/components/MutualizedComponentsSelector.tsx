@@ -46,7 +46,7 @@ export const MutualizedComponentsSelector = ({
   const seeClickHandler = useCallback(
     (e: any) => {
       const component = components.find(
-        (c) => c.identifiant === e.target.parentElement.dataset.componentId,
+        (c) => c.identifiant === e.currentTarget.dataset.componentId,
       );
       setSelectedComponent(component);
       setOpenPanel(true);
@@ -56,7 +56,7 @@ export const MutualizedComponentsSelector = ({
 
   const addClickHandler = useCallback(
     (e: any) => {
-      handleAdd(e.target.parentElement.dataset.componentId);
+      handleAdd(e.currentTarget.dataset.componentId);
     },
     [handleAdd],
   );

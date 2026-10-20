@@ -145,6 +145,39 @@ describe("StructureComponentsSelector", () => {
     expect(within(panel).getByText("Composante c1")).toBeInTheDocument();
   });
 
+  describe("quand le clic tombe sur le bouton et non sur son icône", () => {
+    it("ouvre le détail de la composante", async () => {
+      renderSelector();
+
+      fireEvent.click(within(rowOf("c1")).getByLabelText("See"));
+
+      const panel = await screen.findByRole("complementary");
+      expect(within(panel).getByText("Composante c1")).toBeInTheDocument();
+    });
+
+    it("ouvre la spécification de la composante", () => {
+      renderSelector();
+
+      fireEvent.click(within(rowOf("c1")).getByLabelText("Component specification"));
+
+      expect(defaultProps.handleSpecificationClick).toHaveBeenCalledWith(
+        expect.objectContaining({ component: expect.objectContaining({ identifiant: "c1" }) }),
+      );
+    });
+
+    it("supprime, remonte et descend la composante", () => {
+      renderSelector();
+
+      fireEvent.click(within(rowOf("c1")).getByLabelText("Remove"));
+      fireEvent.click(within(rowOf("c2")).getByLabelText("Up"));
+      fireEvent.click(within(rowOf("c1")).getByLabelText("Down"));
+
+      expect(defaultProps.handleRemove).toHaveBeenCalledWith("c1");
+      expect(defaultProps.handleUp).toHaveBeenCalledWith("c2");
+      expect(defaultProps.handleDown).toHaveBeenCalledWith("c1");
+    });
+  });
+
   it("ouvre le formulaire de création avec le statut de diffusion de la structure", async () => {
     renderSelector({ structure: { disseminationStatus: "http://bauhaus/statut/Public" } });
 

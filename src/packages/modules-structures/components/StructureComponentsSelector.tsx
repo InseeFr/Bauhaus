@@ -55,7 +55,7 @@ export const StructureComponentsSelector = ({
 
   const removeClickHandler = useCallback(
     (e: any) => {
-      handleRemove!(e.target.parentElement.dataset.componentId);
+      handleRemove!(e.currentTarget.dataset.componentId);
     },
     [handleRemove],
   );
@@ -73,9 +73,9 @@ export const StructureComponentsSelector = ({
 
   const specificationClickHandler = useCallback(
     (e: any) => {
-      if (e.target.parentElement.dataset.componentId) {
+      if (e.currentTarget.dataset.componentId) {
         const component = components.find(
-          (c) => c.component.identifiant === e.target.parentElement.dataset.componentId,
+          (c) => c.component.identifiant === e.currentTarget.dataset.componentId,
         );
         handleSpecificationClick(component);
       }
@@ -121,9 +121,9 @@ export const StructureComponentsSelector = ({
 
   const seeClickHandler = useCallback(
     (e: any) => {
-      if (e.target.parentElement.dataset.componentId) {
+      if (e.currentTarget.dataset.componentId) {
         const cs = components.find(
-          (c) => c.component.identifiant === e.target.parentElement.dataset.componentId,
+          (c) => c.component.identifiant === e.currentTarget.dataset.componentId,
         );
         setSelectedComponent(cs!.component);
         setOpenPanel(true);
@@ -134,8 +134,8 @@ export const StructureComponentsSelector = ({
 
   const goingUp = useCallback(
     (e: any) => {
-      if (e.target.parentElement.dataset.componentId) {
-        handleUp!(e.target.parentElement.dataset.componentId);
+      if (e.currentTarget.dataset.componentId) {
+        handleUp!(e.currentTarget.dataset.componentId);
       }
     },
     [handleUp],
@@ -143,8 +143,8 @@ export const StructureComponentsSelector = ({
 
   const goingDown = useCallback(
     (e: any) => {
-      if (e.target.parentElement.dataset.componentId) {
-        handleDown!(e.target.parentElement.dataset.componentId);
+      if (e.currentTarget.dataset.componentId) {
+        handleDown!(e.currentTarget.dataset.componentId);
       }
     },
     [handleDown],
@@ -258,14 +258,14 @@ export const StructureComponentsSelector = ({
       hidden={hidden}
       collapsible={false}
       title={
-        <>
-          {t("component.pluralTitle")}{" "}
+        <span className="components-picker-title">
+          {t("component.pluralTitle")}
           {!readOnly && (
             <HasAccess module="STRUCTURE_COMPONENT" privilege="CREATE">
               <AddButton id="add-component" onClick={handleCreateComponent} />
             </HasAccess>
           )}
-        </>
+        </span>
       }
     >
       <ComponentsTable components={componentsWithActions} />
