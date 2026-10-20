@@ -34,7 +34,7 @@ export const ModalRmes = ({
     <button
       key={`${id}-${i}`}
       type="button"
-      className={`btn btn-${b.style}`}
+      className={`modal-rmes-button modal-rmes-button-${b.style}`}
       onClick={b.action}
       disabled={b.disabled}
     >

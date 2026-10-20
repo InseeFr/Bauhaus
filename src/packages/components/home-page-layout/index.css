@@ -15,9 +15,14 @@ div.container:has(> .home-page-layout) {
   padding-left: 0;
 }
 
-/* Le menu (col-md-3) garde la largeur qu'il a sur un conteneur de 1170px. */
-.home-page-layout .btn-group-vertical {
+/* Le menu (3 colonnes sur 12) garde la largeur qu'il a sur un conteneur de 1170px. */
+.home-page-layout .bauhaus-vertical-menu {
   max-width: 292.5px;
+}
+
+/* Le contenu se range à droite du menu (ancien `pull-right` de Bootstrap). */
+.home-page-layout__content {
+  float: right;
 }
 
 /* Sous 1000px, la liste prend toute la largeur (repris de `.operations-list`). */

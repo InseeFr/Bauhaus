@@ -7,12 +7,6 @@
   gap: 1em;
   justify-content: space-between;
 
-  /* Le clearfix de `.row` (Bootstrap) deviendrait deux items flex vides. */
-  &::before,
-  &::after {
-    content: none;
-  }
-
   > * {
     max-width: 250px;
   }

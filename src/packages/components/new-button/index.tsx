@@ -20,11 +20,7 @@ const AbstractNewButton = ({
 }: PropsWithChildren<AbstractNewButtonTypes>) => {
   if (component === "button") {
     return (
-      <button
-        type="button"
-        className="new-button btn btn-lg col-md-12"
-        onClick={action as () => void}
-      >
+      <button type="button" className="new-button" onClick={action as () => void}>
         <AddLogo />
         {suffix ? (
           <span>
@@ -39,7 +35,7 @@ const AbstractNewButton = ({
 
   return (
     // `action` est une URL en mode lien, un gestionnaire en mode bouton (voir la branche ci-dessus).
-    <NavLink className="new-button btn btn-lg col-md-12" to={action as string}>
+    <NavLink className="new-button" to={action as string}>
       <AddLogo />
       {suffix ? (
         <span>

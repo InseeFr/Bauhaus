@@ -1,5 +1,6 @@
 import { htmlLength } from "@utils/html-utils";
 
+import "../form/form.css";
 import { ModifyNotes } from "./modify-notes";
 
 export function NoteOneLangEdition({
@@ -21,7 +22,7 @@ export function NoteOneLangEdition({
   );
 
   return (
-    <div className="form-group text-center">
+    <div className="bauhaus-form-group text-center">
       <ModifyNotes note={note} handleChange={handleChange} />
       {checkLength}
     </div>

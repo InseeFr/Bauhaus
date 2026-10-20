@@ -38,7 +38,7 @@ export const NoteEdition = ({
   return (
     <div>
       <Row>
-        <div className="col-md-6">
+        <div className="bauhaus-grid-md-6">
           <span className="note-edition__lang">{languageName(lg1, i18n.language)}</span>
           <NoteOneLangEdition
             note={noteLg1 ?? ""}
@@ -50,7 +50,7 @@ export const NoteEdition = ({
             error={errorMessage?.fields[noteLg1Name]}
           ></ClientSideError>
         </div>
-        <div className="col-md-6">
+        <div className="bauhaus-grid-md-6">
           <span className="note-edition__lang">{languageName(lg2, i18n.language)}</span>
           <NoteOneLangEdition
             note={noteLg2 ?? ""}

@@ -24,20 +24,20 @@ describe("<SimsGeographySelector />", () => {
   it("should display a list with included zones", () => {
     const includes = [{ label: "labelLg1", labelLg2: "labelLg2", value: "1" } as Geography];
     const { container } = renderSelector({ includes });
-    expect(container.querySelectorAll(".row div:nth-child(1) li")).toHaveLength(1);
+    expect(container.querySelectorAll(".bauhaus-grid-row div:nth-child(1) li")).toHaveLength(1);
   });
   it("should display a list with excludd zones", () => {
     const excludes = [{ label: "labelLg1", labelLg2: "labelLg2", value: "1" } as Geography];
     const { container } = renderSelector({ excludes });
-    expect(container.querySelectorAll(".row div:nth-child(2) li")).toHaveLength(1);
+    expect(container.querySelectorAll(".bauhaus-grid-row div:nth-child(2) li")).toHaveLength(1);
   });
   it("should not display a list if no included zones were provided", () => {
     const { container } = renderSelector();
-    expect(container.querySelector(".row div:nth-child(1) ul")).toBeNull();
+    expect(container.querySelector(".bauhaus-grid-row div:nth-child(1) ul")).toBeNull();
   });
   it("should not display a list if no excluded zones were provided", () => {
     const { container } = renderSelector();
-    expect(container.querySelector(".row div:nth-child(2) ul")).toBeNull();
+    expect(container.querySelector(".bauhaus-grid-row div:nth-child(2) ul")).toBeNull();
   });
   it("should display delete button if readOnly=false", () => {
     const includes = [{ label: "labelLg1", labelLg2: "labelLg2", value: "1" } as Geography];

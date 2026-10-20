@@ -3,6 +3,76 @@
   gap: 1rem;
 }
 
-.modal-rmes-buttons > .btn {
+/* Reprend à l'identique `btn btn-default` / `btn btn-primary` de Bootstrap, en px
+   (la racine Bootstrap à 10px réduirait les `rem`). */
+.modal-rmes-button {
+  display: inline-flex;
   flex: 1;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5em;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  background-image: none;
+  color: #333;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.4286;
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.modal-rmes-button:hover,
+.modal-rmes-button:focus {
+  border-color: #adadad;
+  background-color: #e6e6e6;
+  color: #333;
+  text-decoration: none;
+}
+
+.modal-rmes-button:focus-visible {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.modal-rmes-button:active {
+  box-shadow: inset 0 3px 5px rgb(0 0 0 / 12.5%);
+}
+
+.modal-rmes-button-primary {
+  border-color: #2e6da4;
+  background-color: #337ab7;
+  color: #fff;
+}
+
+.modal-rmes-button-primary:hover,
+.modal-rmes-button-primary:focus {
+  border-color: #204d74;
+  background-color: #286090;
+  color: #fff;
+}
+
+.modal-rmes-button[disabled] {
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.modal-rmes-button-primary[disabled]:hover,
+.modal-rmes-button-primary[disabled]:focus {
+  border-color: #2e6da4;
+  background-color: #337ab7;
+}
+
+.modal-rmes-button-default[disabled]:hover,
+.modal-rmes-button-default[disabled]:focus {
+  border-color: #ccc;
+  background-color: #fff;
 }
