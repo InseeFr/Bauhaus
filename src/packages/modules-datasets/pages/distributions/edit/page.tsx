@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 
@@ -16,6 +16,7 @@ import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 import { MDEditor } from "@components/rich-editor/react-md-editor";
 
+import { toFormErrors } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useCreateOrUpdateDistribution } from "../../../hooks/useCreateOrUpdateDistribution";
@@ -29,6 +30,10 @@ import { MediaTypeInput } from "./components/MediaTypeInput";
 import { Menu } from "./menu";
 import { initialState, reducer } from "./reducer";
 import { validate } from "./validation";
+
+// Saisies qui portent un emplacement d'erreur : une erreur du back sur un autre champ reste au
+// bandeau.
+const FIELDS_WITH_ERROR_SLOT = ["idDataset", "labelLg1", "labelLg2", "accessUrl", "url"] as const;
 
 export const Component = () => {
   const { t } = useTranslation();
@@ -58,7 +63,14 @@ export const Component = () => {
     }
   }, [status, distribution]);
 
-  const { isSaving, save, serverSideError } = useCreateOrUpdateDistribution(isEditing);
+  const [serverSideError, setServerSideError] = useState<unknown>();
+
+  const { isSaving, save } = useCreateOrUpdateDistribution(isEditing, (err) => {
+    const formErrors = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
+    dispatch({ type: "SET_SUBMITTING", payload: true });
+    dispatch({ type: "SET_CLIENT_SIDE_ERRORS", payload: formErrors.clientSideErrors ?? {} });
+    setServerSideError(formErrors.serverSideError);
+  });
 
   useTitle(t("distribution.title"), state.editingDistribution?.labelLg1);
 
@@ -81,6 +93,7 @@ export const Component = () => {
       dispatch({ type: "SET_CLIENT_SIDE_ERRORS", payload: clientSideErrors });
     } else {
       dispatch({ type: "SET_CLIENT_SIDE_ERRORS", payload: {} });
+      setServerSideError(undefined);
       save(state.editingDistribution);
     }
   };
@@ -117,6 +130,7 @@ export const Component = () => {
             <TextInput
               id="labelLg1"
               aria-describedby="labelLg1-error"
+              aria-invalid={!!state.clientSideErrors?.fields?.labelLg1}
               value={state.editingDistribution.labelLg1}
               onChange={updateFieldFromEvent("labelLg1")}
             />
@@ -132,6 +146,7 @@ export const Component = () => {
             <TextInput
               id="labelLg2"
               aria-describedby="labelLg2-error"
+              aria-invalid={!!state.clientSideErrors?.fields?.labelLg2}
               value={state.editingDistribution.labelLg2}
               onChange={updateFieldFromEvent("labelLg2")}
             />

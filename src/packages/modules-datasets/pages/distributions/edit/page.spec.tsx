@@ -71,7 +71,6 @@ describe("Distribution Edit Page", () => {
     mockUseCreateOrUpdateDistribution.mockReturnValue({
       isSaving: false,
       save: mockSave,
-      serverSideError: null,
     });
     mockUseDatasetsForDistributions.mockReturnValue({ data: [] });
     mockValidate.mockReturnValue({ errorMessage: [] });
@@ -291,19 +290,6 @@ describe("Distribution Edit Page", () => {
       await waitFor(() => {
         expect(screen.getByRole("alert")).not.toBeNull();
       });
-    });
-
-    it("should display server-side error when present", () => {
-      mockUseParams.mockReturnValue({});
-      mockUseCreateOrUpdateDistribution.mockReturnValue({
-        isSaving: false,
-        save: mockSave,
-        serverSideError: new Error("Server error"),
-      });
-
-      render(<Component />);
-
-      expect(screen.getByText(/Server error/i)).not.toBeNull();
     });
   });
 });
