@@ -1,8 +1,7 @@
-import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
+import { convertFromRaw, EditorState } from "draft-js";
 import { Options, stateToHTML } from "draft-js-export-html";
 import { stateFromHTML } from "draft-js-import-html";
 
-import { draftjsToMd } from "@components/rich-editor/draftjs/draftjsToMd";
 import { mdToDraftjs, REGEXPS } from "@components/rich-editor/draftjs/mdToDraftjs";
 
 import { sanitizeHtml } from "./sanitize-html";
@@ -98,53 +97,6 @@ export function htmlFromEditorState(editorState: typeof EditorState) {
   const html = stateToHTML(editorState.getCurrentContent(), options as Options);
 
   return cleanHtml(html);
-}
-
-export function mdFromEditorState(editorState: typeof EditorState) {
-  /*
-   * Sometimes the React editor  include space when formatting text (bold or italic).
-   * With the following code, we remove this issue.
-   * https://trello.com/c/t6jFYvMR/633-sims-rich-text
-   */
-  const content = convertToRaw(editorState.getCurrentContent());
-
-  for (const block of content.blocks) {
-    const text = block.text;
-
-    const inlineStyleRanges = block.inlineStyleRanges;
-
-    for (
-      let inlineStyleIndex = 0;
-      inlineStyleIndex < inlineStyleRanges.length;
-      inlineStyleIndex++
-    ) {
-      const currentInlineStyle = inlineStyleRanges[inlineStyleIndex];
-
-      const withSameOffset = inlineStyleRanges.filter((_: unknown, index: number) => {
-        return (
-          index !== inlineStyleIndex &&
-          inlineStyleRanges[index].offset === currentInlineStyle.offset
-        );
-      });
-
-      let minLength = Math.min(
-        currentInlineStyle.length,
-        ...withSameOffset.map((style: any) => style.length),
-      );
-
-      if (text[currentInlineStyle.offset + minLength - 1] === " ") {
-        minLength -= 1;
-      }
-
-      currentInlineStyle.length = minLength;
-
-      withSameOffset.forEach((style: any) => {
-        style.lengh = minLength;
-      });
-    }
-  }
-
-  return draftjsToMd(content);
 }
 
 export function editorStateFromMd(md = "") {
