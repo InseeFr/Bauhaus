@@ -464,7 +464,7 @@ describe("VariableEditForm", () => {
 
   it("should only include numericRepresentation when type is numeric", () => {
     const numericRepresentation: NumericRepresentation = {
-      NumericTypeCode: "Integer",
+      NumericTypeCode: { StringValue: "Integer" },
     };
 
     renderForm({ variable: { ...defaultVariable, type: "numeric", numericRepresentation } });
@@ -721,7 +721,7 @@ describe("VariableEditForm", () => {
         ...defaultVariable,
         numericRepresentation: {
           $type: "NumericRepresentationBaseType" as const,
-          NumericTypeCode: "Double",
+          NumericTypeCode: { StringValue: "Double" },
         },
       });
 
@@ -732,7 +732,7 @@ describe("VariableEditForm", () => {
           label: "Test Variable (copy)",
           numericRepresentation: {
             $type: "NumericRepresentationBaseType",
-            NumericTypeCode: "Double",
+            NumericTypeCode: { StringValue: "Double" },
           },
         }),
       );

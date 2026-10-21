@@ -4,6 +4,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { NumericRepresentation as NumericRepresentationType } from "../../types/api";
 import { NumericRepresentation } from "./NumericRepresentation";
 
+const NUMERIC_TYPE_VOCABULARY_URI = "http://rdf-vocabulary.ddialliance.org/cv/NumericType/1.1.0/";
+
 vi.mock("react-i18next", async () =>
   (await import("../representation.testing")).mockTranslations({
     "physicalInstance.view.numeric.type": "Type",
@@ -21,7 +23,10 @@ vi.mock("primereact/button", () => import("../representation.testing"));
 
 const decimalBoundsRepresentation: NumericRepresentationType = {
   $type: "NumericRepresentationBaseType",
-  NumericTypeCode: "Decimal",
+  NumericTypeCode: {
+    StringValue: "Decimal",
+    ControlledVocabularyURI: NUMERIC_TYPE_VOCABULARY_URI,
+  },
   NumberRange: {
     Low: { IsInclusive: true, value: 0.1 },
     High: { IsInclusive: true, value: 12.34 },
@@ -36,6 +41,26 @@ describe("NumericRepresentation", () => {
   });
 
   const lastRepresentation = (): NumericRepresentationType => mockOnChange.mock.calls.at(-1)![0];
+
+  it("should reference the NumericType controlled vocabulary in the type code", () => {
+    render(<NumericRepresentation representation={undefined} onChange={mockOnChange} />);
+
+    expect(lastRepresentation().NumericTypeCode).toEqual({
+      StringValue: "Integer",
+      ControlledVocabularyURI: NUMERIC_TYPE_VOCABULARY_URI,
+    });
+  });
+
+  it("should display the type code coming from the representation", () => {
+    render(
+      <NumericRepresentation
+        representation={decimalBoundsRepresentation}
+        onChange={mockOnChange}
+      />,
+    );
+
+    expect(lastRepresentation().NumericTypeCode?.StringValue).toBe("Decimal");
+  });
 
   it("should keep the decimal part of a minimum bound", () => {
     render(<NumericRepresentation representation={undefined} onChange={mockOnChange} />);

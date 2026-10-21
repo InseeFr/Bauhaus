@@ -20,7 +20,10 @@ vi.mock("primereact/dropdown", () => import("../representation.testing"));
 
 vi.mock("../NumericRepresentation/NumericRepresentation", () => ({
   NumericRepresentation: ({ onChange }: any) => {
-    const setNumeric = useCallback(() => onChange({ NumericTypeCode: "Integer" }), [onChange]);
+    const setNumeric = useCallback(
+      () => onChange({ NumericTypeCode: { StringValue: "Integer" } }),
+      [onChange],
+    );
     return (
       <div data-testid="numeric-representation">
         <button onClick={setNumeric}>Set Numeric</button>
@@ -31,7 +34,10 @@ vi.mock("../NumericRepresentation/NumericRepresentation", () => ({
 
 vi.mock("../DateRepresentation/DateRepresentation", () => ({
   DateRepresentation: ({ onChange }: any) => {
-    const setDate = useCallback(() => onChange({ DateTypeCode: "Date" }), [onChange]);
+    const setDate = useCallback(
+      () => onChange({ DateTypeCode: { StringValue: "Date" } }),
+      [onChange],
+    );
     return (
       <div data-testid="date-representation">
         <button onClick={setDate}>Set Date</button>
@@ -129,7 +135,7 @@ describe("VariableRepresentationTab", () => {
     fireEvent.click(button);
 
     expect(mockOnNumericRepresentationChange).toHaveBeenCalledWith({
-      NumericTypeCode: "Integer",
+      NumericTypeCode: { StringValue: "Integer" },
     });
   });
 
@@ -140,7 +146,7 @@ describe("VariableRepresentationTab", () => {
     fireEvent.click(button);
 
     expect(mockOnDateRepresentationChange).toHaveBeenCalledWith({
-      DateTypeCode: "Date",
+      DateTypeCode: { StringValue: "Date" },
     });
   });
 

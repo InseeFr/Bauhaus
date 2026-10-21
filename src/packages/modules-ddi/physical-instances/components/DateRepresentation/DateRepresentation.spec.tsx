@@ -4,6 +4,13 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { DateTimeRepresentation } from "../../types/api";
 import { DateRepresentation } from "./DateRepresentation";
 
+const DATE_TYPE_VOCABULARY_URI = "http://rdf-vocabulary.ddialliance.org/cv/DateType/1.1.2/";
+
+const dateTypeCode = (value: string) => ({
+  StringValue: value,
+  ControlledVocabularyURI: DATE_TYPE_VOCABULARY_URI,
+});
+
 vi.mock("react-i18next", async () =>
   (await import("../representation.testing")).mockTranslations({
     "physicalInstance.view.date.type": "Type de date",
@@ -27,11 +34,11 @@ vi.mock("primereact/dropdown", async () => {
 });
 
 const DATE_TIME_REPRESENTATION: DateTimeRepresentation = {
-  DateTypeCode: "DateTime",
+  DateTypeCode: dateTypeCode("DateTime"),
 };
 
 const TIME_REPRESENTATION: DateTimeRepresentation = {
-  DateTypeCode: "Time",
+  DateTypeCode: dateTypeCode("Time"),
 };
 
 describe("DateRepresentation", () => {
@@ -92,7 +99,7 @@ describe("DateRepresentation", () => {
 
     expect(mockOnChange).toHaveBeenCalledWith({
       $type: "DateTimeRepresentationBaseType",
-      DateTypeCode: "Year",
+      DateTypeCode: dateTypeCode("Year"),
     });
   });
 
@@ -101,7 +108,7 @@ describe("DateRepresentation", () => {
 
     expect(mockOnChange).toHaveBeenCalledWith({
       $type: "DateTimeRepresentationBaseType",
-      DateTypeCode: "Date",
+      DateTypeCode: dateTypeCode("Date"),
     });
   });
 
@@ -138,7 +145,7 @@ describe("DateRepresentation", () => {
       fireEvent.change(dropdown, { target: { value: type } });
       expect(mockOnChange).toHaveBeenCalledWith({
         $type: "DateTimeRepresentationBaseType",
-        DateTypeCode: type,
+        DateTypeCode: dateTypeCode(type),
       });
     });
   });

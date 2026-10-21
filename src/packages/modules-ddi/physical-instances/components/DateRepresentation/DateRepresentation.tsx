@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { Dropdown } from "@components/ui/dropdown";
 
+import { DATE_TYPE_VOCABULARY_URI } from "../../constants";
 import type { DateTimeRepresentation } from "../../types/api";
 
 interface DateRepresentationProps {
@@ -28,16 +29,21 @@ export const DateRepresentation = ({
   onChange,
 }: Readonly<DateRepresentationProps>) => {
   const { t } = useTranslation();
-  const [dateTypeCode, setDateTypeCode] = useState(representation?.DateTypeCode || "Date");
+  const [dateTypeCode, setDateTypeCode] = useState(
+    representation?.DateTypeCode?.StringValue || "Date",
+  );
 
   useEffect(() => {
-    setDateTypeCode(representation?.DateTypeCode || "Date");
+    setDateTypeCode(representation?.DateTypeCode?.StringValue || "Date");
   }, [representation]);
 
   useEffect(() => {
     const newRepresentation: DateTimeRepresentation = {
       $type: "DateTimeRepresentationBaseType",
-      DateTypeCode: dateTypeCode,
+      DateTypeCode: {
+        StringValue: dateTypeCode,
+        ControlledVocabularyURI: DATE_TYPE_VOCABULARY_URI,
+      },
     };
 
     onChange(newRepresentation);

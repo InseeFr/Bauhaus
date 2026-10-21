@@ -45,7 +45,7 @@ const mockApiResponse = envelope({
             Low: { IsInclusive: false, value: 0 },
             High: { IsInclusive: false, value: 100 },
           },
-          NumericTypeCode: "Integer",
+          NumericTypeCode: { StringValue: "Integer" },
         },
       },
     },
