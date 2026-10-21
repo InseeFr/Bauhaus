@@ -112,6 +112,51 @@ describe("ComponentDetailEdit", () => {
     expect(handleSave).not.toHaveBeenCalled();
   });
 
+  describe("après un enregistrement refusé par la validation", () => {
+    const field = (id: string) => document.getElementById(id)!;
+    const type = (id: string, value: string) =>
+      fireEvent.change(field(id), { target: { name: id, value } });
+
+    const renderRejected = () => {
+      renderEdit({ component: { ...component, labelLg1: "", labelLg2: "" } });
+      fireEvent.click(saveButton());
+    };
+
+    it("garde le bouton désactivé quand seul un champ facultatif est modifié", () => {
+      renderRejected();
+
+      type("altLabelLg1", "Nom court");
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("garde le bouton désactivé tant qu'un champ requis reste vide", () => {
+      renderRejected();
+
+      type("labelLg1", "Composante");
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("réactive le bouton dès que tous les champs requis sont remplis", () => {
+      renderRejected();
+
+      type("labelLg1", "Composante");
+      type("labelLg2", "Component");
+
+      expect(saveButton()).toBeEnabled();
+    });
+
+    it("met à jour les erreurs de champ à la saisie", () => {
+      renderRejected();
+
+      type("labelLg1", "Composante");
+
+      expect(field("labelLg1")).not.toHaveAttribute("aria-invalid", "true");
+      expect(field("labelLg2")).toHaveAttribute("aria-invalid", "true");
+    });
+  });
+
   it("revient en arrière quand on annule", () => {
     renderEdit();
 

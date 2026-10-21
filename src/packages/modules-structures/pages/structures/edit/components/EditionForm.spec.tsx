@@ -134,6 +134,50 @@ describe("EditionForm", () => {
     expect(StructureApi.postStructure).not.toHaveBeenCalled();
   });
 
+  describe("après un enregistrement refusé par la validation", () => {
+    const field = (id: string) => document.getElementById(id)!;
+    const type = (id: string, value: string) => fireEvent.change(field(id), { target: { value } });
+
+    const renderRejected = () => {
+      renderForm({ initialStructure: { ...structure, labelLg1: "", labelLg2: "" } });
+      fireEvent.click(saveButton());
+    };
+
+    it("garde le bouton désactivé quand seul un champ facultatif est modifié", () => {
+      renderRejected();
+
+      type("descriptionLg1", "Description");
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("garde le bouton désactivé tant qu'un champ requis reste vide", () => {
+      renderRejected();
+
+      type("labelLg1", "Structure");
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("réactive le bouton dès que tous les champs requis sont remplis", () => {
+      renderRejected();
+
+      type("labelLg1", "Structure");
+      type("labelLg2", "Structure EN");
+
+      expect(saveButton()).toBeEnabled();
+    });
+
+    it("met à jour les erreurs de champ à la saisie", () => {
+      renderRejected();
+
+      type("labelLg1", "Structure");
+
+      expect(field("labelLg1")).not.toHaveAttribute("aria-invalid", "true");
+      expect(field("labelLg2")).toHaveAttribute("aria-invalid", "true");
+    });
+  });
+
   it("affiche l'erreur renvoyée par le serveur", async () => {
     vi.mocked(StructureApi.putStructure).mockRejectedValue("Erreur serveur");
     renderForm();

@@ -50,6 +50,8 @@ interface State {
   serverSideError: unknown;
   clientSideErrors: ClientSideErrors;
   submitting: boolean;
+  /** Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide le formulaire. */
+  saveAttempted: boolean;
   saving: boolean;
   indicator: Indicator;
 }
@@ -71,6 +73,7 @@ const setInitialState = (props: Readonly<OperationsIndicatorEditionTypes>): Stat
   serverSideError: "",
   clientSideErrors: {},
   submitting: false,
+  saveAttempted: false,
   saving: false,
   indicator: {
     ...defaultIndicator,
@@ -116,19 +119,21 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
 
   const onChange = useCallback(
     (selector: keyof Indicator) => (value: any) => {
-      setState((state) => ({
-        ...state,
-        serverSideError: "",
-        submitting: true,
-        clientSideErrors: {
-          ...state.clientSideErrors,
-          errorMessage: [],
-        },
-        indicator: {
+      setState((state) => {
+        const indicator = {
           ...state.indicator,
           [selector]: value,
-        } as Indicator,
-      }));
+        } as Indicator;
+        return {
+          ...state,
+          serverSideError: "",
+          submitting: true,
+          clientSideErrors: state.saveAttempted
+            ? validate(indicator)
+            : { ...state.clientSideErrors, errorMessage: [] },
+          indicator,
+        };
+      });
     },
     [],
   );
@@ -163,6 +168,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
       setState((state) => ({
         ...state,
         submitting: true,
+        saveAttempted: true,
         clientSideErrors,
       }));
     } else {

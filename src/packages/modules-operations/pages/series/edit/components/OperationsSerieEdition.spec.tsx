@@ -436,3 +436,53 @@ describe("OperationsSerieEdition — textes longs", () => {
     );
   });
 });
+
+describe("OperationsSerieEdition — réactivation du bouton Sauvegarder", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const saveButton = () => screen.getByRole("button", { name: /save|sauvegarder/i });
+  const field = (id: string) => document.getElementById(id)!;
+  const type = (id: string, value: string) =>
+    fireEvent.change(field(id), { target: { id, value } });
+
+  const renderWithEmptyLabels = () => {
+    renderEdition({ serie: { ...completeSerie, prefLabelLg1: "", prefLabelLg2: "" } });
+    fireEvent.click(saveButton());
+  };
+
+  it("garde le bouton désactivé tant qu'un champ obligatoire est vide", () => {
+    renderWithEmptyLabels();
+
+    type("prefLabelLg1", "Libellé");
+
+    expect(saveButton()).toBeDisabled();
+  });
+
+  it("garde le bouton désactivé quand seul un champ facultatif est modifié", () => {
+    renderWithEmptyLabels();
+
+    type("altLabelLg1", "Sigle");
+
+    expect(saveButton()).toBeDisabled();
+  });
+
+  it("réactive le bouton dès que tous les champs obligatoires sont remplis", () => {
+    renderWithEmptyLabels();
+
+    type("prefLabelLg1", "Libellé");
+    type("prefLabelLg2", "Label");
+
+    expect(saveButton()).toBeEnabled();
+  });
+
+  it("met à jour les erreurs de champ dès qu'un champ obligatoire est rempli", () => {
+    renderWithEmptyLabels();
+
+    type("prefLabelLg1", "Libellé");
+
+    expect(field("prefLabelLg1")).not.toHaveAttribute("aria-invalid", "true");
+    expect(field("prefLabelLg2")).toHaveAttribute("aria-invalid", "true");
+  });
+});

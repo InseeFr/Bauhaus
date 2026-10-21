@@ -104,6 +104,8 @@ interface State {
   serverSideError: unknown;
   clientSideErrors: ClientSideErrors;
   submitting: boolean;
+  /** Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide le formulaire. */
+  saveAttempted: boolean;
   saving: boolean;
   serie: SerieEditItem;
 }
@@ -126,6 +128,7 @@ const setInitialState = (props: Readonly<OperationsSerieEditionTypes>): State =>
   serverSideError: "",
   clientSideErrors: {},
   submitting: false,
+  saveAttempted: false,
   saving: false,
   serie: {
     ...defaultSerie,
@@ -174,19 +177,21 @@ export const OperationsSerieEdition = ({
         },
       };
     }
-    setState((state) => ({
-      ...state,
-      serverSideError: "",
-      submitting: true,
-      clientSideErrors: {
-        ...state.clientSideErrors,
-        errorMessage: [],
-      },
-      serie: {
+    setState((state) => {
+      const serie = {
         ...state.serie,
         ...override,
-      },
-    }));
+      };
+      return {
+        ...state,
+        serverSideError: "",
+        submitting: true,
+        clientSideErrors: state.saveAttempted
+          ? validate(props.extraMandatoryFields)(serie)
+          : { ...state.clientSideErrors, errorMessage: [] },
+        serie,
+      };
+    });
   };
 
   const onSubmit = () => {
@@ -195,6 +200,7 @@ export const OperationsSerieEdition = ({
       setState((state) => ({
         ...state,
         submitting: true,
+        saveAttempted: true,
         clientSideErrors,
       }));
     } else {

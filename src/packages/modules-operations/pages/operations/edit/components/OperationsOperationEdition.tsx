@@ -44,6 +44,8 @@ interface State {
   clientSideErrors: ClientSideErrors;
   saving: boolean;
   submitting: boolean;
+  /** Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide le formulaire. */
+  saveAttempted: boolean;
   operation: Operation;
 }
 
@@ -62,6 +64,7 @@ const setInitialState = (props: Readonly<OperationsOperationEditionTypes>): Stat
   clientSideErrors: {},
   saving: false,
   submitting: false,
+  saveAttempted: false,
   operation: {
     ...defaultOperation,
     ...props.operation,
@@ -99,19 +102,21 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
         },
       };
     }
-    setState((state) => ({
-      ...state,
-      serverSideError: "",
-      submitting: true,
-      clientSideErrors: {
-        ...state.clientSideErrors,
-        errorMessage: [],
-      },
-      operation: {
+    setState((state) => {
+      const operation = {
         ...state.operation,
         ...override,
-      } as Operation,
-    }));
+      } as Operation;
+      return {
+        ...state,
+        serverSideError: "",
+        submitting: true,
+        clientSideErrors: state.saveAttempted
+          ? validate(operation)
+          : { ...state.clientSideErrors, errorMessage: [] },
+        operation,
+      };
+    });
   };
 
   const onSubmit = () => {
@@ -120,6 +125,7 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
       setState((state) => ({
         ...state,
         submitting: true,
+        saveAttempted: true,
         clientSideErrors,
       }));
     } else {

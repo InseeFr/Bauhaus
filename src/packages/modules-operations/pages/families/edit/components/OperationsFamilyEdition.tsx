@@ -46,6 +46,8 @@ interface State {
   };
   serverSideError: unknown;
   submitting: boolean;
+  /** Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide le formulaire. */
+  saveAttempted: boolean;
   saving: boolean;
 }
 
@@ -53,6 +55,7 @@ type Action =
   | { type: "RESET_STATE"; payload: Family }
   | { type: "UPDATE_FIELD"; payload: { field: string; value: string } }
   | { type: "SET_CLIENT_ERRORS"; payload: State["clientSideErrors"] }
+  | { type: "SAVE_REJECTED_BY_VALIDATION"; payload: State["clientSideErrors"] }
   | { type: "SET_SERVER_ERROR"; payload: unknown }
   | { type: "SET_SAVING"; payload: boolean }
   | { type: "SET_SUBMITTING"; payload: boolean };
@@ -70,25 +73,34 @@ const reducer = (state: State, action: Action): State => {
         },
         serverSideError: "",
         submitting: false,
+        saveAttempted: false,
         saving: false,
       };
-    case "UPDATE_FIELD":
+    case "UPDATE_FIELD": {
+      const family = {
+        ...state.family,
+        [action.payload.field]: action.payload.value,
+      };
       return {
         ...state,
         serverSideError: "",
         submitting: true,
-        clientSideErrors: {
-          ...state.clientSideErrors,
-          errorMessage: [],
-        },
-        family: {
-          ...state.family,
-          [action.payload.field]: action.payload.value,
-        },
+        clientSideErrors: state.saveAttempted
+          ? validate(family)
+          : { ...state.clientSideErrors, errorMessage: [] },
+        family,
       };
+    }
     case "SET_CLIENT_ERRORS":
       return {
         ...state,
+        clientSideErrors: action.payload,
+      };
+    case "SAVE_REJECTED_BY_VALIDATION":
+      return {
+        ...state,
+        submitting: true,
+        saveAttempted: true,
         clientSideErrors: action.payload,
       };
     case "SET_SERVER_ERROR":
@@ -134,6 +146,7 @@ export const OperationsFamilyEdition = ({
     },
     serverSideError: "",
     submitting: false,
+    saveAttempted: false,
     saving: false,
   });
 
@@ -154,8 +167,7 @@ export const OperationsFamilyEdition = ({
   const onSubmit = useCallback(() => {
     const errors = validate(state.family);
     if (errors.errorMessage?.length > 0) {
-      dispatch({ type: "SET_SUBMITTING", payload: true });
-      dispatch({ type: "SET_CLIENT_ERRORS", payload: errors });
+      dispatch({ type: "SAVE_REJECTED_BY_VALIDATION", payload: errors });
     } else {
       dispatch({ type: "SET_SAVING", payload: true });
       const isCreation = !state.family.id;

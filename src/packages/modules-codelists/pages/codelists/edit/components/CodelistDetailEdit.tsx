@@ -100,6 +100,16 @@ export const CodelistDetailEdit = ({
 
   const [submitting, setSubmitting] = useState(() => !!serverErrors.clientSideErrors);
 
+  // Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide la liste.
+  const [saveAttempted, setSaveAttempted] = useState(false);
+
+  const updateCodelist = (updated: CodelistFormValues) => {
+    setCodelist(updated);
+    setClientSideErrors(
+      saveAttempted ? validate(updated) : { ...clientSideErrors, errorMessage: [] },
+    );
+  };
+
   useTitle(t("codelists.pluralTitle"), codelist?.labelLg1);
 
   const isContributor = useAuthorizationGuard({
@@ -120,22 +130,19 @@ export const CodelistDetailEdit = ({
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
-      setClientSideErrors({
-        ...clientSideErrors,
-        errorMessage: [],
-      });
-      setCodelist({
+      updateCodelist({
         ...codelist,
         [name]: value,
       });
     },
-    [clientSideErrors, codelist],
+    [clientSideErrors, codelist, saveAttempted],
   );
 
   const handleSaveClick = useCallback(() => {
     const clientSideErrors = validate(codelist);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
+      setSaveAttempted(true);
       setClientSideErrors(clientSideErrors);
     } else {
       setClientSideErrors({});
@@ -249,11 +256,7 @@ export const CodelistDetailEdit = ({
             mode="organization"
             value={codelist.creator ?? ""}
             onChange={(value) => {
-              setCodelist({ ...codelist, creator: value as string });
-              setClientSideErrors({
-                ...clientSideErrors,
-                errorMessage: [],
-              });
+              updateCodelist({ ...codelist, creator: value as string });
             }}
           />
           <ClientSideError
@@ -275,11 +278,7 @@ export const CodelistDetailEdit = ({
           <DisseminationStatusInput
             value={codelist.disseminationStatus ?? ""}
             handleChange={(value) => {
-              setCodelist({ ...codelist, disseminationStatus: value });
-              setClientSideErrors({
-                ...clientSideErrors,
-                errorMessage: [],
-              });
+              updateCodelist({ ...codelist, disseminationStatus: value });
             }}
             required
           />

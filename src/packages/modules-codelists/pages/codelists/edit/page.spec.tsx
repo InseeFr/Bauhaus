@@ -141,6 +141,60 @@ describe("Codelist edit page", () => {
     });
   });
 
+  describe("save button after a refused save", () => {
+    beforeEach(() => {
+      vi.mocked(CodelistsApi.getDetailedCodelist).mockResolvedValue({ ...codelist });
+      vi.mocked(CodelistsApi.getCodesDetailedCodelist).mockResolvedValue({ items: [], total: 0 });
+    });
+
+    const saveButton = () => screen.getAllByRole("button", { name: /save/i })[0];
+    const change = (id: string, value: string) =>
+      fireEvent.change(document.getElementById(id)!, { target: { name: id, value } });
+
+    const emptyBothLabelsThenSave = async () => {
+      renderWithProviders(<Component />);
+      await screen.findByDisplayValue("Liste");
+      change("labelLg1", "");
+      change("labelLg2", "");
+      clickSave();
+      await waitFor(() => expect(saveButton()).toBeDisabled());
+    };
+
+    it("keeps the save button disabled while a required field is still empty", async () => {
+      await emptyBothLabelsThenSave();
+
+      change("labelLg1", "Nouvelle liste");
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("keeps the save button disabled when only an optional field is modified", async () => {
+      await emptyBothLabelsThenSave();
+
+      change("descriptionLg1", "Une description");
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("enables the save button again once every required field is filled", async () => {
+      await emptyBothLabelsThenSave();
+
+      change("labelLg1", "Nouvelle liste");
+      change("labelLg2", "New list");
+
+      expect(saveButton()).toBeEnabled();
+    });
+
+    it("updates the field errors as soon as a required field is filled", async () => {
+      await emptyBothLabelsThenSave();
+
+      change("labelLg1", "Nouvelle liste");
+
+      expect(document.getElementById("labelLg1")).not.toHaveAttribute("aria-invalid", "true");
+      expect(document.getElementById("labelLg2")).toHaveAttribute("aria-invalid", "true");
+    });
+  });
+
   describe("code refused by the server", () => {
     beforeEach(() => {
       vi.mocked(CodelistsApi.getDetailedCodelist).mockResolvedValue({ ...codelist });

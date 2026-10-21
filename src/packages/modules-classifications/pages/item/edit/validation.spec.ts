@@ -20,18 +20,19 @@ vi.mock("../../../i18n", () => ({
   ),
 }));
 
-const ALT_LABELS_LENGTH = "65";
-
 const titleLg1Required = mandatoryPropertyError("Intitulé");
 const titleLg2Required = mandatoryPropertyError("Title");
-const altLabelTooLong = "Le titre abrégé (65) doit contenir maximum 65 caractères";
+const altLabelTooLong = (length: number) =>
+  `Le titre abrégé (${length}) doit contenir maximum ${length} caractères`;
+const altLabelTooLongLg2 = (length: number) =>
+  `The short title (${length}) should contain ${length} characters max`;
 
 const NO_FIELD_ERROR = {
   prefLabelLg1: "",
   prefLabelLg2: "",
-  altLabelsLg1_: "",
-  altLabelsLg2_: "",
 };
+
+const titles = { prefLabelLg1: "prefLabelLg1", prefLabelLg2: "prefLabelLg2" };
 
 const cases: {
   name: string;
@@ -54,18 +55,48 @@ const cases: {
     },
   },
   {
-    name: "should return an error if altLabelsLg1_ is too long",
+    name: "accepts a short title exactly as long as its maximum length",
     item: {
-      prefLabelLg1: "prefLabelLg1",
-      prefLabelLg2: "prefLabelLg2",
-      altLabelsLg1_:
-        "a way way way way way way way way way way way way way way way way too long string",
+      ...titles,
+      altLabels: [{ length: "10", shortLabelLg1: "a".repeat(10), shortLabelLg2: "b".repeat(10) }],
     },
     expected: {
-      errorMessage: [altLabelTooLong],
+      errorMessage: [],
+      fields: { ...NO_FIELD_ERROR, altLabelsLg1_10: "", altLabelsLg2_10: "" },
+    },
+  },
+  {
+    name: "rejects a short title longer than its maximum length, in each language",
+    item: {
+      ...titles,
+      altLabels: [{ length: "10", shortLabelLg1: "a".repeat(11), shortLabelLg2: "b".repeat(11) }],
+    },
+    expected: {
+      errorMessage: [altLabelTooLong(10), altLabelTooLongLg2(10)],
       fields: {
         ...NO_FIELD_ERROR,
-        altLabelsLg1_: altLabelTooLong,
+        altLabelsLg1_10: altLabelTooLong(10),
+        altLabelsLg2_10: altLabelTooLongLg2(10),
+      },
+    },
+  },
+  {
+    name: "checks each short title against its own maximum length",
+    item: {
+      ...titles,
+      altLabels: [
+        { length: "10", shortLabelLg1: "a".repeat(20) },
+        { length: "30", shortLabelLg1: "a".repeat(20) },
+      ],
+    },
+    expected: {
+      errorMessage: [altLabelTooLong(10)],
+      fields: {
+        ...NO_FIELD_ERROR,
+        altLabelsLg1_10: altLabelTooLong(10),
+        altLabelsLg2_10: "",
+        altLabelsLg1_30: "",
+        altLabelsLg2_30: "",
       },
     },
   },
@@ -85,7 +116,7 @@ const cases: {
 describe("validation", function () {
   cases.forEach(({ name, item, expected }) => {
     it(name, function () {
-      expect(validate(item, ALT_LABELS_LENGTH)).toEqual(expected);
+      expect(validate(item)).toEqual(expected);
     });
   });
 });

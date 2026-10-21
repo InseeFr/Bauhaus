@@ -56,7 +56,7 @@ const renderForm = (props: Partial<Parameters<typeof PartialCodelistDetailEdit>[
 const field = (label: string) => screen.getAllByLabelText(new RegExp(`^${label}`))[0];
 
 const pickParentCodelist = async () => {
-  const group = screen.getByText("Parent codelist").closest(".form-group")!;
+  const group = screen.getByText("Parent codelist", { selector: "label" }).closest(".form-group")!;
   fireEvent.click(group.querySelector(".p-dropdown-trigger")!);
   fireEvent.click(await screen.findByText("Liste globale"));
 };
@@ -107,6 +107,58 @@ describe("Partial codelist edition form", () => {
 
     expect(await screen.findByRole("alert")).toBeInTheDocument();
     expect(handleSave).not.toHaveBeenCalled();
+  });
+
+  describe("save button after a refused save", () => {
+    const saveButton = () => screen.getByRole("button", { name: /save/i });
+
+    const saveWithoutLabels = async () => {
+      renderForm();
+      fireEvent.click(screen.getByText("Save"));
+      await waitFor(() => expect(saveButton()).toBeDisabled());
+    };
+
+    it("keeps the save button disabled while a required field is still empty", async () => {
+      await saveWithoutLabels();
+
+      fireEvent.change(field("Libellé"), { target: { value: "Partielle" } });
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("keeps the save button disabled when only an optional field is modified", async () => {
+      await saveWithoutLabels();
+
+      fireEvent.change(field("Description"), { target: { value: "Une description" } });
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("updates the field errors as soon as a required field is filled", async () => {
+      await saveWithoutLabels();
+
+      fireEvent.change(field("Libellé"), { target: { value: "Partielle" } });
+
+      expect(field("Libellé")).not.toHaveAttribute("aria-invalid", "true");
+      expect(field("Label")).toHaveAttribute("aria-invalid", "true");
+    });
+
+    it("enables the save button again once every required field is filled", async () => {
+      await saveWithoutLabels();
+
+      fireEvent.change(field("Identifier"), { target: { value: "CL_PARTIAL" } });
+      fireEvent.change(field("Libellé"), { target: { value: "Partielle" } });
+      fireEvent.change(field("Label"), { target: { value: "Partial" } });
+      await pickParentCodelist();
+      const owner = screen.getByText("Owner").closest("label")!;
+      fireEvent.click(owner.querySelector(".p-dropdown-trigger")!);
+      fireEvent.click(await screen.findByText("INSEE"));
+      const status = screen.getAllByText("Dissemination status")[0].closest(".form-group")!;
+      fireEvent.click(status.querySelector(".p-dropdown-trigger")!);
+      fireEvent.click(await screen.findByText("Public generic"));
+
+      await waitFor(() => expect(saveButton()).toBeEnabled());
+    });
   });
 
   it("goes back without saving when the edition is cancelled", () => {

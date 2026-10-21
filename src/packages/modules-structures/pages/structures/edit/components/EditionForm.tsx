@@ -78,12 +78,15 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
     errorMessage?: string[];
   }>({});
 
+  // Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide le formulaire.
+  const [saveAttempted, setSaveAttempted] = useState(false);
+
   const onChange = (key: string) => (value: any) => {
-    setStructure({ ...structure, [key]: value });
-    setClientSideError({
-      ...clientSideError,
-      errorMessage: [],
-    });
+    const newStructure = { ...structure, [key]: value };
+    setStructure(newStructure);
+    setClientSideError(
+      saveAttempted ? validate(newStructure) : { ...clientSideError, errorMessage: [] },
+    );
   };
 
   const {
@@ -124,6 +127,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
 
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
+      setSaveAttempted(true);
       setClientSideError(clientSideErrors);
     } else {
       setClientSideError({});

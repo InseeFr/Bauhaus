@@ -91,8 +91,7 @@ export const Component = () => {
           e.preventDefault();
           const errors = validate(general);
           if (errors.errorMessage?.length > 0) {
-            dispatch({ type: "SET_SUBMITTING" });
-            dispatch({ type: "SET_ERRORS", payload: errors });
+            dispatch({ type: "SAVE_REJECTED_BY_VALIDATION", payload: errors });
           } else {
             dispatch({ type: "SET_ERRORS", payload: {} });
             setServerSideError(undefined);

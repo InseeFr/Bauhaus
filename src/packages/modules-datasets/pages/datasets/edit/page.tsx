@@ -87,11 +87,17 @@ export const Component = () => {
 
   const [editingDataset, setEditingDataset] = useState<Dataset>({} as Dataset);
 
-  const [clientSideErrors, setClientSideErrors] = useState<ClientSideErrors>({});
+  const [storedErrors, setStoredErrors] = useState<ClientSideErrors>({});
+
+  // Après un enregistrement refusé par la validation, chaque saisie revalide le jeu de données : le
+  // bouton ne se réactive que lorsque tous les champs obligatoires sont renseignés.
+  const [saveAttempted, setSaveAttempted] = useState(false);
 
   const [submitting, setSubmitting] = useState(false);
 
   const [serverSideError, setServerSideError] = useState<unknown>();
+
+  const clientSideErrors = saveAttempted ? validate(editingDataset) : storedErrors;
 
   const hasErrors = (keys: string[]) => {
     const fieldsInError = keys.filter((key) => clientSideErrors.fields?.[key]);
@@ -143,7 +149,7 @@ export const Component = () => {
     onError: (err) => {
       const formErrors = toFormErrors(withFormFieldNames(err), FIELDS_WITH_ERROR_SLOT);
       setSubmitting(true);
-      setClientSideErrors(formErrors.clientSideErrors ?? {});
+      setStoredErrors(formErrors.clientSideErrors ?? {});
       setServerSideError(formErrors.serverSideError);
     },
   });
@@ -171,7 +177,7 @@ export const Component = () => {
           editingDataset={editingDataset}
           setEditingDataset={setEditingDataset}
           clientSideErrors={clientSideErrors}
-          setClientSideErrors={setClientSideErrors}
+          setClientSideErrors={setStoredErrors}
         />
       ),
     },
@@ -189,7 +195,7 @@ export const Component = () => {
           editingDataset={editingDataset}
           setEditingDataset={setEditingDataset}
           clientSideErrors={clientSideErrors}
-          setClientSideErrors={setClientSideErrors}
+          setClientSideErrors={setStoredErrors}
         />
       ),
     },
@@ -217,9 +223,11 @@ export const Component = () => {
     const clientSideErrors = validate(editingDataset);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
-      setClientSideErrors(clientSideErrors);
+      setSaveAttempted(true);
+      setStoredErrors(clientSideErrors);
     } else {
-      setClientSideErrors({});
+      setSaveAttempted(false);
+      setStoredErrors({});
       setServerSideError(undefined);
       save();
     }

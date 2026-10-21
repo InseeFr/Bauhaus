@@ -99,11 +99,15 @@ export const PartialCodelistDetailEdit = ({
 
   useTitle(t("partial-codelists.pluralTitle"), codelist?.labelLg1);
 
-  const resetErrorsMessages = () =>
-    setClientSideErrors({
-      ...clientSideErrors,
-      errorMessage: [],
-    });
+  // Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide la liste.
+  const [saveAttempted, setSaveAttempted] = useState(false);
+
+  const updateCodelist = (updated: PartialCodelistFormValues) => {
+    setCodelist(updated);
+    setClientSideErrors(
+      saveAttempted ? validate(updated) : { ...clientSideErrors, errorMessage: [] },
+    );
+  };
 
   const handleParentCode = useCallback(
     (code: string) => {
@@ -121,15 +125,14 @@ export const PartialCodelistDetailEdit = ({
 
   const handleParent = useCallback(
     (value: string) => {
-      setCodelist({
+      updateCodelist({
         ...codelist,
         parentCode: value,
         iriParent: globalCodelistOptions?.find((parentCL) => parentCL.value === value)?.iriParent,
       });
-      resetErrorsMessages();
       handleParentCode(value);
     },
-    [codelist, handleParentCode, globalCodelistOptions],
+    [codelist, handleParentCode, globalCodelistOptions, clientSideErrors, saveAttempted],
   );
 
   const isContributor = useAuthorizationGuard({
@@ -157,13 +160,12 @@ export const PartialCodelistDetailEdit = ({
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
-      resetErrorsMessages();
-      setCodelist({
+      updateCodelist({
         ...codelist,
         [name]: value,
       });
     },
-    [clientSideErrors, codelist],
+    [clientSideErrors, codelist, saveAttempted],
   );
 
   const addAllClickHandler = useCallback(() => {
@@ -212,6 +214,7 @@ export const PartialCodelistDetailEdit = ({
     const clientSideErrors = validate(codelist);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
+      setSaveAttempted(true);
       setClientSideErrors(clientSideErrors);
     } else {
       setClientSideErrors({});
@@ -311,11 +314,7 @@ export const PartialCodelistDetailEdit = ({
           <CreatorsInput
             value={codelist.creator ?? ""}
             onChange={(value) => {
-              setCodelist({ ...codelist, creator: value as string });
-              setClientSideErrors({
-                ...clientSideErrors,
-                errorMessage: [],
-              });
+              updateCodelist({ ...codelist, creator: value as string });
             }}
           />
           <ClientSideError
@@ -334,11 +333,7 @@ export const PartialCodelistDetailEdit = ({
           <DisseminationStatusInput
             value={codelist.disseminationStatus ?? ""}
             handleChange={(value) => {
-              setCodelist({ ...codelist, disseminationStatus: value });
-              setClientSideErrors({
-                ...clientSideErrors,
-                errorMessage: [],
-              });
+              updateCodelist({ ...codelist, disseminationStatus: value });
             }}
             required
           />

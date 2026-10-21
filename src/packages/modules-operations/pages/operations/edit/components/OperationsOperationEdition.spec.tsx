@@ -260,3 +260,51 @@ describe("OperationsOperationEdition", () => {
     expect(titleLg1()).toHaveValue("Enquête emploi");
   });
 });
+
+describe("OperationsOperationEdition — réactivation du bouton Sauvegarder", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.mocked(OperationsApi).getUserSeriesList.mockResolvedValue([]);
+  });
+
+  const saveButton = () => screen.getByRole("button", { name: /Sauvegarder|Save/ });
+
+  const renderWithEmptyLabels = () => {
+    renderEdition({ ...existingOperation, prefLabelLg1: "", prefLabelLg2: "" });
+    save();
+  };
+
+  it("garde le bouton désactivé tant qu'un champ obligatoire est vide", () => {
+    renderWithEmptyLabels();
+
+    fireEvent.change(titleLg1(), { target: { value: "Libellé" } });
+
+    expect(saveButton()).toBeDisabled();
+  });
+
+  it("garde le bouton désactivé quand seul un champ facultatif est modifié", () => {
+    renderWithEmptyLabels();
+
+    fireEvent.change(document.getElementById("altLabelLg1")!, { target: { value: "Sigle" } });
+
+    expect(saveButton()).toBeDisabled();
+  });
+
+  it("réactive le bouton dès que tous les champs obligatoires sont remplis", () => {
+    renderWithEmptyLabels();
+
+    fireEvent.change(titleLg1(), { target: { value: "Libellé" } });
+    fireEvent.change(titleLg2(), { target: { value: "Label" } });
+
+    expect(saveButton()).toBeEnabled();
+  });
+
+  it("met à jour les erreurs de champ dès qu'un champ obligatoire est rempli", () => {
+    renderWithEmptyLabels();
+
+    fireEvent.change(titleLg1(), { target: { value: "Libellé" } });
+
+    expect(titleLg1()).not.toHaveAttribute("aria-invalid", "true");
+    expect(titleLg2()).toHaveAttribute("aria-invalid", "true");
+  });
+});

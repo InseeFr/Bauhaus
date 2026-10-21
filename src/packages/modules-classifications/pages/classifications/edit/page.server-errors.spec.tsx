@@ -110,3 +110,57 @@ describe("modification d'une nomenclature refusée par le serveur", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent("Ce champ est obligatoire.");
   });
 });
+
+describe("réactivation du bouton Sauvegarder après une validation refusée", () => {
+  beforeEach(() => {
+    vi.mocked(ClassificationsApi.getClassificationGeneral).mockResolvedValue({
+      ...general,
+      altLabelLg1: "",
+    });
+    vi.mocked(ClassificationsApi.getClassificationLevels).mockResolvedValue([]);
+    vi.mocked(ClassificationsApi.getSeriesList).mockResolvedValue([]);
+  });
+
+  const saveButton = () => screen.getByRole("button", { name: /Sauvegarder|Save/i });
+
+  /** Vide les deux intitulés requis puis tente d'enregistrer. */
+  const submitWithEmptyTitles = async () => {
+    const labelLg1 = await screen.findByDisplayValue(general.prefLabelLg1);
+    const labelLg2 = screen.getByDisplayValue(general.prefLabelLg2);
+    fireEvent.change(labelLg1, { target: { value: "" } });
+    fireEvent.change(labelLg2, { target: { value: "" } });
+    fireEvent.submit(labelLg1.closest("form")!);
+    return { labelLg1, labelLg2 };
+  };
+
+  it("garde le bouton désactivé quand seul un champ facultatif est modifié", async () => {
+    renderEdition();
+    const { labelLg1 } = await submitWithEmptyTitles();
+
+    const altLabel = labelLg1.closest("form")!.querySelectorAll("input")[2];
+    fireEvent.change(altLabel, { target: { value: "Autre intitulé" } });
+
+    expect(saveButton()).toBeDisabled();
+  });
+
+  it("garde le bouton désactivé tant qu'un intitulé requis est vide", async () => {
+    renderEdition();
+    const { labelLg1, labelLg2 } = await submitWithEmptyTitles();
+
+    fireEvent.change(labelLg1, { target: { value: "Intitulé" } });
+
+    expect(saveButton()).toBeDisabled();
+    expect(labelLg1).toHaveAttribute("aria-invalid", "false");
+    expect(labelLg2).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("réactive le bouton dès que tous les champs requis sont renseignés", async () => {
+    renderEdition();
+    const { labelLg1, labelLg2 } = await submitWithEmptyTitles();
+
+    fireEvent.change(labelLg1, { target: { value: "Intitulé" } });
+    fireEvent.change(labelLg2, { target: { value: "Title" } });
+
+    expect(saveButton()).toBeEnabled();
+  });
+});

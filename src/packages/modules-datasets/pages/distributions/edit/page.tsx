@@ -89,8 +89,7 @@ export const Component = () => {
   const onSubmit = () => {
     const clientSideErrors = validate(state.editingDistribution);
     if (clientSideErrors.errorMessage?.length > 0) {
-      dispatch({ type: "SET_SUBMITTING", payload: true });
-      dispatch({ type: "SET_CLIENT_SIDE_ERRORS", payload: clientSideErrors });
+      dispatch({ type: "SAVE_REJECTED_BY_VALIDATION", payload: clientSideErrors });
     } else {
       dispatch({ type: "SET_CLIENT_SIDE_ERRORS", payload: {} });
       setServerSideError(undefined);

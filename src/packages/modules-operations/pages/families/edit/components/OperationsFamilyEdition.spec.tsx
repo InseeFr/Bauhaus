@@ -223,6 +223,58 @@ describe("OperationsFamilyEdition", () => {
         expect(screen.getByRole("button", { name: /Save/i })).toBeDisabled();
       });
     });
+
+    it("keeps the save button disabled while a required field is still empty", () => {
+      renderEdition({
+        ...defaultProps,
+        family: { ...defaultProps.family, prefLabelLg1: "", prefLabelLg2: "" },
+      });
+      clickSave();
+
+      fireEvent.change(screen.getByLabelText(/Intitulé/), { target: { value: "Libellé" } });
+
+      expect(screen.getByRole("button", { name: /Save/i })).toBeDisabled();
+    });
+
+    it("keeps the save button disabled when only an optional field is modified", () => {
+      renderEdition({
+        ...defaultProps,
+        family: { ...defaultProps.family, prefLabelLg1: "" },
+      });
+      clickSave();
+
+      fireEvent.change(document.getElementById("abstractLg1")!, {
+        target: { value: "Nouveau résumé" },
+      });
+
+      expect(screen.getByRole("button", { name: /Save/i })).toBeDisabled();
+    });
+
+    it("enables the save button again once every required field is filled", () => {
+      renderEdition({
+        ...defaultProps,
+        family: { ...defaultProps.family, prefLabelLg1: "", prefLabelLg2: "" },
+      });
+      clickSave();
+
+      fireEvent.change(screen.getByLabelText(/Intitulé/), { target: { value: "Libellé" } });
+      fireEvent.change(screen.getByLabelText(/Title/), { target: { value: "Label" } });
+
+      expect(screen.getByRole("button", { name: /Save/i })).toBeEnabled();
+    });
+
+    it("updates the field errors as soon as a required field is filled", () => {
+      renderEdition({
+        ...defaultProps,
+        family: { ...defaultProps.family, prefLabelLg1: "", prefLabelLg2: "" },
+      });
+      clickSave();
+
+      fireEvent.change(screen.getByLabelText(/Intitulé/), { target: { value: "Libellé" } });
+
+      expect(screen.getByLabelText(/Intitulé/)).not.toHaveAttribute("aria-invalid", "true");
+      expect(screen.getByLabelText(/Title/)).toHaveAttribute("aria-invalid", "true");
+    });
   });
 
   describe("API Calls - Creation", () => {

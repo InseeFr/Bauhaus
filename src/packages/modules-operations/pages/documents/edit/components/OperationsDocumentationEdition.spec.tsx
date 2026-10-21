@@ -395,3 +395,57 @@ describe("OperationsDocumentationEdition, titles", () => {
     expect(screen.getAllByLabelText(/common\.title/)[index]).toHaveValue(value);
   });
 });
+
+describe("OperationsDocumentationEdition, re-enabling the save button", () => {
+  const linkWithoutTitles = {
+    id: "l1",
+    labelLg1: "",
+    labelLg2: "",
+    lang: "fr",
+    url: "https://www.insee.fr",
+    sims: [],
+  };
+
+  const saveButton = () => screen.getByRole("button", { name: /Sauvegarder|Save/ });
+  const field = (id: string) => document.getElementById(id)!;
+  const type = (id: string, value: string) => fireEvent.change(field(id), { target: { value } });
+
+  const renderWithEmptyTitles = () => {
+    renderEdition(linkWithoutTitles, { type: LINK, onSave: vi.fn() });
+    fireEvent.click(saveButton());
+  };
+
+  it("keeps the save button disabled while a required field is still empty", () => {
+    renderWithEmptyTitles();
+
+    type("labelLg1", "Lien");
+
+    expect(saveButton()).toBeDisabled();
+  });
+
+  it("keeps the save button disabled when only an optional field is modified", () => {
+    renderWithEmptyTitles();
+
+    type("descriptionLg1", "Une description");
+
+    expect(saveButton()).toBeDisabled();
+  });
+
+  it("enables the save button again once every required field is filled", () => {
+    renderWithEmptyTitles();
+
+    type("labelLg1", "Lien");
+    type("labelLg2", "Link");
+
+    expect(saveButton()).toBeEnabled();
+  });
+
+  it("updates the field errors as soon as a required field is filled", () => {
+    renderWithEmptyTitles();
+
+    type("labelLg1", "Lien");
+
+    expect(field("labelLg1")).not.toHaveAttribute("aria-invalid", "true");
+    expect(field("labelLg2")).toHaveAttribute("aria-invalid", "true");
+  });
+});

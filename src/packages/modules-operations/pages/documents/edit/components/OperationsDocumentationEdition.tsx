@@ -51,6 +51,8 @@ interface EditionState {
   clientSideErrors: ClientSideErrors;
   saving: boolean;
   submitting: boolean;
+  /** Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide le formulaire. */
+  saveAttempted: boolean;
   document: Document;
   files: DocumentFile[];
   validationModalDisplayed: boolean;
@@ -58,13 +60,15 @@ interface EditionState {
 }
 
 type EditionAction =
-  | { type: "RESET_ERRORS_AND_SET_FILES"; files: DocumentFile[] }
+  | { type: "RESET_ERRORS_AND_SET_FILES"; files: DocumentFile[]; revalidate: Revalidate }
   | {
       type: "RESET_ERRORS_AND_UPDATE_FIELD";
+      revalidate: Revalidate;
       fieldId: keyof Document;
       value: any;
     }
   | { type: "SET_VALIDATION_ERRORS"; clientSideErrors: ClientSideErrors }
+  | { type: "SAVE_REJECTED_BY_VALIDATION"; clientSideErrors: ClientSideErrors }
   | { type: "SET_SERVER_SIDE_ERROR"; error: unknown }
   | { type: "SET_SAVING"; saving: boolean }
   | { type: "SHOW_VALIDATION_MODAL" }
@@ -162,6 +166,7 @@ function initEditionState(defaultDocument: Document): EditionState {
     clientSideErrors: {},
     saving: false,
     submitting: false,
+    saveAttempted: false,
     document: defaultDocument,
     files: defaultDocument.url ? [{ name: defaultDocument.url }] : [],
     validationModalDisplayed: false,
@@ -169,26 +174,48 @@ function initEditionState(defaultDocument: Document): EditionState {
   };
 }
 
+/** Validation du formulaire tel qu'il serait après la saisie. */
+type Revalidate = (document: Document, files: DocumentFile[]) => ReturnType<typeof validate>;
+
+const errorsAfterChange = (
+  state: EditionState,
+  document: Document,
+  files: DocumentFile[],
+  revalidate: Revalidate,
+): ClientSideErrors =>
+  state.saveAttempted
+    ? revalidate(document, files)
+    : { ...state.clientSideErrors, errorMessage: [] };
+
 function editionReducer(state: EditionState, action: EditionAction): EditionState {
   switch (action.type) {
     case "RESET_ERRORS_AND_SET_FILES":
       return {
         ...state,
         serverSideError: "",
-        clientSideErrors: { ...state.clientSideErrors, errorMessage: [] },
+        clientSideErrors: errorsAfterChange(state, state.document, action.files, action.revalidate),
         files: action.files,
       };
-    case "RESET_ERRORS_AND_UPDATE_FIELD":
+    case "RESET_ERRORS_AND_UPDATE_FIELD": {
+      const document = { ...state.document, [action.fieldId]: action.value };
       return {
         ...state,
         serverSideError: "",
-        clientSideErrors: { ...state.clientSideErrors, errorMessage: [] },
-        document: { ...state.document, [action.fieldId]: action.value },
+        clientSideErrors: errorsAfterChange(state, document, state.files, action.revalidate),
+        document,
       };
+    }
     case "SET_VALIDATION_ERRORS":
       return {
         ...state,
         submitting: true,
+        clientSideErrors: action.clientSideErrors,
+      };
+    case "SAVE_REJECTED_BY_VALIDATION":
+      return {
+        ...state,
+        submitting: true,
+        saveAttempted: true,
         clientSideErrors: action.clientSideErrors,
       };
     case "SET_SERVER_SIDE_ERROR":
@@ -266,12 +293,21 @@ export const OperationsDocumentationEdition = (
 
   const currentLabelLg2 = currentDocument?.labelLg2;
 
+  const validateForm: Revalidate = (document, files) =>
+    validate(
+      { ...document, files },
+      type,
+      documentsAndLinksList as Document[],
+      currentLabelLg1,
+      currentLabelLg2,
+    );
+
   const uploadFile = (files: DocumentFile[]) => {
-    dispatch({ type: "RESET_ERRORS_AND_SET_FILES", files });
+    dispatch({ type: "RESET_ERRORS_AND_SET_FILES", files, revalidate: validateForm });
   };
 
   const removeFile = () => {
-    dispatch({ type: "RESET_ERRORS_AND_SET_FILES", files: [] });
+    dispatch({ type: "RESET_ERRORS_AND_SET_FILES", files: [], revalidate: validateForm });
   };
 
   const onChange = (e: { target: { id: string; value: any } }) => {
@@ -279,6 +315,7 @@ export const OperationsDocumentationEdition = (
       type: "RESET_ERRORS_AND_UPDATE_FIELD",
       fieldId: e.target.id as keyof Document,
       value: e.target.value,
+      revalidate: validateForm,
     });
   };
 
@@ -314,19 +351,9 @@ export const OperationsDocumentationEdition = (
   };
 
   const onSubmit = () => {
-    const documentWithFile = {
-      ...document,
-      files,
-    };
-    const clientSideErrors = validate(
-      documentWithFile,
-      type,
-      documentsAndLinksList as Document[],
-      currentLabelLg1,
-      currentLabelLg2,
-    );
+    const clientSideErrors = validateForm(document, files);
     if (clientSideErrors.errorMessage?.length > 0) {
-      dispatch({ type: "SET_VALIDATION_ERRORS", clientSideErrors });
+      dispatch({ type: "SAVE_REJECTED_BY_VALIDATION", clientSideErrors });
     } else if ((document.sims?.length ?? 0) > 0) {
       dispatch({ type: "SHOW_VALIDATION_MODAL" });
     } else {

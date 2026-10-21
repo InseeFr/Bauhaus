@@ -302,28 +302,35 @@ export const ComponentDetailEdit = ({
     }
   }, [type, component, initialComponent]);
 
-  const resetErrorsMessages = () =>
-    setClientSideErrors({
-      ...clientSideErrors,
-      errorMessage: [],
-    });
+  // Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide le formulaire.
+  const [saveAttempted, setSaveAttempted] = useState(false);
+
+  const updateErrorsFor = useCallback(
+    (component: ComponentFormState) =>
+      setClientSideErrors(
+        saveAttempted ? validate(component) : { ...clientSideErrors, errorMessage: [] },
+      ),
+    [clientSideErrors, saveAttempted],
+  );
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-      resetErrorsMessages();
-      setComponent({
+      const newComponent = {
         ...component,
         [name]: value,
-      });
+      };
+      updateErrorsFor(newComponent);
+      setComponent(newComponent);
     },
-    [component, clientSideErrors],
+    [component, updateErrorsFor],
   );
 
   const handleSaveClick = useCallback(() => {
     const clientSideErrors = validate(component);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
+      setSaveAttempted(true);
       setClientSideErrors(clientSideErrors);
     } else {
       setClientSideErrors({});
@@ -347,8 +354,9 @@ export const ComponentDetailEdit = ({
         [key]: component[key],
       };
     }, {});
-    resetErrorsMessages();
-    setComponent({ ...newComponentWithoutAttributes, type: option });
+    const newComponent = { ...newComponentWithoutAttributes, type: option };
+    updateErrorsFor(newComponent);
+    setComponent(newComponent);
   };
 
   return (

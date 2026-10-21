@@ -21,7 +21,7 @@ import {
 } from "../../../hooks/useClassificationItem";
 import { NotesInputs } from "./components/NotesInputs";
 import { Menu } from "./menu";
-import { validate } from "./validation";
+import { shortLabelField, validate } from "./validation";
 
 /** Champs qui affichent leur erreur sous la saisie ; les autres erreurs du back vont au bandeau. */
 const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2"] as const;
@@ -86,6 +86,9 @@ export const Component = () => {
 
   const [submitting, setSubmitting] = useState(false);
 
+  // Un enregistrement a été refusé par la validation : chaque saisie revalide le formulaire.
+  const [saveAttempted, setSaveAttempted] = useState(false);
+
   const [serverSideError, setServerSideError] = useState<unknown>();
 
   if (loadError && !item?.general) return <LoadingErrorBloc error={loadError} />;
@@ -97,23 +100,6 @@ export const Component = () => {
   const { general, notes } = value;
 
   const formatAndSave = (value: any) => {
-    value.altLabels = general.altLabels?.map((altLabel: any) => {
-      const newAltLabel = {
-        ...altLabel,
-      };
-      if (value["altLabelsLg1_" + altLabel.length]) {
-        newAltLabel.shortLabelLg1 = value["altLabelsLg1_" + altLabel.length];
-      }
-      if (value["altLabelsLg2_" + altLabel.length]) {
-        newAltLabel.shortLabelLg2 = value["altLabelsLg2_" + altLabel.length];
-      }
-      return newAltLabel;
-    });
-    Object.entries(value).forEach(([key]) => {
-      if (key.startsWith("altLabelsLg1_") || key.startsWith("altLabelsLg2_")) {
-        delete value[key];
-      }
-    });
     queryClient.setQueriesData(
       { queryKey: ["classifications-item", classificationId, itemId] },
       {},
@@ -124,9 +110,10 @@ export const Component = () => {
   const onSubmit = (e: React.FormEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    const clientSideErrors = validate(value.general, value.general.altLabels?.length);
+    const clientSideErrors = validate(value.general);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
+      setSaveAttempted(true);
       setClientSideErrors(clientSideErrors);
     } else {
       setClientSideErrors({});
@@ -148,6 +135,22 @@ export const Component = () => {
     return;
   }
 
+  const updateValue = (next: any) => {
+    setValue(next);
+    if (saveAttempted) {
+      setClientSideErrors(validate(next.general));
+    }
+  };
+
+  // Avant une tentative d'enregistrement, saisir un intitulé lève la désactivation du bouton.
+  const clearErrorMessage = () => {
+    if (saveAttempted) return;
+    setClientSideErrors((clientSideErrors: any) => ({
+      ...clientSideErrors,
+      errorMessage: [],
+    }));
+  };
+
   return (
     <div className="container editor-container">
       <PageTitleBlock titleLg1={general?.prefLabelLg1} titleLg2={general?.prefLabelLg2} />
@@ -164,14 +167,11 @@ export const Component = () => {
               aria-invalid={!!clientSideErrors?.fields?.prefLabelLg1}
               value={general.prefLabelLg1}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setValue({
+                updateValue({
                   ...value,
                   general: { ...value.general, prefLabelLg1: e.target.value },
                 });
-                setClientSideErrors((clientSideErrors: any) => ({
-                  ...clientSideErrors,
-                  errorMessage: [],
-                }));
+                clearErrorMessage();
               }}
             />
             <ClientSideError
@@ -187,14 +187,11 @@ export const Component = () => {
               aria-invalid={!!clientSideErrors?.fields?.prefLabelLg2}
               value={general.prefLabelLg2}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setValue({
+                updateValue({
                   ...value,
                   general: { ...value.general, prefLabelLg2: e.target.value },
                 });
-                setClientSideErrors((clientSideErrors: any) => ({
-                  ...clientSideErrors,
-                  errorMessage: [],
-                }));
+                clearErrorMessage();
               }}
             />
             <ClientSideError
@@ -210,7 +207,7 @@ export const Component = () => {
               id="altLabelLg1"
               value={general.altLabelLg1}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setValue({
+                updateValue({
                   ...value,
                   general: { ...value.general, altLabelLg1: e.target.value },
                 })
@@ -223,7 +220,7 @@ export const Component = () => {
               id="altLabelLg2"
               value={general.altLabelLg2}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setValue({
+                updateValue({
                   ...value,
                   general: { ...value.general, altLabelLg2: e.target.value },
                 })
@@ -237,7 +234,7 @@ export const Component = () => {
             value={general.broaderURI}
             options={previousLevelsOptions}
             onChange={(v: string) =>
-              setValue({
+              updateValue({
                 ...value,
                 general: { ...value.general, broaderURI: v },
               })
@@ -246,43 +243,51 @@ export const Component = () => {
           />
         </div>
         {general.altLabels?.map(({ length, shortLabelLg1, shortLabelLg2 }: any, index: number) => {
+          const updateShortLabel = (field: "shortLabelLg1" | "shortLabelLg2", label: string) =>
+            updateValue({
+              ...value,
+              general: {
+                ...value.general,
+                altLabels: value.general.altLabels.map((altLabel: any, i: number) =>
+                  i === index ? { ...altLabel, [field]: label } : altLabel,
+                ),
+              },
+            });
+          const idLg1 = shortLabelField("Lg1", length);
+          const idLg2 = shortLabelField("Lg2", length);
           return (
             <Row key={index}>
               <div className="form-group col-md-6">
-                <label htmlFor={"altLabelsLg1_" + length}>
-                  {t("item.altLabelWithLength", { length, lng: "fr" })}
-                </label>
+                <label htmlFor={idLg1}>{t("item.altLabelWithLength", { length, lng: "fr" })}</label>
                 <TextInput
-                  id={"altLabelsLg1_" + length}
+                  id={idLg1}
                   value={shortLabelLg1}
+                  aria-describedby={`${idLg1}-error`}
+                  aria-invalid={!!clientSideErrors?.fields?.[idLg1]}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setValue({
-                      ...value,
-                      general: {
-                        ...value.general,
-                        altLabelsLg1_: e.target.value,
-                      },
-                    })
+                    updateShortLabel("shortLabelLg1", e.target.value)
                   }
                 />
+                <ClientSideError
+                  id={`${idLg1}-error`}
+                  error={clientSideErrors?.fields?.[idLg1]}
+                ></ClientSideError>
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor={"altLabelsLg2_" + length}>
-                  {t("item.altLabelWithLength", { length, lng: "en" })}
-                </label>
+                <label htmlFor={idLg2}>{t("item.altLabelWithLength", { length, lng: "en" })}</label>
                 <TextInput
-                  id={"altLabelsLg2_" + length}
+                  id={idLg2}
                   value={shortLabelLg2}
+                  aria-describedby={`${idLg2}-error`}
+                  aria-invalid={!!clientSideErrors?.fields?.[idLg2]}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setValue({
-                      ...value,
-                      general: {
-                        ...value.general,
-                        altLabelsLg2_: e.target.value,
-                      },
-                    })
+                    updateShortLabel("shortLabelLg2", e.target.value)
                   }
                 />
+                <ClientSideError
+                  id={`${idLg2}-error`}
+                  error={clientSideErrors?.fields?.[idLg2]}
+                ></ClientSideError>
               </div>
             </Row>
           );
@@ -290,7 +295,7 @@ export const Component = () => {
         <NotesInputs
           value={notes}
           onChange={(v) => {
-            setValue({
+            updateValue({
               ...value,
               notes: {
                 ...value.notes,
