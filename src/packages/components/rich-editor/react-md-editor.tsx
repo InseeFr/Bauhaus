@@ -18,6 +18,9 @@ export const MDEditor = ({
       onChange={handleChange}
       commands={[italic, bold, unorderedListCommand, link]}
       preview="edit"
+      // Sans plein écran dans les commandes, inutile que chaque éditeur lise puis réécrive
+      // l'overflow du <body> au montage : la fiche SIMS en monte des dizaines.
+      overflow={false}
       data-color-mode="light"
     />
   );
