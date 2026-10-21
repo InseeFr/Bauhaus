@@ -242,15 +242,10 @@ const SimsFieldComponent = ({
                   />
                 )}
                 {msd.rangeType === GEOGRAPHY && (
-                  // `loadGeographies` est requis par `SimsGeographyPicker` mais n'a jamais été
-                  // fourni ici : comportement historique inchangé (le composant partagé
-                  // planterait déjà à l'exécution si ce champ est réellement sauvegardé).
                   <SimsGeographyPicker
-                    {...({
-                      value,
-                      onChange: handleGeography,
-                      secondLang,
-                    } as any)}
+                    value={value}
+                    onChange={handleGeography}
+                    secondLang={secondLang}
                   />
                 )}
               </span>

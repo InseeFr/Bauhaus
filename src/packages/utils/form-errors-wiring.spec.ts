@@ -50,11 +50,7 @@ const SCREENS = {
 
 type Screen = keyof typeof SCREENS;
 
-const FROZEN: ReadonlySet<Screen> = new Set<Screen>([
-  "territoires",
-  "rapports SIMS",
-  "collections",
-]);
+const FROZEN: ReadonlySet<Screen> = new Set<Screen>(["rapports SIMS", "collections"]);
 
 const TO_FORM_ERRORS_CALL = /\btoFormErrors\(/;
 

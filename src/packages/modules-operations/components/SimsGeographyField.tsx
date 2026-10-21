@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -12,9 +12,26 @@ import { Select } from "@components/select-rmes";
 
 import { GeographieApi } from "@sdk/geographie";
 
+import { FormErrors, toFormErrors } from "@utils/api-errors";
+
+import { appI18n } from "../../i18n";
 import { useGeographies } from "../hooks/useGeographies";
 import { GeographyOption } from "../hooks/useGeographiesOptions";
 import { Geography, SimsGeographySelector } from "./SimsGeographySelector";
+
+const FIELDS_WITH_ERROR_SLOT = ["labelLg1", "labelLg2"] as const;
+
+/** Refus métier du back quand le nom français est déjà pris par un autre territoire. */
+const EXISTING_LABEL_CODE = "847";
+
+/** Le refus d'un nom déjà pris vise le nom français : il s'affiche sous sa saisie. */
+const withExistingLabelOnItsField = (err: unknown): unknown =>
+  (err as { code?: unknown } | null)?.code === EXISTING_LABEL_CODE
+    ? {
+        ...(err as object),
+        errors: [{ field: "labelLg1", message: appI18n.t(`errors.${EXISTING_LABEL_CODE}`) }],
+      }
+    : err;
 
 export interface SimsTerritory {
   id?: string;
@@ -45,6 +62,8 @@ export const SimsGeographyField = ({
   const [selectedOption, setSelectedOption] = useState<GeographyOption | null>(null);
 
   const [serverSideError, setServerSideError] = useState<unknown>();
+
+  const [clientSideErrors, setClientSideErrors] = useState<FormErrors["clientSideErrors"]>(null);
 
   const { isLoading, geographies, includes, excludes, setIncludes, setExcludes } =
     useGeographies(territory);
@@ -92,11 +111,17 @@ export const SimsGeographyField = ({
     const method = formatted.id
       ? GeographieApi.putTerritory(formatted.id, formatted)
       : GeographieApi.postTerritory(formatted);
+    setClientSideErrors(null);
+    setServerSideError(undefined);
     method
       .then((uri: unknown) => {
         onSave(territory.uri ?? (uri as string));
       })
-      .catch(setServerSideError);
+      .catch((err: unknown) => {
+        const formErrors = toFormErrors(withExistingLabelOnItsField(err), FIELDS_WITH_ERROR_SLOT);
+        setClientSideErrors(formErrors.clientSideErrors);
+        setServerSideError(formErrors.serverSideError);
+      });
   }, [territory, name, nameLg2, includes, excludes, onSave]);
 
   if (isLoading) {
@@ -109,19 +134,40 @@ export const SimsGeographyField = ({
         <CancelButton action={onCancel} />
         <SaveButton action={save} />
       </ActionToolbar>
+      <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors?.errorMessage} />
       <ErrorBloc error={serverSideError} />
       <Row>
         <div className="form-group col-md-6">
-          <LabelRequired className="form-label w-100">
+          <LabelRequired className="form-label w-100" htmlFor="territory-labelLg1">
             {t("geography.zoneName", { lng: "fr" })}
           </LabelRequired>
-          <TextInput value={name} onChange={(e) => setName(e.target.value)} />
+          <TextInput
+            id="territory-labelLg1"
+            aria-describedby="territory-labelLg1-error"
+            aria-invalid={!!clientSideErrors?.fields.labelLg1}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <ClientSideError
+            id="territory-labelLg1-error"
+            error={clientSideErrors?.fields.labelLg1}
+          />
         </div>
         <div className="form-group col-md-6">
-          <LabelRequired className="form-label w-100">
+          <LabelRequired className="form-label w-100" htmlFor="territory-labelLg2">
             {t("geography.zoneName", { lng: "en" })}
           </LabelRequired>
-          <TextInput value={nameLg2} onChange={(e) => setNameLg2(e.target.value)} />
+          <TextInput
+            id="territory-labelLg2"
+            aria-describedby="territory-labelLg2-error"
+            aria-invalid={!!clientSideErrors?.fields.labelLg2}
+            value={nameLg2}
+            onChange={(e) => setNameLg2(e.target.value)}
+          />
+          <ClientSideError
+            id="territory-labelLg2-error"
+            error={clientSideErrors?.fields.labelLg2}
+          />
         </div>
       </Row>
       <div className="bauhaus-sims-geography-field">

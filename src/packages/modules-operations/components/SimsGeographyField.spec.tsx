@@ -196,6 +196,41 @@ describe("SimsGeographyField", () => {
 
       expect(await screen.findByText(appI18n.t("errors.NETWORK_ERROR"))).toBeInTheDocument();
     });
+
+    it.each([
+      ["labelLg1", 0],
+      ["labelLg2", 1],
+    ])("displays the validation error of %s under its input", async (field, index) => {
+      saveWithRejection(
+        sdkRejection.json(400, { errors: [{ field, message: "Ce champ est obligatoire." }] }),
+      );
+
+      await waitFor(() => {
+        const input = document.querySelectorAll<HTMLInputElement>('input[type="text"]')[index];
+        expect(input).toHaveAccessibleDescription("Ce champ est obligatoire.");
+        expect(input).toHaveAttribute("aria-invalid", "true");
+      });
+    });
+
+    it("displays under the French name the refusal of a name already used", async () => {
+      saveWithRejection(
+        sdkRejection.json(400, { code: "847", message: "The labelLg1 already exists" }),
+      );
+
+      await waitFor(() => {
+        const input = document.querySelectorAll<HTMLInputElement>('input[type="text"]')[0];
+        expect(input).toHaveAccessibleDescription(appI18n.t("errors.847"));
+        expect(input).toHaveAttribute("aria-invalid", "true");
+      });
+    });
+
+    it("displays in the banner a validation error on a field without input", async () => {
+      saveWithRejection(
+        sdkRejection.json(400, { errors: [{ field: "unions", message: "Zone inconnue." }] }),
+      );
+
+      expect(await screen.findByText("unions : Zone inconnue.")).toBeInTheDocument();
+    });
   });
 
   it("should render included and excluded geographies sections", () => {
