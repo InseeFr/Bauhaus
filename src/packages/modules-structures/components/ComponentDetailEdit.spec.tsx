@@ -121,7 +121,9 @@ describe("ComponentDetailEdit", () => {
   });
 
   it("enregistre le type choisi pour une nouvelle composante", async () => {
-    renderEdit({ component: { identifiant: "c1", labelLg1: "Composante 1", labelLg2: "Component 1" } });
+    renderEdit({
+      component: { identifiant: "c1", labelLg1: "Composante 1", labelLg2: "Component 1" },
+    });
 
     // PrimeReact ne monte les options qu'à l'ouverture du Dropdown.
     const typeField = screen.getByText("Type", { selector: "label" }).closest(".form-group")!;

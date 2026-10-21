@@ -626,12 +626,8 @@ describe("DdiPreview items référencés", () => {
       }),
     });
     expect(mockGetMutualizedCodesList).not.toHaveBeenCalled();
-    expect(lastPreviewedItems()).not.toContainEqual(
-      expect.objectContaining({ $type: "CodeList" }),
-    );
-    expect(lastPreviewedItems()).not.toContainEqual(
-      expect.objectContaining({ $type: "Category" }),
-    );
+    expect(lastPreviewedItems()).not.toContainEqual(expect.objectContaining({ $type: "CodeList" }));
+    expect(lastPreviewedItems()).not.toContainEqual(expect.objectContaining({ $type: "Category" }));
   });
 
   it("ne duplique pas une liste de codes déjà matérialisée dans le formulaire", async () => {
