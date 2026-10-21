@@ -65,6 +65,7 @@ const mockConvertToDDI3 = vi.fn();
 const mockGetPhysicalInstanceParents = vi.fn();
 const mockGetGroupMissingValuesRepresentations = vi.fn();
 const mockGetMutualizedCodesList = vi.fn();
+const mockGetMutualizedCodeListsCatalog = vi.fn();
 
 vi.mock("../../../../sdk", () => ({
   DDIApi: {
@@ -73,6 +74,7 @@ vi.mock("../../../../sdk", () => ({
     getGroupMissingValuesRepresentations: (...args: any[]) =>
       mockGetGroupMissingValuesRepresentations(...args),
     getMutualizedCodeList: (...args: any[]) => mockGetMutualizedCodesList(...args),
+    getMutualizedCodeLists: (...args: any[]) => mockGetMutualizedCodeListsCatalog(...args),
   },
 }));
 
@@ -176,6 +178,7 @@ const mockEmptyGroup = () => {
   });
   mockGetGroupMissingValuesRepresentations.mockResolvedValue([]);
   mockGetMutualizedCodesList.mockResolvedValue(envelope({}));
+  mockGetMutualizedCodeListsCatalog.mockResolvedValue([]);
 };
 
 /** Attend qu'une conversion porte un item correspondant à `item`. */
@@ -600,6 +603,34 @@ describe("DdiPreview items référencés", () => {
     await expectLastPreviewToContain({ $type: "CodeList", ID: "cl-mut" });
     expect(lastPreviewedItems()).toContainEqual(
       expect.objectContaining({ $type: "Category", ID: "cat-1" }),
+    );
+  });
+
+  it("ne référence qu'une liste de codes mutualisée, sans la déréférencer", async () => {
+    mockGetMutualizedCodeListsCatalog.mockResolvedValue([
+      { id: "cl-mut", agencyId: "fr.insee", label: "Liste mutualisée" },
+    ]);
+
+    render(
+      <DdiPreview
+        {...baseProps}
+        variableType="code"
+        codeRepresentation={reusedCodeListRepresentation}
+      />,
+    );
+
+    await expectLastPreviewToContain({
+      $type: "Variable",
+      VariableRepresentation: expect.objectContaining({
+        CodeRepresentation: reusedCodeListRepresentation,
+      }),
+    });
+    expect(mockGetMutualizedCodesList).not.toHaveBeenCalled();
+    expect(lastPreviewedItems()).not.toContainEqual(
+      expect.objectContaining({ $type: "CodeList" }),
+    );
+    expect(lastPreviewedItems()).not.toContainEqual(
+      expect.objectContaining({ $type: "Category" }),
     );
   });
 
