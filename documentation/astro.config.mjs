@@ -102,6 +102,16 @@ export default defineConfig({
           ],
         },
         {
+          label: "Module Operations",
+          collapsed: true,
+          items: [
+            {
+              label: "Explanation",
+              items: [{ autogenerate: { directory: "guides/operations/explanation" } }],
+            },
+          ],
+        },
+        {
           label: "Module Variables",
           collapsed: true,
           items: [
