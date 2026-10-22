@@ -1,15 +1,18 @@
 import { htmlLength } from "@utils/html-utils";
 
+import "../form/form.css";
 import { ModifyNotes } from "./modify-notes";
 
 export function NoteOneLangEdition({
   note,
   handleChange,
   maxLength,
+  ariaLabel,
 }: Readonly<{
   note: string;
   handleChange: (value: string) => void;
   maxLength: number;
+  ariaLabel?: string;
 }>) {
   const noteLength = htmlLength(note);
 
@@ -21,8 +24,8 @@ export function NoteOneLangEdition({
   );
 
   return (
-    <div className="form-group text-center">
-      <ModifyNotes note={note} handleChange={handleChange} />
+    <div className="bauhaus-form-group text-center">
+      <ModifyNotes note={note} handleChange={handleChange} ariaLabel={ariaLabel} />
       {checkLength}
     </div>
   );

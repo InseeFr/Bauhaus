@@ -8,9 +8,9 @@ import { AdvancedSearchControls } from "./controls";
 
 interface AdvancedSearchListTypes {
   title: string;
-  data: JSX.Element[];
+  data: React.JSX.Element[];
   initializeState?: unknown;
-  redirect?: JSX.Element;
+  redirect?: React.JSX.Element;
 }
 
 export const AdvancedSearchList = ({

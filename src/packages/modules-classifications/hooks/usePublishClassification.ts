@@ -10,6 +10,7 @@ export const usePublishClassification = (id: string) => {
     mutate: publish,
     error,
   } = useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: () => {
       return ClassificationsApi.publishClassification(id);
     },

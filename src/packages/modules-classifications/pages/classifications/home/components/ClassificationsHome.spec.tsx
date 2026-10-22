@@ -39,19 +39,21 @@ vi.mock("@components/searchable-list", () => ({
   ),
 }));
 
+const NO_CLASSIFICATIONS: never[] = [];
+
 describe("ClassificationsHome Component", () => {
   it("should render without crashing", () => {
-    render(<ClassificationsHome classifications={[]} />);
+    render(<ClassificationsHome classifications={NO_CLASSIFICATIONS} />);
     screen.getByTestId("row");
   });
 
   it("should call useTitle hook with correct arguments", () => {
-    render(<ClassificationsHome classifications={[]} />);
+    render(<ClassificationsHome classifications={NO_CLASSIFICATIONS} />);
     expect(useTitle).toHaveBeenCalledWith("Nomenclatures", "Nomenclatures");
   });
 
   it("should display the PageTitle component with the correct title", () => {
-    render(<ClassificationsHome classifications={[]} />);
+    render(<ClassificationsHome classifications={NO_CLASSIFICATIONS} />);
     expect(screen.getByTestId("page-title")).toHaveTextContent("Nomenclatures - Recherche");
   });
 

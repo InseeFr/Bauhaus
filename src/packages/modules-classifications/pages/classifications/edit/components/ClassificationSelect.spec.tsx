@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { useCallback } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { ClassificationSelect } from "./ClassificationSelect";
@@ -14,15 +15,18 @@ vi.mock("../../../../hooks/useClassifications", () => ({
 }));
 
 vi.mock("@components/select-rmes", () => ({
-  Select: ({ value, options, onChange }: any) => (
-    <select data-testid="select" value={value ?? ""} onChange={(e) => onChange(e.target.value)}>
-      {options.map((o: any) => (
-        <option key={o.value} value={o.value}>
-          {o.label}
-        </option>
-      ))}
-    </select>
-  ),
+  Select: ({ value, options, onChange }: any) => {
+    const handleChange = useCallback((e: any) => onChange(e.target.value), [onChange]);
+    return (
+      <select data-testid="select" value={value ?? ""} onChange={handleChange}>
+        {options.map((o: any) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    );
+  },
 }));
 
 import * as hooks from "../../../../hooks/useClassifications";

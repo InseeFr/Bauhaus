@@ -1,9 +1,10 @@
-import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
-import { InputText } from "primereact/inputtext";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
+import { Dropdown } from "@components/ui/dropdown";
+import { IconField } from "@components/ui/icon-field";
+import { InputIcon } from "@components/ui/input-icon";
+import { InputText } from "@components/ui/input-text";
 
 import { HasAccess } from "../../../../auth/components/auth";
 
@@ -14,6 +15,8 @@ interface SearchFiltersProps {
   onTypeFilterChange: (value: string) => void;
   typeOptions: { label: string; value: string }[];
   onNewVariable: () => void;
+  /** Ouvre la recherche d'une variable de l'étude à réutiliser (#1387) ; sans étude, pas de bouton. */
+  onReuseVariable?: () => void;
   onSaveAll?: () => void;
   hasLocalChanges?: boolean;
   /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
@@ -27,6 +30,7 @@ export const SearchFilters = ({
   onTypeFilterChange,
   typeOptions,
   onNewVariable,
+  onReuseVariable,
   onSaveAll,
   hasLocalChanges = false,
   stamps,
@@ -74,6 +78,18 @@ export const SearchFilters = ({
           onClick={onNewVariable}
         />
       </HasAccess>
+      {onReuseVariable && (
+        <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
+          <Button
+            icon="pi pi-share-alt"
+            label={t("physicalInstance.view.reuseVariable.open")}
+            severity="secondary"
+            style={{ background: "transparent" }}
+            aria-label={t("physicalInstance.view.reuseVariable.open")}
+            onClick={onReuseVariable}
+          />
+        </HasAccess>
+      )}
     </div>
   );
 };

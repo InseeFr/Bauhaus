@@ -30,22 +30,17 @@ body {
   --secondary-color: #625922;
 }
 
-.structures {
+/* Les modules regroupés sous une même tuile de la page d'accueil partagent sa couleur. */
+.dataDescription,
+.datasets,
+.ddi {
   --primary-color: #77514c;
   --secondary-color: #5a3632;
 }
 
+.administration,
+.structures,
 .codelists {
-  --primary-color: #9a9577;
-  --secondary-color: #7c775a;
-}
-
-.datasets {
-  --primary-color: #955249;
-  --secondary-color: #76362e;
-}
-
-.ddi {
-  --primary-color: #c17974;
-  --secondary-color: #a05c57;
+  --primary-color: #c8102e;
+  --secondary-color: #9b0c23;
 }

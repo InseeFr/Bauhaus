@@ -1,27 +1,20 @@
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi } from "vitest";
 
 import { Levels } from "./Levels";
 
-vi.mock("@components/layout", () => ({
-  Row: ({ children }: any) => <div>{children}</div>,
-}));
+vi.mock("@components/layout", () => import("../../../../testing/component-mocks.testing"));
 
 // Le vrai Note rend `text` directement dans le corps du Panel, sans wrapper de liste.
-vi.mock("@components/note", () => ({
-  Note: ({ title, text }: any) => (
-    <div>
-      <div data-testid="note-title">{title}</div>
-      <div>{text}</div>
-    </div>
-  ),
-}));
+vi.mock("@components/note", () => import("../../../../testing/component-mocks.testing"));
 
 const levels = [
   { id: "divisions", labelLg1: "Divisions", labelLg2: "Divisions EN" },
   { id: "groupes", labelLg1: "Groupes", labelLg2: "Groups EN" },
 ];
+
+const NO_LEVELS: never[] = [];
 
 const renderLevels = (props = {}) =>
   render(
@@ -75,7 +68,7 @@ describe("<Levels />", () => {
   it("se rend avec une liste vide de niveaux", () => {
     render(
       <MemoryRouter>
-        <Levels levels={[]} classificationId="coicop2016" secondLang={false} />
+        <Levels levels={NO_LEVELS} classificationId="coicop2016" secondLang={false} />
       </MemoryRouter>,
     );
     expect(screen.queryAllByRole("link")).toHaveLength(0);

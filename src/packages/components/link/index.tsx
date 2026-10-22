@@ -1,5 +1,5 @@
 import { ComponentProps, ComponentPropsWithoutRef, PropsWithChildren } from "react";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink } from "react-router";
 
 import { cx } from "@utils/cx";
 

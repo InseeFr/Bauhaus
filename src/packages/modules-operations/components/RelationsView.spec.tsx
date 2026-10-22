@@ -1,27 +1,17 @@
 // relations.test.tsx
 import { render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router";
 import { vi } from "vitest";
 
 import { RelationsView } from "./RelationsView";
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: () => ({
-      t: (key: string, options?: { lng?: string }) => {
-        const translations: Record<string, Record<string, string>> = {
-          fr: { "app.linksTitle": "Liens" },
-          en: { "app.linksTitle": "Links" },
-        };
-        const lng = options?.lng || "en";
-        return translations[lng]?.[key] || key;
-      },
-    }),
-  };
-});
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("./translationsByLanguage.testing")).mockTranslationsByLanguage(importOriginal, {
+    fr: { "app.linksTitle": "Liens" },
+    en: { "app.linksTitle": "Links" },
+  }),
+);
 
 vi.mock("@components/layout", () => ({
   Row: ({ children }: { children: ReactNode }) => <div>{children}</div>,
@@ -35,6 +25,8 @@ vi.mock("@components/note", () => ({
     </div>
   ),
 }));
+
+const renderExtraLinks = (lng: "fr" | "en") => <p>complément {lng}</p>;
 
 describe("RelationsView Component", () => {
   const parent = {
@@ -81,5 +73,16 @@ describe("RelationsView Component", () => {
     screen.getByText("Libellé Enfant 2 Lg2");
     screen.getByText("Liens");
     screen.getByText("Links");
+  });
+
+  it("ajoute les liens complémentaires à la fin du bloc, dans chaque langue", () => {
+    render(
+      <Router>
+        <RelationsView secondLang={true} extraLinks={renderExtraLinks} />
+      </Router>,
+    );
+
+    screen.getByText("complément fr");
+    screen.getByText("complément en");
   });
 });

@@ -9,6 +9,23 @@ vi.mock("../auth/create-oidc", () => ({
 const okResponse = () =>
   Promise.resolve({ ok: true, text: () => Promise.resolve(""), json: () => Promise.resolve({}) });
 
+const expectFetchCall = async (
+  method: string,
+  args: unknown[],
+  httpMethod: string,
+  expectedUrl: string,
+  extraOptions: Record<string, unknown> = {},
+) => {
+  using fetch = vi.spyOn(window, "fetch").mockImplementation(okResponse as never);
+
+  await (CodelistsApi as Record<string, (...a: unknown[]) => Promise<unknown>>)[method](...args);
+
+  expect(fetch).toHaveBeenCalledWith(
+    expectedUrl,
+    expect.objectContaining({ method: httpMethod, ...extraOptions }),
+  );
+};
+
 describe("codelists api", () => {
   beforeEach(() => {
     vi.stubEnv("VITE_API_BASE_HOST", "http://back");
@@ -84,18 +101,14 @@ describe("codelists api", () => {
       ["getPartialsByParent", ["CL_TEST"], "GET", "http://back/codeList/partial/parent/CL_TEST"],
       ["getCodelistsForSearch", [], "GET", "http://back/codeList/search"],
       ["deleteCodelist", ["CL_TEST"], "DELETE", "http://back/codeList/CL_TEST"],
-    ])("%s appelle %s", async (method, args, httpMethod, expectedUrl) => {
-      using fetch = vi.spyOn(window, "fetch").mockImplementation(okResponse as never);
-
-      await (CodelistsApi as Record<string, (...a: unknown[]) => Promise<unknown>>)[method](
-        ...(args as unknown[]),
-      );
-
-      expect(fetch).toHaveBeenCalledWith(
-        expectedUrl,
-        expect.objectContaining({ method: httpMethod }),
-      );
-    });
+    ])("%s appelle %s", (method, args, httpMethod, expectedUrl) =>
+      expectFetchCall(
+        method as string,
+        args as unknown[],
+        httpMethod as string,
+        expectedUrl as string,
+      ),
+    );
   });
 
   describe("routes des listes partielles", () => {
@@ -104,18 +117,14 @@ describe("codelists api", () => {
       ["getCodelistPartial", ["CL_TEST"], "GET", "http://back/codeList/partial/CL_TEST"],
       ["getCodelistsPartialForSearch", [], "GET", "http://back/codeList/partial/search"],
       ["deleteCodelistPartial", ["CL_TEST"], "DELETE", "http://back/codeList/partial/CL_TEST"],
-    ])("%s appelle %s", async (method, args, httpMethod, expectedUrl) => {
-      using fetch = vi.spyOn(window, "fetch").mockImplementation(okResponse as never);
-
-      await (CodelistsApi as Record<string, (...a: unknown[]) => Promise<unknown>>)[method](
-        ...(args as unknown[]),
-      );
-
-      expect(fetch).toHaveBeenCalledWith(
-        expectedUrl,
-        expect.objectContaining({ method: httpMethod }),
-      );
-    });
+    ])("%s appelle %s", (method, args, httpMethod, expectedUrl) =>
+      expectFetchCall(
+        method as string,
+        args as unknown[],
+        httpMethod as string,
+        expectedUrl as string,
+      ),
+    );
   });
 
   describe("envoi du corps des requêtes", () => {
@@ -124,37 +133,28 @@ describe("codelists api", () => {
       ["putCodelist", [{ id: "CL_TEST" }], "PUT", "http://back/codeList/CL_TEST"],
       ["postCodelistPartial", [{ id: "CL_TEST" }], "POST", "http://back/codeList/partial"],
       ["putCodelistPartial", [{ id: "CL_TEST" }], "PUT", "http://back/codeList/partial/CL_TEST"],
-    ])("%s sérialise la liste de codes", async (method, args, httpMethod, expectedUrl) => {
-      using fetch = vi.spyOn(window, "fetch").mockImplementation(okResponse as never);
-
-      await (CodelistsApi as Record<string, (...a: unknown[]) => Promise<unknown>>)[method](
-        ...(args as unknown[]),
-      );
-
-      expect(fetch).toHaveBeenCalledWith(
-        expectedUrl,
-        expect.objectContaining({ method: httpMethod, body: JSON.stringify(args[0]) }),
-      );
-    });
+    ])("%s sérialise la liste de codes", (method, args, httpMethod, expectedUrl) =>
+      expectFetchCall(
+        method as string,
+        args as unknown[],
+        httpMethod as string,
+        expectedUrl as string,
+        { body: JSON.stringify((args as unknown[])[0]) },
+      ),
+    );
 
     it.each([
       ["postCodesDetailedCodelist", "POST", "http://back/codeList/detailed/CL_TEST/codes"],
       ["putCodesDetailedCodelist", "PUT", "http://back/codeList/detailed/CL_TEST/codes/001"],
       ["deleteCodesDetailedCodelist", "DELETE", "http://back/codeList/detailed/CL_TEST/codes/001"],
-    ])("%s cible le code de la liste détaillée", async (method, httpMethod, expectedUrl) => {
-      using fetch = vi.spyOn(window, "fetch").mockImplementation(okResponse as never);
-      const code = { code: "001", labelLg1: "Premier" };
-
-      await (CodelistsApi as Record<string, (...a: unknown[]) => Promise<unknown>>)[method](
-        "CL_TEST",
-        code,
-      );
-
-      expect(fetch).toHaveBeenCalledWith(
+    ])("%s cible le code de la liste détaillée", (method, httpMethod, expectedUrl) =>
+      expectFetchCall(
+        method,
+        ["CL_TEST", { code: "001", labelLg1: "Premier" }],
+        httpMethod,
         expectedUrl,
-        expect.objectContaining({ method: httpMethod }),
-      );
-    });
+      ),
+    );
   });
 
   describe("fetchCodelist", () => {

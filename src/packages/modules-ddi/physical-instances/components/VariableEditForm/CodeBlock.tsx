@@ -1,5 +1,6 @@
-import { VirtualScroller } from "primereact/virtualscroller";
 import { useMemo } from "react";
+
+import { VirtualScroller } from "@components/ui/virtual-scroller";
 
 import { useHighlight, useHighlighter, type HighlightLanguage } from "./useHighlight";
 

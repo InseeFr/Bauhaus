@@ -1,6 +1,7 @@
-import { Button } from "primereact/button";
 import { useState, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
 
 import { HasAccess } from "../../../../auth/components/auth";
 import type {
@@ -47,7 +48,7 @@ export const PhysicalInstanceLabel = ({
   return (
     <>
       <div className="flex align-items-center gap-2 mb-3">
-        <h1 className="m-0">{label}</h1>
+        <h1 className="pi-title m-0">{label}</h1>
         <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
           <Button
             icon="pi pi-pencil"

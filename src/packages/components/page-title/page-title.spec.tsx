@@ -21,6 +21,6 @@ describe("page-title", () => {
 
   it("returns component into row", () => {
     const { container } = render(<PageTitle title="title" subtitle="subtitle" />);
-    expect(container.querySelectorAll(".row")).toHaveLength(1);
+    expect(container.querySelectorAll(".bauhaus-grid-row")).toHaveLength(1);
   });
 });

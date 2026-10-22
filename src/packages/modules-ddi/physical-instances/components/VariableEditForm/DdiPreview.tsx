@@ -1,6 +1,7 @@
-import { Dropdown } from "primereact/dropdown";
 import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Dropdown } from "@components/ui/dropdown";
 
 import { DDIApi } from "@sdk/index";
 

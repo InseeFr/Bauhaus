@@ -1,20 +1,18 @@
-import { Mock, vi, describe, it, expect, beforeEach } from "vitest";
+import { vi, describe, it, expect, beforeEach } from "vitest";
 
 import { useUserStamps } from "@utils/hooks/users";
 
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
+import { CODELIST_CREATE_GUARD, expectCreateGuardGranted } from "../../../../testing/auth.testing";
+import {
+  expectStampsExposedAsData,
+  mockUserStamps,
+  readFirstStamp,
+} from "../../../../testing/users.testing";
 
-vi.mock("@utils/hooks/users", () => ({
-  useUserStamps: vi.fn(),
-}));
+vi.mock("@utils/hooks/users", () => import("../../../../testing/users.testing"));
 
-vi.mock("../../../../../auth/components/auth", () => ({
-  useAuthorizationGuard: vi.fn(),
-}));
-
-vi.mock("@utils/hooks/useTitle", () => ({
-  useTitle: vi.fn(),
-}));
+vi.mock("../../../../../auth/components/auth", () => import("../../../../testing/auth.testing"));
 
 describe("CodelistDetailEdit - Hook integration tests", () => {
   beforeEach(() => {
@@ -23,50 +21,30 @@ describe("CodelistDetailEdit - Hook integration tests", () => {
 
   describe("useUserStamps hook - data property migration", () => {
     it("should use 'data' property from useUserStamps (not 'datas')", () => {
-      // Setup mock
-      const mockStamps = [{ stamp: "TEST-STAMP" }];
-      (useUserStamps as Mock).mockReturnValue({
-        data: mockStamps,
-      });
-
-      // Call the hook
-      const result = useUserStamps();
-
-      // Verify it returns 'data' property
-      expect(result).toHaveProperty("data");
-      expect(result.data).toEqual(mockStamps);
-      expect(result).not.toHaveProperty("datas");
+      // Setup mock, call the hook and verify it returns 'data' property
+      expectStampsExposedAsData(useUserStamps, [{ stamp: "TEST-STAMP" }]);
     });
 
     it("should correctly extract first stamp from data array", () => {
-      const mockStamps = [{ stamp: "FIRST-STAMP" }, { stamp: "SECOND-STAMP" }];
-      (useUserStamps as Mock).mockReturnValue({
-        data: mockStamps,
-      });
+      mockUserStamps([{ stamp: "FIRST-STAMP" }, { stamp: "SECOND-STAMP" }]);
 
-      const { data } = useUserStamps();
-      const firstStamp = data?.[0]?.stamp;
+      const { data, stamp: firstStamp } = readFirstStamp(useUserStamps);
 
       expect(firstStamp).toBe("FIRST-STAMP");
       expect(data).toHaveLength(2);
     });
 
     it("should handle empty data array safely", () => {
-      (useUserStamps as Mock).mockReturnValue({
-        data: [],
-      });
+      mockUserStamps([]);
 
-      const { data } = useUserStamps();
-      const stamp = data?.[0]?.stamp;
+      const { data, stamp } = readFirstStamp(useUserStamps);
 
       expect(data).toEqual([]);
       expect(stamp).toBeUndefined();
     });
 
     it("should handle undefined stamps gracefully", () => {
-      (useUserStamps as Mock).mockReturnValue({
-        data: undefined,
-      });
+      mockUserStamps(undefined);
 
       const { data } = useUserStamps();
 
@@ -106,27 +84,13 @@ describe("CodelistDetailEdit - Hook integration tests", () => {
 
   describe("Authorization guard integration", () => {
     it("should call useAuthorizationGuard with correct parameters", () => {
-      (useAuthorizationGuard as Mock).mockReturnValue(true);
-
-      const result = useAuthorizationGuard({
-        module: "CODESLIST_CODESLIST",
-        privilege: "CREATE",
-      });
-
-      expect(useAuthorizationGuard).toHaveBeenCalledWith({
-        module: "CODESLIST_CODESLIST",
-        privilege: "CREATE",
-      });
-      expect(result).toBe(true);
+      expectCreateGuardGranted(useAuthorizationGuard);
     });
 
     it("should handle unauthorized users", () => {
-      (useAuthorizationGuard as Mock).mockReturnValue(false);
+      vi.mocked(useAuthorizationGuard).mockReturnValue(false);
 
-      const result = useAuthorizationGuard({
-        module: "CODESLIST_CODESLIST",
-        privilege: "CREATE",
-      });
+      const result = useAuthorizationGuard(CODELIST_CREATE_GUARD);
 
       expect(result).toBe(false);
     });

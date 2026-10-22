@@ -1,10 +1,24 @@
-.panel {
+/* Dimensions en px ou em : la racine Bootstrap (10px) rétrécit les rem du thème Lara. */
+.bauhaus-panel {
   height: 100%;
+  margin-bottom: 20px;
 
-  .card-title {
-    padding: 1rem;
+  /* .p-component impose 1rem (10px) : on garde la taille du texte environnant. */
+  &.p-component {
+    font-size: inherit;
+  }
+
+  .p-panel-header {
+    padding: 10px;
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #fff;
+  }
+
+  .p-panel-title {
     margin: 0 !important;
     font-size: 1em;
+    color: inherit;
 
     button {
       background: transparent;
@@ -12,17 +26,18 @@
     }
   }
 
-  .card-header {
-    background: var(--secondary-color);
-    color: #fff;
+  .p-panel-content,
+  .p-card-body {
+    padding: 1em;
+    background: white;
   }
 
-  .card-body {
-    background: white;
-    margin: 1em;
+  .p-card-content {
+    padding: 0;
   }
 }
 
-.row .note:nth-child(2) .card-header {
+.note:nth-child(2) .p-panel-header {
   background: var(--primary-color);
+  border-color: var(--primary-color);
 }

@@ -1,16 +1,50 @@
+/*
+ * Reprend à l'identique ce que le bouton tenait de Bootstrap (`btn btn-lg col-md-12`),
+ * en px : la racine Bootstrap à 10px réduirait les `rem`. Le contenu est aligné à gauche
+ * comme le reste des boutons (`components.css`).
+ */
 .new-button {
-  background-color: var(--primary-color);
-  color: white;
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5em;
   width: 100%;
+  min-height: 1px;
   margin-bottom: 0.5em;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background-color: var(--primary-color);
+  background-image: none;
+  color: white;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.3333;
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.new-button > .pi {
+  flex: none;
 }
 
 .new-button:hover {
   color: white;
+  text-decoration: none;
 }
 
 .new-button:focus,
 .new-button:hover:not([disabled]) {
   background-color: var(--secondary-color);
   color: white;
+}
+
+.new-button:focus-visible {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }

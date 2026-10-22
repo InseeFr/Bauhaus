@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { AddButton } from "@components/buttons/add";
 import { SeeButton } from "@components/buttons/see";
+import { ErrorBloc } from "@components/errors-bloc";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { Codelists } from "@model/Codelist";
@@ -18,6 +19,8 @@ import { Representation } from "./Representation";
 interface MutualizedComponentsSelectorTypes {
   hidden?: boolean;
   components: Component[];
+  /** Échec du chargement des composantes : affiché à la place d'une liste vide. */
+  error?: unknown;
   handleAdd: (id: string) => void;
   concepts: any;
   codelists: Codelists;
@@ -28,6 +31,7 @@ interface MutualizedComponentsSelectorTypes {
 export const MutualizedComponentsSelector = ({
   hidden = false,
   components,
+  error,
   handleAdd,
   concepts,
   codelists,
@@ -42,7 +46,7 @@ export const MutualizedComponentsSelector = ({
   const seeClickHandler = useCallback(
     (e: any) => {
       const component = components.find(
-        (c) => c.identifiant === e.target.parentElement.dataset.componentId,
+        (c) => c.identifiant === e.currentTarget.dataset.componentId,
       );
       setSelectedComponent(component);
       setOpenPanel(true);
@@ -52,7 +56,7 @@ export const MutualizedComponentsSelector = ({
 
   const addClickHandler = useCallback(
     (e: any) => {
-      handleAdd(e.target.parentElement.dataset.componentId);
+      handleAdd(e.currentTarget.dataset.componentId);
     },
     [handleAdd],
   );
@@ -62,7 +66,7 @@ export const MutualizedComponentsSelector = ({
     type: typeUriToLabel(component.type),
     mutualized:
       !!component.validationState && component.validationState !== UNPUBLISHED ? (
-        <span className="glyphicon glyphicon-ok" aria-label={t("component.mutualized")}></span>
+        <span className="pi pi-check" aria-label={t("component.mutualized")}></span>
       ) : (
         <></>
       ),
@@ -94,7 +98,7 @@ export const MutualizedComponentsSelector = ({
       hidden={hidden}
       title={t("component.mutualizedComponents") + " "}
     >
-      <ComponentsTable components={componentsWithActions} />
+      {error ? <ErrorBloc error={error} /> : <ComponentsTable components={componentsWithActions} />}
       <RightSlidingPanel isOpen={openPanel} onHide={() => setOpenPanel(false)}>
         <ComponentDetail
           component={selectedComponent}

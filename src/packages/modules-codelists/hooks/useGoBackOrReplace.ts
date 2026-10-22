@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 export const useGoBackOrReplace = () => {
   const navigate = useNavigate();
@@ -9,12 +9,12 @@ export const useGoBackOrReplace = () => {
     (defaultRoute: string, forceRedirect?: boolean) => {
       if (forceRedirect) {
         if (history.length === 1 || location.state) {
-          navigate(defaultRoute);
+          void navigate(defaultRoute);
         } else {
-          navigate(-1);
+          void navigate(-1);
         }
       } else {
-        navigate(defaultRoute, { replace: true });
+        void navigate(defaultRoute, { replace: true });
       }
     },
     [navigate, location],

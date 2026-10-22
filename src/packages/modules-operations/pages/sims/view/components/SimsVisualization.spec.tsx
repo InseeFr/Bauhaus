@@ -1,13 +1,11 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { QueryClient } from "@tanstack/react-query";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("react-modal", () => ({
-  default: ({ children, isOpen }: { children: React.ReactNode; isOpen: boolean }) =>
-    isOpen ? <div>{children}</div> : null,
-}));
+import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 
 const navigateMock = vi.fn();
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useNavigate: () => navigateMock,
 }));
 
@@ -15,6 +13,7 @@ vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string, params: Record<string, string>) =>
       `${key}[id=${params?.id},href=${params?.href}]`,
+    i18n: { exists: (key: string) => key === "errors.804" },
   }),
 }));
 
@@ -31,8 +30,19 @@ vi.mock("../utils/getParentUri", () => ({
   }),
 }));
 vi.mock("../menu", () => ({
-  Menu: ({ onPublish, onDelete }: { onPublish: () => void; onDelete: () => void }) => (
+  Menu: ({
+    onPublish,
+    onDelete,
+    onExport,
+  }: {
+    onPublish: () => void;
+    onDelete: () => void;
+    onExport: () => void;
+  }) => (
     <>
+      <button data-testid="export-btn" onClick={onExport}>
+        Export
+      </button>
       <button data-testid="publish-btn" onClick={onPublish}>
         Publish
       </button>
@@ -102,6 +112,7 @@ vi.mock("./MissingDocumentsErrorBloc", () => ({
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { createQueryWrapper } from "../../../../hooks/queryClientWrapper.testing";
 import { SimsVisualization } from "./SimsVisualization";
 
 const mockSims = {
@@ -110,21 +121,28 @@ const mockSims = {
   rubrics: {},
 };
 
+const NO_METADATA_STRUCTURE = {};
+const NO_CODELISTS = {};
+const NO_ORGANIZATIONS: never[] = [];
+const NO_OWNERS: never[] = [];
+
 const renderComponent = (
   publishSims: (sims: any, errorCallback: (err: any) => void) => void,
   sims: Record<string, unknown> = mockSims,
+  queryClient?: QueryClient,
 ) => {
   return render(
     <SimsVisualization
       sims={sims as any}
-      metadataStructure={{}}
-      codelists={{}}
-      organizations={[]}
+      metadataStructure={NO_METADATA_STRUCTURE}
+      codelists={NO_CODELISTS}
+      organizations={NO_ORGANIZATIONS}
       publishSims={publishSims}
       exportCallback={vi.fn()}
       missingDocuments={new Set()}
-      owners={[]}
+      owners={NO_OWNERS}
     />,
+    { wrapper: createQueryWrapper(queryClient).wrapper },
   );
 };
 
@@ -135,11 +153,13 @@ beforeEach(() => {
 describe("SimsVisualization - publish error handling", () => {
   it("should show error 804 with parsed target id and parent href when publish fails", () => {
     const publishSims = vi.fn((object, errorCallback) => {
-      errorCallback({
-        code: 804,
-        details: "MetadataReport: 2253 ; Indicator/Series/Operation: s1034",
-        message: "This metadataReport cannot be published before its target is published.",
-      });
+      errorCallback(
+        sdkRejection.json(400, {
+          code: "804",
+          params: { id: "s1034" },
+          message: "This metadataReport cannot be published before its target is published.",
+        }),
+      );
     });
 
     renderComponent(publishSims);
@@ -150,13 +170,33 @@ describe("SimsVisualization - publish error handling", () => {
     );
   });
 
+  it("should hand a technical publication failure to the error bloc instead of a raw translation key", () => {
+    const rejection = sdkRejection.json(503, {
+      code: "PUBLICATION_REPOSITORY_UNAVAILABLE",
+      message:
+        "Publication failed: the dissemination repository is unavailable. Please try again later.",
+    });
+    const publishSims = vi.fn((object, errorCallback) => errorCallback(rejection));
+
+    renderComponent(publishSims);
+    fireEvent.click(screen.getByTestId("publish-btn"));
+
+    const errorBloc = screen.getByTestId("error-bloc");
+    expect(errorBloc).not.toHaveTextContent("errors.PUBLICATION_REPOSITORY_UNAVAILABLE");
+    expect(errorBloc).toHaveTextContent(
+      "Publication failed: the dissemination repository is unavailable. Please try again later.",
+    );
+  });
+
   it("should display the missing documents bloc when publish fails because documents are missing", () => {
     const publishSims = vi.fn((object, errorCallback) => {
-      errorCallback({
-        code: 862,
-        details: '["1","3"]',
-        message: "Some documents referenced by this metadataReport are missing from storage",
-      });
+      errorCallback(
+        sdkRejection.json(400, {
+          code: "862",
+          params: { documents: "1,3" },
+          message: "Some documents referenced by this metadataReport are missing from storage",
+        }),
+      );
     });
 
     renderComponent(publishSims);
@@ -185,9 +225,9 @@ describe("SimsVisualization - publish error handling", () => {
     expect(screen.getByTestId("error-bloc")).toBeEmptyDOMElement();
   });
 
-  it("should handle missing details in the error gracefully", () => {
+  it("should handle missing params in the error gracefully", () => {
     const publishSims = vi.fn((object, errorCallback) => {
-      errorCallback({ code: 804, details: undefined, message: "error" });
+      errorCallback(sdkRejection.json(400, { code: "804", message: "error" }));
     });
 
     renderComponent(publishSims);
@@ -232,6 +272,54 @@ describe("SimsVisualization - delete redirection", () => {
       expect(navigateMock).toHaveBeenCalledWith("/operations/indicator/ind42");
     });
   });
+
+  it("should invalidate the cached series before opening it, as it no longer has a SIMS", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["series", "s42"], { id: "s42", idSims: "3" });
+    let invalidatedAtNavigation: boolean | undefined;
+    navigateMock.mockImplementationOnce(() => {
+      invalidatedAtNavigation = queryClient.getQueryState(["series", "s42"])?.isInvalidated;
+    });
+    renderComponent(vi.fn(), { id: "3", idSeries: "s42", rubrics: {} }, queryClient);
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
+    expect(invalidatedAtNavigation).toBe(true);
+  });
+
+  it("should invalidate the cached indicator before opening it, as it no longer has a SIMS", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["indicators", "ind42"], { id: "ind42", idSims: "3" });
+    let invalidatedAtNavigation: boolean | undefined;
+    navigateMock.mockImplementationOnce(() => {
+      invalidatedAtNavigation = queryClient.getQueryState(["indicators", "ind42"])?.isInvalidated;
+    });
+    renderComponent(vi.fn(), { id: "3", idIndicator: "ind42", rubrics: {} }, queryClient);
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
+    expect(invalidatedAtNavigation).toBe(true);
+  });
+
+  it("should invalidate the cached operation before opening it, as it no longer has a SIMS", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["operations", "op42"], { id: "op42", idSims: "3" });
+    let invalidatedAtNavigation: boolean | undefined;
+    navigateMock.mockImplementationOnce(() => {
+      invalidatedAtNavigation = queryClient.getQueryState(["operations", "op42"])?.isInvalidated;
+    });
+    renderComponent(vi.fn(), { id: "3", idOperation: "op42", rubrics: {} }, queryClient);
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
+    expect(invalidatedAtNavigation).toBe(true);
+  });
 });
 
 describe("SimsVisualization - delete error handling", () => {
@@ -250,5 +338,54 @@ describe("SimsVisualization - delete error handling", () => {
       expect(screen.getByTestId("error-bloc")).toHaveTextContent("Documentation not found");
     });
     expect(navigateMock).not.toHaveBeenCalled();
+  });
+});
+
+describe("SimsVisualization - export", () => {
+  it("should open the export dialog and export with the default options", async () => {
+    const exportCallback = vi.fn();
+    render(
+      <SimsVisualization
+        sims={mockSims as any}
+        metadataStructure={NO_METADATA_STRUCTURE}
+        codelists={NO_CODELISTS}
+        organizations={NO_ORGANIZATIONS}
+        publishSims={vi.fn()}
+        exportCallback={exportCallback}
+        missingDocuments={new Set()}
+        owners={NO_OWNERS}
+      />,
+      { wrapper: createQueryWrapper().wrapper },
+    );
+
+    fireEvent.click(screen.getByTestId("export-btn"));
+    const dialog = screen.getByRole("dialog", { name: /^app\.btnExport\[/ });
+    fireEvent.click(within(dialog).getByRole("button", { name: /^app\.btnExportValidate/ }));
+
+    expect(exportCallback).toHaveBeenCalledWith(
+      "2253",
+      { emptyMas: true, lg1: true, lg2: true, document: true },
+      mockSims,
+    );
+  });
+
+  it("should invalidate the cached documents before leaving, as their page lists the SIMS citing them", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["documents", "document", "d1"], { id: "d1" });
+    let invalidatedAtNavigation: boolean | undefined;
+    navigateMock.mockImplementationOnce(() => {
+      invalidatedAtNavigation = queryClient.getQueryState([
+        "documents",
+        "document",
+        "d1",
+      ])?.isInvalidated;
+    });
+    renderComponent(vi.fn(), { id: "3", idSeries: "s42", rubrics: {} }, queryClient);
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
+    expect(invalidatedAtNavigation).toBe(true);
   });
 });

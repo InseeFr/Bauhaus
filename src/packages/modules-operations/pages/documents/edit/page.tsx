@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { Document } from "@model/operations/document";
 
-import { GeneralApi } from "@sdk/general-api";
-
 import { useCodelist } from "@utils/hooks/codelist";
+import { useDocument } from "@utils/hooks/documents";
 
 import { OperationsDocumentationEdition } from "./components/OperationsDocumentationEdition";
+
+/** Formulaire vide de la création, stable d'un rendu à l'autre. */
+const NEW_DOCUMENT: Partial<Document> = {};
 
 export const Component = (props: any) => {
   const { id } = useParams<{ id: string }>();
@@ -20,19 +22,9 @@ export const Component = (props: any) => {
 
   const langOptions = useCodelist("ISO-639");
 
-  const [document, setDocument] = useState<Partial<Document>>({});
+  const { data: document = NEW_DOCUMENT, error: loadError } = useDocument(id, type);
 
-  useEffect(() => {
-    if (id && type) {
-      GeneralApi.getDocument(id, type).then((results: unknown) => {
-        const result = results as Document;
-        setDocument({
-          ...result,
-          id: result.uri!.substring(result.uri!.lastIndexOf("/") + 1),
-        });
-      });
-    }
-  }, [id, type]);
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
 
   if (!document.id && id) return <Loading />;
 

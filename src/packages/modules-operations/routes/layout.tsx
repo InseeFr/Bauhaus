@@ -1,5 +1,5 @@
 import { I18nextProvider } from "react-i18next";
-import { Outlet, useNavigation } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router";
 
 import { Loading } from "@components/loading";
 

@@ -1,6 +1,6 @@
 import { MouseEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 import { cx } from "@utils/cx";
 
@@ -79,11 +79,14 @@ export const OutlineBlock = ({
                   type="button"
                   className="msd-item-updown"
                   title={child.opened ? t("app.hide") : t("app.display")}
+                  aria-label={child.opened ? t("app.hide") : t("app.display")}
+                  aria-expanded={child.opened}
                   id={child.idMas}
                   onClick={expandOrCollapseItem}
                 >
                   <span
-                    className={cx("glyphicon", `glyphicon-chevron-${child.opened ? "up" : "down"}`)}
+                    className={cx("pi", `pi-chevron-${child.opened ? "up" : "down"}`)}
+                    aria-hidden="true"
                   />
                 </button>
               )}

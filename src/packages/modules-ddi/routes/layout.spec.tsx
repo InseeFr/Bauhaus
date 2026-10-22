@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi } from "vitest";
 
 import { useTheme } from "@utils/hooks/useTheme";
@@ -10,12 +10,12 @@ vi.mock("../../utils/hooks/useTheme", () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock("../menu", () => ({
-  Menu: () => <nav data-testid="ddi-menu">DDI Menu</nav>,
+vi.mock("../../application/section-menus", () => ({
+  DataDescriptionMenu: () => <nav data-testid="ddi-menu">DDI Menu</nav>,
 }));
 
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
   return {
     ...actual,
     Outlet: () => <div data-testid="outlet">Page Content</div>,
@@ -52,7 +52,8 @@ describe("Layout Component", () => {
     );
 
     const container = screen.getByTestId("outlet").parentElement;
-    expect(container).toHaveClass("container");
+    expect(container).toHaveClass("ddi-layout");
+    expect(container).not.toHaveClass("container");
 
     const menu = screen.getByTestId("ddi-menu");
     const outlet = screen.getByTestId("outlet");

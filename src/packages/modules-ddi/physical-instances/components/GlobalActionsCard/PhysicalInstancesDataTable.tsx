@@ -1,7 +1,9 @@
-import { Button } from "primereact/button";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
+import { DataTable } from "@components/ui/data-table";
+import { Column } from "@components/ui/table-column";
 
 import { HasAccess } from "../../../../auth/components/auth";
 
@@ -10,6 +12,10 @@ interface PhysicalInstancesDataTableProps {
   onRowClick?: (data: any) => void;
   onDeleteClick?: (data: any) => void;
   unsavedVariableIds?: string[];
+  /** Variables signalées en erreur par la validation globale (#1608). */
+  invalidVariableIds?: string[];
+  /** Variables partagées avec d'autres fichiers de l'étude (#1387). */
+  sharedVariableIds?: string[];
   selectedVariableId?: string | null;
   /** Stamps de l'instance — gating STAMP des boutons de suppression. */
   stamps?: string[];
@@ -20,6 +26,8 @@ export const PhysicalInstancesDataTable = ({
   onRowClick,
   onDeleteClick,
   unsavedVariableIds = [],
+  invalidVariableIds = [],
+  sharedVariableIds = [],
   selectedVariableId,
   stamps,
 }: Readonly<PhysicalInstancesDataTableProps>) => {
@@ -54,6 +62,42 @@ export const PhysicalInstancesDataTable = ({
     }
   };
 
+  // Les marqueurs (erreur, partage) sont portés par la ligne : PrimeReact ne redessine une cellule
+  // que si sa donnée change, pas quand seul le gabarit `body` change.
+  const rows = useMemo(
+    () =>
+      invalidVariableIds.length === 0 && sharedVariableIds.length === 0
+        ? variables
+        : variables.map((variable) => {
+            const hasErrors = invalidVariableIds.includes(variable.id);
+            const isShared = sharedVariableIds.includes(variable.id);
+            return hasErrors || isShared ? { ...variable, hasErrors, isShared } : variable;
+          }),
+    [variables, invalidVariableIds, sharedVariableIds],
+  );
+
+  const nameBodyTemplate = (rowData: any) => (
+    <>
+      {rowData.name}
+      {rowData.isShared && (
+        <i
+          className="pi pi-share-alt variable-shared-indicator"
+          role="img"
+          aria-label={t("physicalInstance.view.sharedVariable.badge")}
+          title={t("physicalInstance.view.sharedVariable.badge")}
+        />
+      )}
+      {rowData.hasErrors && (
+        <i
+          className="pi pi-exclamation-circle variable-error-indicator"
+          role="img"
+          aria-label={t("physicalInstance.view.validation.variableHasErrors")}
+          title={t("physicalInstance.view.validation.variableHasErrors")}
+        />
+      )}
+    </>
+  );
+
   const dateBodyTemplate = (rowData: any) => {
     return formatDate(rowData.lastModified);
   };
@@ -80,7 +124,7 @@ export const PhysicalInstancesDataTable = ({
 
   return (
     <DataTable
-      value={variables}
+      value={rows}
       stripedRows
       aria-label={t("physicalInstance.view.variablesTable")}
       onRowClick={(e) => onRowClick?.(e.data)}
@@ -88,7 +132,12 @@ export const PhysicalInstancesDataTable = ({
       rowClassName={rowClassName}
       header={header}
     >
-      <Column field="name" header={t("physicalInstance.view.columns.name")} sortable />
+      <Column
+        field="name"
+        header={t("physicalInstance.view.columns.name")}
+        body={nameBodyTemplate}
+        sortable
+      />
       <Column field="label" header={t("physicalInstance.view.columns.label")} sortable />
       <Column field="type" header={t("physicalInstance.view.columns.type")} sortable />
       <Column

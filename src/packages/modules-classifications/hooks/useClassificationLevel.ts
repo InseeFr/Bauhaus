@@ -24,14 +24,22 @@ interface Level {
 export const useClassificationLevel = (
   classificationId: string,
   levelId: string,
-): { isLoading: boolean; level?: Level } => {
-  const { isLoading: isLoadingGeneral, data: general } = useQuery<LevelGeneral>({
+): { isLoading: boolean; level?: Level; error: unknown } => {
+  const {
+    isLoading: isLoadingGeneral,
+    data: general,
+    error: generalError,
+  } = useQuery<LevelGeneral>({
     queryKey: ["classification-level-general", classificationId, levelId],
     queryFn: () => ClassificationsApi.getClassificationLevelGeneral(classificationId, levelId),
     enabled: !!classificationId && !!levelId,
   });
 
-  const { isLoading: isLoadingMembers, data: members } = useQuery<LevelMember[]>({
+  const {
+    isLoading: isLoadingMembers,
+    data: members,
+    error: membersError,
+  } = useQuery<LevelMember[]>({
     queryKey: ["classification-level-members", classificationId, levelId],
     queryFn: () => ClassificationsApi.getClassificationLevelMembers(classificationId, levelId),
     enabled: !!classificationId && !!levelId,
@@ -41,5 +49,5 @@ export const useClassificationLevel = (
 
   const level = general && members ? { general, members } : undefined;
 
-  return { isLoading, level };
+  return { isLoading, level, error: generalError ?? membersError };
 };
