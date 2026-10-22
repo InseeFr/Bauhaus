@@ -2,7 +2,7 @@ import type { TanStackDevtoolsReactPlugin } from "@tanstack/react-devtools";
 import { lazy, Suspense } from "react";
 
 import { useAppContext } from "../../application/app-context";
-import { PrivilegesPlugin } from "./PrivilegesPlugin";
+import { DevUserPlugin } from "./DevUserPlugin";
 
 const TanStackDevtools = lazy(() =>
   import("@tanstack/react-devtools").then((module) => ({
@@ -23,9 +23,9 @@ export const AppDevTools = ({ additionalPlugins = [] }: Readonly<AppDevToolsProp
 
   const allPlugins: TanStackDevtoolsReactPlugin[] = [
     {
-      id: "privileges-override",
-      name: "Privileges",
-      render: <PrivilegesPlugin />,
+      id: "dev-user",
+      name: "Utilisateur",
+      render: <DevUserPlugin />,
     },
     ...additionalPlugins,
   ];

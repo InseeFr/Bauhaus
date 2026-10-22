@@ -116,6 +116,10 @@ The following roles have `read: ALL` on both `concept_concept` and `concept_coll
 
 Roles are assigned to users via the identity provider (Keycloak). The role names declared in `rbac.yml` must match the roles configured in Keycloak for the application client.
 
+### Testing without Keycloak
+
+Outside production, the back office authenticates every request as a fake user configured by `fr.insee.rmes.bauhaus.dev-user.*` (roles, stamps, source). Each request may override those fields with the `X-Dev-User-Roles`, `X-Dev-User-Stamps` and `X-Dev-User-Source` headers (comma-separated values; a missing header keeps the configured value). The front end sends them from the **Utilisateur** tab of the TanStack DevTools, so privileges and stamp-filtered lists are computed by the back office exactly as for a real token. In production the fake user does not exist and these headers are ignored.
+
 ---
 
 ## Modifying the configuration
