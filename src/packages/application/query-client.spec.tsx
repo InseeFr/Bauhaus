@@ -1,7 +1,7 @@
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { sdkRejection } from "../tests/sdk-rejection.testing";
 import { createQueryClient } from "./query-client";
@@ -35,5 +35,35 @@ describe("createQueryClient", () => {
 
     await waitFor(() => expect(result.current.data).toBe("item"));
     expect(queryFn).toHaveBeenCalledTimes(2);
+  });
+
+  describe("freshness", () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    const readTwice = async (elapsedMs: number) => {
+      vi.useFakeTimers({ toFake: ["Date"] });
+      const queryClient = createQueryClient();
+      const queryFn = vi.fn().mockResolvedValue("item");
+
+      await queryClient.fetchQuery({ queryKey: ["item"], queryFn });
+      vi.setSystemTime(Date.now() + elapsedMs);
+      await queryClient.fetchQuery({ queryKey: ["item"], queryFn });
+
+      return queryFn;
+    };
+
+    it("serves a read made less than a minute ago from the cache", async () => {
+      const queryFn = await readTwice(59_000);
+
+      expect(queryFn).toHaveBeenCalledTimes(1);
+    });
+
+    it("reads again from the server once a minute has passed", async () => {
+      const queryFn = await readTwice(61_000);
+
+      expect(queryFn).toHaveBeenCalledTimes(2);
+    });
   });
 });

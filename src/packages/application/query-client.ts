@@ -15,6 +15,12 @@ declare module "@tanstack/react-query" {
   }
 }
 
+/**
+ * Durée pendant laquelle une lecture est servie depuis le cache sans relire le serveur. Une requête
+ * qui doit rester en cache jusqu'à son éviction explicite le déclare elle-même (`staleTime: Infinity`).
+ */
+const STALE_TIME_MS = 60_000;
+
 /** Nombre de nouvelles tentatives par défaut de TanStack Query. */
 const MAX_RETRIES = 3;
 
@@ -33,7 +39,7 @@ export const createQueryClient = () =>
   new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: Infinity,
+        staleTime: STALE_TIME_MS,
         retry: shouldRetry,
       },
     },

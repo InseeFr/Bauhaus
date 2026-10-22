@@ -25,13 +25,14 @@ const sourceDataset = {
 };
 
 let datasetLoadError: unknown;
+let storedDataset: typeof sourceDataset;
 
 vi.mock("../../../hooks/useDataset", () => ({
   useDataset: (id?: string) => {
     if (id && datasetLoadError) {
       return { data: undefined, status: "error", error: datasetLoadError };
     }
-    return id ? { data: sourceDataset, status: "success" } : { data: undefined, status: "pending" };
+    return id ? { data: storedDataset, status: "success" } : { data: undefined, status: "pending" };
   },
 }));
 
@@ -72,8 +73,19 @@ vi.mock("react-i18next", async (importOriginal) =>
   ),
 );
 
-const editingDatasetProbe = ({ editingDataset }: { editingDataset: unknown }) => (
-  <div data-testid="editing-dataset">{JSON.stringify(editingDataset)}</div>
+const editingDatasetProbe = ({
+  editingDataset,
+  setEditingDataset,
+}: {
+  editingDataset: object;
+  setEditingDataset: (dataset: object) => void;
+}) => (
+  <>
+    <div data-testid="editing-dataset">{JSON.stringify(editingDataset)}</div>
+    <button onClick={() => setEditingDataset({ ...editingDataset, labelLg1: "Typed title" })}>
+      Type a title
+    </button>
+  </>
 );
 
 vi.mock("./components/GlobalInformation", () => ({ GlobalInformation: editingDatasetProbe }));
@@ -84,20 +96,22 @@ vi.mock("./components/Lineage", () => ({ Lineage: () => null }));
 
 const NO_PROPERTIES = {} as any;
 
-const renderRoute = (page: ReactElement, initialEntries: string[], route: string) => {
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  return render(
-    <QueryClientProvider client={queryClient}>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
-        <MemoryRouter initialEntries={initialEntries}>
-          <Routes>
-            <Route path={route} element={page} />
-          </Routes>
-        </MemoryRouter>
-      </AppContextProvider>
-    </QueryClientProvider>,
-  );
-};
+const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+
+const wrapRoute = (page: ReactElement, initialEntries: string[], route: string) => (
+  <QueryClientProvider client={queryClient}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
+      <MemoryRouter initialEntries={initialEntries}>
+        <Routes>
+          <Route path={route} element={page} />
+        </Routes>
+      </MemoryRouter>
+    </AppContextProvider>
+  </QueryClientProvider>
+);
+
+const renderRoute = (page: ReactElement, initialEntries: string[], route: string) =>
+  render(wrapRoute(page, initialEntries, route));
 
 const renderPage = async (path: string, route: string) => {
   const { Component } = await import("./page");
@@ -110,6 +124,7 @@ describe("Dataset Edit Page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     datasetLoadError = undefined;
+    storedDataset = sourceDataset;
   });
 
   describe("when duplicating a dataset", () => {
@@ -171,6 +186,17 @@ describe("Dataset Edit Page", () => {
       await renderPage("/datasets/jd1000/modify", "/datasets/:id/modify");
 
       expect(screen.getByText("dataset.lineage.title")).toBeInTheDocument();
+    });
+
+    it("keeps what the user typed when the dataset is read again from the server", async () => {
+      const { rerender } = await renderPage("/datasets/jd1000/modify", "/datasets/:id/modify");
+      await userEvent.click(screen.getByText("Type a title"));
+
+      storedDataset = { ...sourceDataset, labelLg1: "Title changed elsewhere" };
+      const { Component } = await import("./page");
+      rerender(wrapRoute(<Component />, ["/datasets/jd1000/modify"], "/datasets/:id/modify"));
+
+      expect(editedDataset().labelLg1).toBe("Typed title");
     });
 
     it("updates the source dataset", async () => {

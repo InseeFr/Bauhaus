@@ -23,8 +23,8 @@ export function usePublishPhysicalInstance() {
         queryKey: ["physicalInstanceById", variables.agencyId, variables.id],
       });
       // Le PUT stampe un nouveau versionDate, affiché par la liste de la home et la
-      // recherche avancée : sans éviction (staleTime: Infinity), elles resteraient
-      // périmées jusqu'au F5.
+      // recherche avancée : sans éviction, elles resteraient
+      // périmées jusqu'à l'expiration de leur cache.
       queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
       queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
       // Invalider le cache des code lists pour qu'elles soient disponibles
@@ -35,7 +35,7 @@ export function usePublishPhysicalInstance() {
       // Contenu des listes attachées aux variables (`loadCodeListForVariable`, clé
       // ["codeListById", agency, id]). Sans éviction (staleTime: Infinity), rouvrir une variable
       // après la sauvegarde reservirait la version d'avant le PUT : le libellé/les codes tout
-      // juste enregistrés semblaient perdus jusqu'au F5. Préfixe entier : une sauvegarde peut
+      // juste enregistrés sembleraient perdus jusqu'au F5. Préfixe entier : une sauvegarde peut
       // toucher plusieurs listes (celle éditée et la variante créée).
       queryClient.invalidateQueries({ queryKey: ["codeListById"] });
       // L'enregistrement crée/supprime des variables qui référencent des listes de codes : les

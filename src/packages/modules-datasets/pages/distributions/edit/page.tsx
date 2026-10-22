@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 
@@ -57,8 +57,11 @@ export const Component = () => {
 
   const { data: distribution, status, error: loadError } = useDistribution(id);
 
+  // Recopiée une seule fois : une relecture de la distribution (cache périmé) n'écrase pas la saisie.
+  const isDistributionLoaded = useRef(false);
   useEffect(() => {
-    if (status === "success") {
+    if (status === "success" && !isDistributionLoaded.current) {
+      isDistributionLoaded.current = true;
       dispatch({ type: "SET_DISTRIBUTION", payload: distribution });
     }
   }, [status, distribution]);

@@ -146,6 +146,25 @@ describe("Distribution Edit Page", () => {
       expect(screen.getByRole("button", { name: /save/i })).not.toBeNull();
     });
 
+    it("keeps what the user typed when the distribution is read again from the server", () => {
+      mockUseParams.mockReturnValue({ id: "123" });
+      mockUseDistribution.mockReturnValue({
+        data: { id: "123", labelLg1: "Stored title" },
+        status: "success",
+      });
+      const { container, rerender } = render(<Component />);
+      const titleInput = container.querySelector("#labelLg1") as HTMLInputElement;
+      fireEvent.change(titleInput, { target: { value: "Typed title" } });
+
+      mockUseDistribution.mockReturnValue({
+        data: { id: "123", labelLg1: "Title changed elsewhere" },
+        status: "success",
+      });
+      rerender(<Component />);
+
+      expect(titleInput).toHaveValue("Typed title");
+    });
+
     it("should disable dataset select in edit mode", () => {
       mockUseParams.mockReturnValue({ id: "123" });
       mockUseDistribution.mockReturnValue({

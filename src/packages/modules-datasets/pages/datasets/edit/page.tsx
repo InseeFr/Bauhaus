@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router";
 
@@ -112,8 +112,12 @@ export const Component = () => {
   });
 
   const defaultContributor = useDefaultContributor(isContributor);
+  // Recopié une seule fois : une relecture du jeu de données (cache périmé) n'écrase pas la saisie.
+  const isDatasetLoaded = useRef(false);
   useEffect(() => {
     if (status === "success") {
+      if (isDatasetLoaded.current) return;
+      isDatasetLoaded.current = true;
       setEditingDataset((isDuplicating ? buildDuplicatedDataset(dataset) : dataset) as Dataset);
     } else if (isContributor && !id) {
       setEditingDataset({

@@ -26,7 +26,7 @@ export function useUpdatePhysicalInstance() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
       // La recherche avancée affiche le label et les parents : elle doit aussi être
-      // évincée après un renommage ou un re-rattachement (staleTime: Infinity).
+      // évincée après un renommage ou un re-rattachement.
       queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
       // Invalider aussi le détail de la PI éditée, sinon le libellé reste
       // périmé quand on revient sur la liste puis qu'on la re-sélectionne.

@@ -25,6 +25,8 @@ function transformVariablesToTableData(
 export function usePhysicalInstancesData(agencyId: string, id: string) {
   const query = useQuery({
     queryKey: ["physicalInstanceById", agencyId, id],
+    // Lecture lourde de Colectica : en cache jusqu'à son éviction après une sauvegarde.
+    staleTime: Infinity,
     queryFn: () => DDIApi.getPhysicalInstance(agencyId, id),
   });
 

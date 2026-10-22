@@ -8,6 +8,8 @@ type ThemeOption = { value: string; label: ReactNode };
 export const useThemes = () =>
   useQuery<ThemeOption[]>({
     queryKey: ["themes"],
+    // Référentiel stable en cours de session : lu une seule fois.
+    staleTime: Infinity,
     queryFn: async () => {
       const themes = await ThemesApi.getThemes();
       // Le ORDER BY SPARQL relègue les libellés accentués (« Économie ») en fin de liste.
