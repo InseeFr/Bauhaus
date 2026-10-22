@@ -52,6 +52,25 @@ test("une erreur de validation 400 s'affiche sous le champ fautif", async ({ pag
   );
 });
 
+test("une erreur de validation sur un champ sans emplacement reste lisible dans le bandeau", async ({
+  page,
+}) => {
+  await failFamilyCreation(
+    page,
+    apiError(400, {
+      message: "The submitted data is invalid",
+      code: "INVALID_REQUEST_BODY",
+      errors: [{ field: "abstractLg1", message: "Texte trop long." }],
+    }),
+  );
+  await openFamilyCreation(page);
+
+  await save(page);
+
+  await expectBanner(page, "abstractLg1 : Texte trop long.");
+  await expect(page.getByLabel("Intitulé*")).not.toHaveAttribute("aria-invalid", "true");
+});
+
 test("un refus 403 affiche le message du serveur", async ({ page }) => {
   await failFamilyCreation(
     page,
