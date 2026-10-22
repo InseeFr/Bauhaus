@@ -23,14 +23,6 @@ function ddiTypesPlugin(): Plugin {
 
 export default defineConfig(() => {
   return {
-    // Remplace l'ancien <script>const global = globalThis</script> de index.html.
-    // Nécessaire pour les libs (draft-js, etc.) qui référencent `global` (API Node).
-    // Le faire au build évite un <script> inline qui forcerait un hash CSP et
-    // désactiverait 'unsafe-inline' (indispensable au script d'env runtime de vite-envs).
-    define: {
-      global: "globalThis",
-    },
-
     resolve: {
       tsconfigPaths: true,
     },

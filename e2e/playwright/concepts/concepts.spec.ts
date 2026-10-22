@@ -25,7 +25,7 @@ test("crée un concept, le retrouve dans la liste et le publie", async ({ page }
   // a remplacé les onglets — chaque entrée est un bouton dont le nom accessible
   // porte aussi l'état de la note (« Empty » tant qu'elle est vide), et
   // l'ancrage de fin distingue « Définition » de « Définition courte ». La
-  // section contient un éditeur Quill par langue, le premier étant le français.
+  // section contient un éditeur markdown par langue, le premier étant le français.
   const summary = page.getByRole("navigation", { name: "General information" });
   await summary.getByRole("button", { name: "Notes", exact: true }).click();
   await summary.getByRole("button", { name: /^Définition Empty$/ }).click();

@@ -304,7 +304,9 @@ describe("concept-edition-creation", () => {
     const emptyEditorialNote = async () => {
       chooseInSummary(/Note éditoriale/);
       const note = screen.getByRole("region", { name: "Note éditoriale" });
-      fireEvent.click((await within(note).findAllByTitle("Delete"))[0]);
+      fireEvent.change((await within(note).findAllByRole("textbox"))[0], {
+        target: { value: "" },
+      });
     };
 
     const buildPublishedWithNote = (save: ReturnType<typeof vi.fn>) => {

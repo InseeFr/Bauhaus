@@ -256,11 +256,6 @@ footer {
   }
 }
 
-.DraftEditor-root {
-  max-height: 100px;
-  overflow: auto;
-}
-
 .form-control {
   font-size: inherit !important;
 }

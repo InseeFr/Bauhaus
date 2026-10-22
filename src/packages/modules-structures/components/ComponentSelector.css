@@ -1,9 +1,4 @@
 .bauhaus-collapsible-panel {
-  /* stylelint-disable-next-line selector-class-pattern */
-  .DraftEditor-root {
-    z-index: 0;
-  }
-
   > .wilco-note > .panel {
     > .panel-heading {
       button {
