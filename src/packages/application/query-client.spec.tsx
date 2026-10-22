@@ -1,10 +1,50 @@
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
+import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { sdkRejection } from "../tests/sdk-rejection.testing";
-import { createQueryClient } from "./query-client";
+import { appQueryClient, createQueryClient } from "./query-client";
+
+describe("appQueryClient", () => {
+  afterEach(() => {
+    appQueryClient.clear();
+  });
+
+  it("serves to the screen the read already made by its route loader", async () => {
+    const queryFn = vi.fn().mockResolvedValue("item");
+    const Screen = () => {
+      const { data } = useQuery({ queryKey: ["item"], queryFn });
+      return <p>{data}</p>;
+    };
+    const router = createMemoryRouter([
+      {
+        path: "/",
+        loader: () => appQueryClient.ensureQueryData({ queryKey: ["item"], queryFn }),
+        element: <Screen />,
+      },
+    ]);
+
+    render(
+      <QueryClientProvider client={appQueryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
+
+    expect(await screen.findByText("item")).toBeInTheDocument();
+    expect(queryFn).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps the settings of the application: a read which answered 404 is not retried", async () => {
+    const queryFn = vi.fn().mockRejectedValue(sdkRejection.emptyBody(404));
+
+    await expect(
+      appQueryClient.fetchQuery({ queryKey: ["missing"], queryFn, retryDelay: 0 }),
+    ).rejects.toBeDefined();
+    expect(queryFn).toHaveBeenCalledTimes(1);
+  });
+});
 
 /** Lit une fiche comme un écran, avec le client de l'application (sans délai entre deux tentatives). */
 const renderRead = (queryFn: () => Promise<unknown>) => {

@@ -13,14 +13,12 @@ import { getLang } from "@utils/dictionary";
 
 import { AppContextProvider, type AppProperties } from "./packages/application/app-context";
 import { GlobalErrorToast } from "./packages/application/global-error-toast";
-import { createQueryClient } from "./packages/application/query-client";
+import { appQueryClient } from "./packages/application/query-client";
 import { Root } from "./packages/application/router";
 import { createAppRouter } from "./packages/application/router/routes";
 import { OidcProvider } from "./packages/auth/create-oidc";
 import { appI18n } from "./packages/i18n";
 import "./packages/styles/main.css";
-
-const queryClient = createQueryClient();
 
 const ErrorBlock = () => {
   const { t } = useTranslation("translation", { i18n: appI18n });
@@ -60,7 +58,7 @@ const renderApp = (page: ReactNode, initState: Partial<InitState>) => {
 
   root.render(
     <OidcProvider fallback="Checking authentication ⌛️">
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={appQueryClient}>
         <AppContextProvider
           lg1={lg1 ?? ""}
           lg2={lg2 ?? ""}

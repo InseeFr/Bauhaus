@@ -51,3 +51,10 @@ export const createQueryClient = () =>
       },
     }),
   });
+
+/**
+ * Instance unique de l'application : celle que fournit `QueryClientProvider` et que lisent les
+ * `loader` de route, hors React, pour préremplir le cache de l'écran qu'ils précèdent. Les tests
+ * créent leur propre client avec `createQueryClient`.
+ */
+export const appQueryClient = createQueryClient();
