@@ -52,7 +52,8 @@ describe("Layout Component", () => {
     );
 
     const container = screen.getByTestId("outlet").parentElement;
-    expect(container).toHaveClass("container");
+    expect(container).toHaveClass("ddi-layout");
+    expect(container).not.toHaveClass("container");
 
     const menu = screen.getByTestId("ddi-menu");
     const outlet = screen.getByTestId("outlet");

@@ -9,7 +9,8 @@ div.container.home-page-layout {
 
 /* Le conteneur que certains modules (DDI, listes de codes, structures) mettent autour de chaque
    page : sans marge haute ni padding, il laisse au layout ses 1170px sans le décaler. */
-div.container:has(> .home-page-layout) {
+div.container:has(> .home-page-layout),
+div.ddi-layout:has(> .home-page-layout) {
   margin-top: 0;
   padding-right: 0;
   padding-left: 0;
