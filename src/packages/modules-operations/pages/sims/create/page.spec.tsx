@@ -6,13 +6,16 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { renderWithLoaderData } from "../../page.testing";
 import { CREATE, UPDATE } from "../constants";
 import { mockMetadataStructure } from "../metadata-structure.testing";
 import { Component } from "./page";
 
 vi.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string, { lng }: { lng: string }) => `${key}.${lng}:` }),
+  useTranslation: () => ({
+    t: (key: string, options?: { lng: string }) => (options ? `${key}.${options.lng}:` : key),
+  }),
 }));
 
 vi.mock("@sdk/operations-api", () => ({
@@ -46,12 +49,13 @@ vi.mock("../hooks/useDocumentsList", () => ({
 
 const onSaved = vi.fn();
 const onSaveFailed = vi.fn();
+let submittedSims: unknown = { id: "sims-1" };
 
 // Le formulaire est remplacé par un pilote : il rend ce que la page lui passe et expose
 // `onSubmit`, seul chemin par lequel l'erreur serveur remonte dans le reducer.
 vi.mock("./components/AdvancedSimsCreation", () => ({
   AdvancedSimsCreation: ({ parent, sims, idParent, mode, parentType, error, onSubmit }: any) => {
-    const submit = useCallback(() => onSubmit({ id: "sims-1" }, onSaved, onSaveFailed), [onSubmit]);
+    const submit = useCallback(() => onSubmit(submittedSims, onSaved, onSaveFailed), [onSubmit]);
     return (
       <div>
         <span>mode:{mode ?? "(aucun)"}</span>
@@ -60,6 +64,11 @@ vi.mock("./components/AdvancedSimsCreation", () => ({
         <span>parentType:{parentType ?? "(aucun)"}</span>
         <span>titre:{sims.labelLg1 ?? "(aucun)"}</span>
         <span>erreur:{(error as { message?: string } | undefined)?.message ?? "(aucune)"}</span>
+        {((error as { errors?: { field?: string }[] } | undefined)?.errors ?? []).map(
+          ({ field }) => (
+            <span key={field}>champ:{field}</span>
+          ),
+        )}
         <button onClick={submit}>enregistrer</button>
       </div>
     );
@@ -87,6 +96,7 @@ const renderAndSubmitOnceParentLoaded = async () => {
 describe("Sims create page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    submittedSims = { id: "sims-1" };
     loaderData = {
       baseUrl: "/operations/sims",
       mode: CREATE,
@@ -224,6 +234,34 @@ describe("Sims create page", () => {
     );
     expect(onSaveFailed).toHaveBeenCalled();
     expect(onSaved).not.toHaveBeenCalled();
+  });
+
+  it("nomme la rubrique d'une erreur de validation au lieu de son chemin dans le corps", async () => {
+    vi.mocked(useMetadataStructure).mockReturnValue({
+      isLoading: false,
+      metadataStructure: {
+        S1: { idMas: "S1", masLabelBasedOnCurrentLang: "Contact", children: {} },
+        S3: { idMas: "S3", masLabelBasedOnCurrentLang: "Concepts", children: {} },
+      },
+    });
+    submittedSims = { id: "sims-1", rubrics: [{ idAttribute: "S1" }, { idAttribute: "S3" }] };
+    saveSimsMutation.mockRejectedValue(
+      sdkRejection.json(400, {
+        message: "Validation failed",
+        errors: [
+          { field: "rubrics[1].labelLg2", message: "too long" },
+          { field: "labelLg1", message: "must not be blank" },
+        ],
+      }),
+    );
+
+    await renderAndSubmitOnceParentLoaded();
+
+    await waitFor(() =>
+      expect(screen.getByText("champ:S3 - Concepts (sims.exportLg2)")).toBeInTheDocument(),
+    );
+    expect(screen.getByText("champ:labelLg1")).toBeInTheDocument();
+    expect(onSaveFailed).toHaveBeenCalled();
   });
 
   it("retombe sur des valeurs par défaut quand le loader ne fournit rien", async () => {

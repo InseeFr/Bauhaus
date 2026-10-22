@@ -12,11 +12,7 @@ export const CorrespondencesHome = ({ correspondences }: { correspondences: any 
 
   return (
     <HomePageLayout title={t("correspondence.searchTitle")}>
-      <SearchableList
-        items={correspondences}
-        childPath="classifications/correspondence"
-        autoFocus
-      />
+      <SearchableList items={correspondences} childPath="classifications/correspondence" />
     </HomePageLayout>
   );
 };

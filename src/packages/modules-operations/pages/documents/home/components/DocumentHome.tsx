@@ -86,7 +86,6 @@ export function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[]
         }}
         itemFormatter={(_label: string, document: HomeDocument) => formatter(document)}
         searchFields={["label"]}
-        autoFocus
       />
     </HomePageLayout>
   );

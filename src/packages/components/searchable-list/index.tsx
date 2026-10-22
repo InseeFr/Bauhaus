@@ -26,7 +26,6 @@ interface SearchableListTypes {
   placeholder?: string;
   childPath?: any;
   label?: string;
-  autoFocus?: boolean;
   itemFormatter?: any;
   /** Fields matched by the search; every field but `id` when omitted. */
   searchFields?: string[];
@@ -38,7 +37,6 @@ export const SearchableList = ({
   placeholder,
   childPath,
   label = "label",
-  autoFocus = false,
   itemFormatter = (content: any) => content,
   searchFields,
 }: SearchableListTypes) => {
@@ -83,7 +81,6 @@ export const SearchableList = ({
           onChange={(e) => handleSearch(e.target.value)}
           placeholder={placeholder ?? t("searchLabelPlaceholder")}
           aria-label={t("search")}
-          autoFocus={autoFocus}
           className="w-full"
         />
       </IconField>

@@ -1,4 +1,4 @@
-import { useState, type MouseEvent } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
@@ -10,6 +10,7 @@ import type { TreeNode } from "@components/ui/tree-node";
 import { cx } from "@utils/cx";
 
 import type { CategoryUsage } from "../../types/api";
+import "./UsersPanel.css";
 import { buildCategoryUsersTree, type CategoryUsersNodeData } from "./categoryUsersTree";
 
 const PHYSICAL_INSTANCE_PATH = "/ddi/physical-instances";
@@ -61,23 +62,19 @@ export const CategoryUsersPanel = ({
 
   const helpTooltipTarget = tooltipTargetId.replace(/[^a-zA-Z0-9_-]/g, "-");
 
-  // En-tête personnalisé : pas de bouton "+/−" par défaut, l'ouverture/fermeture se fait en
-  // cliquant sur l'en-tête, et l'icône "?" porte l'explication (tooltip au survol).
+  // En-tête personnalisé : pas de bouton "+/−" par défaut, l'ouverture/fermeture se fait par
+  // le bouton du titre, et l'icône "?" porte l'explication (tooltip au survol).
   const headerTemplate = (options: PanelHeaderTemplateOptions) => (
-    <div
-      className={cx(options.className, "cursor-pointer")}
-      role="button"
-      tabIndex={0}
-      onClick={options.onTogglerClick}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          options.onTogglerClick(event as unknown as MouseEvent<HTMLElement>);
-        }
-      }}
-    >
+    <div className={options.className}>
       <Tooltip target={`.${helpTooltipTarget}`} position="left" />
-      <span className={options.titleClassName}>{title}</span>
+      <button
+        type="button"
+        className={cx(options.titleClassName, "users-panel-toggler")}
+        aria-expanded={!options.collapsed}
+        onClick={options.onTogglerClick}
+      >
+        {title}
+      </button>
       <i
         className={cx("pi pi-question-circle", helpTooltipTarget)}
         data-pr-tooltip={help}

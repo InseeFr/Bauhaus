@@ -27,6 +27,7 @@ import {
 import { AdvancedSimsCreation } from "./components/AdvancedSimsCreation";
 import { getParentId } from "./utils/getParentId";
 import { getParentType } from "./utils/getParentType";
+import { nameRubricErrors } from "./utils/nameRubricErrors";
 
 const apiByParentType: Record<string, (id: string) => Promise<any>> = {
   indicator: OperationsApi.getIndicatorById,
@@ -129,11 +130,18 @@ export const Component = () => {
           callback(resultId);
         })
         .catch((error) => {
-          dispatch({ type: "SET_SERVER_ERROR", error });
+          dispatch({
+            type: "SET_SERVER_ERROR",
+            error: nameRubricErrors(error, {
+              rubrics: simsData.rubrics ?? [],
+              metadataStructure,
+              languages: { Lg1: t("sims.exportLg1"), Lg2: t("sims.exportLg2") },
+            }),
+          });
           errorCallback();
         });
     },
-    [saveSimsMutation],
+    [saveSimsMutation, metadataStructure, t],
   );
 
   const currentSims =

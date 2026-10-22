@@ -18,11 +18,7 @@ export const ClassificationsHome = ({ classifications }: Readonly<Classification
 
   return (
     <HomePageLayout title={t("classification.searchTitle")}>
-      <SearchableList
-        items={classifications}
-        childPath="classifications/classification"
-        autoFocus
-      />
+      <SearchableList items={classifications} childPath="classifications/classification" />
     </HomePageLayout>
   );
 };

@@ -99,6 +99,8 @@
     "createFromAnExistingReport": "Create from an existing quality report",
     "helpContent": "Content",
     "helpSummary": "Summary",
+    "showContentOnly": "Show content only",
+    "showSummaryOnly": "Show summary only",
     "helpMaxOccurs": "Maximum of occurences",
     "helpRange": "Range",
     "simsValue": "Value",

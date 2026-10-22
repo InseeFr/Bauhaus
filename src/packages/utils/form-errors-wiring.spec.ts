@@ -14,7 +14,6 @@
 const SOURCES: Record<string, string> = import.meta.glob<string>(
   [
     "../modules-*/pages/*/edit/**/*.{ts,tsx}",
-    "../modules-operations/pages/sims/create/**/*.{ts,tsx}",
     "../modules-codelists/components/CodesPanel.tsx",
     "../modules-structures/components/ComponentDetailEdit.tsx",
     "../modules-operations/components/SimsGeographyField.tsx",
@@ -27,6 +26,10 @@ const SOURCES: Record<string, string> = import.meta.glob<string>(
 
 // Un écran = les fichiers qui portent sa saisie et son enregistrement. Un chemin terminé
 // par « / » désigne tout le dossier.
+//
+// Volontairement absent : les rapports SIMS (`modules-operations/pages/sims/create/`). Une
+// centaine de rubriques en deux langues et six types de saisie, sans emplacement d'erreur :
+// le rejet reste au bandeau, ses champs `rubrics[i].*` renommés par `nameRubricErrors`.
 const SCREENS = {
   familles: "modules-operations/pages/families/edit/",
   indicateurs: "modules-operations/pages/indicators/edit/",
@@ -44,13 +47,12 @@ const SCREENS = {
   datasets: "modules-datasets/pages/datasets/edit/",
   distributions: "modules-datasets/pages/distributions/edit/",
   territoires: "modules-operations/components/SimsGeographyField.tsx",
-  "rapports SIMS": "modules-operations/pages/sims/create/",
   collections: "modules-concepts/pages/collections/edit/",
 } as const;
 
 type Screen = keyof typeof SCREENS;
 
-const FROZEN: ReadonlySet<Screen> = new Set<Screen>(["rapports SIMS", "collections"]);
+const FROZEN: ReadonlySet<Screen> = new Set<Screen>(["collections"]);
 
 const TO_FORM_ERRORS_CALL = /\btoFormErrors\(/;
 

@@ -17,20 +17,12 @@ vi.mock("@components/page-title", () => ({
 }));
 
 vi.mock("@components/searchable-list", () => ({
-  SearchableList: ({
-    items,
-    childPath,
-    autoFocus,
-  }: {
-    items: unknown[];
-    childPath: string;
-    autoFocus?: boolean;
-  }) => (
+  SearchableList: ({ items, childPath }: { items: unknown[]; childPath: string }) => (
     <div
       data-testid="searchable-list"
       data-count={Array.isArray(items) ? items.length : -1}
       data-child-path={childPath}
-      data-autofocus={!!autoFocus}
+      data-autofocus="false"
     />
   ),
 }));
@@ -91,7 +83,7 @@ describe("SeriesHome", () => {
     const list = screen.getByTestId("searchable-list");
     expect(list).toHaveAttribute("data-count", "0");
     expect(list).toHaveAttribute("data-child-path", "classifications/series");
-    expect(list).toHaveAttribute("data-autofocus", "true");
+    expect(list).toHaveAttribute("data-autofocus", "false");
   });
 
   it("passes the series items to SearchableList", () => {

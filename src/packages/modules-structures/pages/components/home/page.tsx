@@ -87,7 +87,6 @@ export const Component = () => {
           childPath="structures/components"
           advancedSearch
           searchUrl="/structures/components/search"
-          autoFocus
           itemFormatter={(_: unknown, component: any) => formatLabel(component)}
         />
       </div>

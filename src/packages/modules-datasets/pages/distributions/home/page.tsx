@@ -29,7 +29,6 @@ export const Component = () => {
         childPath="datasets/distributions"
         advancedSearch
         searchUrl="/datasets/distributions/search"
-        autoFocus
         itemFormatter={(_: unknown, distribution: PartialDistribution) => distribution.labelLg1}
       />
     </HomePageLayout>

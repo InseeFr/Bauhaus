@@ -22,7 +22,7 @@ export const FamiliesHome = ({ families }: Props) => {
 
   return (
     <HomePageLayout title={t("family.searchTitle")}>
-      <SearchableList items={families} childPath="classifications/family" autoFocus />
+      <SearchableList items={families} childPath="classifications/family" />
     </HomePageLayout>
   );
 };

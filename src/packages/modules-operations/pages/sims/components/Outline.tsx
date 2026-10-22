@@ -62,9 +62,11 @@ export const Outline = ({
             type="button"
             className="msd-outline-primary-updown"
             title={opened ? t("app.hide") : t("app.display")}
+            aria-label={opened ? t("app.hide") : t("app.display")}
+            aria-expanded={opened}
             onClick={expandOrCollapseItem}
           >
-            <span className={cx("pi", `pi-chevron-${opened ? "up" : "down"}`)} />
+            <span className={cx("pi", `pi-chevron-${opened ? "up" : "down"}`)} aria-hidden="true" />
           </button>
         )}
       </div>

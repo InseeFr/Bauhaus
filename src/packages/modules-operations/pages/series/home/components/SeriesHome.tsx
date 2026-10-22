@@ -33,7 +33,6 @@ export function SeriesHome({ series }: Readonly<{ series: Series[] }>) {
         label="label"
         searchUrl="/operations/series/search"
         advancedSearch={true}
-        autoFocus={true}
       />
     </HomePageLayout>
   );

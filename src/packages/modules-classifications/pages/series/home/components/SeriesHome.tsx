@@ -20,7 +20,7 @@ export const SeriesHome = ({
 
   return (
     <HomePageLayout title={t("serie.searchTitle")}>
-      <SearchableList items={series} childPath="classifications/series" autoFocus />
+      <SearchableList items={series} childPath="classifications/series" />
     </HomePageLayout>
   );
 };

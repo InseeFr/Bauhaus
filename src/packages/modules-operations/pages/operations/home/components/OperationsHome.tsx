@@ -33,12 +33,7 @@ export function OperationsHome({ operations }: Readonly<OperationsHomeTypes>) {
         </VerticalMenu>
       }
     >
-      <SearchableList
-        items={operations}
-        childPath={"operations/operation"}
-        label="label"
-        autoFocus={true}
-      />
+      <SearchableList items={operations} childPath={"operations/operation"} label="label" />
     </HomePageLayout>
   );
 }

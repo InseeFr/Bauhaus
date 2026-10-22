@@ -79,10 +79,15 @@ export const OutlineBlock = ({
                   type="button"
                   className="msd-item-updown"
                   title={child.opened ? t("app.hide") : t("app.display")}
+                  aria-label={child.opened ? t("app.hide") : t("app.display")}
+                  aria-expanded={child.opened}
                   id={child.idMas}
                   onClick={expandOrCollapseItem}
                 >
-                  <span className={cx("pi", `pi-chevron-${child.opened ? "up" : "down"}`)} />
+                  <span
+                    className={cx("pi", `pi-chevron-${child.opened ? "up" : "down"}`)}
+                    aria-hidden="true"
+                  />
                 </button>
               )}
               <OutlineButtonWithScroll

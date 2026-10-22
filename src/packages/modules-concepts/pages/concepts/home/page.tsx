@@ -26,7 +26,6 @@ export const Component = () => {
         advancedSearch
         searchUrl="/concepts/search"
         placeholder={t("concept.searchPlaceholder")}
-        autoFocus
       />
     </HomePageLayout>
   );

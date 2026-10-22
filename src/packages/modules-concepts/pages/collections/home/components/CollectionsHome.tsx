@@ -18,7 +18,7 @@ export const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>)
 
   return (
     <HomePageLayout title={t("collection.search.title")} menu={<Menu />}>
-      <SearchableList items={collections} childPath="concepts/collections" autoFocus />
+      <SearchableList items={collections} childPath="concepts/collections" />
     </HomePageLayout>
   );
 };

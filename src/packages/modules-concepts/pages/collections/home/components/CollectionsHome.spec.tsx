@@ -64,9 +64,9 @@ describe("CollectionsHome", () => {
       expect.objectContaining({
         items: collectionsMock,
         childPath: "concepts/collections",
-        autoFocus: true,
       }),
       {},
     );
+    expect(vi.mocked(SearchableList).mock.calls[0][0]).not.toHaveProperty("autoFocus");
   });
 });

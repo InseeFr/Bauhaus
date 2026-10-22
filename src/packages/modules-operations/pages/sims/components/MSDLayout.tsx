@@ -65,13 +65,23 @@ export const MSDLayout = ({
       {status === Status.BOTH && (
         <div className="msd-panel-trigger-middle">
           <div>
-            <button type="button" onClick={changeStatusToContent} title="open content">
-              <span className="pi pi-chevron-left" />
+            <button
+              type="button"
+              onClick={changeStatusToContent}
+              aria-label={t("sims.showContentOnly")}
+              title={t("sims.showContentOnly")}
+            >
+              <span className="pi pi-chevron-left" aria-hidden="true" />
             </button>
           </div>
           <div>
-            <button type="button" onClick={changeStatusToSummary} title="open summary">
-              <span className="pi pi-chevron-right" />
+            <button
+              type="button"
+              onClick={changeStatusToSummary}
+              aria-label={t("sims.showSummaryOnly")}
+              title={t("sims.showSummaryOnly")}
+            >
+              <span className="pi pi-chevron-right" aria-hidden="true" />
             </button>
           </div>
         </div>

@@ -40,7 +40,6 @@ export const Component = () => {
         childPath="codelists"
         advancedSearch
         searchUrl="/codelists/search"
-        autoFocus
         itemFormatter={(_: any, codelist: any) => formatLabel(codelist)}
       />
     </HomePageLayout>

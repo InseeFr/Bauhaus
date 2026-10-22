@@ -29,7 +29,6 @@ export const Component = () => {
         childPath="datasets"
         advancedSearch
         searchUrl="/datasets/search"
-        autoFocus
         itemFormatter={(_: unknown, dataset: PartialDataset) => dataset.label}
       />
     </HomePageLayout>

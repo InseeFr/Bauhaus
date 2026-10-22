@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router";
 
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
-import { TabView, TabPanel } from "@components/ui/tab-view";
+import { TabView, TabPanel, type TabPanelHeaderTemplateOptions } from "@components/ui/tab-view";
 
 import { cx } from "@utils/cx";
 
@@ -229,6 +229,20 @@ interface VariableEditFormProps {
   /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
   stamps?: string[];
 }
+
+// Un en-tête d'onglet personnalisé remplace le lien que TabView rend par défaut : on lui redonne
+// le rôle, l'état et la navigation clavier de ce lien. Les flèches cherchent l'onglet voisin par
+// `data-pc-section="headeraction"`.
+const tabHeaderProps = (options: TabPanelHeaderTemplateOptions) => ({
+  role: "tab",
+  "data-pc-section": "headeraction",
+  tabIndex: options.selected ? 0 : -1,
+  "aria-selected": options.selected,
+  "aria-controls": options.ariaControls,
+  className: cx(options.className, "flex align-items-center gap-2"),
+  onClick: options.onClick,
+  onKeyDown: options.onKeyDown,
+});
 
 export const VariableEditForm = ({
   variable,
@@ -513,10 +527,7 @@ export const VariableEditForm = ({
           <TabPanel
             headerTemplate={(options) => {
               return (
-                <div
-                  className={cx(options.className, "flex align-items-center gap-2")}
-                  onClick={options.onClick}
-                >
+                <a {...tabHeaderProps(options)}>
                   <span className={hasValidationErrors ? "text-red-500" : ""}>
                     {t("physicalInstance.view.tabs.information")}
                   </span>
@@ -536,7 +547,7 @@ export const VariableEditForm = ({
                       !
                     </span>
                   )}
-                </div>
+                </a>
               );
             }}
           >
@@ -556,12 +567,9 @@ export const VariableEditForm = ({
           <TabPanel
             headerTemplate={(options) => {
               return (
-                <div
-                  className={cx(options.className, "flex align-items-center gap-2")}
-                  onClick={options.onClick}
-                >
+                <a {...tabHeaderProps(options)}>
                   <span>{t("physicalInstance.view.tabs.representation")}</span>
-                </div>
+                </a>
               );
             }}
           >
@@ -594,16 +602,13 @@ export const VariableEditForm = ({
             headerClassName="ml-auto"
             headerTemplate={(options) => {
               return (
-                <div
-                  className={cx(options.className, "flex align-items-center gap-2")}
-                  onClick={options.onClick}
+                <a
+                  {...tabHeaderProps(options)}
+                  aria-label={t("physicalInstance.view.tabs.ddiPreview")}
+                  title={t("physicalInstance.view.tabs.ddiPreview")}
                 >
-                  <i
-                    className="pi pi-code"
-                    style={{ lineHeight: "inherit" }}
-                    aria-label={t("physicalInstance.view.tabs.ddiPreview")}
-                  />
-                </div>
+                  <i className="pi pi-code" style={{ lineHeight: "inherit" }} aria-hidden="true" />
+                </a>
               );
             }}
           >

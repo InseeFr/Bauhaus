@@ -99,6 +99,8 @@
     "createFromAnExistingReport": "Créer à partir d'un rapport qualité existant",
     "helpContent": "Contenu",
     "helpSummary": "Sommaire",
+    "showContentOnly": "Afficher le contenu seul",
+    "showSummaryOnly": "Afficher le sommaire seul",
     "helpMaxOccurs": "Maximum d'occurence",
     "helpRange": "Portée",
     "simsValue": "Valeur",

@@ -32,7 +32,6 @@ export const Component = () => {
         childPath="structures"
         advancedSearch
         searchUrl="/structures/search"
-        autoFocus
         itemFormatter={(_: unknown, structure: PartialStructure) => structure.labelLg1}
       />
     </HomePageLayout>

@@ -23,7 +23,7 @@ export const Component = () => {
 
   return (
     <HomePageLayout title={t("indicators.searchTitle")} menu={<Menu />}>
-      <SearchableList items={indicators} childPath="operations/indicator" autoFocus />
+      <SearchableList items={indicators} childPath="operations/indicator" />
     </HomePageLayout>
   );
 };

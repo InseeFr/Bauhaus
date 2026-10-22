@@ -85,7 +85,6 @@ export const Component = () => {
           advancedSearch
           searchUrl="/ddi/physical-instances/search"
           childPath={(item: { agency: string }) => "ddi/physical-instances/" + item.agency}
-          autoFocus
           itemFormatter={(_content: any, item: any) => {
             return `${item.label} (${item.formattedVersionDate})`;
           }}

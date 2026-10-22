@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi } from "vitest";
 
@@ -36,6 +37,20 @@ const renderExpandedSingleUsage = () => {
 };
 
 describe("CodeListUsersPanel", () => {
+  it("ouvre le panneau depuis un vrai bouton qui annonce son état", async () => {
+    mockUsages([usage()]);
+    renderPanel();
+
+    const toggler = screen.getByRole("button", {
+      name: "physicalInstance.view.code.usersPanel.title",
+    });
+    expect(toggler).toHaveAttribute("aria-expanded", "false");
+
+    await userEvent.click(toggler);
+
+    expect(toggler).toHaveAttribute("aria-expanded", "true");
+  });
+
   it("renders the PhysicalInstance label as a link to the physical instance page", async () => {
     renderExpandedSingleUsage();
 

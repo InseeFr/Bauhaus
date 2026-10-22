@@ -41,7 +41,6 @@ export const Component = () => {
         childPath="operations/family"
         label="label"
         searchUrl="/operations/families/search"
-        autoFocus={true}
       />
     </HomePageLayout>
   );
