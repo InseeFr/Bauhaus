@@ -1,6 +1,7 @@
 import { generateDdiTypes, SCHEMA_PATH as DDI_SCHEMA_PATH } from "@bauhaus/ddi-codegen";
 import react from "@vitejs/plugin-react";
-import { defineConfig, type Plugin } from "vite";
+import type { Plugin } from "vite";
+import { defineConfig } from "vite-plus";
 import { viteEnvs } from "vite-envs";
 import csp from "vite-plugin-csp-guard";
 
@@ -23,6 +24,73 @@ function ddiTypesPlugin(): Plugin {
 
 export default defineConfig(() => {
   return {
+    // Configuration de `vp check` (appelé par `pnpm lint`) et de `vp fmt` : Vite+ ne lit plus
+    // oxlint.json ni .oxfmtrc.json. La vérification des types reste dans `pnpm typecheck`,
+    // qui génère les types DDI avant de lancer tsc.
+    lint: {
+      plugins: ["eslint", "typescript", "unicorn", "oxc", "react", "jsx-a11y", "react-perf"],
+      rules: {
+        "eslint/no-console": "off",
+        "unicorn/no-single-promise-in-promise-methods": "off",
+        "eslint/no-unsafe-optional-chaining": "off",
+        "unicorn/no-useless-fallback-in-spread": "off",
+        "typescript/triple-slash-reference": "off",
+        "eslint/no-restricted-imports": [
+          "warn",
+          {
+            patterns: [
+              {
+                group: ["primereact", "primereact/*", "!primereact/resources/*"],
+                allowTypeImports: true,
+                message:
+                  "Wrap the PrimeReact component in src/packages/components/ (one wrapper per component, like select-rmes) and import the wrapper instead.",
+              },
+            ],
+          },
+        ],
+        "react-perf/jsx-no-new-object-as-prop": "warn",
+        "react-perf/jsx-no-new-array-as-prop": "warn",
+        "react-perf/jsx-no-new-function-as-prop": "warn",
+        "react-perf/jsx-no-jsx-as-prop": "warn",
+      },
+      overrides: [
+        {
+          files: ["src/packages/components/**"],
+          rules: {
+            "eslint/no-restricted-imports": "off",
+          },
+        },
+      ],
+    },
+    fmt: {
+      sortImports: {
+        customGroups: [
+          {
+            groupName: "components",
+            elementNamePattern: ["@components/**"],
+          },
+          {
+            groupName: "model",
+            elementNamePattern: ["@model/**"],
+          },
+          {
+            groupName: "sdk",
+            elementNamePattern: ["@sdk/**"],
+          },
+          {
+            groupName: "utils",
+            elementNamePattern: ["@utils/**"],
+          },
+          {
+            groupName: "relative",
+            elementNamePattern: ["./**", "../**"],
+          },
+        ],
+        groups: ["external", "components", "model", "sdk", "utils", "relative", "unknown"],
+        newlinesBetween: true,
+      },
+    },
+
     resolve: {
       tsconfigPaths: true,
     },
