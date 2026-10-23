@@ -3,8 +3,8 @@
  * son enregistrement passe le rejet à `toFormErrors` (voir `api-errors.ts`).
  *
  * Le contrôle lit les sources : un écran est branché quand l'un de ses fichiers appelle
- * `toFormErrors(`. La règle est gelée : `FROZEN` liste les écrans pas encore branchés. Elle
- * ne doit que décroître, écran après écran ; une fois vide, elle disparaît avec lui.
+ * `toFormErrors(`. Un nouvel écran d'édition s'ajoute à `SCREENS` (et, au besoin, aux motifs de
+ * `SOURCES`) ; ce qui reste volontairement au bandeau est listé dans le README, section `## Forms`.
  */
 
 // Littéraux exigés par Vite : tout fichier ajouté à `SCREENS` doit être couvert par l'un
@@ -52,8 +52,6 @@ const SCREENS = {
 
 type Screen = keyof typeof SCREENS;
 
-const FROZEN: ReadonlySet<Screen> = new Set<Screen>(["collections"]);
-
 const TO_FORM_ERRORS_CALL = /\btoFormErrors\(/;
 
 const screens = Object.keys(SCREENS) as Screen[];
@@ -69,19 +67,13 @@ const isWired = (screen: Screen) =>
   filesOf(screen).some(({ source }) => TO_FORM_ERRORS_CALL.test(source));
 
 describe("branchement des écrans d'édition sur toFormErrors", () => {
-  it("les écrans hors FROZEN appellent toFormErrors", () => {
-    const unwired = screens.filter((screen) => !FROZEN.has(screen) && !isWired(screen));
+  it("les écrans appellent toFormErrors", () => {
+    const unwired = screens.filter((screen) => !isWired(screen));
 
     expect(
       unwired,
       "Ces écrans n'appellent pas toFormErrors dans le rejet de leur enregistrement : les erreurs de validation du back n'arrivent plus sous les saisies.",
     ).toEqual([]);
-  });
-
-  it("les écrans de FROZEN n'appellent pas encore toFormErrors", () => {
-    const wired = [...FROZEN].filter(isWired);
-
-    expect(wired, "Ces écrans appellent toFormErrors : les retirer de FROZEN.").toEqual([]);
   });
 
   it("chaque écran retrouve ses fichiers", () => {

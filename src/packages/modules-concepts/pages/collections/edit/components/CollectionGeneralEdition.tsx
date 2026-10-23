@@ -68,6 +68,10 @@ export function CollectionGeneralEdition({
             value={id ?? ""}
             handleChange={(value: string) => handlers.id?.(value)}
             className="w-100"
+            arias={{
+              "aria-invalid": !!errors?.fields?.id,
+              "aria-describedby": errors?.fields?.id ? "id-error" : undefined,
+            }}
             errorBlock={<ClientSideError id="id-error" error={errors?.fields?.id} />}
           />
         </Row>

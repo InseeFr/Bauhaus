@@ -132,7 +132,8 @@ const saveDocument = async (document: Document, type: string, files: DocumentFil
    */
   if (!document.id) {
     const formData = new FormData();
-    formData.append("body", JSON.stringify(document));
+    // Partie JSON, validée par le back comme un corps de requête (`@Valid @RequestPart`).
+    formData.append("body", new Blob([JSON.stringify(document)], { type: "application/json" }));
     if (type === DOCUMENT && files[0]) {
       formData.append("file", files[0] as File, files[0].name);
     }
