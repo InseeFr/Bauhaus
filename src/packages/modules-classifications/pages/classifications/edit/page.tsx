@@ -115,7 +115,7 @@ export const Component = () => {
         )}
         <ErrorBloc error={serverSideError} />
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="bauhaus-grid-md-6 bauhaus-form-group">
             <TextInputBlock
               required
               label={t("classification.title", { lng: "fr" })}
@@ -127,7 +127,7 @@ export const Component = () => {
               }}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="bauhaus-grid-md-6 bauhaus-form-group">
             <TextInputBlock
               required
               label={t("classification.title", { lng: "en" })}
@@ -141,7 +141,7 @@ export const Component = () => {
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-grid-md-6 bauhaus-form-group">
             <TextInputBlock
               label={t("classification.altLabel", { lng: "fr" })}
               value={general.altLabelLg1}
@@ -150,7 +150,7 @@ export const Component = () => {
               }
             />
           </div>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-grid-md-6 bauhaus-form-group">
             <TextInputBlock
               label={t("classification.altLabel", { lng: "en" })}
               value={general.altLabelLg2}
@@ -161,14 +161,14 @@ export const Component = () => {
           </div>
         </Row>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="bauhaus-grid-md-6 bauhaus-form-group">
             <label htmlFor="descriptionLg1">{t("classification.summary", { lng: "fr" })}</label>
             <MDEditor
               text={general.descriptionLg1}
               handleChange={(v) => setGeneral({ descriptionLg1: v })}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="bauhaus-grid-md-6 bauhaus-form-group">
             <label htmlFor="descriptionLg2">{t("classification.summary", { lng: "en" })}</label>
             <MDEditor
               text={general.descriptionLg2}
@@ -176,7 +176,7 @@ export const Component = () => {
             />
           </div>
         </Row>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <label>{t("classification.motherSeries", { lng: "fr" })}</label>
           <Select
             value={general.idSeries}
@@ -184,7 +184,7 @@ export const Component = () => {
             onChange={(v: string) => setGeneral({ idSeries: v })}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <label>{t("classification.followingClassification", { lng: "fr" })}</label>
           <ClassificationSelect
             excludeId={id}
@@ -192,7 +192,7 @@ export const Component = () => {
             onChange={(v) => setGeneral({ idBefore: v })}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <label>{t("classification.previousClassification", { lng: "fr" })}</label>
           <ClassificationSelect
             excludeId={id}
@@ -200,7 +200,7 @@ export const Component = () => {
             onChange={(v) => setGeneral({ idAfter: v })}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <label>{t("classification.variant", { lng: "fr" })}</label>
           <ClassificationSelect
             excludeId={id}
@@ -208,21 +208,21 @@ export const Component = () => {
             onChange={(v) => setGeneral({ idVariant: v })}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <CreatorsInput
             mode="organization"
             value={general.creator}
             onChange={(creator) => setGeneral({ creator })}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <ContributorsInput
             mode="organization"
             value={general.contributor}
             onChange={(contributor) => setGeneral({ contributor })}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <label>{t("classification.disseminationStatus", { lng: "fr" })}</label>
           <DisseminationStatusInput
             withLabel={false}
@@ -230,7 +230,7 @@ export const Component = () => {
             handleChange={(v) => setGeneral({ disseminationStatus: v })}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <UrlInputBlock
             label={t("classification.additionalMaterial", { lng: "fr" })}
             error={clientSideErrors?.fields?.additionalMaterial}
@@ -240,7 +240,7 @@ export const Component = () => {
             value={general.additionalMaterial}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <UrlInputBlock
             label={t("classification.legalMaterial", { lng: "fr" })}
             error={clientSideErrors?.fields?.legalMaterial}
@@ -250,7 +250,7 @@ export const Component = () => {
             value={general.legalMaterial}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <UrlInputBlock
             label={t("classification.homepage", { lng: "fr" })}
             error={clientSideErrors?.fields?.homepage}
@@ -262,7 +262,7 @@ export const Component = () => {
         </div>
         {(classification.general.scopeNoteUriLg1 || classification.general.scopeNoteUriLg2) && (
           <Row>
-            <div className="col-md-6 form-group">
+            <div className="bauhaus-grid-md-6 bauhaus-form-group">
               {classification.general.scopeNoteUriLg1 && (
                 <>
                   <LabelRequired htmlFor="scopeNoteLg1">
@@ -275,7 +275,7 @@ export const Component = () => {
                 </>
               )}
             </div>
-            <div className="col-md-6 form-group">
+            <div className="bauhaus-grid-md-6 bauhaus-form-group">
               {classification.general.scopeNoteUriLg2 && (
                 <>
                   <LabelRequired htmlFor="scopeNoteLg2">
@@ -292,7 +292,7 @@ export const Component = () => {
         )}
         {(classification.general.changeNoteUriLg1 || classification.general.changeNoteUriLg2) && (
           <Row>
-            <div className="col-md-6 form-group">
+            <div className="bauhaus-grid-md-6 bauhaus-form-group">
               {classification.general.changeNoteUriLg1 && (
                 <>
                   <LabelRequired htmlFor="changeNoteLg1">
@@ -305,7 +305,7 @@ export const Component = () => {
                 </>
               )}
             </div>
-            <div className="col-md-6 form-group">
+            <div className="bauhaus-grid-md-6 bauhaus-form-group">
               {classification.general.changeNoteUriLg2 && (
                 <>
                   <LabelRequired htmlFor="changeNoteLg2">

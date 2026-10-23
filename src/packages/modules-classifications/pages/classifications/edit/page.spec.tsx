@@ -96,6 +96,7 @@ vi.mock("./validation", () => ({
   validate: vi.fn(),
 }));
 
+import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import * as classificationHook from "../../../hooks/useClassification";
 import * as classificationSeriesHook from "../../../hooks/useClassificationSeries";
 import * as updateClassificationHook from "../../../hooks/useUpdateClassification";
@@ -245,5 +246,11 @@ describe("<Component />", () => {
     });
     const { container } = renderComponent();
     expect(container).toBeEmptyDOMElement();
+  });
+
+  it("met le formulaire en page sans classe Bootstrap", () => {
+    mockLoadedClassification();
+    renderComponent();
+    expectNoBootstrapClass();
   });
 });
