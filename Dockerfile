@@ -1,6 +1,6 @@
 ### BUILD STEP ###
 
-FROM node:24.19.0 AS builder
+FROM node:26.12.1 AS builder
 
 WORKDIR /bauhaus
 
@@ -8,7 +8,7 @@ COPY ./ ./
 
 RUN rm -f package-lock.json
 RUN rm -rf node_modules
-RUN npm i -g pnpm@10
+RUN npm i -g pnpm@12
 
 RUN pnpm install && pnpm build
 
