@@ -6,22 +6,15 @@ import { SplitButton } from "@components/ui/split-button";
 
 import { isLocalhost } from "@utils/is-localhost";
 
-import { HasAccess } from "../../../../auth/components/auth";
-
 interface GlobalActionToolbarProps {
   onExport: (format: "DDI3" | "DDI4") => void;
-  onDuplicate?: () => void;
   /** Outil de mise au point : le bouton n'est rendu qu'en local. */
   onValidateDdi4?: () => void;
-  /** Stamps de l'instance source — gating STAMP du bouton de duplication. */
-  stamps?: string[];
 }
 
 export const GlobalActionToolbar = ({
   onExport,
-  onDuplicate,
   onValidateDdi4,
-  stamps,
 }: Readonly<GlobalActionToolbarProps>) => {
   const { t } = useTranslation();
 
@@ -54,16 +47,6 @@ export const GlobalActionToolbar = ({
         aria-label={t("physicalInstance.view.export")}
         onClick={() => onExport("DDI3")}
       />
-      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="CREATE" stamps={stamps}>
-        <Button
-          icon="pi pi-copy"
-          label={t("physicalInstance.view.duplicatePhysicalInstance")}
-          severity="secondary"
-          style={{ background: "transparent" }}
-          aria-label={t("physicalInstance.view.duplicatePhysicalInstance")}
-          onClick={onDuplicate}
-        />
-      </HasAccess>
       {onValidateDdi4 && isLocalhost() && (
         <Button
           icon="pi pi-check-circle"

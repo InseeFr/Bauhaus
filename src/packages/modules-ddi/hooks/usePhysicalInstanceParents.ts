@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { DDIApi } from "@sdk/index";
 
@@ -17,14 +17,21 @@ export interface PhysicalInstanceParents {
   stamps: string[];
 }
 
+/** Parents d'une PhysicalInstance, partagés par le hook et les préchargements (même cache). */
+export const physicalInstanceParentsQuery = (agencyId: string, id: string) =>
+  queryOptions({
+    queryKey: ["physicalInstanceParents", agencyId, id],
+    queryFn: (): Promise<PhysicalInstanceParents> =>
+      DDIApi.getPhysicalInstanceParents(agencyId, id),
+  });
+
 export function usePhysicalInstanceParents(
   agencyId: string,
   id: string,
   { enabled = true }: { enabled?: boolean } = {},
 ) {
-  return useQuery<PhysicalInstanceParents>({
-    queryKey: ["physicalInstanceParents", agencyId, id],
-    queryFn: () => DDIApi.getPhysicalInstanceParents(agencyId, id),
+  return useQuery({
+    ...physicalInstanceParentsQuery(agencyId, id),
     // Convention du module : les hooks composés se désactivent en passant des chaînes vides.
     enabled: enabled && !!agencyId && !!id,
   });

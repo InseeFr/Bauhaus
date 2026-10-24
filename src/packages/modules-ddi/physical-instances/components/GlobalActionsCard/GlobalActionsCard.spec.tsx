@@ -26,12 +26,11 @@ vi.mock("primereact/card", () => ({
 }));
 
 vi.mock("./GlobalActionToolbar", () => ({
-  GlobalActionToolbar: ({ onExport, onDuplicate, onValidateDdi4 }: any) => {
+  GlobalActionToolbar: ({ onExport, onValidateDdi4 }: any) => {
     const exportDdi3 = useCallback(() => onExport("DDI3"), [onExport]);
     return (
       <div data-testid="global-action-toolbar">
         <button onClick={exportDdi3}>Export Toolbar</button>
-        {onDuplicate && <button onClick={onDuplicate}>Duplicate Toolbar</button>}
         {onValidateDdi4 && <button onClick={onValidateDdi4}>Validate Toolbar</button>}
       </div>
     );
@@ -53,14 +52,12 @@ const INSTANCE_STAMPS = ["STAMP1", "STAMP2"];
 
 describe("GlobalActionsCard", () => {
   const mockOnExport = vi.fn();
-  const mockOnDuplicate = vi.fn();
   const mockOnRowClick = vi.fn();
   const mockOnDeleteClick = vi.fn();
 
   const defaultProps = {
     variables: mockVariables,
     onExport: mockOnExport,
-    onDuplicate: mockOnDuplicate,
     onRowClick: mockOnRowClick,
     onDeleteClick: mockOnDeleteClick,
   };
@@ -134,15 +131,6 @@ describe("GlobalActionsCard", () => {
     expect(screen.getByText("Variables: 0")).toBeInTheDocument();
   });
 
-  it("should pass onDuplicate prop to GlobalActionToolbar", () => {
-    render(<GlobalActionsCard {...defaultProps} />);
-
-    const duplicateButton = screen.getByText("Duplicate Toolbar");
-    duplicateButton.click();
-
-    expect(mockOnDuplicate).toHaveBeenCalledTimes(1);
-  });
-
   it("should pass onValidateDdi4 prop to GlobalActionToolbar", () => {
     const mockOnValidateDdi4 = vi.fn();
 
@@ -150,15 +138,6 @@ describe("GlobalActionsCard", () => {
     screen.getByText("Validate Toolbar").click();
 
     expect(mockOnValidateDdi4).toHaveBeenCalledTimes(1);
-  });
-
-  it("should render without onDuplicate callback", () => {
-    const propsWithoutDuplicate = {
-      variables: mockVariables,
-      onExport: mockOnExport,
-    };
-
-    expect(() => render(<GlobalActionsCard {...propsWithoutDuplicate} />)).not.toThrow();
   });
 
   it("transmet les stamps de l'instance au tableau des variables", () => {

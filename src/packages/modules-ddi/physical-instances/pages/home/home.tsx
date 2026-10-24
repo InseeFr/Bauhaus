@@ -17,6 +17,7 @@ import { usePhysicalInstances } from "../../../hooks/usePhysicalInstances";
 import { errorToastTiming } from "../../../utils/error-toast";
 import { formatDate } from "../../../utils/formatDate";
 import { DdiToast } from "../../components/DdiToast/DdiToast";
+import { NewFromDialog } from "../../components/NewFromDialog/NewFromDialog";
 import {
   PhysicalInstanceDialog,
   PhysicalInstanceCreationData,
@@ -30,6 +31,7 @@ export const Component = () => {
   const { data = [], isLoading } = usePhysicalInstances();
   const createPhysicalInstance = useCreatePhysicalInstance();
   const [visible, setVisible] = useState(false);
+  const [newFromVisible, setNewFromVisible] = useState(false);
   const toast = useRef<Toast>(null);
 
   // SearchableList filtre sur les valeurs brutes des items, avant tout formatage : la versionDate
@@ -78,7 +80,12 @@ export const Component = () => {
     <>
       <HomePageLayout
         title={t("physicalInstance.homePageTitle")}
-        menu={<HomePageMenu onCreate={() => setVisible(true)} />}
+        menu={
+          <HomePageMenu
+            onCreate={() => setVisible(true)}
+            onCreateFrom={() => setNewFromVisible(true)}
+          />
+        }
       >
         <SearchableList
           items={items}
@@ -97,6 +104,11 @@ export const Component = () => {
         mode="create"
         onSubmitCreate={handleSubmit}
       />
+
+      {/* Monté à l'ouverture seulement : la liste des sources n'est lue qu'à la demande. */}
+      {newFromVisible && (
+        <NewFromDialog visible={newFromVisible} onHide={() => setNewFromVisible(false)} />
+      )}
 
       <DdiToast ref={toast} />
       <AppDevTools />

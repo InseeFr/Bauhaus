@@ -7,12 +7,14 @@ import { mockDdiAccess } from "../../components/GlobalActionsCard/actions.testin
 import { HomePageMenu } from "./menu";
 
 vi.mock("@components/new-button", () => ({
-  MasculineButton: ({ action, component }: any) => (
-    <button type="button" onClick={action} data-component={component}>
+  MasculineButton: ({ action, component, title }: any) => (
+    <button type="button" onClick={action} data-component={component} title={title}>
       Nouveau
     </button>
   ),
 }));
+
+vi.mock("react-i18next", () => import("../../../i18n.testing"));
 
 vi.mock("./EvictCachesButton", () => ({
   EvictCachesButton: () => <button type="button">Vider le cache</button>,
@@ -35,6 +37,7 @@ const ddiPrivileges = (privileges: { privilege: string; strategy: string }[]) =>
 
 describe("HomePageMenu", () => {
   const mockOnCreate = vi.fn();
+  const mockOnCreateFrom = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -42,7 +45,7 @@ describe("HomePageMenu", () => {
   });
 
   it("rend le menu vertical", () => {
-    render(<HomePageMenu onCreate={mockOnCreate} />);
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
 
     expect(screen.getByTestId("vertical-menu")).toBeInTheDocument();
   });
@@ -50,7 +53,7 @@ describe("HomePageMenu", () => {
   it("affiche le bouton de création quand la stratégie CREATE est ALL", () => {
     mockDdiAccess("CREATE", "ALL", []);
 
-    render(<HomePageMenu onCreate={mockOnCreate} />);
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
 
     expect(screen.queryByText("Nouveau")).toBeInTheDocument();
   });
@@ -58,7 +61,7 @@ describe("HomePageMenu", () => {
   it("affiche le bouton de création quand la stratégie CREATE est STAMP (le filtrage STAMP a lieu au choix du groupe)", () => {
     mockDdiAccess("CREATE", "STAMP", []);
 
-    render(<HomePageMenu onCreate={mockOnCreate} />);
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
 
     expect(screen.queryByText("Nouveau")).toBeInTheDocument();
   });
@@ -66,7 +69,7 @@ describe("HomePageMenu", () => {
   it("masque le bouton de création quand la stratégie CREATE est NONE", () => {
     mockDdiAccess("CREATE", "NONE", []);
 
-    render(<HomePageMenu onCreate={mockOnCreate} />);
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
 
     expect(screen.queryByText("Nouveau")).not.toBeInTheDocument();
   });
@@ -74,13 +77,13 @@ describe("HomePageMenu", () => {
   it("masque le bouton de création en l'absence de privilège CREATE", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
 
-    render(<HomePageMenu onCreate={mockOnCreate} />);
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
 
     expect(screen.queryByText("Nouveau")).not.toBeInTheDocument();
   });
 
   it("appelle onCreate au clic sur le bouton", () => {
-    render(<HomePageMenu onCreate={mockOnCreate} />);
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
 
     fireEvent.click(screen.getByText("Nouveau"));
 
@@ -88,7 +91,7 @@ describe("HomePageMenu", () => {
   });
 
   it("passe component='button' à MasculineButton", () => {
-    render(<HomePageMenu onCreate={mockOnCreate} />);
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
 
     expect(screen.getByText("Nouveau")).toHaveAttribute("data-component", "button");
   });
@@ -101,7 +104,7 @@ describe("HomePageMenu", () => {
       ]),
     );
 
-    render(<HomePageMenu onCreate={mockOnCreate} />);
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
 
     expect(screen.getByRole("button", { name: "Vider le cache" })).toBeInTheDocument();
   });
@@ -111,8 +114,39 @@ describe("HomePageMenu", () => {
       ddiPrivileges([{ privilege: "CREATE", strategy: "ALL" }]),
     );
 
-    render(<HomePageMenu onCreate={mockOnCreate} />);
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
 
     expect(screen.queryByRole("button", { name: "Vider le cache" })).not.toBeInTheDocument();
+  });
+
+  it("explique le bouton Nouveau par une infobulle", () => {
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
+
+    expect(screen.getByText("Nouveau")).toHaveAttribute(
+      "title",
+      "physicalInstance.newFrom.newTooltip",
+    );
+  });
+
+  it("propose « Nouveau à partir de… » avec son infobulle et appelle onCreateFrom", () => {
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
+
+    const button = screen.getByRole("button", { name: /physicalInstance\.newFrom\.button/ });
+    expect(button).toHaveAttribute("title", "physicalInstance.newFrom.tooltip");
+
+    fireEvent.click(button);
+
+    expect(mockOnCreateFrom).toHaveBeenCalledTimes(1);
+    expect(mockOnCreate).not.toHaveBeenCalled();
+  });
+
+  it("masque « Nouveau à partir de… » sans droit de création", () => {
+    mockDdiAccess("CREATE", "NONE", []);
+
+    render(<HomePageMenu onCreate={mockOnCreate} onCreateFrom={mockOnCreateFrom} />);
+
+    expect(
+      screen.queryByRole("button", { name: /physicalInstance\.newFrom\.button/ }),
+    ).not.toBeInTheDocument();
   });
 });

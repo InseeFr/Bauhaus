@@ -11,7 +11,15 @@ import { Component } from "./home";
 vi.mock("../../../hooks/usePhysicalInstances");
 vi.mock("@utils/hooks/useTitle");
 vi.mock("./menu", () => ({
-  HomePageMenu: () => <div data-testid="home-page-menu">Menu</div>,
+  HomePageMenu: ({ onCreateFrom }: { onCreateFrom: () => void }) => (
+    <button type="button" data-testid="home-page-menu" onClick={onCreateFrom}>
+      Nouveau à partir de…
+    </button>
+  ),
+}));
+vi.mock("../../components/NewFromDialog/NewFromDialog", () => ({
+  NewFromDialog: ({ visible }: { visible: boolean }) =>
+    visible ? <div role="dialog" aria-label="new-from" /> : null,
 }));
 vi.mock("../../../../application/app-context", () => ({
   useAppContext: () => ({
@@ -114,5 +122,15 @@ describe("Home Component", () => {
 
     expect(screen.getByText("Enquête Emploi (01/02/2026)")).toBeInTheDocument();
     expect(screen.queryByText("Enquête Logement (13/11/2025)")).not.toBeInTheDocument();
+  });
+
+  it("ouvre « Nouveau à partir de… » depuis le menu", async () => {
+    mockPhysicalInstances([]);
+    renderHome();
+    expect(screen.queryByRole("dialog", { name: "new-from" })).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByTestId("home-page-menu"));
+
+    expect(screen.getByRole("dialog", { name: "new-from" })).toBeInTheDocument();
   });
 });

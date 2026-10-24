@@ -10,6 +10,8 @@ interface AbstractNewButtonTypes {
   action: ((location: any) => any) | string;
   suffix?: string;
   component?: "button" | "link";
+  /** Infobulle native du bouton ou du lien. */
+  title?: string;
 }
 
 const AbstractNewButton = ({
@@ -17,10 +19,11 @@ const AbstractNewButton = ({
   children,
   suffix,
   component = "link",
+  title,
 }: PropsWithChildren<AbstractNewButtonTypes>) => {
   if (component === "button") {
     return (
-      <button type="button" className="new-button" onClick={action as () => void}>
+      <button type="button" className="new-button" onClick={action as () => void} title={title}>
         <AddLogo />
         {suffix ? (
           <span>
@@ -35,7 +38,7 @@ const AbstractNewButton = ({
 
   return (
     // `action` est une URL en mode lien, un gestionnaire en mode bouton (voir la branche ci-dessus).
-    <NavLink className="new-button" to={action as string}>
+    <NavLink className="new-button" to={action as string} title={title}>
       <AddLogo />
       {suffix ? (
         <span>

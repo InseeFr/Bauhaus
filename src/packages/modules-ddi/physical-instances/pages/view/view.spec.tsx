@@ -15,7 +15,6 @@ const mockUsePhysicalInstancesData = vi.fn();
 const mockUsePhysicalInstanceParents = vi.fn();
 const mockUpdatePhysicalInstance = vi.fn();
 const mockPublishPhysicalInstance = vi.fn();
-const mockDuplicatePhysicalInstance = vi.fn();
 const mockValidateDdi4 = vi.fn();
 const mockConvertToDDI3 = vi.fn().mockResolvedValue("<ddi3-xml-content></ddi3-xml-content>");
 const mockNavigate = vi.fn();
@@ -90,10 +89,6 @@ vi.mock("../../../hooks/useUpdatePhysicalInstance", () => ({
 
 vi.mock("../../../hooks/usePublishPhysicalInstance", () => ({
   usePublishPhysicalInstance: () => mockPublishPhysicalInstance(),
-}));
-
-vi.mock("../../../hooks/useDuplicatePhysicalInstance", () => ({
-  useDuplicatePhysicalInstance: () => mockDuplicatePhysicalInstance(),
 }));
 
 vi.mock("../../../hooks/useValidateDdi4", () => ({
@@ -591,12 +586,6 @@ describe("View Component", () => {
 
     mockUseStudyUnitVariables.mockReturnValue({ data: [], isLoading: false });
     mockUseStudyUnitVariableUsages.mockReturnValue({ data: [], isLoading: false });
-
-    mockDuplicatePhysicalInstance.mockReturnValue({
-      mutateAsync: vi.fn().mockResolvedValue({ id: "pi-copy-id", agency: "test-agency-123" }),
-      isPending: false,
-      isError: false,
-    });
 
     mockPublishPhysicalInstance.mockReturnValue({
       mutateAsync: vi.fn().mockResolvedValue({}),
@@ -1455,156 +1444,12 @@ describe("View Component", () => {
     });
   });
 
-  describe("Duplicate Physical Instance", () => {
-    const openAndConfirmDuplicateModal = async () => {
-      render(<Component />, { wrapper });
+  it("ne propose plus de dupliquer le fichier : la duplication part de l'accueil", () => {
+    render(<Component />, { wrapper });
 
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.duplicatePhysicalInstance"));
-      await screen.findByText("physicalInstance.view.duplicateModal.title");
-      const labelInput = screen.getByLabelText(
-        "physicalInstance.creation.label",
-      ) as HTMLInputElement;
-      await waitFor(() => expect(labelInput.value).toBe("Test Physical Instance (copy)"));
-
-      fireEvent.submit(screen.getByRole("dialog").querySelector("form")!);
-    };
-
-    it("should open the duplication modal instead of duplicating immediately, pre-filled with <title> (copy)", async () => {
-      const duplicateMock = vi.fn().mockResolvedValue({ id: "pi-copy-id", agency: "fr.insee" });
-      mockDuplicatePhysicalInstance.mockReturnValue({
-        mutateAsync: duplicateMock,
-        isPending: false,
-        isError: false,
-      });
-
-      render(<Component />, { wrapper });
-
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.duplicatePhysicalInstance"));
-
-      expect(
-        await screen.findByText("physicalInstance.view.duplicateModal.title"),
-      ).toBeInTheDocument();
-      // La valeur est posée par un useEffect après le montage de la modale
-      // (composant lazy/Suspense + animation d'ouverture de la Dialog) : on
-      // attend qu'elle soit appliquée plutôt que de la lire de façon synchrone,
-      // sinon course de timing sous charge (échec aléatoire en CI).
-      const labelInput = screen.getByLabelText(
-        "physicalInstance.creation.label",
-      ) as HTMLInputElement;
-      await waitFor(() => expect(labelInput.value).toBe("Test Physical Instance (copy)"));
-
-      expect(duplicateMock).not.toHaveBeenCalled();
-    });
-
-    it("should duplicate through the dedicated endpoint with the labels, group and study unit of the modal", async () => {
-      const duplicateMock = vi.fn().mockResolvedValue({ id: "pi-copy-id", agency: "fr.insee" });
-      mockDuplicatePhysicalInstance.mockReturnValue({
-        mutateAsync: duplicateMock,
-        isPending: false,
-        isError: false,
-      });
-
-      await openAndConfirmDuplicateModal();
-
-      await waitFor(() => expect(duplicateMock).toHaveBeenCalledTimes(1));
-      expect(duplicateMock).toHaveBeenCalledWith({
-        agencyId: "test-agency-123",
-        id: "test-id-123",
-        data: expect.objectContaining({
-          physicalInstanceLabel: "Test Physical Instance (copy)",
-          groupId: "group-1",
-          groupAgency: "agency-1",
-          studyUnitId: "study-1",
-          studyUnitAgency: "agency-1",
-        }),
-      });
-    });
-
-    it("should not publish nor patch anything from the front when duplicating", async () => {
-      const publishMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: publishMock,
-        isPending: false,
-        isError: false,
-      });
-      const patchMock = vi.fn().mockResolvedValue({});
-      mockUpdatePhysicalInstance.mockReturnValue({
-        mutateAsync: patchMock,
-        isPending: false,
-        isError: false,
-      });
-
-      await openAndConfirmDuplicateModal();
-
-      await waitFor(() => expect(mockNavigate).toHaveBeenCalled());
-      expect(publishMock).not.toHaveBeenCalled();
-      expect(patchMock).not.toHaveBeenCalled();
-    });
-
-    it("should navigate to the copy returned by the backend", async () => {
-      mockDuplicatePhysicalInstance.mockReturnValue({
-        mutateAsync: vi.fn().mockResolvedValue({ id: "pi-copy-id", agency: "fr.insee" }),
-        isPending: false,
-        isError: false,
-      });
-
-      await openAndConfirmDuplicateModal();
-
-      await waitFor(() =>
-        expect(mockNavigate).toHaveBeenCalledWith("/ddi/physical-instances/fr.insee/pi-copy-id"),
-      );
-    });
-
-    it("should show the backend error message in the toast when duplication fails", async () => {
-      // Le SDK (build-api) rejette un objet nu { message, status }, jamais une Error.
-      mockDuplicatePhysicalInstance.mockReturnValue({
-        mutateAsync: vi.fn().mockRejectedValue({
-          message: "L'opération (StudyUnit fr.insee/su-1) n'a pas de VariableScheme",
-          status: 409,
-        }),
-      });
-
-      await openAndConfirmDuplicateModal();
-
-      await waitFor(() => {
-        expect(mockToastShow).toHaveBeenCalledWith(
-          expect.objectContaining({
-            severity: "error",
-            summary: "physicalInstance.view.duplicateError",
-            detail: "L'opération (StudyUnit fr.insee/su-1) n'a pas de VariableScheme",
-          }),
-        );
-      });
-      expect(mockNavigate).not.toHaveBeenCalled();
-    });
-
-    it("shows the translated message of a coded backend error in a toast that stays until closed", async () => {
-      mockDuplicatePhysicalInstance.mockReturnValue({
-        isPending: false,
-        isError: false,
-        mutateAsync: vi.fn().mockRejectedValue(
-          sdkRejection.json(404, {
-            message: "No study unit found for physical instance fr.insee/pi-111",
-            code: "DDI_STUDY_UNIT_NOT_FOUND",
-          }),
-        ),
-      });
-
-      await openAndConfirmDuplicateModal();
-
-      await waitFor(() => {
-        expect(mockToastShow).toHaveBeenCalledWith(
-          expect.objectContaining({
-            severity: "error",
-            summary: "physicalInstance.view.duplicateError",
-            detail: appI18n.t("errors.DDI_STUDY_UNIT_NOT_FOUND"),
-            sticky: true,
-          }),
-        );
-      });
-      const errorToast = mockToastShow.mock.calls.find(([toast]) => toast.severity === "error")![0];
-      expect(errorToast).not.toHaveProperty("life");
-    });
+    expect(
+      screen.queryByLabelText("physicalInstance.view.duplicatePhysicalInstance"),
+    ).not.toBeInTheDocument();
   });
 
   describe("Variable edits reported to the table (#1608)", () => {
