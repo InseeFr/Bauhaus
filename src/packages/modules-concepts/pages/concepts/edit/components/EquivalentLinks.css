@@ -33,10 +33,10 @@
     }
   }
 
-  .col-md-12 {
+  .bauhaus-grid-md-12 {
     display: flex;
 
-    .form-group {
+    .bauhaus-form-group {
       flex: 1;
       margin-bottom: 0;
     }

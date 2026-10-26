@@ -1,7 +1,7 @@
 /*
  * Champs des composants partagés : copie à l'identique des classes `form-group` et
- * `form-control` de Bootstrap 3, y compris les surcharges de `main.css`
- * (`font-size: inherit`) et de `components.css` (`z-index: 0` dans un `.input-group`).
+ * `form-control` de Bootstrap 3, y compris la surcharge de `main.css`
+ * (`font-size: inherit`).
  */
 .bauhaus-form-group {
   margin-bottom: 15px;
@@ -46,33 +46,4 @@
 
 .bauhaus-input[disabled] {
   cursor: not-allowed;
-}
-
-/* Champ précédé d'un `input-group-addon` (adresse du complément d'information des
-   concepts) : à retirer avec le `.input-group` de `modules-concepts` (B13a). */
-.input-group .bauhaus-input {
-  display: table-cell;
-  position: relative;
-  z-index: 0;
-  float: left;
-  width: 100%;
-  margin-bottom: 0;
-}
-
-.input-group .bauhaus-input:focus {
-  z-index: 3;
-}
-
-.input-group .bauhaus-input:not(:first-child, :last-child) {
-  border-radius: 0;
-}
-
-.input-group .bauhaus-input:first-child {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.input-group .bauhaus-input:last-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
 }

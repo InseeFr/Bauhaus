@@ -99,7 +99,7 @@ export function CollectionGeneralEdition({
           className="w-100"
         />
       </Row>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <CreatorsInput
           mode="organization"
           value={creator ?? ""}
@@ -107,7 +107,7 @@ export function CollectionGeneralEdition({
         />
         <ClientSideError id="creator-error" error={errors?.fields?.creator} />
       </div>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <ContributorsInput
           mode="organization"
           value={contributor ?? ""}
