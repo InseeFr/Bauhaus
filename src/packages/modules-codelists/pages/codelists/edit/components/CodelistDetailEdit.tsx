@@ -206,7 +206,7 @@ export const CodelistDetailEdit = ({
           />
         </Row>
         <Row>
-          <div className="col-md-12 form-group">
+          <div className="col-12 bauhaus-form-group">
             <LabelRequired htmlFor="id">{t("codelists.identifier")}</LabelRequired>
             <TextInput
               id="id"
@@ -220,7 +220,7 @@ export const CodelistDetailEdit = ({
           </div>
         </Row>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="labelLg1">{t("codelists.label", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="labelLg1"
@@ -235,7 +235,7 @@ export const CodelistDetailEdit = ({
               error={clientSideErrors?.fields?.labelLg1}
             ></ClientSideError>
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="labelLg2">{t("codelists.label", { lng: "en" })}</LabelRequired>
             <TextInput
               id="labelLg2"
@@ -251,7 +251,7 @@ export const CodelistDetailEdit = ({
             ></ClientSideError>
           </div>
         </Row>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <CreatorsInput
             mode="organization"
             value={codelist.creator ?? ""}
@@ -264,7 +264,7 @@ export const CodelistDetailEdit = ({
             error={clientSideErrors?.fields?.creator}
           ></ClientSideError>
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <ContributorsInput
             multi
             mode="organization"
@@ -274,7 +274,7 @@ export const CodelistDetailEdit = ({
             }}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <DisseminationStatusInput
             value={codelist.disseminationStatus ?? ""}
             handleChange={(value) => {
@@ -288,21 +288,21 @@ export const CodelistDetailEdit = ({
           ></ClientSideError>
         </div>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="descriptionLg1">{t("codelists.description", { lng: "fr" })}</label>
             <textarea
               value={codelist.descriptionLg1}
-              className="form-control"
+              className="bauhaus-input"
               id="descriptionLg1"
               name="descriptionLg1"
               onChange={handleChange}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="descriptionLg2">{t("codelists.description", { lng: "en" })}</label>
             <textarea
               value={codelist.descriptionLg2}
-              className="form-control"
+              className="bauhaus-input"
               id="descriptionLg2"
               name="descriptionLg2"
               onChange={handleChange}

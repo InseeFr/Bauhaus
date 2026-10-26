@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router";
 
 import { componentsI18n } from "../i18n";
 import { Link } from "../link";
-import "../layout/grid.css";
 import "./pagination.css";
 import { Select } from "../select-rmes";
 import { List } from "../ui/list-group";
@@ -104,7 +103,7 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
     <>
       <List.Container>{paginationData.currentItems}</List.Container>
       <div>
-        <div className="bauhaus-grid-md-3 bauhaus-pagination-size wilco-pagination">
+        <div className="lg:col-3 bauhaus-pagination-size wilco-pagination">
           <label htmlFor="items-per-page" className="sr-only">
             {t("pagination.itemPerPagePlaceholder")}
           </label>
@@ -116,7 +115,7 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
             unclearable
           />
         </div>
-        <div className="bauhaus-grid-md-9" style={{ padding: 0 }}>
+        <div className="lg:col-9" style={{ padding: 0 }}>
           <nav aria-label={t("pagination.navigation")}>
             <ul className="wilco-pagination bauhaus-pagination-pages">
               {/* First page */}

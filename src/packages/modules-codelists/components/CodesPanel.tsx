@@ -8,6 +8,7 @@ import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
 import { RightSlidingPanel } from "@components/sliding-panel";
+import { Button } from "@components/ui/button";
 
 import { Code, Codelist } from "@model/Codelist";
 
@@ -130,7 +131,7 @@ const CodeSlidingPanel = ({
       )}
       <ErrorBloc error={serverSideError} />
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <LabelRequired htmlFor="code">{t("codes.title")}</LabelRequired>
           <TextInput
             disabled={!creation}
@@ -145,7 +146,7 @@ const CodeSlidingPanel = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <LabelRequired htmlFor="labelLg1">{t("codes.label", { lng: "fr" })}</LabelRequired>
           <TextInput
             id="labelLg1"
@@ -160,7 +161,7 @@ const CodeSlidingPanel = ({
             error={clientSideErrors?.fields?.labelLg1}
           ></ClientSideError>
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <LabelRequired htmlFor="labelLg2">{t("codes.label", { lng: "en" })}</LabelRequired>
           <TextInput
             id="labelLg2"
@@ -177,20 +178,20 @@ const CodeSlidingPanel = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="descriptionLg1">{t("codes.description", { lng: "fr" })}</label>
           <textarea
-            className="form-control"
+            className="bauhaus-input"
             id="descriptionLg1"
             name="descriptionLg1"
             onChange={handleChange}
             value={code.descriptionLg1 || ""}
           />
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="descriptionLg2">{t("codes.description", { lng: "en" })}</label>
           <textarea
-            className="form-control"
+            className="bauhaus-input"
             id="descriptionLg2"
             name="descriptionLg2"
             onChange={handleChange}
@@ -199,7 +200,7 @@ const CodeSlidingPanel = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-6 form-group" id="broader-field">
+        <div className="col-12 lg:col-6 bauhaus-form-group" id="broader-field">
           <label htmlFor="broader">{t("codes.broader")}</label>
           <Select
             inputId="broader"
@@ -209,7 +210,7 @@ const CodeSlidingPanel = ({
             onChange={(broader: string[]) => setCode({ ...code, broader })}
           />
         </div>
-        <div className="col-md-6 form-group" id="narrower-field">
+        <div className="col-12 lg:col-6 bauhaus-form-group" id="narrower-field">
           <label htmlFor="narrower">{t("codes.narrower")}</label>
           <Select
             inputId="narrower"
@@ -398,16 +399,15 @@ export const CodesPanel = ({
             ></SeeButton>
           )}
           {editable && (
-            <button
+            <Button
               type="button"
-              className="btn btn-default"
+              className="bauhaus-icon-btn"
+              icon="pi pi-minus"
               data-component-id={code.code}
               onClick={() => onCodeChangesChange(withDeletedCode(codeChanges, code))}
               aria-label={t("codes.removeCode")}
               title={t("codes.removeCode")}
-            >
-              <span className="pi pi-minus"></span>
-            </button>
+            />
           )}
         </>
       ),
@@ -428,7 +428,7 @@ export const CodesPanel = ({
         collapsible={false}
       >
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="search-code">{t("codes.searchByCode")}</label>
             <TextInput
               id="search-code"
@@ -436,7 +436,7 @@ export const CodesPanel = ({
               onChange={(e) => handleSearch("code", e.target.value, searchLabel)}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="search-label">{t("codes.searchByLabel")}</label>
             <TextInput
               id="search-label"

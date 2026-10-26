@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { ComponentType } from "react";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
+
 type DatalistInputProps = { value: string; onChange: (value: string) => void };
 
 /**
@@ -23,6 +25,11 @@ export const itBehavesLikeADatalistInput = ({
     const rendered = render(<Input value={value} onChange={mockOnChange} />);
     return { ...rendered, mockOnChange };
   };
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderInput();
+    expectNoBootstrapClass();
+  });
 
   it("should render the component with label", () => {
     renderInput();

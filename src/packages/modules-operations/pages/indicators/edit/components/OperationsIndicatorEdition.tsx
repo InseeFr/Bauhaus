@@ -300,7 +300,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           />
         </Row>
         <Row>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
             <MDEditor
               text={indicator.abstractLg1 ?? ""}
@@ -308,7 +308,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
               textareaProps={{ id: "abstractLg1" }}
             />
           </div>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
             <MDEditor
               text={indicator.abstractLg2 ?? ""}
@@ -318,7 +318,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <label htmlFor="historyNoteLg1">{t("common.history", { lng: "fr" })}</label>
             <MDEditor
               text={indicator.historyNoteLg1 ?? ""}
@@ -326,7 +326,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
               textareaProps={{ id: "historyNoteLg1" }}
             />
           </div>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <label htmlFor="historyNoteLg2">{t("common.history", { lng: "en" })}</label>
             <MDEditor
               text={indicator.historyNoteLg2 ?? ""}
@@ -336,7 +336,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <label htmlFor="accrualPeriodicity" className="w-100">
               {t("common.indicatorDataCollectFrequency", {
                 lng: "fr",
@@ -353,7 +353,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <PublishersInput
               value={indicator.publishers}
               onChange={onChange("publishers")}
@@ -362,7 +362,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <CreatorsInput
               mode="organization"
               value={indicator.creators}
@@ -376,7 +376,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <OrganizationInput
               multi
               required={false}
@@ -389,7 +389,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <label className="w-100">
               {t("common.replaces", { lng: "fr" })}
               <Select
@@ -412,7 +412,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <label className="w-100">
               {t("common.replacedByMasc", { lng: "fr" })}
               <Select
@@ -435,7 +435,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <LabelRequired className="w-100">
               {t("common.generatedBy", { lng: "fr" })}
             </LabelRequired>
@@ -462,7 +462,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <label htmlFor="seeAlso" className="w-100">
               {t("common.seeAlso", { lng: "fr" })}
               <Select

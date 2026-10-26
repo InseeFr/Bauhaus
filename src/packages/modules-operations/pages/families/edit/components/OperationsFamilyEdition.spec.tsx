@@ -6,6 +6,7 @@ import { ValidationState } from "@components/status";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { OperationsFamilyEdition } from "./OperationsFamilyEdition";
 
@@ -95,6 +96,11 @@ describe("OperationsFamilyEdition", () => {
   });
 
   describe("Rendering", () => {
+    it("ne pose aucune classe Bootstrap", () => {
+      renderEdition(defaultProps);
+      expectNoBootstrapClass();
+    });
+
     it("should render the component correctly with all required fields", () => {
       renderEdition(defaultProps);
 

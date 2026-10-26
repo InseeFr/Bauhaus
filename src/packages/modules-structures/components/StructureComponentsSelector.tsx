@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { AddButton } from "@components/buttons/add";
 import { SeeButton } from "@components/buttons/see";
 import { RightSlidingPanel } from "@components/sliding-panel";
+import { Button } from "@components/ui/button";
 
 import { Codelist } from "@model/Codelist";
 import { Component, ComponentDefinition } from "@model/structures/Component";
@@ -201,51 +202,47 @@ export const StructureComponentsSelector = ({
               data-component-id={component.identifiant}
               onClick={seeClickHandler}
             ></SeeButton>
-            <button
+            <Button
               type="button"
-              className="btn btn-default"
+              className="bauhaus-icon-btn"
+              icon="pi pi-cog"
               data-component-id={component.identifiant}
               onClick={specificationClickHandler}
               aria-label={t("component.componentSpecification")}
               title={t("component.componentSpecification")}
-            >
-              <span className="pi pi-cog"></span>
-            </button>
+            />
             {!readOnly && (
-              <button
+              <Button
                 type="button"
-                className="btn btn-default"
+                className="bauhaus-icon-btn"
+                icon="pi pi-minus"
                 data-component-id={component.identifiant}
                 onClick={removeClickHandler}
                 aria-label={t("remove")}
                 title={t("remove")}
-              >
-                <span className="pi pi-minus"></span>
-              </button>
+              />
             )}
             {!readOnly && i !== 0 && (
-              <button
+              <Button
                 type="button"
-                className="btn btn-default"
+                className="bauhaus-icon-btn"
+                icon="pi pi-arrow-up"
                 data-component-id={component.identifiant}
                 onClick={goingUp}
                 aria-label={t("up")}
                 title={t("up")}
-              >
-                <span className="pi pi-arrow-up"></span>
-              </button>
+              />
             )}
             {!readOnly && i !== components.length - 1 && (
-              <button
+              <Button
                 type="button"
-                className="btn btn-default"
+                className="bauhaus-icon-btn"
+                icon="pi pi-arrow-down"
                 data-component-id={component.identifiant}
                 onClick={goingDown}
                 aria-label={t("down")}
                 title={t("down")}
-              >
-                <span className="pi pi-arrow-down"></span>
-              </button>
+              />
             )}
           </>
         ),

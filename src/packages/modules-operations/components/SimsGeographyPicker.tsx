@@ -128,7 +128,7 @@ export const SimsGeographyPicker = ({
   return (
     <>
       <div className="bauhaus-sims-geography-picker">
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <Select
             value={value}
             options={secondLang ? geographiesOptionsLg2 : geographiesOptions}
@@ -138,7 +138,7 @@ export const SimsGeographyPicker = ({
           />
         </div>
         <HasAccess module="GEOGRAPHY" privilege="CREATE">
-          <button type="button" className="btn btn-default" onClick={openNewPanel}>
+          <button type="button" className="sims-geography-new-button" onClick={openNewPanel}>
             {t("geography.btnNew")}
           </button>
         </HasAccess>

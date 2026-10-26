@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
 
+import { Button } from "@components/ui/button";
+
 import { Codelists } from "@model/Codelist";
 import { Component } from "@model/structures/Component";
 
@@ -27,15 +29,14 @@ export const Representation = ({
     return (
       <div className="representation">
         <span>{codelist}</span>
-        <button
+        <Button
           type="button"
-          className="btn btn-default"
+          className="bauhaus-icon-btn"
+          icon="pi pi-th-large"
           onClick={handleCodelistDetail}
           aria-label={t("component.seeCodelistDetails")}
           title={t("component.seeCodelistDetails")}
-        >
-          <span className="pi pi-th-large"></span>
-        </button>
+        />
       </div>
     );
   }

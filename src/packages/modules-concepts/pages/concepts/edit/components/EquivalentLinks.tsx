@@ -37,7 +37,7 @@ export const EquivalentLinks = ({
   return (
     <div className="equivalent-links">
       <Row>
-        <div className="bauhaus-grid-md-12">
+        <div className="col-12 equivalent-links-input">
           <div className="bauhaus-form-group">
             <TextInput
               placeholder={t("concept.edit.btnNewLink")}

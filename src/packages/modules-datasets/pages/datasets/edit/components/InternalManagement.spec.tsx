@@ -12,6 +12,7 @@ import {
   CL_CONF_STATUS,
   CL_PROCESS_STEP,
 } from "../../../../../constants/code-lists";
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { InternalManagement } from "./InternalManagement";
 import { renderEditPanel } from "./panel.testing";
 
@@ -70,6 +71,11 @@ describe("Dataset internal management panel", () => {
     (DisseminationStatus.getDisseminationStatus as Mock).mockResolvedValue([
       { url: "http://status/public", label: "Public generic" },
     ]);
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderPanel({});
+    expectNoBootstrapClass();
   });
 
   it("displays the alternative identifier of the dataset", () => {
@@ -145,7 +151,7 @@ describe("Dataset internal management panel", () => {
   it("stores the dissemination status", async () => {
     const { setEditingDataset } = renderPanel({});
 
-    const group = screen.getByText("Dissemination status").closest(".form-group")!;
+    const group = screen.getByText("Dissemination status").closest(".bauhaus-form-group")!;
     fireEvent.click(group.querySelector(".p-dropdown-trigger")!);
     fireEvent.click(await screen.findByText("Public generic"));
 
@@ -159,7 +165,7 @@ describe("Dataset internal management panel", () => {
   it("offers the series and their operations as origins, and stores the selected ones", async () => {
     const { setEditingDataset } = renderPanel({});
 
-    const field = screen.getByText("Produced from").closest(".form-group")!;
+    const field = screen.getByText("Produced from").closest(".bauhaus-form-group")!;
     fireEvent.click(field.querySelector(".p-multiselect-trigger")!);
 
     expect(await screen.findByText("Série 1")).toBeInTheDocument();
@@ -180,7 +186,7 @@ describe("Dataset internal management panel", () => {
   ])("stores the %s picked from its codelist", async (label, option, field, value) => {
     const { setEditingDataset, container } = renderPanel({});
 
-    const group = screen.getByText(label).closest(".form-group")!;
+    const group = screen.getByText(label).closest(".bauhaus-form-group")!;
     fireEvent.click(group.querySelector(".p-dropdown-trigger")!);
     fireEvent.click(await screen.findByText(option));
 

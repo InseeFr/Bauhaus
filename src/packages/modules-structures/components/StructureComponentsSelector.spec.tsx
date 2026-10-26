@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { clickIcon, createStructuresWrapper, rowOf } from "../render.testing";
 import { StructureComponentsSelector } from "./StructureComponentsSelector";
 
@@ -62,6 +63,11 @@ const renderSelector = (props: Record<string, unknown> = {}) =>
 describe("StructureComponentsSelector", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderSelector();
+    expectNoBootstrapClass();
   });
 
   it("liste les composantes avec leur concept", () => {

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
+import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
 import { OperationsLink } from "@model/operations/operations-link";
@@ -41,7 +42,7 @@ export function SeeAlso({ links, secondLang }: Readonly<SeeAlsoTypes>) {
   }
 
   return (
-    <div className="row bauhaus-see-also">
+    <Row className="bauhaus-see-also">
       <Note
         text={displaySeeAlsos("labelLg1")}
         title={t("common.seeAlso", { lng: "fr" })}
@@ -56,6 +57,6 @@ export function SeeAlso({ links, secondLang }: Readonly<SeeAlsoTypes>) {
           allowEmpty={true}
         />
       )}
-    </div>
+    </Row>
   );
 }

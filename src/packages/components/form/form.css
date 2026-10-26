@@ -47,3 +47,7 @@
 .bauhaus-input[disabled] {
   cursor: not-allowed;
 }
+
+textarea.bauhaus-input {
+  height: auto;
+}

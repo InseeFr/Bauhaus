@@ -1,0 +1,30 @@
+/*
+ * Grille PrimeFlex aux dimensions de l'ancienne grille maison (copie de Bootstrap 3) :
+ * gouttières de 15px et pas d'espacement vertical. PrimeFlex met 0.5rem, soit 5px avec la
+ * racine à 10px ; à retirer le jour où la racine repasse à 16px.
+ * `formgrid` (recherches avancées) et `grid-nogutter` gardent le rendu de PrimeFlex.
+ */
+.grid:not(.formgrid, .grid-nogutter) {
+  margin-top: 0;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+/* Comme les anciennes colonnes, y compris hors d'une ligne `grid`. */
+:is(.col, .col-12, [class*="lg:col-"]):not(.formgrid > *, .grid-nogutter > *) {
+  position: relative;
+  min-height: 1px;
+  padding: 0 15px;
+}
+
+/* Comme en float : un enfant de ligne sans classe de colonne prend toute la largeur au lieu de
+   rétrécir à son contenu. `:where` annule la spécificité, les classes de colonne l'emportent. */
+:where(.grid:not(.formgrid, .grid-nogutter)) > * {
+  width: 100%;
+}
+
+/* Hors d'une ligne `grid` (colonne posée dans un conteneur flex quelconque, comme les champs
+   SIMS), une colonne peut rétrécir, comme les anciennes colonnes : PrimeFlex l'en empêche. */
+:is(.col-12, [class*="lg:col-"]):not(.grid > *) {
+  flex-shrink: 1;
+}

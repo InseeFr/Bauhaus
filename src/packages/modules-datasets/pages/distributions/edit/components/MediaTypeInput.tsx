@@ -13,7 +13,7 @@ export const MediaTypeInput = ({ value, onChange }: Readonly<MediaTypeInputProps
   const { t } = useTranslation();
 
   return (
-    <div className="col-md-6 form-group">
+    <div className="col-12 lg:col-6 bauhaus-form-group">
       <DatalistInput
         id="mediaType"
         label={t("distribution.mediaType")}

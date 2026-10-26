@@ -5,6 +5,7 @@ import { CodelistsApi, StructureApi } from "@sdk/index";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import {
   MEASURE_PROPERTY_TYPE,
   XSD_CODE_LIST,
@@ -74,6 +75,42 @@ const saveButton = () => screen.getByRole("button", { name: /save|sauvegarder/i 
 describe("ComponentDetailEdit", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap sur une représentation numérique", () => {
+    renderEdit({ component: { ...component, range: XSD_FLOAT } });
+    expectNoBootstrapClass();
+  });
+
+  it("ne pose aucune classe Bootstrap sur une représentation textuelle", () => {
+    renderEdit({ component: { ...component, range: XSD_STRING } });
+    expectNoBootstrapClass();
+  });
+
+  it("ne pose aucune classe Bootstrap sur une représentation liste de codes", async () => {
+    vi.mocked(CodelistsApi.getPartialsByParent).mockResolvedValue([
+      { id: "CL_1_PARTIAL", iri: "http://bauhaus/cl1partial", labelLg1: "Liste partielle" },
+    ]);
+    renderEdit({
+      component: { ...component, range: XSD_CODE_LIST, fullCodeListValue: "cl1" },
+    });
+    await screen.findByText(/partial/i, { selector: "label" });
+    expectNoBootstrapClass();
+  });
+
+  it("ne pose aucune classe Bootstrap sur les attributs d'une mesure", async () => {
+    vi.mocked(StructureApi.getMutualizedComponent).mockResolvedValue({ range: XSD_STRING });
+    renderEdit({
+      component: {
+        ...component,
+        type: MEASURE_PROPERTY_TYPE,
+        attribute_0: "http://bauhaus/attribut1",
+        attributeValue_0: "valeur",
+      },
+      attributes: [{ id: "a1", iri: "http://bauhaus/attribut1", labelLg1: "Attribut 1" }],
+    });
+    await screen.findByDisplayValue("valeur");
+    expectNoBootstrapClass();
   });
 
   it("affiche la composante à modifier", () => {
@@ -171,7 +208,9 @@ describe("ComponentDetailEdit", () => {
     });
 
     // PrimeReact ne monte les options qu'à l'ouverture du Dropdown.
-    const typeField = screen.getByText("Type", { selector: "label" }).closest(".form-group")!;
+    const typeField = screen
+      .getByText("Type", { selector: "label" })
+      .closest(".bauhaus-form-group")!;
     fireEvent.click(typeField.querySelector(".p-dropdown-trigger")!);
     fireEvent.click(await screen.findByRole("option", { name: "Dimension", hidden: true }));
     expect(typeField.querySelector(".p-dropdown-label")).toHaveTextContent("Dimension");
@@ -287,7 +326,7 @@ describe("ComponentDetailEdit", () => {
       // PrimeReact ne monte les options qu'à l'ouverture du Dropdown.
       const emptyRow = screen
         .getAllByText(/^Attribut(e)?$/, { selector: "label" })[1]
-        .closest(".form-group")!;
+        .closest(".bauhaus-form-group")!;
       fireEvent.click(emptyRow.querySelector(".p-dropdown-trigger")!);
       fireEvent.click(await screen.findByRole("option", { name: "Attribut 2", hidden: true }));
       const valueFields = () => screen.getAllByLabelText(/^(Saisissez du texte|Insert text)$/);

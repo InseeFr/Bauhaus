@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 
+import { Row } from "@components/layout";
+
 import { Codelist } from "@model/Codelist";
 import { Component, ComponentDefinition } from "@model/structures/Component";
 
@@ -47,7 +49,7 @@ export const ComponentsPanel = ({
   }, []);
 
   return (
-    <div className="row text-left">
+    <Row className="text-left">
       {modalOpened && selectedComponent && (
         <ComponentSpecificationModal
           onClose={() => setModalOpened(false)}
@@ -76,6 +78,6 @@ export const ComponentsPanel = ({
         isOpen={!!codelist}
         handleBack={() => setCodelist(undefined)}
       />
-    </div>
+    </Row>
   );
 };

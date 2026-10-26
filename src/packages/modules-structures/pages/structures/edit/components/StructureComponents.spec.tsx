@@ -3,6 +3,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 import {
   ATTRIBUTE_PROPERTY_TYPE,
@@ -52,6 +53,14 @@ describe("StructureComponents", () => {
     vi.clearAllMocks();
     vi.mocked(ConceptsApi.getConceptList).mockResolvedValue([{ id: "k-1" }, { id: "k-2" }]);
     vi.mocked(StructureApi.getMutualizedComponents).mockResolvedValue([{ id: "c-1" }]);
+  });
+
+  it("ne pose aucune classe Bootstrap", async () => {
+    render(
+      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
+    );
+    await waitFor(() => expect(screen.getByTestId(DIMENSION_PROPERTY_TYPE)).toBeInTheDocument());
+    expectNoBootstrapClass();
   });
 
   it("propose un sélecteur par type de composante", async () => {

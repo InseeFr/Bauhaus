@@ -7,6 +7,7 @@ import { CodelistsApi } from "@sdk/index";
 
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
+import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import { renderWithRouter } from "../../../../tests/render";
 import { Component } from "./page";
 
@@ -65,6 +66,11 @@ const renderSearch = async (form = {}) => {
 describe("recherche avancée des listes de codes partielles", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", async () => {
+    await renderSearch();
+    expectNoBootstrapClass();
   });
 
   it("affiche toutes les listes quand le formulaire est vide", async () => {

@@ -54,7 +54,7 @@ export const ComponentSpecificationForm = ({
   return (
     <>
       <Row>
-        <div className="col-md-12">
+        <div className="col-12">
           <label htmlFor="component-specification-notation">{t("component.notation")}</label>
           <TextInput
             value={component.notation}
@@ -108,8 +108,8 @@ export const ComponentSpecificationForm = ({
       </Row>
       {selectedComponent.component.type === ATTRIBUTE_PROPERTY_TYPE && (
         <>
-          <div className="row bauhaus-component-specification-form">
-            <label className="col-md-12">
+          <Row className="bauhaus-component-specification-form">
+            <label className="col-12">
               {t("component.attachment")}
               <Select
                 placeholder={t("component.attachment")}
@@ -127,9 +127,9 @@ export const ComponentSpecificationForm = ({
                 disabled={disabled}
               />
             </label>
-          </div>
+          </Row>
           <Row>
-            <fieldset className="col-md-12 checkbox ">
+            <fieldset className="col-12 checkbox">
               <legend>{t("component.requiredSpecification")}</legend>
               <label className="radio-inline">
                 <input

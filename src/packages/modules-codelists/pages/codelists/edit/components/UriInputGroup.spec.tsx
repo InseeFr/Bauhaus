@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { UriInputGroup } from "./UriInputGroup";
 
 describe("UriInputGroup Component", () => {
@@ -15,6 +16,11 @@ describe("UriInputGroup Component", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    render(<UriInputGroup {...defaultProps} />);
+    expectNoBootstrapClass();
   });
 
   it("renders with all required props", () => {

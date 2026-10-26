@@ -48,7 +48,7 @@ export const ClassificationVisualization = ({
       <PageTitle title={general.prefLabelLg1} />
       {general.prefLabelLg2 && <PageSubtitle subTitle={general.prefLabelLg2} />}
       <Row>
-        <div className="bauhaus-grid-md-12 text-center">
+        <div className="col-12 text-center">
           <Link to={`/classifications/classification/${classificationId}/items`}>
             <h3>
               <span className="pi pi-search-plus mr-1"></span>

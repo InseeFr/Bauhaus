@@ -4,6 +4,7 @@ import { vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { chooseIn, editionProvidersWith, fieldLabelled } from "../../../edition-form.testing";
 import { OperationsIndicatorEdition } from "./OperationsIndicatorEdition";
 
@@ -59,6 +60,11 @@ const saveButton = () => screen.getByRole("button", { name: /save|sauvegarder/i 
 describe("OperationsIndicatorEdition", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderEdition();
+    expectNoBootstrapClass();
   });
 
   it("réinitialise le formulaire quand l'indicateur affiché change", () => {

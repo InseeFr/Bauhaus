@@ -12,7 +12,7 @@ export const ByteSizeInput = ({
   const { t } = useTranslation();
 
   return (
-    <div className="col-md-12 form-group">
+    <div className="col-12 bauhaus-form-group">
       <label htmlFor="taille">{t("distribution.byteSize")}</label>
       <NumberInput id="taille" value={value} onChange={(e) => onChange(e.target.value)} />
     </div>

@@ -3,6 +3,7 @@ import { Mock, vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { CodelistPanel } from "../../../../components/CodelistPanel";
 import { StructureComponentsSelector } from "../../../../components/StructureComponentsSelector";
 import { useFormattedCodelist } from "../../../../hooks/useFormattedCodelist";
@@ -44,6 +45,12 @@ describe("ComponentsPanel", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", async () => {
+    render(<ComponentsPanel componentDefinitions={NO_COMPONENT_DEFINITIONS} />);
+    await waitFor(() => expect(CodelistPanel).toHaveBeenCalled());
+    expectNoBootstrapClass();
   });
 
   it("should render StructureComponentsSelector and CodelistPanel", async () => {

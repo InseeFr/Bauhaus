@@ -14,6 +14,7 @@ import {
   CL_STAT_UNIT,
   CL_TYPE_GEO,
 } from "../../../../../constants/code-lists";
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { testsI18n as i18n } from "../../../../../tests/i18n";
 import { StatisticalInformation } from "./StatisticalInformation";
 
@@ -53,7 +54,7 @@ const renderPanel = (dataset: Partial<Dataset>) => {
 
 // PrimeReact ne monte le panneau d'options qu'à l'ouverture du select.
 const pickOption = async (label: string, option: string) => {
-  const group = screen.getByText(label).closest(".form-group")!;
+  const group = screen.getByText(label).closest(".bauhaus-form-group")!;
   fireEvent.click(group.querySelector(".p-dropdown-trigger, .p-multiselect-trigger")!);
   fireEvent.click(await screen.findByText(option));
 };
@@ -72,6 +73,16 @@ describe("Dataset statistical information panel", () => {
       Promise.resolve(codelists[notation]),
     );
     (StructureApi.getStructures as Mock).mockResolvedValue([]);
+  });
+
+  it("ne pose aucune classe Bootstrap, structure de données comprise", async () => {
+    (StructureApi.getStructures as Mock).mockResolvedValue([
+      { iri: "http://structure/s1", labelLg1: "Structure 1" },
+    ]);
+    renderPanel({ dataStructure: "urn:structure" });
+
+    await screen.findByDisplayValue("urn:structure");
+    expectNoBootstrapClass();
   });
 
   it("displays the observation and time series counts of the dataset", () => {

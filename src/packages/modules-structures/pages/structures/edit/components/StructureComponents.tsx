@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
+import { Row } from "@components/layout";
+
 import { Component } from "@model/structures/Component";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
@@ -49,7 +51,7 @@ export const StructureComponents = ({
   return (
     <>
       <h2>{t("component.type.dimension.pluralTitle")}</h2>
-      <div className="row text-left">
+      <Row className="text-left">
         <ComponentSelector
           componentDefinitions={componentDefinitions}
           concepts={concepts}
@@ -60,9 +62,9 @@ export const StructureComponents = ({
           handleUpdate={onChange}
           structure={structure}
         />
-      </div>
+      </Row>
       <h2>{t("component.type.measure.pluralTitle")}</h2>
-      <div className="row text-left">
+      <Row className="text-left">
         <ComponentSelector
           componentDefinitions={componentDefinitions}
           concepts={concepts}
@@ -73,9 +75,9 @@ export const StructureComponents = ({
           handleUpdate={onChange}
           structure={structure}
         />
-      </div>
+      </Row>
       <h2>{t("component.type.attribute.pluralTitle")}</h2>
-      <div className="row text-left">
+      <Row className="text-left">
         <ComponentSelector
           componentDefinitions={componentDefinitions}
           concepts={concepts}
@@ -86,7 +88,7 @@ export const StructureComponents = ({
           handleUpdate={onChange}
           structure={structure}
         />
-      </div>
+      </Row>
     </>
   );
 };

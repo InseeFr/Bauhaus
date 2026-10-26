@@ -214,7 +214,7 @@ export const OperationsFamilyEdition = ({
       <ErrorBloc error={state.serverSideError} />
       <form>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
@@ -230,7 +230,7 @@ export const OperationsFamilyEdition = ({
               error={state.clientSideErrors?.fields?.prefLabelLg1}
             ></ClientSideError>
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
@@ -248,7 +248,7 @@ export const OperationsFamilyEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
             <MDEditor
               text={state.family.abstractLg1}
@@ -256,7 +256,7 @@ export const OperationsFamilyEdition = ({
               textareaProps={{ id: "abstractLg1" }}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
             <MDEditor
               text={state.family.abstractLg2}

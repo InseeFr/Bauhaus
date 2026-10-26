@@ -6,8 +6,10 @@ import { Link } from "react-router";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { appI18n } from "../i18n";
-import "../styles/bootstrap.css";
+import "../styles/bootstrap-base.css";
 import "primeflex/primeflex.css";
+
+import "../styles/grid.css";
 import "primeicons/primeicons.css";
 
 import type { AppName } from "./app-context";

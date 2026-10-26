@@ -2,6 +2,7 @@ import { fireEvent, waitFor, within } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderAtRoute } from "../../page.testing";
@@ -63,6 +64,11 @@ describe("OperationsTree", () => {
       expect(getByRole("treeitem", { name: "Series 1" })).toBeInTheDocument();
     });
   };
+
+  it("ne pose aucune classe Bootstrap", async () => {
+    await renderTree();
+    expectNoBootstrapClass();
+  });
 
   it("affiche un lien vers chaque famille chargée au montage", async () => {
     const { getByRole } = await renderTree();

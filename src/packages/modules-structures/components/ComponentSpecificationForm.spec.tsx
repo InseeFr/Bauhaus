@@ -24,6 +24,8 @@ vi.mock("react-i18next", async (importOriginal) => ({
 
 import { ComponentDefinition } from "@model/structures/Component";
 
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
+import { ATTRIBUTE_PROPERTY_TYPE } from "../constants";
 import { ComponentSpecification, ComponentSpecificationForm } from "./ComponentSpecificationForm";
 
 const component = {
@@ -33,6 +35,21 @@ const SELECTED_COMPONENT = { component } as unknown as ComponentDefinition;
 const NO_STRUCTURE_COMPONENTS: never[] = [];
 
 describe("ComponentSpecificationForm", () => {
+  it("ne pose aucune classe Bootstrap, champs d'un attribut compris", async () => {
+    render(
+      <ComponentSpecificationForm
+        component={component as unknown as ComponentSpecification}
+        structureComponents={NO_STRUCTURE_COMPONENTS}
+        selectedComponent={
+          { component: { type: ATTRIBUTE_PROPERTY_TYPE } } as unknown as ComponentDefinition
+        }
+        onChange={vi.fn()}
+      />,
+    );
+    await screen.findByLabelText("Notation");
+    expectNoBootstrapClass();
+  });
+
   it("should render form inputs", async () => {
     render(
       <ComponentSpecificationForm

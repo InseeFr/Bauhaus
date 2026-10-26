@@ -21,7 +21,7 @@ export const SimsWithoutObjectCheckbox = ({
   const input = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="without-object form-group col-md-12">
+    <div className="without-object bauhaus-form-group col-12">
       {modalDisplay && (
         <ConfirmationDelete
           className="operations"

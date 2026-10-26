@@ -4,6 +4,7 @@ import { beforeEach, describe, it, expect, vi } from "vitest";
 import { GeographieApi } from "@sdk/geographie";
 
 import { appI18n } from "../../i18n";
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { renderWithRouterAndQuery } from "../../tests/render";
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { SimsGeographyField, SimsGeographyFieldTypes } from "./SimsGeographyField";
@@ -54,6 +55,11 @@ describe("SimsGeographyField", () => {
   const renderField = (props: Partial<SimsGeographyFieldTypes> = {}) =>
     renderComponent({ onCancel: mockOnCancel, onSave: mockOnSave, ...props });
 
+  it("ne pose aucune classe Bootstrap", () => {
+    renderField();
+    expectNoBootstrapClass();
+  });
+
   it("should render the component with empty territory", () => {
     const { container } = renderField();
     expect(container.querySelectorAll('input[type="text"]')).toHaveLength(3);
@@ -96,7 +102,7 @@ describe("SimsGeographyField", () => {
   it("should enable include/exclude buttons when geography is selected", () => {
     const { container } = renderField();
 
-    const buttons = container.querySelectorAll<HTMLButtonElement>(".btn-group button");
+    const buttons = container.querySelectorAll<HTMLButtonElement>(".sims-geography-toggle button");
     const includeButton = buttons[0];
     const excludeButton = buttons[1];
 
@@ -107,7 +113,9 @@ describe("SimsGeographyField", () => {
   it("should add geography to includes list when include button is clicked", () => {
     const { container } = renderField();
 
-    const buttons = container.querySelectorAll<HTMLButtonElement>("fieldset.btn-group button");
+    const buttons = container.querySelectorAll<HTMLButtonElement>(
+      "fieldset.sims-geography-toggle button",
+    );
     const includeButton = buttons[0];
     expect(includeButton.textContent?.trim()).toBe("Include");
     expect(includeButton.disabled).toBe(true);
@@ -274,7 +282,7 @@ describe("SimsGeographyField", () => {
     const { container } = renderField();
 
     // The component should have a select/dropdown for geographies
-    const selectContainer = container.querySelector(".form-group");
+    const selectContainer = container.querySelector(".bauhaus-form-group");
     expect(selectContainer).toBeTruthy();
   });
 

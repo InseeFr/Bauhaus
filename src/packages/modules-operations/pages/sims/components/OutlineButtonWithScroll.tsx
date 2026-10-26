@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { useNavigate } from "react-router";
 
+import "./OutlineButtonWithScroll.css";
+
 interface OutlineButtonWithScrollTypes {
   id: string;
   baseUrl: string;
@@ -20,7 +22,7 @@ export const OutlineButtonWithScroll = ({
   };
 
   return (
-    <button type="button" className="btn-link btn" onClick={scrollTo}>
+    <button type="button" className="msd-outline-link" onClick={scrollTo}>
       {children}
     </button>
   );

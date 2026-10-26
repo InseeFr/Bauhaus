@@ -2,6 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 
 const navigateMock = vi.fn();
@@ -148,6 +149,17 @@ const renderComponent = (
 
 beforeEach(() => {
   navigateMock.mockClear();
+});
+
+describe("SimsVisualization - export", () => {
+  it("ne pose aucune classe Bootstrap dans la fenêtre d'export", () => {
+    renderComponent(vi.fn());
+
+    fireEvent.click(screen.getByTestId("export-btn"));
+
+    expect(screen.getByRole("dialog", { name: /^app\.btnExport\[/ })).toBeInTheDocument();
+    expectNoBootstrapClass();
+  });
 });
 
 describe("SimsVisualization - publish error handling", () => {

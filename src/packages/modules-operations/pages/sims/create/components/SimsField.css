@@ -7,14 +7,14 @@
   padding-right: 0.5em;
 }
 
-.bauhaus-document-field > .panel-default > .panel-heading {
+.bauhaus-document-field > .documentblock-picker > .documentblock-picker-heading {
   padding: 5px 15px;
   background-color: var(--secondary-color);
   color: white;
 }
 
-.bauhaus-document-field > .panel-default > .panel-heading button:hover,
-.bauhaus-document-field > .panel-default > .panel-heading button:focus {
+.bauhaus-document-field > .documentblock-picker > .documentblock-picker-heading button:hover,
+.bauhaus-document-field > .documentblock-picker > .documentblock-picker-heading button:focus {
   color: white;
 }
 

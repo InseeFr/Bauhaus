@@ -3,6 +3,7 @@ import type { Preview } from "@storybook/react-vite";
 // indispensables pour que les composants PrimeReact/PrimeFlex rendent comme en vrai.
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primeflex/primeflex.css";
+import "../src/packages/styles/grid.css";
 import "primeicons/primeicons.css";
 
 const preview: Preview = {

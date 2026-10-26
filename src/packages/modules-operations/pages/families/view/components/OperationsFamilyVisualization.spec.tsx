@@ -63,8 +63,8 @@ describe("OperationsFamilyVisualization", () => {
     expect(screen.getByText(/in LG2/)).toBeInTheDocument();
 
     const noteElements = container.querySelectorAll(".note");
-    expect(noteElements[1]).toHaveClass("bauhaus-grid-md-6");
-    expect(noteElements[2]).toHaveClass("bauhaus-grid-md-6");
+    expect(noteElements[1]).toHaveClass("lg:col-6");
+    expect(noteElements[2]).toHaveClass("lg:col-6");
   });
 
   it("should render markdown content in abstracts", () => {

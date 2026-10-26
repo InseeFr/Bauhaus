@@ -4,6 +4,7 @@ import { vi } from "vitest";
 
 import { StructureApi } from "@sdk/index";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { createStructuresWrapper } from "../../../../render.testing";
 import { EditionForm } from "./EditionForm";
 
@@ -67,6 +68,11 @@ const saveButton = () => screen.getByRole("button", { name: /save|sauvegarder/i 
 describe("EditionForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderForm();
+    expectNoBootstrapClass();
   });
 
   it("affiche la structure à modifier, notation verrouillée", () => {

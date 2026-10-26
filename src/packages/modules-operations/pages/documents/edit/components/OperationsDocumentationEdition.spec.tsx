@@ -11,6 +11,7 @@ import { GeneralApi } from "@sdk/general-api";
 
 import { AppContextProvider } from "../../../../../application/app-context";
 import { DOCUMENT, LINK } from "../../../../../constants/documentType";
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { OperationsDocumentationEdition } from "./OperationsDocumentationEdition";
 
 vi.mock("@sdk/general-api", () => ({
@@ -93,6 +94,18 @@ const renderEdition = (
       </QueryClientProvider>
     </AppContextProvider>,
   );
+
+describe("OperationsDocumentationEdition, layout", () => {
+  it("ne pose aucune classe Bootstrap sur un document", () => {
+    renderEdition();
+    expectNoBootstrapClass();
+  });
+
+  it("ne pose aucune classe Bootstrap sur un lien", () => {
+    renderEdition({}, { type: LINK });
+    expectNoBootstrapClass();
+  });
+});
 
 describe("OperationsDocumentationEdition, file field", () => {
   it("offers a drop zone and a button to browse when no file is attached yet", () => {

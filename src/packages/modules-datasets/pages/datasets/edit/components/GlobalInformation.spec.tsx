@@ -5,6 +5,7 @@ import { Dataset } from "@model/Dataset";
 
 import { fetchCodelist, OrganizationsApi, ThemesApi } from "@sdk/index";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { GlobalInformation } from "./GlobalInformation";
 import { renderEditPanel } from "./panel.testing";
 
@@ -45,6 +46,11 @@ describe("Dataset global information panel", () => {
     (OrganizationsApi.getOrganizations as Mock).mockResolvedValue([
       { iri: "http://org/insee", label: "INSEE" },
     ]);
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderPanel({});
+    expectNoBootstrapClass();
   });
 
   it("displays the titles, subtitles and landing pages of the dataset", () => {

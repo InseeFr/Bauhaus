@@ -4,7 +4,7 @@ import { Link, Navigate } from "react-router";
 
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { TextInput } from "@components/form/input";
-import { Column } from "@components/layout";
+import { Column, Row } from "@components/layout";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
 import { List } from "@components/ui/list-group";
@@ -82,16 +82,16 @@ const SearchFormPartialList = ({
     >
       <fieldset>
         <legend>{t("codelists.title")}</legend>
-        <div className="row form-group">
-          <div className="col-md-12">
+        <Row className="bauhaus-form-group">
+          <div className="col-12">
             <label className="w-100">
               {t("codelists.identifier")}
               <TextInput value={id} onChange={(e) => handleChange("id", e.target.value)} />
             </label>
           </div>
-        </div>
-        <div className="row form-group">
-          <div className="col-md-12">
+        </Row>
+        <Row className="bauhaus-form-group">
+          <div className="col-12">
             <label className="w-100">
               {t("codelists.label")}
               <TextInput
@@ -100,8 +100,8 @@ const SearchFormPartialList = ({
               />
             </label>
           </div>
-        </div>
-        <div className="row form-group">
+        </Row>
+        <Row className="bauhaus-form-group">
           <Column>
             <label className="w-100">
               {t("codelists.creator")}
@@ -130,20 +130,20 @@ const SearchFormPartialList = ({
               />
             </label>
           </Column>
-        </div>
+        </Row>
       </fieldset>
       <fieldset>
         <legend>{t("codes.title")}</legend>
-        <div className="row form-group">
-          <div className="col-md-12">
+        <Row className="bauhaus-form-group">
+          <div className="col-12">
             <label className="w-100">
               {t("codes.identifier")}
               <TextInput value={code} onChange={(e) => handleChange("code", e.target.value)} />
             </label>
           </div>
-        </div>
-        <div className="row form-group">
-          <div className="col-md-12">
+        </Row>
+        <Row className="bauhaus-form-group">
+          <div className="col-12">
             <label className="w-100">
               {t("codes.label")}
               <TextInput
@@ -152,7 +152,7 @@ const SearchFormPartialList = ({
               />
             </label>
           </div>
-        </div>
+        </Row>
       </fieldset>
     </AdvancedSearchList>
   );

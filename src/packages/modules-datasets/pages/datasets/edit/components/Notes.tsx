@@ -17,7 +17,7 @@ export const Notes = ({
   return (
     <>
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="descriptionLg1">{t("dataset.notes.abstract", { lng: "fr" })}</label>
           <MDEditor
             text={editingDataset.abstractLg1}
@@ -29,7 +29,7 @@ export const Notes = ({
             }}
           />
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="descriptionLg2">{t("dataset.notes.abstract", { lng: "en" })}</label>
           <MDEditor
             text={editingDataset.abstractLg2}
@@ -43,7 +43,7 @@ export const Notes = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="descriptionLg1">{t("dataset.notes.description", { lng: "fr" })}</label>
           <MDEditor
             text={editingDataset.descriptionLg1}
@@ -55,7 +55,7 @@ export const Notes = ({
             }}
           />
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="descriptionLg2">{t("dataset.notes.description", { lng: "en" })}</label>
           <MDEditor
             text={editingDataset.descriptionLg2}
@@ -69,7 +69,7 @@ export const Notes = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="descriptionLg1">{t("dataset.notes.warning", { lng: "fr" })}</label>
           <MDEditor
             text={editingDataset.cautionLg1}
@@ -81,7 +81,7 @@ export const Notes = ({
             }}
           />
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="cautionLg2">{t("dataset.notes.warning", { lng: "en" })}</label>
           <MDEditor
             text={editingDataset.cautionLg2}

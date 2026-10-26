@@ -45,7 +45,7 @@ const StatisticalInformationTab = ({
   return (
     <>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.statisticalInformation.type")}
             <Select
@@ -73,7 +73,7 @@ const StatisticalInformationTab = ({
         />
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.statisticalInformation.statisticalUnits")}
             <Select
@@ -104,7 +104,7 @@ const StatisticalInformationTab = ({
         />
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.statisticalInformation.temporalResolution")}
             <Select
@@ -121,7 +121,7 @@ const StatisticalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.statisticalInformation.spatialCoverage")}
             <Select
@@ -138,12 +138,12 @@ const StatisticalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.statisticalInformation.geographicalVintage")}
             <input
               type="date"
-              className="form-control"
+              className="bauhaus-input"
               value={editingDataset.spacialTemporal}
               onChange={(e) => {
                 setEditingDataset({
@@ -156,7 +156,7 @@ const StatisticalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.statisticalInformation.spatialResolution")}
             <Select
@@ -174,7 +174,7 @@ const StatisticalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 from-group ">
+        <div className="col-12">
           <label htmlFor="observationNumber">
             {t("dataset.statisticalInformation.numberOfObservations")}
           </label>
@@ -191,7 +191,7 @@ const StatisticalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 from-group ">
+        <div className="col-12">
           <label htmlFor="timeSeriesNumber">
             {t("dataset.statisticalInformation.numberOfTimeSeries")}
           </label>

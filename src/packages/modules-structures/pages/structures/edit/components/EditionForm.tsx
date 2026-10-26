@@ -173,7 +173,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
         error={clientSideError?.fields?.identifiant}
       ></ClientSideError>
       <Row>
-        <div className="col-md-6">
+        <div className="col-12 lg:col-6">
           <LabelRequired htmlFor="labelLg1">{t("structure.label", { lng: "fr" })}</LabelRequired>
           <TextInput
             id="labelLg1"
@@ -187,7 +187,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
             error={clientSideError?.fields?.labelLg1}
           ></ClientSideError>
         </div>
-        <div className="col-md-6">
+        <div className="col-12 lg:col-6">
           <LabelRequired htmlFor="labelLg2">{t("structure.label", { lng: "en" })}</LabelRequired>
           <TextInput
             id="labelLg2"
@@ -203,7 +203,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
         </div>
       </Row>
       <Row>
-        <div className="col-md-6">
+        <div className="col-12 lg:col-6">
           <label htmlFor="descriptionLg1">
             {t("structure.description", { lng: "fr" })} ({lg1})
           </label>
@@ -221,7 +221,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
             error={clientSideError?.fields?.descriptionLg1}
           ></ClientSideError>
         </div>
-        <div className="col-md-6">
+        <div className="col-12 lg:col-6">
           <label htmlFor="descriptionLg2">
             {t("structure.description", { lng: "en" })} ({lg2})
           </label>
@@ -240,14 +240,14 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
           ></ClientSideError>
         </div>
       </Row>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <CreatorsInput mode="organization" value={creator} onChange={onChange("creator")} />
         <ClientSideError
           id="creator-error"
           error={clientSideError?.fields?.creator}
         ></ClientSideError>
       </div>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <ContributorsInput
           mode="organization"
           value={contributor}
@@ -259,7 +259,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
           error={clientSideError?.fields?.contributor}
         ></ClientSideError>
       </div>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <DisseminationStatusInput
           value={disseminationStatus}
           handleChange={onChange("disseminationStatus")}

@@ -3,6 +3,7 @@ import { vi } from "vitest";
 
 import { CodelistsApi } from "@sdk/index";
 
+import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import { expectLoadErrorDisplayed } from "../../../testing/load-error.testing";
 import { renderWithProviders } from "../../../testing/render.testing";
 import { Component } from "./page";
@@ -145,6 +146,12 @@ describe("Codelist edit page", () => {
     beforeEach(() => {
       vi.mocked(CodelistsApi.getDetailedCodelist).mockResolvedValue({ ...codelist });
       vi.mocked(CodelistsApi.getCodesDetailedCodelist).mockResolvedValue({ items: [], total: 0 });
+    });
+
+    it("ne pose aucune classe Bootstrap sur le formulaire", async () => {
+      renderWithProviders(<Component />);
+      await screen.findByDisplayValue("Liste");
+      expectNoBootstrapClass();
     });
 
     const saveButton = () => screen.getAllByRole("button", { name: /save/i })[0];
