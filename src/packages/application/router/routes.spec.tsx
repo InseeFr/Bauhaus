@@ -73,6 +73,14 @@ describe("buildModuleRoutes", () => {
     expect(ddi?.children?.length).toBeGreaterThan(0);
   });
 
+  it("puts the pages of an open module behind an error element of their own", () => {
+    const ddi = buildModuleRoutes([openModule("ddi")]).find((route) => route.path === "ddi");
+
+    expect(ddi?.children).toHaveLength(1);
+    expect(ddi?.children?.[0].errorElement).toBeDefined();
+    expect(ddi?.children?.[0].children?.length).toBeGreaterThan(0);
+  });
+
   it("keeps the pages of a module declared in the configuration", () => {
     const ddi = buildModuleRoutes([openModule("ddi")]).find((route) => route.path === "ddi");
 

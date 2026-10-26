@@ -21,6 +21,7 @@ import { App } from "../app";
 import { useAppContext } from "../app-context";
 import type { AppName, Module } from "../app-context";
 import { landingModule, SECTION_ROWS } from "../sections";
+import { withModuleErrorBoundary } from "./module-pages";
 import { RootError } from "./root-error";
 
 import { RBACLink } from ".";
@@ -104,7 +105,7 @@ export const buildModuleRoutes = (modules: Module[]): RouteObject[] =>
     return {
       path: identifier,
       lazy: () => import(`../../modules-${identifier}/routes/layout.tsx`),
-      children,
+      children: withModuleErrorBoundary(children),
     };
   });
 

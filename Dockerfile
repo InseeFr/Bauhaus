@@ -33,5 +33,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Add entrypoint and start nginx server
+# `exec` remplace le shell par nginx, qui devient le PID 1 : il reçoit lui-même le SIGTERM de
+# `docker stop` et s'arrête proprement, au lieu d'être tué au bout du délai de grâce.
 RUN chmod 755 /usr/share/nginx/html/vite-envs.sh
-ENTRYPOINT [ "sh", "-c", "/usr/share/nginx/html/vite-envs.sh && nginx -g 'daemon off;'"]
+ENTRYPOINT [ "sh", "-c", "/usr/share/nginx/html/vite-envs.sh && exec nginx -g 'daemon off;'"]

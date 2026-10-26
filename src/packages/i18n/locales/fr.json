@@ -1,6 +1,7 @@
 {
   "routeError": {
-    "title": "Une erreur est survenue"
+    "title": "Une erreur est survenue",
+    "retry": "Réessayer"
   },
   "auth": {
     "login": "Se connecter",

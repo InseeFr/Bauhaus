@@ -46,7 +46,7 @@ LOCAL_FIXTURES=(
 # s'exécutent sur des données partielles.
 # Pour le régénérer après une modification volontaire des fixtures :
 #     curl -sf "${GRAPHDB_URL}/repositories/bauhaus/size"
-EXPECTED_TRIPLES=79316
+EXPECTED_TRIPLES=79320
 
 CONFIGS=(
 	./playwright/db/config.ttl
