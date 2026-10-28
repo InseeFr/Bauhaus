@@ -1,4 +1,4 @@
-import { useId, useRef, useState, type DragEvent } from "react";
+import { useCallback, useId, useRef, useState, type ChangeEvent, type DragEvent } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@components/ui/button";
@@ -30,17 +30,20 @@ export const CodeListCsvImport = ({ onImport }: Readonly<CodeListCsvImportProps>
   const [errors, setErrors] = useState<ImportError[]>([]);
   const [dragOver, setDragOver] = useState(false);
 
-  const importFile = async (file: File) => {
-    if (!file.name.toLowerCase().endsWith(".csv")) {
-      setErrors([{ kind: "notCsv" }]);
-      return;
-    }
-    const { rows, errors: csvErrors } = parseCodeListCsv(await file.text());
-    setErrors(csvErrors);
-    if (csvErrors.length === 0) {
-      onImport(rows, file.name.replace(/\.csv$/i, ""));
-    }
-  };
+  const importFile = useCallback(
+    async (file: File) => {
+      if (!file.name.toLowerCase().endsWith(".csv")) {
+        setErrors([{ kind: "notCsv" }]);
+        return;
+      }
+      const { rows, errors: csvErrors } = parseCodeListCsv(await file.text());
+      setErrors(csvErrors);
+      if (csvErrors.length === 0) {
+        onImport(rows, file.name.replace(/\.csv$/i, ""));
+      }
+    },
+    [onImport],
+  );
 
   const describeError = (error: ImportError) => {
     switch (error.kind) {
@@ -55,12 +58,34 @@ export const CodeListCsvImport = ({ onImport }: Readonly<CodeListCsvImportProps>
     }
   };
 
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+  const handleDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setDragOver(false);
-    const file = event.dataTransfer.files[0];
-    if (file) void importFile(file);
-  };
+    setDragOver(true);
+  }, []);
+
+  const handleDragLeave = useCallback(() => setDragOver(false), []);
+
+  const handleDrop = useCallback(
+    (event: DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      setDragOver(false);
+      const file = event.dataTransfer.files[0];
+      if (file) void importFile(file);
+    },
+    [importFile],
+  );
+
+  const openFilePicker = useCallback(() => inputRef.current?.click(), []);
+
+  const handleFileChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      // Vidé pour qu'une nouvelle sélection du même fichier, une fois corrigé, soit relue.
+      event.target.value = "";
+      if (file) void importFile(file);
+    },
+    [importFile],
+  );
 
   const lineErrors = errors.filter((error) => "line" in error);
   const fileErrors = errors.filter((error) => !("line" in error));
@@ -70,11 +95,8 @@ export const CodeListCsvImport = ({ onImport }: Readonly<CodeListCsvImportProps>
       <div
         data-testid="csv-dropzone"
         className={`code-list-csv-dropzone${dragOver ? " code-list-csv-dropzone-active" : ""}`}
-        onDragOver={(event) => {
-          event.preventDefault();
-          setDragOver(true);
-        }}
-        onDragLeave={() => setDragOver(false)}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
         <i className="pi pi-file-import" aria-hidden />
@@ -85,7 +107,7 @@ export const CodeListCsvImport = ({ onImport }: Readonly<CodeListCsvImportProps>
           label={t("physicalInstance.view.code.csvImport.chooseFile")}
           outlined
           size="small"
-          onClick={() => inputRef.current?.click()}
+          onClick={openFilePicker}
         />
         <input
           ref={inputRef}
@@ -94,12 +116,7 @@ export const CodeListCsvImport = ({ onImport }: Readonly<CodeListCsvImportProps>
           accept=".csv,text/csv"
           className="code-list-csv-input"
           aria-label={t("physicalInstance.view.code.csvImport.fileInput")}
-          onChange={(event) => {
-            const file = event.target.files?.[0];
-            // Vidé pour qu'une nouvelle sélection du même fichier, une fois corrigé, soit relue.
-            event.target.value = "";
-            if (file) void importFile(file);
-          }}
+          onChange={handleFileChange}
         />
       </div>
       <p className="code-list-csv-help">
