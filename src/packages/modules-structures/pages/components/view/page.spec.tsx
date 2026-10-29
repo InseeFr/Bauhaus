@@ -7,6 +7,8 @@ import { ErrorBloc } from "@components/errors-bloc";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
+import { subscribeToGlobalErrors } from "../../../../application/global-error-toast/notifier";
+import { createQueryClient } from "../../../../application/query-client";
 import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
 import { renderWithQuery } from "../../../../tests/render-with-query.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
@@ -38,6 +40,8 @@ vi.mock("../../../components/ComponentDetailView", () => ({
     handleBack,
     handleDelete,
     publishComponent,
+    isPublishing,
+    isDeleting,
     handleUpdate,
     serverSideError,
     concepts,
@@ -51,18 +55,23 @@ vi.mock("../../../components/ComponentDetailView", () => ({
       <span>modifier:{handleUpdate}</span>
       <ErrorBloc error={serverSideError} />
       <button onClick={handleBack}>retour</button>
-      <button onClick={handleDelete}>supprimer</button>
-      <button onClick={publishComponent}>publier</button>
+      <button onClick={handleDelete} disabled={isDeleting}>
+        supprimer
+      </button>
+      <button onClick={publishComponent} disabled={isPublishing}>
+        publier
+      </button>
     </div>
   ),
 }));
 
 const component = { id: "comp-1", labelLg1: "Composante FR" };
 
-const renderPage = () =>
+const renderPage = (queryClient?: QueryClient) =>
   renderWithQuery(<Component />, {
     path: "/structures/components/:id",
     route: "/structures/components/comp-1",
+    queryClient,
   });
 
 /** Attend l'affichage du bouton `name` de la vue (stubée) puis clique dessus. */
@@ -175,5 +184,73 @@ describe("Mutualized component view page", () => {
     expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
     expect(screen.getByText("composante:Composante FR")).toBeInTheDocument();
     expect(goBack).not.toHaveBeenCalled();
+  });
+
+  it("désactive la publication pendant l'envoi, sans quitter la composante", async () => {
+    vi.mocked(StructureApi.publishMutualizedComponent).mockReturnValue(
+      new Promise(() => undefined),
+    );
+    renderPage();
+    await clickWhenDisplayed("publier");
+
+    await waitFor(() => expect(screen.getByRole("button", { name: "publier" })).toBeDisabled());
+    expect(screen.getByText("composante:Composante FR")).toBeInTheDocument();
+  });
+
+  it("désactive la suppression pendant l'envoi, sans quitter la composante", async () => {
+    vi.mocked(StructureApi.deleteMutualizedComponent).mockReturnValue(new Promise(() => undefined));
+    renderPage();
+    await clickWhenDisplayed("supprimer");
+
+    await waitFor(() => expect(screen.getByRole("button", { name: "supprimer" })).toBeDisabled());
+    expect(screen.getByText("composante:Composante FR")).toBeInTheDocument();
+  });
+
+  it("périme les listes de composantes, qui affichent son statut, après la publication", async () => {
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    queryClient.setQueryData(["structures", "components"], [component]);
+    renderPage(queryClient);
+    await clickWhenDisplayed("publier");
+
+    await waitFor(() =>
+      expect(queryClient.getQueryState(["structures", "components"])?.isInvalidated).toBe(true),
+    );
+  });
+
+  it("retire la composante du cache et périme les listes avant de revenir à la liste", async () => {
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    queryClient.setQueryData(["structures", "components"], [component]);
+    let atGoBack: { listInvalidated?: boolean; itemCached: boolean } | undefined;
+    goBack.mockImplementationOnce(() => {
+      atGoBack = {
+        listInvalidated: queryClient.getQueryState(["structures", "components"])?.isInvalidated,
+        itemCached:
+          queryClient.getQueryData(mutualizedComponentQuery("comp-1").queryKey) !== undefined,
+      };
+    });
+    renderPage(queryClient);
+    await clickWhenDisplayed("supprimer");
+
+    await waitFor(() => expect(atGoBack).toEqual({ listInvalidated: true, itemCached: false }));
+  });
+
+  it("n'ajoute pas de toast global aux échecs affichés sur la composante", async () => {
+    const notified = vi.fn();
+    const unsubscribe = subscribeToGlobalErrors(notified);
+    vi.mocked(StructureApi.publishMutualizedComponent).mockRejectedValue(
+      sdkRejection.text(500, "Publication refusée"),
+    );
+    vi.mocked(StructureApi.deleteMutualizedComponent).mockRejectedValue(
+      sdkRejection.text(500, "Suppression impossible"),
+    );
+    renderPage(createQueryClient());
+    await clickWhenDisplayed("publier");
+    await screen.findByText(/Publication refusée/);
+    await clickWhenDisplayed("supprimer");
+
+    expect(await screen.findByText(/Suppression impossible/)).toBeInTheDocument();
+    expect(screen.queryByText(/Publication refusée/)).not.toBeInTheDocument();
+    unsubscribe();
+    expect(notified).not.toHaveBeenCalled();
   });
 });

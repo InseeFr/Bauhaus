@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { Structure } from "@model/structures/Structure";
@@ -53,7 +53,7 @@ describe("Structure View Menu", () => {
     const deleteButton = screen.getByRole("button", { name: /delete/i });
     fireEvent.click(deleteButton);
 
-    expect(StructureApi.deleteStructure).toHaveBeenCalledWith("1");
+    await waitFor(() => expect(StructureApi.deleteStructure).toHaveBeenCalledWith("1"));
   });
 
   it("a user can only see the go back button", async () => {

@@ -1,11 +1,10 @@
-import { QueryClient, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LoaderFunctionArgs, useParams } from "react-router";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc } from "@components/errors-bloc";
-import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
 import { Structure } from "@model/structures/Structure";
@@ -13,6 +12,7 @@ import { Structure } from "@model/structures/Structure";
 import { StructureApi } from "@sdk/index";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
+import { STRUCTURES_KEY } from "@utils/hooks/structures";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { appQueryClient } from "../../../../application/query-client";
@@ -25,6 +25,7 @@ import { GlobalInformationsPanel } from "./components/GlobalInformationsPanel";
 interface StructureViewTypes {
   structure: Structure;
   publish: VoidFunction;
+  isPublishing?: boolean;
   onDeleteError: (error: unknown) => void;
   serverSideError?: unknown;
 }
@@ -32,6 +33,7 @@ interface StructureViewTypes {
 export const StructureView = ({
   structure,
   publish,
+  isPublishing = false,
   onDeleteError,
   serverSideError,
 }: StructureViewTypes) => {
@@ -51,7 +53,12 @@ export const StructureView = ({
     <>
       <PageTitleBlock titleLg1={labelLg1} titleLg2={labelLg2} />
       <CheckSecondLang />
-      <Controls structure={structure} publish={publish} onDeleteError={onDeleteError} />
+      <Controls
+        structure={structure}
+        publish={publish}
+        isPublishing={isPublishing}
+        onDeleteError={onDeleteError}
+      />
       <ErrorBloc error={serverSideError} />
       <GlobalInformationsPanel structure={structure} />
       <DescriptionsPanel descriptionLg1={descriptionLg1} descriptionLg2={descriptionLg2} />
@@ -77,29 +84,24 @@ export const Component = () => {
 
   const { data: structure } = useSuspenseQuery(structureQuery(id!));
 
-  const [publishing, setPublishing] = useState(false);
-
   const [serverSideError, setServerSideError] = useState<unknown>();
 
-  const publish = () => {
-    setPublishing(true);
-    setServerSideError(undefined);
-    return StructureApi.publishStructure(structure)
-      .then(() => queryClient.invalidateQueries({ queryKey: structureQuery(id!).queryKey }))
-      .catch((error: any) => {
-        setServerSideError(error);
-      })
-      .finally(() => setPublishing(false));
-  };
-
-  if (publishing) {
-    return <Loading />;
-  }
+  /**
+   * Le statut s'affiche sur la fiche et dans les listes : tout le préfixe est périmé, la fiche
+   * affichée est relue avant la fin de la mutation. L'échec s'affiche sur la fiche.
+   */
+  const { mutate: publish, isPending: isPublishing } = useMutation({
+    mutationFn: () => StructureApi.publishStructure(structure),
+    onMutate: () => setServerSideError(undefined),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY }),
+    onError: setServerSideError,
+  });
 
   return (
     <StructureView
       structure={structure}
       publish={publish}
+      isPublishing={isPublishing}
       onDeleteError={setServerSideError}
       serverSideError={serverSideError}
     />

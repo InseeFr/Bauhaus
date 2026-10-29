@@ -9,6 +9,8 @@ import { StructureApi } from "@sdk/index";
 
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
+import { subscribeToGlobalErrors } from "../../../../application/global-error-toast/notifier";
+import { createQueryClient } from "../../../../application/query-client";
 import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
 import { renderWithQuery } from "../../../../tests/render-with-query.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
@@ -178,5 +180,69 @@ describe("Structure view page", () => {
     expect(StructureApi.deleteStructure).toHaveBeenCalledWith("1");
     expect(queryClient.getQueryState(["structures"])?.isInvalidated).toBe(true);
     expect(queryClient.getQueryData(structureQuery("1").queryKey)).toBeUndefined();
+  });
+
+  it("désactive la publication pendant l'envoi", async () => {
+    vi.mocked(StructureApi.publishStructure).mockReturnValue(new Promise(() => undefined));
+    renderPage();
+
+    await userEvent.click(await screen.findByRole("button", { name: /publish/i }));
+
+    await waitFor(() => expect(screen.getByRole("button", { name: /publish/i })).toBeDisabled());
+    expect(screen.getByText("Structure FR")).toBeInTheDocument();
+  });
+
+  it("périme les listes de structures, qui affichent son statut, après la publication", async () => {
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    queryClient.setQueryData(["structures"], [unpublished]);
+    vi.mocked(StructureApi.publishStructure).mockResolvedValue(undefined);
+    renderPage(queryClient);
+
+    await userEvent.click(await screen.findByRole("button", { name: /publish/i }));
+
+    await waitFor(() =>
+      expect(queryClient.getQueryState(["structures"])?.isInvalidated).toBe(true),
+    );
+  });
+
+  it("n'ajoute pas de toast global à l'échec de publication affiché sur la fiche", async () => {
+    const notified = vi.fn();
+    const unsubscribe = subscribeToGlobalErrors(notified);
+    vi.mocked(StructureApi.publishStructure).mockRejectedValue(
+      sdkRejection.text(500, "Publication refusée"),
+    );
+    renderPage(createQueryClient());
+
+    await userEvent.click(await screen.findByRole("button", { name: /publish/i }));
+
+    expect(await screen.findByText(/Publication refusée/)).toBeInTheDocument();
+    unsubscribe();
+    expect(notified).not.toHaveBeenCalled();
+  });
+
+  it("remplace l'échec de publication par celui de la suppression qui suit", async () => {
+    vi.mocked(StructureApi.publishStructure).mockRejectedValue(
+      sdkRejection.text(500, "Publication refusée"),
+    );
+    vi.mocked(StructureApi.deleteStructure).mockRejectedValue(
+      sdkRejection.text(500, "Suppression impossible"),
+    );
+    renderPage();
+    await userEvent.click(await screen.findByRole("button", { name: /publish/i }));
+    await screen.findByText(/Publication refusée/);
+
+    await userEvent.click(screen.getByRole("button", { name: /delete/i }));
+
+    expect(await screen.findByText(/Suppression impossible/)).toBeInTheDocument();
+    expect(screen.queryByText(/Publication refusée/)).not.toBeInTheDocument();
+  });
+
+  it("désactive la suppression pendant l'envoi", async () => {
+    vi.mocked(StructureApi.deleteStructure).mockReturnValue(new Promise(() => undefined));
+    renderPage();
+
+    await userEvent.click(await screen.findByRole("button", { name: /delete/i }));
+
+    await waitFor(() => expect(screen.getByRole("button", { name: /delete/i })).toBeDisabled());
   });
 });

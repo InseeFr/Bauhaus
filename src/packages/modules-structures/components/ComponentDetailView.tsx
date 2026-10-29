@@ -45,6 +45,8 @@ interface ComponentDetailViewTypes {
   structureComponents?: any[];
   col?: number;
   publishComponent?: VoidFunction;
+  isPublishing?: boolean;
+  isDeleting?: boolean;
   serverSideError?: unknown;
   attributes?: any[];
 }
@@ -62,6 +64,8 @@ export const ComponentDetailView = ({
   structureComponents,
   col: _col = 3,
   publishComponent = () => {},
+  isPublishing = false,
+  isDeleting = false,
   serverSideError,
   attributes,
 }: Readonly<ComponentDetailViewTypes>) => {
@@ -110,6 +114,8 @@ export const ComponentDetailView = ({
         handleDelete={handleDelete}
         handleUpdate={handleUpdate}
         publish={publishComponent}
+        isPublishing={isPublishing}
+        isDeleting={isDeleting}
         updatable={updatable}
       ></ViewMenu>
       {serverSideError && <ErrorBloc error={serverSideError} />}

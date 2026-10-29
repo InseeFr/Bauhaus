@@ -7,6 +7,8 @@ import { ConceptsApi, saveComponent, StructureApi } from "@sdk/index";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 
+import { subscribeToGlobalErrors } from "../../../../application/global-error-toast/notifier";
+import { createQueryClient } from "../../../../application/query-client";
 import { expectItemNotFound } from "../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { createStructuresWrapper } from "../../../render.testing";
@@ -131,6 +133,19 @@ describe("page d'édition d'une composante mutualisée", () => {
     fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
 
     await waitFor(() => expect(invalidatedAtGoBack).toEqual([true, true]));
+  });
+
+  it("n'ajoute pas de toast global à l'échec affiché dans le formulaire", async () => {
+    const notified = vi.fn();
+    const unsubscribe = subscribeToGlobalErrors(notified);
+    vi.mocked(saveComponent).mockRejectedValue(sdkRejection.text(500, "Refusé"));
+    await renderPage(undefined, createQueryClient());
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    expect(await screen.findByText(/Refusé/)).toBeInTheDocument();
+    unsubscribe();
+    expect(notified).not.toHaveBeenCalled();
   });
 
   it("affiche l'erreur renvoyée par le serveur", async () => {

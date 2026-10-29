@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router";
@@ -69,8 +69,6 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
 
   const [structure, setStructure] = useState<Structure>(defaultDSD);
 
-  const [loading, setLoading] = useState(false);
-
   const [submitting, setSubmitting] = useState(false);
 
   const [redirectId, setRedirectId] = useState("");
@@ -112,6 +110,24 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
 
   const defaultContributor = useDefaultContributor(isContributor);
 
+  /** Fiche et listes relues à l'ouverture de la fiche. Un échec s'affiche dans le formulaire. */
+  const { mutate: save, isPending: isSaving } = useMutation({
+    mutationFn: (structure: Structure): Promise<string> =>
+      creation ? StructureApi.postStructure(structure) : StructureApi.putStructure(structure),
+    onSuccess: async (id) => {
+      await queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY, refetchType: "none" });
+      setRedirectId(id);
+    },
+    onError: (error) => {
+      const { clientSideErrors, serverSideError } = toFormErrors(error, FIELDS_WITH_ERROR_SLOT);
+      if (clientSideErrors) {
+        setSubmitting(true);
+        setClientSideError(clientSideErrors);
+      }
+      setServerSideError(serverSideError);
+    },
+  });
+
   useEffect(() => {
     let structure = {
       ...defaultDSD,
@@ -124,7 +140,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
 
   if (redirectId) return <Navigate to={`/structures/${redirectId}`} replace />;
 
-  if (loading) return <Saving />;
+  if (isSaving) return <Saving />;
 
   const onSave = () => {
     const clientSideErrors = validate(structure);
@@ -135,22 +151,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
       setClientSideError(clientSideErrors);
     } else {
       setClientSideError({});
-      setLoading(true);
-      (creation ? StructureApi.postStructure(structure) : StructureApi.putStructure(structure))
-        .then((id: string) => {
-          // Fiche et listes relues à l'ouverture de la fiche (TQ1b : useMutation).
-          void queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY });
-          setRedirectId(id);
-        })
-        .catch((error: unknown) => {
-          const { clientSideErrors, serverSideError } = toFormErrors(error, FIELDS_WITH_ERROR_SLOT);
-          if (clientSideErrors) {
-            setSubmitting(true);
-            setClientSideError(clientSideErrors);
-          }
-          setServerSideError(serverSideError);
-        })
-        .finally(() => setLoading(false));
+      save(structure);
     }
   };
 

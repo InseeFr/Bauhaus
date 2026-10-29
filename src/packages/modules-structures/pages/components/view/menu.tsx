@@ -20,7 +20,9 @@ interface ViewMenuTypes {
   // to a dedicated page (see the mutualized component view).
   handleUpdate: VoidFunction | string;
   publish: VoidFunction;
+  isPublishing?: boolean;
   handleDelete: VoidFunction;
+  isDeleting?: boolean;
   handleBack: VoidFunction;
   updatable: boolean;
 }
@@ -29,7 +31,9 @@ export const ViewMenu = ({
   component,
   handleUpdate,
   publish,
+  isPublishing = false,
   handleDelete,
+  isDeleting = false,
   handleBack,
   updatable,
 }: Readonly<ViewMenuTypes>) => {
@@ -37,7 +41,7 @@ export const ViewMenu = ({
     <ActionToolbar>
       <ReturnButton action={handleBack} />
       <HasAccess module="STRUCTURE_COMPONENT" privilege="PUBLISH" stamps={component?.contributor}>
-        <ValidationButton callback={publish} object={component} />
+        <ValidationButton callback={publish} object={component} disabled={isPublishing} />
       </HasAccess>
       {canBeDeleted(component) && (
         <HasAccess
@@ -46,7 +50,7 @@ export const ViewMenu = ({
           stamps={component?.contributor}
           complementaryCheck={component.validationState === UNPUBLISHED}
         >
-          <DeleteButton action={handleDelete} />
+          <DeleteButton action={handleDelete} disabled={isDeleting} />
         </HasAccess>
       )}
       {updatable && (

@@ -6,6 +6,8 @@ import { vi } from "vitest";
 
 import { StructureApi } from "@sdk/index";
 
+import { subscribeToGlobalErrors } from "../../../../../application/global-error-toast/notifier";
+import { createQueryClient } from "../../../../../application/query-client";
 import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { createStructuresWrapper } from "../../../../render.testing";
 import { EditionForm } from "./EditionForm";
@@ -209,6 +211,19 @@ describe("EditionForm", () => {
     fireEvent.click(saveButton());
 
     expect(await screen.findByText("Erreur serveur")).toBeInTheDocument();
+  });
+
+  it("n'ajoute pas de toast global à l'échec affiché dans le formulaire", async () => {
+    const notified = vi.fn();
+    const unsubscribe = subscribeToGlobalErrors(notified);
+    vi.mocked(StructureApi.putStructure).mockRejectedValue({ status: 500, message: "Refusé" });
+    renderForm({}, createQueryClient());
+
+    fireEvent.click(saveButton());
+
+    expect(await screen.findByText(/Refusé/)).toBeInTheDocument();
+    unsubscribe();
+    expect(notified).not.toHaveBeenCalled();
   });
 
   it("affiche une erreur de validation du serveur sous le champ concerné", async () => {

@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -23,10 +23,16 @@ import { structureQuery } from "../../../../hooks/queries";
 interface ControlsTypes {
   structure: Structure;
   publish: VoidFunction;
+  isPublishing?: boolean;
   onDeleteError: (error: unknown) => void;
 }
 
-export const Controls = ({ structure, publish, onDeleteError }: ControlsTypes) => {
+export const Controls = ({
+  structure,
+  publish,
+  isPublishing = false,
+  onDeleteError,
+}: ControlsTypes) => {
   const contributors = Array.isArray(structure.contributor)
     ? structure.contributor
     : [structure.contributor];
@@ -39,23 +45,25 @@ export const Controls = ({ structure, publish, onDeleteError }: ControlsTypes) =
 
   /**
    * La fiche supprimée sort du cache ; les listes sont seulement périmées, sans relecture
-   * immédiate qui relirait aussi la fiche encore affichée (404).
+   * immédiate qui relirait aussi la fiche encore affichée (404). L'échec s'affiche sur la fiche, à
+   * la place de celui d'une action précédente.
    */
-  const handleDelete = () => {
-    StructureApi.deleteStructure(id)
-      .then(() => {
-        queryClient.removeQueries({ queryKey: structureQuery(id).queryKey });
-        void queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY, refetchType: "none" });
-        return navigate("/structures");
-      })
-      .catch(onDeleteError);
-  };
+  const { mutate: remove, isPending: isDeleting } = useMutation({
+    mutationFn: () => StructureApi.deleteStructure(id),
+    onMutate: () => onDeleteError(undefined),
+    onSuccess: () => {
+      queryClient.removeQueries({ queryKey: structureQuery(id).queryKey });
+      void queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY, refetchType: "none" });
+      return navigate("/structures");
+    },
+    onError: onDeleteError,
+  });
 
   return (
     <ActionToolbar>
       <ReturnButton action="/structures" />
       <HasAccess module="STRUCTURE_STRUCTURE" privilege="PUBLISH" stamps={contributors}>
-        <ValidationButton object={structure} callback={publish} />
+        <ValidationButton object={structure} callback={publish} disabled={isPublishing} />
       </HasAccess>
       <HasAccess module="STRUCTURE_STRUCTURE" privilege="CREATE" stamps={contributors}>
         <DuplicateButton action={`/structures/${id}/duplicate`} />
@@ -66,7 +74,7 @@ export const Controls = ({ structure, publish, onDeleteError }: ControlsTypes) =
         complementaryCheck={structure.validationState === UNPUBLISHED}
         stamps={contributors}
       >
-        <DeleteButton action={handleDelete} />
+        <DeleteButton action={remove} disabled={isDeleting} />
       </HasAccess>
       <HasAccess
         module="STRUCTURE_STRUCTURE"

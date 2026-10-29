@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useReducer, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
@@ -20,7 +20,6 @@ import { useFormattedCodelist } from "../../../hooks/useFormattedCodelist";
 
 type EditContainerState = {
   loading: boolean;
-  saving: boolean;
   component: any;
   concepts: any[];
   serverSideError: unknown;
@@ -38,12 +37,10 @@ type EditContainerAction =
   | { type: "LOAD_FAILED"; error: unknown }
   | { type: "LOAD_FINISHED" }
   | { type: "SAVE_STARTED" }
-  | { type: "SAVE_FAILED"; component: any; error: unknown }
-  | { type: "SAVE_FINISHED" };
+  | { type: "SAVE_FAILED"; component: any; error: unknown };
 
 const initialState: EditContainerState = {
   loading: true,
-  saving: false,
   component: {},
   concepts: [],
   serverSideError: "",
@@ -67,15 +64,13 @@ function editContainerReducer(
     case "LOAD_FINISHED":
       return { ...state, loading: false };
     case "SAVE_STARTED":
-      return { ...state, saving: true, serverSideError: "" };
+      return { ...state, serverSideError: "" };
     case "SAVE_FAILED":
       return {
         ...state,
         component: action.component,
         serverSideError: action.error,
       };
-    case "SAVE_FINISHED":
-      return { ...state, saving: false };
     default:
       return state;
   }
@@ -96,28 +91,22 @@ export const Component = (props: any) => {
   const { data: codelists = [] } = useFormattedCodelist();
 
   const [state, dispatch] = useReducer(editContainerReducer, initialState);
-  const { loading, saving, component, concepts, serverSideError, attributes, loadError } = state;
+  const { loading, component, concepts, serverSideError, attributes, loadError } = state;
 
   const handleBack = useCallback(() => goBack("/structures/components"), [goBack]);
 
   const queryClient = useQueryClient();
 
-  const handleSave = useCallback(
-    (component: StructureComponent) => {
-      dispatch({ type: "SAVE_STARTED" });
-      saveComponent(component)
-        .then(async (id = component.id) => {
-          // Fiche et listes périmées avant le retour (TQ1b : useMutation).
-          await queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY, refetchType: "none" });
-          goBack(`/structures/components/${id}`, !component.id);
-        })
-        .catch((error: unknown) => {
-          dispatch({ type: "SAVE_FAILED", component, error });
-        })
-        .finally(() => dispatch({ type: "SAVE_FINISHED" }));
+  /** Fiche et listes périmées avant le retour. Un échec s'affiche dans le formulaire. */
+  const { mutate: handleSave, isPending: saving } = useMutation({
+    mutationFn: (component: StructureComponent) => saveComponent(component),
+    onMutate: () => dispatch({ type: "SAVE_STARTED" }),
+    onSuccess: async (id, component) => {
+      await queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY, refetchType: "none" });
+      goBack(`/structures/components/${id ?? component.id}`, !component.id);
     },
-    [goBack, queryClient],
-  );
+    onError: (error, component) => dispatch({ type: "SAVE_FAILED", component, error }),
+  });
 
   useEffect(() => {
     const getComponent = id ? StructureApi.getMutualizedComponent(id) : Promise.resolve({});
