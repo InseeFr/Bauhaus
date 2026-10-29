@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+import { useQueries } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 import { TextInput } from "@components/form/input";
 import { Column, Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
 
-import { Options } from "@model/SelectOption";
-import { ComponentDefinition } from "@model/structures/Component";
-
-import { StructureApi } from "@sdk/structure-api";
+import { Component, ComponentDefinition } from "@model/structures/Component";
 
 import { ATTRIBUTE_PROPERTY_TYPE, MEASURE_PROPERTY_TYPE } from "../constants/dsd-components";
+import { mutualizedComponentQuery } from "../hooks/queries";
 import { getAllAttachment } from "../utils/getAllAttachment";
 import "./ComponentSpecificationForm.css";
 
@@ -39,17 +37,19 @@ export const ComponentSpecificationForm = ({
 }: Readonly<ComponentSpecificationFormTypes>) => {
   const { t } = useTranslation();
 
-  const [attachments, setAttachments] = useState<Options>([]);
-
-  useEffect(() => {
-    Promise.all(
-      structureComponents
-        .filter((c) => c.component.type === MEASURE_PROPERTY_TYPE)
-        .map((measure) => StructureApi.getMutualizedComponent(measure.component.id)),
-    ).then((measures) => {
-      setAttachments(getAllAttachment(measures, selectedComponent));
-    });
-  }, [structureComponents, selectedComponent]);
+  // Les attributs liés d'une mesure ne figurent que sur sa fiche : une lecture par mesure.
+  const attachments = useQueries({
+    queries: structureComponents
+      .filter((c) => c.component.type === MEASURE_PROPERTY_TYPE)
+      .map((measure) => mutualizedComponentQuery(measure.component.id!)),
+    combine: (results) =>
+      results.every((result) => result.isSuccess)
+        ? getAllAttachment(
+            results.map((result) => result.data as Component),
+            selectedComponent,
+          )
+        : [],
+  });
 
   return (
     <>

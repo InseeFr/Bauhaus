@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import { PropsWithChildren, ReactNode } from "react";
 import { MemoryRouter } from "react-router";
 
@@ -36,14 +36,6 @@ export const createStructuresWrapper =
         <TestAppContextProvider>{routes(children)}</TestAppContextProvider>
       </MemoryRouter>
     </QueryClientProvider>
-  );
-
-/** Rendu d'une page dans le contexte applicatif et un routeur, sans react-query. */
-export const renderPageWithAppContext = (page: ReactNode) =>
-  render(
-    <TestAppContextProvider>
-      <MemoryRouter>{page}</MemoryRouter>
-    </TestAppContextProvider>,
   );
 
 /** Les gestionnaires lisent `dataset.componentId` sur le parent de la cible : on clique l'icône. */

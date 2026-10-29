@@ -1,7 +1,8 @@
 import { QueryClient } from "@tanstack/react-query";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { Route, Routes } from "react-router";
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
+
+import { Component as StructureComponent } from "@model/structures/Component";
 
 import { ConceptsApi } from "@sdk/concepts-api";
 import { StructureApi } from "@sdk/structure-api";
@@ -12,9 +13,10 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { subscribeToGlobalErrors } from "../../../../application/global-error-toast/notifier";
 import { createQueryClient } from "../../../../application/query-client";
 import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { renderWithQuery } from "../../../../tests/render-with-query.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
-import { createStructuresWrapper } from "../../../render.testing";
-import { Component } from "./page";
+import { mutualizedComponentQuery } from "../../../hooks/queries";
+import { Component, prefetchEditedComponent } from "./page";
 
 vi.mock("@sdk/structure-api", () => ({
   StructureApi: {
@@ -56,20 +58,18 @@ const mutualizedComponent = {
   type: "http://purl.org/linked-data/cube#DimensionProperty",
 };
 
-const Wrapper = (path: string, queryClient?: QueryClient) =>
-  createStructuresWrapper({
-    initialEntries: [path],
+const EDIT_ROUTE = "/structures/components/c1/modify";
+const CREATE_ROUTE = "/structures/components/create";
+
+const renderAt = (route: string, queryClient?: QueryClient) =>
+  renderWithQuery(<Component />, {
+    path: route === CREATE_ROUTE ? CREATE_ROUTE : "/structures/components/:id/modify",
+    route,
     queryClient,
-    routes: (children) => (
-      <Routes>
-        <Route path="/structures/components/edit/:id" element={children} />
-        <Route path="/structures/components/create" element={children} />
-      </Routes>
-    ),
   });
 
-const renderPage = async (path = "/structures/components/edit/c1", queryClient?: QueryClient) => {
-  const view = render(<Component />, { wrapper: Wrapper(path, queryClient) });
+const renderPage = async (route = EDIT_ROUTE, queryClient?: QueryClient) => {
+  const view = renderAt(route, queryClient);
   await screen.findByDisplayValue("Composante 1");
   return view;
 };
@@ -89,11 +89,71 @@ describe("page d'édition d'une composante mutualisée", () => {
     expect(screen.getByDisplayValue("Composante 1")).toBeInTheDocument();
   });
 
+  it("attend la composante avant d'ouvrir le formulaire", async () => {
+    vi.mocked(StructureApi.getMutualizedComponent).mockReturnValue(new Promise(() => undefined));
+    renderAt(EDIT_ROUTE);
+
+    expect(await screen.findByRole("status")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /save|sauvegarder/i })).not.toBeInTheDocument();
+  });
+
+  it("ouvre le formulaire sur les données déjà en cache, sans les relire", async () => {
+    const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: Infinity } } });
+    queryClient.setQueryData(
+      mutualizedComponentQuery("c1").queryKey,
+      mutualizedComponent as unknown as StructureComponent,
+    );
+    queryClient.setQueryData(["structures", "components", "attributes"], []);
+    queryClient.setQueryData(["concepts"], []);
+    await renderPage(EDIT_ROUTE, queryClient);
+
+    expect(StructureApi.getMutualizedComponent).not.toHaveBeenCalled();
+    expect(StructureApi.getMutualizedAttributes).not.toHaveBeenCalled();
+    expect(ConceptsApi.getConceptList).not.toHaveBeenCalled();
+  });
+
+  it("commence à lire la composante depuis le loader de la route", async () => {
+    const queryClient = new QueryClient();
+
+    expect(prefetchEditedComponent(queryClient)({ params: { id: "c1" } } as any)).toBeNull();
+
+    await vi.waitFor(() =>
+      expect(queryClient.getQueryData(mutualizedComponentQuery("c1").queryKey)).toEqual(
+        mutualizedComponent,
+      ),
+    );
+  });
+
+  it("ne relit aucune composante depuis le loader de la création", () => {
+    const queryClient = new QueryClient();
+
+    prefetchEditedComponent(queryClient)({ params: {} } as any);
+
+    expect(StructureApi.getMutualizedComponent).not.toHaveBeenCalled();
+  });
+
+  it("garde la saisie quand la composante et ses listes sont relues en arrière-plan", async () => {
+    const { queryClient } = await renderPage();
+    fireEvent.change(screen.getByDisplayValue("Composante 1"), {
+      target: { value: "Saisie en cours" },
+    });
+
+    await act(async () => {
+      await queryClient.invalidateQueries({ queryKey: ["structures"] });
+      await queryClient.invalidateQueries({ queryKey: ["concepts"] });
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+
+    expect(StructureApi.getMutualizedComponent).toHaveBeenCalledTimes(2);
+    expect(screen.getByDisplayValue("Saisie en cours")).toBeInTheDocument();
+  });
+
   it("indique que la composante à modifier est introuvable au lieu d'un formulaire vide", async () => {
+    using _error = vi.spyOn(console, "error").mockImplementation(() => undefined);
     vi.mocked(StructureApi.getMutualizedComponent).mockRejectedValue(
       sdkRejection.json(404, { message: "Component not found" }),
     );
-    render(<Component />, { wrapper: Wrapper("/structures/components/edit/c1") });
+    renderAt(EDIT_ROUTE);
 
     await expectItemNotFound();
     expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
@@ -101,10 +161,9 @@ describe("page d'édition d'une composante mutualisée", () => {
   });
 
   it("ne charge aucune composante à la création", async () => {
-    vi.mocked(StructureApi.getMutualizedComponent).mockResolvedValue({});
-    render(<Component />, { wrapper: Wrapper("/structures/components/create") });
+    renderAt(CREATE_ROUTE);
 
-    await waitFor(() => expect(ConceptsApi.getConceptList).toHaveBeenCalled());
+    expect(await screen.findByRole("button", { name: /save|sauvegarder/i })).toBeInTheDocument();
     expect(StructureApi.getMutualizedComponent).not.toHaveBeenCalled();
   });
 

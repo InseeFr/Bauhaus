@@ -24,6 +24,13 @@ export const partialCodelistsQuery = () =>
     queryFn: () => CodelistsApi.getCodelistsPartial(),
   });
 
+/** Listes partielles d'une liste de codes complète, désignée par sa notation. */
+export const partialsByParentQuery = (notation: string) =>
+  queryOptions<{ iri: string; labelLg1: string; id?: string }[]>({
+    queryKey: [...partialCodelistsQuery().queryKey, "parent", notation],
+    queryFn: () => CodelistsApi.getPartialsByParent(notation),
+  });
+
 /** Composantes mutualisées : sous `["structures"]`, l'invalidation du module les périme aussi. */
 const COMPONENTS_KEY = [...STRUCTURES_KEY, "components"];
 

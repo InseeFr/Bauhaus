@@ -1,3 +1,4 @@
+import { QueryClient } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
@@ -9,13 +10,17 @@ import { EMPTY_ARRAY } from "@utils/array-utils";
 import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { MEASURE_PROPERTY_TYPE } from "../constants/dsd-components";
 import { XSD_CODE_LIST, XSD_DATE, XSD_FLOAT, XSD_STRING } from "../constants/xsd";
+import { mutualizedComponentQuery, partialCodelistsQuery } from "../hooks/queries";
 import { createStructuresWrapper } from "../render.testing";
 import { ComponentDetailEdit } from "./ComponentDetailEdit";
 
 vi.mock("@sdk/structure-api", () => ({
   StructureApi: { getMutualizedComponent: vi.fn() },
 }));
-vi.mock("@sdk/codelists-api", async () => (await import("../mocks.testing")).emptyCodelistsApi());
+vi.mock("@sdk/codelists-api", async () => {
+  const { CodelistsApi } = (await import("../mocks.testing")).emptyCodelistsApi();
+  return { CodelistsApi: { ...CodelistsApi, getCodelistCodes: vi.fn() } };
+});
 vi.mock("@sdk/stamps-api", async () => (await import("../mocks.testing")).emptyStampsApi());
 vi.mock("@sdk/v2-api", () => ({ V2Api: { getStamps: vi.fn().mockResolvedValue([]) } }));
 vi.mock("@sdk/organizations-api", () => ({
@@ -55,7 +60,7 @@ const component = {
 const concepts = [{ id: "concept1", label: "Concept 1" }];
 const codelists = [{ id: "cl1", label: "Liste 1", notation: "CL_1" }];
 
-const renderEdit = (props: Record<string, unknown> = {}) =>
+const renderEdit = (props: Record<string, unknown> = {}, queryClient?: QueryClient) =>
   render(
     <ComponentDetailEdit
       attributes={EMPTY_ARRAY}
@@ -68,8 +73,12 @@ const renderEdit = (props: Record<string, unknown> = {}) =>
       handleBack={handleBack}
       {...props}
     />,
-    { wrapper: Wrapper },
+    { wrapper: queryClient ? createStructuresWrapper({ queryClient }) : Wrapper },
   );
+
+/** Client dont le cache, amorcé par le test, n'est jamais relu. */
+const cachedQueryClient = () =>
+  new QueryClient({ defaultOptions: { queries: { staleTime: Infinity } } });
 
 const saveButton = () => screen.getByRole("button", { name: /save|sauvegarder/i });
 
@@ -253,6 +262,26 @@ describe("ComponentDetailEdit", () => {
     await waitFor(() => expect(CodelistsApi.getCodelistsPartial).toHaveBeenCalled());
   });
 
+  it("reprend les listes de codes partielles déjà en cache, sans les relire", async () => {
+    const queryClient = cachedQueryClient();
+    queryClient.setQueryData(partialCodelistsQuery().queryKey, [
+      { uri: "http://bauhaus/partielle", labelLg1: "Partielle", id: "CL_P" },
+    ]);
+    renderEdit(
+      {
+        component: {
+          ...component,
+          range: XSD_CODE_LIST,
+          fullCodeListValue: "http://bauhaus/partielle",
+        },
+      },
+      queryClient,
+    );
+
+    await waitFor(() => expect(CodelistsApi.getPartialsByParent).toHaveBeenCalledWith("CL_P"));
+    expect(CodelistsApi.getCodelistsPartial).not.toHaveBeenCalled();
+  });
+
   it("propose les listes partielles de la liste complète choisie", async () => {
     vi.mocked(CodelistsApi.getPartialsByParent).mockResolvedValue([
       { id: "CL_1_PARTIAL", iri: "http://bauhaus/cl1partial", labelLg1: "Liste partielle" },
@@ -278,6 +307,51 @@ describe("ComponentDetailEdit", () => {
 
     await waitFor(() => expect(StructureApi.getMutualizedComponent).toHaveBeenCalledWith("a1"));
     expect(await screen.findByDisplayValue("valeur")).toBeInTheDocument();
+  });
+
+  it("reprend l'attribut lié déjà en cache, sans le relire", async () => {
+    const queryClient = cachedQueryClient();
+    queryClient.setQueryData(mutualizedComponentQuery("a1").queryKey, { range: XSD_STRING } as any);
+    renderEdit(
+      {
+        component: {
+          ...component,
+          type: MEASURE_PROPERTY_TYPE,
+          attribute_0: "http://bauhaus/attribut1",
+          attributeValue_0: "valeur",
+        },
+        attributes: [{ id: "a1", iri: "http://bauhaus/attribut1", labelLg1: "Attribut 1" }],
+      },
+      queryClient,
+    );
+
+    expect(await screen.findByDisplayValue("valeur")).toBeInTheDocument();
+    expect(StructureApi.getMutualizedComponent).not.toHaveBeenCalled();
+  });
+
+  it("propose les codes de la liste d'un attribut lié", async () => {
+    vi.mocked(StructureApi.getMutualizedComponent).mockResolvedValue({
+      range: XSD_CODE_LIST,
+      codeList: "cl1",
+    });
+    vi.mocked(CodelistsApi.getCodelistCodes).mockResolvedValue({
+      total: 1,
+      page: 1,
+      items: [{ iri: "http://bauhaus/code1", labelLg1: "Code 1" }],
+    });
+    renderEdit({
+      component: {
+        ...component,
+        type: MEASURE_PROPERTY_TYPE,
+        attribute_0: "http://bauhaus/attribut1",
+      },
+      attributes: [{ id: "a1", iri: "http://bauhaus/attribut1", labelLg1: "Attribut 1" }],
+    });
+    await waitFor(() => expect(CodelistsApi.getCodelistCodes).toHaveBeenCalledWith("CL_1", 1, 0));
+
+    fireEvent.click(await screen.findByText("Value", { selector: ".p-dropdown-label" }));
+
+    expect(await screen.findByRole("option", { name: "Code 1", hidden: true })).toBeInTheDocument();
   });
 
   describe("attributs liés à une mesure", () => {

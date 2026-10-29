@@ -22,11 +22,32 @@ vi.mock("react-i18next", async (importOriginal) => ({
   }),
 }));
 
-import { ComponentDefinition } from "@model/structures/Component";
+import { QueryClient } from "@tanstack/react-query";
+
+import { Component, ComponentDefinition } from "@model/structures/Component";
+
+import { StructureApi } from "@sdk/structure-api";
 
 import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
-import { ATTRIBUTE_PROPERTY_TYPE } from "../constants/dsd-components";
+import { ATTRIBUTE_PROPERTY_TYPE, MEASURE_PROPERTY_TYPE } from "../constants/dsd-components";
+import { mutualizedComponentQuery } from "../hooks/queries";
+import { createStructuresWrapper } from "../render.testing";
 import { ComponentSpecification, ComponentSpecificationForm } from "./ComponentSpecificationForm";
+
+vi.mock("@sdk/structure-api", () => ({ StructureApi: { getMutualizedComponent: vi.fn() } }));
+
+// Rattachements proposés, lisibles sans ouvrir la liste déroulante.
+vi.mock("@components/select-rmes", () => ({
+  Select: ({ options }: { options: { label: string }[] }) => (
+    <ul aria-label="rattachements">
+      {options.map(({ label }) => (
+        <li key={label}>{label}</li>
+      ))}
+    </ul>
+  ),
+}));
+
+const wrapper = createStructuresWrapper();
 
 const component = {
   component: {},
@@ -45,6 +66,7 @@ describe("ComponentSpecificationForm", () => {
         }
         onChange={vi.fn()}
       />,
+      { wrapper },
     );
     await screen.findByLabelText("Notation");
     expectNoBootstrapClass();
@@ -58,6 +80,7 @@ describe("ComponentSpecificationForm", () => {
         selectedComponent={SELECTED_COMPONENT}
         onChange={vi.fn()}
       />,
+      { wrapper },
     );
     await screen.findByLabelText("Notation");
     await screen.findByLabelText("Libellé");
@@ -78,6 +101,7 @@ describe("ComponentSpecificationForm", () => {
           selectedComponent={SELECTED_COMPONENT}
           onChange={onChange}
         />,
+        { wrapper },
       );
       const input = await screen.findByLabelText(label);
       fireEvent.change(input, { target: { value: "value" } });
@@ -86,5 +110,29 @@ describe("ComponentSpecificationForm", () => {
         component: {},
       });
     });
+  });
+
+  it("propose les mesures de la structure, déjà en cache, comme rattachement d'un attribut", async () => {
+    const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: Infinity } } });
+    queryClient.setQueryData(mutualizedComponentQuery("mes1").queryKey, {
+      id: "mes1",
+      labelLg1: "Mesure en cache",
+    } as Component);
+    render(
+      <ComponentSpecificationForm
+        component={component as unknown as ComponentSpecification}
+        structureComponents={[
+          { component: { id: "mes1", type: MEASURE_PROPERTY_TYPE } } as ComponentDefinition,
+        ]}
+        selectedComponent={
+          { component: { type: ATTRIBUTE_PROPERTY_TYPE } } as unknown as ComponentDefinition
+        }
+        onChange={vi.fn()}
+      />,
+      { wrapper: createStructuresWrapper({ queryClient }) },
+    );
+
+    expect(await screen.findByText("Mesure en cache")).toBeInTheDocument();
+    expect(StructureApi.getMutualizedComponent).not.toHaveBeenCalled();
   });
 });

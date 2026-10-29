@@ -1,81 +1,88 @@
-import { useState, useEffect } from "react";
+import { QueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router";
+import { LoaderFunctionArgs, useLocation, useParams } from "react-router";
 
-import { LoadingErrorBloc } from "@components/errors-bloc";
-import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 
 import { Structure } from "@model/structures/Structure";
 
-import { StructureApi } from "@sdk/structure-api";
-
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { appQueryClient } from "../../../../application/query-client";
+import { structureQuery } from "../../../hooks/queries";
 import { EditionForm } from "./components/EditionForm";
 
-export const Component = () => {
-  const { t } = useTranslation();
+/** Lance la lecture de la structure pendant le téléchargement de la page, sans retenir la navigation. */
+export const prefetchEditedStructure =
+  (queryClient: QueryClient) =>
+  ({ params }: LoaderFunctionArgs) => {
+    void queryClient.prefetchQuery(structureQuery(params.id!));
+    return null;
+  };
 
+export const loader = prefetchEditedStructure(appQueryClient);
+
+/** Copie d'une structure, sans identifiant pour qu'elle en obtienne un nouveau. */
+const toDuplicate = (structure: Structure): Partial<Structure> => ({
+  identifiant: structure.identifiant,
+  labelLg1: structure.labelLg1,
+  labelLg2: structure.labelLg2,
+  id: "",
+  creator: structure.creator,
+  contributor: structure.contributor,
+  disseminationStatus: structure.disseminationStatus,
+  componentDefinitions: structure.componentDefinitions.map((cd: any) => {
+    return {
+      component: cd.component,
+      order: cd.order,
+      required: cd.required,
+      attachment: cd.attachment,
+    };
+  }),
+});
+
+export const Component = () => {
   const location = useLocation();
   const duplicate = location.pathname.includes("/duplicate");
 
-  const [loading, setLoading] = useState(true);
-
   const { id } = useParams();
 
-  const [structure, setStructure] = useState<Structure>({} as Structure);
+  const { data: structure } = useSuspenseQuery(structureQuery(id!));
 
-  const [loadError, setLoadError] = useState<unknown>();
+  return (
+    <StructureEdition key={`${id}-${duplicate}`} structure={structure} duplicate={duplicate} />
+  );
+};
 
-  useTitle(t("structure.pluralTitle"), structure?.labelLg1);
+/**
+ * La structure lue au montage initialise le formulaire une fois pour toutes : une relecture en
+ * arrière-plan (retour sur l'onglet, invalidation) ne doit pas écraser la saisie en cours.
+ */
+const StructureEdition = ({
+  structure,
+  duplicate,
+}: Readonly<{ structure: Structure; duplicate: boolean }>) => {
+  const { t } = useTranslation();
 
-  useEffect(() => {
-    StructureApi.getStructure(id!)
-      .then((res: Structure) => setStructure(res))
-      .catch(setLoadError)
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]);
+  const [initialStructure] = useState(() => (duplicate ? toDuplicate(structure) : structure));
 
-  if (loadError) return <LoadingErrorBloc error={loadError} />;
-
-  if (loading) return <Loading />;
+  useTitle(t("structure.pluralTitle"), initialStructure.labelLg1);
 
   if (duplicate) {
     return (
       <>
-        <PageTitle title={t("structure.duplicationPageTitle") + `${structure.labelLg1}`} />
-        <EditionForm
-          creation={duplicate}
-          initialStructure={{
-            identifiant: structure.identifiant,
-            labelLg1: structure.labelLg1,
-            labelLg2: structure.labelLg2,
-            id: "",
-            creator: structure.creator,
-            contributor: structure.contributor,
-            disseminationStatus: structure.disseminationStatus,
-            componentDefinitions: structure.componentDefinitions.map((cd: any) => {
-              return {
-                component: cd.component,
-                order: cd.order,
-                required: cd.required,
-                attachment: cd.attachment,
-              };
-            }),
-          }}
-        />
+        <PageTitle title={t("structure.duplicationPageTitle") + `${initialStructure.labelLg1}`} />
+        <EditionForm creation={duplicate} initialStructure={initialStructure} />
       </>
     );
   }
 
   return (
     <>
-      <PageTitleBlock titleLg1={structure.labelLg1} titleLg2={structure.labelLg2} />
-      <EditionForm creation={duplicate} initialStructure={structure} />
+      <PageTitleBlock titleLg1={initialStructure.labelLg1} titleLg2={initialStructure.labelLg2} />
+      <EditionForm creation={duplicate} initialStructure={initialStructure} />
     </>
   );
 };

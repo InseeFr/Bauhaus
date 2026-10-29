@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -13,16 +14,14 @@ import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
 
-import { Code, Codelists } from "@model/Codelist";
+import { Codelists } from "@model/Codelist";
 import { Options } from "@model/SelectOption";
 import { Component } from "@model/structures/Component";
-
-import { CodelistsApi } from "@sdk/codelists-api";
-import { StructureApi } from "@sdk/structure-api";
 
 import { toFormErrors } from "@utils/api-errors";
 import { convertToArrayIfDefined, EMPTY_ARRAY, sortArray } from "@utils/array-utils";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
+import { useAllCodes } from "@utils/hooks/codelist";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../application/app-context";
@@ -38,6 +37,11 @@ import {
   XSD_STRING,
   XSD_TYPES,
 } from "../constants/xsd";
+import {
+  mutualizedComponentQuery,
+  partialCodelistsQuery,
+  partialsByParentQuery,
+} from "../hooks/queries";
 import { structuresI18n } from "../i18n";
 import { validate } from "../pages/components/edit/validation";
 import "./ComponentDetailEdit.css";
@@ -56,12 +60,6 @@ type ClientSideErrors = {
  * les autres restent au bandeau. */
 const FIELDS_WITH_ERROR_SLOT = ["identifiant", "labelLg1", "labelLg2", "type"];
 
-interface PartialCodelist {
-  uri: string;
-  labelLg1: string;
-  id: string;
-}
-
 const linkedAttributeLabelMapping: Record<string, string> = {
   [XSD_INTEGER]: structuresI18n.t("component.representation.int.action"),
   [XSD_FLOAT]: structuresI18n.t("component.representation.float.action"),
@@ -75,21 +73,15 @@ const linkedAttributeLabelMapping: Record<string, string> = {
 interface CodelistFormState {
   codesFullListPanelOpened: boolean;
   codesPartialListPanelOpened: boolean;
-  partials: { iri: string; labelLg1: string; id?: string }[];
-  partialCodelists: PartialCodelist[];
 }
 
 type CodelistFormAction =
   | { type: "SET_FULL_PANEL_OPENED"; opened: boolean }
-  | { type: "SET_PARTIAL_PANEL_OPENED"; opened: boolean }
-  | { type: "SET_PARTIALS"; partials: CodelistFormState["partials"] }
-  | { type: "SET_PARTIAL_CODES_LISTS"; partialCodelists: PartialCodelist[] };
+  | { type: "SET_PARTIAL_PANEL_OPENED"; opened: boolean };
 
 const initialCodelistFormState: CodelistFormState = {
   codesFullListPanelOpened: false,
   codesPartialListPanelOpened: false,
-  partials: [],
-  partialCodelists: [],
 };
 
 function codelistFormReducer(
@@ -101,10 +93,6 @@ function codelistFormReducer(
       return { ...state, codesFullListPanelOpened: action.opened };
     case "SET_PARTIAL_PANEL_OPENED":
       return { ...state, codesPartialListPanelOpened: action.opened };
-    case "SET_PARTIALS":
-      return { ...state, partials: action.partials };
-    case "SET_PARTIAL_CODES_LISTS":
-      return { ...state, partialCodelists: action.partialCodelists };
     default:
       return state;
   }
@@ -125,47 +113,38 @@ const CodelistFormInput = ({
 
   const [state, dispatch] = useReducer(codelistFormReducer, initialCodelistFormState);
 
-  const { codesFullListPanelOpened, codesPartialListPanelOpened, partials, partialCodelists } =
-    state;
+  const { codesFullListPanelOpened, codesPartialListPanelOpened } = state;
 
   const fullCodelistValue = component.fullCodeListValue || component.codeList;
 
   const currentCodelist = component.codeList;
 
-  useEffect(() => {
-    CodelistsApi.getCodelistsPartial().then((response: PartialCodelist[]) => {
-      dispatch({
-        type: "SET_PARTIAL_CODES_LISTS",
-        partialCodelists: response,
-      });
-    });
-  }, []);
+  const { data: partialCodelists = EMPTY_ARRAY } = useQuery(partialCodelistsQuery());
 
-  useEffect(() => {
-    if (fullCodelistValue) {
-      const fullCodelists = [
-        ...codelists,
-        ...partialCodelists.map((l) => ({
-          id: l.uri,
-          label: l.labelLg1,
-          notation: l.id,
-        })),
-      ];
-      const list = fullCodelists.find((list) => list.id === fullCodelistValue);
-      if (list) {
-        CodelistsApi.getPartialsByParent(list.notation).then(
-          (partials: CodelistFormState["partials"]) => dispatch({ type: "SET_PARTIALS", partials }),
-        );
-      }
-    }
+  const fullCodelistNotation = useMemo(() => {
+    if (!fullCodelistValue) return undefined;
+    const fullCodelists = [
+      ...codelists,
+      ...partialCodelists.map((l) => ({
+        id: l.uri,
+        label: l.labelLg1,
+        notation: l.id,
+      })),
+    ];
+    return fullCodelists.find((list) => list.id === fullCodelistValue)?.notation;
   }, [fullCodelistValue, codelists, partialCodelists]);
+
+  const { data: partials = EMPTY_ARRAY } = useQuery({
+    ...partialsByParentQuery(fullCodelistNotation!),
+    enabled: !!fullCodelistNotation,
+  });
 
   const codelistOptions = codelists.map(({ id, label }) => ({
     value: id,
     label,
   }));
 
-  const partialsOptions = partials?.map(({ iri, labelLg1 }) => ({
+  const partialsOptions = partials.map(({ iri, labelLg1 }) => ({
     value: iri,
     label: labelLg1,
   }));
@@ -747,22 +726,16 @@ const AttributeCodelist = ({
 }: Readonly<AttributeCodelistTypes>) => {
   const { t } = useTranslation();
 
-  const [codes, setCodes] = useState<{ codes: Code[] }>();
-
   const codelistNotation = codelists.find((cl) => cl.id === codelistIri)?.notation;
 
-  useEffect(() => {
-    CodelistsApi.getCodelistCodes(codelistNotation!, 1, 0).then((codes: { codes: Code[] }) =>
-      setCodes(codes),
-    );
-  }, [codelistNotation]);
+  const { data: codes } = useAllCodes(codelistNotation, true);
 
   if (!codes) {
     return null;
   }
 
   const codesOptions: Options = sortByLabel(
-    codes?.codes?.map((code) => ({ value: code.iri, label: code.labelLg1 })) ?? [],
+    codes.map((code) => ({ value: code.iri, label: code.labelLg1 })),
   );
 
   return (
@@ -792,11 +765,10 @@ const AttributeValue = ({
   codelists,
   attributeId,
 }: Readonly<AttributeValueTypes>) => {
-  const [attribute, setAttribute] = useState<Component>();
-
-  useEffect(() => {
-    StructureApi.getMutualizedComponent(attributeId).then((body: Component) => setAttribute(body));
-  }, [attributeId]);
+  const { data: attribute } = useQuery({
+    ...mutualizedComponentQuery(attributeId!),
+    enabled: !!attributeId,
+  });
 
   if (!attribute) {
     return null;

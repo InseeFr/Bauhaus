@@ -1,90 +1,97 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useReducer, useEffect, useCallback } from "react";
+import {
+  QueryClient,
+  queryOptions,
+  useMutation,
+  useQueryClient,
+  useSuspenseQueries,
+} from "@tanstack/react-query";
+import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
+import { LoaderFunctionArgs, useParams } from "react-router";
 
-import { LoadingErrorBloc } from "@components/errors-bloc";
-import { Loading, Saving } from "@components/loading";
+import { Saving } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 
+import { PartialConcept } from "@model/concepts/concept";
 import { Component as StructureComponent } from "@model/structures/Component";
 
-import { ConceptsApi } from "@sdk/concepts-api";
-import { StructureApi } from "@sdk/structure-api";
 import { saveComponent } from "@sdk/structures/saveComponent";
 
+import { conceptListQuery } from "@utils/hooks/concepts";
 import { STRUCTURES_KEY } from "@utils/hooks/structures";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { ComponentDetailEdit } from "../../../components/ComponentDetailEdit";
+import { appQueryClient } from "../../../../application/query-client";
+import { ComponentDetailEdit, ComponentFormState } from "../../../components/ComponentDetailEdit";
+import { mutualizedAttributesQuery, mutualizedComponentQuery } from "../../../hooks/queries";
 import { useFormattedCodelist } from "../../../hooks/useFormattedCodelist";
 
-type EditContainerState = {
-  loading: boolean;
-  component: any;
-  concepts: any[];
-  serverSideError: unknown;
-  attributes: any[];
-  loadError?: unknown;
+/**
+ * Lance les lectures du formulaire pendant le téléchargement de la page, sans retenir la
+ * navigation. À la création, aucune composante n'est lue.
+ */
+export const prefetchEditedComponent =
+  (queryClient: QueryClient) =>
+  ({ params }: LoaderFunctionArgs) => {
+    if (params.id) void queryClient.prefetchQuery(mutualizedComponentQuery(params.id));
+    void queryClient.prefetchQuery(mutualizedAttributesQuery());
+    void queryClient.prefetchQuery(conceptListQuery());
+    return null;
+  };
+
+export const loader = prefetchEditedComponent(appQueryClient);
+
+const NEW_COMPONENT = {} as StructureComponent;
+
+/** À la création, la page ne lit aucune composante : la même file de requêtes sert un objet vide. */
+const newComponentQuery = queryOptions<StructureComponent>({
+  queryKey: ["new-mutualized-component"],
+  queryFn: () => NEW_COMPONENT,
+  staleTime: Infinity,
+});
+
+export const Component = () => {
+  const { id } = useParams<{ id: string }>();
+
+  const [{ data: component }, { data: attributes }, { data: concepts }] = useSuspenseQueries({
+    queries: [
+      id ? mutualizedComponentQuery(id) : newComponentQuery,
+      mutualizedAttributesQuery(),
+      conceptListQuery(),
+    ],
+  });
+
+  return (
+    <ComponentEdition
+      key={id ?? "create"}
+      initialComponent={component}
+      attributes={attributes}
+      concepts={concepts}
+    />
+  );
 };
 
-type EditContainerAction =
-  | {
-      type: "LOAD_SUCCESS";
-      component: any;
-      attributes: any[];
-      concepts: any[];
-    }
-  | { type: "LOAD_FAILED"; error: unknown }
-  | { type: "LOAD_FINISHED" }
-  | { type: "SAVE_STARTED" }
-  | { type: "SAVE_FAILED"; component: any; error: unknown };
-
-const initialState: EditContainerState = {
-  loading: true,
-  component: {},
-  concepts: [],
-  serverSideError: "",
-  attributes: [],
-};
-
-function editContainerReducer(
-  state: EditContainerState,
-  action: EditContainerAction,
-): EditContainerState {
-  switch (action.type) {
-    case "LOAD_SUCCESS":
-      return {
-        ...state,
-        component: action.component,
-        attributes: action.attributes,
-        concepts: action.concepts,
-      };
-    case "LOAD_FAILED":
-      return { ...state, loadError: action.error };
-    case "LOAD_FINISHED":
-      return { ...state, loading: false };
-    case "SAVE_STARTED":
-      return { ...state, serverSideError: "" };
-    case "SAVE_FAILED":
-      return {
-        ...state,
-        component: action.component,
-        serverSideError: action.error,
-      };
-    default:
-      return state;
-  }
+interface ComponentEditionTypes {
+  initialComponent: StructureComponent;
+  attributes: StructureComponent[];
+  concepts: PartialConcept[];
 }
 
-export const Component = (props: any) => {
+/**
+ * La composante lue au montage initialise le formulaire une fois pour toutes : une relecture en
+ * arrière-plan (retour sur l'onglet, invalidation) ne doit pas écraser la saisie en cours.
+ */
+const ComponentEdition = ({
+  initialComponent,
+  attributes,
+  concepts,
+}: Readonly<ComponentEditionTypes>) => {
   const { t } = useTranslation();
 
   const goBack = useGoBack();
 
-  const { id } = useParams<{ id: string }>();
-  const isEditing = !!id;
+  const isEditing = !!initialComponent.id;
 
   const urlParams = new URLSearchParams(window.location.search);
 
@@ -92,8 +99,9 @@ export const Component = (props: any) => {
 
   const { data: codelists = [] } = useFormattedCodelist();
 
-  const [state, dispatch] = useReducer(editContainerReducer, initialState);
-  const { loading, component, concepts, serverSideError, attributes, loadError } = state;
+  // Après un échec, le formulaire est remonté avec la saisie envoyée.
+  const [component, setComponent] = useState<ComponentFormState>(initialComponent);
+  const [serverSideError, setServerSideError] = useState<unknown>("");
 
   const handleBack = useCallback(() => goBack("/structures/components"), [goBack]);
 
@@ -101,32 +109,17 @@ export const Component = (props: any) => {
 
   /** Fiche et listes périmées avant le retour. Un échec s'affiche dans le formulaire. */
   const { mutate: handleSave, isPending: saving } = useMutation({
-    mutationFn: (component: StructureComponent) => saveComponent(component),
-    onMutate: () => dispatch({ type: "SAVE_STARTED" }),
+    mutationFn: (component: ComponentFormState) => saveComponent(component as StructureComponent),
+    onMutate: () => setServerSideError(""),
     onSuccess: async (id, component) => {
       await queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY, refetchType: "none" });
       goBack(`/structures/components/${id ?? component.id}`, !component.id);
     },
-    onError: (error, component) => dispatch({ type: "SAVE_FAILED", component, error }),
+    onError: (error, component) => {
+      setComponent(component);
+      setServerSideError(error);
+    },
   });
-
-  useEffect(() => {
-    const getComponent = id ? StructureApi.getMutualizedComponent(id) : Promise.resolve({});
-    Promise.all([
-      getComponent,
-      StructureApi.getMutualizedAttributes(),
-      ConceptsApi.getConceptList(),
-    ])
-      .then(([component, attributes, concepts]) => {
-        dispatch({ type: "LOAD_SUCCESS", component, attributes, concepts });
-      })
-      .catch((error: unknown) => dispatch({ type: "LOAD_FAILED", error }))
-      .finally(() => dispatch({ type: "LOAD_FINISHED" }));
-  }, [id]);
-
-  if (loadError) return <LoadingErrorBloc error={loadError} />;
-
-  if (loading) return <Loading />;
 
   if (saving) return <Saving />;
 
@@ -138,17 +131,14 @@ export const Component = (props: any) => {
         <PageTitle title={t("component.creationPageTitle")} />
       )}
       <ComponentDetailEdit
-        {...props}
-        col={2}
         codelists={codelists}
         component={component}
         concepts={concepts}
         handleBack={handleBack}
         handleSave={handleSave}
-        mutualized={true}
         attributes={attributes}
         serverSideError={serverSideError}
-        type={type === "ALL" ? undefined : type}
+        type={type === "ALL" || type === null ? undefined : type}
       />
     </>
   );
