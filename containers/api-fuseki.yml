@@ -1,0 +1,19 @@
+# Surcharge de containers/api.yml : le back lit Fuseki au lieu de GraphDB.
+# Fusionnée par compose-fuseki.yaml (`include` à deux fichiers).
+services:
+  api:
+    environment:
+      FR_INSEE_RMES_RDF_BACKEND: fuseki
+      # Écritures protégées par l'image : identifiants de containers/fuseki.yml.
+      FR_INSEE_RMES_RDF_BASIC_AUTH_USERNAME: admin
+      FR_INSEE_RMES_RDF_BASIC_AUTH_PASSWORD: admin
+      # Le dépôt devient le dataset : <serveur>/<dataset>/sparql et /update.
+      FR_INSEE_RMES_BAUHAUS_SESAME_GESTION_SESAMESERVER: http://fuseki:3030
+      FR_INSEE_RMES_BAUHAUS_SESAME_PUBLICATION_SESAMESERVER: http://fuseki:3030
+    depends_on: !override
+      fuseki:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
