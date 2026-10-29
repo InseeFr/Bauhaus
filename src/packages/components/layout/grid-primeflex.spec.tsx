@@ -17,6 +17,13 @@ import { VerticalMenu } from "../vertical-menu";
 
 import { Column, Row } from ".";
 
+const noInputs: string[] = [];
+const comparedNotes = { 1: {}, 2: {} };
+const buildNotes = () => [{ lg1: "a", lg2: "b", title: "t" }];
+const editedNotes = { scopeNoteLg1: "a", scopeNoteLg2: "b", definitionLg1: "" };
+const noErrors = { errorMessage: [], fields: {} };
+const homePageMenu = <VerticalMenu>{[<button key="a">a</button>]}</VerticalMenu>;
+
 describe("grille PrimeFlex", () => {
   it("Row rend une ligne de grille PrimeFlex", () => {
     const { container } = render(<Row className="extra" />);
@@ -42,8 +49,8 @@ describe("grille PrimeFlex", () => {
       "InputMulti",
       <InputMulti
         key="m"
-        inputLg1={[]}
-        inputLg2={[]}
+        inputLg1={noInputs}
+        inputLg2={noInputs}
         labelLg1="lg1"
         labelLg2="lg2"
         handleChangeLg1={vi.fn()}
@@ -59,32 +66,28 @@ describe("grille PrimeFlex", () => {
       "CompareNotes",
       <CompareNotes
         key="cn"
-        notes={{ 1: {}, 2: {} }}
+        notes={comparedNotes}
         secondLang
         version={2}
-        buildNotes={() => [{ lg1: "a", lg2: "b", title: "t" }]}
+        buildNotes={buildNotes}
       />,
     ],
     [
       "NoteEdition",
       <NoteEdition
         key="ne"
-        notes={{ scopeNoteLg1: "a", scopeNoteLg2: "b", definitionLg1: "" }}
+        notes={editedNotes}
         noteLg1Name="scopeNoteLg1"
         noteLg2Name="scopeNoteLg2"
         handleChangeLg1={vi.fn()}
         handleChangeLg2={vi.fn()}
         maxLength={0}
-        errorMessage={{ errorMessage: [], fields: {} }}
+        errorMessage={noErrors}
       />,
     ],
     [
       "HomePageLayout",
-      <HomePageLayout
-        key="h"
-        title="titre"
-        menu={<VerticalMenu>{[<button key="a">a</button>]}</VerticalMenu>}
-      >
+      <HomePageLayout key="h" title="titre" menu={homePageMenu}>
         liste
       </HomePageLayout>,
     ],
