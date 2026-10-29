@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import {
@@ -19,9 +19,10 @@ import { HasAccess } from "../../../../../auth/components/auth";
 interface ControlsTypes {
   structure: Structure;
   publish: VoidFunction;
+  onDeleteError: (error: unknown) => void;
 }
 
-export const Controls = ({ structure, publish }: ControlsTypes) => {
+export const Controls = ({ structure, publish, onDeleteError }: ControlsTypes) => {
   const contributors = Array.isArray(structure.contributor)
     ? structure.contributor
     : [structure.contributor];
@@ -31,9 +32,9 @@ export const Controls = ({ structure, publish }: ControlsTypes) => {
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    StructureApi.deleteStructure(id).finally(() => {
-      navigate("/structures");
-    });
+    StructureApi.deleteStructure(id)
+      .then(() => navigate("/structures"))
+      .catch(onDeleteError);
   };
 
   return (

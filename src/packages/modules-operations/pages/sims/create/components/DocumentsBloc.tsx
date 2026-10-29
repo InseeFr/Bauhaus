@@ -86,7 +86,7 @@ export function DocumentsBloc({
       aria-label={t("app.btnDelete")}
       onClick={() => deleteHandler?.(document.uri)}
     >
-      <span className="glyphicon glyphicon-trash" aria-hidden="true" />
+      <span className="pi pi-trash" aria-hidden="true" />
     </button>
   );
 
@@ -169,7 +169,7 @@ export function DocumentsBloc({
               onClick={() => setPanelStatus(!panelStatus)}
             >
               <span
-                className={cx("glyphicon", `glyphicon-menu-${panelStatus ? "down" : "right"}`)}
+                className={cx("pi", `pi-angle-${panelStatus ? "down" : "right"}`)}
                 aria-hidden="true"
               />
               {addTitle} <span className="badge">{otherDocuments.length}</span>

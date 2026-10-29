@@ -1,0 +1,10 @@
+/* Conteneur de toutes les pages DDI : la géométrie qu'avait `.container` de Bootstrap une fois
+   surchargé par `.ddi .container` (95 % de large, marge de 2em, gouttières de 15px). `flow-root`
+   remplace le clearfix de Bootstrap. */
+.ddi-layout {
+  display: flow-root;
+  width: 95%;
+  margin: 2em auto;
+  padding-right: 15px;
+  padding-left: 15px;
+}

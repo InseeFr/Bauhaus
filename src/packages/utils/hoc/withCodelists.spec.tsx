@@ -1,9 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
-import { PropsWithChildren } from "react";
 
 import { fetchCodelist } from "@sdk/index";
 
+import { queryClientWrapper as wrapper } from "../hooks/wrappers.testing";
 import { withCodelists } from "./withCodelists";
 
 vi.mock("@sdk/index", () => ({
@@ -19,12 +18,6 @@ const Probe = (props: Record<string, any>) => (
 );
 
 const Wrapped = withCodelists(["CL_FREQ", "CL_SOURCE"])(Probe);
-
-const wrapper = ({ children }: PropsWithChildren) => (
-  <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-    {children}
-  </QueryClientProvider>
-);
 
 describe("withCodelists", () => {
   beforeEach(() => vi.clearAllMocks());

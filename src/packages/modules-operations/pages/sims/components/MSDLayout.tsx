@@ -6,7 +6,6 @@ import { MetadataStructure } from "@model/Sims";
 import { Status, useLayout } from "../../../hooks/useLayout";
 import { Outline } from "./Outline";
 import "./MSDLayout.css";
-import "../../../../components/panel-trigger/panel-trigger.css";
 
 interface MSDComponentTypes {
   baseUrl: string;
@@ -60,26 +59,36 @@ export const MSDLayout = ({
       {status === Status.CONTENT && (
         <button type="button" className="msd-panel-trigger-left" onClick={changeStatusToBoth}>
           {t("sims.helpSummary")}
-          <span className="glyphicon glyphicon-chevron-right" />
+          <span className="pi pi-chevron-right" />
         </button>
       )}
       {status === Status.BOTH && (
         <div className="msd-panel-trigger-middle">
           <div>
-            <button type="button" onClick={changeStatusToContent} title="open content">
-              <span className="glyphicon glyphicon-chevron-left" />
+            <button
+              type="button"
+              onClick={changeStatusToContent}
+              aria-label={t("sims.showContentOnly")}
+              title={t("sims.showContentOnly")}
+            >
+              <span className="pi pi-chevron-left" aria-hidden="true" />
             </button>
           </div>
           <div>
-            <button type="button" onClick={changeStatusToSummary} title="open summary">
-              <span className="glyphicon glyphicon-chevron-right" />
+            <button
+              type="button"
+              onClick={changeStatusToSummary}
+              aria-label={t("sims.showSummaryOnly")}
+              title={t("sims.showSummaryOnly")}
+            >
+              <span className="pi pi-chevron-right" aria-hidden="true" />
             </button>
           </div>
         </div>
       )}
       {status === Status.SUMMARY && (
         <button type="button" className="msd-panel-trigger-right" onClick={changeStatusToBoth}>
-          <span className="glyphicon glyphicon-chevron-left" />
+          <span className="pi pi-chevron-left" />
           {t("sims.helpContent")}
         </button>
       )}

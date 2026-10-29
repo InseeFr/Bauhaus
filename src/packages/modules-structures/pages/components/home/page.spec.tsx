@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+import { MouseEvent, useCallback } from "react";
+import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { StructureApi } from "@sdk/index";
@@ -9,32 +10,39 @@ import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants";
 import { Component } from "./page";
 
 const navigate = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
   useNavigate: () => navigate,
 }));
 
 // Le module structures initialise sa propre instance i18next au chargement : on ne
 // remplace que useTranslation, sinon initReactI18next disparaît et l'import échoue.
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual("react-i18next")),
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+vi.mock("react-i18next", async () =>
+  (await import("../../../mocks.testing")).translationKeysAsLabels(
+    await vi.importActual("react-i18next"),
+  ),
+);
 
 vi.mock("@sdk/index", () => ({ StructureApi: { getMutualizedComponents: vi.fn() } }));
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("@components/filter-toggle-buttons", () => ({
-  FilterToggleButtons: ({ currentValue, handleSelection, options }: any) => (
-    <div>
-      <span>filtre:{currentValue}</span>
-      {options.map(([value, label]: [string, string]) => (
-        <button key={value} onClick={() => handleSelection(value)}>
-          {label}
-        </button>
-      ))}
-    </div>
-  ),
+  FilterToggleButtons: ({ currentValue, handleSelection, options }: any) => {
+    const select = useCallback(
+      (e: MouseEvent<HTMLButtonElement>) => handleSelection(e.currentTarget.value),
+      [handleSelection],
+    );
+    return (
+      <div>
+        <span>filtre:{currentValue}</span>
+        {options.map(([value, label]: [string, string]) => (
+          <button key={value} value={value} onClick={select}>
+            {label}
+          </button>
+        ))}
+      </div>
+    );
+  },
 }));
 vi.mock("@components/searchable-list", () => ({
   SearchableList: ({ items }: any) => (
@@ -66,6 +74,13 @@ const renderPage = () =>
     </MemoryRouter>,
   );
 
+const renderPageFilteredBySecondType = async () => {
+  renderPage();
+  await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));
+
+  await userEvent.click(screen.getByRole("button", { name: secondType.labelPlural }));
+};
+
 describe("Mutualized components home page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -90,10 +105,7 @@ describe("Mutualized components home page", () => {
   });
 
   it("filtre par type et remet la pagination à la première page", async () => {
-    renderPage();
-    await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));
-
-    await userEvent.click(screen.getByRole("button", { name: secondType.labelPlural }));
+    await renderPageFilteredBySecondType();
 
     await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(1));
     expect(screen.getByText("Second")).toBeInTheDocument();
@@ -101,10 +113,7 @@ describe("Mutualized components home page", () => {
   });
 
   it("mémorise le filtre choisi pour la prochaine visite", async () => {
-    renderPage();
-    await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));
-
-    await userEvent.click(screen.getByRole("button", { name: secondType.labelPlural }));
+    await renderPageFilteredBySecondType();
 
     await waitFor(() =>
       expect(sessionStorage.getItem("components-displayMode")).toBe(secondType.value),

@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router";
 import { describe, it, expect, vi } from "vitest";
 
 import { ClassificationTree } from "./ClassificationTree";
@@ -8,9 +8,7 @@ vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
 }));
 
-vi.mock("@components/layout", () => ({
-  Row: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-}));
+vi.mock("@components/layout", () => import("../../../../testing/component-mocks.testing"));
 
 vi.mock("@components/page-title", () => ({
   PageTitle: ({ title, subtitle }: { title: string; subtitle: string }) => (
@@ -21,13 +19,12 @@ vi.mock("@components/page-title", () => ({
   ),
 }));
 
-vi.mock("@components/check-second-lang", () => ({
-  CheckSecondLang: () => <div data-testid="check-second-lang" />,
-}));
+vi.mock(
+  "@components/check-second-lang",
+  () => import("../../../../testing/component-mocks.testing"),
+);
 
-vi.mock("../menu", () => ({
-  Menu: () => <div data-testid="controls" />,
-}));
+vi.mock("../menu", () => import("../../../../testing/component-mocks.testing"));
 
 vi.mock("primereact/tree", () => ({
   Tree: ({ value, nodeTemplate }: any) => (
@@ -47,21 +44,17 @@ const treeData = [
   { id: "3", labelLg1: "Child Item", labelLg2: "Child Item EN", parent: "1" },
 ];
 
+const TREE_ENTRIES = ["/classifications/classification/coicop2016/tree"];
+
+const treeElement = (props: Record<string, any>) => (
+  <ClassificationTree data={treeData} prefLabel="COICOP 2016" secondLang={false} {...props} />
+);
+
 const renderTree = (props: Record<string, any> = {}) =>
   render(
-    <MemoryRouter initialEntries={["/classifications/classification/coicop2016/tree"]}>
+    <MemoryRouter initialEntries={TREE_ENTRIES}>
       <Routes>
-        <Route
-          path="/classifications/classification/:id/tree"
-          element={
-            <ClassificationTree
-              data={treeData}
-              prefLabel="COICOP 2016"
-              secondLang={false}
-              {...props}
-            />
-          }
-        />
+        <Route path="/classifications/classification/:id/tree" element={treeElement(props)} />
       </Routes>
     </MemoryRouter>,
   );

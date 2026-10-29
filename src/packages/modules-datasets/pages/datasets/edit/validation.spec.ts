@@ -1,27 +1,26 @@
 import { CatalogRecord, Dataset } from "@model/Dataset";
 
-vi.mock("../../../i18n", () => ({
-  datasetsI18n: {
-    t: (key: string, options?: { lng?: string }) => {
-      const translations: Record<string, Record<string, string>> = {
-        fr: {
-          "dataset.globalInformation.mainTitle": "Intitulé",
-        },
-        en: {
-          "dataset.globalInformation.mainTitle": "Title",
-          "dataset.internalManagement.creator": "Owner",
-          "dataset.internalManagement.contributors": "Contributors",
-          "dataset.internalManagement.disseminationStatus": "Dissemination status",
-          "dataset.internalManagement.generatedBy": "Produced from",
-        },
-      };
-      const lng = options?.lng || "en";
-      return translations[lng]?.[key] || key;
-    },
-  },
-}));
+import { i18nStub, mandatoryPropertyError } from "@utils/validation.testing";
 
 import { validate } from "./validation";
+
+vi.mock("../../../i18n", () => ({
+  datasetsI18n: i18nStub(
+    {
+      fr: {
+        "dataset.globalInformation.mainTitle": "Intitulé",
+      },
+      en: {
+        "dataset.globalInformation.mainTitle": "Title",
+        "dataset.internalManagement.creator": "Owner",
+        "dataset.internalManagement.contributors": "Contributors",
+        "dataset.internalManagement.disseminationStatus": "Dissemination status",
+        "dataset.internalManagement.generatedBy": "Produced from",
+      },
+    },
+    "en",
+  ),
+}));
 
 const catalogRecord = {
   creator: "creator",
@@ -35,153 +34,116 @@ const catalogRecord = {
  */
 const asDataset = (fields: Record<string, unknown>) => fields as unknown as Dataset;
 
-describe("validation", function () {
-  it("should return an error for labelLg1", function () {
-    expect(
-      validate(
-        asDataset({
-          labelLg2: "labelLg2",
-          catalogRecord,
-          disseminationStatus: "status",
-          wasGeneratedIRIs: ["id"],
-        }),
-      ),
-    ).toEqual({
-      errorMessage: ["The property <strong>Intitulé</strong> is required."],
-      fields: {
-        labelLg1: "The property <strong>Intitulé</strong> is required.",
-        labelLg2: "",
-        altIdentifier: "",
-        creator: "",
-        contributor: "",
-        disseminationStatus: "",
-        wasGeneratedIRIs: "",
-      },
-    });
-  });
-  it("should return an error for labelLg2", function () {
-    expect(
-      validate(
-        asDataset({
-          labelLg1: "labelLg1",
-          catalogRecord,
-          disseminationStatus: "status",
-          wasGeneratedIRIs: ["id"],
-        }),
-      ),
-    ).toEqual({
-      errorMessage: ["The property <strong>Title</strong> is required."],
-      fields: {
-        labelLg1: "",
-        labelLg2: "The property <strong>Title</strong> is required.",
-        altIdentifier: "",
-        creator: "",
-        contributor: "",
-        disseminationStatus: "",
-        wasGeneratedIRIs: "",
-      },
-    });
-  });
-  it("should return an error for creator, contributor, disseminationStatus and wasGeneratedIRIs", function () {
-    expect(
-      validate(
-        asDataset({
-          labelLg1: "labelLg2",
-          labelLg2: "labelLg2",
-          contributor: [],
-          wasGeneratedIRIs: [],
-        }),
-      ),
-    ).toEqual({
+const validDataset = {
+  labelLg1: "labelLg2",
+  labelLg2: "labelLg2",
+  catalogRecord,
+  disseminationStatus: "status",
+  wasGeneratedIRIs: ["id"],
+};
+
+const NO_FIELD_ERROR = {
+  labelLg1: "",
+  labelLg2: "",
+  altIdentifier: "",
+  creator: "",
+  contributor: "",
+  disseminationStatus: "",
+  wasGeneratedIRIs: "",
+};
+
+const titleLg1Required = mandatoryPropertyError("Intitulé");
+const titleLg2Required = mandatoryPropertyError("Title");
+const creatorRequired = mandatoryPropertyError("Owner");
+const contributorRequired = mandatoryPropertyError("Contributors");
+const disseminationStatusRequired = mandatoryPropertyError("Dissemination status");
+const generatedByRequired = mandatoryPropertyError("Produced from");
+
+const cases: {
+  name: string;
+  dataset: Record<string, unknown>;
+  expected: ReturnType<typeof validate>;
+}[] = [
+  {
+    name: "should return an error for labelLg1",
+    dataset: {
+      labelLg2: "labelLg2",
+      catalogRecord,
+      disseminationStatus: "status",
+      wasGeneratedIRIs: ["id"],
+    },
+    expected: {
+      errorMessage: [titleLg1Required],
+      fields: { ...NO_FIELD_ERROR, labelLg1: titleLg1Required },
+    },
+  },
+  {
+    name: "should return an error for labelLg2",
+    dataset: {
+      labelLg1: "labelLg1",
+      catalogRecord,
+      disseminationStatus: "status",
+      wasGeneratedIRIs: ["id"],
+    },
+    expected: {
+      errorMessage: [titleLg2Required],
+      fields: { ...NO_FIELD_ERROR, labelLg2: titleLg2Required },
+    },
+  },
+  {
+    name: "should return an error for creator, contributor, disseminationStatus and wasGeneratedIRIs",
+    dataset: {
+      labelLg1: "labelLg2",
+      labelLg2: "labelLg2",
+      contributor: [],
+      wasGeneratedIRIs: [],
+    },
+    expected: {
       errorMessage: [
-        "The property <strong>Owner</strong> is required.",
-        "The property <strong>Contributors</strong> is required.",
-        "The property <strong>Dissemination status</strong> is required.",
-        "The property <strong>Produced from</strong> is required.",
+        creatorRequired,
+        contributorRequired,
+        disseminationStatusRequired,
+        generatedByRequired,
       ],
       fields: {
-        labelLg1: "",
-        labelLg2: "",
-        altIdentifier: "",
-        creator: "The property <strong>Owner</strong> is required.",
-        contributor: "The property <strong>Contributors</strong> is required.",
-        disseminationStatus: "The property <strong>Dissemination status</strong> is required.",
-        wasGeneratedIRIs: "The property <strong>Produced from</strong> is required.",
+        ...NO_FIELD_ERROR,
+        creator: creatorRequired,
+        contributor: contributorRequired,
+        disseminationStatus: disseminationStatusRequired,
+        wasGeneratedIRIs: generatedByRequired,
       },
-    });
-  });
-  it("should return an error if wasGeneratedIRIs is an empty array", function () {
-    expect(
-      validate(
-        asDataset({
-          labelLg1: "labelLg2",
-          labelLg2: "labelLg2",
-          catalogRecord,
-          disseminationStatus: "status",
-          wasGeneratedIRIs: [],
-        }),
-      ),
-    ).toEqual({
-      errorMessage: ["The property <strong>Produced from</strong> is required."],
-      fields: {
-        labelLg1: "",
-        labelLg2: "",
-        altIdentifier: "",
-        creator: "",
-        contributor: "",
-        disseminationStatus: "",
-        wasGeneratedIRIs: "The property <strong>Produced from</strong> is required.",
-      },
-    });
-  });
+    },
+  },
+  {
+    name: "should return an error if wasGeneratedIRIs is an empty array",
+    dataset: { ...validDataset, wasGeneratedIRIs: [] },
+    expected: {
+      errorMessage: [generatedByRequired],
+      fields: { ...NO_FIELD_ERROR, wasGeneratedIRIs: generatedByRequired },
+    },
+  },
+  {
+    name: "should return no error",
+    dataset: { ...validDataset, dataStructure: "http://dataset" },
+    expected: {
+      errorMessage: [],
+      fields: NO_FIELD_ERROR,
+    },
+  },
+  {
+    name: "should return no error if datastructure is undefined",
+    dataset: validDataset,
+    expected: {
+      errorMessage: [],
+      fields: NO_FIELD_ERROR,
+    },
+  },
+];
 
-  it("should return no error", function () {
-    expect(
-      validate(
-        asDataset({
-          labelLg1: "labelLg2",
-          labelLg2: "labelLg2",
-          catalogRecord,
-          disseminationStatus: "status",
-          wasGeneratedIRIs: ["id"],
-          dataStructure: "http://dataset",
-        }),
-      ),
-    ).toEqual({
-      errorMessage: [],
-      fields: {
-        labelLg1: "",
-        labelLg2: "",
-        altIdentifier: "",
-        creator: "",
-        contributor: "",
-        disseminationStatus: "",
-        wasGeneratedIRIs: "",
-      },
-    });
-  });
-  it("should return no error if datastructure is undefined", function () {
-    expect(
-      validate(
-        asDataset({
-          labelLg1: "labelLg2",
-          labelLg2: "labelLg2",
-          catalogRecord,
-          disseminationStatus: "status",
-          wasGeneratedIRIs: ["id"],
-        }),
-      ),
-    ).toEqual({
-      errorMessage: [],
-      fields: {
-        labelLg1: "",
-        labelLg2: "",
-        altIdentifier: "",
-        creator: "",
-        contributor: "",
-        disseminationStatus: "",
-        wasGeneratedIRIs: "",
-      },
+describe("validation", function () {
+  cases.forEach(({ name, dataset, expected }) => {
+    it(name, function () {
+      expect(validate(asDataset(dataset))).toEqual(expected);
     });
   });
 });

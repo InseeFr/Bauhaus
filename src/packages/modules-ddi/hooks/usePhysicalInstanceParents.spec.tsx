@@ -9,12 +9,12 @@ vi.mock("../../sdk", () => ({
   DDIApi: { getPhysicalInstanceParents: vi.fn() },
 }));
 
-const renderParents = (agencyId: string, id: string) => {
+const renderParents = (agencyId: string, id: string, options?: { enabled?: boolean }) => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   const wrapper = ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
-  return renderHook(() => usePhysicalInstanceParents(agencyId, id), { wrapper });
+  return renderHook(() => usePhysicalInstanceParents(agencyId, id, options), { wrapper });
 };
 
 describe("usePhysicalInstanceParents", () => {
@@ -38,6 +38,13 @@ describe("usePhysicalInstanceParents", () => {
     // Les hooks composés passent des chaînes vides pour se désactiver (convention du module) :
     // sans garde, la requête partirait sur `/physical-instance///parents`.
     const { result } = renderParents("", "");
+
+    expect(DDIApi.getPhysicalInstanceParents).not.toHaveBeenCalled();
+    expect(result.current.isLoading).toBe(false);
+  });
+
+  it("n'appelle pas le back quand l'appelant désactive la requête", () => {
+    const { result } = renderParents("fr.insee", "pi-1", { enabled: false });
 
     expect(DDIApi.getPhysicalInstanceParents).not.toHaveBeenCalled();
     expect(result.current.isLoading).toBe(false);

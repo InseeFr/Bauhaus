@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { Link as LinkType } from "@model/concepts/concept";
 

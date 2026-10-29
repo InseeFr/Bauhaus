@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -13,6 +13,7 @@ import { Row } from "@components/layout";
 import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 
+import { toFormErrors } from "@utils/api-errors";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 
 import "./CodelistDetailEdit.css";
@@ -20,6 +21,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
 import { CodesPanel } from "../../../../components/CodesPanel";
+import { CodeChanges, RefusedCode } from "../../../../utils/code-changes";
 import { validate } from "../validation";
 import { UriInputGroup } from "./UriInputGroup";
 
@@ -46,7 +48,25 @@ interface CodelistDetailEditTypes {
   handleBack: VoidFunction;
   updateMode: boolean;
   serverSideError?: unknown;
+  /** Modifications de codes en attente, envoyées par la page après la sauvegarde de la liste. */
+  codeChanges?: CodeChanges;
+  onCodeChangesChange?: (changes: CodeChanges) => void;
+  /** Code refusé par le serveur à la dernière sauvegarde, à rouvrir avec son erreur. */
+  refusedCode?: RefusedCode;
 }
+
+/** Champs du corps (`CodesListRequest`) qui ont un emplacement d'erreur sur l'écran ;
+ * les autres (descriptions, contributeurs, codes) restent au bandeau. */
+const FIELDS_WITH_ERROR_SLOT = [
+  "id",
+  "labelLg1",
+  "labelLg2",
+  "creator",
+  "disseminationStatus",
+  "lastListUriSegment",
+  "lastClassUriSegment",
+  "lastCodeUriSegment",
+];
 
 const defaultCodelist: CodelistFormValues = {
   created: new Date(),
@@ -58,17 +78,37 @@ export const CodelistDetailEdit = ({
   handleBack,
   updateMode,
   serverSideError,
+  codeChanges,
+  onCodeChangesChange,
+  refusedCode,
 }: Readonly<CodelistDetailEditTypes>) => {
   const { t } = useTranslation();
 
   const [codelist, setCodelist] = useState<CodelistFormValues>(defaultCodelist);
 
+  // La page démonte le formulaire pendant l'enregistrement : il renaît avec le rejet, dont les
+  // erreurs de champ deviennent l'état initial des erreurs client.
+  const serverErrors = useMemo(
+    () => toFormErrors(serverSideError, FIELDS_WITH_ERROR_SLOT),
+    [serverSideError],
+  );
+
   const [clientSideErrors, setClientSideErrors] = useState<{
     fields?: Record<string, string>;
     errorMessage?: string[];
-  }>({});
+  }>(() => serverErrors.clientSideErrors ?? {});
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(() => !!serverErrors.clientSideErrors);
+
+  // Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide la liste.
+  const [saveAttempted, setSaveAttempted] = useState(false);
+
+  const updateCodelist = (updated: CodelistFormValues) => {
+    setCodelist(updated);
+    setClientSideErrors(
+      saveAttempted ? validate(updated) : { ...clientSideErrors, errorMessage: [] },
+    );
+  };
 
   useTitle(t("codelists.pluralTitle"), codelist?.labelLg1);
 
@@ -90,22 +130,19 @@ export const CodelistDetailEdit = ({
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
-      setClientSideErrors({
-        ...clientSideErrors,
-        errorMessage: [],
-      });
-      setCodelist({
+      updateCodelist({
         ...codelist,
         [name]: value,
       });
     },
-    [clientSideErrors, codelist],
+    [clientSideErrors, codelist, saveAttempted],
   );
 
   const handleSaveClick = useCallback(() => {
     const clientSideErrors = validate(codelist);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
+      setSaveAttempted(true);
       setClientSideErrors(clientSideErrors);
     } else {
       setClientSideErrors({});
@@ -130,7 +167,7 @@ export const CodelistDetailEdit = ({
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      {serverSideError && <ErrorBloc error={serverSideError} />}
+      <ErrorBloc error={serverErrors.serverSideError} />
       <form>
         <Row>
           <UriInputGroup
@@ -219,11 +256,7 @@ export const CodelistDetailEdit = ({
             mode="organization"
             value={codelist.creator ?? ""}
             onChange={(value) => {
-              setCodelist({ ...codelist, creator: value as string });
-              setClientSideErrors({
-                ...clientSideErrors,
-                errorMessage: [],
-              });
+              updateCodelist({ ...codelist, creator: value as string });
             }}
           />
           <ClientSideError
@@ -245,11 +278,7 @@ export const CodelistDetailEdit = ({
           <DisseminationStatusInput
             value={codelist.disseminationStatus ?? ""}
             handleChange={(value) => {
-              setCodelist({ ...codelist, disseminationStatus: value });
-              setClientSideErrors({
-                ...clientSideErrors,
-                errorMessage: [],
-              });
+              updateCodelist({ ...codelist, disseminationStatus: value });
             }}
             required
           />
@@ -281,7 +310,15 @@ export const CodelistDetailEdit = ({
           </div>
         </Row>
       </form>
-      {updateMode && <CodesPanel codelist={codelist as any} editable={true} />}
+      {updateMode && (
+        <CodesPanel
+          codelist={codelist as any}
+          editable={true}
+          codeChanges={codeChanges}
+          onCodeChangesChange={onCodeChangesChange}
+          refusedCode={refusedCode}
+        />
+      )}
     </>
   );
 };

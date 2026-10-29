@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { Organization, Organizations } from "@components/business/organizations/organizations";
+import { ThemesList } from "@components/business/themes";
 import { CodeDisplay } from "@components/code-display";
 import { ConditionalDisplay } from "@components/data/conditional-display";
 import { Row } from "@components/layout";
@@ -15,7 +16,6 @@ import { useCodelist } from "@utils/hooks/codelist";
 import { useOrganizations } from "@utils/hooks/organizations";
 
 import { CL_ACCESS_RIGHTS, CL_CONF_STATUS, CL_FREQ } from "../../../../../constants/code-lists";
-import { useThemes } from "../../../../hooks/useThemes";
 import { WasGeneratedByBlock } from "./WasGeneratedByBlock";
 
 interface GlobalInformationBlockTypes {
@@ -24,8 +24,6 @@ interface GlobalInformationBlockTypes {
 
 export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBlockTypes>) => {
   const { t } = useTranslation();
-
-  const { data: themesOptions = [] } = useThemes();
 
   const { data: organizations } = useOrganizations();
 
@@ -99,11 +97,7 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
             </li>
             <ConditionalDisplay data={dataset.themes}>
               <li>
-                {t("dataset.globalInformation.theme")} :{" "}
-                <List
-                  items={dataset.themes}
-                  getContent={(value) => themesOptions?.find((t) => t.value === value)?.label ?? ""}
-                ></List>
+                {t("dataset.globalInformation.theme")} : <ThemesList iris={dataset.themes} />
               </li>
             </ConditionalDisplay>
             {dataset.keywords?.lg1?.length > 0 && (

@@ -1,17 +1,16 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ClassificationsApi } from "@sdk/classification";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderClassificationsPage } from "../../../testing/render.testing";
 import { Component } from "./page";
 
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
-  useParams: () => ({ id: "corr-1" }),
-}));
+vi.mock("react-router", async () =>
+  (await import("../../../testing/router.testing")).withMockedParams(() => ({ id: "corr-1" })),
+);
 
 vi.mock("@sdk/classification", () => ({
   ClassificationsApi: {
@@ -29,18 +28,7 @@ vi.mock("./components/HomeAssociations", () => ({
   HomeAssociations: ({ associations }: any) => <p>associations:{associations.length}</p>,
 }));
 
-const renderPage = () => {
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  return render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>
-      </QueryClientProvider>
-    </AppContextProvider>,
-  );
-};
+const renderPage = () => renderClassificationsPage(<Component />, { withQueryClient: true });
 
 describe("Correspondences view page", () => {
   beforeEach(() => {
@@ -63,6 +51,26 @@ describe("Correspondences view page", () => {
     );
     await waitFor(() => expect(screen.getByText("associations:1")).toBeInTheDocument());
     expect(ClassificationsApi.getCorrespondenceGeneral).toHaveBeenCalledWith("corr-1");
+  });
+
+  it("indique que la correspondance est introuvable au lieu d'une page vide", async () => {
+    vi.mocked(ClassificationsApi.getCorrespondenceGeneral).mockRejectedValue(
+      sdkRejection.emptyBody(404),
+    );
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/^correspondance:/)).not.toBeInTheDocument();
+  });
+
+  it("indique que les associations n'ont pas pu être chargées", async () => {
+    vi.mocked(ClassificationsApi.getCorrespondenceAssociations).mockRejectedValue(
+      sdkRejection.emptyBody(500),
+    );
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 
   it("affiche le général sans attendre les associations", async () => {

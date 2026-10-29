@@ -1,0 +1,37 @@
+/* Dimensions en px ou em : la racine Bootstrap (10px) rétrécit les rem du thème Lara. */
+.bauhaus-searchable-list {
+  .bauhaus-searchable-list-search {
+    margin-bottom: 15px;
+  }
+
+  /* .p-component impose 1rem (10px) : on garde la taille du texte environnant. */
+  .p-component {
+    font-size: inherit;
+  }
+
+  .p-datatable .p-datatable-tbody > tr > td {
+    padding: 10px 15px;
+    text-align: left;
+  }
+
+  .p-paginator {
+    padding: 8px 15px;
+  }
+
+  .p-paginator .p-paginator-page,
+  .p-paginator .p-paginator-first,
+  .p-paginator .p-paginator-prev,
+  .p-paginator .p-paginator-next,
+  .p-paginator .p-paginator-last {
+    min-width: 36px;
+    height: 36px;
+  }
+
+  .p-paginator .p-dropdown {
+    height: 36px;
+  }
+
+  .p-paginator .p-dropdown-label {
+    font-size: inherit;
+  }
+}

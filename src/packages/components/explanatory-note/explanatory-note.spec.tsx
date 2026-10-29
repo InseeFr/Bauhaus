@@ -6,7 +6,7 @@ import { ExplanatoryNote } from "./";
 describe("ExplanatoryNote", () => {
   it("renders nothing when text is undefined", () => {
     const { container } = render(<ExplanatoryNote title="My Title" />);
-    expect(container.querySelector(".col-md-6")).toBeInTheDocument();
+    expect(container.querySelector(".bauhaus-grid-md-6")).toBeInTheDocument();
     expect(container.textContent).toBe("");
   });
 
@@ -16,13 +16,13 @@ describe("ExplanatoryNote", () => {
     expect(container.querySelector(".wmde-markdown strong")).toHaveTextContent("bold");
   });
 
-  it("uses col-md-12 when alone is true", () => {
+  it("uses the full-width column when alone is true", () => {
     const { container } = render(<ExplanatoryNote title="Alone" text="Hello" alone />);
-    expect(container.querySelector(".col-md-12")).toBeInTheDocument();
+    expect(container.querySelector(".bauhaus-grid-md-12")).toBeInTheDocument();
   });
 
-  it("uses col-md-6 when alone is false", () => {
+  it("uses the half-width column when alone is false", () => {
     const { container } = render(<ExplanatoryNote title="Not Alone" text="Hello" />);
-    expect(container.querySelector(".col-md-6")).toBeInTheDocument();
+    expect(container.querySelector(".bauhaus-grid-md-6")).toBeInTheDocument();
   });
 });

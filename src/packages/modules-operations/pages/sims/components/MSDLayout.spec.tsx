@@ -69,7 +69,7 @@ describe("MSDLayout", () => {
   it("réduit l'écran au contenu seul, et mémorise le choix", async () => {
     renderLayout();
 
-    await userEvent.click(screen.getByTitle("open content"));
+    await userEvent.click(screen.getByRole("button", { name: "sims.showContentOnly" }));
 
     expect(summary()).toHaveStyle({ display: "none" });
     expect(content()).toHaveStyle({ width: "100%" });
@@ -79,7 +79,7 @@ describe("MSDLayout", () => {
   it("réduit l'écran au sommaire seul, et mémorise le choix", async () => {
     renderLayout();
 
-    await userEvent.click(screen.getByTitle("open summary"));
+    await userEvent.click(screen.getByRole("button", { name: "sims.showSummaryOnly" }));
 
     expect(content()).toHaveStyle({ display: "none" });
     expect(summary()).toHaveStyle({ width: "100%" });

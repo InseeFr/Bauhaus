@@ -1,16 +1,26 @@
+import { screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
+import { Route, Routes } from "react-router";
 import { Mock } from "vitest";
 
 import { getListItems } from "@components/ui/list-group/testing";
 
 import { Codelist } from "@model/Codelist";
 
+import { OperationsApi } from "@sdk/operations-api";
+
 import * as useCodelistHook from "@utils/hooks/codelist";
 import * as useStampsHook from "@utils/hooks/stamps";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
 import { renderWithRouter } from "../../../../tests/render";
-import { SearchFormList } from "./page";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderAtRoute } from "../../page.testing";
+import { Component, SearchFormList } from "./page";
+
+vi.mock("@sdk/operations-api");
 
 const data = [
   {
@@ -149,6 +159,9 @@ vi.mock("../../../../utils/hooks/organizations", () => ({
   }),
 }));
 
+const SEARCH_FORM = <SearchFormList data={data} />;
+const SERIES_LIST_PAGE = <p>Liste des séries</p>;
+
 describe("<SearchFormList />", () => {
   it("should return all data when the form is empty", () => {
     const form = {};
@@ -158,40 +171,75 @@ describe("<SearchFormList />", () => {
     expect(getListItems(container)).toHaveLength(6);
   });
 
-  it("should filter by prefLabelLg1", () => {
-    const form = { prefLabelLg1: "Base" };
+  it.each([
+    { name: "should filter by prefLabelLg1", form: { prefLabelLg1: "Base" }, expected: 1 },
+    { name: "should filter by typeCode", form: { typeCode: "S" }, expected: 3 },
+    { name: "should filter by creators", form: { creator: "DG57-C003" }, expected: 1 },
+    { name: "should filter by publishers", form: { publisher: "Acoss" }, expected: 1 },
+    { name: "should filter by dataCollector", form: { dataCollector: "DG75-A040" }, expected: 1 },
+  ])("$name", ({ form, expected }) => {
     (useUrlQueryParameters as Mock).mockReturnValue({ form });
 
     const { container } = renderWithRouter(<SearchFormList data={data} />);
-    expect(getListItems(container)).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(expected);
   });
-  it("should filter by typeCode", () => {
-    const form = { typeCode: "S" };
-    (useUrlQueryParameters as Mock).mockReturnValue({ form });
-    const { container } = renderWithRouter(<SearchFormList data={data} />);
-    expect(getListItems(container)).toHaveLength(3);
-  });
-  it("should filter by creators", async () => {
-    const form = { creator: "DG57-C003" };
-    (useUrlQueryParameters as Mock).mockReturnValue({ form });
-    const { container } = renderWithRouter(<SearchFormList data={data} />);
+});
 
-    expect(getListItems(container)).toHaveLength(1);
-  });
+describe("<SearchFormList /> controls", () => {
+  it("resets the criteria when the reset button is clicked", async () => {
+    const reset = vi.fn();
+    (useUrlQueryParameters as Mock).mockReturnValue({ form: { prefLabelLg1: "Base" }, reset });
+    renderWithRouter(<SearchFormList data={data} />);
 
-  it("should filter by publishers", async () => {
-    const form = { publisher: "Acoss" };
-    (useUrlQueryParameters as Mock).mockReturnValue({ form });
-    const { container } = renderWithRouter(<SearchFormList data={data} />);
+    await userEvent.click(screen.getByRole("button", { name: "Reinitialize" }));
 
-    expect(getListItems(container)).toHaveLength(1);
+    expect(reset).toHaveBeenCalledOnce();
   });
 
-  it("should filter by dataCollector", async () => {
-    const form = { dataCollector: "DG75-A040" };
-    (useUrlQueryParameters as Mock).mockReturnValue({ form });
-    const { container } = renderWithRouter(<SearchFormList data={data} />);
+  it("goes back to the list of series when the back button is clicked", async () => {
+    (useUrlQueryParameters as Mock).mockReturnValue({ form: {} });
+    renderWithRouter(
+      <Routes>
+        <Route path="/" element={SEARCH_FORM} />
+        <Route path="/operations/series" element={SERIES_LIST_PAGE} />
+      </Routes>,
+    );
 
-    expect(getListItems(container)).toHaveLength(1);
+    await userEvent.click(screen.getByRole("button", { name: "Back" }));
+
+    expect(screen.getByText("Liste des séries")).toBeVisible();
+  });
+});
+
+describe("Series advanced search page", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    (useUrlQueryParameters as Mock).mockReturnValue({ form: {} });
+  });
+
+  const renderPage = () => renderAtRoute(<Component />, "/series/search", "/series/search");
+
+  it("titles the document with the module name first, then Advanced search", async () => {
+    vi.mocked(OperationsApi.getSeriesSearchList).mockResolvedValue(data);
+    renderPage();
+
+    await screen.findByText("Base non-salariés");
+    expect(document.title).toBe("Series - Advanced search - Bauhaus");
+  });
+
+  it("charge les séries puis les liste", async () => {
+    vi.mocked(OperationsApi.getSeriesSearchList).mockResolvedValue(data);
+    const { container } = renderPage();
+
+    expect(await screen.findByText("Base non-salariés")).toBeInTheDocument();
+    expect(getListItems(container)).toHaveLength(6);
+  });
+
+  it("affiche l'échec de chargement au lieu d'un chargement infini", async () => {
+    vi.mocked(OperationsApi.getSeriesSearchList).mockRejectedValue(sdkRejection.emptyBody(500));
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 });

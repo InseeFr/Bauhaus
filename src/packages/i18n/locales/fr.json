@@ -1,4 +1,7 @@
 {
+  "routeError": {
+    "title": "Une erreur est survenue"
+  },
   "auth": {
     "login": "Se connecter",
     "logout": "Se déconnecter"
@@ -32,7 +35,7 @@
     "301": "Vous ne disposez pas des autorisation requises pour la création d’un document. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
     "302": "Le nom de fichier existe déjà. Merci de réutiliser le fichier existant ou choisir un autre nom de fichier.",
     "303": "Vous ne disposez pas des autorisations requises pour la modification d’un document. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
-    "304": "DOCUMENT_DELETION_LINKED",
+    "304": "Vous ne pouvez pas supprimer ce document : il est attaché à un rapport qualité. Pour le supprimer, veuillez tout d'abord le retirer du rapport qualité. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
     "341": "Le document n’existe pas.",
     "361": "Le nom du fichier est vide. Merci de renseigner un nom de fichier.",
     "362": "Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.",
@@ -45,7 +48,7 @@
     "502": "Vous ne disposez pas des autorisations requises pour la modification d’une famille. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
     "503": "Vous ne disposez pas des autorisations requises pour la publication d’une famille. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
     "541": "La famille n’existe pas.",
-    "542": "FAMILY_INCORRECT_BODY",
+    "542": "Les données de la famille sont invalides.",
     "601": "Vous ne disposez pas des autorisation requises pour la création d’une série. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
     "602": "Vous ne disposez pas des autorisations requises pour la modification d’une série. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
     "603": "Vous ne disposez pas des autorisations requises pour la publication d’une série. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
@@ -63,6 +66,11 @@
     "803": "Vous ne disposez pas des autorisations requises pour la publication d’une documentation Sims. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
     "841": "La documentation Sims n’existe pas.",
     "844": "L’objet documenté référencée n’existe pas.",
+    "845": "L’identifiant du territoire est obligatoire.",
+    "846": "Le nom du territoire est obligatoire en français et en anglais.",
+    "847": "Ce nom de territoire existe déjà.",
+    "861": "Les données du rapport qualité sont invalides.",
+    "863": "Sélectionnez au moins une langue pour l’export.",
     "901": "Vous ne disposez pas des autorisation requises pour la création d’une collection. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
     "902": "Vous ne disposez pas des autorisations requises pour la modification d’une collection. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
     "903": "Vous ne disposez pas des autorisations requises pour la publication d’une collection. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
@@ -73,6 +81,7 @@
     "1006": "Le concept doit être publié.",
     "1007": "La liste de codes doit être publiée.",
     "1008": "Tous les composants doivent être publiés",
+    "1009": "La structure n'a pas pu être supprimée : elle a déjà été publiée.",
     "1101": "La liste de codes existe déjà.",
     "1102": "Une liste de codes ne peut pas être créée sans code.",
     "1103": "La liste de codes n'a pas pu être supprimée : elle a déjà été publiée.",
@@ -81,6 +90,39 @@
     "1106": "Ce code n'existe pas dans cette liste de codes.",
     "1107": "L'identifiant de la liste de codes ne correspond pas à celui de l'url.",
     "1108": "Le code envoyé ne correspond pas à celui de l'url : un code ne peut pas être renommé.",
+    "NETWORK_ERROR": "Le serveur est injoignable. Vérifiez votre connexion et réessayez.",
+    "UNREADABLE_RESPONSE": "La réponse du serveur est illisible.",
+    "PUBLICATION_REPOSITORY_UNAVAILABLE": "La publication a échoué : le référentiel de diffusion est indisponible. Réessayez plus tard.",
+    "INVALID_REQUEST_BODY": "Les données envoyées sont invalides.",
+    "SIMS_CREATION_FAILED": "Le rapport n'a pas pu être créé.",
+    "RDF_QUERY_FAILED": "Erreur lors de l’accès à la base RDF. Merci de réessayer ; si l’erreur persiste, contactez l’équipe RMéS.",
+    "RDF_REPOSITORY_UNAVAILABLE": "La base de données est indisponible. Réessayez plus tard.",
+    "COLECTICA_UNAVAILABLE": "Le référentiel DDI (Colectica) est indisponible. Réessayez plus tard.",
+    "DDI_GROUP_NOT_FOUND": "Ce groupe n'existe pas ou a été supprimé.",
+    "DDI_STUDY_UNIT_NOT_FOUND": "L'étude rattachée n'existe pas ou a été supprimée.",
+    "DDI4_INVALID": "Le document DDI ne respecte pas le schéma.",
+    "DDI_SENTINEL_REPRESENTATION_LABEL_REQUIRED": "Le libellé de la liste de valeurs sentinelles {{agency}}/{{id}} est obligatoire.",
+    "DDI_SENTINEL_CODE_LIST_LABEL_REQUIRED": "Le libellé de la liste de codes de valeurs sentinelles {{agency}}/{{id}} est obligatoire.",
+    "GROUP_MISSING_CODE_LIST_SCHEME": "La série « {{group}} » n'a pas de CodeListScheme pour ranger ses listes de codes : il doit être créé en amont.",
+    "GROUP_MISSING_CATEGORY_SCHEME": "La série « {{group}} » n'a pas de CategoryScheme pour ranger ses catégories : il doit être créé en amont.",
+    "GROUP_MISSING_MANAGED_REPRESENTATION_SCHEME": "La série « {{group}} » n'a pas de ManagedRepresentationScheme pour ranger ses valeurs sentinelles : il doit être créé en amont.",
+    "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "L'opération « {{studyUnit}} » n'a pas de LogicalProduct pour ranger ses variables : il doit être créé en amont.",
+    "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "L'opération « {{studyUnit}} » a {{count}} LogicalProducts : un seul est attendu pour ranger ses variables.",
+    "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "L'opération « {{studyUnit}} » n'a pas de VariableScheme pour ranger ses variables : il doit être créé en amont.",
+    "DDI_PHYSICAL_INSTANCE_NOT_FOUND": "Cette instance physique n'existe pas ou a été supprimée.",
+    "loading": {
+      "notFound": "Cette fiche est introuvable.",
+      "failed": "Impossible de charger cette fiche."
+    },
+    "fallback": {
+      "unauthorized": "Vous n'êtes pas connecté ou votre session a expiré. Reconnectez-vous puis réessayez.",
+      "forbidden": "Vous n'avez pas les droits pour effectuer cette action.",
+      "notFound": "L'élément demandé est introuvable.",
+      "server": "Une erreur inattendue s'est produite sur le serveur. Réessayez plus tard ou contactez l'équipe d'administration RMéS.",
+      "generic": "Une erreur s'est produite. Réessayez ou contactez l'équipe d'administration RMéS."
+    },
+    "fileDownloadFailed": "Le fichier exporté n'a pas pu être téléchargé : la réponse du serveur ne donne pas son nom. Réessayez ou contactez l'équipe d'administration RMéS.",
+    "toastSummary": "Erreur",
     "globalClientSideErrorBloc": "Vous avez des erreurs dans ce formulaire.",
     "serversideErrors500": "Une erreur s'est produite. Veuillez contacter l'équipe d'administration RMéS en lui communiquant le message suivant: {{error}}",
     "mandatoryProperty": "La propriété <strong>{{propertyName}}</strong> est obligatoire.",
@@ -92,6 +134,7 @@
     "406_OPERATION_SERIES_OPERATION_SERIES_EXISTING_PREF_LABEL_LG2": "La propriété <strong>Title</strong> est déjà utilisée par une autre série.",
     "406_OPERATION_OPERATION_OPERATION_OPERATION_EXISTING_PREF_LABEL_LG1": "La propriété <strong>Intitulé</strong> est déjà utilisée par une autre opération.",
     "406_OPERATION_OPERATION_OPERATION_OPERATION_EXISTING_PREF_LABEL_LG2": "La propriété <strong>Title</strong> est déjà utilisée par une autre opération.",
+    "406_OPERATION_INDICATOR_OPERATION_INDICATOR_EMPTY_WAS_GENERATED_BY": "Un indicateur doit être produit par au moins une série.",
     "406_OPERATION_INDICATOR_OPERATION_INDICATOR_EXISTING_PREF_LABEL_LG1": "La propriété <strong>Intitulé</strong> est déjà utilisée par un autre indicateur.",
     "406_OPERATION_INDICATOR_OPERATION_INDICATOR_EXISTING_PREF_LABEL_LG2": "La propriété <strong>Title</strong> est déjà utilisée par un autre indicateur.",
     "OPERATION_INDICATOR_VALIDATION_UNVALIDATED_SERIES": "Un indicateur ne peut être publié si et seulement si les séries associées le sont également."
@@ -106,6 +149,16 @@
     "structuresTitle": "Structures",
     "codelistsTitle": "Listes de codes",
     "datasetsTitle": "Jeux de données",
-    "ddiTitle": "Variables"
+    "ddiTitle": "Variables",
+    "dataDescriptionTitle": "Description des données",
+    "administrationTitle": "Administration"
+  },
+  "menu": {
+    "datasets": "Jeux de données",
+    "distributions": "Distributions",
+    "variables": "Variables",
+    "codelists": "Listes de codes",
+    "structures": "Structures",
+    "components": "Composants"
   }
 }

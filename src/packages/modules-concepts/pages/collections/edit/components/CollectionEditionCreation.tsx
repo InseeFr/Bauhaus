@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { ErrorBloc } from "@components/errors-bloc";
 import { PageTitle } from "@components/page-title";
 
 import { CollectionGeneral, CollectionMember, PartialCollection } from "@model/concepts/collection";
@@ -25,6 +26,7 @@ interface CollectionEditionCreationProps {
   save: (data: { general: CollectionGeneral; members: MemberItem[] }) => void;
   submitting: boolean;
   setSubmitting: (value: boolean) => void;
+  serverSideError?: unknown;
 }
 
 const toMemberItems = (members: CollectionMember[]): MemberItem[] =>
@@ -40,6 +42,7 @@ export const CollectionEditionCreation = ({
   conceptList,
   save,
   setSubmitting,
+  serverSideError,
 }: Readonly<CollectionEditionCreationProps>) => {
   const [general, setGeneral] = useState<CollectionGeneral>(() => ({
     ...initialGeneral,
@@ -73,6 +76,7 @@ export const CollectionEditionCreation = ({
       <div className="container">
         <PageTitle title={title} subtitle={subtitle} />
         <Menu handleSave={handleSave} redirectCancel={redirectCancel} errors={errors} />
+        <ErrorBloc error={serverSideError} />
         <CollectionGeneralEdition
           general={general}
           handleChange={handleChangeGeneral}

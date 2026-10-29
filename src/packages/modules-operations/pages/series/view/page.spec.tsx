@@ -1,17 +1,11 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { screen, waitFor } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { itPublishesThenReloads, itShowsPublicationError, renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
-
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
-  useParams: () => ({ id: "s-1" }),
-}));
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getSerie: vi.fn(), publishSeries: vi.fn() },
@@ -36,9 +30,7 @@ vi.mock("./components/OperationsSerieVisualization", () => ({
     </div>
   ),
 }));
-vi.mock("./menu", () => ({
-  Menu: ({ onPublish }: any) => <button onClick={onPublish}>publier</button>,
-}));
+vi.mock("./menu", async () => (await import("../../page.testing")).publishMenuModule("onPublish"));
 
 const serie = {
   id: "s-1",
@@ -48,14 +40,14 @@ const serie = {
   typeCode: "SRC",
 };
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = () => renderAtRoute(<Component />, "/series/:id", "/series/s-1");
+
+const publication = {
+  renderPage,
+  publish: OperationsApi.publishSeries,
+  load: OperationsApi.getSerie,
+  entity: serie,
+};
 
 describe("Series view page", () => {
   beforeEach(() => {
@@ -86,28 +78,20 @@ describe("Series view page", () => {
     expect(screen.getByText("catégorie:(aucune)")).toBeInTheDocument();
   });
 
-  it("publie la série puis la recharge", async () => {
+  itPublishesThenReloads("publie la série puis la recharge", publication);
+
+  itShowsPublicationError(
+    "affiche l'erreur serveur quand la publication échoue, et sort de l'état publication",
+    publication,
+    () => expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
+  );
+
+  it("dit que la série est introuvable au lieu de charger indéfiniment sur un 404", async () => {
+    vi.mocked(OperationsApi.getSerie).mockRejectedValue(sdkRejection.emptyBody(404));
+
     renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
-    );
 
-    await userEvent.click(screen.getByRole("button", { name: "publier" }));
-
-    await waitFor(() => expect(OperationsApi.publishSeries).toHaveBeenCalledWith(serie));
-    await waitFor(() => expect(OperationsApi.getSerie).toHaveBeenCalledTimes(2));
-  });
-
-  it("affiche l'erreur serveur quand la publication échoue, et sort de l'état publication", async () => {
-    vi.mocked(OperationsApi.publishSeries).mockRejectedValue("Publication refusée");
-    renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
-    );
-
-    await userEvent.click(screen.getByRole("button", { name: "publier" }));
-
-    await waitFor(() => expect(screen.getByText("Publication refusée")).toBeInTheDocument());
-    expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument();
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useReducer, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -19,6 +19,7 @@ import { Component } from "@model/structures/Component";
 
 import { CodelistsApi, StructureApi } from "@sdk/index";
 
+import { toFormErrors } from "@utils/api-errors";
 import { convertToArrayIfDefined, EMPTY_ARRAY, sortArray } from "@utils/array-utils";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 import { useTitle } from "@utils/hooks/useTitle";
@@ -50,6 +51,10 @@ type ClientSideErrors = {
   fields?: Record<string, string>;
   errorMessage?: string[];
 };
+
+/** Champs du corps (`ComponentRequest`) qui ont un emplacement d'erreur sur l'écran ;
+ * les autres restent au bandeau. */
+const FIELDS_WITH_ERROR_SLOT = ["identifiant", "labelLg1", "labelLg2", "type"];
 
 interface PartialCodelist {
   uri: string;
@@ -257,9 +262,18 @@ export const ComponentDetailEdit = ({
 
   const [component, setComponent] = useState<ComponentFormState>({});
 
-  const [clientSideErrors, setClientSideErrors] = useState<ClientSideErrors>({});
+  // La page démonte le formulaire pendant l'enregistrement : il renaît avec le rejet, dont les
+  // erreurs de champ deviennent l'état initial des erreurs client.
+  const serverErrors = useMemo(
+    () => toFormErrors(serverSideError, FIELDS_WITH_ERROR_SLOT),
+    [serverSideError],
+  );
 
-  const [submitting, setSubmitting] = useState(false);
+  const [clientSideErrors, setClientSideErrors] = useState<ClientSideErrors>(
+    () => serverErrors.clientSideErrors ?? {},
+  );
+
+  const [submitting, setSubmitting] = useState(() => !!serverErrors.clientSideErrors);
 
   const { lg1, lg2 } = useAppContext();
 
@@ -288,28 +302,35 @@ export const ComponentDetailEdit = ({
     }
   }, [type, component, initialComponent]);
 
-  const resetErrorsMessages = () =>
-    setClientSideErrors({
-      ...clientSideErrors,
-      errorMessage: [],
-    });
+  // Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide le formulaire.
+  const [saveAttempted, setSaveAttempted] = useState(false);
+
+  const updateErrorsFor = useCallback(
+    (component: ComponentFormState) =>
+      setClientSideErrors(
+        saveAttempted ? validate(component) : { ...clientSideErrors, errorMessage: [] },
+      ),
+    [clientSideErrors, saveAttempted],
+  );
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-      resetErrorsMessages();
-      setComponent({
+      const newComponent = {
         ...component,
         [name]: value,
-      });
+      };
+      updateErrorsFor(newComponent);
+      setComponent(newComponent);
     },
-    [component, clientSideErrors],
+    [component, updateErrorsFor],
   );
 
   const handleSaveClick = useCallback(() => {
     const clientSideErrors = validate(component);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
+      setSaveAttempted(true);
       setClientSideErrors(clientSideErrors);
     } else {
       setClientSideErrors({});
@@ -322,17 +343,6 @@ export const ComponentDetailEdit = ({
     label,
   }));
 
-  const attributesKeys = Object.keys({
-    attribute_0: "",
-    attributeValue_0: "",
-    ...component,
-  }).filter((key) => key.startsWith("attribute_"));
-
-  if (component["attributeValue_" + (attributesKeys.length - 1)]) {
-    component["attribute_" + attributesKeys.length] = "";
-    component["attributeValue_" + attributesKeys.length] = "";
-  }
-
   const onComponentTypeChange = (option: any) => {
     // Each time we change the type of a component, we remove all linked attributes
     const newComponentWithoutAttributes = Object.keys(component).reduce((acc: any, key) => {
@@ -344,8 +354,9 @@ export const ComponentDetailEdit = ({
         [key]: component[key],
       };
     }, {});
-    resetErrorsMessages();
-    setComponent({ ...newComponentWithoutAttributes, type: option });
+    const newComponent = { ...newComponentWithoutAttributes, type: option };
+    updateErrorsFor(newComponent);
+    setComponent(newComponent);
   };
 
   return (
@@ -361,7 +372,7 @@ export const ComponentDetailEdit = ({
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={serverSideError} />
+      <ErrorBloc error={serverErrors.serverSideError} />
       <form>
         <Row>
           <div className="col-md-12 form-group">
@@ -439,7 +450,7 @@ export const ComponentDetailEdit = ({
             <LabelRequired>{t("component.type.title")}</LabelRequired>
             <Select
               placeholder={t("component.type.title")}
-              value={MUTUALIZED_COMPONENT_TYPES.find((c) => c.value === component.type)}
+              value={component.type}
               options={MUTUALIZED_COMPONENT_TYPES}
               onChange={onComponentTypeChange}
               {...{ isDisabled: !!component.id }}
@@ -646,11 +657,17 @@ const AttributesArray = ({
 }: Readonly<AttributesArrayTypes>) => {
   const { t } = useTranslation();
 
-  const componentAttributes = Object.keys({
+  const filledAttributes = Object.keys({
     attribute_0: "",
     attributeValue_0: "",
     ...component,
   }).filter((key) => key.startsWith("attribute_"));
+
+  // Once the last row has a value, an empty row is offered to link one more attribute. It is
+  // only displayed: it enters the component when the user fills it in.
+  const componentAttributes = component["attributeValue_" + (filledAttributes.length - 1)]
+    ? [...filledAttributes, "attribute_" + filledAttributes.length]
+    : filledAttributes;
 
   const attributesListOptions: Options = (attributes ?? []).map((c) => ({
     value: c.iri ?? "",

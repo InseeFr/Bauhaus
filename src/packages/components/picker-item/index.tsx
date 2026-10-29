@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { List } from "../ui/list-group";
 
 interface PickerItemTypes {
   id: string;
   label: string;
-  logo: JSX.Element;
+  logo: React.JSX.Element;
   to?: string;
   handleClick?: (id: string) => void;
 }

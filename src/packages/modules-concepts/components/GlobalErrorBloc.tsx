@@ -1,4 +1,4 @@
-import { Card } from "primereact/card";
+import { Card } from "@components/ui/card";
 
 import "./GlobalErrorBloc.css";
 

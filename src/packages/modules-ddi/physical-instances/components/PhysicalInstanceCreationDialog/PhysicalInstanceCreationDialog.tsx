@@ -1,9 +1,10 @@
-import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
 import { FormEvent, useRef, useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
+import { Dialog } from "@components/ui/dialog";
+import { Dropdown } from "@components/ui/dropdown";
+import { InputText } from "@components/ui/input-text";
 
 import { useGroupDetails } from "../../../hooks/useGroupDetails";
 import { useGroups } from "../../../hooks/useGroups";

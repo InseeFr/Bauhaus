@@ -12,6 +12,8 @@ export interface Document {
   lang: string;
   sims?: Sims[];
   uri?: string;
+  /** Taille du fichier en octets, quand le Back-Office la connaît. */
+  size?: number;
 }
 
 export interface HomeDocument {

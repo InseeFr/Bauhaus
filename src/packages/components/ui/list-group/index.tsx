@@ -2,12 +2,13 @@ import { ComponentPropsWithoutRef, forwardRef } from "react";
 
 import { cx } from "@utils/cx";
 
+import "./index.css";
+
 /**
  * Liste et éléments de liste de l'application.
  *
- * Le seul but de ces deux composants est de retenir les classes Bootstrap
- * (`list-group` / `list-group-item`) pour que les appelants n'aient plus à les
- * connaître : changer de socle CSS ne devra toucher que ce fichier.
+ * Une liste simple (`ul` / `li`) habillée par `index.css` : les appelants ne
+ * connaissent pas ses classes, changer d'habillage ne touche que ce dossier.
  *
  * @example
  * <List.Container>
@@ -18,7 +19,7 @@ import { cx } from "@utils/cx";
  */
 
 const Container = ({ className, children, ...props }: ComponentPropsWithoutRef<"ul">) => (
-  <ul className={cx("list-group", className)} {...props}>
+  <ul className={cx("bauhaus-list", className)} {...props}>
     {children}
   </ul>
 );
@@ -27,7 +28,7 @@ Container.displayName = "List.Container";
 
 const Item = forwardRef<HTMLLIElement, ComponentPropsWithoutRef<"li">>(
   ({ className, children, ...props }, ref) => (
-    <li ref={ref} className={cx("list-group-item", className)} {...props}>
+    <li ref={ref} className={cx("bauhaus-list-item", className)} {...props}>
       {children}
     </li>
   ),

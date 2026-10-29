@@ -1,10 +1,10 @@
-import { QueryClient } from "@tanstack/react-query";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
 import { envelope } from "../../types/ddi4Items.testing";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
+import { newQueryClient } from "./queryClient.testing";
 
 vi.mock("../../../../sdk", () => ({
   DDIApi: {
@@ -12,8 +12,6 @@ vi.mock("../../../../sdk", () => ({
     getMutualizedCodeLists: vi.fn(),
   },
 }));
-
-const newQueryClient = () => new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
 describe("loadCodeListForVariable", () => {
   beforeEach(() => {

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 
 import { CodelistsApi } from "@sdk/index";
@@ -27,6 +28,8 @@ export const Component = () => {
   >([]);
 
   const [serverSideError, setServerSideError] = useState<unknown>("");
+
+  const [loadError, setLoadError] = useState<unknown>();
 
   const handleBack = useCallback(() => {
     goBackOrReplace("/codelists/partial", true);
@@ -86,20 +89,20 @@ export const Component = () => {
     if (id && globalCodelistOptions?.[0]) {
       CodelistsApi.getCodelistPartial(id)
         .then((cl: any) => {
-          const idParent = globalCodelistOptions.find(
-            (parent) => parent.iriParent === cl.iriParent,
-          )!.value;
-          return CodelistsApi.getCodelistCodes(idParent, 1, 0).then((codes: any) => {
-            setCodelist(formatPartialCodelist(cl, codes.items));
-          });
+          const parent = globalCodelistOptions.find((parent) => parent.iriParent === cl.iriParent)!;
+          setCodelist(formatPartialCodelist(cl, { id: parent.value, labelLg1: parent.label }));
         })
-        .catch((error: unknown) => setServerSideError(error))
+        .catch(setLoadError)
         .finally(() => setLoadingList(false));
     } else {
       setCodelist({});
       setLoadingList(false);
     }
   }, [id, globalCodelistOptions]);
+
+  if (loadError) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if (loadingList || loadingLists) {
     return <Loading />;

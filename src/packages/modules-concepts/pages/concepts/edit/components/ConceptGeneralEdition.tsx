@@ -67,6 +67,12 @@ export function ConceptGeneralEdition({
 
   const handlers = handleFieldChange(handleChange);
 
+  // Relie la saisie à son message d'erreur, qu'il vienne de la validation client ou du serveur.
+  const errorArias = (field: GeneralFieldName) =>
+    errorMessage?.fields?.[field]
+      ? { "aria-invalid": true, "aria-describedby": `${field}-error` }
+      : undefined;
+
   return (
     <div>
       <h4 className="text-center">
@@ -93,6 +99,7 @@ export function ConceptGeneralEdition({
           value={prefLabelLg1}
           handleChange={(value: string) => handlers.prefLabelLg1?.(value)}
           className="w-100"
+          arias={errorArias("prefLabelLg1")}
           errorBlock={
             <ClientSideError id="prefLabelLg1-error" error={errorMessage?.fields?.prefLabelLg1} />
           }
@@ -104,6 +111,10 @@ export function ConceptGeneralEdition({
           value={prefLabelLg2 ?? ""}
           handleChange={(value: string) => handlers.prefLabelLg2?.(value)}
           className="w-100"
+          arias={errorArias("prefLabelLg2")}
+          errorBlock={
+            <ClientSideError id="prefLabelLg2-error" error={errorMessage?.fields?.prefLabelLg2} />
+          }
         />
       </Row>
       <InputMulti

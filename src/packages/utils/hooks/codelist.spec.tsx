@@ -1,21 +1,14 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { PropsWithChildren } from "react";
 
 import { CodelistsApi, fetchCodelist } from "@sdk/index";
 
 import { useAllCodes, useCodelist, useCodelists } from "./codelist";
+import { queryClientWrapper as wrapper } from "./wrappers.testing";
 
 vi.mock("@sdk/index", () => ({
   fetchCodelist: vi.fn(),
   CodelistsApi: { getCodelistCodes: vi.fn() },
 }));
-
-const wrapper = ({ children }: PropsWithChildren) => (
-  <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-    {children}
-  </QueryClientProvider>
-);
 
 describe("useCodelist", () => {
   beforeEach(() => vi.clearAllMocks());

@@ -42,6 +42,8 @@ export async function loadCodeListForVariable(
 
   const data: PhysicalInstanceResponse = await queryClient.fetchQuery({
     queryKey: ["codeListById", agency, id],
+    // Lecture lourde de Colectica : en cache jusqu'à son éviction après une sauvegarde.
+    staleTime: Infinity,
     queryFn: () => DDIApi.getMutualizedCodeList(agency, id),
   });
 
@@ -69,6 +71,8 @@ async function isMutualized(queryClient: QueryClient, agency: string, id: string
   try {
     const mutualized: CodeListItem[] = await queryClient.fetchQuery({
       queryKey: ["mutualizedCodeLists"],
+      // Lecture lourde de Colectica : en cache jusqu'à son éviction après une sauvegarde.
+      staleTime: Infinity,
       queryFn: () => DDIApi.getMutualizedCodeLists(),
     });
     return mutualized.some((cl) => cl.agencyId === agency && cl.id === id);

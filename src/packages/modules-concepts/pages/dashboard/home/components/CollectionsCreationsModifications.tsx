@@ -1,10 +1,10 @@
-import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { InseeOrganization } from "@components/business/organizations/organizations";
 import { DateItem } from "@components/creation-update-items";
 import { PublicationFemale } from "@components/status";
+import { Column } from "@components/ui/table-column";
 
 import "../../../../../i18n";
 import { CollectionDashboardItem } from "@model/concepts/collection";

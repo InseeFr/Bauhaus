@@ -1,5 +1,5 @@
 import { render, screen, within } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { usePrivileges } from "@utils/hooks/users";
@@ -29,208 +29,141 @@ vi.mock("../auth/components/auth", () => ({
    qu'à sa présence, d'où ce raccourci pour un module pleinement ouvert. */
 const openModule = (identifier: string) => ({ identifier, show: true, directAccess: true });
 
+type ModuleConfiguration = { identifier: string; show: boolean; directAccess: boolean };
+
+const ALL_MODULES = [
+  "concepts",
+  "classifications",
+  "operations",
+  "structures",
+  "codelists",
+  "datasets",
+  "ddi",
+];
+
+const givenModules = (
+  modules: ModuleConfiguration[],
+  hasAccess: (module: string) => boolean,
+  privileges: unknown = { privileges: [] },
+) => {
+  (usePrivileges as any).mockReturnValue(privileges);
+  (useAppContext as any).mockReturnValue({ properties: { modules } });
+  (hasAccessToModule as any).mockImplementation(hasAccess);
+};
+
+const renderApp = () =>
+  render(
+    <MemoryRouter>
+      <App />
+    </MemoryRouter>,
+  );
+
+const tilesIn = (row: HTMLElement) =>
+  within(row)
+    .getAllByRole("link")
+    .map((link) => [link.textContent, link.getAttribute("href")]);
+
 describe("<App />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("renders nothing", () => {
-    (usePrivileges as any).mockReturnValue({});
-    (useAppContext as any).mockReturnValue({
-      properties: {
-        modules: [openModule("analytics"), openModule("admin"), openModule("users")],
-      },
-    });
+  it("renders no tile when the user has access to no module", () => {
+    givenModules(ALL_MODULES.map(openModule), () => false, {});
 
-    (hasAccessToModule as any).mockImplementation(() => false);
+    renderApp();
 
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-    );
-
-    expect(screen.queryByText("analytics")).not.toBeInTheDocument();
-    expect(screen.queryByText("admin")).not.toBeInTheDocument();
-    expect(screen.queryByText("users")).not.toBeInTheDocument();
-  });
-
-  it("renders modules the user has access to", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: ["admin"] });
-    (useAppContext as any).mockReturnValue({
-      properties: {
-        modules: [openModule("analytics"), openModule("admin"), openModule("users")],
-      },
-    });
-
-    (hasAccessToModule as any).mockImplementation((module: string) =>
-      ["analytics", "admin"].includes(module),
-    );
-
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-    );
-
-    expect(screen.getByText("analytics")).toBeInTheDocument();
-    expect(screen.getByText("admin")).toBeInTheDocument();
-
-    expect(screen.queryByText("users")).not.toBeInTheDocument();
-
-    expect(screen.getByRole("link", { name: /analytics/i })).toHaveAttribute("href", "/analytics");
-    expect(screen.getByRole("link", { name: /admin/i })).toHaveAttribute("href", "/admin");
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 
   it("groups the tiles in a navigation landmark named after the modules", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: [] });
-    (useAppContext as any).mockReturnValue({
-      properties: {
-        modules: [openModule("concepts"), openModule("structures")],
-      },
-    });
+    givenModules([openModule("concepts"), openModule("structures")], () => true);
 
-    (hasAccessToModule as any).mockImplementation(() => true);
-
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-    );
+    renderApp();
 
     const navigation = screen.getByRole("navigation", { name: "Modules" });
 
     expect(within(navigation).getAllByRole("link")).toHaveLength(2);
   });
 
-  it("displays concepts, classifications, operations and ddi on the first row and the remaining ones on the second row", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: [] });
-    (useAppContext as any).mockReturnValue({
-      properties: {
-        modules: [
-          "concepts",
-          "classifications",
-          "operations",
-          "structures",
-          "codelists",
-          "datasets",
-          "ddi",
-        ].map(openModule),
-      },
-    });
+  it("displays concepts, operations and data description on the first row, classifications and administration on the second one", () => {
+    givenModules(ALL_MODULES.map(openModule), () => true);
 
-    (hasAccessToModule as any).mockImplementation(() => true);
-
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-    );
+    renderApp();
 
     const [firstRow, secondRow] = screen.getAllByRole("list");
 
-    expect(
-      within(firstRow)
-        .getAllByRole("link")
-        .map((link) => link.getAttribute("href")),
-    ).toEqual(["/concepts", "/classifications", "/operations", "/ddi"]);
-    expect(
-      within(secondRow)
-        .getAllByRole("link")
-        .map((link) => link.getAttribute("href")),
-    ).toEqual(["/structures", "/codelists", "/datasets"]);
+    expect(tilesIn(firstRow)).toEqual([
+      ["Concepts", "/concepts"],
+      ["Operations", "/operations"],
+      ["Data description", "/datasets"],
+    ]);
+    expect(tilesIn(secondRow)).toEqual([
+      ["Classifications", "/classifications"],
+      ["Administration", "/codelists"],
+    ]);
   });
 
-  it("does not fill the first row with other modules when one of its modules is not accessible", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: [] });
-    (useAppContext as any).mockReturnValue({
-      properties: {
-        modules: [
-          openModule("concepts"),
-          openModule("classifications"),
-          openModule("operations"),
-          openModule("structures"),
-          openModule("codelists"),
-        ],
-      },
-    });
+  it("leads the data description tile to the variables when the datasets are not accessible", () => {
+    givenModules([openModule("datasets"), openModule("ddi")], (module) => module === "ddi");
 
-    (hasAccessToModule as any).mockImplementation((module: string) => module !== "concepts");
+    renderApp();
 
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
+    expect(screen.getByRole("link", { name: "Data description" })).toHaveAttribute("href", "/ddi");
+  });
+
+  it("leads the administration tile to the structures when the codelists are hidden", () => {
+    givenModules(
+      [{ identifier: "codelists", show: false, directAccess: true }, openModule("structures")],
+      () => true,
     );
+
+    renderApp();
+
+    expect(screen.getByRole("link", { name: "Administration" })).toHaveAttribute(
+      "href",
+      "/structures",
+    );
+  });
+
+  it("hides a grouping tile when none of its modules is accessible", () => {
+    givenModules(
+      [openModule("concepts"), openModule("codelists"), openModule("structures")],
+      (module) => module === "concepts",
+    );
+
+    renderApp();
+
+    expect(screen.queryByRole("link", { name: "Administration" })).not.toBeInTheDocument();
+  });
+
+  it("does not fill the first row with other tiles when one of its tiles is not accessible", () => {
+    givenModules(ALL_MODULES.map(openModule), (module: string) => module !== "concepts");
+
+    renderApp();
 
     const [firstRow, secondRow] = screen.getAllByRole("list");
 
-    expect(
-      within(firstRow)
-        .getAllByRole("link")
-        .map((link) => link.getAttribute("href")),
-    ).toEqual(["/classifications", "/operations"]);
-    expect(
-      within(secondRow)
-        .getAllByRole("link")
-        .map((link) => link.getAttribute("href")),
-    ).toEqual(["/structures", "/codelists"]);
+    expect(tilesIn(firstRow).map(([name]) => name)).toEqual(["Operations", "Data description"]);
+    expect(tilesIn(secondRow).map(([name]) => name)).toEqual(["Classifications", "Administration"]);
   });
 
   it("hides the tile of a module configured with show false", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: [] });
-    (useAppContext as any).mockReturnValue({
-      properties: {
-        modules: [openModule("concepts"), { identifier: "ddi", show: false, directAccess: true }],
-      },
-    });
-
-    (hasAccessToModule as any).mockImplementation(() => true);
-
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
+    givenModules(
+      [openModule("concepts"), { identifier: "operations", show: false, directAccess: true }],
+      () => true,
     );
 
-    expect(screen.queryByText("Variables")).not.toBeInTheDocument();
+    renderApp();
+
+    expect(screen.queryByText("Operations")).not.toBeInTheDocument();
     expect(screen.getAllByRole("link")).toHaveLength(1);
   });
 
-  it("hides a module the user has no access to", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: [] });
-    (useAppContext as any).mockReturnValue({
-      properties: {
-        modules: [openModule("concepts"), openModule("ddi")],
-      },
-    });
+  it("does not display a second row when only first row tiles are accessible", () => {
+    givenModules([openModule("concepts"), openModule("operations")], () => true);
 
-    (hasAccessToModule as any).mockImplementation((module: string) => module !== "ddi");
-
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-    );
-
-    expect(screen.queryByText("Variables")).not.toBeInTheDocument();
-  });
-
-  it("does not display a second row when three modules or less are accessible", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: [] });
-    (useAppContext as any).mockReturnValue({
-      properties: {
-        modules: [openModule("concepts"), openModule("classifications")],
-      },
-    });
-
-    (hasAccessToModule as any).mockImplementation(() => true);
-
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-    );
+    renderApp();
 
     expect(screen.getAllByRole("list")).toHaveLength(1);
   });

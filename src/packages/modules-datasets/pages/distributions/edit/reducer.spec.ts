@@ -26,6 +26,7 @@ describe("Distribution Edit Reducer", () => {
         editingDistribution: { id: "1", labelLg1: "Old" },
         clientSideErrors: {},
         submitting: false,
+        saveAttempted: false,
       };
 
       const newDistribution = { id: "2", labelLg2: "New" };
@@ -50,6 +51,7 @@ describe("Distribution Edit Reducer", () => {
         },
         clientSideErrors: {},
         submitting: false,
+        saveAttempted: false,
       };
 
       const newState = reducer(currentState, {
@@ -69,6 +71,7 @@ describe("Distribution Edit Reducer", () => {
         editingDistribution: { id: "1" },
         clientSideErrors: {},
         submitting: false,
+        saveAttempted: false,
       };
 
       const newState = reducer(currentState, {
@@ -88,6 +91,7 @@ describe("Distribution Edit Reducer", () => {
         editingDistribution: { id: "1" },
         clientSideErrors: { errorMessage: ["error"] },
         submitting: true,
+        saveAttempted: false,
       };
 
       const newState = reducer(currentState, {
@@ -123,6 +127,7 @@ describe("Distribution Edit Reducer", () => {
           fields: { labelLg1: "Old error" },
         },
         submitting: false,
+        saveAttempted: false,
       };
 
       const newErrors = {
@@ -143,6 +148,7 @@ describe("Distribution Edit Reducer", () => {
         editingDistribution: {},
         clientSideErrors: { errorMessage: ["Error"] },
         submitting: false,
+        saveAttempted: false,
       };
 
       const newState = reducer(currentState, {
@@ -155,44 +161,39 @@ describe("Distribution Edit Reducer", () => {
   });
 
   describe("CLEAR_ERROR_MESSAGES", () => {
-    it("should clear error messages while keeping field errors", () => {
-      const currentState: DistributionEditState = {
-        editingDistribution: {},
+    const clearCases = [
+      {
+        name: "should clear error messages while keeping field errors",
         clientSideErrors: {
           errorMessage: ["Error 1", "Error 2"],
           fields: { labelLg1: "Field error" },
         },
-        submitting: false,
-      };
+      },
+      {
+        name: "should work when no error messages exist",
+        clientSideErrors: { fields: { labelLg1: "Field error" } },
+      },
+    ];
 
-      const newState = reducer(currentState, {
-        type: "CLEAR_ERROR_MESSAGES",
-      });
+    clearCases.forEach(({ name, clientSideErrors }) =>
+      it(name, () => {
+        const currentState: DistributionEditState = {
+          editingDistribution: {},
+          clientSideErrors,
+          submitting: false,
+          saveAttempted: false,
+        };
 
-      expect(newState.clientSideErrors).toEqual({
-        errorMessage: [],
-        fields: { labelLg1: "Field error" },
-      });
-    });
+        const newState = reducer(currentState, {
+          type: "CLEAR_ERROR_MESSAGES",
+        });
 
-    it("should work when no error messages exist", () => {
-      const currentState: DistributionEditState = {
-        editingDistribution: {},
-        clientSideErrors: {
+        expect(newState.clientSideErrors).toEqual({
+          errorMessage: [],
           fields: { labelLg1: "Field error" },
-        },
-        submitting: false,
-      };
-
-      const newState = reducer(currentState, {
-        type: "CLEAR_ERROR_MESSAGES",
-      });
-
-      expect(newState.clientSideErrors).toEqual({
-        errorMessage: [],
-        fields: { labelLg1: "Field error" },
-      });
-    });
+        });
+      }),
+    );
 
     it("should work with empty clientSideErrors", () => {
       const newState = reducer(initialState, {
@@ -220,6 +221,7 @@ describe("Distribution Edit Reducer", () => {
         editingDistribution: {},
         clientSideErrors: {},
         submitting: true,
+        saveAttempted: false,
       };
 
       const newState = reducer(currentState, {
@@ -235,6 +237,7 @@ describe("Distribution Edit Reducer", () => {
         editingDistribution: { id: "1" },
         clientSideErrors: { errorMessage: ["error"] },
         submitting: false,
+        saveAttempted: false,
       };
 
       const newState = reducer(currentState, {
@@ -260,6 +263,7 @@ describe("Distribution Edit Reducer", () => {
         },
         clientSideErrors: {},
         submitting: false,
+        saveAttempted: false,
       });
     });
   });
@@ -270,6 +274,7 @@ describe("Distribution Edit Reducer", () => {
         editingDistribution: { id: "1" },
         clientSideErrors: { errorMessage: ["error"] },
         submitting: true,
+        saveAttempted: false,
       };
 
       const newState = reducer(currentState, {

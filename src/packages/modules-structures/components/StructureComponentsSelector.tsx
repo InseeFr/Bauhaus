@@ -55,7 +55,7 @@ export const StructureComponentsSelector = ({
 
   const removeClickHandler = useCallback(
     (e: any) => {
-      handleRemove!(e.target.parentElement.dataset.componentId);
+      handleRemove!(e.currentTarget.dataset.componentId);
     },
     [handleRemove],
   );
@@ -73,9 +73,9 @@ export const StructureComponentsSelector = ({
 
   const specificationClickHandler = useCallback(
     (e: any) => {
-      if (e.target.parentElement.dataset.componentId) {
+      if (e.currentTarget.dataset.componentId) {
         const component = components.find(
-          (c) => c.component.identifiant === e.target.parentElement.dataset.componentId,
+          (c) => c.component.identifiant === e.currentTarget.dataset.componentId,
         );
         handleSpecificationClick(component);
       }
@@ -121,9 +121,9 @@ export const StructureComponentsSelector = ({
 
   const seeClickHandler = useCallback(
     (e: any) => {
-      if (e.target.parentElement.dataset.componentId) {
+      if (e.currentTarget.dataset.componentId) {
         const cs = components.find(
-          (c) => c.component.identifiant === e.target.parentElement.dataset.componentId,
+          (c) => c.component.identifiant === e.currentTarget.dataset.componentId,
         );
         setSelectedComponent(cs!.component);
         setOpenPanel(true);
@@ -134,8 +134,8 @@ export const StructureComponentsSelector = ({
 
   const goingUp = useCallback(
     (e: any) => {
-      if (e.target.parentElement.dataset.componentId) {
-        handleUp!(e.target.parentElement.dataset.componentId);
+      if (e.currentTarget.dataset.componentId) {
+        handleUp!(e.currentTarget.dataset.componentId);
       }
     },
     [handleUp],
@@ -143,8 +143,8 @@ export const StructureComponentsSelector = ({
 
   const goingDown = useCallback(
     (e: any) => {
-      if (e.target.parentElement.dataset.componentId) {
-        handleDown!(e.target.parentElement.dataset.componentId);
+      if (e.currentTarget.dataset.componentId) {
+        handleDown!(e.currentTarget.dataset.componentId);
       }
     },
     [handleDown],
@@ -177,7 +177,7 @@ export const StructureComponentsSelector = ({
         type: typeUriToLabel(component.type),
         mutualized:
           !!component.validationState && component.validationState !== UNPUBLISHED ? (
-            <span className="glyphicon glyphicon-ok" aria-label={t("component.mutualized")}></span>
+            <span className="pi pi-check" aria-label={t("component.mutualized")}></span>
           ) : (
             <></>
           ),
@@ -209,7 +209,7 @@ export const StructureComponentsSelector = ({
               aria-label={t("component.componentSpecification")}
               title={t("component.componentSpecification")}
             >
-              <span className="glyphicon glyphicon-cog"></span>
+              <span className="pi pi-cog"></span>
             </button>
             {!readOnly && (
               <button
@@ -220,7 +220,7 @@ export const StructureComponentsSelector = ({
                 aria-label={t("remove")}
                 title={t("remove")}
               >
-                <span className="glyphicon glyphicon-minus"></span>
+                <span className="pi pi-minus"></span>
               </button>
             )}
             {!readOnly && i !== 0 && (
@@ -232,7 +232,7 @@ export const StructureComponentsSelector = ({
                 aria-label={t("up")}
                 title={t("up")}
               >
-                <span className="glyphicon glyphicon-arrow-up"></span>
+                <span className="pi pi-arrow-up"></span>
               </button>
             )}
             {!readOnly && i !== components.length - 1 && (
@@ -244,7 +244,7 @@ export const StructureComponentsSelector = ({
                 aria-label={t("down")}
                 title={t("down")}
               >
-                <span className="glyphicon glyphicon-arrow-down"></span>
+                <span className="pi pi-arrow-down"></span>
               </button>
             )}
           </>
@@ -258,14 +258,14 @@ export const StructureComponentsSelector = ({
       hidden={hidden}
       collapsible={false}
       title={
-        <>
-          {t("component.pluralTitle")}{" "}
+        <span className="components-picker-title">
+          {t("component.pluralTitle")}
           {!readOnly && (
             <HasAccess module="STRUCTURE_COMPONENT" privilege="CREATE">
               <AddButton id="add-component" onClick={handleCreateComponent} />
             </HasAccess>
           )}
-        </>
+        </span>
       }
     >
       <ComponentsTable components={componentsWithActions} />
