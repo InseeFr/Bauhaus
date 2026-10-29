@@ -13,7 +13,7 @@ interface VariableInformationTabProps {
   onDescriptionChange: (value: string) => void;
   nameError?: boolean;
   labelError?: boolean;
-  nameInputRef?: RefObject<HTMLInputElement>;
+  nameInputRef?: RefObject<HTMLInputElement | null>;
 }
 
 export const VariableInformationTab = ({

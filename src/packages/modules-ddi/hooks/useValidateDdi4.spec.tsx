@@ -31,7 +31,7 @@ const ddi4Invalid = (violations: string[]) =>
 describe("useValidateDdi4", () => {
   let queryClient: QueryClient;
   let show: ReturnType<typeof vi.fn>;
-  let toast: RefObject<Toast>;
+  let toast: RefObject<Toast | null>;
 
   const data = {
     $schema: "ddi:4.0",
@@ -58,7 +58,7 @@ describe("useValidateDdi4", () => {
     });
     vi.clearAllMocks();
     show = vi.fn();
-    toast = { current: { show } } as unknown as RefObject<Toast>;
+    toast = { current: { show } } as unknown as RefObject<Toast | null>;
   });
 
   it("signale la validation en cours tant que le back n'a pas répondu", async () => {

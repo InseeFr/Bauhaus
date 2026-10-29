@@ -60,7 +60,7 @@ const expectMenuWithActivePath = (activePath: string) =>
         };
       }),
     },
-    {},
+    undefined,
   );
 
 describe("Menu", () => {

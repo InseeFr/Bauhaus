@@ -18,7 +18,7 @@ import { errorToastTiming } from "../utils/error-toast";
 export const useExport = (
   data: PhysicalInstanceResponse,
   title: string,
-  toast: RefObject<Toast>,
+  toast: RefObject<Toast | null>,
 ) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();

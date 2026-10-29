@@ -18,7 +18,7 @@ import { errorToastTiming } from "../utils/error-toast";
 /** Au-delà, le toast devient illisible : on renvoie vers la console pour le détail. */
 const MAX_DISPLAYED_ERRORS = 10;
 
-export const useValidateDdi4 = (data: PhysicalInstanceResponse, toast: RefObject<Toast>) => {
+export const useValidateDdi4 = (data: PhysicalInstanceResponse, toast: RefObject<Toast | null>) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [isValidating, setIsValidating] = useState(false);

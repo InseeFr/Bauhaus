@@ -27,7 +27,7 @@ describe("useExport", () => {
 
   const renderExport = () => {
     const show = vi.fn();
-    const toast = { current: { show } } as unknown as RefObject<Toast>;
+    const toast = { current: { show } } as unknown as RefObject<Toast | null>;
     const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
     const wrapper = ({ children }: { children: ReactNode }) => (
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
