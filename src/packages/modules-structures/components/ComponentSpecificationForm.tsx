@@ -8,9 +8,9 @@ import { Select } from "@components/select-rmes";
 import { Options } from "@model/SelectOption";
 import { ComponentDefinition } from "@model/structures/Component";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
-import { ATTRIBUTE_PROPERTY_TYPE, MEASURE_PROPERTY_TYPE } from "../constants";
+import { ATTRIBUTE_PROPERTY_TYPE, MEASURE_PROPERTY_TYPE } from "../constants/dsd-components";
 import { getAllAttachment } from "../utils/getAllAttachment";
 import "./ComponentSpecificationForm.css";
 

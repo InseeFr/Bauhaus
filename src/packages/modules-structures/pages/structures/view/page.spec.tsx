@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Structure } from "@model/structures/Structure";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
@@ -17,8 +17,8 @@ import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { structureQuery } from "../../../hooks/queries";
 import { Component, prefetchStructure, StructureView } from "./page";
 
-vi.mock("@sdk/index", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@sdk/index")>()),
+vi.mock("@sdk/structure-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/structure-api")>()),
   StructureApi: { getStructure: vi.fn(), deleteStructure: vi.fn(), publishStructure: vi.fn() },
 }));
 

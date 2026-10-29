@@ -5,7 +5,8 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ErrorBloc } from "@components/errors-bloc";
 
-import { ConceptsApi, StructureApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
+import { StructureApi } from "@sdk/structure-api";
 
 import { subscribeToGlobalErrors } from "../../../../application/global-error-toast/notifier";
 import { createQueryClient } from "../../../../application/query-client";
@@ -17,13 +18,15 @@ import { Component, prefetchMutualizedComponent } from "./page";
 
 const goBack = vi.fn();
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: {
     getMutualizedComponent: vi.fn(),
     getMutualizedAttributes: vi.fn(),
     deleteMutualizedComponent: vi.fn(),
     publishMutualizedComponent: vi.fn(),
   },
+}));
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: { getConceptList: vi.fn() },
 }));
 

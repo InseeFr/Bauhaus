@@ -7,7 +7,7 @@ import { FeminineButton } from "@components/new-button";
 import { SearchableList } from "@components/searchable-list";
 import { VerticalMenu } from "@components/vertical-menu";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { useTitle } from "@utils/hooks/useTitle";
 

@@ -21,7 +21,7 @@ import { List } from "@components/ui/list";
 
 import { Option } from "@model/SelectOption";
 
-import { DatasetsApi } from "@sdk/index";
+import { DatasetsApi } from "@sdk/datasets-api";
 
 import { withCodelists } from "@utils/hoc/withCodelists";
 import { useSecondLang } from "@utils/hooks/second-lang";

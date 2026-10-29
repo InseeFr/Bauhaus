@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 type MetadataNode = {
   codeList?: string;

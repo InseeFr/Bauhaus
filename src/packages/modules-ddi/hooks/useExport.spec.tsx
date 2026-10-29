@@ -4,13 +4,13 @@ import type { ReactNode, RefObject } from "react";
 
 import type { Toast } from "@components/ui/toast";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 import { useExport } from "./useExport";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: { convertToDDI3: vi.fn() },
 }));
 

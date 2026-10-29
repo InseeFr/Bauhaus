@@ -10,7 +10,9 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { Component as StructureComponent } from "@model/structures/Component";
 
-import { ConceptsApi, saveComponent, StructureApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
+import { StructureApi } from "@sdk/structure-api";
+import { saveComponent } from "@sdk/structures/saveComponent";
 
 import { STRUCTURES_KEY } from "@utils/hooks/structures";
 import { useGoBack } from "@utils/hooks/useGoBack";

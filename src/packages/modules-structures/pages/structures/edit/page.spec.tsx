@@ -1,7 +1,7 @@
 import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
@@ -17,7 +17,7 @@ vi.mock("react-router", async () => ({
 
 vi.mock("react-i18next", () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 
-vi.mock("@sdk/index", () => ({ StructureApi: { getStructure: vi.fn() } }));
+vi.mock("@sdk/structure-api", () => ({ StructureApi: { getStructure: vi.fn() } }));
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("./components/EditionForm", () => ({

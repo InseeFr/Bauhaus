@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Publishing } from "@components/loading";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useGoBack } from "@utils/hooks/useGoBack";

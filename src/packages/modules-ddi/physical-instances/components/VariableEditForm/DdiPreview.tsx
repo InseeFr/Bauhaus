@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { Dropdown } from "@components/ui/dropdown";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { useAppContext } from "../../../../application/app-context";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";

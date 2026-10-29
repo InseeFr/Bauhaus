@@ -1,7 +1,7 @@
 import { Options } from "@model/SelectOption";
 import { Component } from "@model/structures/Component";
 
-import { ATTACHMENTS } from "../constants";
+import { ATTACHMENTS } from "../constants/attachments";
 
 export const getAllAttachment = (measures: Component[] = [], specification?: any): Options => {
   // We find one measure linked to the attribute

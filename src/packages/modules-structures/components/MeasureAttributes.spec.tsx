@@ -4,14 +4,17 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { Codelists } from "@model/Codelist";
 import { Component } from "@model/structures/Component";
 
-import { CodelistsApi, StructureApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
+import { StructureApi } from "@sdk/structure-api";
 
 import { createQueryClient } from "../../application/query-client";
 import { XSD_CODE_LIST, XSD_STRING } from "../constants/xsd";
 import { MeasureAttributes } from "./MeasureAttributes";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: { getMutualizedComponent: vi.fn() },
+}));
+vi.mock("@sdk/codelists-api", () => ({
   CodelistsApi: { getCodelist: vi.fn() },
 }));
 

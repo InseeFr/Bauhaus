@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { Route, Routes } from "react-router";
 import { vi } from "vitest";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { subscribeToGlobalErrors } from "../../../../../application/global-error-toast/notifier";
 import { createQueryClient } from "../../../../../application/query-client";
@@ -12,17 +12,23 @@ import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.t
 import { createStructuresWrapper } from "../../../../render.testing";
 import { EditionForm } from "./EditionForm";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: {
     postStructure: vi.fn(),
     putStructure: vi.fn(),
     getMutualizedComponents: vi.fn().mockResolvedValue([]),
   },
+}));
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: { getConceptList: vi.fn().mockResolvedValue([]) },
+}));
+vi.mock("@sdk/codelists-api", () => ({
   CodelistsApi: {
     getCodelists: vi.fn().mockResolvedValue([]),
     getCodelistsPartial: vi.fn().mockResolvedValue([]),
   },
+}));
+vi.mock("@sdk/stamps-api", () => ({
   StampsApi: { getStamps: vi.fn().mockResolvedValue([]) },
 }));
 

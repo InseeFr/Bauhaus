@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { createQueryClient } from "../../application/query-client";
 import { mountAgainLongAfter } from "../../tests/query-freshness.testing";
@@ -11,7 +11,7 @@ import { useMutualizedCodeListCodes } from "./useMutualizedCodeListCodes";
 import { useMutualizedCodeLists } from "./useMutualizedCodeLists";
 import { usePhysicalInstancesData } from "./usePhysicalInstance";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     getPhysicalInstance: vi.fn(),
     getMutualizedCodeList: vi.fn(),

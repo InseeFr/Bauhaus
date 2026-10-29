@@ -13,7 +13,7 @@ const withCodelistsApi = async (
   CodelistsApi: Record<string, unknown>,
 ) => ({ ...(await importOriginal<Record<string, unknown>>()), CodelistsApi });
 
-/** `@sdk/index` des pages d'une liste de codes complète, enrichi de `extraApi`. */
+/** `@sdk/codelists-api` des pages d'une liste de codes complète, enrichi de `extraApi`. */
 export const detailedCodelistSdk = (
   importOriginal: ImportOriginal,
   extraApi: Record<string, unknown> = {},
@@ -24,7 +24,7 @@ export const detailedCodelistSdk = (
     ...extraApi,
   });
 
-/** `@sdk/index` des pages d'une liste partielle, dont `parent` est la seule liste globale,
+/** `@sdk/codelists-api` des pages d'une liste partielle, dont `parent` est la seule liste globale,
  * enrichi de `extraApi`. */
 export const partialCodelistSdk = (
   importOriginal: ImportOriginal,

@@ -4,17 +4,17 @@ import { Codelists } from "@model/Codelist";
 import { Component, ComponentDefinition } from "@model/structures/Component";
 import { Structure } from "@model/structures/Structure";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
+import { OBSERVATION } from "../constants/attachments";
 import {
-  OBSERVATION,
   ATTRIBUTE_PROPERTY_TYPE,
   ATTRIBUTE_TYPE,
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
-} from "../constants";
+} from "../constants/dsd-components";
 import { CodelistPanel } from "./CodelistPanel";
 import { ComponentSpecificationModal } from "./ComponentSpecificationModal";
 import { MutualizedComponentsSelector } from "./MutualizedComponentsSelector";

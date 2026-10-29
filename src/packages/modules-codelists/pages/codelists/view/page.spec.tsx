@@ -6,7 +6,7 @@ import { Component } from "./page";
 
 const { detailedCodelistSdk } = await vi.hoisted(() => import("../../../testing/pages.testing"));
 
-vi.mock("@sdk/index", (importOriginal) =>
+vi.mock("@sdk/codelists-api", (importOriginal) =>
   detailedCodelistSdk(importOriginal, { publishCodelist: vi.fn(), deleteCodelist: vi.fn() }),
 );
 

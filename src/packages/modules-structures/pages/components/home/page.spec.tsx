@@ -3,11 +3,11 @@ import userEvent from "@testing-library/user-event";
 import { MouseEvent, useCallback } from "react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { renderWithQuery } from "../../../../tests/render-with-query.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
-import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants";
+import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants/dsd-components";
 import { Component } from "./page";
 
 const navigate = vi.fn();
@@ -24,7 +24,7 @@ vi.mock("react-i18next", async () =>
   ),
 );
 
-vi.mock("@sdk/index", () => ({ StructureApi: { getMutualizedComponents: vi.fn() } }));
+vi.mock("@sdk/structure-api", () => ({ StructureApi: { getMutualizedComponents: vi.fn() } }));
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("@components/filter-toggle-buttons", () => ({

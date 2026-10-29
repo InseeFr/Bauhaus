@@ -18,7 +18,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
-import { COMPONENT_TYPES } from "../../../constants";
+import { COMPONENT_TYPES } from "../../../constants/dsd-components";
 import { structuresForSearchQuery } from "../../../hooks/queries";
 
 const filterLabelLg1 = filterKeyDeburr(["labelLg1"]);

@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { ConceptsApi, StructureApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
+import { StructureApi } from "@sdk/structure-api";
 
 import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
@@ -9,7 +10,7 @@ import {
   ATTRIBUTE_PROPERTY_TYPE,
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
-} from "../../../../constants";
+} from "../../../../constants/dsd-components";
 import { StructureComponents } from "./StructureComponents";
 
 vi.mock("react-i18next", async () =>
@@ -18,8 +19,10 @@ vi.mock("react-i18next", async () =>
   ),
 );
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: { getConceptList: vi.fn() },
+}));
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: { getMutualizedComponents: vi.fn() },
 }));
 

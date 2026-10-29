@@ -3,7 +3,7 @@ import { vi } from "vitest";
 
 import { getListItems } from "@components/ui/list-group/testing";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
@@ -13,7 +13,7 @@ import { Component } from "./page";
 
 vi.mock("@utils/hooks/useUrlQueryParameters");
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/codelists-api", () => ({
   CodelistsApi: {
     getCodelistsPartialForSearch: vi.fn(),
   },

@@ -14,7 +14,7 @@ import { Saving } from "@components/loading";
 
 import { Structure } from "@model/structures/Structure";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { toFormErrors } from "@utils/api-errors";
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
@@ -23,7 +23,7 @@ import { STRUCTURES_KEY } from "@utils/hooks/structures";
 
 import { useAppContext } from "../../../../../application/app-context";
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
-import { DISSEMINATION_STATUS } from "../../../../constants";
+import { DISSEMINATION_STATUS } from "../../../../constants/dsd-components";
 import { validate } from "../validation";
 import { Controls } from "./Controls";
 import { StructureComponents } from "./StructureComponents";

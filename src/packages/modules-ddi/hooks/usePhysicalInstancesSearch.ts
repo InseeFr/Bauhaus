@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 /**
  * Ligne de recherche avancée : une PhysicalInstance jointe à sa StudyUnit et à son Group

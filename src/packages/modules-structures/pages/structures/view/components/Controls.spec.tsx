@@ -5,13 +5,13 @@ import { vi } from "vitest";
 import { Structure } from "@model/structures/Structure";
 import { UNPUBLISHED } from "@model/ValidationState";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { mockReactQueryForRbac, WithRouter } from "../../../../../tests/render";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: {
     deleteStructure: vi.fn(),
   },

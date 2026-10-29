@@ -5,14 +5,15 @@ import { Row } from "@components/layout";
 
 import { Component } from "@model/structures/Component";
 
-import { ConceptsApi, StructureApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
+import { StructureApi } from "@sdk/structure-api";
 
 import { ComponentSelector } from "../../../../components/ComponentSelector";
 import {
   ATTRIBUTE_PROPERTY_TYPE,
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
-} from "../../../../constants";
+} from "../../../../constants/dsd-components";
 import { useFormattedCodelist } from "../../../../hooks/useFormattedCodelist";
 
 interface StructureComponentsTypes {

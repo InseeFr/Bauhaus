@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor, act, within } from "@testing-librar
 import { useCallback, type ChangeEvent, type MouseEvent, type ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { appI18n } from "../../../../i18n";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";

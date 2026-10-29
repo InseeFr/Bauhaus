@@ -3,7 +3,9 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Route, Routes } from "react-router";
 import { vi } from "vitest";
 
-import { ConceptsApi, saveComponent, StructureApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
+import { StructureApi } from "@sdk/structure-api";
+import { saveComponent } from "@sdk/structures/saveComponent";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 
@@ -14,20 +16,21 @@ import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { createStructuresWrapper } from "../../../render.testing";
 import { Component } from "./page";
 
-vi.mock("@sdk/index", async () => ({
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: {
     getMutualizedComponent: vi.fn(),
     getMutualizedAttributes: vi.fn(),
   },
-  ConceptsApi: { getConceptList: vi.fn() },
-  ...(await import("../../../mocks.testing")).emptyCodelistsAndStampsApi(),
-  saveComponent: vi.fn(),
 }));
+vi.mock("@sdk/concepts-api", () => ({ ConceptsApi: { getConceptList: vi.fn() } }));
+vi.mock("@sdk/stamps-api", async () => (await import("../../../mocks.testing")).emptyStampsApi());
+vi.mock("@sdk/structures/saveComponent", () => ({ saveComponent: vi.fn() }));
 
 vi.mock("@sdk/codelists-api", () => ({
   CodelistsApi: {
     getCodelists: vi.fn().mockResolvedValue([]),
     getCodelistsPartial: vi.fn().mockResolvedValue([]),
+    getPartialsByParent: vi.fn().mockResolvedValue([]),
   },
 }));
 

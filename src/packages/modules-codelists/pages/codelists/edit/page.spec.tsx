@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import { expectLoadErrorDisplayed } from "../../../testing/load-error.testing";
@@ -12,7 +12,7 @@ const { detailedCodelistSdk, unknownCodelistRouter } = await vi.hoisted(
   () => import("../../../testing/pages.testing"),
 );
 
-vi.mock("@sdk/index", (importOriginal) =>
+vi.mock("@sdk/codelists-api", (importOriginal) =>
   detailedCodelistSdk(importOriginal, {
     putCodelist: vi.fn(),
     getCodelistCodes: vi.fn(() => Promise.resolve({ items: [] })),

@@ -23,7 +23,8 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
 import { useAppContext } from "../../application/app-context";
-import { XSD_CODE_LIST, XSD_TYPES, ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from "../constants";
+import { ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from "../constants/dsd-components";
+import { XSD_CODE_LIST, XSD_TYPES } from "../constants/xsd";
 import { partialCodelistsQuery } from "../hooks/queries";
 import { ViewMenu } from "../pages/components/view/menu";
 import { getAllAttachment } from "../utils/getAllAttachment";

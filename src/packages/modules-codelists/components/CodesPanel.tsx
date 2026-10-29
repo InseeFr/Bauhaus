@@ -12,7 +12,7 @@ import { Button } from "@components/ui/button";
 
 import { Code, Codelist } from "@model/Codelist";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { toFormErrors } from "@utils/api-errors";
 

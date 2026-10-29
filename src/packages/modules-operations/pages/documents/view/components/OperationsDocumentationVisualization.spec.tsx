@@ -4,7 +4,7 @@ import { Document } from "@model/operations/document";
 
 import { OperationsDocumentationVisualization } from "./OperationsDocumentationVisualization";
 
-vi.mock("../../../../../sdk", () => ({
+vi.mock("@sdk/build-api", () => ({
   getBaseURI: vi.fn().mockReturnValue("http://base-uri"),
 }));
 

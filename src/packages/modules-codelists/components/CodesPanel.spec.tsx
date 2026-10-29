@@ -4,14 +4,14 @@ import { ReactNode, useCallback, useState } from "react";
 import { MemoryRouter } from "react-router";
 import { vi } from "vitest";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { CodeChanges } from "../utils/code-changes";
 import { CodesPanel } from "./CodesPanel";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/codelists-api", () => ({
   CodelistsApi: {
     getCodesDetailedCodelist: vi.fn(),
     getCodelistCodes: vi.fn(),

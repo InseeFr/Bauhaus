@@ -6,13 +6,13 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import type { Toast } from "@components/ui/toast";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 import { useValidateDdi4 } from "./useValidateDdi4";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     postValidateDdi4: vi.fn(),
   },

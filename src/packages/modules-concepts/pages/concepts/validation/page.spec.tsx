@@ -46,7 +46,7 @@ vi.mock("./components/ConceptsToValidate", () => ({
 const mockGetConceptValidateList = vi.fn();
 const mockPutConceptValidList = vi.fn();
 
-vi.mock("../../../../sdk", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: {
     getConceptValidateList: () => mockGetConceptValidateList(),
     putConceptValidList: (ids: string[]) => mockPutConceptValidList(ids),

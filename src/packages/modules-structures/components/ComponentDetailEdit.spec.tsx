@@ -1,24 +1,25 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { CodelistsApi, StructureApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
+import { StructureApi } from "@sdk/structure-api";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
 import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
-import {
-  MEASURE_PROPERTY_TYPE,
-  XSD_CODE_LIST,
-  XSD_DATE,
-  XSD_FLOAT,
-  XSD_STRING,
-} from "../constants";
+import { MEASURE_PROPERTY_TYPE } from "../constants/dsd-components";
+import { XSD_CODE_LIST, XSD_DATE, XSD_FLOAT, XSD_STRING } from "../constants/xsd";
 import { createStructuresWrapper } from "../render.testing";
 import { ComponentDetailEdit } from "./ComponentDetailEdit";
 
-vi.mock("@sdk/index", async () => ({
-  ...(await import("../mocks.testing")).emptyCodelistsAndStampsApi(),
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: { getMutualizedComponent: vi.fn() },
+}));
+vi.mock("@sdk/codelists-api", async () => (await import("../mocks.testing")).emptyCodelistsApi());
+vi.mock("@sdk/stamps-api", async () => (await import("../mocks.testing")).emptyStampsApi());
+vi.mock("@sdk/v2-api", () => ({ V2Api: { getStamps: vi.fn().mockResolvedValue([]) } }));
+vi.mock("@sdk/organizations-api", () => ({
+  OrganizationsApi: { getOrganizations: vi.fn().mockResolvedValue([]) },
 }));
 
 vi.mock("@components/business/creators-input", () => ({

@@ -1,13 +1,13 @@
 import { waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { physicalInstanceFormData } from "./physicalInstanceFormData.testing";
 import { expectIdleMutation, renderMutationHook } from "./queryClient.testing";
 import { useUpdatePhysicalInstance } from "./useUpdatePhysicalInstance";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     patchPhysicalInstance: vi.fn(),
   },

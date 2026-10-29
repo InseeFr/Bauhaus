@@ -3,7 +3,7 @@ import { render, waitFor } from "@testing-library/react";
 import { ReactElement } from "react";
 import { Mock, vi } from "vitest";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { conceptListQuery } from "@utils/hooks/concepts";
 
@@ -34,7 +34,7 @@ vi.mock("../../../../hooks/useFormattedCodelist", () => ({
   useFormattedCodelist: vi.fn(),
 }));
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: {
     getConceptList: vi.fn(),
   },

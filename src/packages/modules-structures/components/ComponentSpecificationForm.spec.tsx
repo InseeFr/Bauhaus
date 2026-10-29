@@ -25,7 +25,7 @@ vi.mock("react-i18next", async (importOriginal) => ({
 import { ComponentDefinition } from "@model/structures/Component";
 
 import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
-import { ATTRIBUTE_PROPERTY_TYPE } from "../constants";
+import { ATTRIBUTE_PROPERTY_TYPE } from "../constants/dsd-components";
 import { ComponentSpecification, ComponentSpecificationForm } from "./ComponentSpecificationForm";
 
 const component = {

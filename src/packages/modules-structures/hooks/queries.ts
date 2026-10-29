@@ -3,7 +3,8 @@ import { queryOptions } from "@tanstack/react-query";
 import { Component } from "@model/structures/Component";
 import { Structure } from "@model/structures/Structure";
 
-import { CodelistsApi, StructureApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
+import { StructureApi } from "@sdk/structure-api";
 
 import { STRUCTURES_KEY } from "@utils/hooks/structures";
 

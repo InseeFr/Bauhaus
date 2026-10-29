@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { renderQueryHookFromLoadingToSuccess, renderQueryHookUntil } from "./queryClient.testing";
 import { useMutualizedCodeLists } from "./useMutualizedCodeLists";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     getMutualizedCodeLists: vi.fn(),
   },

@@ -13,7 +13,7 @@ import { Select } from "@components/select-rmes";
 import { CatalogRecord, Dataset } from "@model/Dataset";
 import { Option } from "@model/SelectOption";
 
-import { DatasetsApi } from "@sdk/index";
+import { DatasetsApi } from "@sdk/datasets-api";
 
 import { withCodelists } from "@utils/hoc/withCodelists";
 

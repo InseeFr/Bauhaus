@@ -3,13 +3,13 @@ import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router";
 import { Mock, vi } from "vitest";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { conceptsI18n } from "../../../i18n";
 import { Component } from "./page";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: { getConceptValidateList: vi.fn(), putConceptValidList: vi.fn() },
 }));
 

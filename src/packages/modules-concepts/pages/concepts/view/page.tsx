@@ -5,8 +5,8 @@ import { useNavigate, useParams } from "react-router";
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
+import { ConceptsApi } from "@sdk/concepts-api";
 import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "@sdk/constants";
-import { ConceptsApi } from "@sdk/index";
 
 import { saveFileFromHttpResponse } from "@utils/files";
 import { useSecondLang } from "@utils/hooks/second-lang";

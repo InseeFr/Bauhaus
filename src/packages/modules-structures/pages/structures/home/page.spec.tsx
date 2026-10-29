@@ -1,13 +1,13 @@
 import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { renderWithQuery } from "../../../../tests/render-with-query.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
-vi.mock("@sdk/index", () => ({ StructureApi: { getStructures: vi.fn() } }));
+vi.mock("@sdk/structure-api", () => ({ StructureApi: { getStructures: vi.fn() } }));
 
 vi.mock("@components/searchable-list", () => ({
   SearchableList: ({ items }: { items: { id: string; labelLg1: string }[] }) => (

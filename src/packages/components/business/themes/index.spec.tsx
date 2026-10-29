@@ -3,12 +3,12 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { PropsWithChildren } from "react";
 import { Mock, vi } from "vitest";
 
-import { ThemesApi } from "@sdk/index";
+import { ThemesApi } from "@sdk/themes-api";
 
 import { ThemesList, ThemesSelect } from "./index";
 
-vi.mock("@sdk/index", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@sdk/index")>()),
+vi.mock("@sdk/themes-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/themes-api")>()),
   ThemesApi: { getThemes: vi.fn() },
 }));
 

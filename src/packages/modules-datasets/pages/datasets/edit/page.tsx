@@ -12,7 +12,7 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { Dataset } from "@model/Dataset";
 
-import { DatasetsApi } from "@sdk/index";
+import { DatasetsApi } from "@sdk/datasets-api";
 
 import { toFormErrors } from "@utils/api-errors";
 import { initializeContributorProperty } from "@utils/creation/contributor-init";

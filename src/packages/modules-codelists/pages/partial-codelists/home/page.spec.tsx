@@ -1,13 +1,13 @@
 import { screen } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import { renderWithProviders } from "../../../testing/render.testing";
 import { Component } from "./page";
 
-vi.mock("@sdk/index", () => ({ CodelistsApi: { getCodelistsPartial: vi.fn() } }));
+vi.mock("@sdk/codelists-api", () => ({ CodelistsApi: { getCodelistsPartial: vi.fn() } }));
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 vi.mock("../../../../auth/components/auth", () => ({
   HasAccess: ({ children }: { children: React.ReactNode }) => children,

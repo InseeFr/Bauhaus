@@ -7,7 +7,7 @@ import {
 import { useCallback, useState } from "react";
 import { LoaderFunctionArgs, useParams } from "react-router";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { conceptListQuery } from "@utils/hooks/concepts";
 import { useSecondLang } from "@utils/hooks/second-lang";

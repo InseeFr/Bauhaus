@@ -5,7 +5,8 @@ import { Route, Routes } from "react-router";
 
 import { getListItems } from "@components/ui/list-group/testing";
 
-import { ConceptsApi, StructureApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
+import { StructureApi } from "@sdk/structure-api";
 
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
@@ -17,7 +18,7 @@ const LIST_PAGE = <p>Liste</p>;
 export const ORGANIZATION_IRI = "https://bauhaus/organizations/insee/HIE2000001";
 export const OTHER_ORGANIZATION_IRI = "https://bauhaus/organizations/insee/OTHER";
 
-/** Résultats de recherche renvoyés par `StructureApi[searchMethod]`, sans concept (la spec doit mocker `@sdk/index`). */
+/** Résultats de recherche renvoyés par `StructureApi[searchMethod]`, sans concept (la spec doit mocker `@sdk/structure-api` et `@sdk/concepts-api`). */
 export const mockSearchApi = (searchMethod: string, results: unknown[]) => {
   (StructureApi as any)[searchMethod].mockResolvedValue(results);
   vi.mocked(ConceptsApi.getConceptList).mockResolvedValue([]);
@@ -136,7 +137,7 @@ export const itGoesBackToTheList = (
  * Suite d'une page de recherche avancée : `searchMethod` renvoie `data`, chaque cas de `cases`
  * filtre ces données, le filtre créateur passe par CreatorsInput, le bouton de réinitialisation
  * vide les critères et le bouton de retour ramène à `listPath`. La spec doit mocker
- * `@utils/hooks/useUrlQueryParameters`, `@sdk/index` et `@components/business/creators-input`.
+ * `@utils/hooks/useUrlQueryParameters`, `@sdk/structure-api`, `@sdk/concepts-api` et `@components/business/creators-input`.
  */
 export const itBehavesAsAnAdvancedSearchPage = ({
   Component,

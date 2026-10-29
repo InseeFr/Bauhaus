@@ -3,21 +3,26 @@ import { Mock, vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
 
-import { fetchCodelist, OrganizationsApi, ThemesApi } from "@sdk/index";
+import { fetchCodelist } from "@sdk/codelists-api";
+import { OrganizationsApi } from "@sdk/organizations-api";
+import { ThemesApi } from "@sdk/themes-api";
 
 import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { GlobalInformation } from "./GlobalInformation";
 import { renderEditPanel } from "./panel.testing";
 
-vi.mock("@sdk/index", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@sdk/index")>();
-  return {
-    ...actual,
-    fetchCodelist: vi.fn(),
-    ThemesApi: { getThemes: vi.fn() },
-    OrganizationsApi: { getOrganizations: vi.fn() },
-  };
-});
+vi.mock("@sdk/codelists-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/codelists-api")>()),
+  fetchCodelist: vi.fn(),
+}));
+vi.mock("@sdk/themes-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/themes-api")>()),
+  ThemesApi: { getThemes: vi.fn() },
+}));
+vi.mock("@sdk/organizations-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/organizations-api")>()),
+  OrganizationsApi: { getOrganizations: vi.fn() },
+}));
 
 const frequencies = {
   codes: [

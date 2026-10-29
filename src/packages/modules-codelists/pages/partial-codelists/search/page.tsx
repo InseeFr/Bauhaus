@@ -11,7 +11,7 @@ import { List } from "@components/ui/list-group";
 
 import { validateStateOptions } from "@model/ValidationState";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { filterKeyDeburr } from "@utils/array-utils";
 import { useStampsOptions } from "@utils/hooks/stamps";

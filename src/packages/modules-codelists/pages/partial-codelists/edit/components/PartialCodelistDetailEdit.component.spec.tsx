@@ -1,15 +1,15 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
+import { CodelistsApi } from "@sdk/codelists-api";
 import { DisseminationStatus } from "@sdk/dissemination-status";
-import { CodelistsApi } from "@sdk/index";
 
 import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { renderWithProviders } from "../../../../testing/render.testing";
 import { PartialCodelistDetailEdit } from "./PartialCodelistDetailEdit";
 
-vi.mock("@sdk/index", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@sdk/index")>()),
+vi.mock("@sdk/codelists-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/codelists-api")>()),
   CodelistsApi: { getCodelistCodes: vi.fn() },
 }));
 

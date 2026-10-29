@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { Codelist, Codelists } from "@model/Codelist";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 interface MeasureAttributeCodeValueTypes {
   value: string;

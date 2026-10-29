@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import {
   CodeChanges,
@@ -11,7 +11,7 @@ import {
   withUpdatedCode,
 } from "./code-changes";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/codelists-api", () => ({
   CodelistsApi: {
     postCodesDetailedCodelist: vi.fn(() => Promise.resolve()),
     putCodesDetailedCodelist: vi.fn(() => Promise.resolve()),

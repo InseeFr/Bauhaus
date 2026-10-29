@@ -9,7 +9,7 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { Structure } from "@model/structures/Structure";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { useTitle } from "@utils/hooks/useTitle";
 

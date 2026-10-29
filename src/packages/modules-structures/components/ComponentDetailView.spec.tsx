@@ -5,14 +5,14 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Component } from "@model/structures/Component";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { AppContextProvider, AppProperties } from "../../application/app-context";
 import { createQueryClient } from "../../application/query-client";
 import { XSD_CODE_LIST } from "../constants/xsd";
 import { ComponentDetailView } from "./ComponentDetailView";
 
-vi.mock("@sdk/index", () => ({ CodelistsApi: { getCodelistsPartial: vi.fn() } }));
+vi.mock("@sdk/codelists-api", () => ({ CodelistsApi: { getCodelistsPartial: vi.fn() } }));
 
 vi.mock("./CodelistPanel", () => ({ CodelistPanel: () => null }));
 vi.mock("../pages/components/view/menu", () => ({ ViewMenu: () => null }));

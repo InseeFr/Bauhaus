@@ -5,7 +5,7 @@ import { Button } from "@components/ui/button";
 import { Codelists } from "@model/Codelist";
 import { Component } from "@model/structures/Component";
 
-import { XSD_TYPES } from "../constants";
+import { XSD_TYPES } from "../constants/xsd";
 import "./Representation.css";
 
 interface RepresentationTypes {

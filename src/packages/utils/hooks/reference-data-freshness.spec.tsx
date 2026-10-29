@@ -1,16 +1,22 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { StampsApi, ThemesApi, V2Api } from "@sdk/index";
+import { StampsApi } from "@sdk/stamps-api";
+import { ThemesApi } from "@sdk/themes-api";
 import { UsersApi } from "@sdk/users-api";
+import { V2Api } from "@sdk/v2-api";
 
 import { mountAgainLongAfter } from "../../tests/query-freshness.testing";
 import { useStamps, useV2Stamps } from "./stamps";
 import { useThemes } from "./themes";
 import { usePrivileges, useUserStamps } from "./users";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/stamps-api", () => ({
   StampsApi: { getStamps: vi.fn() },
+}));
+vi.mock("@sdk/v2-api", () => ({
   V2Api: { getStamps: vi.fn() },
+}));
+vi.mock("@sdk/themes-api", () => ({
   ThemesApi: { getThemes: vi.fn() },
 }));
 

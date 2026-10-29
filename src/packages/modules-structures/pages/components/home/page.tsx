@@ -9,7 +9,7 @@ import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants";
+import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants/dsd-components";
 import { mutualizedComponentsQuery } from "../../../hooks/queries";
 import { formatLabel } from "../../../utils/formatLabel";
 import "./page.css";

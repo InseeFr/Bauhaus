@@ -5,7 +5,8 @@ import { Mock, vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
 
-import { fetchCodelist, StructureApi } from "@sdk/index";
+import { fetchCodelist } from "@sdk/codelists-api";
+import { StructureApi } from "@sdk/structure-api";
 
 import {
   CL_DATA_TYPES,
@@ -18,14 +19,14 @@ import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.t
 import { testsI18n as i18n } from "../../../../../tests/i18n";
 import { StatisticalInformation } from "./StatisticalInformation";
 
-vi.mock("@sdk/index", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@sdk/index")>();
-  return {
-    ...actual,
-    fetchCodelist: vi.fn(),
-    StructureApi: { getStructures: vi.fn() },
-  };
-});
+vi.mock("@sdk/codelists-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/codelists-api")>()),
+  fetchCodelist: vi.fn(),
+}));
+vi.mock("@sdk/structure-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/structure-api")>()),
+  StructureApi: { getStructures: vi.fn() },
+}));
 
 const codelists: Record<string, unknown> = {
   [CL_DATA_TYPES]: { codes: [{ iri: "http://type/micro", labelLg1: "Microdonnées" }] },

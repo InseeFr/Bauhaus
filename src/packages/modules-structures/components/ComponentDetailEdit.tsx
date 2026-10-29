@@ -17,7 +17,8 @@ import { Code, Codelists } from "@model/Codelist";
 import { Options } from "@model/SelectOption";
 import { Component } from "@model/structures/Component";
 
-import { CodelistsApi, StructureApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
+import { StructureApi } from "@sdk/structure-api";
 
 import { toFormErrors } from "@utils/api-errors";
 import { convertToArrayIfDefined, EMPTY_ARRAY, sortArray } from "@utils/array-utils";
@@ -26,10 +27,9 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../application/app-context";
 import { useAuthorizationGuard } from "../../auth/components/auth";
+import { MEASURE_PROPERTY_TYPE, MUTUALIZED_COMPONENT_TYPES } from "../constants/dsd-components";
 import {
   IGEO_PAYS_OU_TERRITOIRE,
-  MEASURE_PROPERTY_TYPE,
-  MUTUALIZED_COMPONENT_TYPES,
   XSD_CODE_LIST,
   XSD_DATE,
   XSD_DATE_TIME,
@@ -37,7 +37,7 @@ import {
   XSD_INTEGER,
   XSD_STRING,
   XSD_TYPES,
-} from "../constants";
+} from "../constants/xsd";
 import { structuresI18n } from "../i18n";
 import { validate } from "../pages/components/edit/validation";
 import "./ComponentDetailEdit.css";

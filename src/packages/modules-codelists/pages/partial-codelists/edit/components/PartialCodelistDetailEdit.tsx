@@ -14,7 +14,7 @@ import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 import { Select } from "@components/select-rmes";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { toFormErrors } from "@utils/api-errors";
 import { EMPTY_ARRAY } from "@utils/array-utils";

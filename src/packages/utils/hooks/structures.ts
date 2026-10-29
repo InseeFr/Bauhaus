@@ -2,7 +2,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { StructuresList } from "@model/structures/Structure";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 /**
  * Préfixe commun à toutes les lectures du module structures (liste, recherche, fiches, composantes

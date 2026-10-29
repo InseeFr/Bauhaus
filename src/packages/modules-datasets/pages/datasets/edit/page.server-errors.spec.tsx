@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { DatasetsApi } from "@sdk/index";
+import { DatasetsApi } from "@sdk/datasets-api";
 
 import { AppContextProvider } from "../../../../application/app-context";
 import { Component } from "./page";
@@ -24,11 +24,20 @@ vi.mock("../../../hooks/useDataset", () => ({
   useDataset: () => ({ data: dataset, status: "success" }),
 }));
 
-vi.mock("@sdk/index", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@sdk/index")>()),
+vi.mock("@sdk/datasets-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/datasets-api")>()),
   DatasetsApi: { putDataset: vi.fn(), getArchivageUnits: vi.fn(() => Promise.resolve([])) },
+}));
+vi.mock("@sdk/codelists-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/codelists-api")>()),
   fetchCodelist: vi.fn(() => Promise.resolve({ codes: [] })),
+}));
+vi.mock("@sdk/themes-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/themes-api")>()),
   ThemesApi: { getThemes: vi.fn(() => Promise.resolve([])) },
+}));
+vi.mock("@sdk/organizations-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/organizations-api")>()),
   OrganizationsApi: { getOrganizations: vi.fn(() => Promise.resolve([])) },
 }));
 

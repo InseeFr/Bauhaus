@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { useParams } from "react-router";
 import { Mock, vi } from "vitest";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
@@ -14,7 +14,7 @@ vi.mock("react-router", () => ({
   useParams: vi.fn(),
 }));
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: {
     getConceptGeneral: vi.fn(),
     getNoteVersionList: vi.fn(),

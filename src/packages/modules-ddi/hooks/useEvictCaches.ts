@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 /**
  * Vide les caches Colectica du back, puis toutes les requêtes du front : certaines (contenu des

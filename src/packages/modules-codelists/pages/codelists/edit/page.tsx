@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 import { CodeChanges, RefusedCode, saveCodeChanges } from "../../../utils/code-changes";

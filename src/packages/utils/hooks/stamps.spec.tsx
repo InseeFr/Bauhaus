@@ -2,14 +2,17 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor, cleanup } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
-import { StampsApi, V2Api } from "@sdk/index";
+import { StampsApi } from "@sdk/stamps-api";
+import { V2Api } from "@sdk/v2-api";
 
 import { useStamps, useV2Stamps, useStampsOptions, useV2StampsOptions } from "./stamps";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/stamps-api", () => ({
   StampsApi: {
     getStamps: vi.fn(),
   },
+}));
+vi.mock("@sdk/v2-api", () => ({
   V2Api: {
     getStamps: vi.fn(),
   },

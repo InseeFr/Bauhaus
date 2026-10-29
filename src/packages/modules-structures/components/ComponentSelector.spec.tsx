@@ -5,7 +5,7 @@ import { Component, ComponentDefinition } from "@model/structures/Component";
 import { Structure } from "@model/structures/Structure";
 import { UNPUBLISHED } from "@model/ValidationState";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
@@ -14,16 +14,17 @@ import {
   ATTRIBUTE_PROPERTY_TYPE,
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
-} from "../constants";
+} from "../constants/dsd-components";
 import { clickIcon, createStructuresWrapper, rowOf } from "../render.testing";
 import { ComponentSelector } from "./ComponentSelector";
 
-vi.mock("@sdk/index", async () => ({
-  ...(await import("../mocks.testing")).emptyCodelistsAndStampsApi(),
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: {
     getMutualizedComponent: vi.fn(),
   },
 }));
+vi.mock("@sdk/codelists-api", async () => (await import("../mocks.testing")).emptyCodelistsApi());
+vi.mock("@sdk/stamps-api", async () => (await import("../mocks.testing")).emptyStampsApi());
 
 vi.mock("@utils/hooks/users", async (importOriginal) =>
   (await import("../mocks.testing")).usersHookWithCreatePrivilege(

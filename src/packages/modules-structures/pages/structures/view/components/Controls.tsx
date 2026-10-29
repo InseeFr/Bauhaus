@@ -13,7 +13,7 @@ import { ValidationButton } from "@components/validationButton";
 import { Structure } from "@model/structures/Structure";
 import { UNPUBLISHED } from "@model/ValidationState";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { STRUCTURES_KEY } from "@utils/hooks/structures";
 

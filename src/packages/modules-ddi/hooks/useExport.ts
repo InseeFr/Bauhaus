@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import type { Toast } from "@components/ui/toast";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { formatApiErrors } from "@utils/api-errors";
 

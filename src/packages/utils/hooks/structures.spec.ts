@@ -1,11 +1,11 @@
 import { QueryClient } from "@tanstack/react-query";
 import { vi } from "vitest";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { STRUCTURES_KEY, structuresQuery } from "./structures";
 
-vi.mock("@sdk/index", () => ({ StructureApi: { getStructures: vi.fn() } }));
+vi.mock("@sdk/structure-api", () => ({ StructureApi: { getStructures: vi.fn() } }));
 
 describe("structuresQuery", () => {
   it("reads the structures list", async () => {

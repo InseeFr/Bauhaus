@@ -3,9 +3,11 @@ import { Mock, vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
 
+import { fetchCodelist } from "@sdk/codelists-api";
+import { DatasetsApi } from "@sdk/datasets-api";
 import { DisseminationStatus } from "@sdk/dissemination-status";
-import { DatasetsApi, fetchCodelist, OrganizationsApi } from "@sdk/index";
 import { OperationsApi } from "@sdk/operations-api";
+import { OrganizationsApi } from "@sdk/organizations-api";
 
 import {
   CL_ACCESS_RIGHTS,
@@ -16,15 +18,18 @@ import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.t
 import { InternalManagement } from "./InternalManagement";
 import { renderEditPanel } from "./panel.testing";
 
-vi.mock("@sdk/index", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@sdk/index")>();
-  return {
-    ...actual,
-    fetchCodelist: vi.fn(),
-    DatasetsApi: { getArchivageUnits: vi.fn() },
-    OrganizationsApi: { getOrganizations: vi.fn() },
-  };
-});
+vi.mock("@sdk/codelists-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/codelists-api")>()),
+  fetchCodelist: vi.fn(),
+}));
+vi.mock("@sdk/datasets-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/datasets-api")>()),
+  DatasetsApi: { getArchivageUnits: vi.fn() },
+}));
+vi.mock("@sdk/organizations-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/organizations-api")>()),
+  OrganizationsApi: { getOrganizations: vi.fn() },
+}));
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getSeriesList: vi.fn(), getOperationsList: vi.fn() },

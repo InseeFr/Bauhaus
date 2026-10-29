@@ -1,4 +1,4 @@
-import { MUTUALIZED_COMPONENT_TYPES } from "../constants";
+import { MUTUALIZED_COMPONENT_TYPES } from "../constants/dsd-components";
 
 export const typeUriToLabel = (uri = "") => {
   return MUTUALIZED_COMPONENT_TYPES.find((component) => component.value === uri)?.label;

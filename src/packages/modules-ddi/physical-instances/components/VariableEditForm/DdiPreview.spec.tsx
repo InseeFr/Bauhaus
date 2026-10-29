@@ -67,7 +67,7 @@ const mockGetGroupMissingValuesRepresentations = vi.fn();
 const mockGetMutualizedCodesList = vi.fn();
 const mockGetMutualizedCodeListsCatalog = vi.fn();
 
-vi.mock("../../../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     convertToDDI3: (...args: any[]) => mockConvertToDDI3(...args),
     getPhysicalInstanceParents: (...args: any[]) => mockGetPhysicalInstanceParents(...args),
