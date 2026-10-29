@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
@@ -17,26 +18,19 @@ import { PublicationStatusItem } from "@components/status/PublicationStatusItem"
 import { Codelists } from "@model/Codelist";
 import { Component } from "@model/structures/Component";
 
-import { CodelistsApi } from "@sdk/index";
-
 import { EMPTY_ARRAY } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
 import { useAppContext } from "../../application/app-context";
 import { XSD_CODE_LIST, XSD_TYPES, ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from "../constants";
+import { partialCodelistsQuery } from "../hooks/queries";
 import { ViewMenu } from "../pages/components/view/menu";
 import { getAllAttachment } from "../utils/getAllAttachment";
 import { typeUriToLabel } from "../utils/typeUriToLabel";
 import "./ComponentDetailView.css";
 import { CodelistPanel } from "./CodelistPanel";
 import { MeasureAttributes } from "./MeasureAttributes";
-
-interface PartialCodelist {
-  uri: string;
-  labelLg1: string;
-  id: string;
-}
 
 interface ComponentDetailViewTypes {
   component: Component;
@@ -79,13 +73,7 @@ export const ComponentDetailView = ({
 
   const [codelistPanelOpened, setCodelistPanelOpened] = useState(false);
 
-  const [partialCodelists, setPartialCodelists] = useState<PartialCodelist[]>([]);
-
-  useEffect(() => {
-    CodelistsApi.getCodelistsPartial().then((response: PartialCodelist[]) => {
-      setPartialCodelists(response);
-    });
-  }, []);
+  const { data: partialCodelists = EMPTY_ARRAY } = useQuery(partialCodelistsQuery());
 
   const typeValue = typeUriToLabel(component.type);
 

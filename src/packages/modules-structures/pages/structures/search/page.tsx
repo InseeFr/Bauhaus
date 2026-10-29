@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useSuspenseQueries } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
 import { AdvancedSearchLayout } from "@components/advanced-search-layout";
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { CreatorsInput } from "@components/business/creators-input";
-import { Loading } from "@components/loading";
 import { Pagination } from "@components/pagination";
 import { Select } from "@components/select-rmes";
 import { List } from "@components/ui/list-group";
@@ -13,14 +12,14 @@ import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { validateStateOptions } from "@model/ValidationState";
 
-import { ConceptsApi, StructureApi } from "@sdk/index";
-
 import { filterKeyDeburr } from "@utils/array-utils";
+import { conceptListQuery } from "@utils/hooks/concepts";
 import { useTitle } from "@utils/hooks/useTitle";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { COMPONENT_TYPES } from "../../../constants";
+import { structuresForSearchQuery } from "../../../hooks/queries";
 
 const filterLabelLg1 = filterKeyDeburr(["labelLg1"]);
 const filterCreator = filterKeyDeburr(["creator"]);
@@ -147,24 +146,9 @@ export const Component = () => {
 
   useTitle(t("structure.searchTitle"));
 
-  const [loading, setLoading] = useState(true);
-
-  const [items, setItems] = useState<any[]>([]);
-
-  const [concepts, setConcepts] = useState<any[]>([]);
-
-  useEffect(() => {
-    Promise.all([StructureApi.getStructuresForSearch(), ConceptsApi.getConceptList()])
-      .then(([structures, concepts]) => {
-        setItems(structures);
-        setConcepts(concepts);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
+  const [{ data: items }, { data: concepts }] = useSuspenseQueries({
+    queries: [structuresForSearchQuery(), conceptListQuery()],
+  });
 
   return <SearchFormList data={items} concepts={concepts} />;
 };

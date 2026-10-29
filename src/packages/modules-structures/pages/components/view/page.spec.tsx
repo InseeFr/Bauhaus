@@ -1,3 +1,4 @@
+import { QueryClient } from "@tanstack/react-query";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach } from "vitest";
@@ -7,16 +8,12 @@ import { ErrorBloc } from "@components/errors-bloc";
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
 import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { renderWithQuery } from "../../../../tests/render-with-query.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
-import { renderPageWithAppContext } from "../../../render.testing";
-import { Component } from "./page";
+import { mutualizedComponentQuery } from "../../../hooks/queries";
+import { Component, prefetchMutualizedComponent } from "./page";
 
 const goBack = vi.fn();
-
-vi.mock("react-router", async () => ({
-  ...(await vi.importActual("react-router")),
-  useParams: () => ({ id: "comp-1" }),
-}));
 
 vi.mock("@sdk/index", () => ({
   StructureApi: {
@@ -62,7 +59,11 @@ vi.mock("../../../components/ComponentDetailView", () => ({
 
 const component = { id: "comp-1", labelLg1: "Composante FR" };
 
-const renderPage = () => renderPageWithAppContext(<Component />);
+const renderPage = () =>
+  renderWithQuery(<Component />, {
+    path: "/structures/components/:id",
+    route: "/structures/components/comp-1",
+  });
 
 /** Attend l'affichage du bouton `name` de la vue (stubée) puis clique dessus. */
 const clickWhenDisplayed = async (name: string) => {
@@ -82,6 +83,7 @@ describe("Mutualized component view page", () => {
   });
 
   it("indique que la composante est introuvable au lieu d'une page vide", async () => {
+    using _error = vi.spyOn(console, "error").mockImplementation(() => undefined);
     vi.mocked(StructureApi.getMutualizedComponent).mockRejectedValue(sdkRejection.emptyBody(404));
 
     renderPage();
@@ -91,6 +93,7 @@ describe("Mutualized component view page", () => {
   });
 
   it("indique que la composante n'a pas pu être chargée quand un référentiel échoue", async () => {
+    using _error = vi.spyOn(console, "error").mockImplementation(() => undefined);
     vi.mocked(ConceptsApi.getConceptList).mockRejectedValue(sdkRejection.emptyBody(500));
 
     renderPage();
@@ -101,7 +104,7 @@ describe("Mutualized component view page", () => {
   it("attend les trois appels avant d'afficher la composante", async () => {
     renderPage();
 
-    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expect(await screen.findByRole("status")).toBeInTheDocument();
 
     await waitFor(() => expect(screen.getByText("composante:Composante FR")).toBeInTheDocument());
     expect(screen.getByText("concepts:2")).toBeInTheDocument();
@@ -135,6 +138,20 @@ describe("Mutualized component view page", () => {
       expect(StructureApi.publishMutualizedComponent).toHaveBeenCalledWith(component),
     );
     await waitFor(() => expect(StructureApi.getMutualizedComponent).toHaveBeenCalledTimes(2));
+  });
+
+  it("commence à lire la composante depuis le loader de la route", async () => {
+    const queryClient = new QueryClient();
+
+    expect(
+      prefetchMutualizedComponent(queryClient)({ params: { id: "comp-1" } } as any),
+    ).toBeNull();
+
+    await vi.waitFor(() =>
+      expect(queryClient.getQueryData(mutualizedComponentQuery("comp-1").queryKey)).toEqual(
+        component,
+      ),
+    );
   });
 
   it("affiche l'erreur serveur quand la publication échoue", async () => {

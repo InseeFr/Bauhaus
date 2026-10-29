@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import { Codelists } from "@model/Codelist";
 import { Component } from "@model/structures/Component";
 
-import { StructureApi } from "@sdk/index";
-
+import { mutualizedComponentQuery } from "../hooks/queries";
 import { MeasureAttributeValue } from "./MeasureAttributeValue";
 
 interface MeasureAttributeTypes {
@@ -22,13 +21,7 @@ export const MeasureAttribute = ({
 }: Readonly<MeasureAttributeTypes>) => {
   const attributeId = attributes.find((a) => a.iri === attribute)?.id;
 
-  const [fullAttribute, setFullAttribute] = useState<Component>();
-
-  useEffect(() => {
-    StructureApi.getMutualizedComponent(attributeId).then((body: Component) =>
-      setFullAttribute(body),
-    );
-  }, [attributeId]);
+  const { data: fullAttribute } = useQuery(mutualizedComponentQuery(attributeId!));
 
   if (!fullAttribute) {
     return null;

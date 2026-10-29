@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router";
@@ -18,6 +19,7 @@ import { StructureApi } from "@sdk/index";
 import { toFormErrors } from "@utils/api-errors";
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
+import { STRUCTURES_KEY } from "@utils/hooks/structures";
 
 import { useAppContext } from "../../../../../application/app-context";
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
@@ -62,6 +64,8 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
   const { t } = useTranslation();
 
   const { lg1, lg2 } = useAppContext();
+
+  const queryClient = useQueryClient();
 
   const [structure, setStructure] = useState<Structure>(defaultDSD);
 
@@ -134,6 +138,8 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
       setLoading(true);
       (creation ? StructureApi.postStructure(structure) : StructureApi.putStructure(structure))
         .then((id: string) => {
+          // Fiche et listes relues à l'ouverture de la fiche (TQ1b : useMutation).
+          void queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY });
           setRedirectId(id);
         })
         .catch((error: unknown) => {

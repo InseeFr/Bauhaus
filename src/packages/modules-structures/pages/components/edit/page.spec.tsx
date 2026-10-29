@@ -1,8 +1,11 @@
+import { QueryClient } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Route, Routes } from "react-router";
 import { vi } from "vitest";
 
 import { ConceptsApi, saveComponent, StructureApi } from "@sdk/index";
+
+import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { expectItemNotFound } from "../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
@@ -26,6 +29,8 @@ vi.mock("@sdk/codelists-api", () => ({
   },
 }));
 
+vi.mock("@utils/hooks/useGoBack", () => ({ useGoBack: vi.fn(() => vi.fn()) }));
+
 vi.mock("@components/business/creators-input", () => ({ CreatorsInput: () => <div /> }));
 vi.mock("@components/business/contributors-input/contributors-input", () => ({
   ContributorsInput: () => <div />,
@@ -46,9 +51,10 @@ const mutualizedComponent = {
   type: "http://purl.org/linked-data/cube#DimensionProperty",
 };
 
-const Wrapper = (path: string) =>
+const Wrapper = (path: string, queryClient?: QueryClient) =>
   createStructuresWrapper({
     initialEntries: [path],
+    queryClient,
     routes: (children) => (
       <Routes>
         <Route path="/structures/components/edit/:id" element={children} />
@@ -57,8 +63,8 @@ const Wrapper = (path: string) =>
     ),
   });
 
-const renderPage = async (path = "/structures/components/edit/c1") => {
-  const view = render(<Component />, { wrapper: Wrapper(path) });
+const renderPage = async (path = "/structures/components/edit/c1", queryClient?: QueryClient) => {
+  const view = render(<Component />, { wrapper: Wrapper(path, queryClient) });
   await screen.findByDisplayValue("Composante 1");
   return view;
 };
@@ -106,6 +112,25 @@ describe("page d'édition d'une composante mutualisée", () => {
     await waitFor(() =>
       expect(saveComponent).toHaveBeenCalledWith(expect.objectContaining({ identifiant: "c1" })),
     );
+  });
+
+  it("périme la composante et les listes en cache avant de revenir sur sa fiche", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["structures", "components"], []);
+    queryClient.setQueryData(["structures", "components", "c1"], mutualizedComponent);
+    let invalidatedAtGoBack: (boolean | undefined)[] = [];
+    vi.mocked(useGoBack).mockReturnValue(() => {
+      invalidatedAtGoBack = [
+        queryClient.getQueryState(["structures", "components"])?.isInvalidated,
+        queryClient.getQueryState(["structures", "components", "c1"])?.isInvalidated,
+      ];
+    });
+    vi.mocked(saveComponent).mockResolvedValue("c1");
+    await renderPage(undefined, queryClient);
+
+    fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));
+
+    await waitFor(() => expect(invalidatedAtGoBack).toEqual([true, true]));
   });
 
   it("affiche l'erreur renvoyée par le serveur", async () => {

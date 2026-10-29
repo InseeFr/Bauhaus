@@ -21,13 +21,16 @@ export const createStructuresWrapper =
   ({
     initialEntries,
     routes = (children) => children,
+    queryClient,
   }: {
     initialEntries?: string[];
     routes?: (children: ReactNode) => ReactNode;
+    /** Client à observer (invalidations) ; un client neuf par rendu sinon. */
+    queryClient?: QueryClient;
   } = {}) =>
   ({ children }: PropsWithChildren) => (
     <QueryClientProvider
-      client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
+      client={queryClient ?? new QueryClient({ defaultOptions: { queries: { retry: false } } })}
     >
       <MemoryRouter initialEntries={initialEntries}>
         <TestAppContextProvider>{routes(children)}</TestAppContextProvider>

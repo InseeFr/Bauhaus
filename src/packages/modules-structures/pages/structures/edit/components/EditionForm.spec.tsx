@@ -1,4 +1,6 @@
+import { QueryClient } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { ReactNode } from "react";
 import { Route, Routes } from "react-router";
 import { vi } from "vitest";
 
@@ -41,15 +43,17 @@ vi.mock("@utils/hooks/users", async (importOriginal) =>
 
 const STRUCTURE_PAGE = <span>Fiche de la structure</span>;
 
-const Wrapper = createStructuresWrapper({
+const WRAPPER_OPTIONS = {
   initialEntries: ["/structures/edit"],
-  routes: (children) => (
+  routes: (children: ReactNode) => (
     <Routes>
       <Route path="/structures/edit" element={children} />
       <Route path="/structures/:id" element={STRUCTURE_PAGE} />
     </Routes>
   ),
-});
+};
+
+const Wrapper = createStructuresWrapper(WRAPPER_OPTIONS);
 
 const structure = {
   id: "dsd1",
@@ -58,9 +62,9 @@ const structure = {
   labelLg2: "Structure 1 EN",
 };
 
-const renderForm = (props: Record<string, unknown> = {}) =>
+const renderForm = (props: Record<string, unknown> = {}, queryClient?: QueryClient) =>
   render(<EditionForm creation={false} initialStructure={structure} {...props} />, {
-    wrapper: Wrapper,
+    wrapper: queryClient ? createStructuresWrapper({ ...WRAPPER_OPTIONS, queryClient }) : Wrapper,
   });
 
 const saveButton = () => screen.getByRole("button", { name: /save|sauvegarder/i });
@@ -119,6 +123,20 @@ describe("EditionForm", () => {
     expect(StructureApi.putStructure).toHaveBeenCalledWith(
       expect.objectContaining({ identifiant: "DSD1" }),
     );
+  });
+
+  it("périme la structure et les listes en cache avant d'ouvrir sa fiche", async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(["structures"], []);
+    queryClient.setQueryData(["structures", "dsd1"], structure);
+    vi.mocked(StructureApi.putStructure).mockResolvedValue("dsd1");
+    renderForm({}, queryClient);
+
+    fireEvent.click(saveButton());
+
+    await screen.findByText("Fiche de la structure");
+    expect(queryClient.getQueryState(["structures"])?.isInvalidated).toBe(true);
+    expect(queryClient.getQueryState(["structures", "dsd1"])?.isInvalidated).toBe(true);
   });
 
   it("crée la structure quand le formulaire est en création", async () => {

@@ -9,7 +9,8 @@ import { ConceptsApi, StructureApi } from "@sdk/index";
 
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
-import { renderWithRouter } from "../../tests/render";
+import { renderWithQuery } from "../../tests/render-with-query.testing";
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 
 const LIST_PAGE = <p>Liste</p>;
 
@@ -26,18 +27,45 @@ export const mockSearchApi = (searchMethod: string, results: unknown[]) => {
  * Rend une page de recherche avancée avec le formulaire `form` (la spec doit mocker
  * `@utils/hooks/useUrlQueryParameters`) et attend l'affichage du formulaire `formSelector`.
  */
-export const renderSearchPage = async (page: ReactNode, formSelector: string, form = {}) => {
+const mockSearchForm = (form = {}) =>
   vi.mocked(useUrlQueryParameters).mockReturnValue({
     form,
     setForm: vi.fn(),
     reset: vi.fn(),
     handleChange: vi.fn(),
   });
-  const result = renderWithRouter(page);
+
+export const renderSearchPage = async (page: ReactNode, formSelector: string, form = {}) => {
+  mockSearchForm(form);
+  // `/*` : la page peut déclarer ses propres `<Routes>` (retour à la liste).
+  const result = renderWithQuery(page, { path: "/*", route: "/" });
   await waitFor(() => {
     expect(result.container.querySelector(formSelector)).not.toBeNull();
   });
   return result;
+};
+
+/** La page suspend tant que les résultats ou les concepts ne sont pas lus, puis échoue dans l'encart du module. */
+export const itLoadsTheResultsAndTheConcepts = (Component: ComponentType, searchMethod: string) => {
+  it("waits for the results and the concepts, asked at the same time", async () => {
+    mockSearchForm();
+    (StructureApi as any)[searchMethod].mockReturnValue(new Promise(() => undefined));
+
+    renderWithQuery(createElement(Component));
+
+    expect(await screen.findByRole("status")).toBeInTheDocument();
+    expect(ConceptsApi.getConceptList).toHaveBeenCalledOnce();
+  });
+
+  it("shows the module error when the concepts cannot be loaded", async () => {
+    using _error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    mockSearchForm();
+    vi.mocked(ConceptsApi.getConceptList).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderWithQuery(createElement(Component));
+
+    expect(await screen.findByText("An error has occurred")).toBeInTheDocument();
+  });
 };
 
 type RenderSearchPage = (form: Record<string, unknown>) => ReturnType<typeof renderSearchPage>;
@@ -128,7 +156,12 @@ export const itBehavesAsAnAdvancedSearchPage = ({
   const renderPage: RenderSearchPage = (form) =>
     renderSearchPage(<Component />, formSelector, form);
 
-  beforeEach(() => mockSearchApi(searchMethod, data));
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockSearchApi(searchMethod, data);
+  });
+
+  itLoadsTheResultsAndTheConcepts(Component, searchMethod);
 
   itFiltersSearchResults(renderPage, cases);
 

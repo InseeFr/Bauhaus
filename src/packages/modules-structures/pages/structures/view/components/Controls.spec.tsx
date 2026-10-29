@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
@@ -20,9 +21,11 @@ const renderControls = async (structure: Structure) => {
   const { Controls } = await import("./Controls");
 
   render(
-    <WithRouter>
-      <Controls structure={structure} publish={vi.fn()} onDeleteError={vi.fn()}></Controls>
-    </WithRouter>,
+    <QueryClientProvider client={new QueryClient()}>
+      <WithRouter>
+        <Controls structure={structure} publish={vi.fn()} onDeleteError={vi.fn()}></Controls>
+      </WithRouter>
+    </QueryClientProvider>,
   );
 };
 

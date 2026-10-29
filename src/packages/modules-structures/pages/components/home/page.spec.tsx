@@ -1,11 +1,12 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MouseEvent, useCallback } from "react";
-import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { StructureApi } from "@sdk/index";
 
+import { renderWithQuery } from "../../../../tests/render-with-query.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants";
 import { Component } from "./page";
 
@@ -67,12 +68,7 @@ const components = [
   { id: "c-2", labelLg1: "Second", labelLg2: "Second EN", type: secondType.value },
 ];
 
-const renderPage = () =>
-  render(
-    <MemoryRouter>
-      <Component />
-    </MemoryRouter>,
-  );
+const renderPage = () => renderWithQuery(<Component />);
 
 const renderPageFilteredBySecondType = async () => {
   renderPage();
@@ -91,7 +87,7 @@ describe("Mutualized components home page", () => {
   it("affiche toutes les composantes par défaut", async () => {
     renderPage();
 
-    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expect(await screen.findByRole("status")).toBeInTheDocument();
 
     await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));
     expect(screen.getByText("filtre:ALL")).toBeInTheDocument();
@@ -127,5 +123,15 @@ describe("Mutualized components home page", () => {
     await waitFor(() => expect(screen.getByText(`filtre:${firstType.value}`)).toBeInTheDocument());
     expect(screen.getAllByRole("listitem")).toHaveLength(1);
     expect(screen.getByText("Premier")).toBeInTheDocument();
+  });
+
+  it("affiche l'erreur du module quand les composantes ne peuvent pas être lues", async () => {
+    using _error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    vi.mocked(StructureApi.getMutualizedComponents).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderPage();
+
+    // `react-i18next` est doublé : l'encart du module affiche ses clés.
+    expect(await screen.findByText("routeError.title")).toBeInTheDocument();
   });
 });

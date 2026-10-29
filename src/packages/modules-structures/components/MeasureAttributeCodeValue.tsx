@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import { Codelist, Codelists } from "@model/Codelist";
 
@@ -15,13 +15,14 @@ export const MeasureAttributeCodeValue = ({
   attribute,
   codelists,
 }: Readonly<MeasureAttributeCodeValueTypes>) => {
-  const [codelist, setCodelist] = useState<Codelist>();
-
   const codelistNotation = codelists.find((cl) => cl.id === attribute.codeList)?.notation;
 
-  useEffect(() => {
-    CodelistsApi.getCodelist(codelistNotation).then((cl: Codelist) => setCodelist(cl));
-  }, [codelistNotation]);
+  // Fiche seule (avec ses codes), distincte de `["codelist", notation]` qui assemble fiche et
+  // codes paginés (`fetchCodelist`).
+  const { data: codelist } = useQuery<Codelist>({
+    queryKey: ["codelist", codelistNotation, "with-codes"],
+    queryFn: () => CodelistsApi.getCodelist(codelistNotation),
+  });
 
   if (!codelist) {
     return null;

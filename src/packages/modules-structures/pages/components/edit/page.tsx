@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useReducer, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
@@ -11,6 +12,7 @@ import { Component as StructureComponent } from "@model/structures/Component";
 
 import { ConceptsApi, saveComponent, StructureApi } from "@sdk/index";
 
+import { STRUCTURES_KEY } from "@utils/hooks/structures";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { ComponentDetailEdit } from "../../../components/ComponentDetailEdit";
@@ -98,17 +100,23 @@ export const Component = (props: any) => {
 
   const handleBack = useCallback(() => goBack("/structures/components"), [goBack]);
 
+  const queryClient = useQueryClient();
+
   const handleSave = useCallback(
     (component: StructureComponent) => {
       dispatch({ type: "SAVE_STARTED" });
       saveComponent(component)
-        .then((id = component.id) => goBack(`/structures/components/${id}`, !component.id))
+        .then(async (id = component.id) => {
+          // Fiche et listes périmées avant le retour (TQ1b : useMutation).
+          await queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY, refetchType: "none" });
+          goBack(`/structures/components/${id}`, !component.id);
+        })
         .catch((error: unknown) => {
           dispatch({ type: "SAVE_FAILED", component, error });
         })
         .finally(() => dispatch({ type: "SAVE_FINISHED" }));
     },
-    [goBack],
+    [goBack, queryClient],
   );
 
   useEffect(() => {

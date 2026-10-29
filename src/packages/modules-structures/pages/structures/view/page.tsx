@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { QueryClient, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
+import { LoaderFunctionArgs, useParams } from "react-router";
 
 import { CheckSecondLang } from "@components/check-second-lang";
-import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -14,6 +15,8 @@ import { StructureApi } from "@sdk/index";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { appQueryClient } from "../../../../application/query-client";
+import { structureQuery } from "../../../hooks/queries";
 import { ComponentsPanel } from "./components/ComponentsPanel";
 import { Controls } from "./components/Controls";
 import { DescriptionsPanel } from "./components/DescriptionsPanel";
@@ -57,39 +60,39 @@ export const StructureView = ({
   );
 };
 
+/** Lance la lecture de la structure pendant le téléchargement de la page, sans retenir la navigation. */
+export const prefetchStructure =
+  (queryClient: QueryClient) =>
+  ({ params }: LoaderFunctionArgs) => {
+    void queryClient.prefetchQuery(structureQuery(params.id!));
+    return null;
+  };
+
+export const loader = prefetchStructure(appQueryClient);
+
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
 
-  const [structure, setStructure] = useState<Structure>({} as Structure);
+  const queryClient = useQueryClient();
 
-  const [loading, setLoading] = useState(true);
+  const { data: structure } = useSuspenseQuery(structureQuery(id!));
+
+  const [publishing, setPublishing] = useState(false);
 
   const [serverSideError, setServerSideError] = useState<unknown>();
 
-  const [loadError, setLoadError] = useState<unknown>();
-
-  useEffect(() => {
-    StructureApi.getStructure(id)
-      .then((res: Structure) => setStructure(res))
-      .catch(setLoadError)
-      .finally(() => setLoading(false));
-  }, [id]);
-
   const publish = () => {
-    setLoading(true);
+    setPublishing(true);
     setServerSideError(undefined);
     return StructureApi.publishStructure(structure)
-      .then(() => StructureApi.getStructure(structure.id))
-      .then((structure: Structure) => setStructure(structure))
-      .finally(() => setLoading(false))
+      .then(() => queryClient.invalidateQueries({ queryKey: structureQuery(id!).queryKey }))
       .catch((error: any) => {
         setServerSideError(error);
-      });
+      })
+      .finally(() => setPublishing(false));
   };
 
-  if (loadError) return <LoadingErrorBloc error={loadError} />;
-
-  if (loading) {
+  if (publishing) {
     return <Loading />;
   }
 
