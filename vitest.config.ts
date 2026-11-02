@@ -21,6 +21,14 @@ export default defineConfig({
     environment: "happy-dom",
     globals: true,
     setupFiles: ["./setupTests.js"],
+    server: {
+      deps: {
+        // Son build ESM se déclare `"type": "module"` mais importe `./Editor.nohighlight`
+        // sans extension : Node refuse de le charger (« Cannot find module »). L'inliner
+        // le fait résoudre par Vite, comme au build.
+        inline: ["@uiw/react-md-editor"],
+      },
+    },
     // Les specs qui mockent react-query (mockReactQueryForRbac) doivent importer le
     // composant dynamiquement DANS le test : le coût de l'import à froid du graphe de
     // modules est donc compté dans le budget du test. Il passe de ~230 ms à vide à plus

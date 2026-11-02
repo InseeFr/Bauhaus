@@ -10,14 +10,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@astrojs/markdown-remark": "^7.3.2",
-    "@astrojs/starlight": "0.42.5",
-    "astro": "^7.2.10",
-    "astro-mermaid": "^2.0.4",
-    "mermaid": "^11.15.0",
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/markdown-remark": "^7.3.5",
+    "@astrojs/starlight": "0.42.8",
+    "astro": "^7.4.4",
+    "astro-mermaid": "^2.2.0",
+    "mermaid": "^12.2.0",
     "typescript": "^6.0.3",
-    "zod": "^4.4.3"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "sharp": "^0.35.2"
