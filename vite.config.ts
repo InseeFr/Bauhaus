@@ -40,10 +40,10 @@ export default defineConfig(() => {
           {
             patterns: [
               {
-                group: ["primereact", "primereact/*", "!primereact/resources/*"],
+                group: ["@mantle-ui/react", "@mantle-ui/react/*", "!@mantle-ui/react/resources/*"],
                 allowTypeImports: true,
                 message:
-                  "Wrap the PrimeReact component in src/packages/components/ (one wrapper per component, like select-rmes) and import the wrapper instead.",
+                  "Wrap the Mantle UI component in src/packages/components/ (one wrapper per component, like select-rmes) and import the wrapper instead.",
               },
             ],
           },

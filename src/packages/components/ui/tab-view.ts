@@ -1,1 +1,1 @@
-export * from "primereact/tabview";
+export * from "@mantle-ui/react/tabview";

@@ -1,4 +1,4 @@
-import "primereact/resources/themes/lara-light-blue/theme.css";
+import "@mantle-ui/react/resources/themes/lara-light-blue/theme.css";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";

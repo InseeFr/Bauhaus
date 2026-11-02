@@ -1,1 +1,1 @@
-export * from "primereact/toast";
+export * from "@mantle-ui/react/toast";

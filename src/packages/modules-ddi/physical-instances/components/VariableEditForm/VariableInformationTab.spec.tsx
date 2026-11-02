@@ -18,7 +18,7 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("primereact/inputtext", () => ({
+vi.mock("@mantle-ui/react/inputtext", () => ({
   InputText: ({ id, value, onChange, required, className }: any) => (
     <input id={id} value={value} onChange={onChange} required={required} className={className} />
   ),

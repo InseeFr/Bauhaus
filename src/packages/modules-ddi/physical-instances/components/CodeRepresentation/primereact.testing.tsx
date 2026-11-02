@@ -2,7 +2,7 @@
  * Doublures légères des composants PrimeReact utilisés par l'édition d'une liste de codes.
  *
  * Chaque export remplace le composant de même nom ; usage :
- * `vi.mock("primereact/inputtext", () => import("./primereact.testing"));`
+ * `vi.mock("@mantle-ui/react/inputtext", () => import("./primereact.testing"));`
  */
 import { ChangeEvent, forwardRef, useCallback, useImperativeHandle } from "react";
 

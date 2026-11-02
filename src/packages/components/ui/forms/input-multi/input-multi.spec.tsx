@@ -4,7 +4,7 @@ import { describe, it, expect, vi } from "vitest";
 
 import { InputMulti } from "./index";
 
-vi.mock("primereact/chips", () => ({
+vi.mock("@mantle-ui/react/chips", () => ({
   Chips: ({
     value = [],
     onChange,

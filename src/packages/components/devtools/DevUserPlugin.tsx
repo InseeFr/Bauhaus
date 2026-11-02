@@ -1,6 +1,6 @@
+import { Dropdown } from "@mantle-ui/react/dropdown";
+import { MultiSelect } from "@mantle-ui/react/multiselect";
 import { useQueryClient } from "@tanstack/react-query";
-import { Dropdown } from "primereact/dropdown";
-import { MultiSelect } from "primereact/multiselect";
 import { useState } from "react";
 
 import { clearDevUser, loadDevUser, saveDevUser } from "@sdk/dev-user";

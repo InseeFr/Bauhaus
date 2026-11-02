@@ -1,4 +1,4 @@
-import { TabView, TabPanel } from "primereact/tabview";
+import { TabView, TabPanel } from "@mantle-ui/react/tabview";
 import { ReactNode } from "react";
 
 import { Panel } from "../panel";

@@ -1,1 +1,1 @@
-export * from "primereact/column";
+export * from "@mantle-ui/react/column";

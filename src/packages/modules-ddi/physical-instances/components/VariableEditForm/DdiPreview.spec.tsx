@@ -22,9 +22,9 @@ vi.mock(
   async () => (await import("../representation.testing")).appContextModule,
 );
 
-vi.mock("primereact/button", () => import("./codePreview.testing"));
+vi.mock("@mantle-ui/react/button", () => import("./codePreview.testing"));
 
-vi.mock("primereact/dropdown", async () => {
+vi.mock("@mantle-ui/react/dropdown", async () => {
   const { OptionsSelect } = await import("../representation.testing");
   return {
     Dropdown: ({ value, options, onChange }: any) => {

@@ -1,4 +1,4 @@
-import { Chips } from "primereact/chips";
+import { Chips } from "@mantle-ui/react/chips";
 
 import { Row } from "@components/layout";
 

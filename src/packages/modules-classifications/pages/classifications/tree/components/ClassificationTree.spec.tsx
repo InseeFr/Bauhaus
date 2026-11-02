@@ -26,7 +26,7 @@ vi.mock(
 
 vi.mock("../menu", () => import("../../../../testing/component-mocks.testing"));
 
-vi.mock("primereact/tree", () => ({
+vi.mock("@mantle-ui/react/tree", () => ({
   Tree: ({ value, nodeTemplate }: any) => (
     <ul role="tree" data-testid="tree">
       {value?.map((node: any) => (

@@ -72,7 +72,7 @@ vi.mock("../../../hooks/useMmvrUsers", () => ({
 }));
 
 const confirmDialogMock = vi.fn();
-vi.mock("primereact/confirmdialog", () => ({
+vi.mock("@mantle-ui/react/confirmdialog", () => ({
   confirmDialog: (options: any) => confirmDialogMock(options),
   ConfirmDialog: () => null,
 }));

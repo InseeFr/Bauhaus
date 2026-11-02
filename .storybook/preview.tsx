@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/react-vite";
 // Mêmes styles globaux que l'application (cf. src/packages/application/app.tsx) :
 // indispensables pour que les composants PrimeReact/PrimeFlex rendent comme en vrai.
-import "primereact/resources/themes/lara-light-blue/theme.css";
+import "@mantle-ui/react/resources/themes/lara-light-blue/theme.css";
 import "primeflex/primeflex.css";
 import "../src/packages/styles/grid.css";
 import "primeicons/primeicons.css";

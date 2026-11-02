@@ -18,9 +18,9 @@ vi.mock("@utils/hooks/users", async (importOriginal) =>
   (await import("../../../privileges.testing")).mockUsersHooks(importOriginal),
 );
 
-vi.mock("primereact/button", () => import("./actions.testing"));
+vi.mock("@mantle-ui/react/button", () => import("./actions.testing"));
 
-vi.mock("primereact/splitbutton", () => ({
+vi.mock("@mantle-ui/react/splitbutton", () => ({
   SplitButton: ({ label, onClick, model, icon, ...props }: any) => (
     <div data-testid="split-button" {...props}>
       <button type="button" onClick={onClick} aria-label={props["aria-label"]}>

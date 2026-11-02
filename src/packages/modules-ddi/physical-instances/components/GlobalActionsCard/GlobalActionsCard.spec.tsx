@@ -16,7 +16,7 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("primereact/card", () => ({
+vi.mock("@mantle-ui/react/card", () => ({
   Card: ({ title, children }: any) => (
     <div data-testid="card">
       <h3>{title}</h3>

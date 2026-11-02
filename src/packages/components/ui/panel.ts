@@ -1,1 +1,1 @@
-export * from "primereact/panel";
+export * from "@mantle-ui/react/panel";

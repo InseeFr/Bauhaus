@@ -1,4 +1,4 @@
-import { Toast } from "primereact/toast";
+import { Toast } from "@mantle-ui/react/toast";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 

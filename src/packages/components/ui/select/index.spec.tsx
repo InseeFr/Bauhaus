@@ -14,7 +14,7 @@ const { renderOptions } = vi.hoisted(() => ({
   ),
 }));
 
-vi.mock("primereact/dropdown", () => ({
+vi.mock("@mantle-ui/react/dropdown", () => ({
   Dropdown: ({ value, onChange, placeholder }: any) => {
     const handleChange = useCallback(
       (e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value }),
@@ -28,7 +28,7 @@ vi.mock("primereact/dropdown", () => ({
   },
 }));
 
-vi.mock("primereact/multiselect", () => ({
+vi.mock("@mantle-ui/react/multiselect", () => ({
   MultiSelect: ({ value, onChange, placeholder }: any) => {
     const selected = useMemo(() => value ?? [], [value]);
     const handleChange = useCallback(

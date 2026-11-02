@@ -1,1 +1,1 @@
-export * from "primereact/inputicon";
+export * from "@mantle-ui/react/inputicon";

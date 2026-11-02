@@ -166,13 +166,13 @@ global.fetch = vi.fn((url) => {
   return Promise.reject(new Error(`Unexpected fetch call to ${url}`));
 }) as any;
 
-vi.mock("primereact/progressspinner", () => ({
+vi.mock("@mantle-ui/react/progressspinner", () => ({
   ProgressSpinner: () => <div data-testid="progress-spinner">Loading...</div>,
 }));
 
 // La vue pilote le toast par ref (`toast.current?.show(...)`) : le mock doit accepter
 // une ref, sinon React avertit « Function components cannot be given refs ».
-vi.mock("primereact/toast", async () => {
+vi.mock("@mantle-ui/react/toast", async () => {
   const { forwardRef, useImperativeHandle } =
     await vi.importActual<typeof import("react")>("react");
   return {
@@ -183,7 +183,7 @@ vi.mock("primereact/toast", async () => {
   };
 });
 
-vi.mock("primereact/message", () => ({
+vi.mock("@mantle-ui/react/message", () => ({
   Message: ({ severity, text }: any) => (
     <div data-testid="message" data-severity={severity}>
       {text}
@@ -191,7 +191,7 @@ vi.mock("primereact/message", () => ({
   ),
 }));
 
-vi.mock("primereact/dropdown", () => ({
+vi.mock("@mantle-ui/react/dropdown", () => ({
   // Les props propres à PrimeReact sont écartées avant le spread : `<select>` ne les
   // comprend pas et React avertit (ex. `loading={false}` sur un attribut non booléen).
   Dropdown: ({
@@ -238,17 +238,19 @@ vi.mock("primereact/dropdown", () => ({
   },
 }));
 
-vi.mock("primereact/dialog", () => ({
-  Dialog: ({ visible, children, header }: any) =>
+// Le ConfirmDialog de Mantle UI rend aussi ce Dialog, ses boutons passant par `footer`.
+vi.mock("@mantle-ui/react/dialog", () => ({
+  Dialog: ({ visible, children, header, footer }: any) =>
     visible ? (
       <dialog open aria-label={header}>
         <h2>{header}</h2>
         {children}
+        {footer}
       </dialog>
     ) : null,
 }));
 
-vi.mock("primereact/tabview", () => ({
+vi.mock("@mantle-ui/react/tabview", () => ({
   TabView: ({ children, activeIndex, onTabChange }: any) => {
     const panels = Array.isArray(children) ? children : [children];
     const handleTabClick = useCallback(
