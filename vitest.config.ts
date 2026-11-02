@@ -1,5 +1,4 @@
 import react from "@vitejs/plugin-react";
-import { defaultClientConditions } from "vite";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
@@ -15,10 +14,6 @@ export default defineConfig({
         replacement: "@mantle-ui/react/$1/$1.esm.js",
       },
     ],
-    // Sans `module-sync`, `react-router` se résout vers son build CJS alors que
-    // `react-router/dom` (RouterProvider de l'application) charge le build ESM : deux
-    // contextes de routeur, et `useRouteError` lève « must be used within a data router ».
-    conditions: [...defaultClientConditions, "module-sync"],
   },
   plugins: [react()],
   test: {
