@@ -1,13 +1,19 @@
-import { createMockReactOidc } from "oidc-spa/mock/react";
-import { createReactOidc } from "oidc-spa/react";
+import { oidcSpa } from "oidc-spa/react-spa";
 
-export const { OidcProvider, useOidc, getOidc } = !import.meta.env.VITE_OIDC_ISSUER
-  ? createMockReactOidc({
-      isUserInitiallyLoggedIn: false,
-    })
-  : createReactOidc({
-      issuerUri: import.meta.env.VITE_OIDC_ISSUER,
-      clientId: import.meta.env.VITE_OIDC_CLIENT_ID,
-      publicUrl: import.meta.env.BASE_URL,
-      scopes: ["openid"],
-    });
+const { bootstrapOidc, useOidc, getOidc, OidcInitializationGate } = oidcSpa.createUtils();
+
+export { useOidc, getOidc, OidcInitializationGate };
+
+bootstrapOidc(
+  !import.meta.env.VITE_OIDC_ISSUER
+    ? {
+        implementation: "mock",
+        isUserInitiallyLoggedIn: false,
+      }
+    : {
+        implementation: "real",
+        issuerUri: import.meta.env.VITE_OIDC_ISSUER,
+        clientId: import.meta.env.VITE_OIDC_CLIENT_ID,
+        scopes: ["openid"],
+      },
+);

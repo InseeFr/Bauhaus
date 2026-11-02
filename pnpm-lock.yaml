@@ -45,8 +45,8 @@ importers:
         specifier: ^26.6.0
         version: 26.6.0(typescript@7.0.2)
       oidc-spa:
-        specifier: ^5.3.0
-        version: 5.7.0
+        specifier: ^10.2.18
+        version: 10.2.18(@types/react@19.3.0)(react@19.3.1)
       primeflex:
         specifier: ^4.0.0
         version: 4.0.0
@@ -5111,8 +5111,37 @@ packages:
   ofetch@1.5.1:
     resolution: {integrity: sha512-2W4oUZlVaqAPAil6FUg/difl6YhqhUR7x2eZY4bQCko22UXg3hptq9KLQdqFClV+Wu85UX7hNtdGTngi/1BxcA==}
 
-  oidc-spa@5.7.0:
-    resolution: {integrity: sha512-Oz1R4BKTcltzsvT1RsRXHCeAFzouWR0aXeBRKQepGikuqgoP0rgqSPRTbnPgPmVoGcjgNLtD0IQM8nx+UDOqXg==}
+  oidc-spa@10.2.18:
+    resolution: {integrity: sha512-2Nq9mUHRxoPiCQEy586Xrxmw9o2zamgA5y24q4wbdco5R9WRx0v1qZqFtqEJ/iRJpVaOC9wDy3Gk1bYDDMu1Dg==}
+    peerDependencies:
+      '@angular/common': '*'
+      '@angular/core': '*'
+      '@angular/router': '*'
+      '@nuxt/kit': '*'
+      '@tanstack/react-router': '*'
+      '@tanstack/react-start': '>=1.168.25'
+      '@types/react': '*'
+      react: '*'
+      rxjs: '*'
+    peerDependenciesMeta:
+      '@angular/common':
+        optional: true
+      '@angular/core':
+        optional: true
+      '@angular/router':
+        optional: true
+      '@nuxt/kit':
+        optional: true
+      '@tanstack/react-router':
+        optional: true
+      '@tanstack/react-start':
+        optional: true
+      '@types/react':
+        optional: true
+      react:
+        optional: true
+      rxjs:
+        optional: true
 
   oniguruma-parser@0.12.2:
     resolution: {integrity: sha512-6HVa5oIrgMC6aA6WF6XyyqbhRPJrKR02L20+2+zpDtO5QAzGHAUGw5TKQvwi5vctNnRHkJYmjAhRVQF2EKdTQw==}
@@ -11480,7 +11509,10 @@ snapshots:
       node-fetch-native: 1.6.7
       ufo: 1.6.3
 
-  oidc-spa@5.7.0: {}
+  oidc-spa@10.2.18(@types/react@19.3.0)(react@19.3.1):
+    optionalDependencies:
+      '@types/react': 19.3.0
+      react: 19.3.1
 
   oniguruma-parser@0.12.2: {}
 

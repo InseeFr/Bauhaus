@@ -109,7 +109,7 @@ export const computeDscr = async (fn: any, [...args]) => {
   const oidc = await getOidc();
 
   if (authType === OPEN_ID_CONNECT_AUTH && oidc && oidc.isUserLoggedIn) {
-    const { accessToken } = oidc.getTokens();
+    const accessToken = await oidc.getAccessToken();
     options = {
       ...options,
       headers: { ...options.headers, Authorization: `Bearer ${accessToken}` },

@@ -58,9 +58,7 @@ const MainLayout = withAuth(() => {
 export const Logout = () => {
   const { t } = useTranslation("translation", { i18n: appI18n });
 
-  const { login } = useOidc({
-    assertUserLoggedIn: false,
-  });
+  const { login } = useOidc();
 
   return (
     <div id="login" className="flex">
