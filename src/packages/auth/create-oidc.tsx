@@ -4,7 +4,7 @@ const { bootstrapOidc, useOidc, getOidc, OidcInitializationGate } = oidcSpa.crea
 
 export { useOidc, getOidc, OidcInitializationGate };
 
-bootstrapOidc(
+void bootstrapOidc(
   !import.meta.env.VITE_OIDC_ISSUER
     ? {
         implementation: "mock",
