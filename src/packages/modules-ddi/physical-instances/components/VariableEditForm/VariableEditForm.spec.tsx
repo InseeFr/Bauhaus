@@ -82,8 +82,12 @@ vi.mock("primereact/inputtextarea", () => ({
 }));
 
 vi.mock("primereact/tabview", () => {
-  const Tab = ({ index, onTabChange }: any) => {
+  // Rend l'en-tête personnalisé de l'onglet (indicateur d'erreur compris) quand il y en a un.
+  const Tab = ({ index, activeIndex, headerTemplate, onTabChange }: any) => {
     const select = useCallback(() => onTabChange?.({ index }), [index, onTabChange]);
+    if (headerTemplate) {
+      return headerTemplate({ className: "", selected: index === activeIndex, onClick: select });
+    }
     return (
       <button type="button" role="tab" onClick={select}>
         {`Tab ${index}`}
@@ -95,8 +99,14 @@ vi.mock("primereact/tabview", () => {
     TabView: ({ children, activeIndex, onTabChange }: any) => (
       <div data-testid="tabview" data-active-index={activeIndex}>
         <div role="tablist">
-          {(Array.isArray(children) ? children : [children]).map((_child: any, index: number) => (
-            <Tab key={index} index={index} onTabChange={onTabChange} />
+          {(Array.isArray(children) ? children : [children]).map((child: any, index: number) => (
+            <Tab
+              key={index}
+              index={index}
+              activeIndex={activeIndex}
+              headerTemplate={child?.props?.headerTemplate}
+              onTabChange={onTabChange}
+            />
           ))}
         </div>
         {children}
@@ -685,6 +695,33 @@ describe("VariableEditForm", () => {
       renderForm({ variable: emptyNewVariable });
 
       expectActiveTab("0");
+    });
+  });
+
+  describe("Tab error indicator", () => {
+    const sentinelMmvr = (label: string) => ({
+      $type: "ManagedMissingValuesRepresentation" as const,
+      ID: "mmvr-1",
+      Label: [{ "@language": "fr-FR", "@value": label }],
+    });
+
+    const tabHasErrorIndicator = (name: string) =>
+      screen.getByRole("tab", { name: new RegExp(name) }).textContent?.includes("!");
+
+    it("should flag the representation tab, not the information tab, when the sentinel values have no label (#1566)", () => {
+      renderForm({ variable: { ...defaultVariable, sentinelMmvr: sentinelMmvr("") } });
+
+      expect(tabHasErrorIndicator("Représentation")).toBe(true);
+      expect(tabHasErrorIndicator("Informations")).toBe(false);
+    });
+
+    it("should flag only the information tab when the label of the variable is missing", () => {
+      renderForm({
+        variable: { ...defaultVariable, label: "", sentinelMmvr: sentinelMmvr("Sentinelles") },
+      });
+
+      expect(tabHasErrorIndicator("Informations")).toBe(true);
+      expect(tabHasErrorIndicator("Représentation")).toBe(false);
     });
   });
 
