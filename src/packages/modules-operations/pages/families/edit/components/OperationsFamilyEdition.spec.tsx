@@ -10,6 +10,13 @@ import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.t
 import { renderWithAppContext } from "../../../../../tests/render";
 import { OperationsFamilyEdition } from "./OperationsFamilyEdition";
 
+// Seule la source des organisations est simulée : les gestionnaires sont résolus par l'application.
+vi.mock("@utils/hooks/organizations", () => ({
+  useOrganizations: () => ({
+    data: [{ iri: "http://bauhaus/organisations/insee/DG75-L201", label: "Insee - DG75-L201" }],
+  }),
+}));
+
 vi.mock("react-i18next", async (importOriginal) =>
   (
     await import("../../../../components/translationsByLanguage.testing")
@@ -303,6 +310,28 @@ describe("OperationsFamilyEdition", () => {
   });
 
   describe("API Calls - Update", () => {
+    it("should send the contributors of the family when updating it", async () => {
+      OperationsApi.updateFamily.mockResolvedValueOnce();
+      renderEdition({
+        ...defaultProps,
+        family: {
+          ...defaultProps.family,
+          contributor: ["http://bauhaus/organisations/insee/DG75-L201"],
+        },
+      });
+
+      screen.getByText("contributors.title");
+      clickSave();
+
+      await waitFor(() =>
+        expect(OperationsApi.updateFamily).toHaveBeenCalledWith(
+          expect.objectContaining({
+            contributor: ["http://bauhaus/organisations/insee/DG75-L201"],
+          }),
+        ),
+      );
+    });
+
     it("should call updateFamily API when updating an existing family", async () => {
       saveExistingFamily();
 
