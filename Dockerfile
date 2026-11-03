@@ -17,6 +17,12 @@ RUN npm i -g pnpm@12 \
 
 FROM nginxinc/nginx-unprivileged:mainline-alpine
 
+# Correctifs de sécurité Alpine publiés après l'image de base (ex. brotli-libs
+# CVE-2026-111497, curl CVE-2026-92392) : l'image amont n'est pas reconstruite
+# assez vite, on met à jour les paquets nous-mêmes.
+USER root
+RUN apk upgrade --no-cache
+
 # Non root user
 ENV NGINX_USER_ID=101
 ENV NGINX_GROUP_ID=101
