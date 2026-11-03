@@ -45,3 +45,10 @@ export const clickIcon = (button: HTMLElement) =>
 /** Ligne du tableau affichant la composante `identifiant`. */
 export const rowOf = (identifiant: string) =>
   screen.getByText(`Composante ${identifiant}`).closest("tr") as HTMLElement;
+
+/** Champ de formulaire d'identifiant `id`. */
+export const field = (id: string) => document.getElementById(id)!;
+
+/** Saisit `value` dans le champ d'identifiant `id`. */
+export const type = (id: string, value: string) =>
+  fireEvent.change(field(id), { target: { value } });

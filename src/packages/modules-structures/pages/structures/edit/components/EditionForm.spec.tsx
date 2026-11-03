@@ -9,7 +9,7 @@ import { StructureApi } from "@sdk/structure-api";
 import { subscribeToGlobalErrors } from "../../../../../application/global-error-toast/notifier";
 import { createQueryClient } from "../../../../../application/query-client";
 import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
-import { createStructuresWrapper } from "../../../../render.testing";
+import { createStructuresWrapper, field, type } from "../../../../render.testing";
 import { EditionForm } from "./EditionForm";
 
 vi.mock("@sdk/structure-api", () => ({
@@ -167,9 +167,6 @@ describe("EditionForm", () => {
   });
 
   describe("après un enregistrement refusé par la validation", () => {
-    const field = (id: string) => document.getElementById(id)!;
-    const type = (id: string, value: string) => fireEvent.change(field(id), { target: { value } });
-
     const renderRejected = () => {
       renderForm({ initialStructure: { ...structure, labelLg1: "", labelLg2: "" } });
       fireEvent.click(saveButton());
@@ -232,7 +229,8 @@ describe("EditionForm", () => {
     expect(notified).not.toHaveBeenCalled();
   });
 
-  it("affiche une erreur de validation du serveur sous le champ concerné", async () => {
+  /** Enregistre, le serveur refusant `labelLg2` : rend le champ une fois l'erreur posée. */
+  const saveRejectedOnLabelLg2 = async () => {
     vi.mocked(StructureApi.putStructure).mockRejectedValue({
       status: 400,
       errors: [{ field: "labelLg2", message: "labelLg2 is required" }],
@@ -243,20 +241,16 @@ describe("EditionForm", () => {
 
     const input = await screen.findByDisplayValue("Structure 1 EN");
     await waitFor(() => expect(input).toHaveAccessibleDescription("labelLg2 is required"));
+    return input;
+  };
+
+  it("affiche une erreur de validation du serveur sous le champ concerné", async () => {
+    const input = await saveRejectedOnLabelLg2();
     expect(input).toHaveAttribute("aria-invalid", "true");
   });
 
   it("n'affiche pas d'erreur générique quand toutes les erreurs du serveur sont sous leur champ", async () => {
-    vi.mocked(StructureApi.putStructure).mockRejectedValue({
-      status: 400,
-      errors: [{ field: "labelLg2", message: "labelLg2 is required" }],
-    });
-    renderForm();
-
-    fireEvent.click(saveButton());
-
-    const input = await screen.findByDisplayValue("Structure 1 EN");
-    await waitFor(() => expect(input).toHaveAccessibleDescription("labelLg2 is required"));
+    await saveRejectedOnLabelLg2();
     expect(screen.queryByText(/An error has occurred|Une erreur s'est produite/)).toBeNull();
   });
 

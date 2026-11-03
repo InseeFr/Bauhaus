@@ -11,7 +11,7 @@ import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { MEASURE_PROPERTY_TYPE } from "../constants/dsd-components";
 import { XSD_CODE_LIST, XSD_DATE, XSD_FLOAT, XSD_STRING } from "../constants/xsd";
 import { mutualizedComponentQuery, partialCodelistsQuery } from "../hooks/queries";
-import { createStructuresWrapper } from "../render.testing";
+import { createStructuresWrapper, field, type } from "../render.testing";
 import { ComponentDetailEdit } from "./ComponentDetailEdit";
 
 vi.mock("@sdk/structure-api", () => ({
@@ -82,6 +82,30 @@ const cachedQueryClient = () =>
 
 const saveButton = () => screen.getByRole("button", { name: /save|sauvegarder/i });
 
+/** Liste de codes complète `cl1`, dont une liste partielle est proposée. */
+const renderCodeListWithPartial = () => {
+  vi.mocked(CodelistsApi.getPartialsByParent).mockResolvedValue([
+    { id: "CL_1_PARTIAL", iri: "http://bauhaus/cl1partial", labelLg1: "Liste partielle" },
+  ]);
+  renderEdit({
+    component: { ...component, range: XSD_CODE_LIST, fullCodeListValue: "cl1" },
+  });
+};
+
+/** Mesure liée à un attribut textuel valant « valeur ». */
+const renderMeasureWithAttribute = () => {
+  vi.mocked(StructureApi.getMutualizedComponent).mockResolvedValue({ range: XSD_STRING });
+  renderEdit({
+    component: {
+      ...component,
+      type: MEASURE_PROPERTY_TYPE,
+      attribute_0: "http://bauhaus/attribut1",
+      attributeValue_0: "valeur",
+    },
+    attributes: [{ id: "a1", iri: "http://bauhaus/attribut1", labelLg1: "Attribut 1" }],
+  });
+};
+
 describe("ComponentDetailEdit", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -98,27 +122,13 @@ describe("ComponentDetailEdit", () => {
   });
 
   it("ne pose aucune classe Bootstrap sur une représentation liste de codes", async () => {
-    vi.mocked(CodelistsApi.getPartialsByParent).mockResolvedValue([
-      { id: "CL_1_PARTIAL", iri: "http://bauhaus/cl1partial", labelLg1: "Liste partielle" },
-    ]);
-    renderEdit({
-      component: { ...component, range: XSD_CODE_LIST, fullCodeListValue: "cl1" },
-    });
+    renderCodeListWithPartial();
     await screen.findByText(/partial/i, { selector: "label" });
     expectNoBootstrapClass();
   });
 
   it("ne pose aucune classe Bootstrap sur les attributs d'une mesure", async () => {
-    vi.mocked(StructureApi.getMutualizedComponent).mockResolvedValue({ range: XSD_STRING });
-    renderEdit({
-      component: {
-        ...component,
-        type: MEASURE_PROPERTY_TYPE,
-        attribute_0: "http://bauhaus/attribut1",
-        attributeValue_0: "valeur",
-      },
-      attributes: [{ id: "a1", iri: "http://bauhaus/attribut1", labelLg1: "Attribut 1" }],
-    });
+    renderMeasureWithAttribute();
     await screen.findByDisplayValue("valeur");
     expectNoBootstrapClass();
   });
@@ -160,10 +170,6 @@ describe("ComponentDetailEdit", () => {
   });
 
   describe("après un enregistrement refusé par la validation", () => {
-    const field = (id: string) => document.getElementById(id)!;
-    const type = (id: string, value: string) =>
-      fireEvent.change(field(id), { target: { name: id, value } });
-
     const renderRejected = () => {
       renderEdit({ component: { ...component, labelLg1: "", labelLg2: "" } });
       fireEvent.click(saveButton());
@@ -283,27 +289,13 @@ describe("ComponentDetailEdit", () => {
   });
 
   it("propose les listes partielles de la liste complète choisie", async () => {
-    vi.mocked(CodelistsApi.getPartialsByParent).mockResolvedValue([
-      { id: "CL_1_PARTIAL", iri: "http://bauhaus/cl1partial", labelLg1: "Liste partielle" },
-    ]);
-    renderEdit({
-      component: { ...component, range: XSD_CODE_LIST, fullCodeListValue: "cl1" },
-    });
+    renderCodeListWithPartial();
 
     await waitFor(() => expect(CodelistsApi.getPartialsByParent).toHaveBeenCalledWith("CL_1"));
   });
 
   it("affiche la valeur de l'attribut lié à une mesure", async () => {
-    vi.mocked(StructureApi.getMutualizedComponent).mockResolvedValue({ range: XSD_STRING });
-    renderEdit({
-      component: {
-        ...component,
-        type: MEASURE_PROPERTY_TYPE,
-        attribute_0: "http://bauhaus/attribut1",
-        attributeValue_0: "valeur",
-      },
-      attributes: [{ id: "a1", iri: "http://bauhaus/attribut1", labelLg1: "Attribut 1" }],
-    });
+    renderMeasureWithAttribute();
 
     await waitFor(() => expect(StructureApi.getMutualizedComponent).toHaveBeenCalledWith("a1"));
     expect(await screen.findByDisplayValue("valeur")).toBeInTheDocument();

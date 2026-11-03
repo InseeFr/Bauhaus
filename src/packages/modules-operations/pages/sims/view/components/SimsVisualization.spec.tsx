@@ -151,6 +151,25 @@ beforeEach(() => {
   navigateMock.mockClear();
 });
 
+const expectInvalidatedWhenNavigatingAfterDelete = async (
+  queryKey: string[],
+  sims: Record<string, unknown>,
+) => {
+  const queryClient = new QueryClient();
+  queryClient.setQueryData(queryKey, { id: queryKey.at(-1) });
+  let invalidatedAtNavigation: boolean | undefined;
+  navigateMock.mockImplementationOnce(() => {
+    invalidatedAtNavigation = queryClient.getQueryState(queryKey)?.isInvalidated;
+  });
+  renderComponent(vi.fn(), sims, queryClient);
+
+  fireEvent.click(screen.getByTestId("delete-btn"));
+  fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+  await waitFor(() => expect(navigateMock).toHaveBeenCalled());
+  expect(invalidatedAtNavigation).toBe(true);
+};
+
 describe("SimsVisualization - export", () => {
   it("ne pose aucune classe Bootstrap dans la fenêtre d'export", () => {
     renderComponent(vi.fn());
@@ -286,51 +305,27 @@ describe("SimsVisualization - delete redirection", () => {
   });
 
   it("should invalidate the cached series before opening it, as it no longer has a SIMS", async () => {
-    const queryClient = new QueryClient();
-    queryClient.setQueryData(["series", "s42"], { id: "s42", idSims: "3" });
-    let invalidatedAtNavigation: boolean | undefined;
-    navigateMock.mockImplementationOnce(() => {
-      invalidatedAtNavigation = queryClient.getQueryState(["series", "s42"])?.isInvalidated;
+    await expectInvalidatedWhenNavigatingAfterDelete(["series", "s42"], {
+      id: "3",
+      idSeries: "s42",
+      rubrics: {},
     });
-    renderComponent(vi.fn(), { id: "3", idSeries: "s42", rubrics: {} }, queryClient);
-
-    fireEvent.click(screen.getByTestId("delete-btn"));
-    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
-
-    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
-    expect(invalidatedAtNavigation).toBe(true);
   });
 
   it("should invalidate the cached indicator before opening it, as it no longer has a SIMS", async () => {
-    const queryClient = new QueryClient();
-    queryClient.setQueryData(["indicators", "ind42"], { id: "ind42", idSims: "3" });
-    let invalidatedAtNavigation: boolean | undefined;
-    navigateMock.mockImplementationOnce(() => {
-      invalidatedAtNavigation = queryClient.getQueryState(["indicators", "ind42"])?.isInvalidated;
+    await expectInvalidatedWhenNavigatingAfterDelete(["indicators", "ind42"], {
+      id: "3",
+      idIndicator: "ind42",
+      rubrics: {},
     });
-    renderComponent(vi.fn(), { id: "3", idIndicator: "ind42", rubrics: {} }, queryClient);
-
-    fireEvent.click(screen.getByTestId("delete-btn"));
-    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
-
-    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
-    expect(invalidatedAtNavigation).toBe(true);
   });
 
   it("should invalidate the cached operation before opening it, as it no longer has a SIMS", async () => {
-    const queryClient = new QueryClient();
-    queryClient.setQueryData(["operations", "op42"], { id: "op42", idSims: "3" });
-    let invalidatedAtNavigation: boolean | undefined;
-    navigateMock.mockImplementationOnce(() => {
-      invalidatedAtNavigation = queryClient.getQueryState(["operations", "op42"])?.isInvalidated;
+    await expectInvalidatedWhenNavigatingAfterDelete(["operations", "op42"], {
+      id: "3",
+      idOperation: "op42",
+      rubrics: {},
     });
-    renderComponent(vi.fn(), { id: "3", idOperation: "op42", rubrics: {} }, queryClient);
-
-    fireEvent.click(screen.getByTestId("delete-btn"));
-    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
-
-    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
-    expect(invalidatedAtNavigation).toBe(true);
   });
 });
 
@@ -382,22 +377,10 @@ describe("SimsVisualization - export", () => {
   });
 
   it("should invalidate the cached documents before leaving, as their page lists the SIMS citing them", async () => {
-    const queryClient = new QueryClient();
-    queryClient.setQueryData(["documents", "document", "d1"], { id: "d1" });
-    let invalidatedAtNavigation: boolean | undefined;
-    navigateMock.mockImplementationOnce(() => {
-      invalidatedAtNavigation = queryClient.getQueryState([
-        "documents",
-        "document",
-        "d1",
-      ])?.isInvalidated;
+    await expectInvalidatedWhenNavigatingAfterDelete(["documents", "document", "d1"], {
+      id: "3",
+      idSeries: "s42",
+      rubrics: {},
     });
-    renderComponent(vi.fn(), { id: "3", idSeries: "s42", rubrics: {} }, queryClient);
-
-    fireEvent.click(screen.getByTestId("delete-btn"));
-    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
-
-    await waitFor(() => expect(navigateMock).toHaveBeenCalled());
-    expect(invalidatedAtNavigation).toBe(true);
   });
 });
