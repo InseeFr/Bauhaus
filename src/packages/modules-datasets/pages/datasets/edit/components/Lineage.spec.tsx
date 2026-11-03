@@ -6,6 +6,7 @@ import { Dataset } from "@model/Dataset";
 
 import { DatasetsApi } from "@sdk/datasets-api";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { Lineage } from "./Lineage";
 import { renderEditPanel } from "./panel.testing";
 
@@ -41,7 +42,7 @@ vi.mock("@components/rich-editor/react-md-editor", () => ({
 const renderPanel = (dataset: Partial<Dataset>) => renderEditPanel(Lineage, dataset);
 
 const openSources = () => {
-  const group = screen.getByText("Built from").closest(".form-group")!;
+  const group = screen.getByText("Built from").closest(".bauhaus-form-group")!;
   fireEvent.click(group.querySelector(".p-multiselect-trigger")!);
 };
 
@@ -51,6 +52,11 @@ describe("Dataset lineage panel", () => {
       { id: "jd1", label: "Jeu source" },
       { id: "jd2", label: "Jeu en cours d'édition" },
     ]);
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderPanel({});
+    expectNoBootstrapClass();
   });
 
   it("offers every other dataset as a source, but not the edited one", async () => {

@@ -23,6 +23,7 @@ vi.mock("@components/panel", () => ({
   ),
 }));
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { hasLabelLg2 } from "../../utils/hasLabelLg2";
 import { MSDInformations } from "./MSDInformations";
 
@@ -40,6 +41,13 @@ const baseMsd = (overrides: Record<string, any> = {}) => ({
 });
 
 describe("MSDInformations - title display", () => {
+  it("ne pose aucune classe Bootstrap", () => {
+    render(
+      <MSDInformations msd={baseMsd()} firstLevel={true} rubrics={NO_RUBRICS} secondLang={false} />,
+    );
+    expectNoBootstrapClass();
+  });
+
   it("should display the title for a first-level item without children", () => {
     render(
       <MSDInformations msd={baseMsd()} firstLevel={true} rubrics={NO_RUBRICS} secondLang={false} />,

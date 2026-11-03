@@ -8,7 +8,7 @@ import { ddiPrivileges } from "../../../privileges.testing";
  * Bouton PrimeReact rendu en `<button>` natif (icône + libellé), partagé par les specs des
  * barres d'actions.
  *
- * Usage : `vi.mock("primereact/button", () => import("<chemin>/actions.testing"));`
+ * Usage : `vi.mock("@mantle-ui/react/button", () => import("<chemin>/actions.testing"));`
  */
 export const Button = ({ label, onClick, icon, ...props }: any) => (
   <button type="button" onClick={onClick} {...props}>

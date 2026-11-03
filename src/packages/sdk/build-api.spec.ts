@@ -99,7 +99,7 @@ describe("compute api call description", () => {
     // une autre instance (la prod) sur le même Keycloak.
     const loggedInOidc = {
       isUserLoggedIn: true,
-      getTokens: () => ({ accessToken: "sso-token" }),
+      getAccessToken: () => Promise.resolve("sso-token"),
     };
 
     afterEach(() => setAuthType(undefined));

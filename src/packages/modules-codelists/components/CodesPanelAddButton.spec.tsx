@@ -48,6 +48,14 @@ describe("CodesPanelAddButton", () => {
     screen.getByRole("button", { name: /add/i });
   });
 
+  it("should render the button if one of several contributors is the user stamp", () => {
+    mockCodelistPrivileges([{ privilege: "CREATE", strategy: "STAMP" }], ["test-contributor"]);
+
+    renderButton({ lastCodeUriSegment: "segment", contributor: ["other", "test-contributor"] });
+
+    screen.getByRole("button", { name: /add/i });
+  });
+
   it("should not render the button if user lacks the required permissions", () => {
     mockCodelistPrivileges([{ privilege: "CREATE", strategy: "STAMP" }], ["test-stamp"]);
 

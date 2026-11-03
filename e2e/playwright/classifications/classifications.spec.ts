@@ -49,3 +49,35 @@ test("affiche l’arbre d’une nomenclature", async ({ page }) => {
   await page.getByRole("treeitem", { name: SECTION }).getByRole("button").click();
   await expect(page.getByText(DIVISION)).toBeVisible();
 });
+
+/**
+ * Pilote TQ0d : la fiche d'une famille suspend sur ses lectures. En allant d'une
+ * famille à l'autre, l'indicateur de chargement remplace la fiche précédente
+ * sous le menu du module, au lieu de la laisser affichée le temps du chargement.
+ * Les familles viennent de `playwright/db/classifications.trig`.
+ */
+test("affiche le chargement en passant d’une famille à l’autre", async ({ page }) => {
+  await page.goto("/classifications/families");
+  await page.getByRole("link", { name: "Famille d'activités (e2e)" }).click();
+  await expect(page.getByRole("heading", { name: "Famille d'activités (e2e)" })).toBeVisible();
+
+  // La seconde famille répond tard : le temps de voir ce qu'affiche l'écran pendant l'attente.
+  let release: () => void = () => undefined;
+  const answered = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route("**/classifications/family/fame2e2", async (route) => {
+    await answered;
+    await route.continue();
+  });
+
+  await page.goBack();
+  await page.getByRole("link", { name: "Famille de produits (e2e)" }).click();
+
+  await expect(page.getByRole("status")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Famille d'activités (e2e)" })).toBeHidden();
+  await expect(page.getByRole("navigation").first()).toBeVisible();
+
+  release();
+  await expect(page.getByRole("heading", { name: "Famille de produits (e2e)" })).toBeVisible();
+});

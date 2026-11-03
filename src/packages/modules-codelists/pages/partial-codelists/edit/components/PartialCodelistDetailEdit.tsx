@@ -14,7 +14,7 @@ import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 import { Select } from "@components/select-rmes";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { toFormErrors } from "@utils/api-errors";
 import { EMPTY_ARRAY } from "@utils/array-utils";
@@ -242,7 +242,7 @@ export const PartialCodelistDetailEdit = ({
       <ErrorBloc error={serverErrors.serverSideError} />
       <form>
         <Row>
-          <div className="col-md-12 form-group">
+          <div className="col-12 bauhaus-form-group">
             <LabelRequired htmlFor="id">{t("partial-codelists.identifier")}</LabelRequired>
             <TextInput
               id="id"
@@ -257,7 +257,7 @@ export const PartialCodelistDetailEdit = ({
           </div>
         </Row>
         <Row>
-          <div className="col-md-12 form-group">
+          <div className="col-12 bauhaus-form-group">
             <LabelRequired htmlFor="parentCode">
               {t("partial-codelists.parentCodelist")}
             </LabelRequired>
@@ -275,7 +275,7 @@ export const PartialCodelistDetailEdit = ({
           </div>
         </Row>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="labelLg1">
               {t("partial-codelists.label", { lng: "fr" })}
             </LabelRequired>
@@ -292,7 +292,7 @@ export const PartialCodelistDetailEdit = ({
               error={clientSideErrors?.fields?.labelLg1}
             ></ClientSideError>
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="labelLg2">
               {t("partial-codelists.label", { lng: "en" })}
             </LabelRequired>
@@ -310,7 +310,7 @@ export const PartialCodelistDetailEdit = ({
             ></ClientSideError>
           </div>
         </Row>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <CreatorsInput
             value={codelist.creator ?? ""}
             onChange={(value) => {
@@ -322,14 +322,14 @@ export const PartialCodelistDetailEdit = ({
             error={clientSideErrors?.fields?.creator}
           ></ClientSideError>
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <ContributorsInput
             multi
             value={codelist.contributor ?? []}
             onChange={(values) => setCodelist({ ...codelist, contributor: values })}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <DisseminationStatusInput
             value={codelist.disseminationStatus ?? ""}
             handleChange={(value) => {
@@ -343,25 +343,25 @@ export const PartialCodelistDetailEdit = ({
           ></ClientSideError>
         </div>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="descriptionLg1">
               {t("partial-codelists.description", { lng: "fr" })}
             </label>
             <textarea
               value={codelist.descriptionLg1}
-              className="form-control"
+              className="bauhaus-input"
               id="descriptionLg1"
               name="descriptionLg1"
               onChange={handleChange}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="descriptionLg2">
               {t("partial-codelists.description", { lng: "en" })}
             </label>
             <textarea
               value={codelist.descriptionLg2}
-              className="form-control"
+              className="bauhaus-input"
               id="descriptionLg2"
               name="descriptionLg2"
               onChange={handleChange}

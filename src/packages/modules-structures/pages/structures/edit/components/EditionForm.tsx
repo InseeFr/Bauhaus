@@ -1,3 +1,4 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router";
@@ -13,15 +14,16 @@ import { Saving } from "@components/loading";
 
 import { Structure } from "@model/structures/Structure";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { toFormErrors } from "@utils/api-errors";
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
+import { STRUCTURES_KEY } from "@utils/hooks/structures";
 
 import { useAppContext } from "../../../../../application/app-context";
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
-import { DISSEMINATION_STATUS } from "../../../../constants";
+import { DISSEMINATION_STATUS } from "../../../../constants/dsd-components";
 import { validate } from "../validation";
 import { Controls } from "./Controls";
 import { StructureComponents } from "./StructureComponents";
@@ -63,9 +65,9 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
 
   const { lg1, lg2 } = useAppContext();
 
-  const [structure, setStructure] = useState<Structure>(defaultDSD);
+  const queryClient = useQueryClient();
 
-  const [loading, setLoading] = useState(false);
+  const [structure, setStructure] = useState<Structure>(defaultDSD);
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -108,6 +110,24 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
 
   const defaultContributor = useDefaultContributor(isContributor);
 
+  /** Fiche et listes relues à l'ouverture de la fiche. Un échec s'affiche dans le formulaire. */
+  const { mutate: save, isPending: isSaving } = useMutation({
+    mutationFn: (structure: Structure): Promise<string> =>
+      creation ? StructureApi.postStructure(structure) : StructureApi.putStructure(structure),
+    onSuccess: async (id) => {
+      await queryClient.invalidateQueries({ queryKey: STRUCTURES_KEY, refetchType: "none" });
+      setRedirectId(id);
+    },
+    onError: (error) => {
+      const { clientSideErrors, serverSideError } = toFormErrors(error, FIELDS_WITH_ERROR_SLOT);
+      if (clientSideErrors) {
+        setSubmitting(true);
+        setClientSideError(clientSideErrors);
+      }
+      setServerSideError(serverSideError);
+    },
+  });
+
   useEffect(() => {
     let structure = {
       ...defaultDSD,
@@ -120,7 +140,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
 
   if (redirectId) return <Navigate to={`/structures/${redirectId}`} replace />;
 
-  if (loading) return <Saving />;
+  if (isSaving) return <Saving />;
 
   const onSave = () => {
     const clientSideErrors = validate(structure);
@@ -131,20 +151,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
       setClientSideError(clientSideErrors);
     } else {
       setClientSideError({});
-      setLoading(true);
-      (creation ? StructureApi.postStructure(structure) : StructureApi.putStructure(structure))
-        .then((id: string) => {
-          setRedirectId(id);
-        })
-        .catch((error: unknown) => {
-          const { clientSideErrors, serverSideError } = toFormErrors(error, FIELDS_WITH_ERROR_SLOT);
-          if (clientSideErrors) {
-            setSubmitting(true);
-            setClientSideError(clientSideErrors);
-          }
-          setServerSideError(serverSideError);
-        })
-        .finally(() => setLoading(false));
+      save(structure);
     }
   };
 
@@ -173,7 +180,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
         error={clientSideError?.fields?.identifiant}
       ></ClientSideError>
       <Row>
-        <div className="col-md-6">
+        <div className="col-12 lg:col-6">
           <LabelRequired htmlFor="labelLg1">{t("structure.label", { lng: "fr" })}</LabelRequired>
           <TextInput
             id="labelLg1"
@@ -187,7 +194,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
             error={clientSideError?.fields?.labelLg1}
           ></ClientSideError>
         </div>
-        <div className="col-md-6">
+        <div className="col-12 lg:col-6">
           <LabelRequired htmlFor="labelLg2">{t("structure.label", { lng: "en" })}</LabelRequired>
           <TextInput
             id="labelLg2"
@@ -203,7 +210,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
         </div>
       </Row>
       <Row>
-        <div className="col-md-6">
+        <div className="col-12 lg:col-6">
           <label htmlFor="descriptionLg1">
             {t("structure.description", { lng: "fr" })} ({lg1})
           </label>
@@ -221,7 +228,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
             error={clientSideError?.fields?.descriptionLg1}
           ></ClientSideError>
         </div>
-        <div className="col-md-6">
+        <div className="col-12 lg:col-6">
           <label htmlFor="descriptionLg2">
             {t("structure.description", { lng: "en" })} ({lg2})
           </label>
@@ -240,14 +247,14 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
           ></ClientSideError>
         </div>
       </Row>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <CreatorsInput mode="organization" value={creator} onChange={onChange("creator")} />
         <ClientSideError
           id="creator-error"
           error={clientSideError?.fields?.creator}
         ></ClientSideError>
       </div>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <ContributorsInput
           mode="organization"
           value={contributor}
@@ -259,7 +266,7 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
           error={clientSideError?.fields?.contributor}
         ></ClientSideError>
       </div>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <DisseminationStatusInput
           value={disseminationStatus}
           handleChange={onChange("disseminationStatus")}

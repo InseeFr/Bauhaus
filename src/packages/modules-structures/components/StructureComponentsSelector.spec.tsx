@@ -1,15 +1,17 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { clickIcon, createStructuresWrapper, rowOf } from "../render.testing";
 import { StructureComponentsSelector } from "./StructureComponentsSelector";
 
-vi.mock("@sdk/index", async () => ({
-  ...(await import("../mocks.testing")).emptyCodelistsAndStampsApi(),
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: {
     getMutualizedComponents: vi.fn().mockResolvedValue([]),
   },
 }));
+vi.mock("@sdk/codelists-api", async () => (await import("../mocks.testing")).emptyCodelistsApi());
+vi.mock("@sdk/stamps-api", async () => (await import("../mocks.testing")).emptyStampsApi());
 
 vi.mock("@utils/hooks/users", async (importOriginal) =>
   (await import("../mocks.testing")).usersHookWithCreatePrivilege(
@@ -62,6 +64,11 @@ const renderSelector = (props: Record<string, unknown> = {}) =>
 describe("StructureComponentsSelector", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderSelector();
+    expectNoBootstrapClass();
   });
 
   it("liste les composantes avec leur concept", () => {

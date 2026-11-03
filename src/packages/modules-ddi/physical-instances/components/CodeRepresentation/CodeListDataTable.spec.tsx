@@ -28,9 +28,9 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("primereact/inputtext", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/inputtext", () => import("./primereact.testing"));
 
-vi.mock("primereact/button", () => ({
+vi.mock("@mantle-ui/react/button", () => ({
   Button: ({ icon, onClick, label, ...props }: any) => (
     <button type="button" onClick={onClick} {...props}>
       {label || icon}
@@ -38,9 +38,9 @@ vi.mock("primereact/button", () => ({
   ),
 }));
 
-vi.mock("primereact/overlaypanel", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/overlaypanel", () => import("./primereact.testing"));
 
-vi.mock("primereact/datatable", () => ({
+vi.mock("@mantle-ui/react/datatable", () => ({
   DataTable: ({ value, children, emptyMessage, header }: any) => (
     <>
       {header && <div data-testid="datatable-header">{header}</div>}
@@ -98,7 +98,7 @@ const MockTable = ({ value, columns, emptyMessage }: any) => {
   );
 };
 
-vi.mock("primereact/column", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/column", () => import("./primereact.testing"));
 
 const mockCodes: CodeTableRow[] = [
   { id: "code-1", value: "1", label: "Label 1", categoryId: "category-1" },

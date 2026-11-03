@@ -1,53 +1,36 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-
-import { LoadingErrorBloc } from "@components/errors-bloc";
-import { Loading } from "@components/loading";
-
-import { ClassificationsApi } from "@sdk/classification";
+import { QueryClient, useSuspenseQueries } from "@tanstack/react-query";
+import { LoaderFunctionArgs, useParams } from "react-router";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
+import { appQueryClient } from "../../../../application/query-client";
+import { familyGeneralQuery, familyMembersQuery } from "../../../hooks/useClassificationFamily";
 import { FamilyVisualization } from "./components/FamilyVisualization";
 
-interface FamilyGeneral {
-  prefLabelLg1: string;
-  [key: string]: unknown;
-}
+/**
+ * Lance la lecture de la famille pendant le téléchargement de la page, sans l'attendre : la
+ * navigation n'est pas retenue, la page suspend ensuite sur les mêmes requêtes et un échec
+ * s'affiche dans l'encart d'erreur du module.
+ */
+export const prefetchFamily =
+  (queryClient: QueryClient) =>
+  ({ params }: LoaderFunctionArgs) => {
+    const id = params.id!;
+    void queryClient.prefetchQuery(familyGeneralQuery(id));
+    void queryClient.prefetchQuery(familyMembersQuery(id));
+    return null;
+  };
 
-interface FamilyMember {
-  id: string;
-  labelLg1: string;
-  labelLg2?: string;
-  [key: string]: unknown;
-}
+export const loader = prefetchFamily(appQueryClient);
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
 
   const [secondLang] = useSecondLang();
 
-  const [family, setFamily] = useState<{
-    general: FamilyGeneral;
-    members: FamilyMember[];
-  }>();
+  const [{ data: general }, { data: members }] = useSuspenseQueries({
+    queries: [familyGeneralQuery(id!), familyMembersQuery(id!)],
+  });
 
-  const [loadError, setLoadError] = useState<unknown>();
-
-  useEffect(() => {
-    Promise.all([ClassificationsApi.getFamilyGeneral(id), ClassificationsApi.getFamilyMembers(id)])
-      .then(([general, members]) => {
-        setFamily({
-          general: general ?? {},
-          members: members ?? [],
-        });
-      })
-      .catch(setLoadError);
-  }, [id]);
-
-  if (loadError) return <LoadingErrorBloc error={loadError} />;
-
-  if (!family) return <Loading />;
-
-  return <FamilyVisualization family={family} secondLang={secondLang} />;
+  return <FamilyVisualization family={{ general, members }} secondLang={secondLang} />;
 };

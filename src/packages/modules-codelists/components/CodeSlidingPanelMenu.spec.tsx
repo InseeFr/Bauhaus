@@ -14,10 +14,10 @@ describe("CodeSlidingPanelMenu", () => {
   const mockHandleSubmit = vi.fn();
   const mockHandleBack = vi.fn();
 
-  const renderMenu = (creation = false) =>
+  const renderMenu = (creation = false, codelistToRender = codelist) =>
     render(
       <CodeSlidingPanelMenu
-        codelist={codelist}
+        codelist={codelistToRender}
         handleSubmit={mockHandleSubmit}
         handleBack={mockHandleBack}
         creation={creation}
@@ -50,6 +50,14 @@ describe("CodeSlidingPanelMenu", () => {
     renderMenu(true);
 
     screen.getByRole("button", { name: /save/i });
+  });
+
+  it("renders the UpdateButton when one of several contributors is the user stamp", () => {
+    mockCodelistPrivileges([{ privilege: "UPDATE", strategy: "STAMP" }], ["test-contributor"]);
+
+    renderMenu(false, { contributor: ["other", "test-contributor"] } as unknown as Codelist);
+
+    screen.getByRole("button", { name: /update/i });
   });
 
   it("does not render UpdateButton or SaveButton when user lacks permissions", () => {

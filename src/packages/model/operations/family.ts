@@ -11,6 +11,7 @@ export interface Family {
   modified: string;
   abstractLg1: string;
   abstractLg2: string;
+  contributor?: string[];
   series: RelatedItem[];
 }
 

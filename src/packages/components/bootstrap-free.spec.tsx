@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 
 import { BOTH, DOCUMENT } from "../constants/documentType";
+import { expectNoBootstrapClass } from "../tests/bootstrap-classes.testing";
 import { renderWithAppContext } from "../tests/render";
 import { CheckSecondLang } from "./check-second-lang";
 import { ExplanatoryNote } from "./explanatory-note";
@@ -20,17 +21,6 @@ import { PageTitleBlock } from "./page-title-block";
 import { Pagination } from "./pagination";
 import { InputMulti } from "./ui/forms/input-multi";
 import { VerticalMenu } from "./vertical-menu";
-
-// Mêmes classes que la commande de contrôle du chantier B, lues sur le DOM rendu.
-const BOOTSTRAP_CLASS =
-  /^(row|col-(xs|sm|md|lg)-((offset|push|pull)-)?\d+|pull-(left|right)|btn(-[a-z]+)?|form-group|form-control|glyphicon(-[a-z-]+)?|panel(-[a-z]+)?|list-group(-[a-z]+)?)$/;
-
-const bootstrapClassesIn = (root: ParentNode) =>
-  [...root.querySelectorAll("[class]")].flatMap((el) =>
-    [...el.classList].filter((token) => BOOTSTRAP_CLASS.test(token)),
-  );
-
-const expectNoBootstrapClass = () => expect(bootstrapClassesIn(document.body)).toEqual([]);
 
 const NOOP = () => {};
 const NOTES = { 1: {}, 2: {} };

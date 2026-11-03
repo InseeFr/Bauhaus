@@ -18,6 +18,7 @@ import { useLocales } from "@utils/hooks/useLocales";
 
 import { useCollections } from "../../../../hooks/useCollections";
 import { conceptGeneralFields } from "../../../../utils/conceptGeneralFields";
+import "./ConceptGeneralEdition.css";
 
 type GeneralFieldName = keyof ConceptGeneral;
 
@@ -78,7 +79,7 @@ export function ConceptGeneralEdition({
       <h4 className="text-center">
         ( <RequiredIcon /> : {t("concept.edit.requiredFields")})
       </h4>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <Select
           label={t("concept.edit.collectionLabel")}
           placeholder=""
@@ -125,7 +126,7 @@ export function ConceptGeneralEdition({
         handleChangeLg1={(value: string[]) => handlers.altLabelLg1?.(value)}
         handleChangeLg2={(value: string[]) => handlers.altLabelLg2?.(value)}
       />
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <CreatorsInput
           value={creator}
           onChange={(value: string | string[]) => handlers.creator?.(value)}
@@ -133,7 +134,7 @@ export function ConceptGeneralEdition({
         />
         <ClientSideError id="creator-error" error={errorMessage?.fields?.creator} />
       </div>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <ContributorsInput
           disabled
           value={contributor ?? ""}
@@ -141,7 +142,7 @@ export function ConceptGeneralEdition({
           mode="organization"
         />
       </div>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <DisseminationStatusInput
           value={disseminationStatus}
           handleChange={(value) => handlers.disseminationStatus?.(value ?? "")}
@@ -152,17 +153,17 @@ export function ConceptGeneralEdition({
           error={errorMessage?.fields?.disseminationStatus}
         />
       </div>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <label>{t("concept.general.additionalMaterialTitle")}</label>
-        <div className="input-group">
-          <span className="input-group-addon">http://</span>
+        <div className="concept-additional-material">
+          <span className="concept-additional-material__scheme">http://</span>
           <TextInput
             value={additionalMaterial?.replace("http://", "") ?? ""}
             onChange={(e) => handlers.additionalMaterial?.(e.target.value)}
           />
         </div>
       </div>
-      <div className="form-group">
+      <div className="bauhaus-form-group">
         <label>{t("concept.general.validDateTitle")}</label>
         <DatePicker
           value={typeof valid === "string" ? valid : ""}

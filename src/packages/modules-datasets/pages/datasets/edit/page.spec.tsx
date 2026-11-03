@@ -39,7 +39,7 @@ vi.mock("../../../hooks/useDataset", () => ({
 const postDataset = vi.fn((_dataset: unknown) => Promise.resolve("jd2000"));
 const putDataset = vi.fn((_dataset: unknown) => Promise.resolve("jd1000"));
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/datasets-api", () => ({
   DatasetsApi: {
     postDataset: (dataset: unknown) => postDataset(dataset),
     putDataset: (dataset: unknown) => putDataset(dataset),

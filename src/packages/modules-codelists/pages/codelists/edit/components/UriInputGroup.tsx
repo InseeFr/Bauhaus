@@ -26,7 +26,7 @@ export const UriInputGroup = ({
   error,
 }: Readonly<UriInputGroupProps>) => {
   return (
-    <div className="col-md-12 form-group">
+    <div className="col-12 bauhaus-form-group">
       <LabelRequired htmlFor={id}>{label}</LabelRequired>
       <div className="p-inputgroup flex-1">
         <span className="p-inputgroup-addon">{prefix}</span>

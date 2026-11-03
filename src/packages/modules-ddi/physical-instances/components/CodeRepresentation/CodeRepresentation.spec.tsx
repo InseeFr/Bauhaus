@@ -286,9 +286,9 @@ const renderHarness = (
   return changes;
 };
 
-vi.mock("primereact/inputtext", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/inputtext", () => import("./primereact.testing"));
 
-vi.mock("primereact/button", () => ({
+vi.mock("@mantle-ui/react/button", () => ({
   Button: ({ icon, label, onClick, disabled, tooltip }: any) => (
     <button type="button" onClick={onClick} disabled={disabled} title={tooltip}>
       {label || icon}
@@ -296,7 +296,7 @@ vi.mock("primereact/button", () => ({
   ),
 }));
 
-vi.mock("primereact/datatable", () => ({
+vi.mock("@mantle-ui/react/datatable", () => ({
   DataTable: ({ value, children }: any) => {
     const columns = Array.isArray(children) ? children : [children];
     return (
@@ -315,15 +315,15 @@ vi.mock("primereact/datatable", () => ({
   },
 }));
 
-vi.mock("primereact/overlaypanel", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/overlaypanel", () => import("./primereact.testing"));
 
-vi.mock("primereact/column", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/column", () => import("./primereact.testing"));
 
-vi.mock("primereact/progressspinner", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/progressspinner", () => import("./primereact.testing"));
 
-vi.mock("primereact/message", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/message", () => import("./primereact.testing"));
 
-vi.mock("primereact/dropdown", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/dropdown", () => import("./primereact.testing"));
 
 const mockRepresentation: CodeRepresentationType = {
   $type: "CodeRepresentationBaseType",

@@ -6,71 +6,6 @@
   color: var(--secondary-color);
 }
 
-.bauhaus-sims-field-rich-text {
-  box-shadow: 1px 2px #b4b4b4;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 30px;
-}
-
-.bauhaus-sims-field-rich-text .wilco-note {
-  margin-bottom: 0;
-}
-
-.bauhaus-sims-field-rich-text .wilco-note .panel {
-  margin-bottom: 0;
-  border: none;
-  box-shadow: none;
-}
-
-.bauhaus-sims-field-rich-text .wilco-note .panel-body {
-  border: none;
-  box-shadow: none;
-}
-
-.bauhaus-sims-field-rich-text .wilco-note:nth-child(1) {
-  padding-right: 0;
-  padding-left: 0;
-}
-
-.bauhaus-sims-field-rich-text .wilco-note:nth-child(2) {
-  padding-right: 0;
-  padding-left: 0;
-}
-
-.bauhaus-sims-field-rich-text-2col {
-  box-shadow: 1px 2px #b4b4b4;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 30px;
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-.bauhaus-sims-field-rich-text-2col .wilco-note {
-  margin-bottom: 0;
-}
-
-.bauhaus-sims-field-rich-text-2col .wilco-note .panel {
-  margin-bottom: 0;
-  border: none;
-  box-shadow: none;
-}
-
-.bauhaus-sims-field-rich-text-2col .wilco-note .panel-body {
-  border: none;
-  box-shadow: none;
-}
-
-.bauhaus-sims-field-rich-text-2col .wilco-note:nth-child(1) {
-  padding-right: 1em;
-  padding-left: 0;
-}
-
-.bauhaus-sims-field-rich-text-2col .wilco-note:nth-child(2) {
-  padding-right: 0;
-  padding-left: 1em;
-}
-
 .bauhaus-sims-creation {
   display: flex;
   flex-direction: column;
@@ -80,25 +15,28 @@
   display: flex;
 }
 
-.bauhaus-sims-geography-field .form-group {
+.bauhaus-sims-geography-field .bauhaus-form-group {
   flex-grow: 1;
 }
 
-.bauhaus-sims-geography-field .form-group div[class$="singleValue"] {
+.bauhaus-sims-geography-field .bauhaus-form-group div[class$="singleValue"] {
   overflow: visible;
 }
 
-.bauhaus-sims-geography-field .btn-group {
+.bauhaus-sims-geography-field .sims-geography-toggle {
+  display: inline-block;
+  position: relative;
   margin-left: 1em;
-}
-
-.bauhaus-sims-geography-field .btn-group .btn {
-  min-height: 38px;
+  vertical-align: middle;
 }
 
 .bauhaus-sims-field {
   display: flex;
   flex-direction: column;
+
+  /* Marges de l'ancienne ligne de grille qu'il portait, sans en être une : c'est une colonne. */
+  margin-right: -15px;
+  margin-left: -15px;
 }
 
 .bauhaus-sims-field .bauhaus-sims-field-form {
@@ -115,7 +53,7 @@
   flex-direction: column;
 }
 
-.bauhaus-documents-bloc .col-md-6:nth-child(2) .panel-heading {
+.bauhaus-documents-bloc .documentblock-lg2 .documentblock-picker-heading {
   background: var(--primary-color);
   color: #fff;
 }
@@ -123,4 +61,91 @@
 /* stylelint-disable-next-line selector-class-pattern -- .Select-placeholder is a react-select-generated class */
 .bauhaus-sims-duplicate .Select-placeholder {
   color: black;
+}
+
+/*
+ * Boutons « Inclure » / « Exclure » et « Nouveau » : reprennent à l'identique ce qu'ils
+ * tenaient de Bootstrap (`btn btn-default`, collés en `btn-group` pour les deux premiers,
+ * centrés comme dans l'ancien `styles/components.css`), en px : la racine Bootstrap à 10px
+ * réduirait les `rem`.
+ */
+.sims-geography-toggle-button,
+.sims-geography-new-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  background-image: none;
+  color: #333;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.4286;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.sims-geography-new-button {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.sims-geography-toggle-button:not(:disabled):hover,
+.sims-geography-new-button:not(:disabled):hover {
+  border-color: #adadad;
+  background-color: #e6e6e6;
+  color: #333;
+}
+
+.sims-geography-toggle-button:focus,
+.sims-geography-new-button:focus {
+  border-color: #8c8c8c;
+  background-color: #e6e6e6;
+  color: #333;
+}
+
+.sims-geography-toggle-button:focus-visible,
+.sims-geography-new-button:focus-visible {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.sims-geography-toggle-button:disabled,
+.sims-geography-new-button:disabled {
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.sims-geography-toggle-button {
+  position: relative;
+  float: left;
+  min-height: 38px;
+}
+
+.sims-geography-toggle-button:hover,
+.sims-geography-toggle-button:focus {
+  z-index: 2;
+}
+
+.sims-geography-toggle-button + .sims-geography-toggle-button {
+  margin-left: -1px;
+}
+
+.sims-geography-toggle-button:first-child:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.sims-geography-toggle-button:last-child:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }

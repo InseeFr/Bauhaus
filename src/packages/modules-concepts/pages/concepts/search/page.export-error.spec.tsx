@@ -1,13 +1,13 @@
 import { fireEvent, screen } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { renderWithRouter } from "../../../../tests/render";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: { getConceptSearchList: vi.fn(), getConceptExportZipType: vi.fn() },
 }));
 

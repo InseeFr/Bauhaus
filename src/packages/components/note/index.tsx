@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 
 import { cx } from "@utils/cx";
 
-import "../layout/grid.css";
 import { Panel } from "../panel";
 
 interface NoteTypes {
@@ -22,7 +21,7 @@ export const Note = ({
 }: Readonly<NoteTypes>) => {
   if (!text && !allowEmpty) return null;
 
-  const cl = alone ? "bauhaus-grid-md-12" : "bauhaus-grid-md-6";
+  const cl = alone ? "col-12" : "col-12 lg:col-6";
 
   return (
     <div className={cx("note", cl)} title={alt}>

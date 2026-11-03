@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 
 import { OperationsLink } from "@model/operations/operations-link";
 
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { renderWithRouter } from "../../tests/render";
 import { SeeAlso } from "./SeeAlso";
 
@@ -14,6 +15,11 @@ const familyLinks = { family: linkedItems };
 const operationLinks = { operation: linkedItems };
 
 describe("SeeAlso", () => {
+  it("ne pose aucune classe Bootstrap", () => {
+    render(<SeeAlso links={noLinks} secondLang />);
+    expectNoBootstrapClass();
+  });
+
   it("should display one Note if the second lang is not selected", () => {
     const { container } = render(<SeeAlso links={noLinks} />);
     expect(container.querySelector(".note")).toBeDefined();

@@ -159,7 +159,7 @@ export const Component = () => {
         {submitting && clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} />}
         <ErrorBloc error={serverSideError} />
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="prefLabelLg1">{t("item.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
@@ -179,7 +179,7 @@ export const Component = () => {
               error={clientSideErrors?.fields?.prefLabelLg1}
             ></ClientSideError>
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="prefLabelLg2">{t("item.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
@@ -201,7 +201,7 @@ export const Component = () => {
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-6">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="altLabelLg1">{t("item.altLabel", { lng: "fr" })}</label>
             <TextInput
               id="altLabelLg1"
@@ -214,7 +214,7 @@ export const Component = () => {
               }
             />
           </div>
-          <div className="form-group col-md-6">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="altLabelLg2">{t("item.altLabel", { lng: "en" })}</label>
             <TextInput
               id="altLabelLg2"
@@ -228,7 +228,7 @@ export const Component = () => {
             />
           </div>
         </Row>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <label>{t("item.broaderLevel")}</label>
           <Select
             value={general.broaderURI}
@@ -257,7 +257,7 @@ export const Component = () => {
           const idLg2 = shortLabelField("Lg2", length);
           return (
             <Row key={index}>
-              <div className="form-group col-md-6">
+              <div className="col-12 lg:col-6 bauhaus-form-group">
                 <label htmlFor={idLg1}>{t("item.altLabelWithLength", { length, lng: "fr" })}</label>
                 <TextInput
                   id={idLg1}
@@ -273,7 +273,7 @@ export const Component = () => {
                   error={clientSideErrors?.fields?.[idLg1]}
                 ></ClientSideError>
               </div>
-              <div className="form-group col-md-6">
+              <div className="col-12 lg:col-6 bauhaus-form-group">
                 <label htmlFor={idLg2}>{t("item.altLabelWithLength", { length, lng: "en" })}</label>
                 <TextInput
                   id={idLg2}

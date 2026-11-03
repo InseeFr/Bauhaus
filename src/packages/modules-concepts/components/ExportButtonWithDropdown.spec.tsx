@@ -1,5 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { ExportButtonWithDropdown as ExportButton } from "./ExportButtonWithDropdown";
 
 const NO_ACTIONS: never[] = [];
@@ -33,5 +34,10 @@ describe("DropDown", () => {
   it("should display the actions props", () => {
     const { container } = render(<ExportButton actions={ONE_ACTION} />);
     expect(container.querySelector("li button")!.innerHTML).toContain("Action 1");
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    render(<ExportButton actions={ONE_ACTION} />);
+    expectNoBootstrapClass();
   });
 });

@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { ComponentProps } from "react";
 import { describe, expect, it, vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { DatasetSelect } from "./DatasetSelect";
 
 vi.mock("react-i18next", async () =>
@@ -40,6 +41,11 @@ describe("DatasetSelect", () => {
     mockUseDatasetsForDistributions.mockReturnValue({
       data: mockDatasets,
     });
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderDatasetSelect();
+    expectNoBootstrapClass();
   });
 
   it("should render the component with label", () => {

@@ -5,6 +5,7 @@ import type { Link } from "@model/concepts/concept";
 
 import { BROADER, CLOSE_MATCH, NARROWER } from "@sdk/constants";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { ConceptLinks } from "./ConceptLinks";
 
 vi.mock("./LinksList", () => ({
@@ -59,5 +60,10 @@ describe("ConceptLinks", () => {
     const { container } = renderLinks([link("inventé", "c1")]);
 
     expect(container).toBeEmptyDOMElement();
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderLinks([link(NARROWER, "c1")], true);
+    expectNoBootstrapClass();
   });
 });

@@ -7,9 +7,7 @@ interface OidcWrapperTypes {
 }
 
 export const LoginComponent = () => {
-  const { login } = useOidc({
-    assertUserLoggedIn: false,
-  });
+  const { login } = useOidc();
 
   if (login) {
     login({
@@ -21,9 +19,7 @@ export const LoginComponent = () => {
 };
 
 export const LoggedInWrapper = ({ WrappedComponent }: OidcWrapperTypes) => {
-  const { renewTokens } = useOidc({
-    assertUserLoggedIn: true,
-  });
+  const { renewTokens } = useOidc({ assert: "user logged in" });
 
   const [userInformationLoaded, setUserInformationLoaded] = useState(false);
 

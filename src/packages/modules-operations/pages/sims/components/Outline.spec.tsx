@@ -1,5 +1,6 @@
 import { screen } from "@testing-library/react";
 
+import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import { renderWithRouter } from "../../../../tests/render";
 import { Outline } from "./Outline";
 
@@ -20,6 +21,11 @@ const metadataStructureClosed = {
 };
 
 describe("Outline", () => {
+  it("ne pose aucune classe Bootstrap", () => {
+    renderWithRouter(<Outline metadataStructure={metadataStructureOpened} storeCollapseState />);
+    expectNoBootstrapClass();
+  });
+
   it("should displayed a collapsed block", () => {
     const { container } = renderWithRouter(
       <Outline metadataStructure={metadataStructureClosed} storeCollapseState />,

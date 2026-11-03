@@ -1,6 +1,6 @@
 import { Component } from "@model/structures/Component";
 
-import { MUTUALIZED_COMPONENT_TYPES } from "../constants";
+import { MUTUALIZED_COMPONENT_TYPES } from "../constants/dsd-components";
 
 export const formatLabel = (component: Component) => {
   return (

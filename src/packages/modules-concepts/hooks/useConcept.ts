@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { Concept, ConceptNotes } from "@model/concepts/concept";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 import { MODULES, PRIVILEGES } from "@utils/hooks/rbac-constants";

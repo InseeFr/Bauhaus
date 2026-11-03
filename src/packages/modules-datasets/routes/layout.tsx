@@ -1,8 +1,8 @@
 import { I18nextProvider } from "react-i18next";
-import { Outlet } from "react-router";
 
 import { useTheme } from "@utils/hooks/useTheme";
 
+import { ModuleOutlet } from "../../application/router/module-pages";
 import { DataDescriptionMenu } from "../../application/section-menus";
 import { datasetsI18n } from "../i18n";
 
@@ -12,7 +12,7 @@ export const Component = () => {
   return (
     <I18nextProvider i18n={datasetsI18n}>
       <DataDescriptionMenu />
-      <Outlet />
+      <ModuleOutlet />
     </I18nextProvider>
   );
 };

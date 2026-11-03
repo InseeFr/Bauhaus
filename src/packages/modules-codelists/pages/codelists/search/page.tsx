@@ -13,7 +13,7 @@ import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { validateStateOptions } from "@model/ValidationState";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";

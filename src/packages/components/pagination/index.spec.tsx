@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi } from "vitest";
 
+import { expectNoLegacyGridClass } from "../../tests/grid-classes.testing";
 import { Pagination } from "./index";
 
 const { translate } = vi.hoisted(() => ({
@@ -58,6 +59,12 @@ const findPageLink = (text: string) =>
 
 describe("Pagination", () => {
   describe("Basic rendering", () => {
+    it("ne pose aucune classe de l'ancienne grille", () => {
+      renderWithRouter(<Pagination itemEls={createItems(25)} />);
+
+      expectNoLegacyGridClass();
+    });
+
     it("should render without crashing", () => {
       const items = createItems(5);
       renderWithRouter(<Pagination itemEls={items} />);

@@ -30,7 +30,7 @@ export const DatasetSelect = ({
     })) ?? [];
 
   return (
-    <div className="col-md-12 form-group">
+    <div className="col-12 bauhaus-form-group">
       <LabelRequired htmlFor="idDataset">{t("dataset.title")}</LabelRequired>
       <Select
         disabled={disabled}

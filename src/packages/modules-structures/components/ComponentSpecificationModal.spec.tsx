@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 
 import { ComponentDefinition } from "@model/structures/Component";
 
+import { createStructuresWrapper } from "../render.testing";
 import { ComponentSpecificationModal } from "./ComponentSpecificationModal";
 
 const specification = {
@@ -22,6 +23,7 @@ describe("<ComponentSpecificationModal />", () => {
         onClose={props.onClose ?? vi.fn()}
         onSave={props.onSave ?? vi.fn()}
       />,
+      { wrapper: createStructuresWrapper() },
     );
 
   it("is a dialog named by its title", () => {

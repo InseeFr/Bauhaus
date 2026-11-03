@@ -11,3 +11,8 @@ div.rst__rowLabel {
   color: inherit;
   text-decoration: none;
 }
+
+/* Ancien `pull-right` de Bootstrap. */
+.operations-tree-column {
+  float: right;
+}

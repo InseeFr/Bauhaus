@@ -6,6 +6,7 @@ vi.mock("@utils/hooks/organizations", () => ({
   useOrganizations: () => ({ data: [] }),
 }));
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { rangeType } from "../../../../constants/rangeType";
 import { SimsField as Field } from "./SimsField";
 import {
@@ -603,6 +604,24 @@ describe("Sims Field", () => {
       );
 
       expect(container.querySelector('input[type="checkbox"]')).toBeNull();
+    });
+
+    it("ne pose aucune classe Bootstrap sur la case « sans objet »", () => {
+      render(
+        fieldOf({
+          msd: {
+            masLabelLg1: "Field",
+            idMas: "sans-0",
+            rangeType: TEXT,
+            isPresentational: false,
+            sansObject: true,
+          },
+          currentSection: {},
+          codelists: {},
+          alone: true,
+        }),
+      );
+      expectNoBootstrapClass();
     });
 
     it("should hide input when RUBRIQUE_SANS_OBJECT is selected", () => {

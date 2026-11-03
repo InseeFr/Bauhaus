@@ -4,7 +4,7 @@ import { Exporting, Loading } from "@components/loading";
 
 import { UNPUBLISHED } from "@model/ValidationState";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { saveFileFromHttpResponse } from "@utils/files";
 

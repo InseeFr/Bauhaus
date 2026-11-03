@@ -14,7 +14,7 @@ export interface Codelist {
   codes: Code[];
   notation: string;
   lastCodeUriSegment: string;
-  contributor: string;
+  contributor: string | string[];
 }
 
 export type Codelists = {

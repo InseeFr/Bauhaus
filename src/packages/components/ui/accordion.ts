@@ -1,1 +1,1 @@
-export * from "primereact/accordion";
+export * from "@mantle-ui/react/accordion";

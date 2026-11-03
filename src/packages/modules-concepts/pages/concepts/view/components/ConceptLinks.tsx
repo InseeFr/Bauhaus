@@ -1,3 +1,5 @@
+import { Row } from "@components/layout";
+
 import { Links, Link } from "@model/concepts/concept";
 
 import {
@@ -43,9 +45,9 @@ export const ConceptLinks = ({
   if (numberOfLinks === 0) return null;
 
   return (
-    <div className="row concept-links">
+    <Row className="concept-links">
       <LinksList links={linksGroupByType} alone={!secondLang} lang="lg1" language="fr" />
       {secondLang && <LinksList links={linksGroupByType} alone={false} lang="lg2" language="en" />}
-    </div>
+    </Row>
   );
 };

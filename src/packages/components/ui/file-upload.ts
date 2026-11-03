@@ -1,1 +1,1 @@
-export * from "primereact/fileupload";
+export * from "@mantle-ui/react/fileupload";

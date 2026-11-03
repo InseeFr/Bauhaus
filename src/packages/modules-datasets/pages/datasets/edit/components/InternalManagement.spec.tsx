@@ -3,27 +3,33 @@ import { Mock, vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
 
+import { fetchCodelist } from "@sdk/codelists-api";
+import { DatasetsApi } from "@sdk/datasets-api";
 import { DisseminationStatus } from "@sdk/dissemination-status";
-import { DatasetsApi, fetchCodelist, OrganizationsApi } from "@sdk/index";
 import { OperationsApi } from "@sdk/operations-api";
+import { OrganizationsApi } from "@sdk/organizations-api";
 
 import {
   CL_ACCESS_RIGHTS,
   CL_CONF_STATUS,
   CL_PROCESS_STEP,
 } from "../../../../../constants/code-lists";
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { InternalManagement } from "./InternalManagement";
 import { renderEditPanel } from "./panel.testing";
 
-vi.mock("@sdk/index", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@sdk/index")>();
-  return {
-    ...actual,
-    fetchCodelist: vi.fn(),
-    DatasetsApi: { getArchivageUnits: vi.fn() },
-    OrganizationsApi: { getOrganizations: vi.fn() },
-  };
-});
+vi.mock("@sdk/codelists-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/codelists-api")>()),
+  fetchCodelist: vi.fn(),
+}));
+vi.mock("@sdk/datasets-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/datasets-api")>()),
+  DatasetsApi: { getArchivageUnits: vi.fn() },
+}));
+vi.mock("@sdk/organizations-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/organizations-api")>()),
+  OrganizationsApi: { getOrganizations: vi.fn() },
+}));
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getSeriesList: vi.fn(), getOperationsList: vi.fn() },
@@ -70,6 +76,11 @@ describe("Dataset internal management panel", () => {
     (DisseminationStatus.getDisseminationStatus as Mock).mockResolvedValue([
       { url: "http://status/public", label: "Public generic" },
     ]);
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderPanel({});
+    expectNoBootstrapClass();
   });
 
   it("displays the alternative identifier of the dataset", () => {
@@ -145,7 +156,7 @@ describe("Dataset internal management panel", () => {
   it("stores the dissemination status", async () => {
     const { setEditingDataset } = renderPanel({});
 
-    const group = screen.getByText("Dissemination status").closest(".form-group")!;
+    const group = screen.getByText("Dissemination status").closest(".bauhaus-form-group")!;
     fireEvent.click(group.querySelector(".p-dropdown-trigger")!);
     fireEvent.click(await screen.findByText("Public generic"));
 
@@ -159,7 +170,7 @@ describe("Dataset internal management panel", () => {
   it("offers the series and their operations as origins, and stores the selected ones", async () => {
     const { setEditingDataset } = renderPanel({});
 
-    const field = screen.getByText("Produced from").closest(".form-group")!;
+    const field = screen.getByText("Produced from").closest(".bauhaus-form-group")!;
     fireEvent.click(field.querySelector(".p-multiselect-trigger")!);
 
     expect(await screen.findByText("Série 1")).toBeInTheDocument();
@@ -180,7 +191,7 @@ describe("Dataset internal management panel", () => {
   ])("stores the %s picked from its codelist", async (label, option, field, value) => {
     const { setEditingDataset, container } = renderPanel({});
 
-    const group = screen.getByText(label).closest(".form-group")!;
+    const group = screen.getByText(label).closest(".bauhaus-form-group")!;
     fireEvent.click(group.querySelector(".p-dropdown-trigger")!);
     fireEvent.click(await screen.findByText(option));
 

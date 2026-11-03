@@ -36,11 +36,11 @@ vi.mock("../../../hooks/useAllCodeLists", () => ({
   useAllCodeLists: () => mockUseAllCodeLists(),
 }));
 
-vi.mock("primereact/progressspinner", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/progressspinner", () => import("./primereact.testing"));
 
-vi.mock("primereact/message", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/message", () => import("./primereact.testing"));
 
-vi.mock("primereact/dropdown", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/dropdown", () => import("./primereact.testing"));
 
 const GROUP_LABEL = "Base permanente des équipements";
 const GROUP_SECTION = `Groupe : ${GROUP_LABEL}`;

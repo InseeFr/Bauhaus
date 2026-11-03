@@ -11,6 +11,7 @@ import { GeneralApi } from "@sdk/general-api";
 
 import { AppContextProvider } from "../../../../../application/app-context";
 import { DOCUMENT, LINK } from "../../../../../constants/documentType";
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { OperationsDocumentationEdition } from "./OperationsDocumentationEdition";
 
 vi.mock("@sdk/general-api", () => ({
@@ -18,6 +19,8 @@ vi.mock("@sdk/general-api", () => ({
     putDocument: vi.fn(),
     putLink: vi.fn(),
     putDocumentFile: vi.fn(),
+    postDocument: vi.fn(),
+    postLink: vi.fn(),
   },
 }));
 
@@ -91,6 +94,18 @@ const renderEdition = (
       </QueryClientProvider>
     </AppContextProvider>,
   );
+
+describe("OperationsDocumentationEdition, layout", () => {
+  it("ne pose aucune classe Bootstrap sur un document", () => {
+    renderEdition();
+    expectNoBootstrapClass();
+  });
+
+  it("ne pose aucune classe Bootstrap sur un lien", () => {
+    renderEdition({}, { type: LINK });
+    expectNoBootstrapClass();
+  });
+});
 
 describe("OperationsDocumentationEdition, file field", () => {
   it("offers a drop zone and a button to browse when no file is attached yet", () => {
@@ -447,5 +462,47 @@ describe("OperationsDocumentationEdition, re-enabling the save button", () => {
 
     expect(field("labelLg1")).not.toHaveAttribute("aria-invalid", "true");
     expect(field("labelLg2")).toHaveAttribute("aria-invalid", "true");
+  });
+});
+
+describe("OperationsDocumentationEdition, creating a link", () => {
+  const newLink = {
+    labelLg1: "Page",
+    labelLg2: "Page EN",
+    lang: "fr",
+    url: "https://www.insee.fr/page",
+  };
+
+  const save = () => userEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
+
+  afterEach(() => {
+    vi.mocked(GeneralApi.postLink).mockReset();
+  });
+
+  it("sends the form as a JSON part named body, validated by the server", async () => {
+    vi.mocked(GeneralApi.postLink).mockResolvedValue("1000");
+    renderEdition(newLink, { type: LINK });
+
+    await save();
+
+    await waitFor(() => expect(GeneralApi.postLink).toHaveBeenCalled());
+    const formData = vi.mocked(GeneralApi.postLink).mock.calls[0][0] as FormData;
+    const body = formData.get("body") as Blob;
+    expect(body.type).toBe("application/json");
+    expect(JSON.parse(await body.text())).toMatchObject(newLink);
+  });
+
+  it("displays a server field error next to its field, like a client-side error", async () => {
+    vi.mocked(GeneralApi.postLink).mockRejectedValueOnce({
+      status: 400,
+      errors: [{ field: "labelLg2", message: "Ce champ est obligatoire." }],
+    });
+    renderEdition(newLink, { type: LINK });
+
+    await save();
+
+    const input = await screen.findByDisplayValue("Page EN");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("Ce champ est obligatoire."));
+    expect(input).toHaveAttribute("aria-invalid", "true");
   });
 });

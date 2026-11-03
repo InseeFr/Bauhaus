@@ -79,6 +79,28 @@ const api = {
       body: JSON.stringify(data),
     },
   ],
+  // Nouveau fichier dans l'étude de la source, qui partage les variables choisies (#1674).
+  reuseVariables: (
+    agencyId: string,
+    id: string,
+    data: {
+      physicalInstanceLabel: string;
+      dataRelationshipLabel: string;
+      logicalRecordLabel: string;
+      groupId: string;
+      groupAgency: string;
+      variableIds: string[];
+    },
+  ) => [
+    "physical-instance/" + agencyId + "/" + id + "/reuse-variables",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    },
+  ],
   putPhysicalInstance: (agencyId: string, id: string, data: unknown) => {
     const stringified = JSON.stringify(data);
     return [

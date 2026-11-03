@@ -43,7 +43,7 @@ const ddiPrivileges = (strategy: string) => ({
   ],
 });
 
-vi.mock("primereact/button", () => ({
+vi.mock("@mantle-ui/react/button", () => ({
   Button: ({
     label,
     onClick,
@@ -60,7 +60,7 @@ vi.mock("primereact/button", () => ({
   ),
 }));
 
-vi.mock("primereact/datatable", () => {
+vi.mock("@mantle-ui/react/datatable", () => {
   const Row = ({ item, columns, onRowClick }: any) => {
     const handleClick = useCallback(() => onRowClick?.({ data: item }), [onRowClick, item]);
     return (
@@ -109,7 +109,7 @@ vi.mock("primereact/datatable", () => {
   };
 });
 
-vi.mock("primereact/column", () => ({
+vi.mock("@mantle-ui/react/column", () => ({
   Column: () => null,
 }));
 

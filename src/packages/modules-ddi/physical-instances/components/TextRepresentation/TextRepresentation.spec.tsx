@@ -12,7 +12,7 @@ vi.mock("react-i18next", async () =>
   }),
 );
 
-vi.mock("primereact/inputtext", () => import("../representation.testing"));
+vi.mock("@mantle-ui/react/inputtext", () => import("../representation.testing"));
 
 const updatedRepresentation: TextRepresentationType = {
   $type: "TextRepresentationBaseType",

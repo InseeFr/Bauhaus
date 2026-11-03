@@ -21,9 +21,9 @@ div.ddi-layout:has(> .home-page-layout) {
   max-width: 292.5px;
 }
 
-/* Le contenu se range à droite du menu (ancien `pull-right` de Bootstrap). */
+/* Le contenu se range à droite du menu, ou à droite de la place vide quand il n'y en a pas. */
 .home-page-layout__content {
-  float: right;
+  margin-left: auto;
 }
 
 /* Sous 1000px, la liste prend toute la largeur (repris de `.operations-list`). */

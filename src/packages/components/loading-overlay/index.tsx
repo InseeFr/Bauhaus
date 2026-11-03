@@ -1,4 +1,4 @@
-import { ProgressSpinner } from "primereact/progressspinner";
+import { ProgressSpinner } from "@mantle-ui/react/progressspinner";
 
 import { getLoadingText } from "../loading/getLoadingText";
 import "./loading-overlay.css";

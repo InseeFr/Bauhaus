@@ -4,13 +4,13 @@ import type { ReactNode, RefObject } from "react";
 
 import type { Toast } from "@components/ui/toast";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 import { useExport } from "./useExport";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: { convertToDDI3: vi.fn() },
 }));
 
@@ -27,7 +27,7 @@ describe("useExport", () => {
 
   const renderExport = () => {
     const show = vi.fn();
-    const toast = { current: { show } } as unknown as RefObject<Toast>;
+    const toast = { current: { show } } as unknown as RefObject<Toast | null>;
     const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
     const wrapper = ({ children }: { children: ReactNode }) => (
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

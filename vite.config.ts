@@ -2,6 +2,7 @@ import { generateDdiTypes, SCHEMA_PATH as DDI_SCHEMA_PATH } from "@bauhaus/ddi-c
 import react from "@vitejs/plugin-react";
 import type { Plugin } from "vite";
 import { defineConfig } from "vite-plus";
+import { oidcSpa } from "oidc-spa/vite-plugin";
 import { viteEnvs } from "vite-envs";
 import csp from "vite-plugin-csp-guard";
 
@@ -40,10 +41,10 @@ export default defineConfig(() => {
           {
             patterns: [
               {
-                group: ["primereact", "primereact/*", "!primereact/resources/*"],
+                group: ["@mantle-ui/react", "@mantle-ui/react/*", "!@mantle-ui/react/resources/*"],
                 allowTypeImports: true,
                 message:
-                  "Wrap the PrimeReact component in src/packages/components/ (one wrapper per component, like select-rmes) and import the wrapper instead.",
+                  "Wrap the Mantle UI component in src/packages/components/ (one wrapper per component, like select-rmes) and import the wrapper instead.",
               },
             ],
           },
@@ -116,6 +117,8 @@ export default defineConfig(() => {
     plugins: [
       ddiTypesPlugin(),
       react(),
+      // Injecte `oidcEarlyInit()` avant l'entrée de l'application, obligatoire depuis oidc-spa 8.
+      oidcSpa(),
       csp({
         algorithm: "sha256",
         // Politique appliquée uniquement au build de prod, pas au serveur de dev.

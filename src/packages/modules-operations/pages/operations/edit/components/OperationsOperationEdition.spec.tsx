@@ -6,6 +6,7 @@ import { Operation } from "@model/Operation";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { OperationsOperationEdition } from "./OperationsOperationEdition";
 
@@ -59,6 +60,12 @@ describe("OperationsOperationEdition", () => {
       { id: "s1", label: "Série 1", altLabel: "" },
       { id: "s2", label: "Série 2", altLabel: "" },
     ]);
+  });
+
+  it("ne pose aucune classe Bootstrap", async () => {
+    renderEdition({ id: "o1", prefLabelLg1: "Opération" });
+    await screen.findByDisplayValue("Opération");
+    expectNoBootstrapClass();
   });
 
   it("enregistre l'opération modifiée puis revient sur sa fiche", async () => {

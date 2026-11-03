@@ -16,7 +16,7 @@ vi.mock("react-i18next", async () =>
   }),
 );
 
-vi.mock("primereact/dropdown", () => import("../representation.testing"));
+vi.mock("@mantle-ui/react/dropdown", () => import("../representation.testing"));
 
 vi.mock("../NumericRepresentation/NumericRepresentation", () => ({
   NumericRepresentation: ({ onChange }: any) => {

@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor, act, within } from "@testing-librar
 import { useCallback, type ChangeEvent, type MouseEvent, type ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { appI18n } from "../../../../i18n";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
@@ -15,7 +15,6 @@ const mockUsePhysicalInstancesData = vi.fn();
 const mockUsePhysicalInstanceParents = vi.fn();
 const mockUpdatePhysicalInstance = vi.fn();
 const mockPublishPhysicalInstance = vi.fn();
-const mockDuplicatePhysicalInstance = vi.fn();
 const mockValidateDdi4 = vi.fn();
 const mockConvertToDDI3 = vi.fn().mockResolvedValue("<ddi3-xml-content></ddi3-xml-content>");
 const mockNavigate = vi.fn();
@@ -90,10 +89,6 @@ vi.mock("../../../hooks/useUpdatePhysicalInstance", () => ({
 
 vi.mock("../../../hooks/usePublishPhysicalInstance", () => ({
   usePublishPhysicalInstance: () => mockPublishPhysicalInstance(),
-}));
-
-vi.mock("../../../hooks/useDuplicatePhysicalInstance", () => ({
-  useDuplicatePhysicalInstance: () => mockDuplicatePhysicalInstance(),
 }));
 
 vi.mock("../../../hooks/useValidateDdi4", () => ({
@@ -171,13 +166,13 @@ global.fetch = vi.fn((url) => {
   return Promise.reject(new Error(`Unexpected fetch call to ${url}`));
 }) as any;
 
-vi.mock("primereact/progressspinner", () => ({
+vi.mock("@mantle-ui/react/progressspinner", () => ({
   ProgressSpinner: () => <div data-testid="progress-spinner">Loading...</div>,
 }));
 
 // La vue pilote le toast par ref (`toast.current?.show(...)`) : le mock doit accepter
 // une ref, sinon React avertit « Function components cannot be given refs ».
-vi.mock("primereact/toast", async () => {
+vi.mock("@mantle-ui/react/toast", async () => {
   const { forwardRef, useImperativeHandle } =
     await vi.importActual<typeof import("react")>("react");
   return {
@@ -188,7 +183,7 @@ vi.mock("primereact/toast", async () => {
   };
 });
 
-vi.mock("primereact/message", () => ({
+vi.mock("@mantle-ui/react/message", () => ({
   Message: ({ severity, text }: any) => (
     <div data-testid="message" data-severity={severity}>
       {text}
@@ -196,7 +191,7 @@ vi.mock("primereact/message", () => ({
   ),
 }));
 
-vi.mock("primereact/dropdown", () => ({
+vi.mock("@mantle-ui/react/dropdown", () => ({
   // Les props propres à PrimeReact sont écartées avant le spread : `<select>` ne les
   // comprend pas et React avertit (ex. `loading={false}` sur un attribut non booléen).
   Dropdown: ({
@@ -243,17 +238,19 @@ vi.mock("primereact/dropdown", () => ({
   },
 }));
 
-vi.mock("primereact/dialog", () => ({
-  Dialog: ({ visible, children, header }: any) =>
+// Le ConfirmDialog de Mantle UI rend aussi ce Dialog, ses boutons passant par `footer`.
+vi.mock("@mantle-ui/react/dialog", () => ({
+  Dialog: ({ visible, children, header, footer }: any) =>
     visible ? (
       <dialog open aria-label={header}>
         <h2>{header}</h2>
         {children}
+        {footer}
       </dialog>
     ) : null,
 }));
 
-vi.mock("primereact/tabview", () => ({
+vi.mock("@mantle-ui/react/tabview", () => ({
   TabView: ({ children, activeIndex, onTabChange }: any) => {
     const panels = Array.isArray(children) ? children : [children];
     const handleTabClick = useCallback(
@@ -591,12 +588,6 @@ describe("View Component", () => {
 
     mockUseStudyUnitVariables.mockReturnValue({ data: [], isLoading: false });
     mockUseStudyUnitVariableUsages.mockReturnValue({ data: [], isLoading: false });
-
-    mockDuplicatePhysicalInstance.mockReturnValue({
-      mutateAsync: vi.fn().mockResolvedValue({ id: "pi-copy-id", agency: "test-agency-123" }),
-      isPending: false,
-      isError: false,
-    });
 
     mockPublishPhysicalInstance.mockReturnValue({
       mutateAsync: vi.fn().mockResolvedValue({}),
@@ -1455,156 +1446,12 @@ describe("View Component", () => {
     });
   });
 
-  describe("Duplicate Physical Instance", () => {
-    const openAndConfirmDuplicateModal = async () => {
-      render(<Component />, { wrapper });
+  it("ne propose plus de dupliquer le fichier : la duplication part de l'accueil", () => {
+    render(<Component />, { wrapper });
 
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.duplicatePhysicalInstance"));
-      await screen.findByText("physicalInstance.view.duplicateModal.title");
-      const labelInput = screen.getByLabelText(
-        "physicalInstance.creation.label",
-      ) as HTMLInputElement;
-      await waitFor(() => expect(labelInput.value).toBe("Test Physical Instance (copy)"));
-
-      fireEvent.submit(screen.getByRole("dialog").querySelector("form")!);
-    };
-
-    it("should open the duplication modal instead of duplicating immediately, pre-filled with <title> (copy)", async () => {
-      const duplicateMock = vi.fn().mockResolvedValue({ id: "pi-copy-id", agency: "fr.insee" });
-      mockDuplicatePhysicalInstance.mockReturnValue({
-        mutateAsync: duplicateMock,
-        isPending: false,
-        isError: false,
-      });
-
-      render(<Component />, { wrapper });
-
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.duplicatePhysicalInstance"));
-
-      expect(
-        await screen.findByText("physicalInstance.view.duplicateModal.title"),
-      ).toBeInTheDocument();
-      // La valeur est posée par un useEffect après le montage de la modale
-      // (composant lazy/Suspense + animation d'ouverture de la Dialog) : on
-      // attend qu'elle soit appliquée plutôt que de la lire de façon synchrone,
-      // sinon course de timing sous charge (échec aléatoire en CI).
-      const labelInput = screen.getByLabelText(
-        "physicalInstance.creation.label",
-      ) as HTMLInputElement;
-      await waitFor(() => expect(labelInput.value).toBe("Test Physical Instance (copy)"));
-
-      expect(duplicateMock).not.toHaveBeenCalled();
-    });
-
-    it("should duplicate through the dedicated endpoint with the labels, group and study unit of the modal", async () => {
-      const duplicateMock = vi.fn().mockResolvedValue({ id: "pi-copy-id", agency: "fr.insee" });
-      mockDuplicatePhysicalInstance.mockReturnValue({
-        mutateAsync: duplicateMock,
-        isPending: false,
-        isError: false,
-      });
-
-      await openAndConfirmDuplicateModal();
-
-      await waitFor(() => expect(duplicateMock).toHaveBeenCalledTimes(1));
-      expect(duplicateMock).toHaveBeenCalledWith({
-        agencyId: "test-agency-123",
-        id: "test-id-123",
-        data: expect.objectContaining({
-          physicalInstanceLabel: "Test Physical Instance (copy)",
-          groupId: "group-1",
-          groupAgency: "agency-1",
-          studyUnitId: "study-1",
-          studyUnitAgency: "agency-1",
-        }),
-      });
-    });
-
-    it("should not publish nor patch anything from the front when duplicating", async () => {
-      const publishMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: publishMock,
-        isPending: false,
-        isError: false,
-      });
-      const patchMock = vi.fn().mockResolvedValue({});
-      mockUpdatePhysicalInstance.mockReturnValue({
-        mutateAsync: patchMock,
-        isPending: false,
-        isError: false,
-      });
-
-      await openAndConfirmDuplicateModal();
-
-      await waitFor(() => expect(mockNavigate).toHaveBeenCalled());
-      expect(publishMock).not.toHaveBeenCalled();
-      expect(patchMock).not.toHaveBeenCalled();
-    });
-
-    it("should navigate to the copy returned by the backend", async () => {
-      mockDuplicatePhysicalInstance.mockReturnValue({
-        mutateAsync: vi.fn().mockResolvedValue({ id: "pi-copy-id", agency: "fr.insee" }),
-        isPending: false,
-        isError: false,
-      });
-
-      await openAndConfirmDuplicateModal();
-
-      await waitFor(() =>
-        expect(mockNavigate).toHaveBeenCalledWith("/ddi/physical-instances/fr.insee/pi-copy-id"),
-      );
-    });
-
-    it("should show the backend error message in the toast when duplication fails", async () => {
-      // Le SDK (build-api) rejette un objet nu { message, status }, jamais une Error.
-      mockDuplicatePhysicalInstance.mockReturnValue({
-        mutateAsync: vi.fn().mockRejectedValue({
-          message: "L'opération (StudyUnit fr.insee/su-1) n'a pas de VariableScheme",
-          status: 409,
-        }),
-      });
-
-      await openAndConfirmDuplicateModal();
-
-      await waitFor(() => {
-        expect(mockToastShow).toHaveBeenCalledWith(
-          expect.objectContaining({
-            severity: "error",
-            summary: "physicalInstance.view.duplicateError",
-            detail: "L'opération (StudyUnit fr.insee/su-1) n'a pas de VariableScheme",
-          }),
-        );
-      });
-      expect(mockNavigate).not.toHaveBeenCalled();
-    });
-
-    it("shows the translated message of a coded backend error in a toast that stays until closed", async () => {
-      mockDuplicatePhysicalInstance.mockReturnValue({
-        isPending: false,
-        isError: false,
-        mutateAsync: vi.fn().mockRejectedValue(
-          sdkRejection.json(404, {
-            message: "No study unit found for physical instance fr.insee/pi-111",
-            code: "DDI_STUDY_UNIT_NOT_FOUND",
-          }),
-        ),
-      });
-
-      await openAndConfirmDuplicateModal();
-
-      await waitFor(() => {
-        expect(mockToastShow).toHaveBeenCalledWith(
-          expect.objectContaining({
-            severity: "error",
-            summary: "physicalInstance.view.duplicateError",
-            detail: appI18n.t("errors.DDI_STUDY_UNIT_NOT_FOUND"),
-            sticky: true,
-          }),
-        );
-      });
-      const errorToast = mockToastShow.mock.calls.find(([toast]) => toast.severity === "error")![0];
-      expect(errorToast).not.toHaveProperty("life");
-    });
+    expect(
+      screen.queryByLabelText("physicalInstance.view.duplicatePhysicalInstance"),
+    ).not.toBeInTheDocument();
   });
 
   describe("Variable edits reported to the table (#1608)", () => {

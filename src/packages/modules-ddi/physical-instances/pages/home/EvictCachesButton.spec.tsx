@@ -5,12 +5,12 @@ import type { ReactNode } from "react";
 import { I18nextProvider } from "react-i18next";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { ddiI18n } from "../../../i18n";
 import { EvictCachesButton } from "./EvictCachesButton";
 
-vi.mock("../../../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     evictCaches: vi.fn(),
   },

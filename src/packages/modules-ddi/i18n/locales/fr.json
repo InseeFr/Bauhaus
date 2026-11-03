@@ -20,6 +20,24 @@
       "successTitle": "Création réussie",
       "title": "Créer un nouveau fichier de données"
     },
+    "newFrom": {
+      "button": "Nouveau à partir de…",
+      "tooltip": "Créer un fichier à partir de la documentation d'un fichier existant.",
+      "newTooltip": "Créer un fichier sans reprendre un fichier existant.",
+      "title": "Nouveau à partir de…",
+      "sourceList": "Fichiers de données",
+      "openInNewTab": "Ouvrir « {{label}} » dans un nouvel onglet",
+      "next": "Suivant",
+      "back": "Retour",
+      "create": "Créer",
+      "selectedSource": "Fichier d'origine : {{label}}",
+      "selectAll": "Tout sélectionner",
+      "variables": "Variables à reprendre ({{selected}} / {{total}})",
+      "reuseVariables": {
+        "title": "Réutiliser des variables",
+        "description": "Créer un nouveau fichier dans la même opération en sélectionnant les variables à reprendre du fichier d'origine."
+      }
+    },
     "search": {
       "title": "Recherche avancée de fichiers de données",
       "backToList": "Retour à la liste",

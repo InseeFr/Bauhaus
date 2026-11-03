@@ -1,1 +1,1 @@
-export * from "primereact/picklist";
+export * from "@mantle-ui/react/picklist";

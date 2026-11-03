@@ -20,7 +20,11 @@ export const CodesPanelAddButton = ({
   }
 
   return (
-    <HasAccess module="CODESLIST_CODESLIST" privilege="CREATE" stamps={[codelist?.contributor]}>
+    <HasAccess
+      module="CODESLIST_CODESLIST"
+      privilege="CREATE"
+      stamps={[codelist?.contributor ?? []].flat()}
+    >
       <AddButton id="add-code" onClick={onHandlePanel} />
     </HasAccess>
   );

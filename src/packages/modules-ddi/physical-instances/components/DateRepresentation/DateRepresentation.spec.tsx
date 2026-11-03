@@ -18,7 +18,7 @@ vi.mock("react-i18next", async () =>
   }),
 );
 
-vi.mock("primereact/dropdown", async () => {
+vi.mock("@mantle-ui/react/dropdown", async () => {
   const { OptionsSelect } = await import("../representation.testing");
   return {
     Dropdown: ({ id, value, onChange, options, placeholder }: any) => (

@@ -26,7 +26,7 @@ const NoteLangInput = ({
   onChange: (value?: string) => void;
 }>) => {
   return (
-    <div className="form-group col-md-6">
+    <div className="col-12 lg:col-6 bauhaus-form-group">
       {value && (
         <>
           <label htmlFor={id}>{label}</label>

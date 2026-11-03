@@ -47,7 +47,7 @@ vi.mock("@utils/hooks/users", async (importOriginal) =>
   (await import("../../../privileges.testing")).mockUsersHooks(importOriginal),
 );
 
-vi.mock("primereact/card", () => ({
+vi.mock("@mantle-ui/react/card", () => ({
   Card: ({ title, children }: any) => (
     <div>
       <h2>{title}</h2>
@@ -56,16 +56,16 @@ vi.mock("primereact/card", () => ({
   ),
 }));
 
-vi.mock("primereact/inputtext", () => ({
+vi.mock("@mantle-ui/react/inputtext", () => ({
   InputText: ({ id, value, onChange, required }: any) => (
     <input id={id} value={value} onChange={onChange} required={required} />
   ),
 }));
 
-vi.mock("primereact/dropdown", () => import("../representation.testing"));
-vi.mock("primereact/button", () => import("../representation.testing"));
+vi.mock("@mantle-ui/react/dropdown", () => import("../representation.testing"));
+vi.mock("@mantle-ui/react/button", () => import("../representation.testing"));
 
-vi.mock("primereact/checkbox", () => ({
+vi.mock("@mantle-ui/react/checkbox", () => ({
   Checkbox: ({ inputId, checked, onChange }: any) => {
     const handleChange = useCallback(
       (e: ChangeEvent<HTMLInputElement>) => onChange({ checked: e.target.checked }),
@@ -75,13 +75,13 @@ vi.mock("primereact/checkbox", () => ({
   },
 }));
 
-vi.mock("primereact/inputtextarea", () => ({
+vi.mock("@mantle-ui/react/inputtextarea", () => ({
   InputTextarea: ({ id, value, onChange, rows }: any) => (
     <textarea id={id} value={value} onChange={onChange} rows={rows} />
   ),
 }));
 
-vi.mock("primereact/tabview", () => {
+vi.mock("@mantle-ui/react/tabview", () => {
   const Tab = ({ index, onTabChange }: any) => {
     const select = useCallback(() => onTabChange?.({ index }), [index, onTabChange]);
     return (

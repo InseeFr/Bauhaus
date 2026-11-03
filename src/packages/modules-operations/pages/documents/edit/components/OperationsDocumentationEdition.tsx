@@ -132,7 +132,8 @@ const saveDocument = async (document: Document, type: string, files: DocumentFil
    */
   if (!document.id) {
     const formData = new FormData();
-    formData.append("body", JSON.stringify(document));
+    // Partie JSON, validée par le back comme un corps de requête (`@Valid @RequestPart`).
+    formData.append("body", new Blob([JSON.stringify(document)], { type: "application/json" }));
     if (type === DOCUMENT && files[0]) {
       formData.append("file", files[0] as File, files[0].name);
     }
@@ -401,7 +402,7 @@ export const OperationsDocumentationEdition = (
       <ErrorBloc error={serverSideError} />
       <form>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="labelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="labelLg1"
@@ -415,7 +416,7 @@ export const OperationsDocumentationEdition = (
               error={clientSideErrors?.fields?.labelLg1}
             ></ClientSideError>
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="labelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="labelLg2"
@@ -431,7 +432,7 @@ export const OperationsDocumentationEdition = (
           </div>
         </Row>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="descriptionLg1">{t("app.descriptionTitle", { lng: "fr" })}</label>
             <MDEditor
               text={document.descriptionLg1 ?? ""}
@@ -441,7 +442,7 @@ export const OperationsDocumentationEdition = (
               textareaProps={{ id: "descriptionLg1" }}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="descriptionLg2">{t("app.descriptionTitle", { lng: "en" })}</label>
             <MDEditor
               text={document.descriptionLg2 ?? ""}
@@ -454,7 +455,7 @@ export const OperationsDocumentationEdition = (
         </Row>
         {type === LINK && (
           <Row>
-            <div className="col-md-12 form-group">
+            <div className="col-12 bauhaus-form-group">
               <LabelRequired htmlFor="url">{t("documents.titleLink")}</LabelRequired>
               <TextInput
                 id="url"
@@ -472,7 +473,7 @@ export const OperationsDocumentationEdition = (
         )}
         {type === DOCUMENT && (
           <Row>
-            <div className="col-md-12 form-group">
+            <div className="col-12 bauhaus-form-group">
               <LabelRequired>{t("documents.titleUpdatedDate")}</LabelRequired>
               <DatePicker
                 value={updatedDate}
@@ -490,7 +491,7 @@ export const OperationsDocumentationEdition = (
         )}
         {type === DOCUMENT && files.length === 0 && (
           <Row>
-            <div className="col-md-12 form-group">
+            <div className="col-12 bauhaus-form-group">
               <LabelRequired>{t("documents.file")}</LabelRequired>
               <Tooltip
                 target=".choose-file-btn"
@@ -529,7 +530,7 @@ export const OperationsDocumentationEdition = (
         )}
         {type === DOCUMENT && files.length > 0 && (
           <Row>
-            <div className="col-md-12 form-group">
+            <div className="col-12 bauhaus-form-group">
               <LabelRequired>{t("documents.file")}</LabelRequired>
               <ul className="attached-files">
                 {files.map((file) => (
@@ -557,7 +558,7 @@ export const OperationsDocumentationEdition = (
           </Row>
         )}
         <Row>
-          <div className="col-md-12 form-group">
+          <div className="col-12 bauhaus-form-group">
             <LabelRequired htmlFor="lang">{t("app.langTitle", { lng: "fr" })}</LabelRequired>
             <Select
               placeholder=""

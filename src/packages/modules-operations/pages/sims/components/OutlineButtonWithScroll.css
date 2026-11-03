@@ -1,0 +1,38 @@
+/*
+ * Reprend à l'identique ce que le bouton tenait de Bootstrap (`btn btn-link`, avec
+ * l'alignement à gauche de l'ancien `styles/components.css`), en px : la racine Bootstrap à 10px
+ * réduirait les `rem`.
+ */
+.msd-outline-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5em;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background-color: transparent;
+  background-image: none;
+  color: #337ab7;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4286;
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.msd-outline-link:hover,
+.msd-outline-link:focus {
+  color: #23527c;
+  text-decoration: underline;
+}
+
+.msd-outline-link:focus-visible {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}

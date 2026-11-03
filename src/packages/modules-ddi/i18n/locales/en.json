@@ -20,6 +20,24 @@
       "successTitle": "Creation successful",
       "title": "Create a new physical instance"
     },
+    "newFrom": {
+      "button": "New from…",
+      "tooltip": "Create a PhysicalInstance from an existing instance's documentation.",
+      "newTooltip": "Create a PhysicalInstance from scratch.",
+      "title": "New from…",
+      "sourceList": "Physical instances",
+      "openInNewTab": "Open \"{{label}}\" in a new tab",
+      "next": "Next",
+      "back": "Back",
+      "create": "Create",
+      "selectedSource": "Source instance: {{label}}",
+      "selectAll": "Select all",
+      "variables": "Variables to reuse ({{selected}} / {{total}})",
+      "reuseVariables": {
+        "title": "Reuse variables",
+        "description": "Create a new instance within the same study by selecting the variables to reuse from the source instance."
+      }
+    },
     "search": {
       "title": "Advanced search of physical instances",
       "backToList": "Back to the list",

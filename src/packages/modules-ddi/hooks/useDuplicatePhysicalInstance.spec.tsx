@@ -3,11 +3,11 @@ import { renderHook } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { useDuplicatePhysicalInstance } from "./useDuplicatePhysicalInstance";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     duplicatePhysicalInstance: vi.fn(),
   },

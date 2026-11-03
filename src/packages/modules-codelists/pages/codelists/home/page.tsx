@@ -5,7 +5,7 @@ import { HomePageLayout } from "@components/home-page-layout";
 import { Loading } from "@components/loading";
 import { SearchableList } from "@components/searchable-list";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { useTitle } from "@utils/hooks/useTitle";
 

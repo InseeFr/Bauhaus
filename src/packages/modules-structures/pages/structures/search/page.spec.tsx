@@ -8,8 +8,11 @@ import { Component } from "./page";
 
 vi.mock("@utils/hooks/useUrlQueryParameters");
 
-vi.mock("@sdk/index", async () =>
-  (await import("../../../mocks.testing")).searchPageApi("getStructuresForSearch"),
+vi.mock("@sdk/structure-api", async () =>
+  (await import("../../../mocks.testing")).searchPageStructureApi("getStructuresForSearch"),
+);
+vi.mock("@sdk/concepts-api", async () =>
+  (await import("../../../mocks.testing")).searchPageConceptsApi(),
 );
 
 vi.mock("@components/business/creators-input", () => import("../../creators-input.testing"));

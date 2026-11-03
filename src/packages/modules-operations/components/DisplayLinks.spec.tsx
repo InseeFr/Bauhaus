@@ -1,5 +1,6 @@
 import { screen } from "@testing-library/react";
 
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { renderWithRouter } from "../../tests/render";
 import { DisplayLinks } from "./DisplayLinks";
 
@@ -8,6 +9,11 @@ const oneLink = [{ id: 1 }];
 const oneLabelledLink = [{ id: 1, labelLg1: "labelLg1" }];
 
 describe("DisplayLinks", () => {
+  it("ne pose aucune classe Bootstrap", () => {
+    renderWithRouter(<DisplayLinks links={twoLinks} path="series/" title="home" secondLang />);
+    expectNoBootstrapClass();
+  });
+
   it("should display a list if we have multiple item", () => {
     const { container } = renderWithRouter(
       <DisplayLinks links={twoLinks} path="series/" title="home" />,

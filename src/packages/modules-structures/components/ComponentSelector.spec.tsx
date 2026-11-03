@@ -1,3 +1,4 @@
+import { QueryClient } from "@tanstack/react-query";
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { vi } from "vitest";
 
@@ -5,7 +6,7 @@ import { Component, ComponentDefinition } from "@model/structures/Component";
 import { Structure } from "@model/structures/Structure";
 import { UNPUBLISHED } from "@model/ValidationState";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
@@ -14,16 +15,18 @@ import {
   ATTRIBUTE_PROPERTY_TYPE,
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
-} from "../constants";
+} from "../constants/dsd-components";
+import { mutualizedComponentQuery } from "../hooks/queries";
 import { clickIcon, createStructuresWrapper, rowOf } from "../render.testing";
 import { ComponentSelector } from "./ComponentSelector";
 
-vi.mock("@sdk/index", async () => ({
-  ...(await import("../mocks.testing")).emptyCodelistsAndStampsApi(),
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: {
     getMutualizedComponent: vi.fn(),
   },
 }));
+vi.mock("@sdk/codelists-api", async () => (await import("../mocks.testing")).emptyCodelistsApi());
+vi.mock("@sdk/stamps-api", async () => (await import("../mocks.testing")).emptyStampsApi());
 
 vi.mock("@utils/hooks/users", async (importOriginal) =>
   (await import("../mocks.testing")).usersHookWithCreatePrivilege(
@@ -176,6 +179,35 @@ describe("ComponentSelector", () => {
         }),
       ]),
     );
+  });
+
+  it("reprend la mesure déjà en cache pour trouver ses attributs liés", async () => {
+    const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: Infinity } } });
+    queryClient.setQueryData(mutualizedComponentQuery("mes1").queryKey, {
+      id: "mes1",
+      attribute_1: "iri-a1",
+    } as unknown as Component);
+    const attribute = { ...component("a1", ATTRIBUTE_PROPERTY_TYPE), iri: "iri-a1" };
+    render(
+      <ComponentSelector
+        structure={NO_STRUCTURE}
+        componentDefinitions={[]}
+        mutualizedComponents={[component("mes1", MEASURE_PROPERTY_TYPE), attribute]}
+        handleUpdate={handleUpdate}
+        type={MEASURE_PROPERTY_TYPE}
+      />,
+      { wrapper: createStructuresWrapper({ queryClient }) },
+    );
+
+    clickIcon(within(rowOf("mes1")).getByLabelText("Add"));
+
+    await vi.waitFor(() =>
+      expect(handleUpdate).toHaveBeenCalledWith([
+        expect.objectContaining({ component: expect.objectContaining({ id: "mes1" }) }),
+        expect.objectContaining({ component: expect.objectContaining({ id: "a1" }) }),
+      ]),
+    );
+    expect(StructureApi.getMutualizedComponent).not.toHaveBeenCalled();
   });
 
   it("retire une composante et renumérote les suivantes", () => {

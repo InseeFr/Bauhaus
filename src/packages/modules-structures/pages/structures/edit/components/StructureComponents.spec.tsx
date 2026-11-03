@@ -1,14 +1,21 @@
+import { QueryClient } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { ConceptsApi, StructureApi } from "@sdk/index";
+import { Component } from "@model/structures/Component";
 
+import { ConceptsApi } from "@sdk/concepts-api";
+import { StructureApi } from "@sdk/structure-api";
+
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 import {
   ATTRIBUTE_PROPERTY_TYPE,
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
-} from "../../../../constants";
+} from "../../../../constants/dsd-components";
+import { mutualizedComponentsQuery } from "../../../../hooks/queries";
+import { createStructuresWrapper } from "../../../../render.testing";
 import { StructureComponents } from "./StructureComponents";
 
 vi.mock("react-i18next", async () =>
@@ -17,8 +24,10 @@ vi.mock("react-i18next", async () =>
   ),
 );
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: { getConceptList: vi.fn() },
+}));
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: { getMutualizedComponents: vi.fn() },
 }));
 
@@ -47,6 +56,16 @@ const onChange = vi.fn();
 const NO_COMPONENT_DEFINITIONS: never[] = [];
 const EDITED_STRUCTURE = { id: "str-1" };
 
+const renderComponents = (props: Record<string, unknown> = {}, queryClient?: QueryClient) =>
+  render(
+    <StructureComponents
+      componentDefinitions={NO_COMPONENT_DEFINITIONS}
+      onChange={onChange}
+      {...props}
+    />,
+    { wrapper: createStructuresWrapper({ queryClient }) },
+  );
+
 describe("StructureComponents", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -54,10 +73,14 @@ describe("StructureComponents", () => {
     vi.mocked(StructureApi.getMutualizedComponents).mockResolvedValue([{ id: "c-1" }]);
   });
 
+  it("ne pose aucune classe Bootstrap", async () => {
+    renderComponents();
+    await waitFor(() => expect(screen.getByTestId(DIMENSION_PROPERTY_TYPE)).toBeInTheDocument());
+    expectNoBootstrapClass();
+  });
+
   it("propose un sélecteur par type de composante", async () => {
-    render(
-      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
-    );
+    renderComponents();
 
     await waitFor(() => expect(screen.getByTestId(DIMENSION_PROPERTY_TYPE)).toBeInTheDocument());
     expect(screen.getByTestId(MEASURE_PROPERTY_TYPE)).toBeInTheDocument();
@@ -65,9 +88,7 @@ describe("StructureComponents", () => {
   });
 
   it("alimente chaque sélecteur des mêmes référentiels", async () => {
-    render(
-      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
-    );
+    renderComponents();
 
     await waitFor(() =>
       expect(screen.getByTestId(DIMENSION_PROPERTY_TYPE)).toHaveTextContent(
@@ -76,10 +97,24 @@ describe("StructureComponents", () => {
     );
   });
 
-  it("part d'une structure vide quand aucune n'est fournie", async () => {
-    render(
-      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
+  it("reprend les concepts et composantes mutualisées déjà en cache, sans les relire", async () => {
+    const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: Infinity } } });
+    queryClient.setQueryData(["concepts"], [{ id: "k-1" }]);
+    queryClient.setQueryData(mutualizedComponentsQuery().queryKey, [
+      { id: "c-1" },
+      { id: "c-2" },
+    ] as Component[]);
+    renderComponents({}, queryClient);
+
+    expect(screen.getByTestId(DIMENSION_PROPERTY_TYPE)).toHaveTextContent(
+      "concepts:1|mutualisées:2",
     );
+    expect(ConceptsApi.getConceptList).not.toHaveBeenCalled();
+    expect(StructureApi.getMutualizedComponents).not.toHaveBeenCalled();
+  });
+
+  it("part d'une structure vide quand aucune n'est fournie", async () => {
+    renderComponents();
 
     await waitFor(() =>
       expect(screen.getByTestId(MEASURE_PROPERTY_TYPE)).toHaveTextContent("structure:(aucune)"),
@@ -87,13 +122,7 @@ describe("StructureComponents", () => {
   });
 
   it("transmet la structure en cours d'édition", async () => {
-    render(
-      <StructureComponents
-        componentDefinitions={NO_COMPONENT_DEFINITIONS}
-        onChange={onChange}
-        structure={EDITED_STRUCTURE}
-      />,
-    );
+    renderComponents({ structure: EDITED_STRUCTURE });
 
     await waitFor(() =>
       expect(screen.getByTestId(MEASURE_PROPERTY_TYPE)).toHaveTextContent("structure:str-1"),
@@ -105,9 +134,7 @@ describe("StructureComponents", () => {
       sdkRejection.json(500, { message: "Le dépôt RDF est indisponible." }),
     );
 
-    render(
-      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
-    );
+    renderComponents();
 
     await waitFor(() =>
       expect(screen.getByTestId(ATTRIBUTE_PROPERTY_TYPE)).toHaveTextContent(

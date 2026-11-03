@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { toVariableTableData } from "../physical-instances/pages/view/toVariableTableData";
 import type {
@@ -22,13 +22,17 @@ function transformVariablesToTableData(
   );
 }
 
-export function usePhysicalInstancesData(agencyId: string, id: string) {
-  const query = useQuery({
+/** Lecture d'une PhysicalInstance, partagée par le hook et les préchargements (même cache). */
+export const physicalInstanceQuery = (agencyId: string, id: string) =>
+  queryOptions({
     queryKey: ["physicalInstanceById", agencyId, id],
     // Lecture lourde de Colectica : en cache jusqu'à son éviction après une sauvegarde.
     staleTime: Infinity,
     queryFn: () => DDIApi.getPhysicalInstance(agencyId, id),
   });
+
+export function usePhysicalInstancesData(agencyId: string, id: string) {
+  const query = useQuery(physicalInstanceQuery(agencyId, id));
 
   const variables: VariableTableData[] = query.data
     ? transformVariablesToTableData(query.data, DEFAULT_LANG)

@@ -1,1 +1,1 @@
-export * from "primereact/card";
+export * from "@mantle-ui/react/card";

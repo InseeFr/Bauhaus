@@ -68,8 +68,7 @@ const initOptions = {
   interpolation: {
     escapeValue: false,
   },
-  initImmediate: false,
-  showSupportNotice: false,
+  initAsync: false,
 };
 
 export const testsI18n = i18n.createInstance();

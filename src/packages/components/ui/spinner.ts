@@ -1,1 +1,1 @@
-export * from "primereact/progressspinner";
+export * from "@mantle-ui/react/progressspinner";

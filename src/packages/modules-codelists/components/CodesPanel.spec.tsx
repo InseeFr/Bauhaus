@@ -4,13 +4,14 @@ import { ReactNode, useCallback, useState } from "react";
 import { MemoryRouter } from "react-router";
 import { vi } from "vitest";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { CodeChanges } from "../utils/code-changes";
 import { CodesPanel } from "./CodesPanel";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/codelists-api", () => ({
   CodelistsApi: {
     getCodesDetailedCodelist: vi.fn(),
     getCodelistCodes: vi.fn(),
@@ -187,6 +188,20 @@ describe("CodesPanel", () => {
     searchByLabel("Prem");
 
     expect(CodelistsApi.getCodesByCodeAndLabel).toHaveBeenCalledWith("cl1", "00", "Prem");
+  });
+
+  it("ne pose aucune classe Bootstrap sur la liste des codes", async () => {
+    await renderPanel();
+    expectNoBootstrapClass();
+  });
+
+  it("ne pose aucune classe Bootstrap sur le formulaire d'un code", async () => {
+    await renderPanel();
+
+    fireEvent.click(screen.getByRole("button", { name: "Add" }));
+
+    await screen.findByRole("complementary");
+    expectNoBootstrapClass();
   });
 
   it("ouvre le code sélectionné en modification", async () => {

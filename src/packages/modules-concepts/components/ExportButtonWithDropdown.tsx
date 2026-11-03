@@ -58,7 +58,7 @@ export const ExportButtonWithDropdown = ({
   }, [open]);
 
   return (
-    <div className="dropdown col-md-2" ref={dropdownRef} onKeyDown={onKeyDown}>
+    <div className="dropdown lg:col-2" ref={dropdownRef} onKeyDown={onKeyDown}>
       <ExportButton disabled={disabled} action={() => setOpen(!open)} />
       <div className={cx("dropdown__content", open ? "active" : "inactive")}>
         <div className="dropdown__info">

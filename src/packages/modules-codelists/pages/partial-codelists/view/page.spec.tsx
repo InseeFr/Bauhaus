@@ -8,7 +8,7 @@ const { partialCodelistSdk, unknownCodelistRouter } = await vi.hoisted(
   () => import("../../../testing/pages.testing"),
 );
 
-vi.mock("@sdk/index", (importOriginal) =>
+vi.mock("@sdk/codelists-api", (importOriginal) =>
   partialCodelistSdk(importOriginal, { id: "CL_PARENT", uri: "http://parent" }),
 );
 

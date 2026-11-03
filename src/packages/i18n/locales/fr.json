@@ -1,6 +1,7 @@
 {
   "routeError": {
-    "title": "Une erreur est survenue"
+    "title": "Une erreur est survenue",
+    "retry": "Réessayer"
   },
   "auth": {
     "login": "Se connecter",
@@ -110,6 +111,8 @@
     "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "L'opération « {{studyUnit}} » a {{count}} LogicalProducts : un seul est attendu pour ranger ses variables.",
     "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "L'opération « {{studyUnit}} » n'a pas de VariableScheme pour ranger ses variables : il doit être créé en amont.",
     "DDI_PHYSICAL_INSTANCE_NOT_FOUND": "Cette instance physique n'existe pas ou a été supprimée.",
+    "REUSE_VARIABLES_GROUP_MISMATCH": "Le groupe {{groupAgency}}/{{groupId}} n'est pas celui du fichier d'origine.",
+    "REUSE_VARIABLES_NOT_IN_SOURCE": "Ces variables ne sont pas utilisées par le fichier d'origine : {{variables}}.",
     "loading": {
       "notFound": "Cette fiche est introuvable.",
       "failed": "Impossible de charger cette fiche."

@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { ComponentProps } from "react";
 import { describe, expect, it, vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { LanguageSelect } from "./LanguageSelect";
 
 vi.mock("@utils/dictionary", () => ({
@@ -29,6 +30,11 @@ const mockIsLang2 = async (value: boolean) => {
 describe("LanguageSelect", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderLanguageSelect();
+    expectNoBootstrapClass();
   });
 
   it("should render the label and select component", () => {

@@ -1,20 +1,20 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useState, useCallback, useEffect, useMemo } from "react";
 
 import { Codelists } from "@model/Codelist";
 import { Component, ComponentDefinition } from "@model/structures/Component";
 import { Structure } from "@model/structures/Structure";
 
-import { StructureApi } from "@sdk/index";
-
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
+import { OBSERVATION } from "../constants/attachments";
 import {
-  OBSERVATION,
   ATTRIBUTE_PROPERTY_TYPE,
   ATTRIBUTE_TYPE,
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
-} from "../constants";
+} from "../constants/dsd-components";
+import { mutualizedComponentQuery } from "../hooks/queries";
 import { CodelistPanel } from "./CodelistPanel";
 import { ComponentSpecificationModal } from "./ComponentSpecificationModal";
 import { MutualizedComponentsSelector } from "./MutualizedComponentsSelector";
@@ -211,27 +211,32 @@ export const ComponentSelector = ({
     [handleUpdate],
   );
 
+  const queryClient = useQueryClient();
+
   const handleAdd = useCallback(
     (id: string) => {
       const component = mutualizedComponents.find((c) => c.identifiant === id)!;
       if (component.type === MEASURE_PROPERTY_TYPE) {
-        StructureApi.getMutualizedComponent(component.id).then((fullComponent: any) => {
-          const componentsToAdd = [component];
-          Object.keys(fullComponent)
-            .filter((key) => key.startsWith("attribute_"))
-            .forEach((iri) => {
-              const attribute = mutualizedComponents.find((c) => c.iri === fullComponent[iri]);
-              if (attribute) {
-                componentsToAdd.push(attribute);
-              }
-            });
-          addComponent(structureComponents, componentsToAdd);
-        });
+        // La fiche de la mesure porte ses attributs liés : lue depuis le cache si elle y est.
+        queryClient
+          .fetchQuery(mutualizedComponentQuery(component.id!))
+          .then((fullComponent: any) => {
+            const componentsToAdd = [component];
+            Object.keys(fullComponent)
+              .filter((key) => key.startsWith("attribute_"))
+              .forEach((iri) => {
+                const attribute = mutualizedComponents.find((c) => c.iri === fullComponent[iri]);
+                if (attribute) {
+                  componentsToAdd.push(attribute);
+                }
+              });
+            addComponent(structureComponents, componentsToAdd);
+          });
       } else {
         addComponent(structureComponents, component);
       }
     },
-    [mutualizedComponents, structureComponents, addComponent],
+    [mutualizedComponents, structureComponents, addComponent, queryClient],
   );
 
   const handleUp = useCallback(

@@ -1,40 +1,20 @@
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  useReducer,
-  useRef,
-  useMemo,
-  useCallback,
-  useEffect,
-  useState,
-  lazy,
-  Suspense,
-} from "react";
+import { useReducer, useRef, useMemo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams, useNavigate, useSearchParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 
-import { ConfirmDialog, confirmDialog } from "@components/ui/confirm-dialog";
-import { Toast } from "@components/ui/toast";
-
-import "./view.css";
-import type {
-  PhysicalInstanceUpdateData,
-  PhysicalInstanceCreationData,
-} from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
-
-const PhysicalInstanceDialog = lazy(() =>
-  import("../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog").then(
-    (module) => ({ default: module.PhysicalInstanceDialog }),
-  ),
-);
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { LoadingOverlay } from "@components/loading-overlay";
+
+import "./view.css";
+import { ConfirmDialog, confirmDialog } from "@components/ui/confirm-dialog";
+import { Toast } from "@components/ui/toast";
 
 import { formatApiErrors } from "@utils/api-errors";
 import { cx } from "@utils/cx";
 import { useNavigationBlocker } from "@utils/hooks/useNavigationBlocker";
 
 import { appI18n } from "../../../../i18n";
-import { useDuplicatePhysicalInstance } from "../../../hooks/useDuplicatePhysicalInstance";
 import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
@@ -48,6 +28,7 @@ import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
 import { DdiToast } from "../../components/DdiToast/DdiToast";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
+import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { ReuseVariableDialog } from "../../components/SharedVariable/ReuseVariableDialog";
 import { otherPhysicalInstancesByVariable } from "../../components/SharedVariable/sharedVariables";
@@ -73,7 +54,6 @@ import { viewReducer, initialState, actions, type VariableData } from "./viewRed
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const toast = useRef<Toast>(null);
   const initialRestoreDone = useRef(false);
   const [state, dispatch] = useReducer(viewReducer, initialState);
@@ -93,7 +73,6 @@ export const Component = () => {
   const currentGroup = parents?.group;
   const currentStudyUnit = parents?.studyUnit;
   const currentStamps = parents?.stamps;
-  const [duplicateDialogVisible, setDuplicateDialogVisible] = useState(false);
   const [reuseDialogVisible, setReuseDialogVisible] = useState(false);
 
   // Réutilisation de variables (#1387) : une variable utilisée par d'autres fichiers de l'étude est
@@ -122,7 +101,6 @@ export const Component = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
-  const duplicatePhysicalInstance = useDuplicatePhysicalInstance();
   const dataByLangs = usePhysicalInstanceByLangs(data);
 
   useEffect(() => {
@@ -958,68 +936,6 @@ export const Component = () => {
     [mergedVariables, handleVariableClick],
   );
 
-  // Ouvre la modale de duplication (la duplication n'est plus immédiate, cf. #1555).
-  const handleDuplicatePhysicalInstance = useCallback(() => {
-    setDuplicateDialogVisible(true);
-  }, []);
-
-  // Libellé pré-rempli = libellé courant + suffixe « (copy) » ; Groupe/Étude pré-remplis
-  // depuis les parents de la PI courante (le Groupe sera verrouillé, l'Étude modifiable).
-  const duplicateInitialData = useMemo(
-    () => ({
-      label: `${title} (copy)`,
-      group: currentGroup,
-      studyUnit: currentStudyUnit,
-    }),
-    [title, currentGroup, currentStudyUnit],
-  );
-
-  const handleConfirmDuplicate = useCallback(
-    async (formData: PhysicalInstanceCreationData) => {
-      try {
-        // La copie, son rattachement au Groupe verrouillé et à l'Étude choisie, et le rangement de
-        // ses variables sont faits par le back en un seul enregistrement.
-        const copy = await duplicatePhysicalInstance.mutateAsync({
-          agencyId: agencyId!,
-          id: id!,
-          data: {
-            physicalInstanceLabel: formData.label,
-            dataRelationshipLabel: formData.dataRelationshipLabel,
-            logicalRecordLabel: formData.logicalRecordLabel,
-            groupId: formData.group.id,
-            groupAgency: formData.group.agency,
-            studyUnitId: formData.studyUnit.id,
-            studyUnitAgency: formData.studyUnit.agency,
-          },
-        });
-
-        setDuplicateDialogVisible(false);
-        void navigate(`/ddi/physical-instances/${copy.agency}/${copy.id}`);
-
-        toast.current?.show({
-          severity: "success",
-          summary: t("physicalInstance.view.duplicateSuccess"),
-          detail: t("physicalInstance.view.duplicateSuccessDetail"),
-          life: TOAST_DURATION,
-        });
-      } catch (err) {
-        const errorMessage = formatApiErrors(
-          err,
-          appI18n,
-          t("physicalInstance.view.duplicateErrorDetail"),
-        ).join("\n");
-
-        toast.current?.show({
-          severity: "error",
-          summary: t("physicalInstance.view.duplicateError"),
-          detail: errorMessage,
-          ...errorToastTiming(),
-        });
-      }
-    },
-    [agencyId, id, duplicatePhysicalInstance, navigate, t],
-  );
-
   // Les parents (Groupe / Étude) portent les droits d'édition : sans eux, la page s'afficherait
   // d'abord en lecture seule puis changerait sous les yeux de l'utilisateur.
   if (isLoading || isLoadingParents) {
@@ -1097,7 +1013,6 @@ export const Component = () => {
           <GlobalActionsCard
             variables={filteredVariables}
             onExport={handleExport}
-            onDuplicate={handleDuplicatePhysicalInstance}
             onValidateDdi4={handleValidateDdi4}
             onRowClick={handleVariableClick}
             onDeleteClick={handleDeleteVariable}
@@ -1131,18 +1046,6 @@ export const Component = () => {
           )}
         </div>
       </div>
-
-      {duplicateDialogVisible && (
-        <Suspense fallback={null}>
-          <PhysicalInstanceDialog
-            visible={duplicateDialogVisible}
-            onHide={() => setDuplicateDialogVisible(false)}
-            mode="duplicate"
-            initialData={duplicateInitialData}
-            onSubmitDuplicate={handleConfirmDuplicate}
-          />
-        </Suspense>
-      )}
 
       {reuseDialogVisible && currentStudyUnit && (
         <ReuseVariableDialog

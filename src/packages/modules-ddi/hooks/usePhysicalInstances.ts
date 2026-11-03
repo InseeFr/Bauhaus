@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 /**
  * Ligne de la liste des PhysicalInstance (`GET /ddi/physical-instance`), telle que sérialisée

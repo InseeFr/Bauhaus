@@ -8,7 +8,6 @@ import { PhysicalInstancesDataTable } from "./PhysicalInstancesDataTable";
 interface GlobalActionsCardProps {
   variables: any[];
   onExport: (format: "DDI3" | "DDI4") => void;
-  onDuplicate?: () => void;
   /** Outil de mise au point : le bouton n'est rendu qu'en local. */
   onValidateDdi4?: () => void;
   onRowClick?: (data: any) => void;
@@ -19,14 +18,13 @@ interface GlobalActionsCardProps {
   /** Variables partagées avec d'autres fichiers de l'étude (#1387). */
   sharedVariableIds?: string[];
   selectedVariableId?: string | null;
-  /** Stamps de l'instance — gating STAMP de la duplication et des suppressions. */
+  /** Stamps de l'instance — gating STAMP des suppressions. */
   stamps?: string[];
 }
 
 export const GlobalActionsCard = ({
   variables,
   onExport,
-  onDuplicate,
   onValidateDdi4,
   onRowClick,
   onDeleteClick,
@@ -40,12 +38,7 @@ export const GlobalActionsCard = ({
 
   return (
     <Card title={t("physicalInstance.view.globalActions")}>
-      <GlobalActionToolbar
-        onExport={onExport}
-        onDuplicate={onDuplicate}
-        onValidateDdi4={onValidateDdi4}
-        stamps={stamps}
-      />
+      <GlobalActionToolbar onExport={onExport} onValidateDdi4={onValidateDdi4} />
       <PhysicalInstancesDataTable
         variables={variables}
         onRowClick={onRowClick}

@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Row } from "@components/layout";
+import { HomePageLayout } from "@components/home-page-layout";
 import { Loading } from "@components/loading";
 import { FeminineButton } from "@components/new-button";
-import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 import { VerticalMenu } from "@components/vertical-menu";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -37,24 +36,23 @@ export const Component = () => {
   }
 
   return (
-    <div className="container codelists-list">
-      <Row>
+    <HomePageLayout
+      title={t("partial-codelists.homePageTitle")}
+      menu={
         <VerticalMenu>
           <HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="CREATE">
             <FeminineButton action="/codelists/partial/create" />
           </HasAccess>
         </VerticalMenu>
-        <div className="col-md-8 text-center pull-right">
-          <PageTitle title={t("partial-codelists.homePageTitle")} col={12} offset={0} />
-          <SearchableList
-            items={items}
-            childPath="codelists/partial"
-            advancedSearch
-            searchUrl="/codelists/partial/search"
-            itemFormatter={(_: any, codelist: any) => formatLabel(codelist)}
-          />
-        </div>
-      </Row>
-    </div>
+      }
+    >
+      <SearchableList
+        items={items}
+        childPath="codelists/partial"
+        advancedSearch
+        searchUrl="/codelists/partial/search"
+        itemFormatter={(_: any, codelist: any) => formatLabel(codelist)}
+      />
+    </HomePageLayout>
   );
 };

@@ -1,19 +1,16 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 import { FilterToggleButtons } from "@components/filter-toggle-buttons";
 import { HomePageLayout } from "@components/home-page-layout";
-import { Loading } from "@components/loading";
 import { SearchableList } from "@components/searchable-list";
-
-import { Component as ComponentModel } from "@model/structures/Component";
-
-import { StructureApi } from "@sdk/index";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants";
+import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants/dsd-components";
+import { mutualizedComponentsQuery } from "../../../hooks/queries";
 import { formatLabel } from "../../../utils/formatLabel";
 import "./page.css";
 import { HomePageMenu } from "./menu";
@@ -28,9 +25,7 @@ export const Component = () => {
 
   const navigate = useNavigate();
 
-  const [items, setItems] = useState<ComponentModel[]>([]);
-
-  const [loading, setLoading] = useState(true);
+  const { data: items } = useSuspenseQuery(mutualizedComponentsQuery());
 
   const queryMode = sessionStorage.getItem(sessionStorageKey);
 
@@ -53,18 +48,6 @@ export const Component = () => {
       return filter === ALL || item?.type === filter;
     })
     .map(({ id, labelLg1, labelLg2 }) => ({ id, labelLg1, labelLg2 }));
-
-  useEffect(() => {
-    StructureApi.getMutualizedComponents()
-      .then((components: ComponentModel[]) => {
-        setItems(components);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <HomePageLayout title={t("component.homePageTitle")} menu={<HomePageMenu filter={filter} />}>

@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi } from "vitest";
 
 import { AppContextProvider } from "../../../../../application/app-context";
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { ClassificationVisualization } from "./ClassificationVisualization";
 
 vi.mock("react-i18next", async (importOriginal) =>
@@ -97,5 +98,10 @@ describe("ClassificationVisualization", () => {
     renderVisualization({ serverSideError: "Publication refusée" });
 
     expect(screen.getByText("Publication refusée")).toBeInTheDocument();
+  });
+
+  it("met le lien vers les postes en page sans classe Bootstrap", () => {
+    renderVisualization();
+    expectNoBootstrapClass();
   });
 });

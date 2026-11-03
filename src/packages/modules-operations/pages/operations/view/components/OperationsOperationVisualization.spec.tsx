@@ -45,7 +45,7 @@ describe("OperationVisualization", () => {
     const { container } = render(
       <OperationsOperationVisualization attr={operationWithMainLang} secondLang={false} />,
     );
-    expect(container.querySelectorAll(".bauhaus-grid-row:first-child .note")).toHaveLength(1);
+    expect(container.querySelectorAll(".grid:first-child .note")).toHaveLength(1);
     screen.getByText("Year : 2024");
   });
 

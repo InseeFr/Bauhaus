@@ -1,4 +1,4 @@
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 /** Valeurs d'un code telles que saisies dans le panneau d'édition. */
 export interface EditableCode {

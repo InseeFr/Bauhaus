@@ -13,6 +13,7 @@ import { PickerItem } from "@components/picker-item";
 import { filterDeburr } from "@utils/array-utils";
 
 import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
+import "./Picker.css";
 import { partialInGlobalCodes } from "../../../../utils/partialInGlobalCodes";
 
 /** Code de la liste globale, marqué selon son appartenance à la liste partielle
@@ -82,18 +83,18 @@ export const Picker = ({
   return (
     <div className="container">
       <ActionToolbar>
-        <button type="button" className="btn btn-lg col-md-4" onClick={removeAll}>
+        <button type="button" className="partial-codelist-picker-action" onClick={removeAll}>
           {t("partial-codelists.removeAllCodes")}
         </button>
-        <button type="button" className="btn btn-lg col-md-4" onClick={addAll}>
+        <button type="button" className="partial-codelist-picker-action" onClick={addAll}>
           {t("partial-codelists.addAllCodes")}
         </button>
       </ActionToolbar>
       <Row>
-        <div className="col-md-6">
+        <div className="col-12 lg:col-6">
           <Panel title={panelTitle}>{addedElements}</Panel>
         </div>
-        <div className="col-md-6 text-center">
+        <div className="col-12 lg:col-6 text-center">
           <TextInput
             value={searchLabel}
             onChange={(e) => setSearchLabel(e.target.value)}

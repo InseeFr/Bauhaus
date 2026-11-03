@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { renderQueryHook, renderQueryHookUntil } from "./queryClient.testing";
 import { usePhysicalInstances } from "./usePhysicalInstances";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     getPhysicalInstances: vi.fn(),
   },

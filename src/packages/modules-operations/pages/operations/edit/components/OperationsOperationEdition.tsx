@@ -191,8 +191,8 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
             }
           ></Series>
         )}
-        <Row className="bauhaus-row">
-          <div className="form-group">
+        <Row>
+          <div className="bauhaus-form-group col">
             <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
@@ -208,7 +208,7 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
               error={state.clientSideErrors?.fields?.prefLabelLg1}
             ></ClientSideError>
           </div>
-          <div className="form-group">
+          <div className="bauhaus-form-group col">
             <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
@@ -225,12 +225,12 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
             ></ClientSideError>
           </div>
         </Row>
-        <Row className="bauhaus-row">
-          <div className="form-group">
+        <Row>
+          <div className="bauhaus-form-group col">
             <label htmlFor="altLabelLg1">{t("app.altLabel", { lng: "fr" })}</label>
             <TextInput id="altLabelLg1" value={operation.altLabelLg1} onChange={onChange} />
           </div>
-          <div className="form-group">
+          <div className="bauhaus-form-group col">
             <label htmlFor="altLabelLg2">{t("app.altLabel", { lng: "en" })}</label>
             <TextInput id="altLabelLg2" value={operation.altLabelLg2} onChange={onChange} />
           </div>

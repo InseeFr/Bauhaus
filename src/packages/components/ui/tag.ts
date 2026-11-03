@@ -1,1 +1,1 @@
-export * from "primereact/tag";
+export * from "@mantle-ui/react/tag";

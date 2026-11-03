@@ -1,1 +1,1 @@
-export * from "primereact/splitbutton";
+export * from "@mantle-ui/react/splitbutton";

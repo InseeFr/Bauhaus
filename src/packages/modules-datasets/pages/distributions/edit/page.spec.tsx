@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
@@ -84,6 +85,11 @@ describe("Distribution Edit Page", () => {
 
       expect(screen.getByRole("button", { name: /save/i })).not.toBeNull();
       expect(screen.queryByText("Distributions")).toBeNull(); // No PageTitleBlock in creation
+    });
+
+    it("ne pose aucune classe Bootstrap", () => {
+      render(<Component />);
+      expectNoBootstrapClass();
     });
 
     it("should not disable dataset select in creation mode", () => {

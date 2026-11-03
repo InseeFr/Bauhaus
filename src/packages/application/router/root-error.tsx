@@ -10,7 +10,7 @@ import { appI18n } from "../../i18n";
 const RELOADED_AT_KEY = "bauhaus-chunk-reloaded-at";
 const RELOAD_GUARD_MS = 10_000;
 
-const isMissingChunk = (error: unknown) =>
+export const isMissingChunk = (error: unknown) =>
   error instanceof Error && error.message.startsWith("Failed to fetch dynamically imported module");
 
 /* Après un déploiement, un onglet resté ouvert réclame des chunks dont le nom a changé :

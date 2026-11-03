@@ -1,5 +1,6 @@
 import { fireEvent, screen } from "@testing-library/react";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { renderWithRouter } from "../../../../../tests/render";
 import { EquivalentLinks } from "./EquivalentLinks";
 
@@ -87,5 +88,10 @@ describe("EquivalentLinks", () => {
     expect(updateEquivalentLinks).toHaveBeenCalledWith([
       expect.objectContaining({ urn: "urn:concept:42" }),
     ]);
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderLinks();
+    expectNoBootstrapClass();
   });
 });

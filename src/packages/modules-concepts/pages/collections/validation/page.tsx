@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { Loading, Publishing } from "@components/loading";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { formatApiErrors } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";

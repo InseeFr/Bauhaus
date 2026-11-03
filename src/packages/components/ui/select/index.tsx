@@ -1,5 +1,5 @@
-import { Dropdown } from "primereact/dropdown";
-import { MultiSelect } from "primereact/multiselect";
+import { Dropdown } from "@mantle-ui/react/dropdown";
+import { MultiSelect } from "@mantle-ui/react/multiselect";
 
 import "../../label-required/index.css";
 import { cx } from "@utils/cx";

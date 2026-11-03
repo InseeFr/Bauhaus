@@ -2,6 +2,7 @@ import { useReducer, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
+import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
@@ -23,6 +24,8 @@ import { validate } from "../validation";
 
 /** Champs dont une erreur de validation du back s'affiche à côté de la saisie. */
 const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2"];
+
+const NO_CONTRIBUTORS: string[] = [];
 
 const defaultFamily: Partial<Family> = {
   prefLabelLg1: "",
@@ -53,7 +56,7 @@ interface State {
 
 type Action =
   | { type: "RESET_STATE"; payload: Family }
-  | { type: "UPDATE_FIELD"; payload: { field: string; value: string } }
+  | { type: "UPDATE_FIELD"; payload: { field: string; value: string | string[] } }
   | { type: "SET_CLIENT_ERRORS"; payload: State["clientSideErrors"] }
   | { type: "SAVE_REJECTED_BY_VALIDATION"; payload: State["clientSideErrors"] }
   | { type: "SET_SERVER_ERROR"; payload: unknown }
@@ -155,13 +158,18 @@ export const OperationsFamilyEdition = ({
   }
 
   const onChange = useCallback(
-    (target: string) => (value: string) => {
+    (target: string) => (value: string | string[]) => {
       dispatch({
         type: "UPDATE_FIELD",
         payload: { field: target, value },
       });
     },
     [],
+  );
+
+  const onContributorsChange = useCallback(
+    (values: unknown) => onChange("contributor")(values as string[]),
+    [onChange],
   );
 
   const onSubmit = useCallback(() => {
@@ -214,7 +222,7 @@ export const OperationsFamilyEdition = ({
       <ErrorBloc error={state.serverSideError} />
       <form>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
@@ -230,7 +238,7 @@ export const OperationsFamilyEdition = ({
               error={state.clientSideErrors?.fields?.prefLabelLg1}
             ></ClientSideError>
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
@@ -248,7 +256,7 @@ export const OperationsFamilyEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
             <MDEditor
               text={state.family.abstractLg1}
@@ -256,12 +264,22 @@ export const OperationsFamilyEdition = ({
               textareaProps={{ id: "abstractLg1" }}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
             <MDEditor
               text={state.family.abstractLg2}
               handleChange={(value) => onChange("abstractLg2")(value ?? "")}
               textareaProps={{ id: "abstractLg2" }}
+            />
+          </div>
+        </Row>
+        <Row>
+          <div className="col-12 bauhaus-form-group">
+            <ContributorsInput
+              multi
+              mode="organization"
+              value={state.family.contributor ?? NO_CONTRIBUTORS}
+              onChange={onContributorsChange}
             />
           </div>
         </Row>

@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { ByteSizeInput } from "./ByteSizeInput";
 
 vi.mock("react-i18next", () => ({
@@ -19,6 +20,11 @@ describe("ByteSizeInput", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    render(<ByteSizeInput value="1024" onChange={mockOnChange} />);
+    expectNoBootstrapClass();
   });
 
   it("should render the label and input with correct initial value", () => {

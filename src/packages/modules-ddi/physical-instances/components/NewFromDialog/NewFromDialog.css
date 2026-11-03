@@ -1,0 +1,125 @@
+.new-from-dialog {
+  width: 50vw;
+  font-size: 1.5rem;
+
+  .p-dialog-title {
+    font-size: 1.5rem;
+  }
+
+  /*
+   * minmax(0, 1fr) : une colonne 1fr ne descend pas sous la largeur de son contenu, et un libellé
+   * d'opération long élargirait le select jusqu'à faire défiler le dialog horizontalement. Le
+   * libellé est alors tronqué par le select.
+   */
+  .new-from-filters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  /* Même rendu que la liste de l'accueil (SearchableList) : lignes séparées, libellés en lien. */
+  .new-from-count {
+    margin: 0;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .new-from-list {
+    max-height: 40vh;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .new-from-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--surface-border, #e5e7eb);
+  }
+
+  /* Couleur des liens de l'application (styles/elements.css), sans variable à réutiliser. */
+  .new-from-list label {
+    color: #045396;
+    font-size: 14px;
+    font-weight: normal;
+    cursor: pointer;
+  }
+
+  .new-from-list label:hover {
+    text-decoration: underline;
+  }
+
+  /* Nom du fichier, puis série / opération en dessous. */
+  .new-from-source {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .new-from-parents {
+    font-size: 12px;
+    color: var(--text-color-secondary, #6c757d);
+  }
+
+  /*
+   * Le champ texte hérite de la police du dialog quand les selects gardent celle du thème :
+   * même taille pour tous, en px (la racine Bootstrap à 10px réduirait les rem).
+   */
+  .new-from-filters .p-inputtext {
+    font-size: 14px;
+  }
+
+  .new-from-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+    background: transparent;
+    border: 1px solid var(--surface-border, #dee2e6);
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--primary-color);
+    }
+  }
+
+  .new-from-card-title {
+    font-weight: bold;
+  }
+
+  .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .create-button {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+
+    &:hover {
+      background-color: var(--secondary-color);
+      border-color: var(--secondary-color);
+    }
+  }
+}
+
+@media (width <= 768px) {
+  .new-from-dialog {
+    width: 95vw;
+
+    .new-from-filters {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
