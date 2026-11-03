@@ -81,6 +81,8 @@ export const PartialCodelistDetailView = ({
     publishComponent();
   };
 
+  const contributors = [codelist.contributor ?? []].flat();
+
   return (
     <>
       {modalOpened && (
@@ -93,16 +95,16 @@ export const PartialCodelistDetailView = ({
       )}
       <ActionToolbar>
         <ReturnButton action={handleBack} />
-        <HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="PUBLISH">
+        <HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="PUBLISH" stamps={contributors}>
           <ValidationButton callback={publish} object={codelist} />
         </HasAccess>
         {updatable && (
-          <HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="UPDATE">
+          <HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="UPDATE" stamps={contributors}>
             <UpdateButton action={handleUpdate} />
           </HasAccess>
         )}
         {deletable && (
-          <HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="DELETE">
+          <HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="DELETE" stamps={contributors}>
             <DeleteButton action={handleDelete} />
           </HasAccess>
         )}
