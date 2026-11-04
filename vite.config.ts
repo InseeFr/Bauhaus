@@ -161,7 +161,7 @@ export default defineConfig(() => {
           const fs = await import("fs/promises");
 
           const packageJson = JSON.parse(
-            await fs.readFile(path.resolve(__dirname, "package.json"), "utf-8"),
+            await fs.readFile(path.resolve(import.meta.dirname, "package.json"), "utf-8"),
           );
 
           // Here you can define any arbitrary values they will be available
