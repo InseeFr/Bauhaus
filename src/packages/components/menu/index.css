@@ -50,7 +50,7 @@
 .main-menu-item:not(.disabled):hover,
 .main-menu-item.active {
   margin-left: -1px;
-  background: var(--secondary-color);
+  background: var(--menu-active-color, var(--secondary-color));
 
   &::after {
     background-color: transparent;
