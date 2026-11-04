@@ -76,7 +76,13 @@ async function isMutualized(queryClient: QueryClient, agency: string, id: string
       queryFn: () => DDIApi.getMutualizedCodeLists(),
     });
     return mutualized.some((cl) => cl.agencyId === agency && cl.id === id);
-  } catch {
+  } catch (error: unknown) {
+    // Repli volontaire (ne pas bloquer l'ouverture de la variable), mais jamais silencieux : une
+    // liste mutualisée est alors chargée en entier, ce qui doit rester visible au diagnostic.
+    console.warn(
+      `Catalogue des listes mutualisées indisponible : ${agency}/${id} chargée en entier`,
+      error,
+    );
     return false;
   }
 }

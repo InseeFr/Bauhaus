@@ -630,6 +630,40 @@ describe("DdiPreview items référencés", () => {
     expect(lastPreviewedItems()).not.toContainEqual(expect.objectContaining({ $type: "Category" }));
   });
 
+  it("ne référence qu'une liste mutualisée même quand le formulaire en porte le contenu complet", async () => {
+    mockGetMutualizedCodeListsCatalog.mockResolvedValue([
+      { id: "cl-mut", agencyId: "fr.insee", label: "Liste mutualisée" },
+    ]);
+
+    render(
+      <DdiPreview
+        {...baseProps}
+        variableType="code"
+        codeRepresentation={reusedCodeListRepresentation}
+        codeList={{
+          ...materializedCodeList,
+          Code: [
+            {
+              ID: "code-1",
+              CategoryReference: { $type: "Category", ID: "cat-1" },
+              Value: { StringValue: "1" },
+            },
+          ],
+        }}
+        categories={[{ $type: "Category", ID: "cat-1", Agency: "fr.insee", Version: "1" } as any]}
+      />,
+    );
+
+    await expectLastPreviewToContain({
+      $type: "Variable",
+      VariableRepresentation: expect.objectContaining({
+        CodeRepresentation: reusedCodeListRepresentation,
+      }),
+    });
+    expect(lastPreviewedItems()).not.toContainEqual(expect.objectContaining({ $type: "CodeList" }));
+    expect(lastPreviewedItems()).not.toContainEqual(expect.objectContaining({ $type: "Category" }));
+  });
+
   it("ne duplique pas une liste de codes déjà matérialisée dans le formulaire", async () => {
     render(
       <DdiPreview
