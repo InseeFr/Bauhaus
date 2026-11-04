@@ -23,6 +23,8 @@ interface PhysicalInstanceLabelProps {
   studyUnit?: SelectedStudyUnit;
   /** Stamps créateurs du groupe parent — gating STAMP du bouton d'édition. */
   stamps?: string[];
+  /** Parents introuvables : aucun bouton menant à une sauvegarde. */
+  readOnly?: boolean;
 }
 
 export const PhysicalInstanceLabel = ({
@@ -31,6 +33,7 @@ export const PhysicalInstanceLabel = ({
   group,
   studyUnit,
   stamps,
+  readOnly = false,
 }: Readonly<PhysicalInstanceLabelProps>) => {
   const { t } = useTranslation();
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
@@ -49,15 +52,17 @@ export const PhysicalInstanceLabel = ({
     <>
       <div className="flex align-items-center gap-2 mb-3">
         <h1 className="pi-title m-0">{label}</h1>
-        <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
-          <Button
-            icon="pi pi-pencil"
-            text
-            rounded
-            aria-label={t("physicalInstance.view.editTitle")}
-            onClick={() => setIsEditModalVisible(true)}
-          />
-        </HasAccess>
+        {!readOnly && (
+          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
+            <Button
+              icon="pi pi-pencil"
+              text
+              rounded
+              aria-label={t("physicalInstance.view.editTitle")}
+              onClick={() => setIsEditModalVisible(true)}
+            />
+          </HasAccess>
+        )}
       </div>
 
       {isEditModalVisible && (

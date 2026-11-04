@@ -36,6 +36,7 @@
       }
     },
     "view": {
+      "parentsError": "Les informations de rattachement (groupe et étude) de ce fichier n'ont pas pu être chargées. Il est affiché en lecture seule : la sauvegarde ne fonctionnerait pas. Veuillez contacter l'équipe d'administration de l'application.",
       "allTypes": "Tous types",
       "cancel": "Annuler",
       "cancelDelete": "Annuler",

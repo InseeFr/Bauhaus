@@ -36,6 +36,7 @@
       }
     },
     "view": {
+      "parentsError": "The parent information (group and study) of this file could not be loaded. It is displayed read-only: saving would not work. Please contact the application's administration team.",
       "allTypes": "All types",
       "cancel": "Cancel",
       "cancelDelete": "Cancel",

@@ -228,6 +228,8 @@ interface VariableEditFormProps {
   onClose?: () => void;
   /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
   stamps?: string[];
+  /** Parents introuvables : aucun bouton menant à une sauvegarde. */
+  readOnly?: boolean;
 }
 
 // Un en-tête d'onglet personnalisé remplace le lien que TabView rend par défaut : on lui redonne
@@ -282,6 +284,7 @@ export const VariableEditForm = ({
   hasNext = false,
   onClose,
   stamps,
+  readOnly = false,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -505,16 +508,18 @@ export const VariableEditForm = ({
     >
       <form onSubmit={handleSubmit} onBlur={commitChanges} className="flex flex-column gap-3">
         <div className="flex gap-2 justify-content-end">
-          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
-            <Button
-              type="button"
-              label={t("physicalInstance.view.duplicate")}
-              icon="pi pi-copy"
-              outlined
-              severity="secondary"
-              onClick={handleDuplicate}
-            />
-          </HasAccess>
+          {!readOnly && (
+            <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
+              <Button
+                type="button"
+                label={t("physicalInstance.view.duplicate")}
+                icon="pi pi-copy"
+                outlined
+                severity="secondary"
+                onClick={handleDuplicate}
+              />
+            </HasAccess>
+          )}
           <Button
             type="button"
             icon="pi pi-chevron-left"

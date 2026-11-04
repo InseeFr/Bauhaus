@@ -21,6 +21,8 @@ interface GlobalActionsCardProps {
   selectedVariableId?: string | null;
   /** Stamps de l'instance — gating STAMP de la duplication et des suppressions. */
   stamps?: string[];
+  /** Parents introuvables : aucun bouton menant à une sauvegarde. */
+  readOnly?: boolean;
 }
 
 export const GlobalActionsCard = ({
@@ -35,6 +37,7 @@ export const GlobalActionsCard = ({
   sharedVariableIds = [],
   selectedVariableId,
   stamps,
+  readOnly,
 }: Readonly<GlobalActionsCardProps>) => {
   const { t } = useTranslation();
 
@@ -45,6 +48,7 @@ export const GlobalActionsCard = ({
         onDuplicate={onDuplicate}
         onValidateDdi4={onValidateDdi4}
         stamps={stamps}
+        readOnly={readOnly}
       />
       <PhysicalInstancesDataTable
         variables={variables}
@@ -55,6 +59,7 @@ export const GlobalActionsCard = ({
         sharedVariableIds={sharedVariableIds}
         selectedVariableId={selectedVariableId}
         stamps={stamps}
+        readOnly={readOnly}
       />
     </Card>
   );

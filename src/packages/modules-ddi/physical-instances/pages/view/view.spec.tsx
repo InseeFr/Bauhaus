@@ -698,6 +698,70 @@ describe("View Component", () => {
     });
   });
 
+  describe("Parents request in error", () => {
+    beforeEach(() => {
+      mockUsePhysicalInstanceParents.mockReturnValue({
+        data: undefined,
+        isLoading: false,
+        isError: true,
+        error: new Error("parents unavailable"),
+      });
+    });
+
+    it("still displays the physical instance and its variables", () => {
+      renderView();
+
+      expect(
+        screen.getByRole("heading", { level: 1, name: "Test Physical Instance" }),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Variable1")).toBeInTheDocument();
+    });
+
+    it("explains that saving will not work and invites to contact the administrators", () => {
+      renderView();
+
+      expect(screen.getByText("physicalInstance.view.parentsError")).toBeInTheDocument();
+    });
+
+    it("hides every button leading to a save of the physical instance", () => {
+      renderView();
+
+      for (const label of [
+        "physicalInstance.view.saveAll",
+        "physicalInstance.view.newVariable",
+        "physicalInstance.view.reuseVariable.open",
+        "physicalInstance.view.editTitle",
+        "physicalInstance.view.delete",
+        "physicalInstance.view.duplicatePhysicalInstance",
+      ]) {
+        expect(screen.queryByLabelText(label)).not.toBeInTheDocument();
+      }
+    });
+
+    it("hides the duplicate button of the variable panel", () => {
+      renderView();
+
+      selectFirstVariable();
+
+      expect(screen.getByRole("complementary")).toBeInTheDocument();
+      expect(screen.queryByText("physicalInstance.view.duplicate")).not.toBeInTheDocument();
+    });
+
+    it("keeps the export available", () => {
+      renderView();
+
+      expect(screen.getAllByLabelText("physicalInstance.view.export").length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("Parents request succeeded", () => {
+    it("does not display the read-only message", () => {
+      renderView();
+
+      expect(screen.queryByText("physicalInstance.view.parentsError")).not.toBeInTheDocument();
+    });
+  });
+
   describe("Successful render", () => {
     it("should render the physical instance title", () => {
       renderView();
