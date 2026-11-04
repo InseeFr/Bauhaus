@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 import { Button } from "@components/buttons/button";
+import { AbstractButton, FilePlusIcon } from "@components/buttons/buttons-with-icons";
 import { ErrorBloc } from "@components/errors-bloc";
+import { Button as UiButton } from "@components/ui/button";
 import { Dialog } from "@components/ui/dialog";
 import { InputText } from "@components/ui/input-text";
 
@@ -125,7 +127,12 @@ export const CreateOperationPhysicalInstance = ({
 
   return (
     <>
-      <Button action={() => setVisible(true)} label={t("operationPhysicalInstance.new")} />
+      <AbstractButton
+        icon={<FilePlusIcon />}
+        classes={["bauhaus-btn-outline"]}
+        action={() => setVisible(true)}
+        label={t("operationPhysicalInstance.new")}
+      />
       <Dialog
         header={t("operationPhysicalInstance.title")}
         visible={visible}
@@ -170,10 +177,13 @@ export const CreateOperationPhysicalInstance = ({
               label={t("operationPhysicalInstance.cancel")}
               disabled={creation.isPending}
             />
-            <Button
+            <UiButton
               type="submit"
+              className="bauhaus-btn"
               label={t("operationPhysicalInstance.create")}
               disabled={creation.isPending || !target || !label.trim()}
+              loading={creation.isPending}
+              aria-busy={creation.isPending}
             />
           </div>
         </form>

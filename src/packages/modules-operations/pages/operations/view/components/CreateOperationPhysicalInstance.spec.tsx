@@ -168,4 +168,19 @@ describe("CreateOperationPhysicalInstance", () => {
     await screen.findByRole("alert");
     expect(screen.queryByText("page de la PI")).not.toBeInTheDocument();
   });
+
+  it("montre que la création est en cours tant que le serveur n'a pas répondu", async () => {
+    vi.mocked(DDIApi.getOperationStudyUnits).mockResolvedValue([studyUnit("su-1", "Alpha")]);
+    vi.mocked(DDIApi.postPhysicalInstance).mockReturnValue(new Promise(() => {}));
+
+    renderButton();
+    await userEvent.click(await newButton());
+    await fillLabelAndSubmit("Individus");
+
+    const createButton = screen.getByRole("button", {
+      name: testsI18n.t("operationPhysicalInstance.create"),
+    });
+    expect(createButton).toHaveAttribute("aria-busy", "true");
+    expect(createButton.querySelector(".p-button-loading-icon")).not.toBeNull();
+  });
 });

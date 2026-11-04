@@ -4,12 +4,6 @@ import { Operation } from "@model/Operation";
 
 import { MODULES, Privilege, PRIVILEGES } from "@utils/hooks/rbac-constants";
 
-vi.mock("./components/CreateOperationPhysicalInstance", () => ({
-  CreateOperationPhysicalInstance: ({ operationId }: { operationId: string }) => (
-    <button>nouveau fichier de {operationId}</button>
-  ),
-}));
-
 import {
   itHandlesSimsReportButtons,
   rbacFor,
@@ -50,14 +44,5 @@ describe("Family Home Page Menu", () => {
     await renderMenu([rbacFor(MODULES.OPERATION_OPERATION, [PRIVILEGES.UPDATE])]);
 
     screen.getByText("Update");
-  });
-
-  it("propose de créer un fichier de données de l'opération", async () => {
-    await renderMenu([rbacFor(MODULES.OPERATION_OPERATION)], {
-      id: "s1268",
-      series: { creators: [] },
-    });
-
-    screen.getByRole("button", { name: "nouveau fichier de s1268" });
   });
 });

@@ -10,6 +10,7 @@ import { Operation } from "@model/Operation";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { RelationsView } from "../../../../components/RelationsView";
+import { CreateOperationPhysicalInstance } from "./CreateOperationPhysicalInstance";
 import {
   OperationPhysicalInstance,
   OperationPhysicalInstancesLinks,
@@ -73,7 +74,11 @@ export function OperationsOperationVisualization({
         parentPath="series"
         secondLang={secondLang}
         extraLinks={(lng) => (
-          <OperationPhysicalInstancesLinks physicalInstances={physicalInstances} lng={lng} />
+          <>
+            <OperationPhysicalInstancesLinks physicalInstances={physicalInstances} lng={lng} />
+            {/* Une seule fois, dans le bloc de la première langue. */}
+            {lng === "fr" && attr.id && <CreateOperationPhysicalInstance operationId={attr.id} />}
+          </>
         )}
       />
     </>

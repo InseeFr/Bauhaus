@@ -5,6 +5,12 @@ import { Operation } from "@model/Operation";
 
 import { OperationsOperationVisualization } from "./OperationsOperationVisualization";
 
+vi.mock("./CreateOperationPhysicalInstance", () => ({
+  CreateOperationPhysicalInstance: ({ operationId }: { operationId: string }) => (
+    <button>nouveau fichier de {operationId}</button>
+  ),
+}));
+
 vi.mock("react-i18next", () => {
   const translations: Record<string, string> = {
     "common.operationsTitle": "Operations",
@@ -75,5 +81,20 @@ describe("OperationVisualization", () => {
       "href",
       "/ddi/physical-instances/fr.insee/pi-1",
     );
+  });
+
+  it("propose de créer un fichier de données depuis le bloc des liens", () => {
+    render(
+      <MemoryRouter>
+        <OperationsOperationVisualization
+          attr={operationWithId}
+          secondLang={false}
+          physicalInstances={physicalInstances}
+        />
+      </MemoryRouter>,
+    );
+
+    const linksBlock = screen.getByText("app.linksTitle").closest(".note") as HTMLElement;
+    within(linksBlock).getByRole("button", { name: "nouveau fichier de s1234" });
   });
 });
