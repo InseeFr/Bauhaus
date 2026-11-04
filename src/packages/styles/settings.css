@@ -18,6 +18,7 @@ body {
 .operations {
   --primary-color: #580d3f;
   --secondary-color: #4b0034;
+
   /* Le secondaire est trop proche du fond du menu (contraste 1,1) : l'onglet courant
      s'éclaircit à la place, en gardant un texte blanc lisible (5,8:1). */
   --menu-active-color: #a3427f;
