@@ -12,6 +12,8 @@ const api = {
   getOperationPhysicalInstances: (operationId: string) => [
     `operation/${operationId}/physical-instances`,
   ],
+  // Études miroirs de l'opération, chacune avec le groupe (série) qui la classe.
+  getOperationStudyUnits: (operationId: string) => [`operation/${operationId}/study-units`],
   getPhysicalInstanceParents: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id + "/parents",
   ],

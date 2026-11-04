@@ -168,5 +168,13 @@
     "requiredFile": "The file is required",
     "requiredUpdatedDate": "The update date is required",
     "wrongFileName": "The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols"
+  },
+  "operationPhysicalInstance": {
+    "new": "New data file",
+    "title": "Create a data file for the operation",
+    "label": "Label",
+    "studyUnit": "Study",
+    "create": "Create",
+    "cancel": "Cancel"
   }
 }

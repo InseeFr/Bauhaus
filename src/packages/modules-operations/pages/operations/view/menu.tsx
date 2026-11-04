@@ -10,6 +10,7 @@ import { Operation } from "@model/Operation";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { HasAccess } from "../../../../auth/components/auth";
+import { CreateOperationPhysicalInstance } from "./components/CreateOperationPhysicalInstance";
 
 interface MenuTypes {
   operation: Operation;
@@ -45,6 +46,7 @@ export const Menu = ({ operation, onPublish }: Readonly<MenuTypes>) => {
       <HasAccess module="OPERATION_OPERATION" privilege="UPDATE" stamps={operation.series.creators}>
         <UpdateButton action={`/operations/operation/${operation.id}/modify`} />
       </HasAccess>
+      <CreateOperationPhysicalInstance operationId={operation.id} />
     </ActionToolbar>
   );
 };
