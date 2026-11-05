@@ -1,11 +1,20 @@
 name: Playwright Tests
 
-# Tests de bout en bout contre un Back-Office et un GraphDB réels. La pile vit
-# ici, propre à Bauhaus : checkout du Back-Office, GraphDB, fixtures, puis le
-# back — dont les vérifications de démarrage échouent pour de bon tant que les
-# dépôts RDF n'existent pas, d'où son lancement après les fixtures. Playwright
-# lui-même (install, navigateurs, rapport) est l'action partagée de
-# InseeFr/rmes-githubactions-commons.
+# Tests de bout en bout contre un Back-Office et une base RDF réels, sur les deux
+# bases que le Back-Office sait servir : GraphDB (celle de la prod) et Fuseki
+# (fr.insee.rmes.rdf.backend=fuseki). Une ligne de matrice par base, sans
+# fail-fast : un écart propre à l'une ne doit pas masquer le résultat de l'autre.
+#
+# La pile vit ici, propre à Bauhaus, et se monte par scripts/e2e-stack.sh, le
+# même script qu'en local (RDF_BACKEND choisit la base) : base RDF et minio,
+# fixtures, puis le back — dont les vérifications de démarrage échouent pour de
+# bon tant que les dépôts RDF n'existent pas. Playwright lui-même (install,
+# navigateurs, rapport) est l'action partagée de InseeFr/rmes-githubactions-commons.
+#
+# Déclencheurs : chaque pull request, un lancement manuel, et une passe
+# nocturne sur la branche par défaut, qui attrape ce qui casse sans pull
+# request (Back-Office modifié seul, image de base RDF, dépendances). Chaque
+# ligne publie son rapport HTML en artefact (playwright-report-<base>).
 #
 # Branche du Back-Office : par défaut celle qui porte le même nom que la branche
 # du front, sinon la branche par défaut du Back-Office. Un lancement manuel peut
@@ -15,6 +24,10 @@ name: Playwright Tests
 on:
   pull_request:
     branches: [main, master]
+  schedule:
+    # Toutes les nuits, 3 h UTC. GitHub suspend les cron d'un dépôt resté
+    # 60 jours sans activité.
+    - cron: "0 3 * * *"
   workflow_dispatch:
     inputs:
       back-office-repository:
@@ -28,8 +41,17 @@ on:
 
 jobs:
   playwright:
+    name: playwright (${{ matrix.rdf-backend }})
     timeout-minutes: 45
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rdf-backend: graphdb
+            compose-file: docker-compose.yml
+          - rdf-backend: fuseki
+            compose-file: compose-fuseki.yaml
     # Lecture seule : le job clone ce dépôt et le Back-Office, tous deux publics.
     permissions:
       contents: read
@@ -39,13 +61,11 @@ jobs:
       # par init.sh (fixtures RDF). Absolu : chacun le lirait sinon depuis son
       # propre répertoire.
       BACK_OFFICE_HOME: ${{ github.workspace }}/bauhaus-back-office
-      # Le compose racine (démo avec Keycloak), puis la surcharge e2e (back sans
-      # Keycloak), la même qu'en local.
-      COMPOSE_FILES: -f docker-compose.yml -f e2e/compose.e2e.yaml
-      BACK_SERVICE: api
-      GRAPHDB_URL: http://localhost:7200
-      READY_URL: http://localhost:8080/api/init
-      STARTUP_TIMEOUT: 300
+      # Lu par scripts/e2e-stack.sh, puis par init.sh qu'il lance.
+      RDF_BACKEND: ${{ matrix.rdf-backend }}
+      # Les fichiers compose qu'e2e-stack.sh choisit pour cette base, repris
+      # ici pour lire les journaux en cas d'échec.
+      COMPOSE_FILES: -f ${{ matrix.compose-file }} -f e2e/compose.e2e.yaml
     steps:
       - uses: actions/checkout@v7
 
@@ -82,7 +102,7 @@ jobs:
             echo "::notice::pas de branche $FRONT_BRANCH sur $REPOSITORY : tests contre sa branche par défaut, $ref"
           fi
           echo "ref=$ref" >> "$GITHUB_OUTPUT"
-          echo "Back-Office : \`$REPOSITORY@$ref\` ($origin)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Back-Office : \`$REPOSITORY@$ref\` ($origin), base RDF : $RDF_BACKEND" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Checkout du Back-Office
         uses: actions/checkout@v7
@@ -91,29 +111,17 @@ jobs:
           ref: ${{ steps.ref.outputs.ref }}
           path: ${{ env.BACK_OFFICE_PATH }}
 
-      - name: Démarrage de GraphDB et minio
-        run: |
-          set -euo pipefail
-          # Keycloak et l'IHM du compose ne servent pas ici : on nomme les services.
-          docker compose $COMPOSE_FILES up -d graphdb minio minio-init
-          timeout "$STARTUP_TIMEOUT" bash -c 'until curl -sf "$0/rest/repositories" > /dev/null; do sleep 5; done' "$GRAPHDB_URL"
+      - name: Démarrage de la pile (base RDF, minio, fixtures, Back-Office)
+        run: ./scripts/e2e-stack.sh
 
-      - name: Chargement des données de test
-        working-directory: e2e
-        run: ./playwright/db/init.sh
-
-      - name: Démarrage du Back-Office
-        run: |
-          set -euo pipefail
-          docker compose $COMPOSE_FILES up -d "$BACK_SERVICE"
-          if ! timeout "$STARTUP_TIMEOUT" bash -c 'until curl -sf "$0" > /dev/null; do sleep 5; done' "$READY_URL"; then
-            echo "::error::le Back-Office n'a pas répondu sur $READY_URL en $STARTUP_TIMEOUT s"
-            docker compose $COMPOSE_FILES logs "$BACK_SERVICE"
-            exit 1
-          fi
+      - name: Journaux de la pile
+        if: failure()
+        run: docker compose $COMPOSE_FILES logs --no-color
 
       - uses: InseeFr/rmes-githubactions-commons/.github/actions/playwright@main
         with:
           working-directory: e2e
           e2e-install-command: npm ci
           browsers: chromium
+          # Un artefact par ligne de matrice : deux envois du même nom échouent.
+          report-name: playwright-report-${{ matrix.rdf-backend }}
