@@ -1,5 +1,6 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 
 import { MetadataStructure } from "@model/Sims";
 
@@ -24,6 +25,18 @@ export const MSDLayout = ({
   const { t } = useTranslation();
 
   const [status, changeStatus] = useLayout();
+
+  // Un seul défilement par changement d'ancre : posé dans chaque bloc du sommaire, il était
+  // relancé autant de fois que de blocs dépliés, les animations s'interrompant les unes les autres.
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) return;
+    const id = decodeURIComponent(hash.slice(1));
+    requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }, [hash]);
 
   const changeStatusToBoth = () => changeStatus(Status.BOTH);
   const changeStatusToContent = () => changeStatus(Status.CONTENT);

@@ -9,6 +9,7 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { useOrganizations } from "@utils/hooks/organizations";
 
+import { usePrefetchGeographies } from "../../../hooks/useAllGeographies";
 import { useCodelists } from "../../../hooks/useCodelists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { usePublishSims, useSims } from "../../../hooks/useSims";
@@ -76,6 +77,9 @@ export const Component = () => {
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
 
   const { codelists } = useCodelists(metadataStructure);
+
+  // Lecture lente, attendue par le formulaire de modification : lancée dès la consultation.
+  usePrefetchGeographies();
 
   const { isLoading: simsLoading, sims, error: simsError } = useSims(id);
 

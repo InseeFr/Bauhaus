@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { getItem, setItem } from "@utils/localStorage";
@@ -30,14 +31,16 @@ const metadataStructure = {
 
 const renderLayout = () =>
   render(
-    <MSDLayout
-      metadataStructure={metadataStructure}
-      storeCollapseState={false}
-      baseUrl="/operations/sims"
-      disableSectionAnchor={false}
-    >
-      <p>contenu du rapport</p>
-    </MSDLayout>,
+    <MemoryRouter>
+      <MSDLayout
+        metadataStructure={metadataStructure}
+        storeCollapseState={false}
+        baseUrl="/operations/sims"
+        disableSectionAnchor={false}
+      >
+        <p>contenu du rapport</p>
+      </MSDLayout>
+    </MemoryRouter>,
   );
 
 // Les deux panneaux se distinguent par leur classe : le libellé du sommaire est aussi

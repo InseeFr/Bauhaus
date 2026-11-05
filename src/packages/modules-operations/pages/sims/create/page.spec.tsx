@@ -30,8 +30,9 @@ const useSims = vi.fn();
 const saveSimsMutation = vi.fn();
 const goBack = vi.fn();
 vi.mock("../../../hooks/useMetadataStructure");
+const useCodelists = vi.fn();
 vi.mock("../../../hooks/useCodelists", () => ({
-  useCodelists: () => ({ codelists: {} }),
+  useCodelists: () => useCodelists(),
 }));
 vi.mock("../../../hooks/useSims", () => ({
   useSims: (id?: string) => useSims(id),
@@ -105,6 +106,7 @@ describe("Sims create page", () => {
     };
     mockMetadataStructure({ loaded: true });
     useSims.mockReturnValue({ isLoading: false, sims: undefined });
+    useCodelists.mockReturnValue({ isLoading: false, codelists: {} });
     vi.mocked(OperationsApi.getSerie).mockResolvedValue({
       id: "parent-1",
       prefLabelLg1: "Série FR",
@@ -187,6 +189,16 @@ describe("Sims create page", () => {
 
     await waitFor(() => expect(OperationsApi.getSerie).toHaveBeenCalled());
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+  });
+
+  // Sinon toutes les rubriques se ré-affichent à leur arrivée, en plein défilement.
+  it("affiche le chargement tant que les listes de codes ne sont pas là", async () => {
+    useCodelists.mockReturnValue({ isLoading: true, codelists: {} });
+    renderPage();
+
+    await waitFor(() => expect(OperationsApi.getSerie).toHaveBeenCalled());
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expect(screen.queryByText("mode:CREATE")).not.toBeInTheDocument();
   });
 
   it("affiche le chargement tant que le rapport à modifier n'est pas là", async () => {

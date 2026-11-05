@@ -2,6 +2,7 @@ import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useCallback } from "react";
 
+import { GeographieApi } from "@sdk/geographie";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { expectItemNotFound } from "../../../../tests/loading-error.testing";
@@ -13,6 +14,8 @@ import { Component } from "./page";
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getOwners: vi.fn(), exportSims: vi.fn() },
 }));
+
+vi.mock("@sdk/geographie", () => ({ GeographieApi: { getAll: vi.fn() } }));
 
 const useSims = vi.fn();
 const publishSimsMutation = vi.fn();
@@ -66,6 +69,14 @@ describe("Sims view page", () => {
     useSims.mockReturnValue({ isLoading: false, sims: { id: "sims-1", labelLg1: "Rapport" } });
     vi.mocked(OperationsApi.getOwners).mockResolvedValue([{ id: "owner-1" }]);
     vi.mocked(OperationsApi.exportSims).mockResolvedValue(new Set(["doc-1"]));
+    vi.mocked(GeographieApi.getAll).mockResolvedValue([]);
+  });
+
+  // Leur lecture est lente : le formulaire de modification les trouve ainsi déjà en cache.
+  it("précharge les territoires pendant la consultation du rapport", async () => {
+    renderPage();
+
+    await waitFor(() => expect(GeographieApi.getAll).toHaveBeenCalledTimes(1));
   });
 
   it("affiche le chargement tant que la structure de métadonnées n'est pas là", () => {
