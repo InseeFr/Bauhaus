@@ -130,3 +130,44 @@
   margin-left: 0.5rem;
   color: var(--orange-500, #f59e0b);
 }
+
+/* Toolbar (search, type filter, actions): wraps instead of overflowing the
+   viewport on narrow screens. Fields keep a usable minimum width and the
+   button labels stay on one line. */
+.pi-search-filters > .pi-search-field {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.pi-search-filters > .p-button {
+  white-space: nowrap;
+}
+
+/* Action row at the top of the variable panel. */
+.variable-edit-sidebar .pi-variable-actions {
+  flex-wrap: wrap;
+}
+
+/* Mobile: no room for a side-by-side split. The variable panel takes the
+   whole width and replaces the list until it is closed. */
+@media (width < 768px) {
+  .pi-layout,
+  .pi-layout.pi-open {
+    grid-template-columns: 1fr;
+    transition: none;
+  }
+
+  .pi-layout.pi-open .pi-col-main {
+    display: none;
+  }
+
+  .variable-edit-sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .pi-search-filters > .p-button {
+    flex: 1 1 auto;
+  }
+}

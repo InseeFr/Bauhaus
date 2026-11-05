@@ -478,7 +478,7 @@ export const VariableEditForm = ({
       className="h-full"
     >
       <form onSubmit={handleSubmit} onBlur={commitChanges} className="flex flex-column gap-3">
-        <div className="flex gap-2 justify-content-end">
+        <div className="pi-variable-actions flex gap-2 justify-content-end">
           <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
             <Button
               type="button"
