@@ -1,16 +1,68 @@
+/*
+ * Boutons PrimeReact aux dimensions des anciens `btn btn-lg` de Bootstrap.
+ * Le thème vit dans `@layer primereact` : ces règles non calquées l'emportent
+ * quelle que soit leur spécificité. Les tailles sont en px parce que Bootstrap
+ * fixe la racine à 10px, ce qui réduirait les `rem` du thème.
+ */
 .bauhaus-btn {
-  background-color: var(--primary-color);
-  color: white;
+  /* Contenu aligné à gauche : dans une pile de boutons, les icônes restent sur la même verticale. */
+  justify-content: flex-start;
+  gap: 0.5em;
   width: 100%;
   margin-bottom: 0.5em;
+  padding: 10px 16px;
+  border-color: var(--primary-color);
+  border-radius: 6px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 18px;
+  line-height: 1.3333;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.bauhaus-btn > svg {
+  flex: none;
 }
 
 .bauhaus-btn:hover {
   color: white;
+  text-decoration: none;
 }
 
 .bauhaus-btn:focus,
 .bauhaus-btn:hover:not([disabled]) {
+  border-color: var(--secondary-color);
   background-color: var(--secondary-color);
   color: white;
+}
+
+.bauhaus-btn:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+/* Boutons icône seule, aux dimensions des anciens `btn btn-default`. */
+.bauhaus-icon-btn {
+  width: auto;
+  padding: 6px 12px;
+  border-color: #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.4286;
+}
+
+.bauhaus-icon-btn:not(:disabled):hover {
+  border-color: #adadad;
+  background-color: #e6e6e6;
+  color: #333;
+}
+
+.bauhaus-icon-btn:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  box-shadow: none;
 }

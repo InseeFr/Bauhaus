@@ -1,0 +1,52 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { fireEvent, screen } from "@testing-library/react";
+import { PropsWithChildren } from "react";
+import { I18nextProvider } from "react-i18next";
+import { MemoryRouter } from "react-router";
+
+import { AppContextProvider } from "../../application/app-context";
+import { operationsI18n } from "../i18n";
+
+const NO_PROPERTIES = {} as any;
+
+/** Contexte complet d'un formulaire d'édition des opérations : i18n réelle, routeur, contexte applicatif. */
+export const EditionProviders = ({ children }: PropsWithChildren) => (
+  <I18nextProvider i18n={operationsI18n}>
+    <MemoryRouter>
+      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
+        {children}
+      </AppContextProvider>
+    </MemoryRouter>
+  </I18nextProvider>
+);
+
+/**
+ * Même contexte, sous le client React Query donné : le test peut observer le cache que le
+ * formulaire périme à l'enregistrement.
+ */
+export const editionProvidersWith =
+  (queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })) =>
+  ({ children }: PropsWithChildren) => (
+    <QueryClientProvider client={queryClient}>
+      <EditionProviders>{children}</EditionProviders>
+    </QueryClientProvider>
+  );
+
+// Le libellé est tantôt le parent direct de la liste, tantôt son voisin dans le
+// groupe de champs : on retient celui des deux qui la contient.
+export const fieldLabelled = (label: string | RegExp) => {
+  const node = screen.getByText(label);
+  const holder = [node.closest("label"), node.closest(".form-group")].find((el) =>
+    el?.querySelector(".p-dropdown, .p-multiselect"),
+  )!;
+  return holder.querySelector<HTMLElement>(".p-dropdown, .p-multiselect")!;
+};
+
+// Une liste PrimeReact s'ouvre au clic sur son champ et pose son panneau en fin
+// de document ; le clic suivant hors du panneau le referme.
+export const chooseIn = (label: string | RegExp, option: string) => {
+  fireEvent.click(fieldLabelled(label));
+  const items = screen.getAllByText(option);
+  fireEvent.click(items.at(-1)!);
+  fireEvent.mouseDown(document.body);
+};

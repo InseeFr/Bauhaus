@@ -41,18 +41,27 @@ vi.mock("../menu", () => ({
   ),
 }));
 
-describe("CollectionVisualization — validationState prop forwarded to Menu", () => {
-  const renderWith = (validationState: ValidationState) =>
-    render(
-      <CollectionVisualization
-        id="1"
-        general={{ id: "1", prefLabelLg1: "label", creator: "", validationState }}
-        members={[]}
-        validateCollection={vi.fn()}
-        secondLang={false}
-      />,
-    );
+const NO_MEMBERS: never[] = [];
 
+const aGeneral = (validationState: ValidationState) => ({
+  id: "1",
+  prefLabelLg1: "label",
+  creator: "",
+  validationState,
+});
+
+const renderWith = (validationState: ValidationState) =>
+  render(
+    <CollectionVisualization
+      id="1"
+      general={aGeneral(validationState)}
+      members={NO_MEMBERS}
+      validateCollection={vi.fn()}
+      secondLang={false}
+    />,
+  );
+
+describe("CollectionVisualization — validationState prop forwarded to Menu", () => {
   it("forwards Validated when general.validationState is Validated", () => {
     renderWith(VALIDATED);
     expect(screen.getByTestId("menu").dataset.validationstate).toBe("Validated");

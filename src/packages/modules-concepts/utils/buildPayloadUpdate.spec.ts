@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { CLOSE_MATCH, NARROWER, VERSIONING } from "@sdk/constants";
+import { CLOSE_MATCH, NARROWER, REFERENCES, SUCCEED, VERSIONING } from "@sdk/constants";
 
 import { buildPayloadUpdate } from "./buildPayloadUpdate";
 
@@ -47,12 +47,29 @@ describe("buildPayloadUpdate", () => {
   it("regroupe les concepts liés par type de lien", () => {
     const payload = build({
       conceptsWithLinks: [
-        { id: "c2", typeOfLink: NARROWER },
-        { id: "c3", typeOfLink: NARROWER },
+        { id: "c2", typesOfLink: [NARROWER] },
+        { id: "c3", typesOfLink: [NARROWER] },
       ],
     }) as any;
 
     expect(payload.links).toEqual([{ typeOfLink: NARROWER, ids: ["c2", "c3"] }]);
+  });
+
+  it("envoie un concept lié par plusieurs types sous chacun d'eux", () => {
+    const payload = build({
+      conceptsWithLinks: [{ id: "c2", typesOfLink: [REFERENCES, SUCCEED] }],
+    }) as any;
+
+    expect(payload.links).toEqual([
+      { typeOfLink: REFERENCES, ids: ["c2"] },
+      { typeOfLink: SUCCEED, ids: ["c2"] },
+    ]);
+  });
+
+  it("n'envoie pas les concepts sans lien", () => {
+    const payload = build({ conceptsWithLinks: [{ id: "c2", typesOfLink: [] }] }) as any;
+
+    expect(payload.links).toEqual([]);
   });
 
   it("rassemble les liens d'équivalence en une seule entrée closeMatch", () => {

@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { type ChangeEvent, useCallback } from "react";
 import { describe, it, expect, vi } from "vitest";
 
 import { VariableInformationTab } from "./VariableInformationTab";
@@ -24,14 +25,20 @@ vi.mock("primereact/inputtext", () => ({
 }));
 
 vi.mock("@components/rich-editor/react-md-editor", () => ({
-  MDEditor: ({ text, handleChange }: any) => (
-    <textarea
-      id="variable-description"
-      value={text}
-      onChange={(e) => handleChange(e.target.value)}
-      aria-label="Description"
-    />
-  ),
+  MDEditor: ({ text, handleChange }: any) => {
+    const onChange = useCallback(
+      (e: ChangeEvent<HTMLTextAreaElement>) => handleChange(e.target.value),
+      [handleChange],
+    );
+    return (
+      <textarea
+        id="variable-description"
+        value={text}
+        onChange={onChange}
+        aria-label="Description"
+      />
+    );
+  },
 }));
 
 describe("VariableInformationTab", () => {

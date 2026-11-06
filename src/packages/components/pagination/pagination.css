@@ -56,3 +56,12 @@
 .wilco-pagination li > *.disabled {
   color: lightgrey;
 }
+
+/* Anciens `pull-left` / `pull-right` de Bootstrap : taille de page à gauche, pages à droite. */
+.bauhaus-pagination-size {
+  float: left;
+}
+
+.bauhaus-pagination-pages {
+  float: right;
+}

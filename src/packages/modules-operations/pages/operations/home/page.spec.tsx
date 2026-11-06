@@ -1,30 +1,34 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { screen } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import {
+  expectEmptyList,
+  expectListSortedByLabel,
+  expectLoading,
+  renderAtRoute,
+} from "../../page.testing";
 import { Component } from "./page";
 
-vi.mock("@sdk/operations-api", () => ({ OperationsApi: { getOperationsList: vi.fn() } }));
+vi.mock("@sdk/operations-api");
 
-vi.mock("./components/OperationsHome", () => ({
-  OperationsHome: ({ operations }: any) => (
-    <ul>
-      {operations.map((operation: any) => (
-        <li key={operation.id}>{operation.label}</li>
-      ))}
-    </ul>
-  ),
-}));
+vi.mock("./components/OperationsHome", async () => {
+  const { LabelList } = await import("../../page.testing");
+  return { OperationsHome: ({ operations }: any) => <LabelList items={operations} /> };
+});
+
+const renderPage = () => renderAtRoute(<Component />, "/operations", "/operations");
 
 describe("Operations home page", () => {
   beforeEach(() => vi.clearAllMocks());
 
   it("affiche le chargement tant que la liste n'est pas là", () => {
     vi.mocked(OperationsApi.getOperationsList).mockReturnValue(new Promise(() => {}));
-    render(<Component />);
+    renderPage();
 
-    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expectLoading();
   });
 
   it("trie les opérations par libellé", async () => {
@@ -32,17 +36,23 @@ describe("Operations home page", () => {
       { id: "o-2", label: "Zèbre" },
       { id: "o-1", label: "Abeille" },
     ]);
-    render(<Component />);
+    renderPage();
 
-    await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));
-    expect(screen.getAllByRole("listitem")[0]).toHaveTextContent("Abeille");
+    await expectListSortedByLabel();
   });
 
   it("affiche une liste vide quand il n'y a aucune opération", async () => {
     vi.mocked(OperationsApi.getOperationsList).mockResolvedValue([]);
-    render(<Component />);
+    renderPage();
 
-    await waitFor(() => expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument());
+    await expectEmptyList();
+  });
+
+  it("affiche l'échec de chargement de la liste au lieu d'une liste vide", async () => {
+    vi.mocked(OperationsApi.getOperationsList).mockRejectedValue(sdkRejection.emptyBody(500));
+    renderPage();
+
+    await expectItemLoadFailed();
     expect(screen.queryAllByRole("listitem")).toHaveLength(0);
   });
 });

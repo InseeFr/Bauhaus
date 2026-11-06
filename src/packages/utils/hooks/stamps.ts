@@ -5,6 +5,8 @@ import { StampsApi, V2Api } from "@sdk/index";
 export const useStamps = () =>
   useQuery({
     queryKey: ["stamps"],
+    // Référentiel stable en cours de session : lu une seule fois.
+    staleTime: Infinity,
     queryFn: () => {
       return StampsApi.getStamps() as Promise<string[]>;
     },
@@ -13,6 +15,8 @@ export const useStamps = () =>
 export const useV2Stamps = () =>
   useQuery({
     queryKey: ["v2-stamps"],
+    // Référentiel stable en cours de session : lu une seule fois.
+    staleTime: Infinity,
     queryFn: () => {
       return V2Api.getStamps() as Promise<{ stamp: string; label: string }[]>;
     },

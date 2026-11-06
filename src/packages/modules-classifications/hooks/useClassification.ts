@@ -7,6 +7,7 @@ export const useClassification = (id: string) => {
     isLoading,
     status,
     data: classification,
+    error,
   } = useQuery({
     queryKey: ["classifications", id],
     queryFn: () => {
@@ -19,5 +20,5 @@ export const useClassification = (id: string) => {
     },
   });
 
-  return { isLoading, classification, status };
+  return { isLoading, classification, status, error };
 };

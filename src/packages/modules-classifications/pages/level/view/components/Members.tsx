@@ -51,8 +51,6 @@ export const Members = ({ members, classificationId, secondLang }: Props) => {
             <SearchableList
               items={membersLg2}
               childPath={`classifications/classification/${classificationId}/item`}
-              col={12}
-              colOff={0}
             />
           }
           title={t("level.childrenItems", { lng: "en" })}

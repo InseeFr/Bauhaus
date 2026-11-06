@@ -1,9 +1,11 @@
-import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
+import { Button } from "@components/ui/button";
+import { Dropdown } from "@components/ui/dropdown";
+import { InputText } from "@components/ui/input-text";
+
+import { NUMERIC_TYPE_VOCABULARY_URI } from "../../constants";
 import type { NumericRepresentation as NumericRepresentationType } from "../../types/api";
 
 interface NumericRepresentationProps {
@@ -31,7 +33,7 @@ export const NumericRepresentation = ({
     n === undefined || n === null ? "" : String(n);
 
   const [numericTypeCode, setNumericTypeCode] = useState(
-    representation?.NumericTypeCode || "Integer",
+    representation?.NumericTypeCode?.StringValue || "Integer",
   );
   const [minValue, setMinValue] = useState(formatNumber(representation?.NumberRange?.Low?.value));
   const [maxValue, setMaxValue] = useState(formatNumber(representation?.NumberRange?.High?.value));
@@ -39,7 +41,7 @@ export const NumericRepresentation = ({
   const [hasMax, setHasMax] = useState(!!representation?.NumberRange?.High);
 
   useEffect(() => {
-    setNumericTypeCode(representation?.NumericTypeCode || "Integer");
+    setNumericTypeCode(representation?.NumericTypeCode?.StringValue || "Integer");
     setMinValue(formatNumber(representation?.NumberRange?.Low?.value));
     setMaxValue(formatNumber(representation?.NumberRange?.High?.value));
     setHasMin(!!representation?.NumberRange?.Low);
@@ -62,7 +64,10 @@ export const NumericRepresentation = ({
 
     const newRepresentation: NumericRepresentationType = {
       $type: "NumericRepresentationBaseType",
-      NumericTypeCode: numericTypeCode,
+      NumericTypeCode: {
+        StringValue: numericTypeCode,
+        ControlledVocabularyURI: NUMERIC_TYPE_VOCABULARY_URI,
+      },
       ...(Object.keys(numberRange).length > 0 && { NumberRange: numberRange }),
     };
 

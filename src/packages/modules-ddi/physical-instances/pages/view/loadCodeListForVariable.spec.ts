@@ -1,10 +1,10 @@
-import { QueryClient } from "@tanstack/react-query";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
 import { envelope } from "../../types/ddi4Items.testing";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
+import { newQueryClient } from "./queryClient.testing";
 
 vi.mock("../../../../sdk", () => ({
   DDIApi: {
@@ -12,8 +12,6 @@ vi.mock("../../../../sdk", () => ({
     getMutualizedCodeLists: vi.fn(),
   },
 }));
-
-const newQueryClient = () => new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
 describe("loadCodeListForVariable", () => {
   beforeEach(() => {
@@ -111,6 +109,25 @@ describe("loadCodeListForVariable", () => {
       );
 
       expect(result.codeList?.ID).toBe("mut-1");
+    });
+
+    it("reports the catalog failure instead of falling back silently", async () => {
+      using warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      const failure = { message: "", status: 500 };
+      vi.mocked(DDIApi.getMutualizedCodeLists).mockRejectedValue(failure);
+      vi.mocked(DDIApi.getMutualizedCodeList).mockResolvedValue(
+        envelope({
+          CodeList: [{ $type: "CodeList", Agency: "fr.insee", ID: "mut-1" }],
+        } as any) as any,
+      );
+
+      await loadCodeListForVariable(
+        newQueryClient(),
+        { CodeListReference: { Agency: "fr.insee", ID: "mut-1", Version: "1" } } as any,
+        { skipMutualized: true },
+      );
+
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("fr.insee/mut-1"), failure);
     });
 
     it("still loads the full content of a list that is not mutualized", async () => {

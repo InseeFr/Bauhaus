@@ -58,6 +58,14 @@ const pickOption = async (label: string, option: string) => {
   fireEvent.click(await screen.findByText(option));
 };
 
+const expectPickedOptionStored = async (label: string, option: string, expected: object) => {
+  const { setEditingDataset } = renderPanel({});
+
+  await pickOption(label, option);
+
+  await waitFor(() => expect(setEditingDataset).toHaveBeenCalledWith(expected));
+};
+
 describe("Dataset statistical information panel", () => {
   beforeEach(() => {
     (fetchCodelist as Mock).mockImplementation((notation: string) =>
@@ -104,24 +112,16 @@ describe("Dataset statistical information panel", () => {
     ["Data type", "Microdonnées", "type", "http://type/micro"],
     ["Temporal resolution", "Annuelle", "temporalResolution", "http://freq/A"],
     ["Spatial area covered", "France", "spacialCoverage", "http://geo/france"],
-  ])("stores the %s picked from its codelist", async (label, option, field, value) => {
-    const { setEditingDataset } = renderPanel({});
-
-    await pickOption(label, option);
-
-    await waitFor(() => expect(setEditingDataset).toHaveBeenCalledWith({ [field]: value }));
-  });
+  ])("stores the %s picked from its codelist", (label, option, field, value) =>
+    expectPickedOptionStored(label, option, { [field]: value }),
+  );
 
   it.each([
     ["Statistical units", "Ménage", "statisticalUnit", "http://unit/household"],
     ["Spatial resolution", "Commune", "spacialResolutions", "http://geotype/commune"],
-  ])("stores the multiple %s picked from their codelist", async (label, option, field, value) => {
-    const { setEditingDataset } = renderPanel({});
-
-    await pickOption(label, option);
-
-    await waitFor(() => expect(setEditingDataset).toHaveBeenCalledWith({ [field]: [value] }));
-  });
+  ])("stores the multiple %s picked from their codelist", (label, option, field, value) =>
+    expectPickedOptionStored(label, option, { [field]: [value] }),
+  );
 
   it("stores the data structure chosen through its child field", async () => {
     (StructureApi.getStructures as Mock).mockResolvedValue([

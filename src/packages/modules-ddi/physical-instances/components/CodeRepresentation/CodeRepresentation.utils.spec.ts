@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import type { Category, CodeList, CodeListUsage, CategoryUsage } from "../../types/api";
+import { categoryUsage } from "./categoryUsage.testing";
 import {
   isCodeListSharedWithOthers,
   otherVariableNames,
@@ -67,13 +68,8 @@ describe("otherVariableNames", () => {
 });
 
 describe("isCategorySharedWithOtherLists", () => {
-  const listUsage = (codeListId: string): CategoryUsage => ({
-    group: { agencyId: "fr.insee", id: "grp-1", label: "Groupe démographie" },
-    studyUnit: { agencyId: "fr.insee", id: "su-1", label: "Recensement 2024" },
-    physicalInstance: { agencyId: "fr.insee", id: "pi-1", label: "Fichier détail" },
-    variable: { agencyId: "fr.insee", id: "var-1", label: "Sexe" },
-    codeList: { agencyId: "fr.insee", id: codeListId, label: "Pays" },
-  });
+  const listUsage = (codeListId: string): CategoryUsage =>
+    categoryUsage({ codeList: { agencyId: "fr.insee", id: codeListId, label: "Pays" } });
 
   it("returns false when no code list uses the category", () => {
     expect(isCategorySharedWithOtherLists([], "cl-1")).toBe(false);

@@ -3,6 +3,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
+import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 import {
   ATTRIBUTE_PROPERTY_TYPE,
   DIMENSION_PROPERTY_TYPE,
@@ -10,10 +11,11 @@ import {
 } from "../../../../constants";
 import { StructureComponents } from "./StructureComponents";
 
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual("react-i18next")),
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+vi.mock("react-i18next", async () =>
+  (await import("../../../../mocks.testing")).translationKeysAsLabels(
+    await vi.importActual("react-i18next"),
+  ),
+);
 
 vi.mock("@sdk/index", () => ({
   ConceptsApi: { getConceptList: vi.fn() },
@@ -25,15 +27,25 @@ vi.mock("../../../../hooks/useFormattedCodelist", () => ({
 }));
 
 vi.mock("../../../../components/ComponentSelector", () => ({
-  ComponentSelector: ({ type, concepts, mutualizedComponents, codelists, structure }: any) => (
+  ComponentSelector: ({
+    type,
+    concepts,
+    mutualizedComponents,
+    mutualizedComponentsError,
+    codelists,
+    structure,
+  }: any) => (
     <div data-testid={type}>
       concepts:{concepts.length}|mutualisées:{mutualizedComponents.length}|listes:
       {codelists.length}|structure:{structure.id ?? "(aucune)"}
+      {mutualizedComponentsError && `|erreur:${mutualizedComponentsError.message}`}
     </div>
   ),
 }));
 
 const onChange = vi.fn();
+const NO_COMPONENT_DEFINITIONS: never[] = [];
+const EDITED_STRUCTURE = { id: "str-1" };
 
 describe("StructureComponents", () => {
   beforeEach(() => {
@@ -43,7 +55,9 @@ describe("StructureComponents", () => {
   });
 
   it("propose un sélecteur par type de composante", async () => {
-    render(<StructureComponents componentDefinitions={[]} onChange={onChange} />);
+    render(
+      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
+    );
 
     await waitFor(() => expect(screen.getByTestId(DIMENSION_PROPERTY_TYPE)).toBeInTheDocument());
     expect(screen.getByTestId(MEASURE_PROPERTY_TYPE)).toBeInTheDocument();
@@ -51,7 +65,9 @@ describe("StructureComponents", () => {
   });
 
   it("alimente chaque sélecteur des mêmes référentiels", async () => {
-    render(<StructureComponents componentDefinitions={[]} onChange={onChange} />);
+    render(
+      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
+    );
 
     await waitFor(() =>
       expect(screen.getByTestId(DIMENSION_PROPERTY_TYPE)).toHaveTextContent(
@@ -61,7 +77,9 @@ describe("StructureComponents", () => {
   });
 
   it("part d'une structure vide quand aucune n'est fournie", async () => {
-    render(<StructureComponents componentDefinitions={[]} onChange={onChange} />);
+    render(
+      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
+    );
 
     await waitFor(() =>
       expect(screen.getByTestId(MEASURE_PROPERTY_TYPE)).toHaveTextContent("structure:(aucune)"),
@@ -71,14 +89,30 @@ describe("StructureComponents", () => {
   it("transmet la structure en cours d'édition", async () => {
     render(
       <StructureComponents
-        componentDefinitions={[]}
+        componentDefinitions={NO_COMPONENT_DEFINITIONS}
         onChange={onChange}
-        structure={{ id: "str-1" }}
+        structure={EDITED_STRUCTURE}
       />,
     );
 
     await waitFor(() =>
       expect(screen.getByTestId(MEASURE_PROPERTY_TYPE)).toHaveTextContent("structure:str-1"),
+    );
+  });
+
+  it("transmet à chaque sélecteur l'échec du chargement des composantes mutualisées", async () => {
+    vi.mocked(StructureApi.getMutualizedComponents).mockRejectedValue(
+      sdkRejection.json(500, { message: "Le dépôt RDF est indisponible." }),
+    );
+
+    render(
+      <StructureComponents componentDefinitions={NO_COMPONENT_DEFINITIONS} onChange={onChange} />,
+    );
+
+    await waitFor(() =>
+      expect(screen.getByTestId(ATTRIBUTE_PROPERTY_TYPE)).toHaveTextContent(
+        "erreur:Le dépôt RDF est indisponible.",
+      ),
     );
   });
 });

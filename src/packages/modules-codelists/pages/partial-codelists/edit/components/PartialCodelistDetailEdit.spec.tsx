@@ -1,26 +1,39 @@
-import { Mock, vi, describe, it, expect, beforeEach } from "vitest";
+import { vi, describe, it, expect, beforeEach } from "vitest";
 
 import { useUserStamps } from "@utils/hooks/users";
 
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
+import { CODELIST_CREATE_GUARD, expectCreateGuardGranted } from "../../../../testing/auth.testing";
+import {
+  expectStampsExposedAsData,
+  mockUserStamps,
+  readFirstStamp,
+} from "../../../../testing/users.testing";
 
-vi.mock("@utils/hooks/users", () => ({
-  useUserStamps: vi.fn(),
-}));
+vi.mock("@utils/hooks/users", () => import("../../../../testing/users.testing"));
 
-vi.mock("../../../../../auth/components/auth", () => ({
-  useAuthorizationGuard: vi.fn(),
-}));
-
-vi.mock("@utils/hooks/useTitle", () => ({
-  useTitle: vi.fn(),
-}));
+vi.mock("../../../../../auth/components/auth", () => import("../../../../testing/auth.testing"));
 
 vi.mock("../../../sdk", () => ({
   CodelistsApi: {
     getCodelistCodes: vi.fn(() => Promise.resolve([])),
   },
 }));
+
+/** Contributeur pré-rempli à la création : le timbre de l'utilisateur s'il est habilité. */
+const initContributor = () => {
+  const { stamp } = readFirstStamp(useUserStamps);
+  const isContributor = useAuthorizationGuard(CODELIST_CREATE_GUARD);
+
+  const codelist: { id?: string } = {};
+  let contributor;
+
+  if (!codelist.id) {
+    contributor = isContributor ? [stamp] : ["DG75-L201"];
+  }
+
+  return contributor;
+};
 
 describe("CodelistPartialDetailEdit - Hook integration tests", () => {
   beforeEach(() => {
@@ -29,48 +42,29 @@ describe("CodelistPartialDetailEdit - Hook integration tests", () => {
 
   describe("useUserStamps hook - data property migration", () => {
     it("should use 'data' property from useUserStamps (not 'datas')", () => {
-      const mockStamps = [{ stamp: "PARTIAL-STAMP" }];
-      (useUserStamps as Mock).mockReturnValue({
-        data: mockStamps,
-      });
-
-      const result = useUserStamps();
-
-      expect(result).toHaveProperty("data");
-      expect(result.data).toEqual(mockStamps);
-      expect(result).not.toHaveProperty("datas");
+      expectStampsExposedAsData(useUserStamps, [{ stamp: "PARTIAL-STAMP" }]);
     });
 
     it("should extract stamp from first element of data array", () => {
-      const mockStamps = [{ stamp: "FIRST-STAMP" }, { stamp: "SECOND-STAMP" }];
-      (useUserStamps as Mock).mockReturnValue({
-        data: mockStamps,
-      });
+      mockUserStamps([{ stamp: "FIRST-STAMP" }, { stamp: "SECOND-STAMP" }]);
 
-      const { data } = useUserStamps();
-      const firstStamp = data?.[0]?.stamp;
+      const { data, stamp: firstStamp } = readFirstStamp(useUserStamps);
 
       expect(firstStamp).toBe("FIRST-STAMP");
       expect(data![1].stamp).toBe("SECOND-STAMP");
     });
 
     it("should handle empty stamps array gracefully", () => {
-      (useUserStamps as Mock).mockReturnValue({
-        data: [],
-      });
+      mockUserStamps([]);
 
-      const { data } = useUserStamps();
-      const stamp = data?.[0]?.stamp;
+      const { data, stamp } = readFirstStamp(useUserStamps);
 
       expect(data).toEqual([]);
       expect(stamp).toBeUndefined();
     });
 
     it("should verify type safety of data property", () => {
-      const mockData = [{ stamp: "TEST" }];
-      (useUserStamps as Mock).mockReturnValue({
-        data: mockData,
-      });
+      mockUserStamps([{ stamp: "TEST" }]);
 
       const { data } = useUserStamps();
 
@@ -143,64 +137,21 @@ describe("CodelistPartialDetailEdit - Hook integration tests", () => {
   describe("Authorization and contributor logic", () => {
     it("should initialize contributor from user stamp when authorized", () => {
       const userStamp = "USER-CUSTOM-STAMP";
-      (useUserStamps as Mock).mockReturnValue({
-        data: [{ stamp: userStamp }],
-      });
-      (useAuthorizationGuard as Mock).mockReturnValue(true);
+      mockUserStamps([{ stamp: userStamp }]);
+      vi.mocked(useAuthorizationGuard).mockReturnValue(true);
 
-      const { data: stamps } = useUserStamps();
-      const stamp = stamps?.[0]?.stamp;
-      const isContributor = useAuthorizationGuard({
-        module: "CODESLIST_CODESLIST",
-        privilege: "CREATE",
-      });
-
-      const codelist: { id?: string } = {};
-      let contributor;
-
-      if (!codelist.id) {
-        contributor = isContributor ? [stamp] : ["DG75-L201"];
-      }
-
-      expect(contributor).toEqual([userStamp]);
+      expect(initContributor()).toEqual([userStamp]);
     });
 
     it("should use default contributor when not authorized", () => {
-      (useUserStamps as Mock).mockReturnValue({
-        data: [{ stamp: "ANY-STAMP" }],
-      });
-      (useAuthorizationGuard as Mock).mockReturnValue(false);
+      mockUserStamps([{ stamp: "ANY-STAMP" }]);
+      vi.mocked(useAuthorizationGuard).mockReturnValue(false);
 
-      const { data: stamps } = useUserStamps();
-      const stamp = stamps?.[0]?.stamp;
-      const isContributor = useAuthorizationGuard({
-        module: "CODESLIST_CODESLIST",
-        privilege: "CREATE",
-      });
-
-      const codelist: { id?: string } = {};
-      let contributor;
-
-      if (!codelist.id) {
-        contributor = isContributor ? [stamp] : ["DG75-L201"];
-      }
-
-      expect(contributor).toEqual(["DG75-L201"]);
+      expect(initContributor()).toEqual(["DG75-L201"]);
     });
 
     it("should verify authorization guard parameters", () => {
-      (useAuthorizationGuard as Mock).mockReturnValue(true);
-
-      const result = useAuthorizationGuard({
-        module: "CODESLIST_CODESLIST",
-        privilege: "CREATE",
-      });
-
-      expect(useAuthorizationGuard).toHaveBeenCalledWith({
-        module: "CODESLIST_CODESLIST",
-        privilege: "CREATE",
-      });
-      expect(result).toBe(true);
+      expectCreateGuardGranted(useAuthorizationGuard);
     });
   });
 

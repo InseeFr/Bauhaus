@@ -21,7 +21,7 @@ Restart the backend. The seeding runs once, at startup, and logs its progress.
 
 ## What it does
 
-1. Queries the **publication** GraphDB repository for series and their operations. Only *published* items are picked up, because their IRIs (`http://id.insee.fr/…`) are the ones the module matches against.
+1. Queries the **publication** GraphDB repository for series and their operations. Only _published_ items are picked up, because their IRIs (`http://id.insee.fr/…`) are the ones the module matches against.
 2. Deprecates the groups and study units derived from those series and operations — and only those. Every other item in the repository is left untouched.
 3. Creates the `StudyUnit`s first. Order matters: if groups were created first, Colectica would auto-create empty study unit stubs at version 1, and `RegisterOrReplace` could not overwrite them.
 4. For each group, creates an (initially empty) `CodeListScheme`, `CategoryScheme` and `ManagedRepresentationScheme`, the `LogicalProduct` filing them, then the group itself — with references to its study units — so the whole `Group → LogicalProduct → scheme` chain exists.
@@ -30,7 +30,7 @@ Identifiers are **deterministic**, derived from the series or operation IRI, so 
 
 ## What you get
 
-Five variants are generated per series and per operation, labelled *Zoulou, Alpha, Mike, Bravo, Yankee* — deliberately not in alphabetical order, so that the alphabetical sorting of the listings has something to reorder. Each study unit variant also gets one physical instance, and each group variant an example of sentinel values (two categories, their codes, a sentinel code list and the `ManagedMissingValuesRepresentation` referencing it).
+Five variants are generated per series and per operation, labelled _Zoulou, Alpha, Mike, Bravo, Yankee_ — deliberately not in alphabetical order, so that the alphabetical sorting of the listings has something to reorder. Each study unit variant also gets one physical instance, and each group variant an example of sentinel values (two categories, their codes, a sentinel code list and the `ManagedMissingValuesRepresentation` referencing it).
 
 ## Turn it off
 

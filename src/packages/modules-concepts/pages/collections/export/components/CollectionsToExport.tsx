@@ -4,8 +4,6 @@ import { Picker } from "@components/picker-page";
 
 import { CollectionExportFormat } from "@model/concepts/collection";
 
-import { useCollectionExporter } from "@utils/hooks/collections";
-
 import { ExportButtons } from "../../../../components/ExportButtons";
 
 interface CollectionItem {
@@ -15,12 +13,22 @@ interface CollectionItem {
 
 interface CollectionsToExportProps {
   collections: CollectionItem[];
+  exportCollection: (input: {
+    ids: string[];
+    type: CollectionExportFormat;
+    withConcepts: boolean;
+    lang: "lg1" | "lg2";
+  }) => void;
+  /** Rejet du dernier export. */
+  exportError?: unknown;
 }
 
-export const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>) => {
+export const CollectionsToExport = ({
+  collections,
+  exportCollection,
+  exportError,
+}: Readonly<CollectionsToExportProps>) => {
   const { t } = useTranslation();
-
-  const { mutate: exportCollection } = useCollectionExporter();
 
   return (
     <Picker
@@ -31,6 +39,7 @@ export const CollectionsToExport = ({ collections }: Readonly<CollectionsToExpor
       labelWarning={t("collection.export.hasNot")}
       handleAction={() => {}}
       context="concepts/collections"
+      serverSideError={exportError}
       ValidationButton={({ selectedIds }) => (
         <ExportButtons
           disabled={selectedIds.length < 1}

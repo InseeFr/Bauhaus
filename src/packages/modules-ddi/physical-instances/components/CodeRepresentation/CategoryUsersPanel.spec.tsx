@@ -1,22 +1,15 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi } from "vitest";
 
 import type { CategoryUsage } from "../../types/api";
 import { CategoryUsersPanel } from "./CategoryUsersPanel";
+import { categoryUsage as usage } from "./usages.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
-
-const usage = (overrides: Partial<CategoryUsage> = {}): CategoryUsage => ({
-  group: { agencyId: "fr.insee", id: "grp-1", label: "Recensement" },
-  studyUnit: { agencyId: "fr.insee", id: "su-1", label: "Recensement 2024" },
-  physicalInstance: { agencyId: "fr.insee", id: "pi-1", label: "Fichier détail" },
-  variable: { agencyId: "fr.insee", id: "var-1", label: "Sexe" },
-  codeList: { agencyId: "fr.insee", id: "cl-1", label: "Liste des sexes" },
-  ...overrides,
-});
 
 const renderPanel = (usages: CategoryUsage[], defaultOpened = false) =>
   render(
@@ -34,10 +27,11 @@ const renderPanel = (usages: CategoryUsage[], defaultOpened = false) =>
 describe("CategoryUsersPanel", () => {
   it("déplie le panneau au clavier, sans souris", async () => {
     renderPanel([usage()]);
+    screen.getByRole("button", { name: "Utilisations" }).focus();
 
     expect(screen.queryByRole("link", { name: "Fichier détail" })).not.toBeInTheDocument();
 
-    fireEvent.keyDown(screen.getByRole("button", { name: /Utilisations/ }), { key: "Enter" });
+    await userEvent.keyboard("{Enter}");
 
     await waitFor(() => {
       expect(screen.getByRole("link", { name: "Fichier détail" })).toBeInTheDocument();
@@ -46,18 +40,20 @@ describe("CategoryUsersPanel", () => {
 
   it("déplie aussi le panneau à la barre d'espace", async () => {
     renderPanel([usage()]);
+    screen.getByRole("button", { name: "Utilisations" }).focus();
 
-    fireEvent.keyDown(screen.getByRole("button", { name: /Utilisations/ }), { key: " " });
+    await userEvent.keyboard(" ");
 
     await waitFor(() => {
       expect(screen.getByRole("link", { name: "Fichier détail" })).toBeInTheDocument();
     });
   });
 
-  it("ignore les autres touches", () => {
+  it("ignore les autres touches", async () => {
     renderPanel([usage()]);
+    screen.getByRole("button", { name: "Utilisations" }).focus();
 
-    fireEvent.keyDown(screen.getByRole("button", { name: /Utilisations/ }), { key: "a" });
+    await userEvent.keyboard("a");
 
     expect(screen.queryByRole("link", { name: "Fichier détail" })).not.toBeInTheDocument();
   });
@@ -70,6 +66,17 @@ describe("CategoryUsersPanel", () => {
     await waitFor(() => {
       expect(screen.getByRole("link", { name: "Fichier détail" })).toBeInTheDocument();
     });
+  });
+
+  it("annonce l'état replié puis déplié du panneau", async () => {
+    renderPanel([usage()]);
+
+    const toggler = screen.getByRole("button", { name: "Utilisations" });
+    expect(toggler).toHaveAttribute("aria-expanded", "false");
+
+    await userEvent.click(toggler);
+
+    expect(toggler).toHaveAttribute("aria-expanded", "true");
   });
 
   it("rend la PhysicalInstance et la variable en liens vers la page de la PI", async () => {

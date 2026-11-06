@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 interface OutlineButtonWithScrollTypes {
   id: string;
@@ -16,7 +16,7 @@ export const OutlineButtonWithScroll = ({
 
   const scrollTo = () => {
     const url = `${baseUrl}#${id}`;
-    navigate(url, { replace: true });
+    void navigate(url, { replace: true });
   };
 
   return (

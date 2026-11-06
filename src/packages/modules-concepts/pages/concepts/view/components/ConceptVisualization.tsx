@@ -22,10 +22,11 @@ interface ConceptVisualizationProps {
   links: ConceptLink[];
   notes: ConceptNotes;
   secondLang: boolean;
-  serverSideError?: string;
+  serverSideError?: unknown;
   general: ConceptGeneral;
   validateConcept: (id: string) => void;
   deleteConcept: (id: string) => void;
+  exportConcept: () => void;
 }
 
 export const ConceptVisualization = ({
@@ -37,6 +38,7 @@ export const ConceptVisualization = ({
   general,
   validateConcept,
   deleteConcept,
+  exportConcept,
 }: Readonly<ConceptVisualizationProps>) => {
   const { t } = useTranslation();
 
@@ -88,6 +90,7 @@ export const ConceptVisualization = ({
           conceptVersion={Number(general.conceptVersion)}
           onValidate={handleClickValidation}
           onDelete={handleClickDeletion}
+          onExport={exportConcept}
         />
         <ErrorBloc error={serverSideError} />
         <CheckSecondLang />

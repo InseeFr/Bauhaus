@@ -31,7 +31,7 @@ const renderOrganizationField = (
   fieldName: "creator" | "contributor",
   label: string,
   value: string,
-): JSX.Element => {
+): React.JSX.Element => {
   return (
     <li key={fieldName}>
       {label}: <InseeOrganization creator={value} />
@@ -43,7 +43,7 @@ const renderValidationField = (
   fieldName: "validationState",
   label: string,
   value: ValidationState,
-): JSX.Element => {
+): React.JSX.Element => {
   return (
     <PublicationStatusItem
       key={fieldName}
@@ -59,7 +59,7 @@ const renderFieldItem = (
   fieldName: FieldName,
   label: string,
   attr: CollectionAttribute,
-): JSX.Element | null => {
+): React.JSX.Element | null => {
   const value = attr[fieldName];
 
   if (isEmpty(value)) return null;

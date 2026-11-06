@@ -15,14 +15,9 @@ import type { ValidationState } from "@components/status";
 import { ConceptGeneral } from "@model/concepts/concept";
 import { VALIDATED } from "@model/ValidationState";
 
-import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "@sdk/constants";
-import { ConceptsApi } from "@sdk/index";
-
-import { saveFileFromHttpResponse } from "@utils/files";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { useLoading } from "./components/loading";
 
 interface ConceptVisualizationControlsTypes {
   general: Pick<ConceptGeneral, "creator">;
@@ -31,6 +26,7 @@ interface ConceptVisualizationControlsTypes {
   id: string;
   onValidate: () => void;
   onDelete: () => void;
+  onExport: () => void;
 }
 
 export const ConceptVisualizationControls = ({
@@ -40,9 +36,8 @@ export const ConceptVisualizationControls = ({
   id,
   onValidate,
   onDelete,
+  onExport,
 }: Readonly<ConceptVisualizationControlsTypes>) => {
-  const { setLoading } = useLoading();
-
   const goBack = useGoBack();
 
   const [modalOpened, setModalOpened] = useState(false);
@@ -68,14 +63,7 @@ export const ConceptVisualizationControls = ({
         >
           <CompareButton action={`/concepts/${id}/compare`} />
         </HasAccess>
-        <ExportButton
-          action={() => {
-            setLoading("exporting");
-            return ConceptsApi.getConceptExport(id, OPEN_DOCUMENT_TEXT_MIME_TYPE)
-              .then(saveFileFromHttpResponse)
-              .finally(() => setLoading(undefined));
-          }}
-        />
+        <ExportButton action={onExport} />
         <HasAccess module="CONCEPT_CONCEPT" privilege="UPDATE" stamps={[general.creator]}>
           <UpdateButton action={`/concepts/${id}/modify`} />
         </HasAccess>

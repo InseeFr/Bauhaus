@@ -1,14 +1,15 @@
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi } from "vitest";
 
 import { AppContextProvider } from "../../../../../application/app-context";
 import { ClassificationVisualization } from "./ClassificationVisualization";
 
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual<typeof import("react-i18next")>("react-i18next")),
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("../../../../../tests/react-i18next.testing")).translationKeysAsLabels(
+    await importOriginal(),
+  ),
+);
 
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
@@ -33,12 +34,16 @@ const general = {
   prefLabelLg2: "NAF rev. 2",
 } as any;
 
+const NO_PROPERTIES = {} as any;
+
+const classificationWith = (overrides: any) => ({ general, levels: [], ...overrides });
+
 const renderVisualization = ({ classification, ...props }: any = {}) =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
       <MemoryRouter>
         <ClassificationVisualization
-          classification={{ general, levels: [], ...classification }}
+          classification={classificationWith(classification)}
           classificationId="nafr2"
           secondLang={false}
           publish={vi.fn()}

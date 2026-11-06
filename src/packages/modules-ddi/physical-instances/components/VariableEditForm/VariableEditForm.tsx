@@ -1,14 +1,14 @@
-import { Button } from "primereact/button";
-import { Card } from "primereact/card";
-import { TabView, TabPanel } from "primereact/tabview";
-import { useCallback, useReducer, useEffect, useRef, useState } from "react";
+import { useCallback, useReducer, useEffect, useRef, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
+
+import { Button } from "@components/ui/button";
+import { Card } from "@components/ui/card";
+import { TabView, TabPanel, type TabPanelHeaderTemplateOptions } from "@components/ui/tab-view";
 
 import { cx } from "@utils/cx";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { pickLang } from "../../../utils/multilingual";
 import type {
   NumericRepresentation,
   DateTimeRepresentation,
@@ -19,9 +19,12 @@ import type {
   ManagedMissingValuesRepresentation,
   Reference,
 } from "../../types/api";
+import { SharedVariableNotice } from "../SharedVariable/SharedVariableNotice";
+import type { PhysicalInstanceSummary } from "../SharedVariable/sharedVariables";
 import { DdiPreview } from "./DdiPreview";
 import { VariableInformationTab } from "./VariableInformationTab";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
+import { getVariableValidationErrors } from "./variableValidation";
 
 const VARIABLE_TYPES = {
   NUMERIC: "numeric",
@@ -207,6 +210,8 @@ interface VariableEditFormProps {
   typeOptions: { label: string; value: string }[];
   /** MMVR référencées par les autres variables locales non sauvegardées (règle RO/RW sentinelles). */
   locallyUsedMmvrIds?: string[];
+  /** Autres fichiers de l'étude qui utilisent cette variable : la modifier les mettra à jour (#1387). */
+  otherPhysicalInstances?: PhysicalInstanceSummary[];
   isNew?: boolean;
   onSave: (data: VariableFormData) => void;
   /**
@@ -219,14 +224,56 @@ interface VariableEditFormProps {
   onNext?: () => void;
   hasPrevious?: boolean;
   hasNext?: boolean;
+  /** Ferme le panneau latéral d'édition (équivalent de la touche Échap). */
+  onClose?: () => void;
   /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
   stamps?: string[];
+  /** Parents introuvables : aucun bouton menant à une sauvegarde. */
+  readOnly?: boolean;
 }
+
+// Un en-tête d'onglet personnalisé remplace le lien que TabView rend par défaut : on lui redonne
+// le rôle, l'état et la navigation clavier de ce lien. Les flèches cherchent l'onglet voisin par
+// `data-pc-section="headeraction"`.
+const tabHeaderProps = (options: TabPanelHeaderTemplateOptions) => ({
+  role: "tab",
+  "data-pc-section": "headeraction",
+  tabIndex: options.selected ? 0 : -1,
+  "aria-selected": options.selected,
+  "aria-controls": options.ariaControls,
+  className: cx(options.className, "flex align-items-center gap-2"),
+  onClick: options.onClick,
+  onKeyDown: options.onKeyDown,
+});
+
+// Titre d'onglet, en rouge et suivi d'une pastille quand l'onglet porte une erreur de validation.
+const TabTitle = ({ hasErrors, children }: { hasErrors: boolean; children: ReactNode }) => (
+  <>
+    <span className={hasErrors ? "text-red-500" : ""}>{children}</span>
+    {hasErrors && (
+      <span
+        className="inline-flex align-items-center justify-content-center"
+        style={{
+          backgroundColor: "#ef4444",
+          color: "white",
+          borderRadius: "50%",
+          width: "1.25rem",
+          height: "1.25rem",
+          fontSize: "0.75rem",
+          fontWeight: "bold",
+        }}
+      >
+        !
+      </span>
+    )}
+  </>
+);
 
 export const VariableEditForm = ({
   variable,
   typeOptions,
   locallyUsedMmvrIds,
+  otherPhysicalInstances = [],
   isNew = false,
   onSave,
   onDirtyChange,
@@ -235,7 +282,9 @@ export const VariableEditForm = ({
   onNext,
   hasPrevious = false,
   hasNext = false,
+  onClose,
   stamps,
+  readOnly = false,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -271,18 +320,21 @@ export const VariableEditForm = ({
 
   const [state, dispatch] = useReducer(formReducer, variable, buildFormState);
 
-  // Validation des champs obligatoires. Valeurs sentinelles (#1566) : le libellé de la MMVR en
-  // cours de création/modification est obligatoire (le back rejette sinon le save en 400).
-  const sentinelLabelMissing = Boolean(
-    state.representation.SentinelMmvr &&
-    !state.representation.SentinelMmvr.Label?.some((entry) => entry["@value"]?.trim()),
-  );
-  const hasValidationErrors = !state.name.trim() || !state.label.trim() || sentinelLabelMissing;
+  // Indicateurs d'erreur des onglets : le blocage n'a lieu qu'au « Sauvegarder » global (#1608).
+  // Chaque erreur est signalée sur l'onglet qui porte le champ fautif.
+  const validationErrors = getVariableValidationErrors({
+    name: state.name,
+    label: state.label,
+    sentinelMmvr: state.representation.SentinelMmvr,
+  });
+  const hasInformationErrors =
+    validationErrors.includes("nameRequired") || validationErrors.includes("labelRequired");
+  const hasRepresentationErrors = validationErrors.includes("sentinelLabelRequired");
 
-  // Modifications non sauvegardées du panneau : l'état courant du formulaire comparé à
-  // l'état initial dérivé de `variable`. Une variable en cours de création est toujours
-  // considérée comme modifiée — la fermer sans « Ajouter » perd toute la saisie.
-  const isDirty = isNew || JSON.stringify(state) !== JSON.stringify(buildFormState(variable));
+  // Modifications pas encore reportées dans le tableau : l'état courant du formulaire comparé à
+  // l'état initial dérivé de `variable`. Une variable en création laissée vierge n'est pas
+  // modifiée : fermer le panneau ne doit pas ajouter de ligne vide.
+  const isDirty = JSON.stringify(state) !== JSON.stringify(buildFormState(variable));
 
   // Le callback du parent est lu via une ref pour que la notification ne dépende pas de la
   // stabilité de son identité (sinon le nettoyage de démontage se déclencherait à chaque rendu).
@@ -295,7 +347,7 @@ export const VariableEditForm = ({
     onDirtyChangeRef.current?.(isDirty);
   }, [isDirty]);
 
-  // Le panneau fermé, il n'y a plus rien à confirmer.
+  // Le panneau fermé, il n'y a plus rien à reporter.
   useEffect(() => () => onDirtyChangeRef.current?.(false), []);
 
   useEffect(() => {
@@ -393,43 +445,45 @@ export const VariableEditForm = ({
           ...basePayload,
           textRepresentation: state.representation.TextRepresentation,
         };
-      case VARIABLE_TYPES.CODE: {
-        const codeList = state.representation.CodeList;
-        const categories = state.representation.Category || [];
-
-        // Filtrer les codes vides (sans valeur ET sans label) et les codes invalides
-        const validCodes = (codeList?.Code || []).filter((code) => {
-          if (!code || !code.CategoryReference) return false;
-          const category = categories.find((cat) => cat?.ID === code.CategoryReference?.ID);
-          const label = pickLang(category?.Label, "fr-FR") ?? "";
-          const value = code.Value?.StringValue ?? "";
-          return value.trim() !== "" || label.trim() !== "";
-        });
-
-        // Ne garder que les catégories liées aux codes valides
-        const validCategoryIds = new Set(validCodes.map((code) => code.CategoryReference?.ID));
-        const validCategories = categories.filter((cat) => cat && validCategoryIds.has(cat.ID));
-
-        const filteredCodeList = codeList ? { ...codeList, Code: validCodes } : undefined;
-
+      case VARIABLE_TYPES.CODE:
+        // Les lignes vides en cours de saisie sont conservées : retirées ici, elles disparaîtraient
+        // du formulaire réinitialisé depuis le tableau à chaque report (#1608). Le filtrage a lieu
+        // au « Sauvegarder » global.
         return {
           ...basePayload,
           codeRepresentation: state.representation.CodeRepresentation,
-          codeList: filteredCodeList,
-          categories: validCategories,
+          codeList: state.representation.CodeList,
+          categories: state.representation.Category,
         };
-      }
       default:
         return basePayload;
     }
   }, [variable.id, state]);
 
+  // Report dans le tableau (#1608) : à la sortie d'un champ modifié, et à la fermeture du panneau
+  // ou au changement de variable pour une saisie qui n'aurait pas encore été quittée. Un même état
+  // n'est reporté qu'une fois : une variable créée change d'id juste après son premier report, et
+  // ne doit pas être ajoutée une seconde fois.
+  const lastCommittedStateRef = useRef<FormState | null>(null);
+  const commitChanges = useCallback(() => {
+    if (!isDirty || lastCommittedStateRef.current === state) return;
+    lastCommittedStateRef.current = state;
+    onSave(buildSavePayload());
+  }, [isDirty, state, onSave, buildSavePayload]);
+
+  const commitChangesRef = useRef(commitChanges);
+  useEffect(() => {
+    commitChangesRef.current = commitChanges;
+  });
+  // Le nettoyage s'exécute avant la mise à jour de la ref : il voit encore la variable quittée.
+  useEffect(() => () => commitChangesRef.current(), [variable.id]);
+
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      onSave(buildSavePayload());
+      commitChanges();
     },
-    [buildSavePayload, onSave],
+    [commitChanges],
   );
 
   const handleDuplicate = useCallback(() => {
@@ -452,30 +506,20 @@ export const VariableEditForm = ({
       }
       className="h-full"
     >
-      <form onSubmit={handleSubmit} className="flex flex-column gap-3">
+      <form onSubmit={handleSubmit} onBlur={commitChanges} className="flex flex-column gap-3">
         <div className="flex gap-2 justify-content-end">
-          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
-            <Button
-              type="button"
-              label={t("physicalInstance.view.duplicate")}
-              icon="pi pi-copy"
-              outlined
-              severity="secondary"
-              onClick={handleDuplicate}
-            />
-          </HasAccess>
-          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
-            <Button
-              type="submit"
-              label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
-              icon="pi pi-check"
-              outlined
-              disabled={hasValidationErrors}
-              aria-label={
-                isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")
-              }
-            />
-          </HasAccess>
+          {!readOnly && (
+            <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
+              <Button
+                type="button"
+                label={t("physicalInstance.view.duplicate")}
+                icon="pi pi-copy"
+                outlined
+                severity="secondary"
+                onClick={handleDuplicate}
+              />
+            </HasAccess>
+          )}
           <Button
             type="button"
             icon="pi pi-chevron-left"
@@ -494,36 +538,31 @@ export const VariableEditForm = ({
             disabled={!hasNext || isNew}
             aria-label={t("physicalInstance.view.nextVariable")}
           />
+          {onClose && (
+            <Button
+              type="button"
+              icon="pi pi-times"
+              text
+              severity="secondary"
+              onClick={onClose}
+              aria-label={t("physicalInstance.view.closeVariablePanel")}
+              tooltip={t("physicalInstance.view.closeVariablePanel")}
+              tooltipOptions={{ position: "left" }}
+            />
+          )}
         </div>
+
+        <SharedVariableNotice otherPhysicalInstances={otherPhysicalInstances} />
 
         <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
           <TabPanel
             headerTemplate={(options) => {
               return (
-                <div
-                  className={cx(options.className, "flex align-items-center gap-2")}
-                  onClick={options.onClick}
-                >
-                  <span className={hasValidationErrors ? "text-red-500" : ""}>
+                <a {...tabHeaderProps(options)}>
+                  <TabTitle hasErrors={hasInformationErrors}>
                     {t("physicalInstance.view.tabs.information")}
-                  </span>
-                  {hasValidationErrors && (
-                    <span
-                      className="inline-flex align-items-center justify-content-center"
-                      style={{
-                        backgroundColor: "#ef4444",
-                        color: "white",
-                        borderRadius: "50%",
-                        width: "1.25rem",
-                        height: "1.25rem",
-                        fontSize: "0.75rem",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      !
-                    </span>
-                  )}
-                </div>
+                  </TabTitle>
+                </a>
               );
             }}
           >
@@ -543,12 +582,11 @@ export const VariableEditForm = ({
           <TabPanel
             headerTemplate={(options) => {
               return (
-                <div
-                  className={cx(options.className, "flex align-items-center gap-2")}
-                  onClick={options.onClick}
-                >
-                  <span>{t("physicalInstance.view.tabs.representation")}</span>
-                </div>
+                <a {...tabHeaderProps(options)}>
+                  <TabTitle hasErrors={hasRepresentationErrors}>
+                    {t("physicalInstance.view.tabs.representation")}
+                  </TabTitle>
+                </a>
               );
             }}
           >
@@ -581,16 +619,13 @@ export const VariableEditForm = ({
             headerClassName="ml-auto"
             headerTemplate={(options) => {
               return (
-                <div
-                  className={cx(options.className, "flex align-items-center gap-2")}
-                  onClick={options.onClick}
+                <a
+                  {...tabHeaderProps(options)}
+                  aria-label={t("physicalInstance.view.tabs.ddiPreview")}
+                  title={t("physicalInstance.view.tabs.ddiPreview")}
                 >
-                  <i
-                    className="pi pi-code"
-                    style={{ lineHeight: "inherit" }}
-                    aria-label={t("physicalInstance.view.tabs.ddiPreview")}
-                  />
-                </div>
+                  <i className="pi pi-code" style={{ lineHeight: "inherit" }} aria-hidden="true" />
+                </a>
               );
             }}
           >

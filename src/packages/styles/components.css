@@ -2,21 +2,6 @@
   z-index: 0;
 }
 
-@media (width <= 600px) {
-  .wilco-action-toolbar {
-    flex-wrap: wrap;
-
-    > div {
-      flex-grow: 1;
-    }
-  }
-
-  .wilco-btn {
-    width: 100%;
-    margin-bottom: 0.5em;
-  }
-}
-
 /* Tous les boutons alignent leur contenu sur la gauche : dans une pile de boutons,
    les icônes se retrouvent ainsi sur la même verticale, à la même distance du
    libellé. Le sélecteur est qualifié par le nom de l'élément pour passer devant le
@@ -34,7 +19,7 @@ a.btn {
 
 /* L'icône garde sa taille quel que soit le libellé. */
 .btn > svg,
-.btn > .glyphicon {
+.btn > .pi {
   flex: none;
 }
 

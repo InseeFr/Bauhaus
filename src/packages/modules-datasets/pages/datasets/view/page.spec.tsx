@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { I18nextProvider } from "react-i18next";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router";
 import { Mock, vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
@@ -12,6 +12,8 @@ import { fetchCodelist, OrganizationsApi } from "@sdk/index";
 
 import { AppContextProvider } from "../../../../application/app-context";
 import { testsI18n as i18n } from "../../../../tests/i18n";
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
 // `@sdk/index` réexporte `@sdk/datasets-api` : simuler le module dédié suffit à ce
@@ -19,6 +21,7 @@ import { Component } from "./page";
 vi.mock("@sdk/datasets-api", () => ({
   DatasetsApi: {
     getById: vi.fn(),
+    getAll: vi.fn(),
     getArchivageUnits: vi.fn(),
     publish: vi.fn(),
     deleteDataset: vi.fn(),
@@ -46,23 +49,14 @@ vi.mock("@uiw/react-md-editor/nohighlight", () => ({
   default: { Markdown: ({ source }: { source: string }) => <div>{source}</div> },
 }));
 
-vi.mock("@utils/hooks/users", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@utils/hooks/users")>()),
-  usePrivileges: () => ({
-    privileges: [
-      {
-        application: "DATASET_DATASET",
-        privileges: [
-          { privilege: "PUBLISH", strategy: "ALL" },
-          { privilege: "DELETE", strategy: "ALL" },
-          { privilege: "UPDATE", strategy: "ALL" },
-          { privilege: "CREATE", strategy: "ALL" },
-        ],
-      },
-    ],
-  }),
-  useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-}));
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../users-hooks.testing")).usersHooksWithDatasetPrivileges(importOriginal, [
+    "PUBLISH",
+    "DELETE",
+    "UPDATE",
+    "CREATE",
+  ]),
+);
 
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
@@ -95,17 +89,22 @@ const dataset = {
   catalogRecord: { creator: "http://org/insee", contributor: ["http://org/dares"] },
 } as unknown as Dataset;
 
+const NO_PROPERTIES = {} as any;
+const INITIAL_ENTRIES = ["/datasets/jd1000"];
+const PAGE = <Component />;
+const DATASET_LIST_PAGE = <div>Dataset list</div>;
+
 const renderPage = () =>
   render(
     <QueryClientProvider
       client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
     >
       <I18nextProvider i18n={i18n}>
-        <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-          <MemoryRouter initialEntries={["/datasets/jd1000"]}>
+        <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
+          <MemoryRouter initialEntries={INITIAL_ENTRIES}>
             <Routes>
-              <Route path="/datasets/:id" element={<Component />} />
-              <Route path="/datasets" element={<div>Dataset list</div>} />
+              <Route path="/datasets/:id" element={PAGE} />
+              <Route path="/datasets" element={DATASET_LIST_PAGE} />
             </Routes>
           </MemoryRouter>
         </AppContextProvider>
@@ -116,6 +115,7 @@ const renderPage = () =>
 describe("Dataset view page", () => {
   beforeEach(() => {
     (DatasetsApi.getById as Mock).mockResolvedValue(dataset);
+    (DatasetsApi.getAll as Mock).mockResolvedValue([{ id: "jd900", label: "Enquête source" }]);
     (DatasetsApi.getArchivageUnits as Mock).mockResolvedValue([
       { value: "http://archive/u1", label: "Unité 1" },
     ]);
@@ -136,6 +136,28 @@ describe("Dataset view page", () => {
     renderPage();
 
     expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
+  });
+
+  it("says the dataset could not be found instead of the page on a 404", async () => {
+    (DatasetsApi.getById as Mock).mockRejectedValue(sdkRejection.emptyBody(404));
+
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
+    expect(screen.queryByText("Publish")).not.toBeInTheDocument();
+  });
+
+  it("says the dataset could not be loaded instead of the page when the server fails", async () => {
+    (DatasetsApi.getById as Mock).mockRejectedValue(
+      sdkRejection.text(500, "Internal Server Error"),
+    );
+
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
+    expect(screen.queryByText("Publish")).not.toBeInTheDocument();
   });
 
   it("displays the first language content of the dataset", async () => {
@@ -171,6 +193,20 @@ describe("Dataset view page", () => {
     const link = await screen.findByRole("link", { name: "http://doc1" });
     expect(link).toHaveAttribute("href", "http://doc1");
     expect(screen.getByRole("link", { name: "http://doc2" })).toBeInTheDocument();
+  });
+
+  it("links the datasets it is built from", async () => {
+    (DatasetsApi.getById as Mock).mockResolvedValue({
+      ...dataset,
+      wasDerivedFrom: { datasets: ["jd900"], descriptionLg1: "Agrégation" },
+    });
+    renderPage();
+
+    expect(await screen.findByRole("link", { name: "Enquête source" })).toHaveAttribute(
+      "href",
+      "/datasets/jd900",
+    );
+    expect(screen.getByText("Agrégation")).toBeInTheDocument();
   });
 
   it("displays the internal management block resolved against its reference data", async () => {

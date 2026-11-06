@@ -1,12 +1,13 @@
-import { Accordion, AccordionTab } from "primereact/accordion";
-import { Button } from "primereact/button";
-import { confirmDialog } from "primereact/confirmdialog";
-import { Dropdown } from "primereact/dropdown";
-import { Message } from "primereact/message";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
+
+import { Accordion, AccordionTab } from "@components/ui/accordion";
+import { Button } from "@components/ui/button";
+import { confirmDialog } from "@components/ui/confirm-dialog";
+import { Dropdown } from "@components/ui/dropdown";
+import { Message } from "@components/ui/message";
+import { ProgressSpinner } from "@components/ui/spinner";
 
 import { useAppContext } from "../../../../application/app-context";
 import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";

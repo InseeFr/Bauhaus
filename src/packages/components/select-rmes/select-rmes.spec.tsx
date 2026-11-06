@@ -9,6 +9,6 @@ const options = [...Array(5)].map((_, i) => ({
 
 describe("select", () => {
   it("renders without crashing", () => {
-    render(<Select value="value" placeholder="..." options={options} onChange={() => ""} />);
+    render(<Select value="value" placeholder="..." options={options} onChange={vi.fn()} />);
   });
 });

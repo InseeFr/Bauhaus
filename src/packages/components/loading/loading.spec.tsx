@@ -8,49 +8,43 @@ vi.mock("primereact/progressspinner", () => ({
   ProgressSpinner: () => <div data-testid="progress-spinner">Spinner</div>,
 }));
 
+const expectStatusText = (text: string) => {
+  const statusElement = screen.getByRole("status");
+  expect(statusElement).toHaveAttribute("aria-label", text);
+  expect(screen.getByText(text)).toBeInTheDocument();
+};
+
 describe("Loading Component", () => {
   it("renders with default loading text", () => {
     render(<Loading />);
-    const statusElement = screen.getByRole("status");
-    expect(statusElement).toBeInTheDocument();
-    expect(statusElement).toHaveAttribute("aria-label", componentsI18n.t("loading.loading"));
-    expect(screen.getByText(componentsI18n.t("loading.loading"))).toBeInTheDocument();
+    expect(screen.getByRole("status")).toBeInTheDocument();
+    expectStatusText(componentsI18n.t("loading.loading"));
   });
 
   it("renders with custom text", () => {
     const customText = "Custom loading text";
     render(<Loading text={customText} />);
-    const statusElement = screen.getByRole("status");
-    expect(statusElement).toHaveAttribute("aria-label", customText);
-    expect(screen.getByText(customText)).toBeInTheDocument();
+    expectStatusText(customText);
   });
 
   it("renders with authentification text type", () => {
     render(<Loading textType="authentification" />);
-    const statusElement = screen.getByRole("status");
-    expect(statusElement).toHaveAttribute("aria-label", componentsI18n.t("loading.auth"));
-    expect(screen.getByText(componentsI18n.t("loading.auth"))).toBeInTheDocument();
+    expectStatusText(componentsI18n.t("loading.auth"));
   });
 
   it("renders with saving text type", () => {
     render(<Loading textType="saving" />);
-    const statusElement = screen.getByRole("status");
-    expect(statusElement).toHaveAttribute("aria-label", componentsI18n.t("loading.saving"));
-    expect(screen.getByText(componentsI18n.t("loading.saving"))).toBeInTheDocument();
+    expectStatusText(componentsI18n.t("loading.saving"));
   });
 
   it("renders with sending text type", () => {
     render(<Loading textType="sending" />);
-    const statusElement = screen.getByRole("status");
-    expect(statusElement).toHaveAttribute("aria-label", componentsI18n.t("loading.sending"));
-    expect(screen.getByText(componentsI18n.t("loading.sending"))).toBeInTheDocument();
+    expectStatusText(componentsI18n.t("loading.sending"));
   });
 
   it("renders with exporting text type", () => {
     render(<Loading textType="exporting" />);
-    const statusElement = screen.getByRole("status");
-    expect(statusElement).toHaveAttribute("aria-label", componentsI18n.t("loading.exporting"));
-    expect(screen.getByText(componentsI18n.t("loading.exporting"))).toBeInTheDocument();
+    expectStatusText(componentsI18n.t("loading.exporting"));
   });
 
   it("has correct accessibility attributes", () => {
@@ -68,36 +62,28 @@ describe("Loading Component", () => {
   describe("Deleting component", () => {
     it("renders with deleting text type", () => {
       render(<Deleting />);
-      const statusElement = screen.getByRole("status");
-      expect(statusElement).toHaveAttribute("aria-label", componentsI18n.t("loading.deleting"));
-      expect(screen.getByText(componentsI18n.t("loading.deleting"))).toBeInTheDocument();
+      expectStatusText(componentsI18n.t("loading.deleting"));
     });
   });
 
   describe("Publishing component", () => {
     it("renders with validating text type", () => {
       render(<Publishing />);
-      const statusElement = screen.getByRole("status");
-      expect(statusElement).toHaveAttribute("aria-label", componentsI18n.t("loading.validating"));
-      expect(screen.getByText(componentsI18n.t("loading.validating"))).toBeInTheDocument();
+      expectStatusText(componentsI18n.t("loading.validating"));
     });
   });
 
   describe("Saving component", () => {
     it("renders with saving text type", () => {
       render(<Saving />);
-      const statusElement = screen.getByRole("status");
-      expect(statusElement).toHaveAttribute("aria-label", componentsI18n.t("loading.saving"));
-      expect(screen.getByText(componentsI18n.t("loading.saving"))).toBeInTheDocument();
+      expectStatusText(componentsI18n.t("loading.saving"));
     });
   });
 
   describe("Exporting component", () => {
     it("renders with exporting text type", () => {
       render(<Exporting />);
-      const statusElement = screen.getByRole("status");
-      expect(statusElement).toHaveAttribute("aria-label", componentsI18n.t("loading.exporting"));
-      expect(screen.getByText(componentsI18n.t("loading.exporting"))).toBeInTheDocument();
+      expectStatusText(componentsI18n.t("loading.exporting"));
     });
   });
 });

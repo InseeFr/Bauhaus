@@ -1,27 +1,17 @@
-import { useEffect, useState } from "react";
-
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
-import { Series } from "@model/Series";
-
-import { OperationsApi } from "@sdk/operations-api";
-
-import { sortArray } from "@utils/array-utils";
+import { sortArrayByLabel } from "@utils/array-utils";
+import { useSeries } from "@utils/hooks/series";
 
 import { SeriesHome } from "./components/SeriesHome";
 
 export const Component = () => {
-  const [series, setSeries] = useState<Series[]>([]);
+  const { data: series = [], isLoading, error } = useSeries();
 
-  const [loading, setLoading] = useState(true);
+  if (isLoading) return <Loading />;
 
-  useEffect(() => {
-    OperationsApi.getSeriesList()
-      .then((result: Series[]) => setSeries(sortArray("label")(result)))
-      .finally(() => setLoading(false));
-  }, []);
+  if (error) return <LoadingErrorBloc error={error} />;
 
-  if (loading) return <Loading />;
-
-  return <SeriesHome series={series} />;
+  return <SeriesHome series={sortArrayByLabel(series)} />;
 };

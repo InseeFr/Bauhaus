@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
@@ -28,6 +29,8 @@ export const Component = () => {
   const [general, setGeneral] = useState<ConceptGeneral>(EMPTY_GENERAL);
 
   const [notes, setNotes] = useState<VersionedNotes>({});
+
+  const [loadError, setLoadError] = useState<unknown>();
 
   useEffect(() => {
     if (!id) return;
@@ -65,8 +68,13 @@ export const Component = () => {
             );
           })
           .finally(() => setLoading(false));
-      });
+      })
+      .catch(setLoadError);
   }, [id]);
+
+  if (loadError) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if (loading) {
     return <Loading />;

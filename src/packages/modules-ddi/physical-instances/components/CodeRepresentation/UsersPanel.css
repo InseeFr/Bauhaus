@@ -1,0 +1,11 @@
+/* Le titre du panneau est un vrai bouton, rendu comme le titre texte qu'il remplace. */
+.users-panel-toggler {
+  flex: 1;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}

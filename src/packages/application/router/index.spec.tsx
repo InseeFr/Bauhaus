@@ -1,5 +1,5 @@
 import { fireEvent, screen } from "@testing-library/react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { Mock, vi } from "vitest";
 
 import { useOidc } from "../../auth/create-oidc";
@@ -15,8 +15,8 @@ vi.mock("../../auth/create-oidc", async () => {
   };
 });
 
-vi.mock("react-router-dom", async () => {
-  const originalModule = await vi.importActual("react-router-dom");
+vi.mock("react-router", async () => {
+  const originalModule = await vi.importActual("react-router");
   return {
     ...originalModule,
     useLocation: vi.fn(),

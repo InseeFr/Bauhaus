@@ -1,5 +1,68 @@
+/*
+ * Reprend à l'identique la bascule Bootstrap que portait le composant
+ * (`btn-group btn-group-justified` et ses `btn btn-default`), en px.
+ */
 .bauhaus-filter-toggle-buttons {
+  display: table;
+  width: 100%;
   margin-bottom: 1em;
+  border-collapse: separate;
+  table-layout: fixed;
+}
+
+.bauhaus-filter-toggle-buttons-segment {
+  display: table-cell;
+  position: relative;
+  width: 1%;
+  vertical-align: middle;
+}
+
+.bauhaus-filter-toggle-buttons-btn {
+  width: 100%;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  background-color: #fff;
+  background-image: none;
+  color: #333;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.4286;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.bauhaus-filter-toggle-buttons-segment
+  + .bauhaus-filter-toggle-buttons-segment
+  .bauhaus-filter-toggle-buttons-btn {
+  margin-left: -1px;
+}
+
+.bauhaus-filter-toggle-buttons-segment:first-child .bauhaus-filter-toggle-buttons-btn {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.bauhaus-filter-toggle-buttons-segment:last-child .bauhaus-filter-toggle-buttons-btn {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.bauhaus-filter-toggle-buttons-btn:hover,
+.bauhaus-filter-toggle-buttons-btn:focus {
+  border-color: #adadad;
+  background-color: #e6e6e6;
+  color: #333;
+}
+
+.bauhaus-filter-toggle-buttons-btn:focus-visible {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }
 
 .bauhaus-filter-toggle-buttons-btn-active {

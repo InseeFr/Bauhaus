@@ -46,7 +46,7 @@ export const CollapsiblePanel = ({
               onClick={clickTitleHandler}
             >
               {title}
-              <span className={cx("glyphicon", `glyphicon-chevron-${hidden ? "down" : "up"}`)} />
+              <span className={cx("pi", `pi-chevron-${hidden ? "down" : "up"}`)} />
             </button>
           ) : (
             title

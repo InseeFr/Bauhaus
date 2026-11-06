@@ -1,7 +1,8 @@
-import { Button } from "primereact/button";
-import type { MenuItem } from "primereact/menuitem";
-import { SplitButton } from "primereact/splitbutton";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
+import type { MenuItem } from "@components/ui/menu-item";
+import { SplitButton } from "@components/ui/split-button";
 
 import { isLocalhost } from "@utils/is-localhost";
 
@@ -14,6 +15,8 @@ interface GlobalActionToolbarProps {
   onValidateDdi4?: () => void;
   /** Stamps de l'instance source — gating STAMP du bouton de duplication. */
   stamps?: string[];
+  /** Parents introuvables : aucun bouton menant à une sauvegarde. */
+  readOnly?: boolean;
 }
 
 export const GlobalActionToolbar = ({
@@ -21,6 +24,7 @@ export const GlobalActionToolbar = ({
   onDuplicate,
   onValidateDdi4,
   stamps,
+  readOnly = false,
 }: Readonly<GlobalActionToolbarProps>) => {
   const { t } = useTranslation();
 
@@ -53,16 +57,18 @@ export const GlobalActionToolbar = ({
         aria-label={t("physicalInstance.view.export")}
         onClick={() => onExport("DDI3")}
       />
-      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="CREATE" stamps={stamps}>
-        <Button
-          icon="pi pi-copy"
-          label={t("physicalInstance.view.duplicatePhysicalInstance")}
-          severity="secondary"
-          style={{ background: "transparent" }}
-          aria-label={t("physicalInstance.view.duplicatePhysicalInstance")}
-          onClick={onDuplicate}
-        />
-      </HasAccess>
+      {!readOnly && (
+        <HasAccess module="DDI_PHYSICALINSTANCE" privilege="CREATE" stamps={stamps}>
+          <Button
+            icon="pi pi-copy"
+            label={t("physicalInstance.view.duplicatePhysicalInstance")}
+            severity="secondary"
+            style={{ background: "transparent" }}
+            aria-label={t("physicalInstance.view.duplicatePhysicalInstance")}
+            onClick={onDuplicate}
+          />
+        </HasAccess>
+      )}
       {onValidateDdi4 && isLocalhost() && (
         <Button
           icon="pi pi-check-circle"

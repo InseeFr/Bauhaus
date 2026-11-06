@@ -24,4 +24,12 @@ describe("note-one-lang-edition", () => {
 
     expect(screen.queryByText(/Infinity/)).not.toBeInTheDocument();
   });
+
+  it("nomme l'éditeur d'après sa langue", () => {
+    render(
+      <NoteOneLangEdition note="" maxLength={0} handleChange={vi.fn()} ariaLabel="Français" />,
+    );
+
+    expect(screen.getByRole("textbox", { name: "Français" })).toBeInTheDocument();
+  });
 });

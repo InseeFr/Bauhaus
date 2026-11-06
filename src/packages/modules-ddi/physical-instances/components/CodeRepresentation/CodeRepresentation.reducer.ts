@@ -5,7 +5,10 @@ export interface CodeRepresentationState {
   codes: CodeTableRow[];
   showDataTable: boolean;
   showReuseSelect: boolean;
+  showCsvImport: boolean;
   selectedCodeListId: string | null;
+  /** Nombre de codes créés par le dernier import CSV, tant que le message de succès est affiché. */
+  importedCodesCount: number | null;
 }
 
 export type CodeRepresentationAction =
@@ -26,6 +29,8 @@ export type CodeRepresentationAction =
   | { type: "MOVE_CODE"; payload: { id: string; direction: "up" | "down" } }
   | { type: "SHOW_DATA_TABLE" }
   | { type: "SHOW_REUSE_SELECT" }
+  | { type: "SHOW_CSV_IMPORT" }
+  | { type: "IMPORT_CODES"; payload: { label: string; codes: CodeTableRow[] } }
   | { type: "SET_SELECTED_CODE_LIST_ID"; payload: string | null }
   | { type: "RESET_EMPTY_ROW" }
   | {
@@ -41,7 +46,9 @@ export const initialState: CodeRepresentationState = {
   codes: [],
   showDataTable: false,
   showReuseSelect: false,
+  showCsvImport: false,
   selectedCodeListId: null,
+  importedCodesCount: null,
 };
 
 export const codeRepresentationReducer = (
@@ -108,7 +115,31 @@ export const codeRepresentationReducer = (
       return { ...state, showDataTable: true, showReuseSelect: false };
 
     case "SHOW_REUSE_SELECT":
-      return { ...state, showReuseSelect: true, showDataTable: false };
+      return {
+        ...state,
+        showReuseSelect: true,
+        showCsvImport: false,
+        showDataTable: false,
+        importedCodesCount: null,
+      };
+
+    case "SHOW_CSV_IMPORT":
+      return {
+        ...state,
+        showCsvImport: true,
+        showReuseSelect: false,
+        showDataTable: false,
+        importedCodesCount: null,
+      };
+
+    case "IMPORT_CODES":
+      return {
+        ...initialState,
+        codeListLabel: action.payload.label,
+        codes: action.payload.codes,
+        showDataTable: true,
+        importedCodesCount: action.payload.codes.length,
+      };
 
     case "SET_SELECTED_CODE_LIST_ID":
       return { ...state, selectedCodeListId: action.payload };

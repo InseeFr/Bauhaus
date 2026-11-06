@@ -22,6 +22,9 @@ vi.mock("../../ui/select", () => ({
   ),
 }));
 
+const SELECTED_STAMPS = ["stamp1", "stamp2"];
+const NO_STAMPS: string[] = [];
+
 describe("StampsInput", () => {
   const mockStampsOptions = [
     { value: "stamp1", label: "Stamp 1" },
@@ -54,7 +57,7 @@ describe("StampsInput", () => {
     const mockOnChange = vi.fn();
     render(
       <StampsInput
-        value={["stamp1", "stamp2"]}
+        value={SELECTED_STAMPS}
         onChange={mockOnChange}
         multi={true}
         lang="first"
@@ -72,7 +75,7 @@ describe("StampsInput", () => {
     const mockOnChange = vi.fn();
     render(
       <StampsInput
-        value={[]}
+        value={NO_STAMPS}
         onChange={mockOnChange}
         multi={true}
         lang="first"

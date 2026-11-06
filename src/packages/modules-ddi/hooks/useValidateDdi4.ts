@@ -1,13 +1,15 @@
 import { useQueryClient } from "@tanstack/react-query";
-import type { Toast } from "primereact/toast";
 import { useCallback, useState } from "react";
 import type { RefObject } from "react";
 import { useTranslation } from "react-i18next";
 
+import type { Toast } from "@components/ui/toast";
+
 import { DDIApi } from "@sdk/index";
 
-import { getApiErrorMessage, getApiErrors } from "@utils/api-errors";
+import { formatApiErrors, getApiErrors } from "@utils/api-errors";
 
+import { appI18n } from "../../i18n";
 import { TOAST_DURATION } from "../physical-instances/constants";
 import { enrichDataWithCodeLists } from "../physical-instances/pages/view/enrichDataWithCodeLists";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
@@ -42,7 +44,11 @@ export const useValidateDdi4 = (data: PhysicalInstanceResponse, toast: RefObject
         toast.current?.show({
           severity: "error",
           summary: t("physicalInstance.view.validateDdi4Error"),
-          detail: getApiErrorMessage(err, t("physicalInstance.view.validateDdi4ErrorDetail")),
+          detail: formatApiErrors(
+            err,
+            appI18n,
+            t("physicalInstance.view.validateDdi4ErrorDetail"),
+          ).join("\n"),
           ...errorToastTiming(),
         });
         return;

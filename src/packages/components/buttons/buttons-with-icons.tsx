@@ -1,19 +1,25 @@
-import { ComponentProps } from "react";
+import { ComponentProps, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { componentsI18n } from "../i18n";
+import { Button as PrimeButton } from "../ui/button";
 import { Button } from "./button";
 
 export const CloseIconButton = ({ onClick }: Readonly<{ onClick: VoidFunction }>) => {
   const { t } = useTranslation("translation", { i18n: componentsI18n });
 
   return (
-    <button type="button" className="close" onClick={onClick}>
-      <span aria-hidden="true">&times;</span>
-      <span className="sr-only">{t("btnClose")}</span>
-    </button>
+    <PrimeButton
+      type="button"
+      icon="pi pi-times"
+      text
+      rounded
+      severity="secondary"
+      aria-label={t("btnClose")}
+      onClick={onClick}
+    />
   );
 };
 
@@ -44,12 +50,16 @@ export const UpdateButton = (props: Omit<ComponentProps<typeof AbstractButton>, 
   );
 };
 
-export const AbstractButton = (props: { icon?: unknown } & ComponentProps<typeof Button>) => {
+export const AbstractButton = ({
+  icon,
+  ...props
+}: { icon?: ReactNode } & ComponentProps<typeof Button>) => {
+  // `icon` ne doit pas atteindre le Button PrimeReact, qui la dessinerait une seconde fois.
   const p = {
     ...props,
     label: (
       <>
-        {props.icon}
+        {icon}
         <span>{props.label || props.children}</span>
       </>
     ),

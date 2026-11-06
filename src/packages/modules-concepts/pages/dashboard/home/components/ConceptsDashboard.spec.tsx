@@ -3,8 +3,14 @@ import { fireEvent, screen, within } from "@testing-library/react";
 import { renderWithRouter } from "../../../../../tests/render";
 import { ConceptsDashboard } from "./ConceptsDashboard";
 
+const NO_CONCEPTS: never[] = [];
+const NO_COLLECTIONS: never[] = [];
+
 const render = (initialEntries: string[] = ["/"]) =>
-  renderWithRouter(<ConceptsDashboard conceptsData={[]} collectionsData={[]} />, initialEntries);
+  renderWithRouter(
+    <ConceptsDashboard conceptsData={NO_CONCEPTS} collectionsData={NO_COLLECTIONS} />,
+    initialEntries,
+  );
 
 const nav = () => screen.getByRole("navigation", { name: "Concepts dashboard" });
 const entries = () => within(nav()).getAllByRole("button");

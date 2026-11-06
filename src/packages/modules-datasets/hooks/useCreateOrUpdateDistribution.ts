@@ -6,16 +6,16 @@ import { DistributionApi } from "@sdk/distributions-api";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-export const useCreateOrUpdateDistribution = (isEditing: boolean) => {
+export const useCreateOrUpdateDistribution = (
+  isEditing: boolean,
+  onError: (err: unknown) => void,
+) => {
   const queryClient = useQueryClient();
 
   const goBack = useGoBack();
 
-  const {
-    isPending: isSaving,
-    mutate: save,
-    error: serverSideError,
-  } = useMutation({
+  const { isPending: isSaving, mutate: save } = useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: (distribution: Partial<Distribution>) => {
       const promise = isEditing
         ? DistributionApi.putDistribution
@@ -35,7 +35,8 @@ export const useCreateOrUpdateDistribution = (isEditing: boolean) => {
       });
       goBack(`/datasets/distributions/${id}`, !isEditing);
     },
+    onError,
   });
 
-  return { isSaving, save, serverSideError };
+  return { isSaving, save };
 };
