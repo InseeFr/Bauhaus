@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { CodelistsApi } from "@sdk/codelists-api";
+import { OrganizationsApi } from "@sdk/organizations-api";
 import { StructureApi } from "@sdk/structure-api";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
@@ -235,6 +236,43 @@ describe("ComponentDetailEdit", () => {
     expect(handleSave).toHaveBeenCalledWith(
       expect.objectContaining({ type: "http://purl.org/linked-data/cube#DimensionProperty" }),
     );
+  });
+
+  describe("création d'une composante", () => {
+    const newComponent = { identifiant: "c1", labelLg1: "Composante 1", labelLg2: "Component 1" };
+
+    beforeEach(() => {
+      vi.mocked(OrganizationsApi.getOrganizations).mockResolvedValue([
+        { iri: "http://bauhaus/organisations/dg75", id: "HIE2001201", stamp: "DG75-L201" },
+      ]);
+    });
+
+    afterEach(() => {
+      vi.mocked(OrganizationsApi.getOrganizations).mockResolvedValue([]);
+    });
+
+    it("pré-remplit le contributeur avec l'organisation de l'utilisateur", async () => {
+      renderEdit({ component: newComponent });
+
+      expect(
+        await screen.findByText("contributor:http://bauhaus/organisations/dg75"),
+      ).toBeInTheDocument();
+    });
+
+    it("garde le contributeur pré-rempli quand le type de composante est imposé", async () => {
+      renderEdit({ component: newComponent, type: MEASURE_PROPERTY_TYPE });
+
+      expect(
+        await screen.findByText("contributor:http://bauhaus/organisations/dg75"),
+      ).toBeInTheDocument();
+      fireEvent.click(saveButton());
+      expect(handleSave).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: MEASURE_PROPERTY_TYPE,
+          contributor: ["http://bauhaus/organisations/dg75"],
+        }),
+      );
+    });
   });
 
   it("propose un format et des longueurs pour une représentation textuelle", () => {
