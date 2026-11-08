@@ -279,11 +279,11 @@ export const Component = () => {
     const newLocalVariables: VariableData[] = [];
     state.localVariables.forEach((localVar) => {
       if (variableMap.has(localVar.id)) {
-        // Update existing variable with new lastModified
+        // Update existing variable with its local modification date
         variableMap.set(localVar.id, {
           ...variableMap.get(localVar.id),
           ...localVar,
-          lastModified: new Date().toISOString(),
+          lastModified: state.lastModifiedById[localVar.id] ?? "",
         });
       } else {
         newLocalVariables.push(localVar);
@@ -296,7 +296,7 @@ export const Component = () => {
     newLocalVariables.forEach((localVar) => {
       const newVariable = {
         ...localVar,
-        lastModified: new Date().toISOString(),
+        lastModified: state.lastModifiedById[localVar.id] ?? "",
       };
       const anchorId = state.newVariableAnchors[localVar.id];
       const anchorIndex = anchorId ? merged.findIndex((v) => v.id === anchorId) : -1;
@@ -314,6 +314,7 @@ export const Component = () => {
     state.localVariables,
     state.deletedVariableIds,
     state.newVariableAnchors,
+    state.lastModifiedById,
   ]);
 
   const filteredVariables = useMemo(() => {

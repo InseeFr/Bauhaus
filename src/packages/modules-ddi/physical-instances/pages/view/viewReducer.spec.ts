@@ -51,3 +51,62 @@ describe("viewReducer — report des saisies du panneau (#1608)", () => {
     expect(next.selectedVariable).toBeNull();
   });
 });
+
+describe("viewReducer — date de dernière modification des variables locales", () => {
+  it("should record the modification date carried by a reported edit", () => {
+    const next = viewReducer(
+      initialState,
+      actions.updateVariable(variable("var-1"), "2026-11-08T10:00:00.000Z"),
+    );
+
+    expect(next.lastModifiedById).toEqual({ "var-1": "2026-11-08T10:00:00.000Z" });
+  });
+
+  it("should record the modification date of an added variable", () => {
+    const next = viewReducer(
+      initialState,
+      actions.addVariable(variable("var-2"), "var-1", "2026-11-08T10:00:00.000Z"),
+    );
+
+    expect(next.lastModifiedById).toEqual({ "var-2": "2026-11-08T10:00:00.000Z" });
+  });
+
+  it("should record the modification date of a variable being created", () => {
+    const next = viewReducer(
+      initialState,
+      actions.addEditedVariable(variable("uuid-1"), "2026-11-08T10:00:00.000Z"),
+    );
+
+    expect(next.lastModifiedById).toEqual({ "uuid-1": "2026-11-08T10:00:00.000Z" });
+  });
+
+  it("should stamp the edit with the current date by default", () => {
+    const before = new Date().toISOString();
+
+    const next = viewReducer(initialState, actions.updateVariable(variable("var-1")));
+
+    expect(next.lastModifiedById["var-1"] >= before).toBe(true);
+  });
+
+  it("should forget the modification date of a deleted variable", () => {
+    const edited = viewReducer(
+      initialState,
+      actions.updateVariable(variable("var-1"), "2026-11-08T10:00:00.000Z"),
+    );
+
+    const next = viewReducer(edited, actions.deleteVariable("var-1"));
+
+    expect(next.lastModifiedById).toEqual({});
+  });
+
+  it("should forget every modification date when local variables are cleared", () => {
+    const edited = viewReducer(
+      initialState,
+      actions.updateVariable(variable("var-1"), "2026-11-08T10:00:00.000Z"),
+    );
+
+    const next = viewReducer(edited, actions.clearLocalVariables());
+
+    expect(next.lastModifiedById).toEqual({});
+  });
+});
