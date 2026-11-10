@@ -20,6 +20,8 @@ interface PhysicalInstanceHeaderProps {
   /** PI courante : dernier segment du fil d'Ariane, d'où l'on change de PI. */
   physicalInstance: { agency: string; id: string };
   stamps?: string[];
+  /** Parents introuvables : aucun bouton menant à une sauvegarde. */
+  readOnly?: boolean;
 }
 
 export const PhysicalInstanceHeader = ({
@@ -31,6 +33,7 @@ export const PhysicalInstanceHeader = ({
   studyUnitLabel,
   physicalInstance,
   stamps,
+  readOnly,
 }: Readonly<PhysicalInstanceHeaderProps>) => (
   <div className="mb-3">
     <PhysicalInstanceBreadcrumb
@@ -48,6 +51,7 @@ export const PhysicalInstanceHeader = ({
       group={group}
       studyUnit={studyUnit}
       stamps={stamps}
+      readOnly={readOnly}
     />
   </div>
 );

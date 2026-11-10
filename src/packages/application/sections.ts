@@ -23,7 +23,7 @@ export const SECTION_ROWS: Section[][] = [
     { identifier: "operations", modules: ["operations"], logo: "operations-01.svg" },
     {
       identifier: "dataDescription",
-      modules: ["datasets", "ddi"],
+      modules: ["ddi", "datasets"],
       logo: "structures-01.svg",
     },
   ],

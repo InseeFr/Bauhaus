@@ -19,6 +19,8 @@ interface PhysicalInstancesDataTableProps {
   selectedVariableId?: string | null;
   /** Stamps de l'instance — gating STAMP des boutons de suppression. */
   stamps?: string[];
+  /** Parents introuvables : aucun bouton menant à une sauvegarde. */
+  readOnly?: boolean;
 }
 
 export const PhysicalInstancesDataTable = ({
@@ -30,6 +32,7 @@ export const PhysicalInstancesDataTable = ({
   sharedVariableIds = [],
   selectedVariableId,
   stamps,
+  readOnly = false,
 }: Readonly<PhysicalInstancesDataTableProps>) => {
   const { t, i18n } = useTranslation();
 
@@ -146,7 +149,7 @@ export const PhysicalInstancesDataTable = ({
         body={dateBodyTemplate}
         sortable
       />
-      <Column body={deleteBodyTemplate} style={{ width: "5rem" }} />
+      {!readOnly && <Column body={deleteBodyTemplate} style={{ width: "5rem" }} />}
     </DataTable>
   );
 };

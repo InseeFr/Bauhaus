@@ -70,7 +70,12 @@ export const CodeRepresentation = ({
     id: string;
     agencyId: string;
   }>();
-  const { data: allCodeLists = [] } = useAllCodeLists(agencyId, physicalInstanceId);
+  const {
+    data: allCodeLists = [],
+    groupLabel,
+    isLoading: isLoadingCodeLists,
+    error: codeListsError,
+  } = useAllCodeLists(agencyId, physicalInstanceId);
   const [state, dispatch] = useReducer(codeRepresentationReducer, {
     ...initialState,
     codeListLabel: getLocalizedText(codeList?.Label) ?? "",
@@ -144,15 +149,24 @@ export const CodeRepresentation = ({
   // du groupe, éditables, qui ont besoin du DDI4 complet. Une liste mutualisée, en lecture seule,
   // n'a besoin que de la valeur et du libellé de chaque code : elle passe par la vue allégée
   // (`.../codes`), ~15 fois plus légère pour une grosse nomenclature.
+  // Rien n'est demandé avant de savoir si la liste est mutualisée : sans le catalogue, une liste
+  // mutualisée passerait pour éditable et on téléchargerait son DDI4 complet (27 Mo, ~1 min pour
+  // 45 000 codes) au lieu de sa vue allégée.
+  const loadSelectedList = !isLoadingCodeLists && !isSelectedListMutualized;
+  const loadSelectedMutualizedList = !isLoadingCodeLists && isSelectedListMutualized;
   const { data: selectedListCodes, isLoading: isLoadingSelectedListCodes } = useMutualizedCodeList(
-    isSelectedListMutualized ? "" : selectedAgency,
-    isSelectedListMutualized ? "" : selectedListId,
+    loadSelectedList ? selectedAgency : "",
+    loadSelectedList ? selectedListId : "",
   );
   const { data: selectedMutualizedCodes, isLoading: isLoadingSelectedMutualizedCodes } =
     useMutualizedCodeListCodes(
-      isSelectedListMutualized ? selectedAgency : "",
-      isSelectedListMutualized ? selectedListId : "",
+      loadSelectedMutualizedList ? selectedAgency : "",
+      loadSelectedMutualizedList ? selectedListId : "",
     );
+  // Un seul indicateur pour l'onglet : catalogue des listes réutilisables ET codes de la liste
+  // choisie. Tant qu'il tourne, ni sélecteur ni tableau (son caractère éditable dépend du catalogue).
+  const isLoadingCodes =
+    isLoadingCodeLists || isLoadingSelectedListCodes || isLoadingSelectedMutualizedCodes;
 
   // Ligne dont le menu « Utilisation » est ouvert : la popup reste montée après fermeture pour
   // laisser jouer l'animation, mais ne charge plus rien (le hook est désactivé avec `visible`).
@@ -590,8 +604,11 @@ export const CodeRepresentation = ({
           text={t("physicalInstance.view.code.csvImport.success", { count: importedCodesCount })}
         />
       )}
-      {showReuseSelect && (
+      {showReuseSelect && !isLoadingCodes && (
         <ReuseCodeListSelect
+          codeLists={allCodeLists}
+          groupLabel={groupLabel}
+          error={codeListsError}
           selectedCodeListId={selectedCodeListId}
           onCodeListSelect={(id) => {
             dispatch({ type: "SET_SELECTED_CODE_LIST_ID", payload: id });
@@ -609,7 +626,7 @@ export const CodeRepresentation = ({
           }}
         />
       )}
-      {(isLoadingSelectedListCodes || isLoadingSelectedMutualizedCodes) && (
+      {isLoadingCodes && (
         <div className="flex gap-2 align-items-center">
           {/* Décoratif : le texte qui suit porte le message. */}
           <ProgressSpinner
@@ -620,12 +637,12 @@ export const CodeRepresentation = ({
           <span>{t("physicalInstance.view.code.loadingCodes")}</span>
         </div>
       )}
-      {showDataTable && !readOnly && (
+      {showDataTable && !isLoadingCodes && !readOnly && (
         <SharedCodeListNotice
           otherVariableNames={otherVariableNames(codeListUsages, currentVariableId)}
         />
       )}
-      {showDataTable && (
+      {showDataTable && !isLoadingCodes && (
         <CodeListDataTable
           codeListLabel={codeListLabel}
           codes={codes}

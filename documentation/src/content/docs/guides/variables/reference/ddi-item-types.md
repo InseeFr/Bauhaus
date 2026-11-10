@@ -23,15 +23,8 @@ Colectica identifies each DDI type by a UUID. The module reads them from configu
 | Managed Representation Scheme         | `ManagedRepresentationScheme`        | `16d4d829-41e1-4677-aa17-81190b6a0e66` |
 | Managed Missing Values Representation | `ManagedMissingValuesRepresentation` | `c29c3125-2a53-4179-8fa6-aa3beb2bb5ed` |
 | Study Unit                            | `StudyUnit`                          | `30ea0200-7121-4f01-8d21-a931a182b86d` |
-
-## Types not in the configuration
-
-Two UUIDs are held in code rather than in configuration, because the map does not declare them:
-
-| Type       | UUID                                   | Note                                                                                                                                                    |
-| ---------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Group      | `4bd6eef6-99df-40e6-9b11-5b8f64e5cb23` | **Absent from `itemTypes`.** Reading it through `itemTypes().get("Group")` returns `null` in production; the constant `GROUP_UUID` must be used instead |
-| Study Unit | `30ea0200-7121-4f01-8d21-a931a182b86d` | Duplicated in code as `STUDY_UNIT_UUID`                                                                                                                 |
+| Group                                 | `Group`                              | `4bd6eef6-99df-40e6-9b11-5b8f64e5cb23` |
+| Variable Group                        | `VariableGroup`                      | `91da6c62-c2c2-4173-8958-22c518d1d40d` |
 
 ## Item format
 

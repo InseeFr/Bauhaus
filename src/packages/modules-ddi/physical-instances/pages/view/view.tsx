@@ -64,23 +64,23 @@ export const Component = () => {
   );
 
   // Une PI introuvable (404) ou en erreur n'a pas de parents à résoudre : on attend son chargement.
-  const { data: parents, isLoading: isLoadingParents } = usePhysicalInstanceParents(
-    agencyId!,
-    id!,
-    { enabled: !!data },
-  );
+  const {
+    data: parents,
+    isLoading: isLoadingParents,
+    isError: isParentsError,
+  } = usePhysicalInstanceParents(agencyId!, id!, { enabled: !!data });
 
   const currentGroup = parents?.group;
   const currentStudyUnit = parents?.studyUnit;
   const currentStamps = parents?.stamps;
+  // Sans parents (Groupe / Étude), la sauvegarde échouerait : la PI reste consultable en lecture seule.
+  const readOnly = isParentsError;
   const [reuseDialogVisible, setReuseDialogVisible] = useState(false);
 
   // Réutilisation de variables (#1387) : une variable utilisée par d'autres fichiers de l'étude est
   // partagée, la modifier les met à jour. On le signale dans le tableau et dans le panneau.
-  const { data: studyUnitVariableUsages } = useStudyUnitVariableUsages(
-    currentStudyUnit?.agency ?? "",
-    currentStudyUnit?.id ?? "",
-  );
+  const { data: studyUnitVariableUsages, isLoading: isLoadingVariableUsages } =
+    useStudyUnitVariableUsages(currentStudyUnit?.agency ?? "", currentStudyUnit?.id ?? "");
   const otherPhysicalInstances = useMemo(
     () =>
       otherPhysicalInstancesByVariable(studyUnitVariableUsages ?? [], {
@@ -939,7 +939,9 @@ export const Component = () => {
 
   // Les parents (Groupe / Étude) portent les droits d'édition : sans eux, la page s'afficherait
   // d'abord en lecture seule puis changerait sous les yeux de l'utilisateur.
-  if (isLoading || isLoadingParents) {
+  // Les usages des variables (fichiers qui partagent chacune) font partie de l'affichage : badge
+  // « partagée » dans le tableau, avertissement dans le panneau. On attend leur réponse.
+  if (isLoading || isLoadingParents || isLoadingVariableUsages) {
     return <LoadingOverlay textType="loading" />;
   }
 
@@ -963,7 +965,17 @@ export const Component = () => {
               studyUnitLabel={currentStudyUnit?.label}
               physicalInstance={{ agency: agencyId!, id: id! }}
               stamps={currentStamps}
+              readOnly={readOnly}
             />
+
+            {readOnly && (
+              <div role="alert" className="pi-validation-summary pi-parents-error">
+                <p className="pi-validation-summary-title">
+                  <i className="pi pi-times-circle" aria-hidden="true" />
+                  {t("physicalInstance.view.parentsError")}
+                </p>
+              </div>
+            )}
 
             <SearchFilters
               searchValue={state.searchValue}
@@ -976,6 +988,7 @@ export const Component = () => {
               onSaveAll={handleSaveAll}
               hasLocalChanges={hasUnsavedChanges}
               stamps={currentStamps}
+              readOnly={readOnly}
             />
 
             {displayedVariablesInError.length > 0 && (
@@ -1022,6 +1035,7 @@ export const Component = () => {
             sharedVariableIds={sharedVariableIds}
             selectedVariableId={state.selectedVariable?.id}
             stamps={currentStamps}
+            readOnly={readOnly}
           />
         </div>
         <div className="pi-col-side">
@@ -1042,6 +1056,7 @@ export const Component = () => {
                 hasNext={hasVariablesToNavigate}
                 onClose={handleCloseVariablePanel}
                 stamps={currentStamps}
+                readOnly={readOnly}
               />
             </div>
           )}

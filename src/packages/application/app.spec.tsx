@@ -96,7 +96,7 @@ describe("<App />", () => {
     expect(tilesIn(firstRow)).toEqual([
       ["Concepts", "/concepts"],
       ["Operations", "/operations"],
-      ["Data description", "/datasets"],
+      ["Data description", "/ddi"],
     ]);
     expect(tilesIn(secondRow)).toEqual([
       ["Classifications", "/classifications"],
@@ -104,12 +104,15 @@ describe("<App />", () => {
     ]);
   });
 
-  it("leads the data description tile to the variables when the datasets are not accessible", () => {
-    givenModules([openModule("datasets"), openModule("ddi")], (module) => module === "ddi");
+  it("leads the data description tile to the datasets when the variables are not accessible", () => {
+    givenModules([openModule("datasets"), openModule("ddi")], (module) => module === "datasets");
 
     renderApp();
 
-    expect(screen.getByRole("link", { name: "Data description" })).toHaveAttribute("href", "/ddi");
+    expect(screen.getByRole("link", { name: "Data description" })).toHaveAttribute(
+      "href",
+      "/datasets",
+    );
   });
 
   it("leads the administration tile to the structures when the codelists are hidden", () => {

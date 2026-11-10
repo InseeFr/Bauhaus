@@ -1,14 +1,20 @@
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
 
 import { Dropdown } from "@components/ui/dropdown";
 import { Message } from "@components/ui/message";
-import { ProgressSpinner } from "@components/ui/spinner";
 
-import { useAllCodeLists } from "../../../hooks/useAllCodeLists";
+import type { CodeListItem } from "../../../hooks/usePhysicalCodeLists";
 import { formatDate } from "../../../utils/formatDate";
 
+/**
+ * Sélecteur des listes réutilisables. Les listes viennent du parent, qui porte l'unique indicateur
+ * de chargement de l'onglet : le sélecteur n'est monté qu'une fois le catalogue chargé.
+ */
 interface ReuseCodeListSelectProps {
+  codeLists: CodeListItem[];
+  /** Libellé du groupe parent de la PI : en-tête de la section « groupe ». */
+  groupLabel?: string;
+  error?: unknown;
   selectedCodeListId: string | null;
   onCodeListSelect: (value: string) => void;
 }
@@ -22,34 +28,13 @@ interface CodeListOption {
 }
 
 export const ReuseCodeListSelect = ({
+  codeLists,
+  groupLabel,
+  error: codeListsError,
   selectedCodeListId,
   onCodeListSelect,
 }: Readonly<ReuseCodeListSelectProps>) => {
   const { t } = useTranslation();
-  const { id: physicalInstanceId = "", agencyId = "" } = useParams<{
-    id: string;
-    agencyId: string;
-  }>();
-  const {
-    data: codeLists = [],
-    groupLabel,
-    isLoading: isLoadingCodeLists,
-    error: codeListsError,
-  } = useAllCodeLists(agencyId, physicalInstanceId);
-
-  if (isLoadingCodeLists) {
-    return (
-      <div className="flex gap-2">
-        {/* Décoratif : le texte qui suit porte le message. */}
-        <ProgressSpinner
-          aria-hidden
-          style={{ width: "20px", height: "20px", margin: "0" }}
-          strokeWidth="4"
-        />
-        <span>{t("physicalInstance.view.code.loadingCodeLists")}</span>
-      </div>
-    );
-  }
 
   if (codeListsError) {
     return (

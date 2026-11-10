@@ -38,7 +38,6 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.code.csvImport.button": "Importer un CSV",
         "physicalInstance.view.code.csvImport.fileInput": "Fichier CSV",
         "physicalInstance.view.code.selectCodeList": "Sélectionnez une liste de codes",
-        "physicalInstance.view.code.loadingCodeLists": "Chargement des listes de codes...",
         "physicalInstance.view.code.errorLoadingCodeLists":
           "Erreur lors du chargement des listes de codes",
         "physicalInstance.view.code.noCodeListsAvailable": "Aucune liste de codes disponible",
@@ -705,6 +704,59 @@ describe("CodeRepresentation", () => {
       const labelInput = screen.getByLabelText("Libellé de la liste de codes");
       expect(labelInput).not.toHaveAttribute("readOnly");
       expect(screen.getByText("Ajouter un code")).toBeInTheDocument();
+    });
+  });
+
+  describe("single loader", () => {
+    const mutualizedReference: CodeRepresentationType = {
+      ...mockRepresentation,
+      CodeListReference: {
+        $type: "CodeList",
+        URN: "urn:ddi:fr.insee:mut-1:1",
+        Agency: "fr.insee",
+        ID: "mut-1",
+        Version: "1",
+      },
+    };
+
+    it("shows one loader, and neither the select nor the table, while the code lists and the codes load", () => {
+      mockUseAllCodeLists.mockReturnValue({ data: [], isLoading: true, error: null });
+      mockUseMutualizedCodeListCodes.mockImplementation((agency: string, id: string) => ({
+        data: undefined,
+        isLoading: agency === "fr.insee" && id === "mut-1",
+      }));
+
+      renderCodeRepresentation({
+        representation: mutualizedReference,
+        codeList: undefined,
+        categories: [],
+      });
+
+      expect(screen.getAllByTestId("progress-spinner")).toHaveLength(1);
+      expect(screen.queryByTestId("code-list-dropdown")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("data-table")).not.toBeInTheDocument();
+    });
+
+    it("does not request the full DDI4 of the referenced list before knowing whether it is mutualized", () => {
+      mockUseAllCodeLists.mockReturnValue({ data: [], isLoading: true, error: null });
+
+      renderCodeRepresentation({
+        representation: mutualizedReference,
+        codeList: undefined,
+        categories: [],
+      });
+
+      expect(mockUseMutualizedCodeList).not.toHaveBeenCalledWith("fr.insee", "mut-1");
+      expect(mockUseMutualizedCodeListCodes).not.toHaveBeenCalledWith("fr.insee", "mut-1");
+    });
+
+    it("keeps the single loader while the code lists load, even once the codes are there", () => {
+      mockUseAllCodeLists.mockReturnValue({ data: [], isLoading: true, error: null });
+
+      renderCodeRepresentation();
+
+      expect(screen.getAllByTestId("progress-spinner")).toHaveLength(1);
+      expect(screen.queryByTestId("data-table")).not.toBeInTheDocument();
     });
   });
 

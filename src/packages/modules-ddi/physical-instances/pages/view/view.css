@@ -94,6 +94,12 @@
   color: #73000c;
 }
 
+/* Bandeau lecture seule (parents introuvables) : détaché du titre. La marge se confond avec le
+   `mb-3` de l'en-tête (collapse) : elle doit le dépasser pour se voir. */
+.pi-parents-error {
+  margin-top: 1.5rem;
+}
+
 .pi-validation-summary-title {
   display: flex;
   align-items: center;

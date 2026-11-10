@@ -20,6 +20,8 @@ interface GlobalActionsCardProps {
   selectedVariableId?: string | null;
   /** Stamps de l'instance — gating STAMP des suppressions. */
   stamps?: string[];
+  /** Parents introuvables : aucun bouton menant à une sauvegarde. */
+  readOnly?: boolean;
 }
 
 export const GlobalActionsCard = ({
@@ -33,6 +35,7 @@ export const GlobalActionsCard = ({
   sharedVariableIds = [],
   selectedVariableId,
   stamps,
+  readOnly,
 }: Readonly<GlobalActionsCardProps>) => {
   const { t } = useTranslation();
 
@@ -48,6 +51,7 @@ export const GlobalActionsCard = ({
         sharedVariableIds={sharedVariableIds}
         selectedVariableId={selectedVariableId}
         stamps={stamps}
+        readOnly={readOnly}
       />
     </Card>
   );

@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useEffect, useRef, useState } from "react";
+import { useCallback, useReducer, useEffect, useRef, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 
@@ -228,6 +228,8 @@ interface VariableEditFormProps {
   onClose?: () => void;
   /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
   stamps?: string[];
+  /** Parents introuvables : aucun bouton menant à une sauvegarde. */
+  readOnly?: boolean;
 }
 
 // Un en-tête d'onglet personnalisé remplace le lien que TabView rend par défaut : on lui redonne
@@ -244,6 +246,29 @@ const tabHeaderProps = (options: TabPanelHeaderTemplateOptions) => ({
   onKeyDown: options.onKeyDown,
 });
 
+// Titre d'onglet, en rouge et suivi d'une pastille quand l'onglet porte une erreur de validation.
+const TabTitle = ({ hasErrors, children }: { hasErrors: boolean; children: ReactNode }) => (
+  <>
+    <span className={hasErrors ? "text-red-500" : ""}>{children}</span>
+    {hasErrors && (
+      <span
+        className="inline-flex align-items-center justify-content-center"
+        style={{
+          backgroundColor: "#ef4444",
+          color: "white",
+          borderRadius: "50%",
+          width: "1.25rem",
+          height: "1.25rem",
+          fontSize: "0.75rem",
+          fontWeight: "bold",
+        }}
+      >
+        !
+      </span>
+    )}
+  </>
+);
+
 export const VariableEditForm = ({
   variable,
   typeOptions,
@@ -259,6 +284,7 @@ export const VariableEditForm = ({
   hasNext = false,
   onClose,
   stamps,
+  readOnly = false,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -294,13 +320,16 @@ export const VariableEditForm = ({
 
   const [state, dispatch] = useReducer(formReducer, variable, buildFormState);
 
-  // Indicateur d'erreur de l'onglet : le blocage n'a lieu qu'au « Sauvegarder » global (#1608).
-  const hasValidationErrors =
-    getVariableValidationErrors({
-      name: state.name,
-      label: state.label,
-      sentinelMmvr: state.representation.SentinelMmvr,
-    }).length > 0;
+  // Indicateurs d'erreur des onglets : le blocage n'a lieu qu'au « Sauvegarder » global (#1608).
+  // Chaque erreur est signalée sur l'onglet qui porte le champ fautif.
+  const validationErrors = getVariableValidationErrors({
+    name: state.name,
+    label: state.label,
+    sentinelMmvr: state.representation.SentinelMmvr,
+  });
+  const hasInformationErrors =
+    validationErrors.includes("nameRequired") || validationErrors.includes("labelRequired");
+  const hasRepresentationErrors = validationErrors.includes("sentinelLabelRequired");
 
   // Modifications pas encore reportées dans le tableau : l'état courant du formulaire comparé à
   // l'état initial dérivé de `variable`. Une variable en création laissée vierge n'est pas
@@ -479,16 +508,18 @@ export const VariableEditForm = ({
     >
       <form onSubmit={handleSubmit} onBlur={commitChanges} className="flex flex-column gap-3">
         <div className="pi-variable-actions flex gap-2 justify-content-end">
-          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
-            <Button
-              type="button"
-              label={t("physicalInstance.view.duplicate")}
-              icon="pi pi-copy"
-              outlined
-              severity="secondary"
-              onClick={handleDuplicate}
-            />
-          </HasAccess>
+          {!readOnly && (
+            <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
+              <Button
+                type="button"
+                label={t("physicalInstance.view.duplicate")}
+                icon="pi pi-copy"
+                outlined
+                severity="secondary"
+                onClick={handleDuplicate}
+              />
+            </HasAccess>
+          )}
           <Button
             type="button"
             icon="pi pi-chevron-left"
@@ -528,25 +559,9 @@ export const VariableEditForm = ({
             headerTemplate={(options) => {
               return (
                 <a {...tabHeaderProps(options)}>
-                  <span className={hasValidationErrors ? "text-red-500" : ""}>
+                  <TabTitle hasErrors={hasInformationErrors}>
                     {t("physicalInstance.view.tabs.information")}
-                  </span>
-                  {hasValidationErrors && (
-                    <span
-                      className="inline-flex align-items-center justify-content-center"
-                      style={{
-                        backgroundColor: "#ef4444",
-                        color: "white",
-                        borderRadius: "50%",
-                        width: "1.25rem",
-                        height: "1.25rem",
-                        fontSize: "0.75rem",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      !
-                    </span>
-                  )}
+                  </TabTitle>
                 </a>
               );
             }}
@@ -568,7 +583,9 @@ export const VariableEditForm = ({
             headerTemplate={(options) => {
               return (
                 <a {...tabHeaderProps(options)}>
-                  <span>{t("physicalInstance.view.tabs.representation")}</span>
+                  <TabTitle hasErrors={hasRepresentationErrors}>
+                    {t("physicalInstance.view.tabs.representation")}
+                  </TabTitle>
                 </a>
               );
             }}

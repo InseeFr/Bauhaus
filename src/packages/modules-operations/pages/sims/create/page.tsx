@@ -97,7 +97,7 @@ export const Component = () => {
 
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
 
-  const { codelists } = useCodelists(metadataStructure);
+  const { isLoading: codelistsLoading, codelists } = useCodelists(metadataStructure);
 
   const simsId = mode === UPDATE ? params.id : undefined;
 
@@ -172,7 +172,11 @@ export const Component = () => {
 
   if (parentLoading) return <Loading />;
 
-  if (metadataStructureLoading || (mode === UPDATE && simsLoading)) return <Loading />;
+  // Les listes de codes sont attendues : arrivées après coup, elles ré-afficheraient toutes les
+  // rubriques (et leurs éditeurs) pendant que l'utilisateur fait défiler le formulaire.
+  if (metadataStructureLoading || codelistsLoading || (mode === UPDATE && simsLoading)) {
+    return <Loading />;
+  }
 
   return (
     <DocumentsStoreProvider

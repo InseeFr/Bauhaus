@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 
 import { cx } from "@utils/cx";
 
@@ -33,20 +32,6 @@ export const Outline = ({
       toggleOpen(metadataStructure.idMas);
     }
   };
-
-  const { hash } = useLocation();
-
-  useEffect(() => {
-    if (!hash) return;
-    const id = hash.replace("#", "");
-    requestAnimationFrame(() => {
-      const el = document.getElementById(id);
-      el?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    });
-  }, [hash]);
 
   return (
     <li>

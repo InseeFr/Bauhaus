@@ -111,6 +111,25 @@ describe("loadCodeListForVariable", () => {
       expect(result.codeList?.ID).toBe("mut-1");
     });
 
+    it("reports the catalog failure instead of falling back silently", async () => {
+      using warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      const failure = { message: "", status: 500 };
+      vi.mocked(DDIApi.getMutualizedCodeLists).mockRejectedValue(failure);
+      vi.mocked(DDIApi.getMutualizedCodeList).mockResolvedValue(
+        envelope({
+          CodeList: [{ $type: "CodeList", Agency: "fr.insee", ID: "mut-1" }],
+        } as any) as any,
+      );
+
+      await loadCodeListForVariable(
+        newQueryClient(),
+        { CodeListReference: { Agency: "fr.insee", ID: "mut-1", Version: "1" } } as any,
+        { skipMutualized: true },
+      );
+
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("fr.insee/mut-1"), failure);
+    });
+
     it("still loads the full content of a list that is not mutualized", async () => {
       vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue([
         { id: "mut-1", agencyId: "fr.insee", label: "Liste mutualisée" },
