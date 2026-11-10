@@ -100,10 +100,8 @@ export const Component = () => {
 
   // Réutilisation de variables (#1387) : une variable utilisée par d'autres fichiers de l'étude est
   // partagée, la modifier les met à jour. On le signale dans le tableau et dans le panneau.
-  const { data: studyUnitVariableUsages } = useStudyUnitVariableUsages(
-    currentStudyUnit?.agency ?? "",
-    currentStudyUnit?.id ?? "",
-  );
+  const { data: studyUnitVariableUsages, isLoading: isLoadingVariableUsages } =
+    useStudyUnitVariableUsages(currentStudyUnit?.agency ?? "", currentStudyUnit?.id ?? "");
   const otherPhysicalInstances = useMemo(
     () =>
       otherPhysicalInstancesByVariable(studyUnitVariableUsages ?? [], {
@@ -1024,7 +1022,9 @@ export const Component = () => {
 
   // Les parents (Groupe / Étude) portent les droits d'édition : sans eux, la page s'afficherait
   // d'abord en lecture seule puis changerait sous les yeux de l'utilisateur.
-  if (isLoading || isLoadingParents) {
+  // Les usages des variables (fichiers qui partagent chacune) font partie de l'affichage : badge
+  // « partagée » dans le tableau, avertissement dans le panneau. On attend leur réponse.
+  if (isLoading || isLoadingParents || isLoadingVariableUsages) {
     return <LoadingOverlay textType="loading" />;
   }
 

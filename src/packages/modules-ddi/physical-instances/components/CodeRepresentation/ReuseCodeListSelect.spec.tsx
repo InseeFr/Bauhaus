@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+import type { CodeListItem } from "../../../hooks/usePhysicalCodeLists";
 import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
 
 vi.mock("react-i18next", () => ({
@@ -8,7 +9,6 @@ vi.mock("react-i18next", () => ({
     t: (key: string, options?: Record<string, string>) => {
       const translations: Record<string, string> = {
         "physicalInstance.view.code.selectCodeList": "Sélectionnez une liste de codes",
-        "physicalInstance.view.code.loadingCodeLists": "Chargement des listes de codes...",
         "physicalInstance.view.code.errorLoadingCodeLists":
           "Erreur lors du chargement des listes de codes",
         "physicalInstance.view.code.noCodeListsAvailable": "Aucune liste de codes disponible",
@@ -27,16 +27,6 @@ vi.mock("react-i18next", () => ({
     },
   }),
 }));
-
-vi.mock("react-router", () => import("./reactRouter.testing"));
-
-const mockUseAllCodeLists = vi.fn();
-
-vi.mock("../../../hooks/useAllCodeLists", () => ({
-  useAllCodeLists: () => mockUseAllCodeLists(),
-}));
-
-vi.mock("primereact/progressspinner", () => import("./primereact.testing"));
 
 vi.mock("primereact/message", () => import("./primereact.testing"));
 
@@ -64,19 +54,15 @@ describe("ReuseCodeListSelect", () => {
     },
   ];
 
-  /** Réponse du hook : pas de liste, pas de libellé de groupe, ni chargement ni erreur. */
+  /** Listes passées au sélecteur : par défaut aucune liste, pas de libellé de groupe, pas d'erreur. */
+  let codeListsProps: { data: CodeListItem[]; groupLabel?: string; error?: Error | null };
   const mockAllCodeLists = (result: {
-    data?: unknown[];
+    data?: CodeListItem[];
     groupLabel?: string;
-    isLoading?: boolean;
     error?: Error | null;
-  }) =>
-    mockUseAllCodeLists.mockReturnValue({
-      data: [],
-      isLoading: false,
-      error: null,
-      ...result,
-    });
+  }) => {
+    codeListsProps = { data: [], error: null, ...result };
+  };
 
   /** Trois listes (deux « Pays » de versions différentes, une « Catégories ») d'une même origine. */
   const versionedCodeLists = (mutualized: boolean) =>
@@ -89,6 +75,9 @@ describe("ReuseCodeListSelect", () => {
   const renderSelect = (selectedCodeListId: string | null = null) =>
     render(
       <ReuseCodeListSelect
+        codeLists={codeListsProps.data}
+        groupLabel={codeListsProps.groupLabel}
+        error={codeListsProps.error}
         selectedCodeListId={selectedCodeListId}
         onCodeListSelect={mockOnCodeListSelect}
       />,
@@ -115,16 +104,6 @@ describe("ReuseCodeListSelect", () => {
     renderSelect();
 
     expect(dropdown()).toBeInTheDocument();
-  });
-
-  it("should display loading spinner when loading", () => {
-    mockAllCodeLists({ isLoading: true });
-
-    renderSelect();
-
-    expect(screen.getByTestId("progress-spinner")).toBeInTheDocument();
-    expect(screen.getByText("Chargement des listes de codes...")).toBeInTheDocument();
-    expect(screen.queryByTestId("code-list-dropdown")).not.toBeInTheDocument();
   });
 
   it("should display error message when loading fails", () => {

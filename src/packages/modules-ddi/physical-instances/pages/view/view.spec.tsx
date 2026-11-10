@@ -636,6 +636,21 @@ describe("View Component", () => {
       expect(screen.getByLabelText("Loading in progress...")).toHaveClass("loading-overlay");
     });
 
+    it("keeps the loading overlay while the study unit variable usages request is not finished", () => {
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: { physicalInstance: [] },
+        variables: [],
+        title: "Test",
+        isLoading: false,
+        isError: false,
+      });
+      mockUseStudyUnitVariableUsages.mockReturnValue({ data: undefined, isLoading: true });
+
+      render(<Component />, { wrapper });
+
+      expect(screen.getByLabelText("Loading in progress...")).toHaveClass("loading-overlay");
+    });
+
     it("should have correct accessibility attributes for loading state", () => {
       renderView();
 

@@ -79,7 +79,6 @@
         "groupCodeListsSectionNamed": "Group: {{group}}",
         "label": "Label",
         "loadingCodes": "Loading codes...",
-        "loadingCodeLists": "Loading code lists...",
         "missingCodeListDetail": "Variable {{variableAgency}}/{{variableId}} references code list {{codeListAgency}}/{{codeListId}}, which does not exist.",
         "missingCodeListTitle": "Code list not found",
         "moveDown": "Move down",

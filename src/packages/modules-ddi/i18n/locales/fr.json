@@ -79,7 +79,6 @@
         "groupCodeListsSectionNamed": "Série : {{group}}",
         "label": "Libellé",
         "loadingCodes": "Chargement des codes...",
-        "loadingCodeLists": "Chargement des listes de codes...",
         "missingCodeListDetail": "La variable {{variableAgency}}/{{variableId}} référence la liste de codes {{codeListAgency}}/{{codeListId}} qui n'existe pas.",
         "missingCodeListTitle": "Liste de codes introuvable",
         "moveDown": "Descendre",
