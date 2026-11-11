@@ -249,7 +249,7 @@ const tabHeaderProps = (options: TabPanelHeaderTemplateOptions) => ({
 // Titre d'onglet, en rouge et suivi d'une pastille quand l'onglet porte une erreur de validation.
 const TabTitle = ({ hasErrors, children }: { hasErrors: boolean; children: ReactNode }) => (
   <>
-    <span className={hasErrors ? "text-red-500" : ""}>{children}</span>
+    <span className={cx(hasErrors && "text-red-500")}>{children}</span>
     {hasErrors && (
       <span
         className="inline-flex align-items-center justify-content-center"

@@ -1,0 +1,39 @@
+.ddi4-langs-plugin {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ddi4-langs-plugin-empty {
+  padding: 20px;
+}
+
+.ddi4-langs-plugin-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f8f9fa;
+}
+
+.ddi4-langs-plugin-tab {
+  padding: 4px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.ddi4-langs-plugin-tab-selected {
+  background: #0971f1;
+  color: #fff;
+  font-weight: bold;
+}
+
+.ddi4-langs-plugin-content {
+  flex: 1;
+  overflow: auto;
+}

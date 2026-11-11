@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
+import { cx } from "@utils/cx";
+
 import { componentsI18n } from "../i18n";
 import "./index.css";
 
@@ -17,14 +19,12 @@ interface Path {
 }
 
 function getClasses(path: Path, index: number, paths: Path[]) {
-  return [
+  return cx(
     "main-menu-item",
     path.className,
-    path.disabled ? "disabled" : "",
-    !paths[index + 1] ? "" : WITH_SEPARATOR_CLASS,
-  ]
-    .filter(Boolean)
-    .join(" ");
+    path.disabled && "disabled",
+    paths[index + 1] && WITH_SEPARATOR_CLASS,
+  );
 }
 
 const MenuList = ({ paths, className }: Readonly<{ paths: Path[]; className: string }>) => (

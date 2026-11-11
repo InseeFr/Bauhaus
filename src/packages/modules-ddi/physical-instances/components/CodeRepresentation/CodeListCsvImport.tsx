@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@components/ui/button";
 import { Message } from "@components/ui/message";
 
+import { cx } from "@utils/cx";
+
 import {
   MAX_CSV_IMPORT_ROWS,
   parseCodeListCsv,
@@ -94,7 +96,7 @@ export const CodeListCsvImport = ({ onImport }: Readonly<CodeListCsvImportProps>
     <div className="code-list-csv-import">
       <div
         data-testid="csv-dropzone"
-        className={`code-list-csv-dropzone${dragOver ? " code-list-csv-dropzone-active" : ""}`}
+        className={cx("code-list-csv-dropzone", dragOver && "code-list-csv-dropzone-active")}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}

@@ -2,6 +2,8 @@ import { useMemo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router";
 
+import { cx } from "@utils/cx";
+
 import { componentsI18n } from "../i18n";
 import { Link } from "../link";
 import "./pagination.css";
@@ -140,7 +142,7 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
               </li>
               {/* Page numbers */}
               {visiblePageNumbers.map((page) => (
-                <li key={page} className={page === paginationData.safePage ? "active" : ""}>
+                <li key={page} className={cx(page === paginationData.safePage && "active")}>
                   <Link
                     to={buildPageUrl(page)}
                     aria-label={getAriaLabel(page)}

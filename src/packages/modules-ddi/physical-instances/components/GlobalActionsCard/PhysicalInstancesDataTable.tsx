@@ -5,6 +5,8 @@ import { Button } from "@components/ui/button";
 import { DataTable } from "@components/ui/data-table";
 import { Column } from "@components/ui/table-column";
 
+import { cx } from "@utils/cx";
+
 import { HasAccess } from "../../../../auth/components/auth";
 
 interface PhysicalInstancesDataTableProps {
@@ -36,16 +38,11 @@ export const PhysicalInstancesDataTable = ({
 }: Readonly<PhysicalInstancesDataTableProps>) => {
   const { t, i18n } = useTranslation();
 
-  const rowClassName = (rowData: any) => {
-    const classes: string[] = [];
-    if (unsavedVariableIds.includes(rowData.id)) {
-      classes.push("font-italic");
-    }
-    if (rowData.id === selectedVariableId) {
-      classes.push("selected-variable-row");
-    }
-    return classes.join(" ");
-  };
+  const rowClassName = (rowData: any) =>
+    cx(
+      unsavedVariableIds.includes(rowData.id) && "font-italic",
+      rowData.id === selectedVariableId && "selected-variable-row",
+    );
 
   const formatDate = (dateString: string) => {
     if (!dateString) return "";
