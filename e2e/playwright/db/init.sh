@@ -58,7 +58,7 @@ LOCAL_FIXTURES=(
 # Fuseki ses quads (count_triples ci-dessous).
 # Pour le régénérer après une modification volontaire des fixtures :
 #     curl -sf "${GRAPHDB_URL}/repositories/bauhaus/size"
-EXPECTED_TRIPLES=79320
+EXPECTED_TRIPLES=79324
 
 DATASETS=(bauhaus publication)
 

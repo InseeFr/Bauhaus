@@ -860,4 +860,67 @@ describe("Sims Field", () => {
       expect(screen.getByRole("combobox")).toBeInTheDocument();
     });
   });
+
+  describe("Filling instructions", () => {
+    it("should not offer instructions when the rubric has none", () => {
+      render(fieldOf(createDefaultSimsFieldProps()));
+
+      expect(screen.queryByRole("button", { name: "Show filling instructions" })).toBeNull();
+    });
+
+    it("should hide instructions until the user asks for them", () => {
+      render(
+        fieldOf(createDefaultSimsFieldProps({ msd: { instructionLg1: "Saisir la **date**" } })),
+      );
+
+      const toggle = screen.getByRole("button", { name: "Show filling instructions" });
+      expect(toggle).toHaveAttribute("aria-expanded", "false");
+      expect(screen.queryByText("date")).toBeNull();
+    });
+
+    it("should render the markdown instructions when the user asks for them", () => {
+      render(
+        fieldOf(createDefaultSimsFieldProps({ msd: { instructionLg1: "Saisir la **date**" } })),
+      );
+
+      fireEvent.click(screen.getByRole("button", { name: "Show filling instructions" }));
+
+      expect(screen.getByText("date").tagName).toBe("STRONG");
+      expect(screen.getByRole("button", { name: "Hide filling instructions" })).toHaveAttribute(
+        "aria-expanded",
+        "true",
+      );
+    });
+
+    it("should display second language instructions on the second language field", () => {
+      render(
+        fieldOf(
+          createDefaultSimsFieldProps({
+            secondLang: true,
+            msd: { instructionLg1: "Saisir la date", instructionLg2: "Enter the date" },
+          }),
+        ),
+      );
+
+      fireEvent.click(screen.getByRole("button", { name: "Show filling instructions" }));
+
+      expect(screen.getByText("Enter the date")).toBeInTheDocument();
+      expect(screen.queryByText("Saisir la date")).toBeNull();
+    });
+
+    it("should fall back to first language instructions when second language has none", () => {
+      render(
+        fieldOf(
+          createDefaultSimsFieldProps({
+            secondLang: true,
+            msd: { instructionLg1: "Saisir la date" },
+          }),
+        ),
+      );
+
+      fireEvent.click(screen.getByRole("button", { name: "Show filling instructions" }));
+
+      expect(screen.getByText("Saisir la date")).toBeInTheDocument();
+    });
+  });
 });

@@ -1,0 +1,113 @@
+.sims-field-instructions {
+  margin-bottom: 12px;
+}
+
+/*
+ * Les champs texte, date et la case « Sans objet » sont rendus dans une colonne de grille
+ * (gouttière de 15px, voir styles/grid.css), l'éditeur riche et les listes non : le bloc
+ * reprend la gouttière du champ qui le suit pour rester aligné sur lui.
+ */
+.sims-field-instructions:has(+ .bauhaus-form-group, + .sims-field > .bauhaus-form-group:first-child) {
+  padding: 0 15px;
+}
+
+.sims-field-instructions__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 4px 8px;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 35%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary-color) 6%, white);
+  color: var(--primary-color);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.sims-field-instructions__toggle:hover {
+  border-color: var(--primary-color);
+  background: color-mix(in srgb, var(--primary-color) 12%, white);
+}
+
+.sims-field-instructions__toggle:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.sims-field-instructions__toggle .pi {
+  font-size: 14px;
+}
+
+.sims-field-instructions__toggle .sims-field-instructions__chevron {
+  font-size: 11px;
+  transition: transform 0.2s ease;
+}
+
+.sims-field-instructions__toggle[aria-expanded="true"] .sims-field-instructions__chevron {
+  transform: rotate(180deg);
+}
+
+.sims-field-instructions__content {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 12px 16px;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--primary-color) 5%, white);
+  color: #333;
+  animation: sims-field-instructions-in 0.15s ease-out;
+}
+
+.sims-field-instructions__icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.sims-field-instructions__title {
+  margin: 0 0 4px;
+  color: var(--primary-color);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sims-field-instructions__content .wmde-markdown {
+  background: transparent;
+  color: inherit;
+  font-size: 14px !important;
+  line-height: 1.5;
+}
+
+.sims-field-instructions__content .wmde-markdown p:last-child {
+  margin-bottom: 0;
+}
+
+@keyframes sims-field-instructions-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sims-field-instructions__toggle,
+  .sims-field-instructions__toggle .sims-field-instructions__chevron,
+  .sims-field-instructions__content {
+    animation: none;
+    transition: none;
+  }
+}

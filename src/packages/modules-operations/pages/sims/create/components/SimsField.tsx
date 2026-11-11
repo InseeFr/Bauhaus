@@ -16,6 +16,7 @@ import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromMo
 import { SimsFieldTitle } from "../../components/SimsFieldTitle";
 import "./SimsField.css";
 import { SimsCodelistSelect } from "./SimsCodelistSelect";
+import { SimsFieldInstructions } from "./SimsFieldInstructions";
 import { SimsWithoutObjectCheckbox } from "./SimsWithoutObjectCheckbox";
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
@@ -169,6 +170,7 @@ const SimsFieldComponent = ({
       text={
         !msd.isPresentational && (
           <>
+            <SimsFieldInstructions msd={msd} secondLang={secondLang} />
             {msd.sansObject && (
               <SimsWithoutObjectCheckbox
                 checked={currentSection.rangeType === rangeType.RUBRIQUE_SANS_OBJECT}
