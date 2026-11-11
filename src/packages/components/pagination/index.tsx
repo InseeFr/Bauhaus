@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useEffect, useState } from "react";
+import { useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router";
 
@@ -11,6 +11,7 @@ import { Select } from "../select-rmes";
 import { List } from "../ui/list-group";
 
 const PAGE_WINDOW_SIZE = 3;
+const DEFAULT_NUMBER_PER_PAGE = 10;
 
 const numberPerPageOptions = [
   { value: "10", label: "10" },
@@ -29,16 +30,9 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
 
   const { pathname, search } = useLocation();
 
-  const [numberPerPage, setNumberPerPage] = useState(10);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(search);
-    if (searchParams.has("perPage")) {
-      const perPageValue = Number.parseInt(searchParams.get("perPage")!, 10);
-      if (!Number.isNaN(perPageValue) && perPageValue > 0) {
-        setNumberPerPage(perPageValue);
-      }
-    }
+  const numberPerPage = useMemo(() => {
+    const perPage = Number.parseInt(new URLSearchParams(search).get("perPage") ?? "", 10);
+    return perPage > 0 ? perPage : DEFAULT_NUMBER_PER_PAGE;
   }, [search]);
 
   const currentPage = useMemo(() => {

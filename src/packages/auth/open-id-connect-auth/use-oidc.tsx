@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 
 import { useOidc } from "../create-oidc";
 
@@ -23,16 +23,19 @@ export const LoggedInWrapper = ({ WrappedComponent }: OidcWrapperTypes) => {
 
   const [userInformationLoaded, setUserInformationLoaded] = useState(false);
 
-  const syncUserInformation = () => {
+  const syncUserInformation = useEffectEvent(() => {
     console.debug("Fetching User Informations...");
     setUserInformationLoaded(true);
-  };
+  });
+
+  const renewPeriodically = useEffectEvent(() => {
+    renewTokens().then(syncUserInformation);
+  });
 
   useEffect(() => {
     syncUserInformation();
-    setInterval(() => {
-      renewTokens().then(syncUserInformation);
-    }, 120000);
+    const intervalId = setInterval(renewPeriodically, 120000);
+    return () => clearInterval(intervalId);
   }, []);
 
   if (!userInformationLoaded) {

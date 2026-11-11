@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Dropdown } from "@components/ui/dropdown";
@@ -79,8 +79,9 @@ export const DdiPreview = ({
   const defaultLocale = useDefaultLocale();
   const [state, dispatch] = useReducer(ddiPreviewReducer, initialState);
   const requestIdRef = useRef(0);
-  const newVariableVersionDateRef = useRef(new Date().toISOString());
-  const versionDate = variableVersionDate ?? newVariableVersionDateRef.current;
+  // Figée au montage : l'aperçu d'une nouvelle variable garde la même date d'un rendu à l'autre.
+  const [newVariableVersionDate] = useState(() => new Date().toISOString());
+  const versionDate = variableVersionDate ?? newVariableVersionDate;
 
   const formatXml = useCallback((xml: string): string => {
     const PADDING = "  ";

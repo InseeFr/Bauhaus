@@ -220,6 +220,16 @@ describe("Pagination", () => {
       const page5Link = findPageLink("5");
       expect(page5Link).toBeUndefined();
     });
+
+    it("falls back to 10 items per page when perPage is not a positive number", () => {
+      const items = createItems(50);
+      renderWithRouter(<Pagination itemEls={items} />, {
+        route: "/?perPage=-5",
+      });
+
+      expect(screen.getByTestId("item-9")).toBeInTheDocument();
+      expect(screen.queryByTestId("item-10")).not.toBeInTheDocument();
+    });
   });
 
   describe("Edge cases", () => {
