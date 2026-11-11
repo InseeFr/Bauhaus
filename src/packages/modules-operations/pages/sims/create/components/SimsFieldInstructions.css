@@ -7,7 +7,10 @@
  * (gouttière de 15px, voir styles/grid.css), l'éditeur riche et les listes non : le bloc
  * reprend la gouttière du champ qui le suit pour rester aligné sur lui.
  */
-.sims-field-instructions:has(+ .bauhaus-form-group, + .sims-field > .bauhaus-form-group:first-child) {
+.sims-field-instructions:has(
+  + .bauhaus-form-group,
+  + .sims-field > .bauhaus-form-group:first-child
+) {
   padding: 0 15px;
 }
 

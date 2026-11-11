@@ -122,7 +122,10 @@ describe("getTree", () => {
   it("should propagate filling instructions from metadata attributes onto each node", () => {
     const input = [{ idMas: "S.3.9" }];
     const objectToMerge = {
-      "S.3.9": { instructionLg1: "Indiquer la **période**", instructionLg2: "Indicate the **period**" },
+      "S.3.9": {
+        instructionLg1: "Indiquer la **période**",
+        instructionLg2: "Indicate the **period**",
+      },
     };
 
     const tree = getTree(input, undefined, objectToMerge);
