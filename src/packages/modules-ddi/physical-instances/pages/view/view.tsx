@@ -1,5 +1,13 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useReducer, useRef, useMemo, useCallback, useEffect, useState } from "react";
+import {
+  type MouseEvent,
+  useReducer,
+  useRef,
+  useMemo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useSearchParams } from "react-router";
 
@@ -103,11 +111,16 @@ export const Component = () => {
   const savePhysicalInstance = usePublishPhysicalInstance();
   const dataByLangs = usePhysicalInstanceByLangs(data);
 
+  // Le libellé n'est resynchronisé qu'à l'arrivée d'un nouveau titre : une édition locale en cours
+  // (mise à jour optimiste) ne doit pas être écrasée par l'ancien titre.
+  const syncedTitle = useRef<string | undefined>(undefined);
   useEffect(() => {
-    if (title && title !== state.formData.label) {
+    if (!title || title === syncedTitle.current) return;
+    syncedTitle.current = title;
+    if (title !== state.formData.label) {
       dispatch(actions.setFormData({ label: title }));
     }
-  }, [title]);
+  }, [title, state.formData.label]);
 
   // Sync selected variable ID to URL search params
   useEffect(() => {
@@ -232,7 +245,10 @@ export const Component = () => {
         .filter(({ errors }) => errors.length > 0),
     [state.localVariables],
   );
-  const displayedVariablesInError = showValidationErrors ? variablesInError : [];
+  const displayedVariablesInError = useMemo(
+    () => (showValidationErrors ? variablesInError : []),
+    [showValidationErrors, variablesInError],
+  );
   const invalidVariableIds = useMemo(
     () => displayedVariablesInError.map(({ variable }) => variable.id),
     [displayedVariablesInError],
@@ -913,6 +929,7 @@ export const Component = () => {
     state.deletedVariableIds,
     state.reusedVariables,
     savePhysicalInstance,
+    queryClient,
     t,
   ]);
 
@@ -928,7 +945,8 @@ export const Component = () => {
   }, [variablesInError, saveAll]);
 
   const handleInvalidVariableClick = useCallback(
-    (variableId: string) => {
+    (event: MouseEvent<HTMLButtonElement>) => {
+      const { variableId } = event.currentTarget.dataset;
       const variable = mergedVariables.find((v) => v.id === variableId);
       if (variable) {
         void handleVariableClick(variable);
@@ -936,6 +954,16 @@ export const Component = () => {
     },
     [mergedVariables, handleVariableClick],
   );
+
+  const mergedVariableIds = useMemo(
+    () => mergedVariables.map((variable) => variable.id),
+    [mergedVariables],
+  );
+
+  const physicalInstanceRef = useMemo(() => ({ agency: agencyId!, id: id! }), [agencyId, id]);
+
+  const handleOpenReuseDialog = useCallback(() => setReuseDialogVisible(true), []);
+  const handleHideReuseDialog = useCallback(() => setReuseDialogVisible(false), []);
 
   // Les parents (Groupe / Étude) portent les droits d'édition : sans eux, la page s'afficherait
   // d'abord en lecture seule puis changerait sous les yeux de l'utilisateur.
@@ -953,7 +981,7 @@ export const Component = () => {
 
   return (
     <>
-      <div className={cx("pi-layout", state.selectedVariable && "pi-open")} role="main">
+      <main className={cx("pi-layout", state.selectedVariable && "pi-open")}>
         <div className="pi-col-main">
           <div className="sticky-header">
             <PhysicalInstanceHeader
@@ -963,7 +991,7 @@ export const Component = () => {
               studyUnit={currentStudyUnit}
               groupLabel={currentGroup?.label}
               studyUnitLabel={currentStudyUnit?.label}
-              physicalInstance={{ agency: agencyId!, id: id! }}
+              physicalInstance={physicalInstanceRef}
               stamps={currentStamps}
               readOnly={readOnly}
             />
@@ -984,7 +1012,7 @@ export const Component = () => {
               onTypeFilterChange={handleTypeFilterChange}
               typeOptions={typeOptions}
               onNewVariable={handleNewVariable}
-              onReuseVariable={currentStudyUnit ? () => setReuseDialogVisible(true) : undefined}
+              onReuseVariable={currentStudyUnit ? handleOpenReuseDialog : undefined}
               onSaveAll={handleSaveAll}
               hasLocalChanges={hasUnsavedChanges}
               stamps={currentStamps}
@@ -1007,7 +1035,8 @@ export const Component = () => {
                       <button
                         type="button"
                         className="pi-validation-summary-variable"
-                        onClick={() => handleInvalidVariableClick(variable.id)}
+                        data-variable-id={variable.id}
+                        onClick={handleInvalidVariableClick}
                       >
                         {variable.name.trim() ||
                           variable.label.trim() ||
@@ -1040,7 +1069,7 @@ export const Component = () => {
         </div>
         <div className="pi-col-side">
           {state.selectedVariable && (
-            <div className="variable-edit-sidebar" role="complementary">
+            <aside className="variable-edit-sidebar">
               <VariableEditForm
                 variable={state.selectedVariable}
                 typeOptions={variableTypeOptions}
@@ -1058,17 +1087,17 @@ export const Component = () => {
                 stamps={currentStamps}
                 readOnly={readOnly}
               />
-            </div>
+            </aside>
           )}
         </div>
-      </div>
+      </main>
 
       {reuseDialogVisible && currentStudyUnit && (
         <ReuseVariableDialog
           studyUnit={currentStudyUnit}
-          excludedVariableIds={mergedVariables.map((variable) => variable.id)}
+          excludedVariableIds={mergedVariableIds}
           onReuse={handleReuseVariable}
-          onHide={() => setReuseDialogVisible(false)}
+          onHide={handleHideReuseDialog}
         />
       )}
 
