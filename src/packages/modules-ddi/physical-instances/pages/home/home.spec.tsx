@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ReactNode } from "react";
-import { MemoryRouter } from "react-router";
+import { MemoryRouter, useLocation } from "react-router";
 import { describe, expect, it, vi } from "vitest";
 
 import { createQueryWrapper } from "../../../hooks/queryClient.testing";
@@ -11,15 +11,42 @@ import { Component } from "./home";
 vi.mock("../../../hooks/usePhysicalInstances");
 vi.mock("@utils/hooks/useTitle");
 vi.mock("./menu", () => ({
-  HomePageMenu: ({ onCreateFrom }: { onCreateFrom: () => void }) => (
-    <button type="button" data-testid="home-page-menu" onClick={onCreateFrom}>
-      Nouveau à partir de…
-    </button>
+  HomePageMenu: ({
+    onCreate,
+    onCreateFrom,
+  }: {
+    onCreate: () => void;
+    onCreateFrom: () => void;
+  }) => (
+    <>
+      <button type="button" data-testid="home-page-menu-create" onClick={onCreate}>
+        Nouveau
+      </button>
+      <button type="button" data-testid="home-page-menu" onClick={onCreateFrom}>
+        Nouveau à partir de…
+      </button>
+    </>
   ),
 }));
 vi.mock("../../components/NewFromDialog/NewFromDialog", () => ({
-  NewFromDialog: ({ visible }: { visible: boolean }) =>
-    visible ? <div role="dialog" aria-label="new-from" /> : null,
+  NewFromDialog: ({ visible, onHide }: { visible: boolean; onHide: () => void }) =>
+    visible ? (
+      <dialog open aria-label="new-from">
+        <button type="button" onClick={onHide}>
+          close-new-from
+        </button>
+      </dialog>
+    ) : null,
+}));
+vi.mock("../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog", () => ({
+  PhysicalInstanceDialog: ({ visible, onHide }: { visible: boolean; onHide: () => void }) =>
+    visible ? (
+      <dialog open aria-label="create">
+        <button type="button" onClick={onHide}>
+          close-create
+        </button>
+      </dialog>
+    ) : null,
 }));
 vi.mock("../../../../application/app-context", () => ({
   useAppContext: () => ({
@@ -50,12 +77,17 @@ vi.mock("react-i18next", async () => {
   };
 });
 
-const renderHome = () => {
+const LocationSearch = () => <output data-testid="location-search">{useLocation().search}</output>;
+
+const renderHome = (initialEntry = "/ddi/physical-instances") => {
   const QueryWrapper = createQueryWrapper();
   render(<Component />, {
     wrapper: ({ children }: { children: ReactNode }) => (
       <QueryWrapper>
-        <MemoryRouter>{children}</MemoryRouter>
+        <MemoryRouter initialEntries={[initialEntry]}>
+          {children}
+          <LocationSearch />
+        </MemoryRouter>
       </QueryWrapper>
     ),
   });
@@ -132,5 +164,57 @@ describe("Home Component", () => {
     await userEvent.click(screen.getByTestId("home-page-menu"));
 
     expect(screen.getByRole("dialog", { name: "new-from" })).toBeInTheDocument();
+  });
+
+  describe("modale ouverte mémorisée dans l'URL (?dialog=)", () => {
+    for (const { dialog, name } of [
+      { dialog: "create", name: "create" },
+      { dialog: "new-from", name: "new-from" },
+    ]) {
+      it(`ouvre la modale « ${name} » au chargement de ?dialog=${dialog}`, () => {
+        mockPhysicalInstances([]);
+
+        renderHome(`/ddi/physical-instances?dialog=${dialog}`);
+
+        expect(screen.getByRole("dialog", { name })).toBeInTheDocument();
+      });
+    }
+
+    it("n'ouvre aucune modale pour une valeur inconnue", () => {
+      mockPhysicalInstances([]);
+
+      renderHome("/ddi/physical-instances?dialog=inconnue");
+
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+
+    for (const { testId, dialog } of [
+      { testId: "home-page-menu-create", dialog: "create" },
+      { testId: "home-page-menu", dialog: "new-from" },
+    ]) {
+      it(`écrit ?dialog=${dialog} à l'ouverture depuis le menu`, async () => {
+        mockPhysicalInstances([]);
+        renderHome();
+
+        await userEvent.click(screen.getByTestId(testId));
+
+        expect(screen.getByTestId("location-search")).toHaveTextContent(`?dialog=${dialog}`);
+      });
+    }
+
+    for (const { dialog, close } of [
+      { dialog: "create", close: "close-create" },
+      { dialog: "new-from", close: "close-new-from" },
+    ]) {
+      it(`retire ?dialog=${dialog} à la fermeture en gardant les autres paramètres`, async () => {
+        mockPhysicalInstances([]);
+        renderHome(`/ddi/physical-instances?search=emploi&dialog=${dialog}`);
+
+        await userEvent.click(screen.getByText(close));
+
+        expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+        expect(screen.getByTestId("location-search")).toHaveTextContent(/^\?search=emploi$/);
+      });
+    }
   });
 });
