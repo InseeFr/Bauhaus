@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useEffectEvent, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 
@@ -16,6 +16,8 @@ import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
   Category,
+  CategoryUsage,
+  CodeListUsage,
 } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
 import { CategoryUsageDialog } from "./CategoryUsageDialog";
@@ -54,10 +56,17 @@ interface CodeRepresentationProps {
   ) => void;
 }
 
+// Références stables : une valeur par défaut recréée à chaque rendu invaliderait les handlers
+// mémoïsés qui en dépendent.
+const NO_CATEGORIES: Category[] = [];
+const NO_LIST_USAGES: CodeListUsage[] = [];
+const NO_CATEGORY_USAGES: CategoryUsage[] = [];
+const SPINNER_STYLE = { width: "20px", height: "20px", margin: "0" };
+
 export const CodeRepresentation = ({
   representation,
   codeList,
-  categories = [],
+  categories = NO_CATEGORIES,
   currentVariableId,
   currentVariableName,
   onChange,
@@ -180,7 +189,9 @@ export const CodeRepresentation = ({
   const codeListIdRef = useRef<string | undefined>(codeList?.ID);
   const hasInitializedRef = useRef(false);
 
-  useEffect(() => {
+  // Lit les props à jour sans en dépendre : seul un changement d'ID (effet ci-dessous) doit
+  // réinitialiser le tableau, pas une simple édition du contenu.
+  const initFromProps = useEffectEvent(() => {
     // Only reinitialize if the codeList ID actually changed (not just the content)
     const hasCodeListIdChanged = codeListIdRef.current !== codeList?.ID;
     const hasRepresentationChanged =
@@ -242,6 +253,10 @@ export const CodeRepresentation = ({
         },
       });
     }
+  });
+
+  useEffect(() => {
+    initFromProps();
   }, [codeList?.ID, representation?.CodeListReference?.ID]);
 
   // Charge le contenu d'une liste réutilisée sélectionnée.
@@ -250,7 +265,8 @@ export const CodeRepresentation = ({
   // les deux effets se déclenchent dans le même commit et React les exécute dans l'ordre de
   // déclaration. L'initialisation (qui repart de l'état vide) doit donc s'exécuter d'abord,
   // puis ce chargement, sinon il écraserait les codes tout juste affichés.
-  useEffect(() => {
+  // Ne se rejoue qu'à l'arrivée de nouveaux codes ; les props (readOnly, onChange…) sont lues à jour.
+  const loadReusedCodeList = useEffectEvent(() => {
     if (!selectedListCodes) return;
     const fetchedCodeList = singleItemOfType(selectedListCodes, "CodeList");
     if (!fetchedCodeList) return;
@@ -289,6 +305,10 @@ export const CodeRepresentation = ({
         itemsOfType(selectedListCodes, "Category"),
       );
     }
+  });
+
+  useEffect(() => {
+    loadReusedCodeList();
   }, [selectedListCodes]);
 
   // Même chargement pour une liste mutualisée, depuis sa vue allégée : lecture seule, donc rien à
@@ -309,173 +329,207 @@ export const CodeRepresentation = ({
    * foulée ({@link handleCodeListLabelCommit}), sur une modification DÉJÀ appliquée — d'où le
    * caractère qui s'affiche normalement et le focus rendu au champ après le choix.
    */
-  const applyCodeListLabel = (newLabel: string): ApplyEdit => {
-    return (commit) => {
-      dispatch({ type: "SET_CODE_LIST_LABEL", payload: newLabel });
+  const applyCodeListLabel = useCallback(
+    (newLabel: string): ApplyEdit =>
+      (commit) => {
+        dispatch({ type: "SET_CODE_LIST_LABEL", payload: newLabel });
 
-      const newCodeListId = codeList?.ID || crypto.randomUUID();
-      const currentRepresentation =
-        representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
-      const updatedCodeList: CodeList = {
-        ...(codeList ??
-          createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId, defaultLocale)),
-        Label: createLabel(newLabel, defaultLocale),
-      };
+        const newCodeListId = codeList?.ID || crypto.randomUUID();
+        const currentRepresentation =
+          representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
+        const updatedCodeList: CodeList = {
+          ...(codeList ??
+            createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId, defaultLocale)),
+          Label: createLabel(newLabel, defaultLocale),
+        };
 
-      commit(currentRepresentation, updatedCodeList, categories);
-    };
-  };
+        commit(currentRepresentation, updatedCodeList, categories);
+      },
+    [codeList, representation, defaultAgencyId, defaultLocale, categories],
+  );
 
-  const handleCodeListLabelChange = (newLabel: string) => applyCodeListLabel(newLabel)(onChange);
+  const handleCodeListLabelChange = useCallback(
+    (newLabel: string) => applyCodeListLabel(newLabel)(onChange),
+    [applyCodeListLabel, onChange],
+  );
 
-  const handleCodeListLabelCommit = ({
-    value,
-    previousValue,
-  }: {
-    value: string;
-    previousValue: string;
-  }) =>
-    withOverrideGuard(applyCodeListLabel(value), {
-      undo: () => applyCodeListLabel(previousValue)(onChange),
-    });
+  const handleCodeListLabelCommit = useCallback(
+    ({ value, previousValue }: { value: string; previousValue: string }) =>
+      withOverrideGuard(applyCodeListLabel(value), {
+        undo: () => applyCodeListLabel(previousValue)(onChange),
+      }),
+    [withOverrideGuard, applyCodeListLabel, onChange],
+  );
 
-  const handleDeleteCode = (codeId: string) =>
-    withOverrideGuard((commit) => {
-      const deletedCode = codes.find((c) => c.id === codeId);
-      dispatch({ type: "DELETE_CODE", payload: codeId });
+  const handleDeleteCode = useCallback(
+    (codeId: string) =>
+      withOverrideGuard((commit) => {
+        const deletedCode = codes.find((c) => c.id === codeId);
+        dispatch({ type: "DELETE_CODE", payload: codeId });
 
-      const newCodeListId = codeList?.ID || crypto.randomUUID();
-      const currentRepresentation =
-        representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
-      const updatedCodeList: CodeList = {
-        ...(codeList ??
-          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-        Label: createLabel(codeListLabel, defaultLocale),
-        Code: codeList?.Code?.filter((code) => code.ID !== codeId),
-      };
+        const newCodeListId = codeList?.ID || crypto.randomUUID();
+        const currentRepresentation =
+          representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
+        const updatedCodeList: CodeList = {
+          ...(codeList ??
+            createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+          Label: createLabel(codeListLabel, defaultLocale),
+          Code: codeList?.Code?.filter((code) => code.ID !== codeId),
+        };
 
-      const updatedCategories = deletedCode
-        ? categories.filter((cat) => cat.ID !== deletedCode.categoryId)
-        : categories;
+        const updatedCategories = deletedCode
+          ? categories.filter((cat) => cat.ID !== deletedCode.categoryId)
+          : categories;
 
-      commit(currentRepresentation, updatedCodeList, updatedCategories);
-    });
+        commit(currentRepresentation, updatedCodeList, updatedCategories);
+      }),
+    [
+      withOverrideGuard,
+      codes,
+      codeList,
+      representation,
+      defaultAgencyId,
+      defaultLocale,
+      codeListLabel,
+      categories,
+    ],
+  );
 
-  const applyCellEdit = (
-    rowData: CodeTableRow,
-    field: "value" | "label",
-    newValue: string,
-  ): ApplyEdit => {
-    return (commit) => {
-      dispatch({
-        type: "UPDATE_CODE",
-        payload: { id: rowData.id, field, value: newValue },
-      });
+  const applyCellEdit = useCallback(
+    (rowData: CodeTableRow, field: "value" | "label", newValue: string): ApplyEdit =>
+      (commit) => {
+        dispatch({
+          type: "UPDATE_CODE",
+          payload: { id: rowData.id, field, value: newValue },
+        });
 
-      const updatedCode = {
-        ...rowData,
-        [field]: newValue,
-      };
+        const updatedCode = {
+          ...rowData,
+          [field]: newValue,
+        };
 
-      const newCodeListId = codeList?.ID || crypto.randomUUID();
-      const currentRepresentation =
-        representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
-      // On repart de la catégorie existante quand il y en a une, pour ne pas perdre les champs
-      // qu'elle porte au-delà du libellé — notamment le BasedOnObject d'une variante fraîchement
-      // créée, qui serait effacé par une reconstruction de zéro.
-      const existingCategory = categories.find((cat) => cat.ID === updatedCode.categoryId);
-      const newCategory: Category = existingCategory
-        ? { ...existingCategory, Label: createLabel(updatedCode.label, defaultLocale) }
-        : createCategory(updatedCode.categoryId, updatedCode.label, defaultAgencyId, defaultLocale);
-      const newCode = createCode(
-        updatedCode.id,
-        updatedCode.categoryId,
-        updatedCode.value,
-        defaultAgencyId,
-      );
-
-      const existingCode = codeList?.Code?.find((c) => c.ID === rowData.id);
-      let updatedCodeListCodes;
-      let updatedCategories: Category[];
-
-      if (existingCode) {
-        updatedCodeListCodes =
-          codeList?.Code?.map((code) => (code.ID === rowData.id ? newCode : code)) ?? [];
-        updatedCategories = categories.map((cat) =>
-          cat.ID === rowData.categoryId ? newCategory : cat,
+        const newCodeListId = codeList?.ID || crypto.randomUUID();
+        const currentRepresentation =
+          representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
+        // On repart de la catégorie existante quand il y en a une, pour ne pas perdre les champs
+        // qu'elle porte au-delà du libellé — notamment le BasedOnObject d'une variante fraîchement
+        // créée, qui serait effacé par une reconstruction de zéro.
+        const existingCategory = categories.find((cat) => cat.ID === updatedCode.categoryId);
+        const newCategory: Category = existingCategory
+          ? { ...existingCategory, Label: createLabel(updatedCode.label, defaultLocale) }
+          : createCategory(
+              updatedCode.categoryId,
+              updatedCode.label,
+              defaultAgencyId,
+              defaultLocale,
+            );
+        const newCode = createCode(
+          updatedCode.id,
+          updatedCode.categoryId,
+          updatedCode.value,
+          defaultAgencyId,
         );
-      } else {
-        updatedCodeListCodes = [...(codeList?.Code ?? []), newCode];
-        updatedCategories = [...categories, newCategory];
-      }
 
-      const updatedCodeList: CodeList = {
-        ...(codeList ??
-          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-        Label: createLabel(codeListLabel, defaultLocale),
-        Code: updatedCodeListCodes,
-      };
+        const existingCode = codeList?.Code?.find((c) => c.ID === rowData.id);
+        let updatedCodeListCodes;
+        let updatedCategories: Category[];
 
-      commit(currentRepresentation, updatedCodeList, updatedCategories);
-    };
-  };
+        if (existingCode) {
+          updatedCodeListCodes =
+            codeList?.Code?.map((code) => (code.ID === rowData.id ? newCode : code)) ?? [];
+          updatedCategories = categories.map((cat) =>
+            cat.ID === rowData.categoryId ? newCategory : cat,
+          );
+        } else {
+          updatedCodeListCodes = [...(codeList?.Code ?? []), newCode];
+          updatedCategories = [...categories, newCategory];
+        }
+
+        const updatedCodeList: CodeList = {
+          ...(codeList ??
+            createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+          Label: createLabel(codeListLabel, defaultLocale),
+          Code: updatedCodeListCodes,
+        };
+
+        commit(currentRepresentation, updatedCodeList, updatedCategories);
+      },
+    [codeList, representation, defaultAgencyId, defaultLocale, codeListLabel, categories],
+  );
 
   /** Frappe dans une cellule : appliquée immédiatement (cf. la garde, déclenchée dans la foulée). */
-  const handleCellEdit = (rowData: CodeTableRow, field: "value" | "label", newValue: string) =>
-    applyCellEdit(rowData, field, newValue)(onChange);
+  const handleCellEdit = useCallback(
+    (rowData: CodeTableRow, field: "value" | "label", newValue: string) =>
+      applyCellEdit(rowData, field, newValue)(onChange),
+    [applyCellEdit, onChange],
+  );
 
   /**
    * Garde d'une cellule éditée, sur une modification déjà appliquée. « Modifier » la confirme,
    * « Créer » la reporte sur une variante, « Annuler » réapplique la valeur d'avant l'édition.
    */
-  const handleCellCommit = (
-    rowData: CodeTableRow,
-    field: "value" | "label",
-    { value, previousValue }: { value: string; previousValue: string },
-  ) => {
-    const apply = applyCellEdit(rowData, field, value);
-    const undo = () => applyCellEdit(rowData, field, previousValue)(onChange);
-    return field === "label"
-      ? // Éditer le libellé d'un code, c'est éditer sa catégorie : garde spécifique (cas 2 et 3).
-        // La popup cite la catégorie sous son ancien nom, celui que les autres listes connaissent.
-        withCategoryOverrideGuard(rowData, apply, { undo, categoryLabel: previousValue })
-      : withOverrideGuard(apply, { undo });
-  };
+  const handleCellCommit = useCallback(
+    (
+      rowData: CodeTableRow,
+      field: "value" | "label",
+      { value, previousValue }: { value: string; previousValue: string },
+    ) => {
+      const apply = applyCellEdit(rowData, field, value);
+      const undo = () => applyCellEdit(rowData, field, previousValue)(onChange);
+      return field === "label"
+        ? // Éditer le libellé d'un code, c'est éditer sa catégorie : garde spécifique (cas 2 et 3).
+          // La popup cite la catégorie sous son ancien nom, celui que les autres listes connaissent.
+          withCategoryOverrideGuard(rowData, apply, { undo, categoryLabel: previousValue })
+        : withOverrideGuard(apply, { undo });
+    },
+    [applyCellEdit, onChange, withCategoryOverrideGuard, withOverrideGuard],
+  );
 
-  const handleAddCode = (value: string, label: string) =>
-    withOverrideGuard((commit) => {
-      const newRow: CodeTableRow = {
-        id: crypto.randomUUID(),
-        value,
-        label,
-        categoryId: crypto.randomUUID(),
-        isNew: true,
-      };
+  const handleAddCode = useCallback(
+    (value: string, label: string) =>
+      withOverrideGuard((commit) => {
+        const newRow: CodeTableRow = {
+          id: crypto.randomUUID(),
+          value,
+          label,
+          categoryId: crypto.randomUUID(),
+          isNew: true,
+        };
 
-      dispatch({ type: "ADD_CODE", payload: newRow });
+        dispatch({ type: "ADD_CODE", payload: newRow });
 
-      const newCodeListId = codeList?.ID || crypto.randomUUID();
-      const currentRepresentation =
-        representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
-      const newCategory = createCategory(
-        newRow.categoryId,
-        newRow.label,
-        defaultAgencyId,
-        defaultLocale,
-      );
-      const newCode = createCode(newRow.id, newRow.categoryId, newRow.value, defaultAgencyId);
+        const newCodeListId = codeList?.ID || crypto.randomUUID();
+        const currentRepresentation =
+          representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
+        const newCategory = createCategory(
+          newRow.categoryId,
+          newRow.label,
+          defaultAgencyId,
+          defaultLocale,
+        );
+        const newCode = createCode(newRow.id, newRow.categoryId, newRow.value, defaultAgencyId);
 
-      const updatedCodeList: CodeList = {
-        ...(codeList ??
-          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-        Label: createLabel(codeListLabel, defaultLocale),
-        Code: [...(codeList?.Code ?? []), newCode],
-      };
+        const updatedCodeList: CodeList = {
+          ...(codeList ??
+            createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+          Label: createLabel(codeListLabel, defaultLocale),
+          Code: [...(codeList?.Code ?? []), newCode],
+        };
 
-      commit(currentRepresentation, updatedCodeList, [...categories, newCategory]);
-    });
+        commit(currentRepresentation, updatedCodeList, [...categories, newCategory]);
+      }),
+    [
+      withOverrideGuard,
+      codeList,
+      representation,
+      defaultAgencyId,
+      defaultLocale,
+      codeListLabel,
+      categories,
+    ],
+  );
 
-  const handleCreateNewList = () => {
+  const handleCreateNewList = useCallback(() => {
     // Réinitialise complètement la liste de codes de la variable en cours d'édition :
     // on repart d'une liste neuve (nouvel ID) avec une seule ligne vide, en oubliant
     // toute liste réutilisée ou en cours de création.
@@ -504,71 +558,119 @@ export const CodeRepresentation = ({
     };
 
     onChange(newRepresentation, newCodeList, [newCategory]);
-  };
+  }, [defaultAgencyId, defaultLocale, onChange]);
 
   /**
    * Import CSV validé : comme « Créer une nouvelle liste », la variable reçoit une liste neuve
    * (nouvel ID), avec un code et une catégorie neufs par ligne. Rien n'est rapproché de l'existant.
    */
-  const handleImportCsv = (rows: CsvCodeRow[], fileName: string) => {
-    const newCodeListId = crypto.randomUUID();
-    const tableRows: CodeTableRow[] = rows.map(({ code, value }) => ({
-      id: crypto.randomUUID(),
-      value: code,
-      label: value,
-      categoryId: crypto.randomUUID(),
-    }));
+  const handleImportCsv = useCallback(
+    (rows: CsvCodeRow[], fileName: string) => {
+      const newCodeListId = crypto.randomUUID();
+      const tableRows: CodeTableRow[] = rows.map(({ code, value }) => ({
+        id: crypto.randomUUID(),
+        value: code,
+        label: value,
+        categoryId: crypto.randomUUID(),
+      }));
 
-    dispatch({ type: "IMPORT_CODES", payload: { label: fileName, codes: tableRows } });
-    // L'état local vient d'être initialisé avec la liste importée : l'effet d'initialisation ne
-    // doit pas le réinitialiser (et effacer le message de succès) quand le parent la renverra.
-    codeListIdRef.current = newCodeListId;
-    hasInitializedRef.current = true;
-    resetAcknowledgements();
+      dispatch({ type: "IMPORT_CODES", payload: { label: fileName, codes: tableRows } });
+      // L'état local vient d'être initialisé avec la liste importée : l'effet d'initialisation ne
+      // doit pas le réinitialiser (et effacer le message de succès) quand le parent la renverra.
+      codeListIdRef.current = newCodeListId;
+      hasInitializedRef.current = true;
+      resetAcknowledgements();
 
-    const newCodeList: CodeList = {
-      ...createDefaultCodeList(newCodeListId, fileName, defaultAgencyId, defaultLocale),
-      Code: tableRows.map((row) => createCode(row.id, row.categoryId, row.value, defaultAgencyId)),
-    };
-    const newCategories = tableRows.map((row) =>
-      createCategory(row.categoryId, row.label, defaultAgencyId, defaultLocale),
-    );
-
-    onChange(
-      createDefaultRepresentation(newCodeListId, defaultAgencyId),
-      newCodeList,
-      newCategories,
-    );
-  };
-
-  const handleMoveCode = (codeId: string, direction: "up" | "down") =>
-    withOverrideGuard((commit) => {
-      const currentIndex = codes.findIndex((c) => c.id === codeId);
-      if (currentIndex === -1) return;
-
-      const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
-      if (newIndex < 0 || newIndex >= codes.length) return;
-
-      dispatch({ type: "MOVE_CODE", payload: { id: codeId, direction } });
-
-      const newCodeListId = codeList?.ID || crypto.randomUUID();
-      const currentRepresentation =
-        representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
-
-      // Réorganiser les codes dans la codeList
-      const currentCodes = [...(codeList?.Code ?? [])];
-      const [movedCode] = currentCodes.splice(currentIndex, 1);
-      currentCodes.splice(newIndex, 0, movedCode);
-
-      const updatedCodeList: CodeList = {
-        ...(codeList ??
-          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-        Label: createLabel(codeListLabel, defaultLocale),
-        Code: currentCodes,
+      const newCodeList: CodeList = {
+        ...createDefaultCodeList(newCodeListId, fileName, defaultAgencyId, defaultLocale),
+        Code: tableRows.map((row) =>
+          createCode(row.id, row.categoryId, row.value, defaultAgencyId),
+        ),
       };
+      const newCategories = tableRows.map((row) =>
+        createCategory(row.categoryId, row.label, defaultAgencyId, defaultLocale),
+      );
 
-      commit(currentRepresentation, updatedCodeList, categories);
-    });
+      onChange(
+        createDefaultRepresentation(newCodeListId, defaultAgencyId),
+        newCodeList,
+        newCategories,
+      );
+    },
+    [defaultAgencyId, defaultLocale, onChange, resetAcknowledgements],
+  );
+
+  const handleMoveCode = useCallback(
+    (codeId: string, direction: "up" | "down") =>
+      withOverrideGuard((commit) => {
+        const currentIndex = codes.findIndex((c) => c.id === codeId);
+        if (currentIndex === -1) return;
+
+        const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+        if (newIndex < 0 || newIndex >= codes.length) return;
+
+        dispatch({ type: "MOVE_CODE", payload: { id: codeId, direction } });
+
+        const newCodeListId = codeList?.ID || crypto.randomUUID();
+        const currentRepresentation =
+          representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
+
+        // Réorganiser les codes dans la codeList
+        const currentCodes = [...(codeList?.Code ?? [])];
+        const [movedCode] = currentCodes.splice(currentIndex, 1);
+        currentCodes.splice(newIndex, 0, movedCode);
+
+        const updatedCodeList: CodeList = {
+          ...(codeList ??
+            createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+          Label: createLabel(codeListLabel, defaultLocale),
+          Code: currentCodes,
+        };
+
+        commit(currentRepresentation, updatedCodeList, categories);
+      }),
+    [
+      withOverrideGuard,
+      codes,
+      codeList,
+      representation,
+      defaultAgencyId,
+      defaultLocale,
+      codeListLabel,
+      categories,
+    ],
+  );
+
+  const handleShowReuseSelect = useCallback(() => dispatch({ type: "SHOW_REUSE_SELECT" }), []);
+  const handleShowCsvImport = useCallback(() => dispatch({ type: "SHOW_CSV_IMPORT" }), []);
+
+  const handleCodeListSelect = useCallback(
+    (id: string) => {
+      dispatch({ type: "SET_SELECTED_CODE_LIST_ID", payload: id });
+
+      // Extraire l'agency et l'ID de la liste de codes depuis la valeur combinée "agency-id"
+      const [agency, ...idParts] = id.split("-");
+      const codeListId = idParts.join("-");
+
+      // Créer la CodeRepresentation qui référence la liste de codes réutilisée
+      const codeRepresentation = createDefaultRepresentation(codeListId, agency);
+
+      // Appeler onChange avec uniquement la CodeRepresentation (pas de codeList ni categories
+      // car on réutilise une liste existante)
+      onChange(codeRepresentation, undefined, undefined);
+    },
+    [onChange],
+  );
+
+  const handleShowCategoryUsage = useCallback((row: CodeTableRow) => {
+    setCategoryUsageRow(row);
+    setCategoryUsageVisible(true);
+  }, []);
+  const handleHideCategoryUsage = useCallback(() => setCategoryUsageVisible(false), []);
+
+  const handleDialogCancel = useCallback(() => dialog?.onCancel(), [dialog]);
+  const handleDialogVariant = useCallback(() => dialog?.onVariant(), [dialog]);
+  const handleDialogConfirm = useCallback(() => dialog?.onConfirm(), [dialog]);
 
   return (
     <div className="flex flex-column gap-2">
@@ -585,16 +687,14 @@ export const CodeRepresentation = ({
           icon="pi pi-sync"
           label={t("physicalInstance.view.code.reuseList")}
           outlined
-          onClick={() => {
-            dispatch({ type: "SHOW_REUSE_SELECT" });
-          }}
+          onClick={handleShowReuseSelect}
         />
         <Button
           type="button"
           icon="pi pi-file-import"
           label={t("physicalInstance.view.code.csvImport.button")}
           outlined
-          onClick={() => dispatch({ type: "SHOW_CSV_IMPORT" })}
+          onClick={handleShowCsvImport}
         />
       </div>
       {showCsvImport && <CodeListCsvImport onImport={handleImportCsv} />}
@@ -610,30 +710,13 @@ export const CodeRepresentation = ({
           groupLabel={groupLabel}
           error={codeListsError}
           selectedCodeListId={selectedCodeListId}
-          onCodeListSelect={(id) => {
-            dispatch({ type: "SET_SELECTED_CODE_LIST_ID", payload: id });
-
-            // Extraire l'agency et l'ID de la liste de codes depuis la valeur combinée "agency-id"
-            const [agency, ...idParts] = id.split("-");
-            const codeListId = idParts.join("-");
-
-            // Créer la CodeRepresentation qui référence la liste de codes réutilisée
-            const codeRepresentation = createDefaultRepresentation(codeListId, agency);
-
-            // Appeler onChange avec uniquement la CodeRepresentation (pas de codeList ni categories
-            // car on réutilise une liste existante)
-            onChange(codeRepresentation, undefined, undefined);
-          }}
+          onCodeListSelect={handleCodeListSelect}
         />
       )}
       {isLoadingCodes && (
         <div className="flex gap-2 align-items-center">
           {/* Décoratif : le texte qui suit porte le message. */}
-          <ProgressSpinner
-            aria-hidden
-            style={{ width: "20px", height: "20px", margin: "0" }}
-            strokeWidth="4"
-          />
+          <ProgressSpinner aria-hidden style={SPINNER_STYLE} strokeWidth="4" />
           <span>{t("physicalInstance.view.code.loadingCodes")}</span>
         </div>
       )}
@@ -653,29 +736,26 @@ export const CodeRepresentation = ({
           onDeleteCode={handleDeleteCode}
           onAddCode={handleAddCode}
           onMoveCode={handleMoveCode}
-          onShowCategoryUsage={(row) => {
-            setCategoryUsageRow(row);
-            setCategoryUsageVisible(true);
-          }}
+          onShowCategoryUsage={handleShowCategoryUsage}
           readOnly={readOnly}
         />
       )}
       <OverrideDialog
         dialogCase={dialog?.dialogCase ?? null}
-        listUsages={dialog?.listUsages ?? []}
-        categoryUsages={dialog?.categoryUsages ?? []}
+        listUsages={dialog?.listUsages ?? NO_LIST_USAGES}
+        categoryUsages={dialog?.categoryUsages ?? NO_CATEGORY_USAGES}
         codeListLabel={codeListLabel}
         categoryLabel={dialog?.categoryLabel}
         currentVariableId={currentVariableId}
         currentVariableName={currentVariableName}
         currentCodeListId={referencedCodeListId}
-        onCancel={() => dialog?.onCancel()}
-        onVariant={() => dialog?.onVariant()}
-        onConfirm={() => dialog?.onConfirm()}
+        onCancel={handleDialogCancel}
+        onVariant={handleDialogVariant}
+        onConfirm={handleDialogConfirm}
       />
       <CategoryUsageDialog
         visible={categoryUsageVisible}
-        onHide={() => setCategoryUsageVisible(false)}
+        onHide={handleHideCategoryUsage}
         agencyId={categoryUsageAgency}
         categoryId={categoryUsageRow?.categoryId ?? ""}
         categoryLabel={categoryUsageRow?.label ?? ""}
