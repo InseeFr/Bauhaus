@@ -73,6 +73,73 @@
     font-size: 14px;
   }
 
+  /* Nouvelle période : une ligne de variable porte, sous son nom, le choix de reprise. */
+  .new-from-list li.new-from-variable {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .new-from-variable-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .new-from-choice {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 6px 0 0 24px;
+    padding: 8px 12px;
+    border: 0;
+    border-left: 3px solid var(--primary-color);
+    background: var(--surface-ground, #f8f9fa);
+    font-size: 13px;
+  }
+
+  /* Plusieurs dérivées, aucun choix encore : à trancher avant de créer. */
+  .new-from-choice-pending {
+    border-left-color: var(--orange-500, #f59e0b);
+  }
+
+  .new-from-choice-hint {
+    margin: 0;
+    color: var(--text-color-secondary, #6c757d);
+  }
+
+  .new-from-choice-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /*
+   * Bootstrap (bootstrap-base.css) décale le radio de 4px vers le bas et ajoute 5px sous le
+   * label : sans ces marges, align-items: center les centre l'un par rapport à l'autre.
+   */
+  .new-from-choice-option input[type="radio"] {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  /* Les options de choix ne sont pas des liens : couleur de texte normale. */
+  .new-from-choice-option label {
+    margin: 0;
+    color: inherit;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .new-from-choice-detail {
+    color: var(--text-color-secondary, #6c757d);
+  }
+
+  .new-from-summary {
+    margin: 0;
+    font-size: 13px;
+    font-weight: bold;
+  }
+
   .new-from-card {
     display: flex;
     flex-direction: column;

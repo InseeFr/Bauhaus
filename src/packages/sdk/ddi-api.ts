@@ -103,6 +103,31 @@ const api = {
       body: JSON.stringify(data),
     },
   ],
+  // Nouvelle période (#1672) : nouveau fichier dans une autre étude du groupe de la source, qui
+  // copie les variables choisies ou réutilise celles déjà dérivées d'elles dans l'étude cible.
+  rollover: (
+    agencyId: string,
+    id: string,
+    data: {
+      physicalInstanceLabel: string;
+      dataRelationshipLabel: string;
+      logicalRecordLabel: string;
+      studyUnitId: string;
+      studyUnitAgency: string;
+      groupId: string;
+      groupAgency: string;
+      variables: { sourceId: string; reusedAgency?: string; reusedId?: string }[];
+    },
+  ) => [
+    "physical-instance/" + agencyId + "/" + id + "/rollover",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    },
+  ],
   putPhysicalInstance: (agencyId: string, id: string, data: unknown) => {
     const stringified = JSON.stringify(data);
     return [

@@ -33,6 +33,17 @@
       "selectedSource": "Source instance: {{label}}",
       "selectAll": "Select all",
       "variables": "Variables to reuse ({{selected}} / {{total}})",
+      "rollover": {
+        "title": "New study",
+        "description": "Create documentation for a new study based on the selected instance. Variables will be duplicated, while code lists and categories will be reused.",
+        "choice": "Rollover of variable {{name}}",
+        "ambiguous": "Several variables of the chosen study unit derive from this one: choose the one to reuse, or duplicate.",
+        "loadingTarget": "Looking for variables already rolled over into this study unit…",
+        "copy": "Create a new copy",
+        "alreadyRolledOver": "This variable has already been rolled over into the chosen study unit.",
+        "reuse": "Reuse {{name}}",
+        "summary": "{{copied}} variable(s) duplicated, {{reused}} reused, {{pending}} choice(s) left to make."
+      },
       "reuseVariables": {
         "title": "Reuse variables",
         "description": "Create a new instance within the same study by selecting the variables to reuse from the source instance."

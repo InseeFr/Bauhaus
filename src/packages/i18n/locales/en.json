@@ -113,6 +113,11 @@
     "DDI_PHYSICAL_INSTANCE_NOT_FOUND": "This physical instance does not exist or has been deleted.",
     "REUSE_VARIABLES_GROUP_MISMATCH": "Group {{groupAgency}}/{{groupId}} is not the group of the source instance.",
     "REUSE_VARIABLES_NOT_IN_SOURCE": "These variables are not used by the source instance: {{variables}}.",
+    "ROLLOVER_GROUP_MISMATCH": "Group {{groupAgency}}/{{groupId}} is not the group of the source instance.",
+    "ROLLOVER_SAME_STUDY_UNIT": "The new study must belong to another study unit than the source instance.",
+    "ROLLOVER_STUDY_UNIT_NOT_IN_GROUP": "Study unit {{studyUnitAgency}}/{{studyUnitId}} does not belong to the group of the source instance.",
+    "ROLLOVER_VARIABLES_NOT_IN_SOURCE": "These variables are not used by the source instance: {{variables}}.",
+    "ROLLOVER_INVALID_REUSE": "These variables cannot be reused: no variable of the chosen study unit derives directly from them ({{variables}}).",
     "loading": {
       "notFound": "This item could not be found.",
       "failed": "This item could not be loaded."

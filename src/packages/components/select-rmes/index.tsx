@@ -18,6 +18,7 @@ type SelectRmesTypes = {
   options?: Option[];
   itemTemplate?: MultiSelect["props"]["itemTemplate"];
   inputId?: string;
+  loading?: boolean;
 } & {};
 
 export const Select = ({
@@ -27,6 +28,7 @@ export const Select = ({
   searchable = true,
   disabled = false,
   inputId,
+  loading = false,
   ...props
 }: SelectRmesTypes) => {
   const { t } = useTranslation("translation", { i18n: componentsI18n });
@@ -64,6 +66,7 @@ export const Select = ({
       filter={searchable}
       className="w-full select-rmes-single"
       disabled={disabled}
+      loading={loading}
       showClear={!unclearable}
       emptyMessage={t("noResult")}
       itemTemplate={props.itemTemplate}

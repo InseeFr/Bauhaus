@@ -33,6 +33,17 @@
       "selectedSource": "Fichier d'origine : {{label}}",
       "selectAll": "Tout sélectionner",
       "variables": "Variables à reprendre ({{selected}} / {{total}})",
+      "rollover": {
+        "title": "Nouvelle période",
+        "description": "Créer une documentation pour une nouvelle période à partir du fichier sélectionné. Les variables seront dupliquées, tandis que les listes de codes et les catégories seront réutilisées.",
+        "choice": "Reprise de la variable {{name}}",
+        "ambiguous": "Plusieurs variables de l'opération choisie dérivent de celle-ci : choisissez celle à réutiliser, ou dupliquez.",
+        "loadingTarget": "Recherche des variables déjà reprises dans cette opération…",
+        "copy": "Créer une nouvelle copie",
+        "alreadyRolledOver": "Cette variable a déjà été reprise dans l'opération choisie.",
+        "reuse": "Réutiliser {{name}}",
+        "summary": "{{copied}} variable(s) dupliquée(s), {{reused}} réutilisée(s), {{pending}} choix restant à faire."
+      },
       "reuseVariables": {
         "title": "Réutiliser des variables",
         "description": "Créer un nouveau fichier dans la même opération en sélectionnant les variables à reprendre du fichier d'origine."

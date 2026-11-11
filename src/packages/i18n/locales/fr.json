@@ -113,6 +113,11 @@
     "DDI_PHYSICAL_INSTANCE_NOT_FOUND": "Cette instance physique n'existe pas ou a été supprimée.",
     "REUSE_VARIABLES_GROUP_MISMATCH": "Le groupe {{groupAgency}}/{{groupId}} n'est pas celui du fichier d'origine.",
     "REUSE_VARIABLES_NOT_IN_SOURCE": "Ces variables ne sont pas utilisées par le fichier d'origine : {{variables}}.",
+    "ROLLOVER_GROUP_MISMATCH": "Le groupe {{groupAgency}}/{{groupId}} n'est pas celui du fichier d'origine.",
+    "ROLLOVER_SAME_STUDY_UNIT": "La nouvelle période doit rejoindre une autre opération que celle du fichier d'origine.",
+    "ROLLOVER_STUDY_UNIT_NOT_IN_GROUP": "L'opération {{studyUnitAgency}}/{{studyUnitId}} n'appartient pas à la série du fichier d'origine.",
+    "ROLLOVER_VARIABLES_NOT_IN_SOURCE": "Ces variables ne sont pas utilisées par le fichier d'origine : {{variables}}.",
+    "ROLLOVER_INVALID_REUSE": "Ces variables ne peuvent pas être réutilisées : aucune variable de l'opération choisie n'en dérive directement ({{variables}}).",
     "loading": {
       "notFound": "Cette fiche est introuvable.",
       "failed": "Impossible de charger cette fiche."
