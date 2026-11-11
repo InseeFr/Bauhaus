@@ -204,7 +204,11 @@ const SimsCreation = ({
   );
 
   const MSDInformations = useCallback(
-    (msd: any, handleChange: (e: { id: string; override: any }) => void, firstLevel = false) => {
+    function renderMsd(
+      msd: any,
+      handleChange: (e: { id: string; override: any }) => void,
+      firstLevel = false,
+    ) {
       return (
         <Fragment key={msd.idMas}>
           {firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
@@ -272,7 +276,7 @@ const SimsCreation = ({
                 </div>
               )}
           </div>
-          {Object.values(msd.children).map((child) => MSDInformations(child, handleChange))}
+          {Object.values(msd.children).map((child) => renderMsd(child, handleChange))}
         </Fragment>
       );
     },

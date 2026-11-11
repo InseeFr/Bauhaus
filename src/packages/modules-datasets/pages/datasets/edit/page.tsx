@@ -30,6 +30,7 @@ import { LayoutItemConfiguration, LayoutWithLateralMenu } from "./components/Lay
 import { Lineage } from "./components/Lineage";
 import { Notes } from "./components/Notes";
 import { StatisticalInformation } from "./components/StatisticalInformation";
+import { toDatePart } from "./toDatePart";
 import { validate } from "./validation";
 
 interface DatasetEditLayoutItem extends LayoutItemConfiguration {
@@ -118,7 +119,12 @@ export const Component = () => {
     if (status === "success") {
       if (isDatasetLoaded.current) return;
       isDatasetLoaded.current = true;
-      setEditingDataset((isDuplicating ? buildDuplicatedDataset(dataset) : dataset) as Dataset);
+      const loaded = (isDuplicating ? buildDuplicatedDataset(dataset) : dataset) as Dataset;
+      setEditingDataset({
+        ...loaded,
+        issued: toDatePart(loaded.issued),
+        updated: toDatePart(loaded.updated),
+      } as Dataset);
     } else if (isContributor && !id) {
       setEditingDataset({
         catalogRecord: {

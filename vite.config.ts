@@ -1,10 +1,10 @@
 import { generateDdiTypes, SCHEMA_PATH as DDI_SCHEMA_PATH } from "@bauhaus/ddi-codegen";
 import react from "@vitejs/plugin-react";
-import type { Plugin } from "vite";
-import { defineConfig } from "vite-plus";
 import { oidcSpa } from "oidc-spa/vite-plugin";
+import type { Plugin } from "vite";
 import { viteEnvs } from "vite-envs";
 import csp from "vite-plugin-csp-guard";
+import { defineConfig } from "vite-plus";
 
 function ddiTypesPlugin(): Plugin {
   return {
@@ -29,7 +29,8 @@ export default defineConfig(() => {
     // oxlint.json ni .oxfmtrc.json. La vérification des types reste dans `pnpm typecheck`,
     // qui génère les types DDI avant de lancer tsc.
     lint: {
-      plugins: ["eslint", "typescript", "unicorn", "oxc", "react", "jsx-a11y", "react-perf"],
+      // Pas de react-perf : le React Compiler (`react({ compiler: true })` plus bas) mémoïse props et callbacks.
+      plugins: ["eslint", "typescript", "unicorn", "oxc", "react", "jsx-a11y"],
       rules: {
         "eslint/no-console": "off",
         "unicorn/no-single-promise-in-promise-methods": "off",
@@ -49,10 +50,6 @@ export default defineConfig(() => {
             ],
           },
         ],
-        "react-perf/jsx-no-new-object-as-prop": "warn",
-        "react-perf/jsx-no-new-array-as-prop": "warn",
-        "react-perf/jsx-no-new-function-as-prop": "warn",
-        "react-perf/jsx-no-jsx-as-prop": "warn",
       },
       overrides: [
         {
@@ -116,7 +113,8 @@ export default defineConfig(() => {
     },
     plugins: [
       ddiTypesPlugin(),
-      react(),
+      // React Compiler natif (oxc-transform-react, portage Rust) : mémoïse composants et hooks.
+      react({ compiler: true }),
       // Injecte `oidcEarlyInit()` avant l'entrée de l'application, obligatoire depuis oidc-spa 8.
       oidcSpa(),
       csp({

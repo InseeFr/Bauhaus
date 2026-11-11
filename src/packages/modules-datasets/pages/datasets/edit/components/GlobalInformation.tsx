@@ -16,6 +16,7 @@ import { withCodelists } from "@utils/hoc/withCodelists";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
 import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
+import { toDatePart } from "../toDatePart";
 
 type ClientSideErrors = {
   errorMessage?: string[];
@@ -38,16 +39,6 @@ const GlobalInformationTab = ({
   ...props
 }: Readonly<GlobalInformationTypes>) => {
   const { t } = useTranslation();
-
-  if (editingDataset?.updated?.includes("T")) {
-    editingDataset.updated = editingDataset.updated.substring(
-      0,
-      editingDataset.updated.indexOf("T"),
-    );
-  }
-  if (editingDataset?.issued?.includes("T")) {
-    editingDataset.issued = editingDataset.issued.substring(0, editingDataset.issued.indexOf("T"));
-  }
 
   const clFreqOptions = convertCodelistToSelectOption(props[CL_FREQ]);
 
@@ -144,7 +135,7 @@ const GlobalInformationTab = ({
             <input
               type="date"
               className="bauhaus-input"
-              value={editingDataset.issued}
+              value={toDatePart(editingDataset.issued)}
               onChange={(e) => {
                 setEditingDataset({
                   ...editingDataset,
@@ -162,7 +153,7 @@ const GlobalInformationTab = ({
             <input
               type="date"
               className="bauhaus-input"
-              value={editingDataset.updated}
+              value={toDatePart(editingDataset.updated)}
               onChange={(e) => {
                 setEditingDataset({
                   ...editingDataset,

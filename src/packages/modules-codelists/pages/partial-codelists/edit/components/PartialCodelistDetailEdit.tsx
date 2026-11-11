@@ -102,12 +102,15 @@ export const PartialCodelistDetailEdit = ({
   // Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide la liste.
   const [saveAttempted, setSaveAttempted] = useState(false);
 
-  const updateCodelist = (updated: PartialCodelistFormValues) => {
-    setCodelist(updated);
-    setClientSideErrors(
-      saveAttempted ? validate(updated) : { ...clientSideErrors, errorMessage: [] },
-    );
-  };
+  const updateCodelist = useCallback(
+    (updated: PartialCodelistFormValues) => {
+      setCodelist(updated);
+      setClientSideErrors(
+        saveAttempted ? validate(updated) : { ...clientSideErrors, errorMessage: [] },
+      );
+    },
+    [clientSideErrors, saveAttempted],
+  );
 
   const handleParentCode = useCallback(
     (code: string) => {
@@ -132,7 +135,7 @@ export const PartialCodelistDetailEdit = ({
       });
       handleParentCode(value);
     },
-    [codelist, handleParentCode, globalCodelistOptions, clientSideErrors, saveAttempted],
+    [codelist, handleParentCode, globalCodelistOptions, updateCodelist],
   );
 
   const isContributor = useAuthorizationGuard({
@@ -165,7 +168,7 @@ export const PartialCodelistDetailEdit = ({
         [name]: value,
       });
     },
-    [clientSideErrors, codelist, saveAttempted],
+    [codelist, updateCodelist],
   );
 
   const addAllClickHandler = useCallback(() => {

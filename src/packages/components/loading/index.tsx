@@ -11,10 +11,9 @@ export const Loading = ({ text, textType }: LoadingTypes) => {
   const content = text || getLoadingText(textType);
 
   return (
-    <div
+    <output
       className="flex flex-column justify-content-center align-items-center"
       style={{ minHeight: "400px" }}
-      role="status"
       aria-live="polite"
       aria-label={content}
     >
@@ -23,7 +22,7 @@ export const Loading = ({ text, textType }: LoadingTypes) => {
           évite une violation axe et une annonce en double. */}
       <ProgressSpinner aria-hidden />
       <p>{content}</p>
-    </div>
+    </output>
   );
 };
 

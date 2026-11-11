@@ -109,7 +109,7 @@ export const AdvancedSearchForm = ({
     updated,
   } = form;
 
-  const today = new Date();
+  const [today] = useState(() => new Date());
 
   const filteredData = data
     .filter(filterDistributionLabel(distributionLabelLg1))

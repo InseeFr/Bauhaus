@@ -18,10 +18,10 @@ export const LoadingOverlay = ({ text, textType }: LoadingOverlayProps) => {
   const content = text || getLoadingText(textType);
 
   return (
-    <div className="loading-overlay" role="status" aria-live="polite" aria-label={content}>
+    <output className="loading-overlay" aria-live="polite" aria-label={content}>
       {/* Voir `Loading` : le spinner est décoratif, le conteneur porte le message. */}
       <ProgressSpinner aria-hidden />
       <p className="loading-overlay-text">{content}</p>
-    </div>
+    </output>
   );
 };

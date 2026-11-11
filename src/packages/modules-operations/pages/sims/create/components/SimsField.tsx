@@ -139,7 +139,7 @@ const SimsFieldComponent = ({
   );
 
   const codelist = codelists[msd.codeList] || {};
-  const codes = codelist.codes || [];
+  const codes = useMemo(() => codelist.codes || [], [codelist.codes]);
 
   const codelistOptions = useMemo(
     () =>

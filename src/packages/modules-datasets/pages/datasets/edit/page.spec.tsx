@@ -199,6 +199,23 @@ describe("Dataset Edit Page", () => {
       expect(editedDataset().labelLg1).toBe("Typed title");
     });
 
+    it("saves only the date part of the issued and updated timestamps", async () => {
+      storedDataset = {
+        ...sourceDataset,
+        issued: "2024-01-31T10:00:00",
+        updated: "2024-06-30T23:59:00",
+      } as typeof sourceDataset;
+      await renderPage("/datasets/jd1000/modify", "/datasets/:id/modify");
+
+      await userEvent.click(screen.getByText("Save"));
+
+      await waitFor(() => expect(putDataset).toHaveBeenCalled());
+      expect(putDataset.mock.calls[0][0]).toMatchObject({
+        issued: "2024-01-31",
+        updated: "2024-06-30",
+      });
+    });
+
     it("updates the source dataset", async () => {
       await renderPage("/datasets/jd1000/modify", "/datasets/:id/modify");
 

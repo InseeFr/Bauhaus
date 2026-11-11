@@ -15,7 +15,12 @@ export default defineConfig({
       },
     ],
   },
-  plugins: [react()],
+  plugins: [
+    // Même React Compiler qu'au build, pour tester le code tel qu'il est livré. Les specs et
+    // utilitaires de test en sont exclus : leurs harnais lisent un état muable hors React (mocks,
+    // compteurs), que le compilateur mémoïserait et figerait d'un rendu à l'autre.
+    react({ compiler: true, exclude: [/[\\/]node_modules[\\/]/, /\.(spec|testing)\.[jt]sx?$/] }),
+  ],
   test: {
     coverage: {
       provider: "istanbul",

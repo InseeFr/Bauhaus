@@ -59,9 +59,9 @@ vi.mock("@components/select-rmes", async () => {
 vi.mock("@mantle-ui/react/dialog", () => ({
   Dialog: ({ header, visible, children }: any) =>
     visible ? (
-      <div role="dialog" aria-label={header}>
+      <dialog open aria-label={header}>
         {children}
-      </div>
+      </dialog>
     ) : null,
 }));
 

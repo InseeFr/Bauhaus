@@ -103,12 +103,15 @@ export const CodelistDetailEdit = ({
   // Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide la liste.
   const [saveAttempted, setSaveAttempted] = useState(false);
 
-  const updateCodelist = (updated: CodelistFormValues) => {
-    setCodelist(updated);
-    setClientSideErrors(
-      saveAttempted ? validate(updated) : { ...clientSideErrors, errorMessage: [] },
-    );
-  };
+  const updateCodelist = useCallback(
+    (updated: CodelistFormValues) => {
+      setCodelist(updated);
+      setClientSideErrors(
+        saveAttempted ? validate(updated) : { ...clientSideErrors, errorMessage: [] },
+      );
+    },
+    [clientSideErrors, saveAttempted],
+  );
 
   useTitle(t("codelists.pluralTitle"), codelist?.labelLg1);
 
@@ -135,7 +138,7 @@ export const CodelistDetailEdit = ({
         [name]: value,
       });
     },
-    [clientSideErrors, codelist, saveAttempted],
+    [codelist, updateCodelist],
   );
 
   const handleSaveClick = useCallback(() => {

@@ -86,6 +86,50 @@ export const ComponentSelector = ({
     setModalOpened(true);
   }, []);
 
+  const _handleAttributeComponent = (component: any) => {
+    if (component.type === ATTRIBUTE_TYPE) {
+      setSelectedComponent(component);
+      setModalOpened(true);
+    }
+  };
+
+  const _groupByType = (components: StructureComponent[]): ComponentsByType => {
+    const componentsByType = components.reduce(
+      (acc: ComponentsByType, structureComponent) => {
+        const componentType = structureComponent.component.type!;
+        return {
+          ...acc,
+          [componentType]: [...acc[componentType], structureComponent],
+        };
+      },
+      {
+        [ATTRIBUTE_PROPERTY_TYPE]: [],
+        [DIMENSION_PROPERTY_TYPE]: [],
+        [MEASURE_PROPERTY_TYPE]: [],
+      } as ComponentsByType,
+    );
+    return componentsByType;
+  };
+
+  const _makeFlat = (componentsByType: ComponentsByType): StructureComponent[] => {
+    const dimensions = componentsByType[DIMENSION_PROPERTY_TYPE];
+    const measures = componentsByType[MEASURE_PROPERTY_TYPE];
+    return [
+      ...dimensions.map((component, index) => ({
+        ...component,
+        order: index + 1,
+      })),
+      ...measures.map((component, index) => ({
+        ...component,
+        order: dimensions.length + index + 1,
+      })),
+      ...componentsByType[ATTRIBUTE_PROPERTY_TYPE].map((component, index) => ({
+        ...component,
+        order: dimensions.length + measures.length + index + 1,
+      })),
+    ];
+  };
+
   const handleCreateOrUpdate = useCallback(
     (components: StructureComponent[], isCreation: boolean, component: StructureComponent) => {
       if (isCreation) {
@@ -138,50 +182,6 @@ export const ComponentSelector = ({
     },
     [handleUpdate, structureComponents, selectedComponent],
   );
-
-  const _handleAttributeComponent = (component: any) => {
-    if (component.type === ATTRIBUTE_TYPE) {
-      setSelectedComponent(component);
-      setModalOpened(true);
-    }
-  };
-
-  const _groupByType = (components: StructureComponent[]): ComponentsByType => {
-    const componentsByType = components.reduce(
-      (acc: ComponentsByType, structureComponent) => {
-        const componentType = structureComponent.component.type!;
-        return {
-          ...acc,
-          [componentType]: [...acc[componentType], structureComponent],
-        };
-      },
-      {
-        [ATTRIBUTE_PROPERTY_TYPE]: [],
-        [DIMENSION_PROPERTY_TYPE]: [],
-        [MEASURE_PROPERTY_TYPE]: [],
-      } as ComponentsByType,
-    );
-    return componentsByType;
-  };
-
-  const _makeFlat = (componentsByType: ComponentsByType): StructureComponent[] => {
-    const dimensions = componentsByType[DIMENSION_PROPERTY_TYPE];
-    const measures = componentsByType[MEASURE_PROPERTY_TYPE];
-    return [
-      ...dimensions.map((component, index) => ({
-        ...component,
-        order: index + 1,
-      })),
-      ...measures.map((component, index) => ({
-        ...component,
-        order: dimensions.length + index + 1,
-      })),
-      ...componentsByType[ATTRIBUTE_PROPERTY_TYPE].map((component, index) => ({
-        ...component,
-        order: dimensions.length + measures.length + index + 1,
-      })),
-    ];
-  };
 
   const addComponent = useCallback(
     (structureComponents: StructureComponent[], components: Component | Component[]) => {

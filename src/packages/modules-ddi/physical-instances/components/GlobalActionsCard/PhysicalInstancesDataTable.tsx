@@ -82,6 +82,7 @@ export const PhysicalInstancesDataTable = ({
       {rowData.isShared && (
         <i
           className="pi pi-share-alt variable-shared-indicator"
+          // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- icône PrimeIcons en <i>, pas une image
           role="img"
           aria-label={t("physicalInstance.view.sharedVariable.badge")}
           title={t("physicalInstance.view.sharedVariable.badge")}
@@ -90,6 +91,7 @@ export const PhysicalInstancesDataTable = ({
       {rowData.hasErrors && (
         <i
           className="pi pi-exclamation-circle variable-error-indicator"
+          // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- icône PrimeIcons en <i>, pas une image
           role="img"
           aria-label={t("physicalInstance.view.validation.variableHasErrors")}
           title={t("physicalInstance.view.validation.variableHasErrors")}
