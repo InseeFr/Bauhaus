@@ -36,3 +36,10 @@
     }
   }
 }
+
+/* 25vw ne laisse qu'une centaine de pixels sur un téléphone : même largeur que « Nouveau à partir de… ». */
+@media (width <= 768px) {
+  .physical-instance-creation-dialog {
+    width: 95vw;
+  }
+}
