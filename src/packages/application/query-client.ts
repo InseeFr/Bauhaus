@@ -41,6 +41,8 @@ export const createQueryClient = () =>
       queries: {
         staleTime: STALE_TIME_MS,
         retry: shouldRetry,
+        /** Revenir sur l'onglet ne relit pas le serveur : la fraîcheur repose sur `staleTime`. */
+        refetchOnWindowFocus: false,
       },
     },
     mutationCache: new MutationCache({

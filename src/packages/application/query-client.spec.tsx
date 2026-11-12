@@ -1,5 +1,5 @@
-import { QueryClientProvider, useQuery } from "@tanstack/react-query";
-import { render, renderHook, screen, waitFor } from "@testing-library/react";
+import { focusManager, QueryClientProvider, useQuery } from "@tanstack/react-query";
+import { act, render, renderHook, screen, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -75,6 +75,27 @@ describe("createQueryClient", () => {
 
     await waitFor(() => expect(result.current.data).toBe("item"));
     expect(queryFn).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not read again from the server when the window gets the focus back", async () => {
+    const queryClient = createQueryClient();
+    const queryFn = vi.fn().mockResolvedValue("item");
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    );
+    const { result } = renderHook(() => useQuery({ queryKey: ["item"], queryFn, staleTime: 0 }), {
+      wrapper,
+    });
+    await waitFor(() => expect(result.current.data).toBe("item"));
+
+    act(() => {
+      focusManager.setFocused(false);
+      focusManager.setFocused(true);
+    });
+
+    await waitFor(() => expect(result.current.isFetching).toBe(false));
+    expect(queryFn).toHaveBeenCalledTimes(1);
+    focusManager.setFocused(undefined);
   });
 
   describe("freshness", () => {
