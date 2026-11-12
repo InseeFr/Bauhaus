@@ -2,6 +2,8 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
+import { Tooltip } from "@components/ui/tooltip";
+
 import { useVisibleModules } from "../../../../application/visible-modules";
 import { usePhysicalInstancesSearch } from "../../../hooks/usePhysicalInstancesSearch";
 import "./PhysicalInstanceBreadcrumb.css";
@@ -23,6 +25,31 @@ const advancedSearchUrl = (filters: { group?: string; studyUnit?: string }) => {
   if (filters.group) params.set("group", filters.group);
   if (filters.studyUnit) params.set("studyUnit", filters.studyUnit);
   return `/ddi/physical-instances/search?${params}`;
+};
+
+interface BreadcrumbLinkProps {
+  to: string;
+  icon: string;
+  kind: string;
+  label: string;
+}
+
+/**
+ * Segment série ou opération. Son libellé, souvent tronqué, s'affiche en entier dans une infobulle
+ * au survol comme au focus clavier (un `title` natif ne s'affiche qu'à la souris).
+ */
+const BreadcrumbLink = ({ to, icon, kind, label }: Readonly<BreadcrumbLinkProps>) => {
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  return (
+    <>
+      <Tooltip target={linkRef} content={label} event="both" position="bottom" />
+      <Link ref={linkRef} className="pi-breadcrumb-link" to={to}>
+        <i className={`pi ${icon}`} aria-hidden="true" />
+        <span className="p-hidden-accessible">{kind}</span>
+        <span className="pi-breadcrumb-text">{label}</span>
+      </Link>
+    </>
+  );
 };
 
 /** L'identifiant d'une série ou d'une opération est le dernier segment de son IRI. */
@@ -57,28 +84,22 @@ export const PhysicalInstanceBreadcrumb = ({
       <ol>
         {group && (
           <li>
-            <Link className="pi-breadcrumb-link" to={groupUrl}>
-              <i className="pi pi-folder" aria-hidden="true" />
-              <span className="p-hidden-accessible">
-                {t("physicalInstance.view.breadcrumb.group")}
-              </span>
-              <span className="pi-breadcrumb-text" title={group.label}>
-                {group.label}
-              </span>
-            </Link>
+            <BreadcrumbLink
+              to={groupUrl}
+              icon="pi-folder"
+              kind={t("physicalInstance.view.breadcrumb.group")}
+              label={group.label}
+            />
           </li>
         )}
         {studyUnit && (
           <li>
-            <Link className="pi-breadcrumb-link" to={studyUnitUrl}>
-              <i className="pi pi-book" aria-hidden="true" />
-              <span className="p-hidden-accessible">
-                {t("physicalInstance.view.breadcrumb.studyUnit")}
-              </span>
-              <span className="pi-breadcrumb-text" title={studyUnit.label}>
-                {studyUnit.label}
-              </span>
-            </Link>
+            <BreadcrumbLink
+              to={studyUnitUrl}
+              icon="pi-book"
+              kind={t("physicalInstance.view.breadcrumb.studyUnit")}
+              label={studyUnit.label}
+            />
           </li>
         )}
         <li aria-current="page">

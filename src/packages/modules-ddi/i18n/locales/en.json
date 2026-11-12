@@ -290,7 +290,7 @@
       },
       "previousVariable": "Previous variable",
       "nextVariable": "Next variable",
-      "closeVariablePanel": "Close",
+      "closeVariablePanel": "Close this form",
       "totalVariables": "Total: {{count}} variable(s)",
       "unsavedChangesTitle": "Unsaved changes",
       "unsavedChangesMessage": "You have unsaved changes. Are you sure you want to leave this page?",

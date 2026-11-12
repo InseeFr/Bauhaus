@@ -547,7 +547,7 @@ export const VariableEditForm = ({
               onClick={onClose}
               aria-label={t("physicalInstance.view.closeVariablePanel")}
               tooltip={t("physicalInstance.view.closeVariablePanel")}
-              tooltipOptions={{ position: "left" }}
+              tooltipOptions={{ position: "left", event: "both" }}
             />
           )}
         </div>

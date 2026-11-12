@@ -289,7 +289,7 @@
       },
       "previousVariable": "Variable précédente",
       "nextVariable": "Variable suivante",
-      "closeVariablePanel": "Fermer",
+      "closeVariablePanel": "Fermer ce formulaire",
       "variablesTable": "Tableau des variables",
       "totalVariables": "Total : {{count}} variable(s)",
       "unsavedChangesTitle": "Modifications non sauvegardées",
