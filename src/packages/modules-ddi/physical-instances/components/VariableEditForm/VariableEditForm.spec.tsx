@@ -191,14 +191,27 @@ const { representationTabRenders } = vi.hoisted(() => ({
 }));
 
 vi.mock("./VariableRepresentationTab", () => ({
-  VariableRepresentationTab: ({ variableId, selectedType, onTypeChange, typeOptions }: any) => {
+  VariableRepresentationTab: ({
+    variableId,
+    selectedType,
+    onTypeChange,
+    onSentinelValuesChange,
+    typeOptions,
+  }: any) => {
     representationTabRenders.push({ variableId, selectedType });
     const handleTypeChange = useCallback(
       (e: ChangeEvent<HTMLSelectElement>) => onTypeChange(e.target.value),
       [onTypeChange],
     );
+    const handleRemoveSentinels = useCallback(
+      () => onSentinelValuesChange(undefined, undefined, undefined, undefined),
+      [onSentinelValuesChange],
+    );
     return (
       <div data-testid="variable-representation-tab">
+        <button type="button" onClick={handleRemoveSentinels}>
+          Retirer les sentinelles
+        </button>
         <label htmlFor="variable-type">Type</label>
         <select id="variable-type" value={selectedType} onChange={handleTypeChange} required>
           {typeOptions.map((option: any) => (
@@ -445,6 +458,33 @@ describe("VariableEditForm", () => {
         type: "numeric",
         missingValuesReference,
       }),
+    );
+  });
+
+  it("reports the removal of the sentinel values at once, without leaving a field (#1566)", () => {
+    renderForm({
+      variable: {
+        ...defaultVariable,
+        missingValuesReference: {
+          $type: "ManagedMissingValuesRepresentation",
+          URN: "urn:ddi:fr.insee:mmvr-1:1",
+          Agency: "fr.insee",
+          ID: "mmvr-1",
+          Version: "1",
+        },
+        sentinelMmvr: {
+          $type: "ManagedMissingValuesRepresentation",
+          ID: "mmvr-1",
+          Label: [{ "@language": "fr-FR", "@value": "" }],
+        } as any,
+      },
+    });
+
+    // Le bouton « Retirer » disparaît au clic : aucun blur ne viendra déclencher le report.
+    fireEvent.click(screen.getByText("Retirer les sentinelles"));
+
+    expect(mockOnSave).toHaveBeenCalledWith(
+      expect.objectContaining({ missingValuesReference: undefined, sentinelMmvr: undefined }),
     );
   });
 

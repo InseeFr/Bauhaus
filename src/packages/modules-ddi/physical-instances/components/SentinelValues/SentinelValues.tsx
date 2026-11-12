@@ -247,10 +247,14 @@ export const SentinelValues = ({
     );
   };
 
+  // Rien de saisi (libellé vide, lignes sans valeur ni libellé) : rien à perdre.
+  const isEditEmpty =
+    !editLabel.trim() && editRows.every((row) => !row.value.trim() && !row.label.trim());
+
   // Garde-fou : changer de sélection ou retirer alors que des modifications locales sont en
   // cours les jetterait silencieusement — on demande confirmation d'abord.
   const withDiscardGuard = (apply: () => void) => {
-    if (!hasLocalEdits) {
+    if (!hasLocalEdits || isEditEmpty) {
       apply();
       return;
     }
