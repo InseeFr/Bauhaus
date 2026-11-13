@@ -1,18 +1,9 @@
 import { describe, it, expect } from "vitest";
 
-import type { CategoryUsage } from "../../types/api";
+import { categoryUsage as usage } from "./categoryUsage.testing";
 import { buildCategoryUsersTree } from "./categoryUsersTree";
 
 const labels = { unknownGroup: "Groupe inconnu", unknownStudyUnit: "Unité d'enquête inconnue" };
-
-const usage = (overrides: Partial<CategoryUsage> = {}): CategoryUsage => ({
-  group: { agencyId: "fr.insee", id: "grp-1", label: "Groupe démographie" },
-  studyUnit: { agencyId: "fr.insee", id: "su-1", label: "Recensement 2024" },
-  physicalInstance: { agencyId: "fr.insee", id: "pi-1", label: "Fichier détail" },
-  variable: { agencyId: "fr.insee", id: "var-1", label: "Sexe" },
-  codeList: { agencyId: "fr.insee", id: "cl-1", label: "Pays" },
-  ...overrides,
-});
 
 describe("buildCategoryUsersTree", () => {
   it("groups rows into a Group > StudyUnit > PhysicalInstance > Variable > CodeList tree", () => {

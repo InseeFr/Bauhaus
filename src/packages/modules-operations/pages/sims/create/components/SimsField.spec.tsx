@@ -1,4 +1,5 @@
 import { screen, fireEvent, render } from "@testing-library/react";
+import { ComponentProps } from "react";
 import { describe, it, expect, vi } from "vitest";
 
 vi.mock("@utils/hooks/organizations", () => ({
@@ -17,6 +18,8 @@ import {
   ORGANIZATION,
   GEOGRAPHY,
 } from "./SimsField.test-utils";
+
+const fieldOf = (props: ComponentProps<typeof Field>) => <Field {...props} />;
 
 describe("Sims Field", () => {
   describe("Presentational Fields", () => {
@@ -52,16 +55,16 @@ describe("Sims Field", () => {
   describe("TEXT Field", () => {
     it("should display a text input field", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg2: "masLabelLg2",
             idMas: "1",
             rangeType: TEXT,
             isPresentational: false,
-          }}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          codelists: {},
+          alone: true,
+        }),
       );
       expect(container.querySelectorAll("input")).toHaveLength(1);
     });
@@ -69,17 +72,17 @@ describe("Sims Field", () => {
     it("should call handleChange when text input changes", () => {
       const handleChange = vi.fn();
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Test Label",
             idMas: "1",
             rangeType: TEXT,
             isPresentational: false,
-          }}
-          codelists={{}}
-          handleChange={handleChange}
-          alone={true}
-        />,
+          },
+          codelists: {},
+          handleChange,
+          alone: true,
+        }),
       );
 
       const input = container.querySelector("input") as HTMLInputElement;
@@ -94,18 +97,18 @@ describe("Sims Field", () => {
     it("should use labelLg2 when secondLang is true", () => {
       const handleChange = vi.fn();
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg2: "Test Label",
             idMas: "2",
             rangeType: TEXT,
             isPresentational: false,
-          }}
-          codelists={{}}
-          handleChange={handleChange}
-          alone={true}
-          secondLang={true}
-        />,
+          },
+          codelists: {},
+          handleChange,
+          alone: true,
+          secondLang: true,
+        }),
       );
 
       const input = container.querySelector("input") as HTMLInputElement;
@@ -119,17 +122,17 @@ describe("Sims Field", () => {
 
     it("should display current value from currentSection", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Test Label",
             idMas: "1",
             rangeType: TEXT,
             isPresentational: false,
-          }}
-          currentSection={{ labelLg1: "Current value" }}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          currentSection: { labelLg1: "Current value" },
+          codelists: {},
+          alone: true,
+        }),
       );
 
       const input = container.querySelector("input") as HTMLInputElement;
@@ -140,16 +143,16 @@ describe("Sims Field", () => {
   describe("DATE Field", () => {
     it("should display a DatePickerRmes", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg2: "masLabelLg2",
             idMas: "1",
             rangeType: DATE,
             isPresentational: false,
-          }}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          codelists: {},
+          alone: true,
+        }),
       );
 
       expect(container.querySelectorAll(".p-calendar")).toHaveLength(1);
@@ -157,18 +160,18 @@ describe("Sims Field", () => {
 
     it("should pass correct props to DatePicker", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Date Label",
             idMas: "date-1",
             rangeType: DATE,
             isPresentational: false,
-          }}
-          currentSection={{ value: "2024-01-15" }}
-          codelists={{}}
-          alone={true}
-          secondLang={false}
-        />,
+          },
+          currentSection: { value: "2024-01-15" },
+          codelists: {},
+          alone: true,
+          secondLang: false,
+        }),
       );
 
       const calendar = container.querySelector(".p-calendar");
@@ -178,17 +181,17 @@ describe("Sims Field", () => {
     it("should call handleChange when date changes", () => {
       const handleChange = vi.fn();
       render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Date Label",
             idMas: "date-1",
             rangeType: DATE,
             isPresentational: false,
-          }}
-          codelists={{}}
-          handleChange={handleChange}
-          alone={true}
-        />,
+          },
+          codelists: {},
+          handleChange,
+          alone: true,
+        }),
       );
 
       // DatePicker onChange is tested via integration
@@ -200,18 +203,18 @@ describe("Sims Field", () => {
 
       it("renders the DatePicker as disabled when subPropertyOf is dcterms:modified", () => {
         const { container } = render(
-          <Field
-            msd={{
+          fieldOf({
+            msd: {
               masLabelLg1: "Auto Date",
               idMas: "S.2.3",
               rangeType: DATE,
               isPresentational: false,
               subPropertyOf: DCTERMS_MODIFIED,
-            }}
-            codelists={{}}
-            simsModified="2025-06-06T00:00:00.000Z"
-            alone={true}
-          />,
+            },
+            codelists: {},
+            simsModified: "2025-06-06T00:00:00.000Z",
+            alone: true,
+          }),
         );
 
         const input = container.querySelector(".p-calendar input") as HTMLInputElement;
@@ -221,19 +224,19 @@ describe("Sims Field", () => {
 
       it("uses simsModified instead of currentSection.value for auto-updated date fields", () => {
         const { container } = render(
-          <Field
-            msd={{
+          fieldOf({
+            msd: {
               masLabelLg1: "Auto Date",
               idMas: "S.2.3",
               rangeType: DATE,
               isPresentational: false,
               subPropertyOf: DCTERMS_MODIFIED,
-            }}
-            currentSection={{ value: "2020-01-01T00:00:00.000Z" }}
-            codelists={{}}
-            simsModified="2025-06-06T00:00:00.000Z"
-            alone={true}
-          />,
+            },
+            currentSection: { value: "2020-01-01T00:00:00.000Z" },
+            codelists: {},
+            simsModified: "2025-06-06T00:00:00.000Z",
+            alone: true,
+          }),
         );
 
         const input = container.querySelector(".p-calendar input") as HTMLInputElement;
@@ -243,19 +246,19 @@ describe("Sims Field", () => {
       it("does not call handleChange for auto-updated date fields", () => {
         const handleChange = vi.fn();
         const { container } = render(
-          <Field
-            msd={{
+          fieldOf({
+            msd: {
               masLabelLg1: "Auto Date",
               idMas: "S.2.3",
               rangeType: DATE,
               isPresentational: false,
               subPropertyOf: DCTERMS_MODIFIED,
-            }}
-            codelists={{}}
-            simsModified="2025-06-06T00:00:00.000Z"
-            handleChange={handleChange}
-            alone={true}
-          />,
+            },
+            codelists: {},
+            simsModified: "2025-06-06T00:00:00.000Z",
+            handleChange,
+            alone: true,
+          }),
         );
 
         const input = container.querySelector(".p-calendar input") as HTMLInputElement;
@@ -265,17 +268,17 @@ describe("Sims Field", () => {
 
       it("keeps the field editable for plain DATE rubrics", () => {
         const { container } = render(
-          <Field
-            msd={{
+          fieldOf({
+            msd: {
               masLabelLg1: "Plain Date",
               idMas: "date-2",
               rangeType: DATE,
               isPresentational: false,
-            }}
-            currentSection={{ value: "2024-01-15T00:00:00.000Z" }}
-            codelists={{}}
-            alone={true}
-          />,
+            },
+            currentSection: { value: "2024-01-15T00:00:00.000Z" },
+            codelists: {},
+            alone: true,
+          }),
         );
 
         const input = container.querySelector(".p-calendar input") as HTMLInputElement;
@@ -285,20 +288,21 @@ describe("Sims Field", () => {
   });
 
   describe("RICH_TEXT Field", () => {
+    const renderRichText = (
+      msd: { masLabelLg2?: string; idMas: string } = { masLabelLg2: "masLabelLg2", idMas: "1" },
+    ) =>
+      renderWithProviders(
+        <Field {...createDefaultSimsFieldProps({ msd: { ...msd, rangeType: RICH_TEXT } })} />,
+      );
+
     it("should display a MDEditor", () => {
-      const props = createDefaultSimsFieldProps({
-        msd: { masLabelLg2: "masLabelLg2", idMas: "1", rangeType: RICH_TEXT },
-      });
-      const { container } = renderWithProviders(<Field {...props} />);
+      const { container } = renderRichText();
 
       expect(container.querySelectorAll(".w-md-editor")).toHaveLength(1);
     });
 
     it("should configure editor with correct toolbar options", () => {
-      const props = createDefaultSimsFieldProps({
-        msd: { idMas: "rich-1", rangeType: RICH_TEXT },
-      });
-      const { container } = renderWithProviders(<Field {...props} />);
+      const { container } = renderRichText({ idMas: "rich-1" });
 
       const editor = container.querySelector(".w-md-editor");
       expect(editor).toBeInTheDocument();
@@ -307,10 +311,7 @@ describe("Sims Field", () => {
 
     it("should render with Redux Provider for markdown editor", () => {
       // This test verifies that RICH_TEXT field works with Redux context
-      const props = createDefaultSimsFieldProps({
-        msd: { masLabelLg2: "masLabelLg2", idMas: "1", rangeType: RICH_TEXT },
-      });
-      const { container } = renderWithProviders(<Field {...props} />);
+      const { container } = renderRichText();
 
       // Editor should render successfully
       expect(container.querySelector(".w-md-editor")).toBeInTheDocument();
@@ -320,19 +321,19 @@ describe("Sims Field", () => {
   describe("CODE_LIST Field", () => {
     it("should display a SelectRmes", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "masLabelLg1",
             idMas: "1",
             rangeType: CODE_LIST,
             isPresentational: false,
             codeList: "codelist0",
-          }}
-          currentSection={{ value: "value" }}
-          codelists={{ codeList: { codes: [] } }}
-          alone={true}
-          secondLang={false}
-        />,
+          },
+          currentSection: { value: "value" },
+          codelists: { codeList: { codes: [] } },
+          alone: true,
+          secondLang: false,
+        }),
       );
       expect(container.querySelectorAll(".p-dropdown")).toHaveLength(1);
     });
@@ -349,19 +350,19 @@ describe("Sims Field", () => {
       };
 
       render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Code List Field",
             idMas: "code-1",
             rangeType: CODE_LIST,
             isPresentational: false,
             codeList: "codelist0",
-          }}
-          currentSection={{ value: "1" }}
-          codelists={mockCodelist}
-          alone={true}
-          secondLang={false}
-        />,
+          },
+          currentSection: { value: "1" },
+          codelists: mockCodelist,
+          alone: true,
+          secondLang: false,
+        }),
       );
 
       // Dropdown should be rendered with options
@@ -377,19 +378,19 @@ describe("Sims Field", () => {
       };
 
       render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg2: "Code List Field",
             idMas: "code-1",
             rangeType: CODE_LIST,
             isPresentational: false,
             codeList: "codelist0",
-          }}
-          currentSection={{ value: "1" }}
-          codelists={mockCodelist}
-          alone={true}
-          secondLang={true}
-        />,
+          },
+          currentSection: { value: "1" },
+          codelists: mockCodelist,
+          alone: true,
+          secondLang: true,
+        }),
       );
 
       expect(screen.getByRole("combobox")).toBeInTheDocument();
@@ -403,18 +404,18 @@ describe("Sims Field", () => {
       };
 
       render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Multi Select",
             idMas: "multi-1",
             rangeType: CODE_LIST,
             isPresentational: false,
             codeList: "codelist0",
-          }}
-          codelists={mockCodelist}
-          alone={true}
-          unbounded={true}
-        />,
+          },
+          codelists: mockCodelist,
+          alone: true,
+          unbounded: true,
+        }),
       );
 
       expect(screen.getByRole("combobox")).toBeInTheDocument();
@@ -422,17 +423,17 @@ describe("Sims Field", () => {
 
     it("should handle empty codes list", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Empty Code List",
             idMas: "empty-1",
             rangeType: CODE_LIST,
             isPresentational: false,
             codeList: "emptyList",
-          }}
-          codelists={{ emptyList: { codes: [] } }}
-          alone={true}
-        />,
+          },
+          codelists: { emptyList: { codes: [] } },
+          alone: true,
+        }),
       );
 
       expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
@@ -440,17 +441,17 @@ describe("Sims Field", () => {
 
     it("should handle missing codelist", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Missing Code List",
             idMas: "missing-1",
             rangeType: CODE_LIST,
             isPresentational: false,
             codeList: "nonExistent",
-          }}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          codelists: {},
+          alone: true,
+        }),
       );
 
       // Should still render without error
@@ -466,18 +467,18 @@ describe("Sims Field", () => {
       ];
 
       render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Organization Field",
             idMas: "org-1",
             rangeType: ORGANIZATION,
             isPresentational: false,
-          }}
-          organizationsOptions={mockOrganizations}
-          currentSection={{ value: "org1" }}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          organizationsOptions: mockOrganizations,
+          currentSection: { value: "org1" },
+          codelists: {},
+          alone: true,
+        }),
       );
 
       expect(screen.getByRole("combobox")).toBeInTheDocument();
@@ -488,18 +489,18 @@ describe("Sims Field", () => {
       const mockOrganizations = [{ value: "org1", label: "Organization 1" }];
 
       render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Organization Field",
             idMas: "org-1",
             rangeType: ORGANIZATION,
             isPresentational: false,
-          }}
-          organizationsOptions={mockOrganizations}
-          handleChange={handleChange}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          organizationsOptions: mockOrganizations,
+          handleChange,
+          codelists: {},
+          alone: true,
+        }),
       );
 
       expect(screen.getByRole("combobox")).toBeInTheDocument();
@@ -507,17 +508,17 @@ describe("Sims Field", () => {
 
     it("should handle empty organizationsOptions", () => {
       render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Organization Field",
             idMas: "org-1",
             rangeType: ORGANIZATION,
             isPresentational: false,
-          }}
-          organizationsOptions={[]}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          organizationsOptions: [],
+          codelists: {},
+          alone: true,
+        }),
       );
 
       expect(screen.getByRole("combobox")).toBeInTheDocument();
@@ -568,18 +569,18 @@ describe("Sims Field", () => {
   describe("Without Object Checkbox", () => {
     it("should display without object checkbox when sansObject is true", () => {
       render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Field with sans object",
             idMas: "sans-1",
             rangeType: TEXT,
             isPresentational: false,
             sansObject: true,
-          }}
-          currentSection={{}}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          currentSection: {},
+          codelists: {},
+          alone: true,
+        }),
       );
 
       expect(screen.getByRole("checkbox")).toBeInTheDocument();
@@ -587,18 +588,18 @@ describe("Sims Field", () => {
 
     it("should not display checkbox when sansObject is false", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Field without sans object",
             idMas: "no-sans-1",
             rangeType: TEXT,
             isPresentational: false,
             sansObject: false,
-          }}
-          currentSection={{}}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          currentSection: {},
+          codelists: {},
+          alone: true,
+        }),
       );
 
       expect(container.querySelector('input[type="checkbox"]')).toBeNull();
@@ -606,18 +607,18 @@ describe("Sims Field", () => {
 
     it("should hide input when RUBRIQUE_SANS_OBJECT is selected", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Field",
             idMas: "sans-2",
             rangeType: TEXT,
             isPresentational: false,
             sansObject: true,
-          }}
-          currentSection={{ rangeType: rangeType.RUBRIQUE_SANS_OBJECT }}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          currentSection: { rangeType: rangeType.RUBRIQUE_SANS_OBJECT },
+          codelists: {},
+          alone: true,
+        }),
       );
 
       // Text input should not be visible
@@ -626,92 +627,83 @@ describe("Sims Field", () => {
 
     it("should show input when RUBRIQUE_SANS_OBJECT is not selected", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Field",
             idMas: "sans-3",
             rangeType: TEXT,
             isPresentational: false,
             sansObject: true,
-          }}
-          currentSection={{ rangeType: TEXT }}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          currentSection: { rangeType: TEXT },
+          codelists: {},
+          alone: true,
+        }),
       );
 
       // Text input should be visible
       expect(container.querySelector('input[type="text"]')).toBeInTheDocument();
     });
 
-    it("should call handleChange when checkbox is checked", () => {
-      const handleChange = vi.fn();
-      render(
-        <Field
-          msd={{
-            masLabelLg1: "Field",
-            idMas: "sans-4",
-            rangeType: TEXT,
-            isPresentational: false,
-            sansObject: true,
-          }}
-          currentSection={{}}
-          handleChange={handleChange}
-          codelists={{}}
-          alone={true}
-        />,
-      );
+    // Boucle plutôt que it.each : les titres interpolés sont tronqués par Vitest.
+    for (const { name, idMas, currentSection, expectedRangeType } of [
+      {
+        name: "should call handleChange when checkbox is checked",
+        idMas: "sans-4",
+        currentSection: {},
+        expectedRangeType: rangeType.RUBRIQUE_SANS_OBJECT,
+      },
+      {
+        name: "should restore original rangeType when checkbox is unchecked",
+        idMas: "sans-5",
+        currentSection: { rangeType: rangeType.RUBRIQUE_SANS_OBJECT },
+        expectedRangeType: TEXT,
+      },
+    ]) {
+      it(name, () => {
+        const handleChange = vi.fn();
+        render(
+          fieldOf({
+            msd: {
+              masLabelLg1: "Field",
+              idMas,
+              rangeType: TEXT,
+              isPresentational: false,
+              sansObject: true,
+            },
+            currentSection,
+            handleChange,
+            codelists: {},
+            alone: true,
+          }),
+        );
 
-      const checkbox = screen.getByRole("checkbox");
-      fireEvent.click(checkbox);
+        const checkbox = screen.getByRole("checkbox");
+        fireEvent.click(checkbox);
 
-      expect(handleChange).toHaveBeenCalledWith({
-        id: "sans-4",
-        override: { rangeType: rangeType.RUBRIQUE_SANS_OBJECT },
+        expect(handleChange).toHaveBeenCalledWith({
+          id: idMas,
+          override: { rangeType: expectedRangeType },
+        });
       });
-    });
-
-    it("should restore original rangeType when checkbox is unchecked", () => {
-      const handleChange = vi.fn();
-      render(
-        <Field
-          msd={{
-            masLabelLg1: "Field",
-            idMas: "sans-5",
-            rangeType: TEXT,
-            isPresentational: false,
-            sansObject: true,
-          }}
-          currentSection={{ rangeType: rangeType.RUBRIQUE_SANS_OBJECT }}
-          handleChange={handleChange}
-          codelists={{}}
-          alone={true}
-        />,
-      );
-
-      const checkbox = screen.getByRole("checkbox");
-      fireEvent.click(checkbox);
-
-      expect(handleChange).toHaveBeenCalledWith({
-        id: "sans-5",
-        override: { rangeType: TEXT },
-      });
-    });
+    }
   });
 
   describe("Note Component Integration", () => {
+    const testFieldMsd = {
+      masLabelLg1: "Test Field",
+      idMas: "1",
+      rangeType: TEXT,
+      isPresentational: false,
+    };
+
     it("should render field within Note component", () => {
       const { container } = render(
-        <Field
-          msd={{
-            masLabelLg1: "Test Field",
-            idMas: "1",
-            rangeType: TEXT,
-            isPresentational: false,
-          }}
-          codelists={{}}
-          alone={true}
-        />,
+        fieldOf({
+          msd: testFieldMsd,
+          codelists: {},
+          alone: true,
+        }),
       );
 
       expect(container.querySelector(".note")).toBeInTheDocument();
@@ -719,31 +711,21 @@ describe("Sims Field", () => {
 
     it("should pass alone prop to Note", () => {
       const { container, rerender } = render(
-        <Field
-          msd={{
-            masLabelLg1: "Test Field",
-            idMas: "1",
-            rangeType: TEXT,
-            isPresentational: false,
-          }}
-          codelists={{}}
-          alone={true}
-        />,
+        fieldOf({
+          msd: testFieldMsd,
+          codelists: {},
+          alone: true,
+        }),
       );
 
       expect(container.querySelector(".note")).toBeInTheDocument();
 
       rerender(
-        <Field
-          msd={{
-            masLabelLg1: "Test Field",
-            idMas: "1",
-            rangeType: TEXT,
-            isPresentational: false,
-          }}
-          codelists={{}}
-          alone={false}
-        />,
+        fieldOf({
+          msd: testFieldMsd,
+          codelists: {},
+          alone: false,
+        }),
       );
 
       expect(container.querySelector(".note")).toBeInTheDocument();
@@ -751,17 +733,17 @@ describe("Sims Field", () => {
 
     it("should render SimsFieldTitle in Note title", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Field Title",
             idMas: "1",
             rangeType: TEXT,
             isPresentational: false,
-          }}
-          currentSection={{}}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          currentSection: {},
+          codelists: {},
+          alone: true,
+        }),
       );
 
       // Note component is rendered
@@ -774,16 +756,16 @@ describe("Sims Field", () => {
   describe("Edge Cases", () => {
     it("should handle missing currentSection", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Test",
             idMas: "1",
             rangeType: TEXT,
             isPresentational: false,
-          }}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          codelists: {},
+          alone: true,
+        }),
       );
 
       expect(container.querySelector("input")).toBeInTheDocument();
@@ -791,15 +773,15 @@ describe("Sims Field", () => {
 
     it("should handle undefined rangeType", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Test",
             idMas: "1",
             isPresentational: false,
-          }}
-          codelists={{}}
-          alone={true}
-        />,
+          },
+          codelists: {},
+          alone: true,
+        }),
       );
 
       // Should render without error
@@ -808,17 +790,17 @@ describe("Sims Field", () => {
 
     it("should handle missing handleChange prop", () => {
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Test",
             idMas: "1",
             rangeType: TEXT,
             isPresentational: false,
-          }}
-          codelists={{}}
-          handleChange={vi.fn()} // Provide a mock to avoid error
-          alone={true}
-        />,
+          },
+          codelists: {},
+          handleChange: vi.fn(), // Provide a mock to avoid error
+          alone: true,
+        }),
       );
 
       const input = container.querySelector("input") as HTMLInputElement;
@@ -834,8 +816,8 @@ describe("Sims Field", () => {
       };
 
       const { container } = render(
-        <Field
-          msd={{
+        fieldOf({
+          msd: {
             masLabelLg1: "Complete Field",
             masLabelLg2: "Champ Complet",
             idMas: "complete-1",
@@ -843,15 +825,15 @@ describe("Sims Field", () => {
             isPresentational: false,
             codeList: "codelist0",
             sansObject: true,
-          }}
-          currentSection={{ value: "1" }}
-          codelists={mockCodelist}
-          organizationsOptions={[]}
-          handleChange={handleChange}
-          alone={true}
-          unbounded={false}
-          secondLang={false}
-        />,
+          },
+          currentSection: { value: "1" },
+          codelists: mockCodelist,
+          organizationsOptions: [],
+          handleChange,
+          alone: true,
+          unbounded: false,
+          secondLang: false,
+        }),
       );
 
       expect(container.querySelector(".note")).toBeInTheDocument();

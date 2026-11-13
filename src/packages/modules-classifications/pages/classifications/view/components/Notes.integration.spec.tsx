@@ -1,16 +1,14 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import { Notes } from "./Notes";
+import { renderNotes } from "./Notes.testing";
 
 // Test d'intégration : contrairement à Notes.spec.tsx, on n'mocke PAS
 // ExplanatoryNote. On exerce donc le vrai composant, qui appelle text.replace()
 // et qui plantait quand notes.jsx lui passait un élément React au lieu d'une string
 // (issue InseeFr/Bauhaus#1498).
 
-vi.mock("@components/layout", () => ({
-  Row: ({ children }: any) => <div>{children}</div>,
-}));
+vi.mock("@components/layout", () => import("../../../../testing/component-mocks.testing"));
 
 vi.mock("@components/panel", () => ({
   Panel: ({ title, children }: any) => (
@@ -21,14 +19,10 @@ vi.mock("@components/panel", () => ({
   ),
 }));
 
-vi.mock("@uiw/react-md-editor/nohighlight", () => ({
-  default: {
-    Markdown: ({ source }: any) => <div data-testid="markdown">{source}</div>,
-  },
-}));
-
-const renderNotes = (notes: any, secondLang = false) =>
-  render(<Notes notes={notes} secondLang={secondLang} />);
+vi.mock(
+  "@uiw/react-md-editor/nohighlight",
+  () => import("../../../../testing/md-editor-mock.testing"),
+);
 
 describe("<Notes /> (intégration avec le vrai ExplanatoryNote)", () => {
   it("affiche la scopeNote de la nomenclature sans planter", () => {

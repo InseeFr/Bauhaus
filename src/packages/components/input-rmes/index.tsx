@@ -1,5 +1,7 @@
 import { cx } from "@utils/cx";
 
+import "../form/form.css";
+import "../layout/grid.css";
 import { RequiredIcon } from "../required-icon";
 
 interface InputRmesTypes {
@@ -30,7 +32,7 @@ export const InputRmes = ({
   errorBlock = <></>,
 }: Readonly<InputRmesTypes>) => {
   return (
-    <div className={`form-group col-md-${colMd || 12}`}>
+    <div className={`bauhaus-form-group bauhaus-grid-md-${colMd || 12}`}>
       <label className={cx("form-label", className)}>
         {label}
         {star && <RequiredIcon />}
@@ -38,7 +40,7 @@ export const InputRmes = ({
         <input
           type={password ? "password" : "text"}
           value={value || ""}
-          className="form-control"
+          className="bauhaus-input"
           disabled={disabled}
           onChange={(e) => handleChange(e.target.value)}
           {...arias}

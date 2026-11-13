@@ -11,6 +11,8 @@ import type { MutualizedCodeListCodes } from "../physical-instances/types/api";
 export const useMutualizedCodeListCodes = (agencyId: string, id: string) => {
   return useQuery<MutualizedCodeListCodes>({
     queryKey: ["mutualizedCodeListCodes", agencyId, id],
+    // Lecture lourde de Colectica : en cache jusqu'à son éviction après une sauvegarde.
+    staleTime: Infinity,
     queryFn: () => DDIApi.getMutualizedCodeListCodes(agencyId, id),
     enabled: !!agencyId && !!id,
   });

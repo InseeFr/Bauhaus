@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -31,7 +31,7 @@ export const Narrowers = ({ narrowers, classificationId, secondLang }: Props) =>
     </li>
   ));
 
-  let narrowersLg2: (JSX.Element | null)[] = [];
+  let narrowersLg2: (React.JSX.Element | null)[] = [];
   if (secondLang)
     narrowersLg2 = narrowers?.map((n) =>
       n.labelLg2 ? (

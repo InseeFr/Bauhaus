@@ -1,14 +1,16 @@
-import { Panel, PanelHeaderTemplateOptions } from "primereact/panel";
-import { Tooltip } from "primereact/tooltip";
-import { Tree } from "primereact/tree";
-import type { TreeNode } from "primereact/treenode";
-import { useState, type MouseEvent } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
+
+import { Panel, PanelHeaderTemplateOptions } from "@components/ui/panel";
+import { Tooltip } from "@components/ui/tooltip";
+import { Tree } from "@components/ui/tree";
+import type { TreeNode } from "@components/ui/tree-node";
 
 import { cx } from "@utils/cx";
 
 import type { CodeListUsage } from "../../types/api";
+import "./UsersPanel.css";
 import { buildCodeListUsersTree, type CodeListUsersNodeData } from "./codeListUsersTree";
 
 const PHYSICAL_INSTANCE_PATH = "/ddi/physical-instances";
@@ -62,23 +64,19 @@ export const UsersPanel = ({
 
   const helpTooltipTarget = tooltipTargetId.replace(/[^a-zA-Z0-9_-]/g, "-");
 
-  // En-tête personnalisé : pas de bouton "+/−" par défaut, l'ouverture/fermeture se fait en cliquant
-  // sur l'en-tête, et l'icône "?" porte l'explication (tooltip au survol).
+  // En-tête personnalisé : pas de bouton "+/−" par défaut, l'ouverture/fermeture se fait par le
+  // bouton du titre, et l'icône "?" porte l'explication (tooltip au survol).
   const headerTemplate = (options: PanelHeaderTemplateOptions) => (
-    <div
-      className={cx(options.className, "cursor-pointer")}
-      role="button"
-      tabIndex={0}
-      onClick={options.onTogglerClick}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          options.onTogglerClick(event as unknown as MouseEvent<HTMLElement>);
-        }
-      }}
-    >
+    <div className={options.className}>
       <Tooltip target={`.${helpTooltipTarget}`} position="left" />
-      <span className={options.titleClassName}>{title}</span>
+      <button
+        type="button"
+        className={cx(options.titleClassName, "users-panel-toggler")}
+        aria-expanded={!options.collapsed}
+        onClick={options.onTogglerClick}
+      >
+        {title}
+      </button>
       <i
         className={cx("pi pi-question-circle", helpTooltipTarget)}
         data-pr-tooltip={help}

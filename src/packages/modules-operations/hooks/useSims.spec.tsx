@@ -1,10 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
+import { createQueryWrapper } from "./queryClientWrapper.testing";
 import { useSims, useSaveSims, usePublishSims } from "./useSims";
 
 vi.mock("@sdk/operations-api", () => ({
@@ -27,24 +27,42 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-const createQueryClient = () =>
-  new QueryClient({ defaultOptions: { queries: { retry: false }, mutations: { retry: false } } });
+const renderLoadedSims = async (id: string) => {
+  const { wrapper } = createQueryWrapper();
+  const { result } = renderHook(() => useSims(id), { wrapper });
+  await waitFor(() => expect(result.current.isLoading).toBe(false));
+  return result;
+};
 
-const createWrapper = (queryClient = createQueryClient()) => {
-  const wrapper = ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-  return { wrapper, queryClient };
+// Lance la mutation et attend son succès ; le queryClient est exposé pour les espions.
+const runMutation = async <T,>(
+  useMutationHook: () => { mutate: (input: T) => void; isSuccess: boolean; data?: unknown },
+  input: T,
+  wrapperAndClient = createQueryWrapper(),
+) => {
+  const { result } = renderHook(() => useMutationHook(), { wrapper: wrapperAndClient.wrapper });
+  result.current.mutate(input);
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  return result;
 };
 
 describe("useSims", () => {
   it("ne requête rien tant qu'aucun identifiant n'est fourni", () => {
-    const { wrapper } = createWrapper();
+    const { wrapper } = createQueryWrapper();
 
     const { result } = renderHook(() => useSims(undefined), { wrapper });
 
     expect(OperationsApi.getSims).not.toHaveBeenCalled();
     expect(result.current.sims).toBeUndefined();
+  });
+
+  it("expose l'échec de lecture du SIMS", async () => {
+    const rejection = sdkRejection.emptyBody(404);
+    vi.mocked(OperationsApi.getSims).mockRejectedValue(rejection);
+
+    const result = await renderLoadedSims("1500");
+
+    expect(result.current.error).toBe(rejection);
   });
 
   it("indexe les rubriques par identifiant d'attribut", async () => {
@@ -55,11 +73,9 @@ describe("useSims", () => {
         { idAttribute: "I.2", value: "deux" },
       ],
     });
-    const { wrapper } = createWrapper();
 
-    const { result } = renderHook(() => useSims("1500"), { wrapper });
+    const result = await renderLoadedSims("1500");
 
-    await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(result.current.sims.rubrics).toEqual({
       "I.1": { idAttribute: "I.1", idMas: "I.1", value: "un" },
       "I.2": { idAttribute: "I.2", idMas: "I.2", value: "deux" },
@@ -68,11 +84,9 @@ describe("useSims", () => {
 
   it("accepte un SIMS sans rubrique", async () => {
     vi.mocked(OperationsApi.getSims).mockResolvedValue({ id: "1500" });
-    const { wrapper } = createWrapper();
 
-    const { result } = renderHook(() => useSims("1500"), { wrapper });
+    const result = await renderLoadedSims("1500");
 
-    await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(result.current.sims.rubrics).toEqual({});
   });
 
@@ -80,22 +94,18 @@ describe("useSims", () => {
     vi.mocked(OperationsApi.getSims).mockResolvedValue({ id: "1500", idOperation: "o1" });
     vi.mocked(OperationsApi.getOperation).mockResolvedValue({ series: { id: "s1" } });
     vi.mocked(OperationsApi.getOperationsWithoutReport).mockResolvedValue([{ id: "o2" }]);
-    const { wrapper } = createWrapper();
 
-    const { result } = renderHook(() => useSims("1500"), { wrapper });
+    const result = await renderLoadedSims("1500");
 
-    await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(OperationsApi.getOperationsWithoutReport).toHaveBeenCalledWith("s1");
     expect(result.current.sims.parentsWithoutSims).toEqual([{ id: "o2" }]);
   });
 
   it("ne cherche pas d'opération sœur quand le SIMS ne porte pas sur une opération", async () => {
     vi.mocked(OperationsApi.getSims).mockResolvedValue({ id: "1500", idSeries: "s1" });
-    const { wrapper } = createWrapper();
 
-    const { result } = renderHook(() => useSims("1500"), { wrapper });
+    const result = await renderLoadedSims("1500");
 
-    await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(OperationsApi.getOperationsWithoutReport).not.toHaveBeenCalled();
     expect(result.current.sims.parentsWithoutSims).toEqual([]);
   });
@@ -104,24 +114,18 @@ describe("useSims", () => {
 describe("useSaveSims", () => {
   it("crée le SIMS quand il n'a pas encore d'identifiant", async () => {
     vi.mocked(OperationsApi.postSims).mockResolvedValue("1500");
-    const { wrapper } = createWrapper();
 
-    const { result } = renderHook(() => useSaveSims(), { wrapper });
-    result.current.mutate({ labelLg1: "un", labelLg2: "one" });
+    const result = await runMutation(useSaveSims, { labelLg1: "un", labelLg2: "one" });
 
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(OperationsApi.postSims).toHaveBeenCalledWith({ labelLg1: "un", labelLg2: "one" });
     expect(result.current.data).toBe("1500");
   });
 
   it("met à jour le SIMS quand il a déjà un identifiant", async () => {
     vi.mocked(OperationsApi.putSims).mockResolvedValue(undefined);
-    const { wrapper } = createWrapper();
 
-    const { result } = renderHook(() => useSaveSims(), { wrapper });
-    result.current.mutate({ id: "1500", labelLg1: "un", labelLg2: "one" });
+    const result = await runMutation(useSaveSims, { id: "1500", labelLg1: "un", labelLg2: "one" });
 
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(OperationsApi.putSims).toHaveBeenCalled();
     expect(result.current.data).toBe("1500");
   });
@@ -136,12 +140,9 @@ describe("useSaveSims", () => {
       prefLabelLg2: "Census",
     });
     vi.mocked(OperationsApi.postSims).mockResolvedValue("1500");
-    const { wrapper } = createWrapper();
 
-    const { result } = renderHook(() => useSaveSims(), { wrapper });
-    result.current.mutate({ [idKey]: "p1" });
+    await runMutation(useSaveSims, { [idKey]: "p1" });
 
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(OperationsApi[apiMethod]).toHaveBeenCalledWith("p1");
     expect(OperationsApi.postSims).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -153,38 +154,81 @@ describe("useSaveSims", () => {
 
   it("laisse le SIMS inchangé quand aucun parent n'est renseigné", async () => {
     vi.mocked(OperationsApi.postSims).mockResolvedValue("1500");
-    const { wrapper } = createWrapper();
 
-    const { result } = renderHook(() => useSaveSims(), { wrapper });
-    result.current.mutate({ rubrics: [] });
+    await runMutation(useSaveSims, { rubrics: [] });
 
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(OperationsApi.postSims).toHaveBeenCalledWith({ rubrics: [] });
   });
 
   it("invalide le cache du SIMS enregistré", async () => {
     vi.mocked(OperationsApi.putSims).mockResolvedValue("1500");
-    const { wrapper, queryClient } = createWrapper();
-    using invalidate = vi.spyOn(queryClient, "invalidateQueries");
+    const wrapperAndClient = createQueryWrapper();
+    using invalidate = vi.spyOn(wrapperAndClient.queryClient, "invalidateQueries");
 
-    const { result } = renderHook(() => useSaveSims(), { wrapper });
-    result.current.mutate({ id: "1500", labelLg1: "un" });
+    await runMutation(useSaveSims, { id: "1500", labelLg1: "un" }, wrapperAndClient);
 
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(invalidate).toHaveBeenCalledWith({ queryKey: ["sims", "1500"] });
+  });
+
+  it("périme la série documentée, dont la fiche mène désormais à ce SIMS", async () => {
+    vi.mocked(OperationsApi.postSims).mockResolvedValue("1500");
+    const wrapperAndClient = createQueryWrapper();
+    wrapperAndClient.queryClient.setQueryData(["series", "s1"], { id: "s1" });
+
+    await runMutation(useSaveSims, { idSeries: "s1", labelLg1: "un" }, wrapperAndClient);
+
+    expect(wrapperAndClient.queryClient.getQueryState(["series", "s1"])?.isInvalidated).toBe(true);
+  });
+
+  it("périme l'indicateur documenté, dont la fiche mène désormais à ce SIMS", async () => {
+    vi.mocked(OperationsApi.postSims).mockResolvedValue("1500");
+    const wrapperAndClient = createQueryWrapper();
+    wrapperAndClient.queryClient.setQueryData(["indicators", "i1"], { id: "i1" });
+
+    await runMutation(useSaveSims, { idIndicator: "i1", labelLg1: "un" }, wrapperAndClient);
+
+    expect(wrapperAndClient.queryClient.getQueryState(["indicators", "i1"])?.isInvalidated).toBe(
+      true,
+    );
+  });
+
+  it("périme l'opération documentée, dont la fiche mène désormais à ce SIMS", async () => {
+    vi.mocked(OperationsApi.postSims).mockResolvedValue("1500");
+    const wrapperAndClient = createQueryWrapper();
+    wrapperAndClient.queryClient.setQueryData(["operations", "o1"], { id: "o1" });
+
+    await runMutation(useSaveSims, { idOperation: "o1", labelLg1: "un" }, wrapperAndClient);
+
+    expect(wrapperAndClient.queryClient.getQueryState(["operations", "o1"])?.isInvalidated).toBe(
+      true,
+    );
+  });
+
+  it("périme les documents, dont la fiche liste les SIMS qui les citent", async () => {
+    vi.mocked(OperationsApi.putSims).mockResolvedValue("1500");
+    const wrapperAndClient = createQueryWrapper();
+    wrapperAndClient.queryClient.setQueryData(["documents", "document", "d1"], { id: "d1" });
+
+    await runMutation(
+      useSaveSims,
+      { id: "1500", idSeries: "s1", labelLg1: "un" },
+      wrapperAndClient,
+    );
+
+    expect(
+      wrapperAndClient.queryClient.getQueryState(["documents", "document", "d1"])?.isInvalidated,
+    ).toBe(true);
   });
 });
 
 describe("usePublishSims", () => {
   it("publie le SIMS et invalide son cache", async () => {
     vi.mocked(OperationsApi.publishSims).mockResolvedValue("1500");
-    const { wrapper, queryClient } = createWrapper();
-    using invalidate = vi.spyOn(queryClient, "invalidateQueries");
+    const wrapperAndClient = createQueryWrapper();
+    using invalidate = vi.spyOn(wrapperAndClient.queryClient, "invalidateQueries");
 
-    const { result } = renderHook(() => usePublishSims(), { wrapper });
-    result.current.mutate({ id: "1500" });
+    await runMutation(usePublishSims, { id: "1500" }, wrapperAndClient);
 
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(OperationsApi.publishSims).toHaveBeenCalledWith({ id: "1500" });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: ["sims", "1500"] });
   });

@@ -32,6 +32,8 @@ export const Component = () => {
 
   const [exporting, setExporting] = useState(false);
 
+  const [exportError, setExportError] = useState<unknown>();
+
   useEffect(() => {
     ConceptsApi.getConceptSearchList()
       .then((concepts: ConceptForAdvancedSearch[]) => {
@@ -47,8 +49,11 @@ export const Component = () => {
     lang: "lg1" | "lg2" = "lg1",
   ) => {
     setExporting(true);
-    const promise = ConceptsApi.getConceptExportZipType(ids, type, lang, withConcepts);
-    return promise.then(saveFileFromHttpResponse).finally(() => setExporting(false));
+    setExportError(undefined);
+    return ConceptsApi.getConceptExportZipType(ids, type, lang, withConcepts)
+      .then(saveFileFromHttpResponse)
+      .catch(setExportError)
+      .finally(() => setExporting(false));
   };
 
   if (loading) {
@@ -59,5 +64,11 @@ export const Component = () => {
     return <Exporting />;
   }
 
-  return <ConceptSearchList conceptSearchList={conceptSearchList} onExport={exportHandler} />;
+  return (
+    <ConceptSearchList
+      conceptSearchList={conceptSearchList}
+      onExport={exportHandler}
+      exportError={exportError}
+    />
+  );
 };

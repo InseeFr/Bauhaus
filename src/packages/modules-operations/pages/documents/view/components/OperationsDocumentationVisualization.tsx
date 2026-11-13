@@ -9,6 +9,8 @@ import { Document } from "@model/operations/document";
 
 import { getBaseURI } from "@sdk/index";
 
+import { getLang } from "@utils/dictionary";
+import { formatFileSize } from "@utils/file-size";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { LINK } from "../../../../../constants/documentType";
@@ -53,6 +55,21 @@ function formatSims(sims: any[]) {
       labelLg2: s.labelLg2 + ` (${s.rubrics?.join(", ")})`,
     };
   });
+}
+
+/**
+ * Taille affichée à droite du lien de téléchargement. Les lecteurs d'écran prononcent mal « ko » :
+ * ils lisent la forme longue (« 130 kilooctets »), la forme courte leur est masquée.
+ */
+function FileSize({ bytes }: Readonly<{ bytes: number }>) {
+  const { short, long } = formatFileSize(bytes, getLang());
+  return (
+    <span>
+      {" "}
+      <span aria-hidden="true">({short})</span>
+      <span className="sr-only">{long}</span>
+    </span>
+  );
 }
 
 interface OperationsDocumentationVisualizationTypes {
@@ -110,9 +127,12 @@ export function OperationsDocumentationVisualization({
         <Row>
           <Note
             text={
-              <ExternalLink href={`${baseURI}/documents/document/${id}/file`}>
-                {attr.labelLg1}
-              </ExternalLink>
+              <>
+                <ExternalLink href={`${baseURI}/documents/document/${id}/file`}>
+                  {attr.labelLg1}
+                </ExternalLink>
+                {attr.size !== undefined && <FileSize bytes={attr.size} />}
+              </>
             }
             title={t("documents.titleDocument")}
             alone={true}

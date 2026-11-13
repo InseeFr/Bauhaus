@@ -32,6 +32,8 @@ type ComponentsByType = Record<string, StructureComponent[]>;
 interface ComponentSelectorTypes {
   componentDefinitions: ComponentDefinition[];
   mutualizedComponents: Component[];
+  /** Échec du chargement des composantes mutualisées, affiché à la place de leur liste. */
+  mutualizedComponentsError?: unknown;
   concepts?: any;
   codelists?: Codelists;
   handleUpdate: (components: StructureComponent[]) => void;
@@ -47,6 +49,7 @@ const filterComponent = (type?: string) => (component: Component) => component?.
 export const ComponentSelector = ({
   componentDefinitions,
   mutualizedComponents,
+  mutualizedComponentsError,
   concepts = EMPTY_ARRAY,
   codelists = EMPTY_ARRAY,
   handleUpdate,
@@ -322,6 +325,7 @@ export const ComponentSelector = ({
         codelists={codelists}
         hidden={true}
         components={filteredMutualizedComponents}
+        error={mutualizedComponentsError}
         handleAdd={handleAdd}
         readOnly={true}
         handleCodelistDetail={handleCodelistDetail}

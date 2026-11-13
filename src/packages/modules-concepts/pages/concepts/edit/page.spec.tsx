@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { Mock, vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
@@ -8,14 +8,16 @@ import { useIsDefaultContributorPending } from "@utils/creation/use-default-cont
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../../../application/app-context";
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
 import { renderWithRouter } from "../../../../tests/render";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { useConcept } from "../../../hooks/useConcept";
 import { useConcepts } from "../../../hooks/useConcepts";
 import { useConceptSave } from "../../../hooks/useConceptSave";
 import { Component } from "./page";
 
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual<typeof import("react-router")>("react-router");
   return { ...actual, useNavigate: vi.fn(), useParams: vi.fn() };
 });
 
@@ -156,6 +158,20 @@ describe("Component (edition-container)", () => {
       renderWithRouter(<Component />);
 
       expect(screen.getByTestId("loading")).toBeInTheDocument();
+    });
+
+    it("says the concept could not be found instead of loading forever on a 404", async () => {
+      (useConcept as Mock).mockReturnValue({
+        data: undefined,
+        isLoading: false,
+        error: sdkRejection.emptyBody(404),
+      });
+
+      renderWithRouter(<Component />);
+
+      await expectItemNotFound();
+      expect(screen.queryByTestId("loading")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("concept-edition-creation")).not.toBeInTheDocument();
     });
 
     it("calls useTitle with concept label", () => {

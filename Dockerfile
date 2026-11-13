@@ -6,15 +6,22 @@ WORKDIR /bauhaus
 
 COPY ./ ./
 
-RUN rm -f package-lock.json
-RUN rm -rf node_modules
-RUN npm i -g pnpm@12
-
-RUN pnpm install && pnpm build
+# pnpm aligné sur la version de la CI, déclarée dans l'action setup-front du
+# commons. `--frozen-lockfile` : l'image résout exactement ce que la CI a
+# validé, ou elle échoue — plutôt que de dériver en silence.
+RUN npm i -g pnpm@12 \
+    && pnpm install --frozen-lockfile \
+    && pnpm build
 
 ### EXECUTION STEP ###
 
 FROM nginxinc/nginx-unprivileged:mainline-alpine
+
+# Correctifs de sécurité Alpine publiés après l'image de base (ex. brotli-libs
+# CVE-2026-111497, curl CVE-2026-92392) : l'image amont n'est pas reconstruite
+# assez vite, on met à jour les paquets nous-mêmes.
+USER root
+RUN apk upgrade --no-cache
 
 # Non root user
 ENV NGINX_USER_ID=101

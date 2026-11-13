@@ -1,5 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
@@ -13,9 +14,11 @@ export const Component = () => {
     levelId: string;
   }>();
 
-  const { isLoading, level } = useClassificationLevel(classificationId, levelId);
+  const { isLoading, level, error } = useClassificationLevel(classificationId, levelId);
 
   const [secondLang] = useSecondLang();
+
+  if (error && !level) return <LoadingErrorBloc error={error} />;
 
   if (isLoading || !level) return <Loading />;
 

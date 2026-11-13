@@ -1,6 +1,4 @@
-import { Navigate, RouteObject } from "react-router-dom";
-
-import { OperationsApi } from "@sdk/operations-api";
+import { Navigate, RouteObject } from "react-router";
 
 import { CREATE, UPDATE, VIEW } from "../pages/sims/constants";
 
@@ -13,10 +11,6 @@ export const routes: RouteObject[] = [
   {
     path: "families",
     lazy: () => import("../pages/families/home/page"),
-    loader: () => OperationsApi.getAllFamilies(),
-    shouldRevalidate: ({ currentUrl, nextUrl }) => {
-      return currentUrl.pathname !== nextUrl.pathname;
-    },
   },
   {
     path: "families/create",

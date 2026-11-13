@@ -1,11 +1,12 @@
-import type { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@components/buttons/button";
+import type { Toast } from "@components/ui/toast";
 
-import { getApiErrorMessage } from "@utils/api-errors";
+import { formatApiErrors } from "@utils/api-errors";
 
+import { appI18n } from "../../../../i18n";
 import { useEvictCaches } from "../../../hooks/useEvictCaches";
 import { errorToastTiming } from "../../../utils/error-toast";
 import { DdiToast } from "../../components/DdiToast/DdiToast";
@@ -28,7 +29,9 @@ export const EvictCachesButton = () => {
         toast.current?.show({
           severity: "error",
           summary: t("physicalInstance.cache.errorTitle"),
-          detail: getApiErrorMessage(err, t("physicalInstance.cache.errorMessage")),
+          detail: formatApiErrors(err, appI18n, t("physicalInstance.cache.errorMessage")).join(
+            "\n",
+          ),
           ...errorToastTiming(),
         }),
     });

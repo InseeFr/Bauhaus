@@ -16,7 +16,8 @@ export const Component = () => {
 
   const { data: collectionsData = [], isLoading } = useCollections();
 
-  const { isPending: isExporting } = useCollectionExporter();
+  // Seule instance de l'exporteur : c'est elle qui porte l'état de l'export (en cours, échec).
+  const { mutate: exportCollection, isPending: isExporting, error } = useCollectionExporter();
 
   const collections = useMemo(
     () =>
@@ -27,9 +28,20 @@ export const Component = () => {
     [collectionsData],
   );
 
-  if (isExporting) return <Exporting />;
-
   if (isLoading) return <Loading />;
 
-  return <CollectionsToExport collections={collections} />;
+  // Le sélecteur reste monté pendant l'export : démonté, il perdrait la sélection, qu'un
+  // échec doit laisser intacte.
+  return (
+    <>
+      {isExporting && <Exporting />}
+      <div hidden={isExporting}>
+        <CollectionsToExport
+          collections={collections}
+          exportCollection={exportCollection}
+          exportError={error}
+        />
+      </div>
+    </>
+  );
 };

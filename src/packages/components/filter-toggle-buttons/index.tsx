@@ -15,14 +15,14 @@ export const FilterToggleButtons = ({
   handleSelection,
 }: Readonly<FilterToggleButtonsTypes>) => {
   return (
-    <div className="bauhaus-filter-toggle-buttons btn-group btn-group-justified" role="group">
+    <div className="bauhaus-filter-toggle-buttons" role="group">
       {options.map(([value, title]) => {
         return (
-          <div className="btn-group" role="group" key={value}>
+          <div className="bauhaus-filter-toggle-buttons-segment" key={value}>
             <button
               type="button"
               className={cx(
-                "btn btn-default",
+                "bauhaus-filter-toggle-buttons-btn",
                 currentValue === value && "bauhaus-filter-toggle-buttons-btn-active",
               )}
               onClick={() => handleSelection(value)}

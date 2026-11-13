@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { CheckSecondLang } from "@components/check-second-lang";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -22,10 +22,16 @@ import { GlobalInformationsPanel } from "./components/GlobalInformationsPanel";
 interface StructureViewTypes {
   structure: Structure;
   publish: VoidFunction;
-  serverSideError?: string;
+  onDeleteError: (error: unknown) => void;
+  serverSideError?: unknown;
 }
 
-export const StructureView = ({ structure, publish, serverSideError }: StructureViewTypes) => {
+export const StructureView = ({
+  structure,
+  publish,
+  onDeleteError,
+  serverSideError,
+}: StructureViewTypes) => {
   const { t } = useTranslation();
 
   useTitle(t("structure.pluralTitle"), structure?.labelLg1);
@@ -42,7 +48,7 @@ export const StructureView = ({ structure, publish, serverSideError }: Structure
     <>
       <PageTitleBlock titleLg1={labelLg1} titleLg2={labelLg2} />
       <CheckSecondLang />
-      <Controls structure={structure} publish={publish} />
+      <Controls structure={structure} publish={publish} onDeleteError={onDeleteError} />
       <ErrorBloc error={serverSideError} />
       <GlobalInformationsPanel structure={structure} />
       <DescriptionsPanel descriptionLg1={descriptionLg1} descriptionLg2={descriptionLg2} />
@@ -58,11 +64,14 @@ export const Component = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const [serverSideError, setServerSideError] = useState<string | undefined>();
+  const [serverSideError, setServerSideError] = useState<unknown>();
+
+  const [loadError, setLoadError] = useState<unknown>();
 
   useEffect(() => {
     StructureApi.getStructure(id)
       .then((res: Structure) => setStructure(res))
+      .catch(setLoadError)
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -78,11 +87,18 @@ export const Component = () => {
       });
   };
 
+  if (loadError) return <LoadingErrorBloc error={loadError} />;
+
   if (loading) {
     return <Loading />;
   }
 
   return (
-    <StructureView structure={structure} publish={publish} serverSideError={serverSideError} />
+    <StructureView
+      structure={structure}
+      publish={publish}
+      onDeleteError={setServerSideError}
+      serverSideError={serverSideError}
+    />
   );
 };

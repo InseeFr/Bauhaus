@@ -1,5 +1,6 @@
-import { Toast } from "primereact/toast";
 import { forwardRef } from "react";
+
+import { Toast } from "@components/ui/toast";
 
 import "./DdiToast.css";
 

@@ -27,6 +27,7 @@ export function useCreatePhysicalInstance() {
   const defaultAgencyId = properties.defaultAgencyId;
 
   return useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: async (
       data: CreatePhysicalInstanceParams,
     ): Promise<CreatePhysicalInstanceResponse> => {
@@ -54,6 +55,7 @@ export function useCreatePhysicalInstance() {
       queryClient.invalidateQueries({
         queryKey: ["physicalInstances"],
       });
+      queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
     },
   });
 }

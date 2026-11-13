@@ -10,7 +10,7 @@ import { Row } from "@components/layout";
 import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 import { RequiredIcon } from "@components/required-icon";
-import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
+import { MDEditor } from "@components/rich-editor/react-md-editor";
 import { Select } from "@components/select-rmes";
 
 import { Codelist } from "@model/Codelist";
@@ -20,12 +20,18 @@ import { Series } from "@model/Series";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { toFormErrors } from "@utils/api-errors";
+import { useInvalidateSeries } from "@utils/hooks/series";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
 import { PublishersInput } from "../../../../components/PublishersInput";
+import { useInvalidateIndicators } from "../../../../hooks/useIndicators";
 import { validate } from "../validation";
 import { Control } from "./Control";
+
+/** Champs dont une erreur de validation du back s'affiche à côté de la saisie. */
+const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2", "creators", "wasGeneratedBy"];
 
 interface OperationsIndicatorEditionTypes {
   indicator: Indicator;
@@ -41,9 +47,11 @@ interface ClientSideErrors {
 }
 
 interface State {
-  serverSideError: string;
+  serverSideError: unknown;
   clientSideErrors: ClientSideErrors;
   submitting: boolean;
+  /** Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide le formulaire. */
+  saveAttempted: boolean;
   saving: boolean;
   indicator: Indicator;
 }
@@ -65,6 +73,7 @@ const setInitialState = (props: Readonly<OperationsIndicatorEditionTypes>): Stat
   serverSideError: "",
   clientSideErrors: {},
   submitting: false,
+  saveAttempted: false,
   saving: false,
   indicator: {
     ...defaultIndicator,
@@ -77,17 +86,26 @@ const ONCHANGE_FIELDS: (keyof Indicator)[] = [
   "prefLabelLg2",
   "altLabelLg1",
   "altLabelLg2",
+  "accrualPeriodicityCode",
+];
+
+/** Champs saisis dans l'éditeur markdown, qui remonte `undefined` quand il est vidé. */
+const MARKDOWN_FIELDS: (keyof Indicator)[] = [
   "abstractLg1",
   "abstractLg2",
   "historyNoteLg1",
   "historyNoteLg2",
-  "accrualPeriodicityCode",
 ];
 
 export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEditionTypes>) => {
   const { t } = useTranslation();
 
   const [state, setState] = useState<State>(() => setInitialState(props));
+
+  const invalidateIndicators = useInvalidateIndicators();
+
+  // La fiche d'une série liste les indicateurs qu'elle produit.
+  const invalidateSeries = useInvalidateSeries();
 
   const isFirstRender = useRef(true);
 
@@ -101,19 +119,21 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
 
   const onChange = useCallback(
     (selector: keyof Indicator) => (value: any) => {
-      setState((state) => ({
-        ...state,
-        serverSideError: "",
-        submitting: true,
-        clientSideErrors: {
-          ...state.clientSideErrors,
-          errorMessage: [],
-        },
-        indicator: {
+      setState((state) => {
+        const indicator = {
           ...state.indicator,
           [selector]: value,
-        } as Indicator,
-      }));
+        } as Indicator;
+        return {
+          ...state,
+          serverSideError: "",
+          submitting: true,
+          clientSideErrors: state.saveAttempted
+            ? validate(indicator)
+            : { ...state.clientSideErrors, errorMessage: [] },
+          indicator,
+        };
+      });
     },
     [],
   );
@@ -130,31 +150,48 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
     [onChange],
   );
 
+  const onMarkdownChanges = useMemo(
+    () =>
+      MARKDOWN_FIELDS.reduce<Record<string, (value?: string) => void>>(
+        (acc, selector) => ({
+          ...acc,
+          [selector]: (value?: string) => onChange(selector)(value ?? ""),
+        }),
+        {},
+      ),
+    [onChange],
+  );
+
   const onSubmit = () => {
     const clientSideErrors = validate(state.indicator);
     if (clientSideErrors.errorMessage?.length > 0) {
       setState((state) => ({
         ...state,
         submitting: true,
+        saveAttempted: true,
         clientSideErrors,
       }));
     } else {
       setState((state) => ({ ...state, saving: true }));
       const isCreation = !state.indicator.id;
       const method = isCreation ? "createIndicator" : "updateIndicator";
-      return OperationsApi[method](state.indicator)
-        .then(
-          (id = state.indicator.id) => {
-            props.goBack(`/operations/indicator/${id}`, isCreation);
-          },
-          (err: string) => {
-            setState((state) => ({
-              ...state,
-              serverSideError: err,
-            }));
-          },
-        )
-        .finally(() => setState((state) => ({ ...state, saving: false })));
+      // Pas de retour au formulaire après un succès : la navigation de goBack est asynchrone,
+      // le formulaire réapparaîtrait le temps qu'elle aboutisse.
+      return OperationsApi[method](state.indicator).then(
+        async (id = state.indicator.id) => {
+          await Promise.all([invalidateIndicators(), invalidateSeries()]);
+          props.goBack(`/operations/indicator/${id}`, isCreation);
+        },
+        (err: unknown) => {
+          const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
+          setState((state) => ({
+            ...state,
+            saving: false,
+            ...(clientSideErrors && { submitting: true, clientSideErrors }),
+            serverSideError,
+          }));
+        },
+      );
     }
   };
 
@@ -199,7 +236,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
-      {state.serverSideError && <ErrorBloc error={state.serverSideError} />}
+      <ErrorBloc error={state.serverSideError} />
       <form>
         <h4 className="text-center">
           ( <RequiredIcon /> : {t("app.requiredFields", { lng: "fr" })})
@@ -265,32 +302,36 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={indicator.abstractLg1 ?? ""}
-              handleChange={onChanges.abstractLg1}
+              handleChange={onMarkdownChanges.abstractLg1}
+              textareaProps={{ id: "abstractLg1" }}
             />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={indicator.abstractLg2 ?? ""}
-              handleChange={onChanges.abstractLg2}
+              handleChange={onMarkdownChanges.abstractLg2}
+              textareaProps={{ id: "abstractLg2" }}
             />
           </div>
         </Row>
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="historyNoteLg1">{t("common.history", { lng: "fr" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={indicator.historyNoteLg1 ?? ""}
-              handleChange={onChanges.historyNoteLg1}
+              handleChange={onMarkdownChanges.historyNoteLg1}
+              textareaProps={{ id: "historyNoteLg1" }}
             />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="historyNoteLg2">{t("common.history", { lng: "en" })}</label>
-            <EditorMarkdown
+            <MDEditor
               text={indicator.historyNoteLg2 ?? ""}
-              handleChange={onChanges.historyNoteLg2}
+              handleChange={onMarkdownChanges.historyNoteLg2}
+              textareaProps={{ id: "historyNoteLg2" }}
             />
           </div>
         </Row>
@@ -433,7 +474,9 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
                     value.map((v: string) => {
                       return {
                         id: v,
-                        type: v.startsWith("indicator") ? "indicator" : "series",
+                        type: indicatorsOptions.some((option) => option.value === v)
+                          ? "indicator"
+                          : "series",
                       };
                     }),
                   )

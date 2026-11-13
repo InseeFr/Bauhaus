@@ -27,6 +27,9 @@ const mockData = [
   },
 ];
 
+const PAGE_STATE = { first: 0, rows: 10 };
+const NO_CODES = [] as unknown as TableTypes["codesWithActions"];
+
 describe("Table Component", () => {
   it("renders the table with data", () => {
     render(
@@ -34,7 +37,7 @@ describe("Table Component", () => {
         loading={false}
         codesWithActions={mockData as unknown as TableTypes["codesWithActions"]}
         total={2}
-        state={{ first: 0, rows: 10 }}
+        state={PAGE_STATE}
         onPage={vi.fn()}
       />,
     );
@@ -56,9 +59,9 @@ describe("Table Component", () => {
     const { container } = render(
       <Table
         loading={true}
-        codesWithActions={[] as unknown as TableTypes["codesWithActions"]}
+        codesWithActions={NO_CODES}
         total={0}
-        state={{ first: 0, rows: 10 }}
+        state={PAGE_STATE}
         onPage={vi.fn()}
       />,
     );

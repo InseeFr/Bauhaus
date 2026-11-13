@@ -23,7 +23,6 @@ const renderComponent = (props: Partial<SimsGeographyPickerTypes> = {}) => {
   const defaultProps = {
     onChange: vi.fn(),
     value: "",
-    loadGeographies: vi.fn(),
     ...props,
   };
 
@@ -36,12 +35,10 @@ const renderComponent = (props: Partial<SimsGeographyPickerTypes> = {}) => {
 
 describe("SimsGeographyPicker", () => {
   const mockOnChange = vi.fn();
-  const mockLoadGeographies = vi.fn();
 
   it("should render the component with Select", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
     });
 
     expect(container.querySelector(".bauhaus-sims-geography-picker")).toBeTruthy();
@@ -51,7 +48,6 @@ describe("SimsGeographyPicker", () => {
   it("should render Select with geographiesOptions by default", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
     });
 
     const selectInput = container.querySelector('input[type="text"]');
@@ -61,7 +57,6 @@ describe("SimsGeographyPicker", () => {
   it("should render Select with geographiesOptionsLg2 when secondLang is true", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
       secondLang: true,
     });
 
@@ -72,7 +67,6 @@ describe("SimsGeographyPicker", () => {
   it("should call onChange when a geography is selected", () => {
     renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
     });
 
     // This test verifies that the Select component is wired to call onChange
@@ -82,7 +76,6 @@ describe("SimsGeographyPicker", () => {
   it("should render SeeButton", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
     });
 
     const seeButton = container.querySelector('button[aria-label="See"]');
@@ -92,7 +85,6 @@ describe("SimsGeographyPicker", () => {
   it("should disable SeeButton when value is not a Territoire Statistique", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
       value: "http://geo1",
     });
 
@@ -104,7 +96,6 @@ describe("SimsGeographyPicker", () => {
   it("should render SeeButton for Territoire Statistique value", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
       value: "http://geo3",
     });
 
@@ -117,7 +108,6 @@ describe("SimsGeographyPicker", () => {
   it("should render RightSlidingPanel closed by default", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
     });
 
     // RightSlidingPanel should be in the DOM but not open
@@ -127,7 +117,6 @@ describe("SimsGeographyPicker", () => {
   it("should render with empty value", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
       value: "",
     });
 
@@ -137,7 +126,6 @@ describe("SimsGeographyPicker", () => {
   it("should render with a selected value", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
       value: "http://geo1",
     });
 
@@ -147,7 +135,6 @@ describe("SimsGeographyPicker", () => {
   it("should have isClearable prop on Select", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
     });
 
     // The Select component should be clearable
@@ -157,7 +144,6 @@ describe("SimsGeographyPicker", () => {
   it("should have isSearchable prop on Select", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
     });
 
     // The Select component should be searchable
@@ -167,19 +153,16 @@ describe("SimsGeographyPicker", () => {
   it("should have a callback mechanism for saving territory", () => {
     renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
       value: "http://geo3",
     });
 
-    // Verify that onChange and loadGeographies are functions
+    // Verify that onChange is a function
     expect(typeof mockOnChange).toBe("function");
-    expect(typeof mockLoadGeographies).toBe("function");
   });
 
   it("should render with correct value prop", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
       value: "http://geo1",
     });
 
@@ -190,7 +173,6 @@ describe("SimsGeographyPicker", () => {
   it("should render geography options in the dropdown", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
-      loadGeographies: mockLoadGeographies,
     });
 
     // The dropdown should have the p-dropdown class from PrimeReact

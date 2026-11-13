@@ -1,18 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
+import { expectAllPropsForwardedToStampsInput } from "../stamps-input/stamps-input.testing";
 import { ContributorsInput } from "./contributors-input";
 
-vi.mock("../stamps-input/stamps-input", () => ({
-  StampsInput: ({ labelSingle, labelMulti, lang, value }: any) => (
-    <div data-testid="stamps-input">
-      <label>{labelSingle}</label>
-      <div data-testid="label-multi">{labelMulti}</div>
-      <div data-testid="lang">{lang}</div>
-      <div data-testid="value">{JSON.stringify(value)}</div>
-    </div>
-  ),
+vi.mock("../stamps-input/stamps-input", async () => ({
+  StampsInput: (await import("../stamps-input/stamps-input.testing")).StampsInputMock,
 }));
+
+const SINGLE_CONTRIBUTOR = ["contributor1"];
 
 describe("ContributorsInput", () => {
   it("renders StampsInput with contributor labels for first lang", () => {
@@ -43,18 +39,7 @@ describe("ContributorsInput", () => {
   });
 
   it("forwards all props to StampsInput", () => {
-    const mockOnChange = vi.fn();
-    render(
-      <ContributorsInput
-        value={["contributor1", "contributor2"]}
-        onChange={mockOnChange}
-        lang="first"
-        multi={true}
-        required={true}
-      />,
-    );
-
-    expect(screen.getByTestId("value")).toHaveTextContent('["contributor1","contributor2"]');
+    expectAllPropsForwardedToStampsInput(ContributorsInput, ["contributor1", "contributor2"]);
   });
 
   it("handles empty value", () => {
@@ -68,7 +53,7 @@ describe("ContributorsInput", () => {
     const mockOnChange = vi.fn();
     render(
       <ContributorsInput
-        value={["contributor1"]}
+        value={SINGLE_CONTRIBUTOR}
         onChange={mockOnChange}
         lang="first"
         multi={true}

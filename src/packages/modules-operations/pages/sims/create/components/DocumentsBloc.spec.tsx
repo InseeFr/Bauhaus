@@ -7,7 +7,10 @@ import { Document } from "@model/operations/document";
 
 import { getLang } from "@utils/dictionary";
 
-import { DocumentsStoreProvider } from "../../hooks/useDocumentsStoreContext";
+import {
+  DocumentsStoreContextType,
+  DocumentsStoreProvider,
+} from "../../hooks/useDocumentsStoreContext";
 import { DocumentsBloc } from "./DocumentsBloc";
 
 vi.mock("@sdk/build-api", () => ({
@@ -62,18 +65,20 @@ const documents = [
   },
 ] as unknown as Document[];
 
+const NO_DOCUMENTS: Document[] = [];
+
+const renderWithStoreValue = (value: DocumentsStoreContextType, component: ReactElement) =>
+  render(<DocumentsStoreProvider value={value}>{component}</DocumentsStoreProvider>);
+
 export const renderWithStore = async (component: ReactElement) =>
-  render(
-    <DocumentsStoreProvider
-      value={{
-        documentStores: { lg1: documents, lg2: documents },
-        updateDocumentStores: vi.fn(),
-        rubricIdForNewDocument: null,
-        setRubricIdForNewDocument: vi.fn(),
-      }}
-    >
-      {component}
-    </DocumentsStoreProvider>,
+  renderWithStoreValue(
+    {
+      documentStores: { lg1: documents, lg2: documents },
+      updateDocumentStores: vi.fn(),
+      rubricIdForNewDocument: null,
+      setRubricIdForNewDocument: vi.fn(),
+    },
+    component,
   );
 
 describe("DocumentsBloc", () => {
@@ -88,7 +93,7 @@ describe("DocumentsBloc", () => {
 
   it("should display nothing if the documents props is an empty array", async () => {
     const { container } = await renderWithStore(
-      <DocumentsBloc documents={[]} objectType="documents" />,
+      <DocumentsBloc documents={NO_DOCUMENTS} objectType="documents" />,
     );
     expect(container.querySelectorAll(".documentsbloc")).toHaveLength(0);
   });
@@ -177,53 +182,43 @@ describe("DocumentsBloc", () => {
     });
   });
 
-  it("should display the Add Document button if there is not more document to add", async () => {
-    const { container } = await renderWithStore(
-      <DocumentsBloc
-        documents={documents}
-        localPrefix="Lg1"
-        editMode={true}
-        objectType="documents"
-      />,
-    );
-
-    expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(1);
-  });
-
-  it("should display the Add Document button if there is more than on document available", async () => {
-    const { container } = await renderWithStore(
-      <DocumentsBloc
-        documents={documents}
-        localPrefix="Lg1"
-        editMode={true}
-        objectType="documents"
-      />,
-    );
-
-    expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(1);
-  });
-
-  it("should display the Add new Document button", async () => {
-    const openLateralPanelOpened = vi.fn();
-    const setRubricIdForNewDocument = vi.fn();
-    render(
-      <DocumentsStoreProvider
-        value={{
-          documentStores: { lg1: [], lg2: [] },
-          updateDocumentStores: vi.fn(),
-          rubricIdForNewDocument: null,
-          openLateralPanelOpened,
-          setRubricIdForNewDocument,
-        }}
-      >
+  // Boucle plutôt que it.each : les titres interpolés sont tronqués par Vitest.
+  for (const name of [
+    "should display the Add Document button if there is not more document to add",
+    "should display the Add Document button if there is more than on document available",
+  ]) {
+    it(name, async () => {
+      const { container } = await renderWithStore(
         <DocumentsBloc
           documents={documents}
           localPrefix="Lg1"
           editMode={true}
-          idMas="1"
-          objectType="links"
-        />
-      </DocumentsStoreProvider>,
+          objectType="documents"
+        />,
+      );
+
+      expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(1);
+    });
+  }
+
+  it("should display the Add new Document button", async () => {
+    const openLateralPanelOpened = vi.fn();
+    const setRubricIdForNewDocument = vi.fn();
+    renderWithStoreValue(
+      {
+        documentStores: { lg1: [], lg2: [] },
+        updateDocumentStores: vi.fn(),
+        rubricIdForNewDocument: null,
+        openLateralPanelOpened,
+        setRubricIdForNewDocument,
+      },
+      <DocumentsBloc
+        documents={documents}
+        localPrefix="Lg1"
+        editMode={true}
+        idMas="1"
+        objectType="links"
+      />,
     );
 
     const btn = screen.getByLabelText(translations["app.btnAdd"]);

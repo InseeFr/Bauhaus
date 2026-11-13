@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
 
@@ -26,9 +26,12 @@ export const useCollectionSave = (id: string | undefined) => {
 
   const [isSaving, setIsSaving] = useState(false);
 
+  const [saveError, setSaveError] = useState<unknown>();
+
   const save = useCallback(
     (data: CollectionSaveData) => {
       setIsSaving(true);
+      setSaveError(undefined);
       const payloadInput: CollectionPayloadInput = {
         general: data.general,
         members: data.members.map((m) => ({ id: m.id })),
@@ -37,7 +40,7 @@ export const useCollectionSave = (id: string | undefined) => {
         ? CollectionApi.postCollection(buildCollectionPayload(payloadInput, "CREATE")).then(
             (newId) => {
               queryClient.invalidateQueries({ queryKey: ["collections"] });
-              navigate(`/concepts/collections/${newId}`);
+              void navigate(`/concepts/collections/${newId}`);
             },
           )
         : CollectionApi.putCollection(
@@ -46,13 +49,16 @@ export const useCollectionSave = (id: string | undefined) => {
           ).then(() => {
             queryClient.invalidateQueries({ queryKey: ["collections"] });
             queryClient.invalidateQueries({ queryKey: ["collection", id] });
-            navigate(`/concepts/collections/${data.general.id}`);
+            void navigate(`/concepts/collections/${data.general.id}`);
           });
 
-      promise.catch(() => setIsSaving(false));
+      promise.catch((e: unknown) => {
+        setIsSaving(false);
+        setSaveError(e);
+      });
     },
     [id, isCreation, navigate, queryClient],
   );
 
-  return { save, isSaving };
+  return { save, isSaving, saveError };
 };

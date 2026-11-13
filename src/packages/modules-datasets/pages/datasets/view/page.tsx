@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Editor from "@uiw/react-md-editor/nohighlight";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 
 import {
   InseeOrganization,
@@ -12,7 +12,7 @@ import { CheckSecondLang } from "@components/check-second-lang";
 import { CodeDisplay } from "@components/code-display";
 import { ConfirmationDelete } from "@components/confirmation-delete";
 import { DisseminationStatusVisualization } from "@components/dissemination-status/disseminationStatus";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Deleting, Loading, Publishing } from "@components/loading";
 import { Note } from "@components/note";
@@ -30,6 +30,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { CL_PROCESS_STEP } from "../../../../constants/code-lists";
 import { useDataset } from "../../../hooks/useDataset";
 import { GlobalInformationBlock } from "./components/GlobalInformationBlock";
+import { LineageBlock } from "./components/LineageBlock";
 import { StatisticalInformations } from "./components/StatisticalInformations";
 import { ViewMenu } from "./menu";
 
@@ -56,7 +57,7 @@ const Dataset = (props: Readonly<DatasetTypes>) => {
     DatasetsApi.getArchivageUnits().then(setArchivageUnits);
   }, []);
 
-  const { data: dataset, isLoading } = useDataset(id);
+  const { data: dataset, isLoading, error: loadError } = useDataset(id);
 
   const [secondLang] = useSecondLang();
 
@@ -67,6 +68,7 @@ const Dataset = (props: Readonly<DatasetTypes>) => {
     mutate: publish,
     error: publishServerSideError,
   } = useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: () => {
       return DatasetsApi.publish(id);
     },
@@ -92,6 +94,8 @@ const Dataset = (props: Readonly<DatasetTypes>) => {
   });
 
   useTitle(t("dataset.pluralTitle"), dataset?.labelLg1);
+
+  if (loadError && !dataset) return <LoadingErrorBloc error={loadError} />;
 
   if (isLoading) return <Loading />;
 
@@ -253,6 +257,7 @@ const Dataset = (props: Readonly<DatasetTypes>) => {
         )}
       </Row>
       <StatisticalInformations dataset={dataset}></StatisticalInformations>
+      <LineageBlock wasDerivedFrom={dataset.wasDerivedFrom} />
     </div>
   );
 };

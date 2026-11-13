@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router";
 
+import { AdvancedSearchLayout } from "@components/advanced-search-layout";
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
-import { AdvancedSearchList } from "@components/advanced-search/home";
 import { DatePicker } from "@components/date-picker";
 import { Loading } from "@components/loading";
+import { Pagination } from "@components/pagination";
 import { Select } from "@components/select-rmes";
 import { List } from "@components/ui/list-group";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
@@ -131,63 +132,68 @@ export const AdvancedSearchForm = ({
   ));
 
   return (
-    <AdvancedSearchList
+    <AdvancedSearchLayout
       title={t("distribution.searchTitle")}
-      data={dataLinks}
-      initializeState={reset}
-      redirect={<Navigate to="/datasets/distributions" />}
+      backTo="/datasets/distributions"
+      onReset={reset}
+      results={dataLinks}
+      criteria={
+        <>
+          <AdvancedSearchCard title={t("distribution.title")} className="distribution-search-form">
+            <SearchTextField
+              label={t("distribution.mainTitle")}
+              value={distributionLabelLg1}
+              onChange={(value) => handleChange("distributionLabelLg1", value)}
+            />
+            <SearchField label={t("distribution.creationDate")} col="col-12 md:col-4">
+              {(id) => (
+                <DatePicker
+                  className="w-full"
+                  inputId={id}
+                  value={distributionCreated}
+                  onChange={(value) => handleChange("distributionCreated", value ?? "")}
+                />
+              )}
+            </SearchField>
+            <SearchField label={t("distribution.updatingDate")} col="col-12 md:col-4">
+              {(id) => (
+                <DatePicker
+                  className="w-full"
+                  inputId={id}
+                  value={distributionUpdated}
+                  onChange={(value) => handleChange("distributionUpdated", value ?? "")}
+                />
+              )}
+            </SearchField>
+            <SearchField label={t("distribution.validationStatus")} col="col-12 md:col-4">
+              {(id) => (
+                <Select
+                  inputId={id}
+                  value={distributionValidationStatus}
+                  options={validateStateOptions}
+                  onChange={(value) => handleChange("distributionValidationStatus", value)}
+                />
+              )}
+            </SearchField>
+          </AdvancedSearchCard>
+          <AdvancedSearchCard title={t("dataset.title")} className="dataset-search-form">
+            <FieldsForDatasetsAdvancedSearch
+              labelLg1={labelLg1}
+              altIdentifier={altIdentifier}
+              creator={creator}
+              disseminationStatus={disseminationStatus}
+              validationStatus={validationStatus}
+              wasGeneratedIRIs={wasGeneratedIRIs}
+              created={created}
+              updated={updated}
+              handleChange={handleChange}
+              seriesOperationsOptions={seriesOperationsOptions}
+            />
+          </AdvancedSearchCard>
+        </>
+      }
     >
-      <AdvancedSearchCard title={t("distribution.title")} className="distribution-search-form">
-        <SearchTextField
-          label={t("distribution.mainTitle")}
-          value={distributionLabelLg1}
-          onChange={(value) => handleChange("distributionLabelLg1", value)}
-        />
-        <SearchField label={t("distribution.creationDate")} col="col-12 md:col-4">
-          {(id) => (
-            <DatePicker
-              className="w-full"
-              inputId={id}
-              value={distributionCreated}
-              onChange={(value) => handleChange("distributionCreated", value ?? "")}
-            />
-          )}
-        </SearchField>
-        <SearchField label={t("distribution.updatingDate")} col="col-12 md:col-4">
-          {(id) => (
-            <DatePicker
-              className="w-full"
-              inputId={id}
-              value={distributionUpdated}
-              onChange={(value) => handleChange("distributionUpdated", value ?? "")}
-            />
-          )}
-        </SearchField>
-        <SearchField label={t("distribution.validationStatus")} col="col-12 md:col-4">
-          {(id) => (
-            <Select
-              inputId={id}
-              value={distributionValidationStatus}
-              options={validateStateOptions}
-              onChange={(value) => handleChange("distributionValidationStatus", value)}
-            />
-          )}
-        </SearchField>
-      </AdvancedSearchCard>
-      <AdvancedSearchCard title={t("dataset.title")} className="dataset-search-form">
-        <FieldsForDatasetsAdvancedSearch
-          labelLg1={labelLg1}
-          altIdentifier={altIdentifier}
-          creator={creator}
-          disseminationStatus={disseminationStatus}
-          validationStatus={validationStatus}
-          wasGeneratedIRIs={wasGeneratedIRIs}
-          created={created}
-          updated={updated}
-          handleChange={handleChange}
-          seriesOperationsOptions={seriesOperationsOptions}
-        />
-      </AdvancedSearchCard>
-    </AdvancedSearchList>
+      <Pagination itemEls={dataLinks} />
+    </AdvancedSearchLayout>
   );
 };

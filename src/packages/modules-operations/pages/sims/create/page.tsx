@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -26,6 +27,7 @@ import {
 import { AdvancedSimsCreation } from "./components/AdvancedSimsCreation";
 import { getParentId } from "./utils/getParentId";
 import { getParentType } from "./utils/getParentType";
+import { nameRubricErrors } from "./utils/nameRubricErrors";
 
 const apiByParentType: Record<string, (id: string) => Promise<any>> = {
   indicator: OperationsApi.getIndicatorById,
@@ -95,11 +97,11 @@ export const Component = () => {
 
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
 
-  const { codelists } = useCodelists(metadataStructure);
+  const { isLoading: codelistsLoading, codelists } = useCodelists(metadataStructure);
 
   const simsId = mode === UPDATE ? params.id : undefined;
 
-  const { isLoading: simsLoading, sims } = useSims(simsId);
+  const { isLoading: simsLoading, sims, error: simsError } = useSims(simsId);
 
   const { mutateAsync: saveSimsMutation } = useSaveSims();
 
@@ -128,11 +130,18 @@ export const Component = () => {
           callback(resultId);
         })
         .catch((error) => {
-          dispatch({ type: "SET_SERVER_ERROR", error });
+          dispatch({
+            type: "SET_SERVER_ERROR",
+            error: nameRubricErrors(error, {
+              rubrics: simsData.rubrics ?? [],
+              metadataStructure,
+              languages: { Lg1: t("sims.exportLg1"), Lg2: t("sims.exportLg2") },
+            }),
+          });
           errorCallback();
         });
     },
-    [saveSimsMutation],
+    [saveSimsMutation, metadataStructure, t],
   );
 
   const currentSims =
@@ -159,9 +168,15 @@ export const Component = () => {
     [metadataStructure, currentSims.rubrics],
   );
 
+  if (simsError && !sims) return <LoadingErrorBloc error={simsError} />;
+
   if (parentLoading) return <Loading />;
 
-  if (metadataStructureLoading || (mode === UPDATE && simsLoading)) return <Loading />;
+  // Les listes de codes sont attendues : arrivées après coup, elles ré-afficheraient toutes les
+  // rubriques (et leurs éditeurs) pendant que l'utilisateur fait défiler le formulaire.
+  if (metadataStructureLoading || codelistsLoading || (mode === UPDATE && simsLoading)) {
+    return <Loading />;
+  }
 
   return (
     <DocumentsStoreProvider

@@ -5,41 +5,36 @@ import { Rubric } from "@model/Sims";
 
 import { SimsBlockGeography } from "./SimsBlockGeography";
 
+const LABELLED_RUBRIC = {
+  labelLg1: "Primary Geography Label",
+  labelLg2: "Second Geography Label",
+} as Rubric;
+
+const EMPTY_LABELS_RUBRIC = {
+  labelLg1: "",
+  labelLg2: "",
+} as Rubric;
+
 describe("SimsBlockGeography", () => {
   it("should display the labelLg1 when isSecondLang is false", () => {
-    const mockRubric = {
-      labelLg1: "Primary Geography Label",
-      labelLg2: "Second Geography Label",
-    } as Rubric;
-
     const { container } = render(
-      <SimsBlockGeography currentSection={mockRubric} isSecondLang={false} />,
+      <SimsBlockGeography currentSection={LABELLED_RUBRIC} isSecondLang={false} />,
     );
 
     expect(container.textContent).toBe("Primary Geography Label");
   });
 
   it("should display the labelLg2 when isSecondLang is true", () => {
-    const mockRubric = {
-      labelLg1: "Primary Geography Label",
-      labelLg2: "Second Geography Label",
-    } as Rubric;
-
     const { container } = render(
-      <SimsBlockGeography currentSection={mockRubric} isSecondLang={true} />,
+      <SimsBlockGeography currentSection={LABELLED_RUBRIC} isSecondLang={true} />,
     );
 
     expect(container.textContent).toBe("Second Geography Label");
   });
 
   it("should render nothing if currentSection has no labels", () => {
-    const mockRubric = {
-      labelLg1: "",
-      labelLg2: "",
-    } as Rubric;
-
     const { container } = render(
-      <SimsBlockGeography currentSection={mockRubric} isSecondLang={false} />,
+      <SimsBlockGeography currentSection={EMPTY_LABELS_RUBRIC} isSecondLang={false} />,
     );
 
     expect(container.textContent).toBe("");

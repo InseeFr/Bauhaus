@@ -1,10 +1,9 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { createQueryWrapper } from "./queryClientWrapper.testing";
 import { useUserSeriesList } from "./useUserSeriesList";
 
 vi.mock("@sdk/operations-api", () => ({
@@ -13,19 +12,16 @@ vi.mock("@sdk/operations-api", () => ({
   },
 }));
 
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
+const renderUseUserSeriesList = () =>
+  renderHook(() => useUserSeriesList(), { wrapper: createQueryWrapper().wrapper });
 
-  return ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+const waitForSeries = (result: { current: { series: unknown } }, expected: unknown) =>
+  waitFor(
+    () => {
+      expect(result.current.series).toEqual(expected);
+    },
+    { timeout: 3000 },
   );
-};
 
 describe("useUserSeriesList", () => {
   it("should return placeholder data and then load series", async () => {
@@ -33,18 +29,11 @@ describe("useUserSeriesList", () => {
 
     vi.mocked(OperationsApi.getUserSeriesList).mockResolvedValue(mockSeries);
 
-    const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderUseUserSeriesList();
 
     expect(result.current.series).toEqual([]);
 
-    await waitFor(
-      () => {
-        expect(result.current.series).toEqual(mockSeries);
-      },
-      { timeout: 3000 },
-    );
+    await waitForSeries(result, mockSeries);
   });
 
   it("should return series data when API call succeeds", async () => {
@@ -55,18 +44,11 @@ describe("useUserSeriesList", () => {
 
     vi.mocked(OperationsApi.getUserSeriesList).mockResolvedValue(mockSeries);
 
-    const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderUseUserSeriesList();
 
     expect(result.current.series).toEqual([]);
 
-    await waitFor(
-      () => {
-        expect(result.current.series).toEqual(mockSeries);
-      },
-      { timeout: 3000 },
-    );
+    await waitForSeries(result, mockSeries);
 
     expect(OperationsApi.getUserSeriesList).toHaveBeenCalled();
   });
@@ -74,9 +56,7 @@ describe("useUserSeriesList", () => {
   it("should use placeholder data when loading", () => {
     vi.mocked(OperationsApi.getUserSeriesList).mockImplementation(() => new Promise(() => {}));
 
-    const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderUseUserSeriesList();
 
     // placeholderData provides an empty array while loading
     expect(result.current.series).toEqual([]);
@@ -87,9 +67,7 @@ describe("useUserSeriesList", () => {
 
     vi.mocked(OperationsApi.getUserSeriesList).mockRejectedValue(error);
 
-    const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderUseUserSeriesList();
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -103,16 +81,9 @@ describe("useUserSeriesList", () => {
 
     vi.mocked(OperationsApi.getUserSeriesList).mockResolvedValue(mockSeries);
 
-    const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderUseUserSeriesList();
 
-    await waitFor(
-      () => {
-        expect(result.current.series).toEqual(mockSeries);
-      },
-      { timeout: 3000 },
-    );
+    await waitForSeries(result, mockSeries);
 
     expect(OperationsApi.getUserSeriesList).toHaveBeenCalledWith();
   });

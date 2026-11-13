@@ -6,83 +6,53 @@ import { useDefaultLocale } from "./useDefaultLocale";
 
 vi.mock("../../application/app-context");
 
+const givenColecticaLangs = (colecticaLangs?: string[]) => {
+  vi.mocked(appContext.useAppContext).mockReturnValue({
+    properties: {
+      ...(colecticaLangs ? { colecticaLangs } : {}),
+      modules: [],
+      defaultContributor: "",
+      maxLengthScopeNote: "",
+      extraMandatoryFields: "",
+      defaultAgencyId: "",
+    },
+    lg1: "fr",
+    lg2: "en",
+    secondLang: { value: false, toggle: vi.fn() },
+  });
+};
+
+const cases = [
+  {
+    name: "should return the first locale from colecticaLangs array",
+    colecticaLangs: ["en-GB", "fr-FR"] as string[] | undefined,
+    expected: "en-GB",
+  },
+  {
+    name: "should return fr-FR as fallback when colecticaLangs is undefined",
+    colecticaLangs: undefined,
+    expected: "fr-FR",
+  },
+  {
+    name: "should return fr-FR as fallback when colecticaLangs is empty array",
+    colecticaLangs: [],
+    expected: "fr-FR",
+  },
+  {
+    name: "should return first locale even with multiple values",
+    colecticaLangs: ["de-DE", "es-ES", "it-IT"],
+    expected: "de-DE",
+  },
+];
+
 describe("useDefaultLocale", () => {
-  it("should return the first locale from colecticaLangs array", () => {
-    vi.mocked(appContext.useAppContext).mockReturnValue({
-      properties: {
-        colecticaLangs: ["en-GB", "fr-FR"],
-        modules: [],
-        defaultContributor: "",
-        maxLengthScopeNote: "",
-        extraMandatoryFields: "",
-        defaultAgencyId: "",
-      },
-      lg1: "fr",
-      lg2: "en",
-      secondLang: { value: false, toggle: vi.fn() },
-    });
+  cases.forEach(({ name, colecticaLangs, expected }) =>
+    it(name, () => {
+      givenColecticaLangs(colecticaLangs);
 
-    const { result } = renderHook(() => useDefaultLocale());
+      const { result } = renderHook(() => useDefaultLocale());
 
-    expect(result.current).toBe("en-GB");
-  });
-
-  it("should return fr-FR as fallback when colecticaLangs is undefined", () => {
-    vi.mocked(appContext.useAppContext).mockReturnValue({
-      properties: {
-        modules: [],
-        defaultContributor: "",
-        maxLengthScopeNote: "",
-        extraMandatoryFields: "",
-        defaultAgencyId: "",
-      },
-      lg1: "fr",
-      lg2: "en",
-      secondLang: { value: false, toggle: vi.fn() },
-    });
-
-    const { result } = renderHook(() => useDefaultLocale());
-
-    expect(result.current).toBe("fr-FR");
-  });
-
-  it("should return fr-FR as fallback when colecticaLangs is empty array", () => {
-    vi.mocked(appContext.useAppContext).mockReturnValue({
-      properties: {
-        colecticaLangs: [],
-        modules: [],
-        defaultContributor: "",
-        maxLengthScopeNote: "",
-        extraMandatoryFields: "",
-        defaultAgencyId: "",
-      },
-      lg1: "fr",
-      lg2: "en",
-      secondLang: { value: false, toggle: vi.fn() },
-    });
-
-    const { result } = renderHook(() => useDefaultLocale());
-
-    expect(result.current).toBe("fr-FR");
-  });
-
-  it("should return first locale even with multiple values", () => {
-    vi.mocked(appContext.useAppContext).mockReturnValue({
-      properties: {
-        colecticaLangs: ["de-DE", "es-ES", "it-IT"],
-        modules: [],
-        defaultContributor: "",
-        maxLengthScopeNote: "",
-        extraMandatoryFields: "",
-        defaultAgencyId: "",
-      },
-      lg1: "fr",
-      lg2: "en",
-      secondLang: { value: false, toggle: vi.fn() },
-    });
-
-    const { result } = renderHook(() => useDefaultLocale());
-
-    expect(result.current).toBe("de-DE");
-  });
+      expect(result.current).toBe(expected);
+    }),
+  );
 });

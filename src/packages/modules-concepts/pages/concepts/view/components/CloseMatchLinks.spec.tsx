@@ -10,6 +10,8 @@ const mockLinks = [
   { urn: "http://example.com/link2" },
 ] as Link[];
 
+const NO_LINKS: Link[] = [];
+
 const mockDictionary = {
   equivalentTitle: "Equivalent links",
 };
@@ -32,7 +34,7 @@ describe("CloseMatchLinks", () => {
   });
 
   it("does not render anything when no links are provided", () => {
-    render(<CloseMatchLinks links={[]} Dictionary={mockDictionary} />);
+    render(<CloseMatchLinks links={NO_LINKS} Dictionary={mockDictionary} />);
 
     const items = screen.queryAllByRole("listitem");
     expect(items).toHaveLength(0);

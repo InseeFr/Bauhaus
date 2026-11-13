@@ -1,26 +1,17 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-const mockGoBack = vi.fn();
+import { mockGoBack } from "../../../../testing/component-mocks.testing";
+
 let mockHasAccessRender = true;
 
-vi.mock("@utils/hooks/useGoBack", () => ({
-  useGoBack: () => mockGoBack,
-}));
+vi.mock("@utils/hooks/useGoBack", () => import("../../../../testing/component-mocks.testing"));
 
-vi.mock("@components/action-toolbar", () => ({
-  ActionToolbar: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="action-toolbar">{children}</div>
-  ),
-}));
+vi.mock("@components/action-toolbar", () => import("../../../../testing/component-mocks.testing"));
 
-vi.mock("@components/buttons/buttons-with-icons", () => ({
-  ReturnButton: ({ action }: { action: () => void }) => (
-    <button data-testid="return-button" onClick={action}>
-      Back
-    </button>
-  ),
+vi.mock("@components/buttons/buttons-with-icons", async () => ({
+  ReturnButton: (await import("../../../../testing/component-mocks.testing")).ReturnButton,
   UpdateButton: ({ action }: { action: string }) => (
     <a data-testid="update-button" href={action}>
       Update
@@ -49,10 +40,11 @@ vi.mock("../../../../../auth/components/auth", () => ({
 import { ClassificationControls } from "./ClassificationControls";
 
 const classification = { id: "pcs2020" } as any;
+const CLASSIFICATION_ENTRIES = ["/classifications/classification/pcs2020"];
 
 const renderMenu = (pathname = "/classifications/classification/pcs2020") =>
   render(
-    <MemoryRouter initialEntries={[pathname]}>
+    <MemoryRouter initialEntries={Array.of(pathname)}>
       <ClassificationControls classification={classification} publish={vi.fn()} />
     </MemoryRouter>,
   );
@@ -104,7 +96,7 @@ describe("<Menu />", () => {
   it("appelle publish au clic sur le bouton Publier", () => {
     const publish = vi.fn();
     render(
-      <MemoryRouter initialEntries={["/classifications/classification/pcs2020"]}>
+      <MemoryRouter initialEntries={CLASSIFICATION_ENTRIES}>
         <ClassificationControls classification={classification} publish={publish} />
       </MemoryRouter>,
     );

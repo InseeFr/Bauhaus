@@ -1,30 +1,11 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
-import { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
+import { createQueryWrapper } from "../../../../hooks/queryClientWrapper.testing";
+import { lastSelectProps, selectSpy } from "./selectRmesStub.testing";
 import { SimsField } from "./SimsField";
 
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-    },
-  });
-
-  return ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
-
-const selectSpy = vi.fn();
-
-vi.mock("@components/select-rmes", () => ({
-  Select: (props: any) => {
-    selectSpy(props);
-    return <div data-testid="select-stub" />;
-  },
-}));
+vi.mock("@components/select-rmes", () => import("./selectRmesStub.testing"));
 
 const buildMsd = () => ({
   masLabelLg1: "Statut",
@@ -44,7 +25,19 @@ const stableSection = {
   labelLg2: "",
 };
 
-const lastOptions = () => selectSpy.mock.calls.at(-1)?.[0].options;
+const NO_CODELISTS = {};
+const NO_ORGANIZATIONS: never[] = [];
+const SURVEY_STATUS_CODELISTS = {
+  CL_SURVEY_STATUS: {
+    notation: "CL_SURVEY_STATUS",
+    codes: [
+      { code: "T", labelLg1: "Total", labelLg2: "Total" },
+      { code: "C", labelLg1: "Compulsory", labelLg2: "Compulsory" },
+    ],
+  },
+};
+
+const lastOptions = () => lastSelectProps()?.options;
 
 describe("SimsField - memo and codelists", () => {
   it("re-renders the code list options when codelists arrives after the first render", () => {
@@ -56,15 +49,15 @@ describe("SimsField - memo and codelists", () => {
       <SimsField
         msd={msd}
         currentSection={stableSection}
-        codelists={{}}
+        codelists={NO_CODELISTS}
         handleChange={handleChange}
         alone={true}
         secondLang={false}
         unbounded={false}
-        organizationsOptions={[]}
+        organizationsOptions={NO_ORGANIZATIONS}
         simsModified="2024-01-01T00:00:00.000Z"
       />,
-      { wrapper: createWrapper() },
+      { wrapper: createQueryWrapper().wrapper },
     );
 
     expect(lastOptions()).toEqual([]);
@@ -73,20 +66,12 @@ describe("SimsField - memo and codelists", () => {
       <SimsField
         msd={msd}
         currentSection={stableSection}
-        codelists={{
-          CL_SURVEY_STATUS: {
-            notation: "CL_SURVEY_STATUS",
-            codes: [
-              { code: "T", labelLg1: "Total", labelLg2: "Total" },
-              { code: "C", labelLg1: "Compulsory", labelLg2: "Compulsory" },
-            ],
-          },
-        }}
+        codelists={SURVEY_STATUS_CODELISTS}
         handleChange={handleChange}
         alone={true}
         secondLang={false}
         unbounded={false}
-        organizationsOptions={[]}
+        organizationsOptions={NO_ORGANIZATIONS}
         simsModified="2024-01-01T00:00:00.000Z"
       />,
     );

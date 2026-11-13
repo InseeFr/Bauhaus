@@ -1,11 +1,13 @@
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useMutualizedCodeList } from "../../../hooks/useMutualizedCodeList";
+import { useMutualizedCodeLists } from "../../../hooks/useMutualizedCodeLists";
 import type {
   Category,
+  CodeList,
   Ddi4Item,
   ManagedMissingValuesRepresentation,
   PartialMissingValuesRepresentation,
@@ -61,8 +63,35 @@ const codeListItems = (
 const itemKey = (item: { $type: string; ID?: string }) => `${item.$type}:${item.ID}`;
 
 /**
+ * Retire de l'enveloppe la liste de codes `codeListId` et les catégories que seuls ses codes
+ * référencent. Sert aux listes mutualisées : le formulaire peut en porter le contenu complet (liste
+ * chargée en entier faute de catalogue à l'ouverture de la variable), mais l'aperçu, comme la
+ * sauvegarde, n'en garde que la référence.
+ */
+const withoutCodeList = (
+  envelope: PhysicalInstanceResponse,
+  codeListId: string | undefined,
+): PhysicalInstanceResponse => {
+  const codeLists = itemsOfType(envelope, "CodeList");
+  const removed = codeLists.find((cl) => cl.ID === codeListId);
+  if (!removed) return envelope;
+
+  const categoryIdsOf = (codeList: CodeList) =>
+    (codeList.Code ?? []).map((code) => code.CategoryReference?.ID);
+  const stillReferenced = new Set(codeLists.filter((cl) => cl !== removed).flatMap(categoryIdsOf));
+  const orphaned = new Set(categoryIdsOf(removed).filter((id) => !stillReferenced.has(id)));
+
+  return {
+    ...envelope,
+    items: (envelope.items ?? []).filter(
+      (item) => item !== removed && !(item.$type === "Category" && orphaned.has(item.ID)),
+    ),
+  };
+};
+
+/**
  * Rend l'enveloppe de l'aperçu autoportante : un item seulement *référencé* par la variable
- * (liste de codes réutilisée en lecture seule, MMVR réutilisée non encore modifiée) n'existe pas
+ * (liste de codes de groupe réutilisée, MMVR réutilisée non encore modifiée) n'existe pas
  * dans l'état du formulaire, et la conversion DDI 3 étant sans état, l'aperçu n'affichait alors
  * que la référence — là où le panneau de représentation, lui, montre les codes.
  *
@@ -82,9 +111,16 @@ export const useSelfContainedPreview = (
   const representation = singleItemOfType(envelope, "Variable")?.VariableRepresentation;
 
   const codeListReference = representation?.CodeRepresentation?.CodeListReference;
-  const codeListMissing =
+  const codeListAbsent =
     Boolean(codeListReference?.ID) &&
     !itemsOfType(envelope, "CodeList").some((cl) => cl.ID === codeListReference?.ID);
+  // Une liste mutualisée reste une simple référence dans l'aperçu : elle vit hors de la PI, comme
+  // à la sauvegarde, et l'embarquer reviendrait à la déréférencer (jusqu'à 45 000 codes).
+  const { data: mutualizedCodeLists, isLoading: isCatalogLoading } = useMutualizedCodeLists();
+  const isReferenceMutualized = (mutualizedCodeLists ?? []).some(
+    (cl) => cl.agencyId === codeListReference?.Agency && cl.id === codeListReference?.ID,
+  );
+  const codeListMissing = codeListAbsent && !isCatalogLoading && !isReferenceMutualized;
   const { data: codeListContent, isLoading: isCodeListLoading } = useMutualizedCodeList(
     codeListMissing ? (codeListReference?.Agency ?? "") : "",
     codeListMissing ? (codeListReference?.ID ?? "") : "",
@@ -114,10 +150,17 @@ export const useSelfContainedPreview = (
 
   // Tant qu'un item référencé se charge, l'enveloppe serait incomplète : sa conversion afficherait
   // brièvement un XML sans la liste ni les sentinelles, aussitôt remplacé.
-  const isResolving = isCodeListLoading || areMmvrsLoading || areSentinelsLoading;
+  const isResolving =
+    (Boolean(codeListReference?.ID) && isCatalogLoading) ||
+    isCodeListLoading ||
+    areMmvrsLoading ||
+    areSentinelsLoading;
 
   const resolvedEnvelope = useMemo(() => {
-    const known = new Set((envelope.items ?? []).map(itemKey));
+    const baseEnvelope = isReferenceMutualized
+      ? withoutCodeList(envelope, codeListReference?.ID)
+      : envelope;
+    const known = new Set((baseEnvelope.items ?? []).map(itemKey));
     const resolved = [
       ...(reusedMmvr ? [reusedMmvrItem(reusedMmvr, defaultLocale)] : []),
       ...codeListItems(codeListContent, codeListReference?.ID),
@@ -128,10 +171,11 @@ export const useSelfContainedPreview = (
       return true;
     });
 
-    if (resolved.length === 0) return envelope;
-    return { ...envelope, items: [...(envelope.items ?? []), ...resolved] };
+    if (resolved.length === 0) return baseEnvelope;
+    return { ...baseEnvelope, items: [...(baseEnvelope.items ?? []), ...resolved] };
   }, [
     envelope,
+    isReferenceMutualized,
     codeListContent,
     codeListReference?.ID,
     sentinelContent,

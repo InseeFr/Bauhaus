@@ -1,6 +1,9 @@
 #add-code {
   display: inline-block;
   width: auto;
+
+  /* Le bouton est posé sur l'en-tête foncé du panneau : il en reprend le texte blanc. */
+  color: inherit;
 }
 
 #code-edit-panel {

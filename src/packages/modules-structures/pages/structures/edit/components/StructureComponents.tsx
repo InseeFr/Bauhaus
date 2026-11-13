@@ -33,12 +33,17 @@ export const StructureComponents = ({
 
   const [mutualizedComponents, setMutualizedComponents] = useState<Component[]>([]);
 
+  const [mutualizedComponentsError, setMutualizedComponentsError] = useState<unknown>();
+
   useEffect(() => {
     ConceptsApi.getConceptList().then((res: any[]) => setConcepts(res));
   }, []);
 
   useEffect(() => {
-    StructureApi.getMutualizedComponents().then((res: Component[]) => setMutualizedComponents(res));
+    StructureApi.getMutualizedComponents().then(
+      (res: Component[]) => setMutualizedComponents(res),
+      setMutualizedComponentsError,
+    );
   }, []);
 
   return (
@@ -50,6 +55,7 @@ export const StructureComponents = ({
           concepts={concepts}
           codelists={codelists}
           mutualizedComponents={mutualizedComponents}
+          mutualizedComponentsError={mutualizedComponentsError}
           type={DIMENSION_PROPERTY_TYPE}
           handleUpdate={onChange}
           structure={structure}
@@ -62,6 +68,7 @@ export const StructureComponents = ({
           concepts={concepts}
           codelists={codelists}
           mutualizedComponents={mutualizedComponents}
+          mutualizedComponentsError={mutualizedComponentsError}
           type={MEASURE_PROPERTY_TYPE}
           handleUpdate={onChange}
           structure={structure}
@@ -74,6 +81,7 @@ export const StructureComponents = ({
           concepts={concepts}
           codelists={codelists}
           mutualizedComponents={mutualizedComponents}
+          mutualizedComponentsError={mutualizedComponentsError}
           type={ATTRIBUTE_PROPERTY_TYPE}
           handleUpdate={onChange}
           structure={structure}

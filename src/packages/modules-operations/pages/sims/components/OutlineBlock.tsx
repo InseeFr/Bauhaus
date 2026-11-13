@@ -1,6 +1,5 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
 
 import { cx } from "@utils/cx";
 
@@ -27,20 +26,6 @@ export const OutlineBlock = ({
 }: Readonly<OutlineBlockTypes>) => {
   const { t } = useTranslation();
 
-  const { hash } = useLocation();
-
-  useEffect(() => {
-    if (!hash) return;
-    const id = hash.replace("#", "");
-    requestAnimationFrame(() => {
-      const el = document.getElementById(id);
-      el?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    });
-  }, [hash]);
-
   const [childrenDictionary, setChildrenDictionary] = useState<Record<string, any>>(
     Object.keys(children).reduce((acc, childId) => {
       return {
@@ -53,7 +38,11 @@ export const OutlineBlock = ({
     }, {}),
   );
 
-  const expandOrCollapseItem = ({ currentTarget: { id } }: MouseEvent<HTMLButtonElement>) => {
+  // L'identifiant de la rubrique est porté en `data-id` : un `id` doublerait l'ancre de la
+  // rubrique dans le formulaire, et `getElementById` rendrait ce bouton, le sommaire précédant
+  // le contenu dans la page.
+  const expandOrCollapseItem = ({ currentTarget }: MouseEvent<HTMLButtonElement>) => {
+    const id = currentTarget.dataset.id!;
     toggleOpen(id);
     setChildrenDictionary({
       ...childrenDictionary,
@@ -79,11 +68,14 @@ export const OutlineBlock = ({
                   type="button"
                   className="msd-item-updown"
                   title={child.opened ? t("app.hide") : t("app.display")}
-                  id={child.idMas}
+                  aria-label={child.opened ? t("app.hide") : t("app.display")}
+                  aria-expanded={child.opened}
+                  data-id={child.idMas}
                   onClick={expandOrCollapseItem}
                 >
                   <span
-                    className={cx("glyphicon", `glyphicon-chevron-${child.opened ? "up" : "down"}`)}
+                    className={cx("pi", `pi-chevron-${child.opened ? "up" : "down"}`)}
+                    aria-hidden="true"
                   />
                 </button>
               )}
