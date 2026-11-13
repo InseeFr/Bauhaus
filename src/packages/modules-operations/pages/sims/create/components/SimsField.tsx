@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { DatePicker } from "@components/date-picker";
@@ -77,12 +77,13 @@ const SimsFieldComponent = ({
   }, [msd.rangeType, currentSection, secondLang, autoUpdatedFromModified, simsModified]);
 
   const [localMdValue, setLocalMdValue] = useState(value);
-
-  useEffect(() => {
+  const [previousValue, setPreviousValue] = useState(value);
+  if (value !== previousValue) {
+    setPreviousValue(value);
     if (msd.rangeType === RICH_TEXT) {
       setLocalMdValue(value);
     }
-  }, [value, msd.rangeType]);
+  }
 
   const handleChangeInternal = useCallback(
     (override: any) => {

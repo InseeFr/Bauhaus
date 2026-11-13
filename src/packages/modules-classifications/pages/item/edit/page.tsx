@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 
@@ -76,11 +76,14 @@ export const Component = () => {
 
   const [value, setValue] = useState<any>(item);
 
-  useEffect(() => {
-    if (status === "success" && !value.general) {
+  // Recopié à l'arrivée du poste, tant que le formulaire est encore vide.
+  const [copiedItem, setCopiedItem] = useState(item);
+  if (status === "success" && item !== copiedItem) {
+    setCopiedItem(item);
+    if (!value.general) {
       setValue(item);
     }
-  }, [status, item]);
+  }
 
   const [clientSideErrors, setClientSideErrors] = useState<any>({});
 

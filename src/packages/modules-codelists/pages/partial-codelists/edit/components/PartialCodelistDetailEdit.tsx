@@ -145,18 +145,30 @@ export const PartialCodelistDetailEdit = ({
 
   const defaultContributor = useDefaultContributor(isContributor);
 
-  useEffect(() => {
-    let codelist = { ...initialCodelist, ...defaultCodelist };
-
+  // Le formulaire repart de la liste reçue (et du contributeur par défaut) quand l'une d'elles change.
+  const [syncedFrom, setSyncedFrom] = useState<{
+    initialCodelist: typeof initialCodelist;
+    defaultContributor: string | undefined;
+  } | null>(null);
+  if (
+    syncedFrom?.initialCodelist !== initialCodelist ||
+    syncedFrom.defaultContributor !== defaultContributor
+  ) {
+    setSyncedFrom({ initialCodelist, defaultContributor });
+    const codelist = { ...initialCodelist, ...defaultCodelist };
     if (!codelist.id) {
       codelist.contributor = defaultContributor;
     }
-
     setCodelist(codelist);
+    if (!initialCodelist.parentCode) {
+      setParentCodes([]);
+    }
+  }
+
+  // Les codes de la liste parente se lisent sur le serveur.
+  useEffect(() => {
     if (initialCodelist.parentCode) {
       handleParentCode(initialCodelist.parentCode);
-    } else {
-      setParentCodes([]);
     }
   }, [initialCodelist, defaultContributor, handleParentCode]);
 

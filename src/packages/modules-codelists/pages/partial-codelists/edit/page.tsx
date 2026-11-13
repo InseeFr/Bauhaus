@@ -16,7 +16,8 @@ export const Component = () => {
 
   const goBackOrReplace = useGoBackOrReplace();
 
-  const [loadingList, setLoadingList] = useState(true);
+  // Une création n'a pas de liste à lire.
+  const [loadingList, setLoadingList] = useState(!!id);
   const [loadingLists, setLoadingLists] = useState(true);
 
   const [saving, setSaving] = useState(false);
@@ -94,9 +95,6 @@ export const Component = () => {
         })
         .catch(setLoadError)
         .finally(() => setLoadingList(false));
-    } else {
-      setCodelist({});
-      setLoadingList(false);
     }
   }, [id, globalCodelistOptions]);
 

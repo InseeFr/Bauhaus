@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -86,6 +86,13 @@ export const CodelistDetailEdit = ({
 
   const [codelist, setCodelist] = useState<CodelistFormValues>(defaultCodelist);
 
+  // Sources du formulaire : il repart de la liste reçue (et du contributeur par défaut) quand l'une
+  // d'elles change.
+  const [syncedFrom, setSyncedFrom] = useState<{
+    initialCodelist: typeof initialCodelist;
+    defaultContributor: string | undefined;
+  } | null>(null);
+
   // La page démonte le formulaire pendant l'enregistrement : il renaît avec le rejet, dont les
   // erreurs de champ deviennent l'état initial des erreurs client.
   const serverErrors = useMemo(
@@ -122,13 +129,17 @@ export const CodelistDetailEdit = ({
 
   const defaultContributor = useDefaultContributor(isContributor);
 
-  useEffect(() => {
-    let codelist = { ...initialCodelist, ...defaultCodelist };
+  if (
+    syncedFrom?.initialCodelist !== initialCodelist ||
+    syncedFrom.defaultContributor !== defaultContributor
+  ) {
+    setSyncedFrom({ initialCodelist, defaultContributor });
+    const codelist = { ...initialCodelist, ...defaultCodelist };
     if (!codelist.id) {
       codelist.contributor = defaultContributor ? [defaultContributor] : [];
     }
     setCodelist(codelist);
-  }, [initialCodelist, defaultContributor]);
+  }
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

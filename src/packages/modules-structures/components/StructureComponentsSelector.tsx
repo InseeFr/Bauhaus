@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { AddButton } from "@components/buttons/add";
@@ -66,9 +66,11 @@ export const StructureComponentsSelector = ({
   const [openPanel, setOpenPanel] = useState(false);
 
   const [components, setComponents] = useState(defaultComponents);
-  useEffect(() => {
+  const [previousDefaultComponents, setPreviousDefaultComponents] = useState(defaultComponents);
+  if (defaultComponents !== previousDefaultComponents) {
+    setPreviousDefaultComponents(defaultComponents);
     setComponents(defaultComponents);
-  }, [defaultComponents]);
+  }
 
   const [selectedComponent, setSelectedComponent] = useState<any>(null);
 

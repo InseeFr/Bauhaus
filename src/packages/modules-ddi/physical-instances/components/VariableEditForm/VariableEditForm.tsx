@@ -1,4 +1,12 @@
-import { useCallback, useReducer, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useReducer,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 
@@ -293,9 +301,8 @@ export const VariableEditForm = ({
   const activeTabIndex = [0, 1, 2].includes(tabParam) ? tabParam : 0;
   const [activeIndex, setInternalActiveIndex] = useState(activeTabIndex);
 
-  const setActiveIndex = useCallback(
-    (index: number) => {
-      setInternalActiveIndex(index);
+  const writeTabToUrl = useCallback(
+    (index: number) =>
       setSearchParams(
         (prev) => {
           const next = new URLSearchParams(prev);
@@ -307,16 +314,24 @@ export const VariableEditForm = ({
           return next;
         },
         { replace: true },
-      );
-    },
+      ),
     [setSearchParams],
   );
 
-  useEffect(() => {
-    if (activeTabIndex !== activeIndex) {
-      setInternalActiveIndex(activeTabIndex);
-    }
-  }, [activeTabIndex]);
+  const setActiveIndex = useCallback(
+    (index: number) => {
+      setInternalActiveIndex(index);
+      writeTabToUrl(index);
+    },
+    [writeTabToUrl],
+  );
+
+  // L'onglet suit l'URL quand elle change (navigation, lien partagé).
+  const [previousActiveTabIndex, setPreviousActiveTabIndex] = useState(activeTabIndex);
+  if (activeTabIndex !== previousActiveTabIndex) {
+    setPreviousActiveTabIndex(activeTabIndex);
+    setInternalActiveIndex(activeTabIndex);
+  }
 
   const [state, dispatch] = useReducer(formReducer, variable, buildFormState);
 
@@ -350,17 +365,9 @@ export const VariableEditForm = ({
   // Le panneau fermé, il n'y a plus rien à reporter.
   useEffect(() => () => onDirtyChangeRef.current?.(false), []);
 
-  useEffect(() => {
-    // Réinitialiser l'onglet actif au premier onglet uniquement pour une nouvelle variable
-    if (isNew) {
-      setActiveIndex(0);
-      setTimeout(() => nameInputRef.current?.focus(), 0);
-    }
-
-    dispatch({ type: "RESET", payload: buildFormState(variable) });
-    // Ne pas inclure codeList et categories dans les dépendances car ils changent
-    // pendant l'édition et on ne veut pas réinitialiser le formulaire à chaque fois
-  }, [
+  // Ne pas inclure codeList et categories dans la clé : ils changent pendant l'édition et ne doivent
+  // pas réinitialiser le formulaire.
+  const resetKey = [
     variable.id,
     variable.label,
     variable.name,
@@ -372,7 +379,26 @@ export const VariableEditForm = ({
     variable.textRepresentation,
     variable.codeRepresentation,
     isNew,
-  ]);
+  ];
+  const [previousResetKey, setPreviousResetKey] = useState(resetKey);
+  if (resetKey.some((value, i) => !Object.is(value, previousResetKey[i]))) {
+    setPreviousResetKey(resetKey);
+    // Réinitialiser l'onglet actif au premier onglet uniquement pour une nouvelle variable
+    if (isNew) setInternalActiveIndex(0);
+    dispatch({ type: "RESET", payload: buildFormState(variable) });
+  }
+
+  // Une nouvelle variable (au montage comme à chaque réinitialisation) : l'onglet est retiré de
+  // l'URL et le nom prend le focus.
+  const focusNewVariable = useEffectEvent(() => {
+    if (!isNew) return;
+    writeTabToUrl(0);
+    setTimeout(() => nameInputRef.current?.focus(), 0);
+  });
+
+  useEffect(() => {
+    focusNewVariable();
+  }, [previousResetKey]);
 
   const updateNumericRepresentation = useCallback(
     (numericRep: NumericRepresentation | undefined) => {
@@ -478,6 +504,16 @@ export const VariableEditForm = ({
   // Le nettoyage s'exécute avant la mise à jour de la ref : il voit encore la variable quittée.
   useEffect(() => () => commitChangesRef.current(), [variable.id]);
 
+  // Sortie d'un champ du formulaire : `focusout` remonte depuis les champs, comme le onBlur React.
+  const formRef = useRef<HTMLFormElement>(null);
+  useEffect(() => {
+    const form = formRef.current;
+    if (!form) return;
+    const onFocusOut = () => commitChangesRef.current();
+    form.addEventListener("focusout", onFocusOut);
+    return () => form.removeEventListener("focusout", onFocusOut);
+  }, []);
+
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -506,7 +542,7 @@ export const VariableEditForm = ({
       }
       className="h-full"
     >
-      <form onSubmit={handleSubmit} onBlur={commitChanges} className="flex flex-column gap-3">
+      <form ref={formRef} onSubmit={handleSubmit} className="flex flex-column gap-3">
         <div className="pi-variable-actions flex gap-2 justify-content-end">
           {!readOnly && (
             <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>

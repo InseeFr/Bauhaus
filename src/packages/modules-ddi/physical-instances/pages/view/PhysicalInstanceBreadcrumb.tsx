@@ -204,9 +204,9 @@ const PhysicalInstanceSwitcher = ({
       </button>
 
       {isOpen && (
-        <div
+        <dialog
+          open
           id={panelId}
-          role="dialog"
           aria-label={t("physicalInstance.view.breadcrumb.switch", { label: current.label })}
           className="pi-switcher-panel"
           onKeyDown={(event) => {
@@ -234,7 +234,7 @@ const PhysicalInstanceSwitcher = ({
           <p className="pi-switcher-count">
             {t("physicalInstance.view.breadcrumb.count", { count: siblings.length })}
           </p>
-        </div>
+        </dialog>
       )}
     </div>
   );

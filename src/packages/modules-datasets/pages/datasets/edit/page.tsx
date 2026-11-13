@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router";
 
@@ -114,25 +114,27 @@ export const Component = () => {
 
   const defaultContributor = useDefaultContributor(isContributor);
   // Recopié une seule fois : une relecture du jeu de données (cache périmé) n'écrase pas la saisie.
-  const isDatasetLoaded = useRef(false);
-  useEffect(() => {
-    if (status === "success") {
-      if (isDatasetLoaded.current) return;
-      isDatasetLoaded.current = true;
+  const [isDatasetLoaded, setIsDatasetLoaded] = useState(false);
+  // Contributeur par défaut déjà posé sur un jeu de données en création.
+  const [initializedContributor, setInitializedContributor] = useState<string | null>(null);
+  if (status === "success") {
+    if (!isDatasetLoaded) {
+      setIsDatasetLoaded(true);
       const loaded = (isDuplicating ? buildDuplicatedDataset(dataset) : dataset) as Dataset;
       setEditingDataset({
         ...loaded,
         issued: toDatePart(loaded.issued),
         updated: toDatePart(loaded.updated),
       } as Dataset);
-    } else if (isContributor && !id) {
-      setEditingDataset({
-        catalogRecord: {
-          ...initializeContributorProperty(isContributor, !id, defaultContributor),
-        },
-      } as Dataset);
     }
-  }, [status, dataset, id, isDuplicating, isContributor, defaultContributor]);
+  } else if (isContributor && !id && initializedContributor !== (defaultContributor ?? "")) {
+    setInitializedContributor(defaultContributor ?? "");
+    setEditingDataset({
+      catalogRecord: {
+        ...initializeContributorProperty(isContributor, !id, defaultContributor),
+      },
+    } as Dataset);
+  }
 
   const queryClient = useQueryClient();
 

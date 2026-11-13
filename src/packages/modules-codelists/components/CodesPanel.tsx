@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useEffect, useReducer, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useEffectEvent, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { SeeButton } from "@components/buttons/see";
@@ -63,7 +63,12 @@ const CodeSlidingPanel = ({
 }: Readonly<CodeSlidingPanelTypes>) => {
   const { t } = useTranslation();
 
-  const [code, setCode] = useState<CodeFormState>({});
+  const [code, setCode] = useState<CodeFormState>(() => ({ ...initialCode }));
+  const [previousInitialCode, setPreviousInitialCode] = useState(initialCode);
+  if (initialCode !== previousInitialCode) {
+    setPreviousInitialCode(initialCode);
+    setCode({ ...initialCode });
+  }
 
   const [clientSideErrors, setClientSideErrors] = useState<{
     fields?: Record<string, string>;
@@ -74,19 +79,19 @@ const CodeSlidingPanel = ({
 
   const [serverSideError, setServerSideError] = useState<unknown>();
 
-  useEffect(() => {
-    setCode({ ...initialCode });
-  }, [initialCode]);
-
-  useEffect(() => {
-    if (!serverError) return;
-    const formErrors = toFormErrors(serverError, FIELDS_WITH_ERROR_SLOT);
-    if (formErrors.clientSideErrors) {
-      setSubmitting(true);
-      setClientSideErrors(formErrors.clientSideErrors);
+  // Chaque nouveau refus du serveur est réparti entre les champs et le bandeau.
+  const [handledServerError, setHandledServerError] = useState<unknown>();
+  if (serverError !== handledServerError) {
+    setHandledServerError(serverError);
+    if (serverError) {
+      const formErrors = toFormErrors(serverError, FIELDS_WITH_ERROR_SLOT);
+      if (formErrors.clientSideErrors) {
+        setSubmitting(true);
+        setClientSideErrors(formErrors.clientSideErrors);
+      }
+      setServerSideError(formErrors.serverSideError);
     }
-    setServerSideError(formErrors.serverSideError);
-  }, [serverError]);
+  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -319,12 +324,17 @@ export const CodesPanel = ({
     selectedCodeError,
   } = state;
 
-  // Le code refusé est encore en attente : on le rouvre tel qu'il a été envoyé.
-  useEffect(() => {
+  // Le code refusé est encore en attente : on le rouvre tel qu'il a été envoyé. Seul un nouveau
+  // refus rouvre le panneau, pas une modification des changements en attente.
+  const reopenRefusedCode = useEffectEvent(() => {
     const change = refusedCode && codeChanges[refusedCode.code];
     if (change) {
       dispatch({ type: "OPEN_EDIT_PANEL", code: change.code, error: refusedCode.error });
     }
+  });
+
+  useEffect(() => {
+    reopenRefusedCode();
   }, [refusedCode]);
 
   const [allCodes, setAllCodes] = useState<Code[]>([]);
@@ -364,12 +374,12 @@ export const CodesPanel = ({
     }
   };
 
-  const fetchCodes = () => {
+  const fetchCodes = useEffectEvent(() => {
     dispatch({ type: "SET_LOADING", loading: true });
     void showCodes(
       CodelistsApi.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1),
     ).finally(() => dispatch({ type: "SET_LOADING", loading: false }));
-  };
+  });
 
   useEffect(() => {
     fetchCodes();

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { CreatorsInput } from "@components/business/creators-input";
@@ -107,15 +107,11 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
   // La fiche d'une série liste les indicateurs qu'elle produit.
   const invalidateSeries = useInvalidateSeries();
 
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+  const [previousIndicatorId, setPreviousIndicatorId] = useState(props.indicator.id);
+  if (props.indicator.id !== previousIndicatorId) {
+    setPreviousIndicatorId(props.indicator.id);
     setState(setInitialState(props));
-  }, [props.indicator.id]);
+  }
 
   const onChange = useCallback(
     (selector: keyof Indicator) => (value: any) => {

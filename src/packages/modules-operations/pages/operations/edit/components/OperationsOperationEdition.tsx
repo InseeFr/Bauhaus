@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
@@ -81,15 +81,11 @@ export const OperationsOperationEdition = (props: Readonly<OperationsOperationEd
 
   const invalidateOperations = useInvalidateOperations();
 
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+  const [previousOperationId, setPreviousOperationId] = useState(props.operation.id);
+  if (props.operation.id !== previousOperationId) {
+    setPreviousOperationId(props.operation.id);
     setState(setInitialState(props));
-  }, [props.operation.id]);
+  }
 
   const onChange = (e: ChangeLike) => {
     let override: Record<string, any> = {

@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 
@@ -55,11 +55,14 @@ export const Component = () => {
 
   const seriesOptions = transformModelToSelectOptions(series ?? []);
 
-  useEffect(() => {
-    if (status === "success" && classification && !value?.general) {
+  // Recopiée à l'arrivée de la classification, tant que le formulaire est encore vide.
+  const [copiedClassification, setCopiedClassification] = useState<typeof classification>();
+  if (status === "success" && classification && classification !== copiedClassification) {
+    setCopiedClassification(classification);
+    if (!value?.general) {
       dispatch({ type: "SET_VALUE", payload: classification });
     }
-  }, [status, classification]);
+  }
 
   if (loadError && !classification) return <LoadingErrorBloc error={loadError} />;
 

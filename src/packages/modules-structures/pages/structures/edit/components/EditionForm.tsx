@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router";
 
@@ -128,15 +128,17 @@ export const EditionForm = ({ creation, initialStructure }: Readonly<EditionForm
     },
   });
 
-  useEffect(() => {
-    let structure = {
+  // Le formulaire repart de la structure reçue quand elle ou le contributeur par défaut change.
+  const syncKey = [initialStructure, isContributor, defaultContributor, creation] as const;
+  const [syncedKey, setSyncedKey] = useState<typeof syncKey | null>(null);
+  if (!syncedKey || syncKey.some((value, i) => value !== syncedKey[i])) {
+    setSyncedKey(syncKey);
+    setStructure({
       ...defaultDSD,
       ...initialStructure,
       ...initializeContributorProperty(isContributor, creation, defaultContributor),
-    };
-
-    setStructure(structure);
-  }, [initialStructure, isContributor, defaultContributor, creation]);
+    });
+  }
 
   if (redirectId) return <Navigate to={`/structures/${redirectId}`} replace />;
 

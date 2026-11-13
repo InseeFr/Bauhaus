@@ -38,12 +38,10 @@ export const MAX_HIGHLIGHTED_LENGTH = 200_000;
 
 export const useHighlight = (code: string, language: HighlightLanguage): string | null => {
   const [highlightedHtml, setHighlightedHtml] = useState<string | null>(null);
+  const isTooLarge = code.length > MAX_HIGHLIGHTED_LENGTH;
 
   useEffect(() => {
-    if (code.length > MAX_HIGHLIGHTED_LENGTH) {
-      setHighlightedHtml(null);
-      return;
-    }
+    if (isTooLarge) return;
 
     let cancelled = false;
 
@@ -63,9 +61,9 @@ export const useHighlight = (code: string, language: HighlightLanguage): string 
     return () => {
       cancelled = true;
     };
-  }, [code, language]);
+  }, [code, language, isTooLarge]);
 
-  return highlightedHtml;
+  return isTooLarge ? null : highlightedHtml;
 };
 
 /**

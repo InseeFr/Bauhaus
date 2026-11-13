@@ -44,12 +44,19 @@ export const ExportButtonWithDropdown = ({
 
   const [open, setOpen] = useOutsideClick(dropdownRef, false);
 
-  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (open && e.key === "Escape") {
-      setOpen(false);
-      dropdownRef.current?.querySelector("button")?.focus();
-    }
-  };
+  // Échap referme le menu et rend le focus au bouton, où qu'il soit dans le menu.
+  useEffect(() => {
+    const dropdown = dropdownRef.current;
+    if (!open || !dropdown) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        dropdown.querySelector("button")?.focus();
+      }
+    };
+    dropdown.addEventListener("keydown", onKeyDown);
+    return () => dropdown.removeEventListener("keydown", onKeyDown);
+  }, [open, setOpen]);
 
   useEffect(() => {
     if (open) {
@@ -58,7 +65,7 @@ export const ExportButtonWithDropdown = ({
   }, [open]);
 
   return (
-    <div className="dropdown lg:col-2" ref={dropdownRef} onKeyDown={onKeyDown}>
+    <div className="dropdown lg:col-2" ref={dropdownRef}>
       <ExportButton disabled={disabled} action={() => setOpen(!open)} />
       <div className={cx("dropdown__content", open ? "active" : "inactive")}>
         <div className="dropdown__info">

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useCallback, useRef, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@components/ui/button";
@@ -81,6 +81,8 @@ export const CodeListDataTable = ({
   const overlayRefs = useRef<Map<string, OverlayPanel | null>>(new Map());
   const inputRefs = useRef<Map<string, HTMLInputElement | null>>(new Map());
   const tableRef = useRef<DataTable<CodeTableRow[]>>(null);
+  // Le libellé de la liste prend le focus à l'ouverture du tableau.
+  const focusOnMount = useCallback((input: HTMLInputElement | null) => input?.focus(), []);
   /** Code ajouté hors de la zone rendue par le virtual scroller : focalisé dès que sa ligne monte. */
   const pendingFocusId = useRef<string | null>(null);
   const [shouldFocusNewCode, setShouldFocusNewCode] = useState(false);
@@ -347,7 +349,7 @@ export const CodeListDataTable = ({
           id="code-list-label"
           name="codeListLabel"
           autoComplete="off"
-          autoFocus
+          ref={focusOnMount}
           value={codeListLabel}
           onChange={(e) => handleCodeListLabelChange(e.target)}
           readOnly={readOnly || fieldAwaitingDecision === LABEL_KEY}

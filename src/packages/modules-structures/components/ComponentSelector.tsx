@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 import { Codelists } from "@model/Codelist";
 import { Component, ComponentDefinition } from "@model/structures/Component";
@@ -62,7 +62,14 @@ export const ComponentSelector = ({
     setCodelistNotation(notation);
   }, []);
 
-  const [structureComponents, setStructureComponents] = useState<StructureComponent[]>([]);
+  const [structureComponents, setStructureComponents] =
+    useState<StructureComponent[]>(componentDefinitions);
+  const [previousComponentDefinitions, setPreviousComponentDefinitions] =
+    useState(componentDefinitions);
+  if (componentDefinitions !== previousComponentDefinitions) {
+    setPreviousComponentDefinitions(componentDefinitions);
+    setStructureComponents(componentDefinitions);
+  }
 
   const [modalOpened, setModalOpened] = useState(false);
 
@@ -70,10 +77,6 @@ export const ComponentSelector = ({
   // `StructureComponent`'s `component` fields spread onto the specification being edited
   // (see `saveSpecification`); its shape genuinely varies by call site.
   const [selectedComponent, setSelectedComponent] = useState<any>({});
-
-  useEffect(() => {
-    setStructureComponents(componentDefinitions);
-  }, [componentDefinitions]);
 
   const filteredMutualizedComponents = useMemo(() => {
     return mutualizedComponents.filter(filterComponent(type)).filter((component) => {
