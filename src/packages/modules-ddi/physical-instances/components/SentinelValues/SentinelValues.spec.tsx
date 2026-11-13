@@ -399,6 +399,32 @@ describe("SentinelValues", () => {
     expect(onChange).toHaveBeenCalledWith(undefined, undefined, undefined, undefined);
   });
 
+  it("retire sans confirmation une liste créée à la volée restée vide", async () => {
+    const user = userEvent.setup();
+    render(<ControlledSentinelValues />);
+
+    await user.click(screen.getByText("Valeurs sentinelles"));
+    await user.click(screen.getByText("Créer"));
+    await user.click(screen.getByText("Ajouter un code"));
+    await user.click(screen.getByText("Retirer"));
+
+    // Libellé vide, lignes sans valeur ni libellé : rien à perdre, retrait immédiat.
+    expect(confirmDialogMock).not.toHaveBeenCalled();
+    expect(screen.queryByText("Retirer")).not.toBeInTheDocument();
+  });
+
+  it("demande confirmation avant de retirer une liste créée dont un code est saisi", async () => {
+    const user = userEvent.setup();
+    render(<ControlledSentinelValues />);
+
+    await user.click(screen.getByText("Valeurs sentinelles"));
+    await user.click(screen.getByText("Créer"));
+    await user.type(lastValueInput(), "NSP");
+    await user.click(screen.getByText("Retirer"));
+
+    expect(confirmDialogMock).toHaveBeenCalledTimes(1);
+  });
+
   it("asks for confirmation before discarding pending local edits (nouvelle sélection)", () => {
     const onChange = vi.fn();
     mockUseAllMissingValuesRepresentations.mockReturnValue({

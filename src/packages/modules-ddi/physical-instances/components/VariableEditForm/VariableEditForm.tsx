@@ -334,6 +334,7 @@ export const VariableEditForm = ({
   }
 
   const [state, dispatch] = useReducer(formReducer, variable, buildFormState);
+  const commitPendingRef = useRef(false);
 
   // Indicateurs d'erreur des onglets : le blocage n'a lieu qu'au « Sauvegarder » global (#1608).
   // Chaque erreur est signalée sur l'onglet qui porte le champ fautif.
@@ -432,6 +433,9 @@ export const VariableEditForm = ({
       sentinelCodeList?: CodeList,
       sentinelCategories?: Category[],
     ) => {
+      // Retrait : le bouton disparaît au clic (ou l'action vient de la confirmation, hors du
+      // formulaire), aucun blur ne déclenchera le report — on le force au rendu suivant.
+      if (!missingValuesReference) commitPendingRef.current = true;
       dispatch({
         type: "SET_SENTINEL_VALUES",
         payload: { missingValuesReference, mmvr, sentinelCodeList, sentinelCategories },
@@ -514,6 +518,13 @@ export const VariableEditForm = ({
     return () => form.removeEventListener("focusout", onFocusOut);
   }, []);
 
+  // Report demandé hors blur (retrait des valeurs sentinelles).
+  useEffect(() => {
+    if (!commitPendingRef.current) return;
+    commitPendingRef.current = false;
+    commitChanges();
+  }, [commitChanges]);
+
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -583,7 +594,7 @@ export const VariableEditForm = ({
               onClick={onClose}
               aria-label={t("physicalInstance.view.closeVariablePanel")}
               tooltip={t("physicalInstance.view.closeVariablePanel")}
-              tooltipOptions={{ position: "left" }}
+              tooltipOptions={{ position: "left", event: "both" }}
             />
           )}
         </div>

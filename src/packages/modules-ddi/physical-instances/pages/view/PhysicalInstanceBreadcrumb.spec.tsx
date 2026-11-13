@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
@@ -95,6 +96,25 @@ describe("PhysicalInstanceBreadcrumb", () => {
       expect.stringContaining("PI Un"),
     ]);
   });
+
+  it.each([
+    ["la série", "Base permanente des équipements"],
+    ["l'opération", "Enquête emploi"],
+  ])(
+    "affiche le libellé complet de %s en infobulle quand son lien reçoit le focus clavier",
+    async (_, label) => {
+      renderBreadcrumb();
+      const link = screen.getByRole("link", { name: new RegExp(label) });
+
+      for (let i = 0; i < 5 && document.activeElement !== link; i++) {
+        await userEvent.tab();
+      }
+      expect(link).toHaveFocus();
+
+      // happy-dom tient l'infobulle pour cachée (styles de transition PrimeReact) : { hidden: true }.
+      expect(await screen.findByRole("tooltip", { hidden: true })).toHaveTextContent(label);
+    },
+  );
 
   it("mène de la série à la recherche avancée filtrée sur cette série", () => {
     renderBreadcrumb();
