@@ -1,2 +1,8 @@
 [tools]
 node = "26"
+
+[env]
+# Node 26 active Web Storage par défaut et avertit à chaque lecture de `localStorage` sans
+# --localstorage-file (le `debug` embarqué par le plugin Vite d'oidc-spa le sonde au chargement
+# de vite.config.ts). Les outils en ligne de commande n'en ont pas besoin.
+NODE_OPTIONS = "--no-experimental-webstorage"
