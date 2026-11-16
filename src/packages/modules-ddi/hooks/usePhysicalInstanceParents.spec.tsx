@@ -43,6 +43,24 @@ describe("usePhysicalInstanceParents", () => {
     expect(result.current.isLoading).toBe(false);
   });
 
+  it("ne redemande pas des parents en échec quand un autre composant les lit à son tour", async () => {
+    // #1683 : l'onglet « Représentation » relit les parents ; relancer la requête en échec la
+    // repassait en chargement, la page démontait l'onglet, puis le remontait : boucle infinie.
+    vi.mocked(DDIApi.getPhysicalInstanceParents).mockRejectedValue({ status: 404 });
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    );
+    const first = renderHook(() => usePhysicalInstanceParents("fr.insee", "pi-1"), { wrapper });
+    await waitFor(() => expect(first.result.current.isError).toBe(true));
+
+    const second = renderHook(() => usePhysicalInstanceParents("fr.insee", "pi-1"), { wrapper });
+
+    expect(second.result.current.isError).toBe(true);
+    expect(first.result.current.isLoading).toBe(false);
+    expect(DDIApi.getPhysicalInstanceParents).toHaveBeenCalledTimes(1);
+  });
+
   it("n'appelle pas le back quand l'appelant désactive la requête", () => {
     const { result } = renderParents("fr.insee", "pi-1", { enabled: false });
 
