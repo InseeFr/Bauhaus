@@ -18,6 +18,11 @@ export interface CodeTableRow {
 }
 
 interface CodeListDataTableProps {
+  /**
+   * Identité de la liste éditée. Quand elle change (autre variable, autre liste), les sessions
+   * d'édition en cours sont closes : la première frappe suivante repasse par la garde.
+   */
+  codeListId?: string;
   codeListLabel: string;
   codes: CodeTableRow[];
   onCodeListLabelChange: (label: string) => void;
@@ -63,6 +68,7 @@ const scrollHeightFor = (rowCount: number) => {
 };
 
 export const CodeListDataTable = ({
+  codeListId,
   codeListLabel,
   codes,
   onCodeListLabelChange,
@@ -164,6 +170,12 @@ export const CodeListDataTable = ({
    * couverts par la décision et disparaîtraient à la création d'une variante.
    */
   const [fieldAwaitingDecision, setFieldAwaitingDecision] = useState<string | null>(null);
+  // Les clés des champs (libellé de la liste notamment) ne dépendent pas de la liste : sans cette
+  // remise à zéro, un champ soumis à la garde sur une liste non partagée le resterait pour la
+  // liste suivante, dont les éditions s'appliqueraient sans confirmation (#1608).
+  useEffect(() => {
+    guardedFields.current.clear();
+  }, [codeListId]);
   const cellKey = (rowId: string, field: "value" | "label") => `${rowId}:${field}`;
   const LABEL_KEY = "code-list-label";
 
