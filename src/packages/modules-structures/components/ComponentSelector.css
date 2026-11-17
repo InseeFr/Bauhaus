@@ -1,9 +1,4 @@
 .bauhaus-collapsible-panel {
-  /* stylelint-disable-next-line selector-class-pattern */
-  .DraftEditor-root {
-    z-index: 0;
-  }
-
   > .wilco-note > .panel {
     > .panel-heading {
       button {
@@ -13,7 +8,7 @@
         border: 0;
         text-align: left;
 
-        .glyphicon {
+        .pi {
           float: right;
         }
       }
@@ -76,8 +71,37 @@
     width: 100%;
   }
 
+  /* Titre à gauche, bouton de création calé à droite de l'en-tête. */
+  .components-picker-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+  }
+
+  /*
+   * Posé dans l'en-tête coloré du panneau, dont la règle `.p-panel-title button` rend les boutons
+   * transparents : l'icône sombre de `.bauhaus-icon-btn` y devenait illisible. On la passe dans la
+   * couleur du titre, cerclée pour rester identifiable comme un bouton.
+   */
+
   #add-component {
     display: inline-block;
     width: auto;
+    padding: 2px 8px;
+    border: 1px solid currentcolor;
+    border-radius: 4px;
+    background: transparent;
+    color: #fff;
+
+    &:not(:disabled):hover {
+      background: rgb(255 255 255 / 20%);
+      color: #fff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
   }
 }

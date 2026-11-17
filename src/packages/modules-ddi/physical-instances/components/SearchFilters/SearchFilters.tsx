@@ -1,9 +1,10 @@
-import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
-import { InputText } from "primereact/inputtext";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
+import { Dropdown } from "@components/ui/dropdown";
+import { IconField } from "@components/ui/icon-field";
+import { InputIcon } from "@components/ui/input-icon";
+import { InputText } from "@components/ui/input-text";
 
 import { HasAccess } from "../../../../auth/components/auth";
 
@@ -14,10 +15,14 @@ interface SearchFiltersProps {
   onTypeFilterChange: (value: string) => void;
   typeOptions: { label: string; value: string }[];
   onNewVariable: () => void;
+  /** Ouvre la recherche d'une variable de l'étude à réutiliser (#1387) ; sans étude, pas de bouton. */
+  onReuseVariable?: () => void;
   onSaveAll?: () => void;
   hasLocalChanges?: boolean;
   /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
   stamps?: string[];
+  /** Parents introuvables : aucun bouton menant à une sauvegarde. */
+  readOnly?: boolean;
 }
 
 export const SearchFilters = ({
@@ -27,9 +32,11 @@ export const SearchFilters = ({
   onTypeFilterChange,
   typeOptions,
   onNewVariable,
+  onReuseVariable,
   onSaveAll,
   hasLocalChanges = false,
   stamps,
+  readOnly = false,
 }: Readonly<SearchFiltersProps>) => {
   const { t } = useTranslation();
 
@@ -53,27 +60,43 @@ export const SearchFilters = ({
         className="flex-1"
         aria-label={t("physicalInstance.view.typeFilter")}
       />
-      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
-        <Button
-          icon="pi pi-save"
-          label={t("physicalInstance.view.saveAll")}
-          severity="secondary"
-          style={{ background: "transparent" }}
-          aria-label={t("physicalInstance.view.saveAll")}
-          onClick={onSaveAll}
-          disabled={!hasLocalChanges}
-        />
-      </HasAccess>
-      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
-        <Button
-          icon="pi pi-plus"
-          label={t("physicalInstance.view.newVariable")}
-          severity="secondary"
-          style={{ background: "transparent" }}
-          aria-label={t("physicalInstance.view.newVariable")}
-          onClick={onNewVariable}
-        />
-      </HasAccess>
+      {!readOnly && (
+        <>
+          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
+            <Button
+              icon="pi pi-save"
+              label={t("physicalInstance.view.saveAll")}
+              severity="secondary"
+              style={{ background: "transparent" }}
+              aria-label={t("physicalInstance.view.saveAll")}
+              onClick={onSaveAll}
+              disabled={!hasLocalChanges}
+            />
+          </HasAccess>
+          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
+            <Button
+              icon="pi pi-plus"
+              label={t("physicalInstance.view.newVariable")}
+              severity="secondary"
+              style={{ background: "transparent" }}
+              aria-label={t("physicalInstance.view.newVariable")}
+              onClick={onNewVariable}
+            />
+          </HasAccess>
+          {onReuseVariable && (
+            <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
+              <Button
+                icon="pi pi-share-alt"
+                label={t("physicalInstance.view.reuseVariable.open")}
+                severity="secondary"
+                style={{ background: "transparent" }}
+                aria-label={t("physicalInstance.view.reuseVariable.open")}
+                onClick={onReuseVariable}
+              />
+            </HasAccess>
+          )}
+        </>
+      )}
     </div>
   );
 };

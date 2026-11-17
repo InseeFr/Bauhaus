@@ -1,9 +1,11 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi } from "vitest";
 
 import type { CodeListUsage } from "../../types/api";
 import { CodeListUsersPanel } from "./CodeListUsersPanel";
+import { codeListUsage as usage } from "./usages.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -14,18 +16,8 @@ vi.mock("../../../hooks/useCodeListUsers", () => ({
   useCodeListUsers: () => mockUseCodeListUsers(),
 }));
 
-const usage = (overrides: Partial<CodeListUsage> = {}): CodeListUsage => ({
-  studyUnitAgencyId: "fr.insee",
-  studyUnitId: "su-1",
-  studyUnitLabel: "Recensement 2024",
-  physicalInstanceAgencyId: "fr.insee",
-  physicalInstanceId: "pi-1",
-  physicalInstanceLabel: "Fichier détail",
-  variableAgencyId: "fr.insee",
-  variableId: "var-1",
-  variableLabel: "Sexe",
-  ...overrides,
-});
+const mockUsages = (data: CodeListUsage[], isLoading = false) =>
+  mockUseCodeListUsers.mockReturnValue({ data, isLoading, isError: false });
 
 const renderPanel = (currentVariableId?: string) =>
   render(
@@ -37,11 +29,30 @@ const renderPanel = (currentVariableId?: string) =>
 const expandPanel = () =>
   fireEvent.click(screen.getByText("physicalInstance.view.code.usersPanel.title"));
 
+/** Rend le panneau sur un seul usage (Sexe dans Fichier détail) et le déplie. */
+const renderExpandedSingleUsage = () => {
+  mockUsages([usage()]);
+  renderPanel();
+  expandPanel();
+};
+
 describe("CodeListUsersPanel", () => {
-  it("renders the PhysicalInstance label as a link to the physical instance page", async () => {
-    mockUseCodeListUsers.mockReturnValue({ data: [usage()], isLoading: false, isError: false });
+  it("ouvre le panneau depuis un vrai bouton qui annonce son état", async () => {
+    mockUsages([usage()]);
     renderPanel();
-    expandPanel();
+
+    const toggler = screen.getByRole("button", {
+      name: "physicalInstance.view.code.usersPanel.title",
+    });
+    expect(toggler).toHaveAttribute("aria-expanded", "false");
+
+    await userEvent.click(toggler);
+
+    expect(toggler).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("renders the PhysicalInstance label as a link to the physical instance page", async () => {
+    renderExpandedSingleUsage();
 
     await waitFor(() => {
       expect(screen.getByRole("link", { name: "Fichier détail" })).toHaveAttribute(
@@ -56,9 +67,7 @@ describe("CodeListUsersPanel", () => {
   });
 
   it("renders the Variable label as a link carrying the variableId query parameter", async () => {
-    mockUseCodeListUsers.mockReturnValue({ data: [usage()], isLoading: false, isError: false });
-    renderPanel();
-    expandPanel();
+    renderExpandedSingleUsage();
 
     await waitFor(() => {
       expect(screen.getByRole("link", { name: "Sexe" })).toHaveAttribute(
@@ -70,7 +79,7 @@ describe("CodeListUsersPanel", () => {
   });
 
   it("renders nothing when the code list has no usage", () => {
-    mockUseCodeListUsers.mockReturnValue({ data: [], isLoading: false, isError: false });
+    mockUsages([]);
     renderPanel();
 
     expect(
@@ -79,7 +88,7 @@ describe("CodeListUsersPanel", () => {
   });
 
   it("renders nothing while loading", () => {
-    mockUseCodeListUsers.mockReturnValue({ data: [], isLoading: true, isError: false });
+    mockUsages([], true);
     renderPanel();
 
     expect(
@@ -88,7 +97,7 @@ describe("CodeListUsersPanel", () => {
   });
 
   it("excludes the variable currently being edited", () => {
-    mockUseCodeListUsers.mockReturnValue({ data: [usage()], isLoading: false, isError: false });
+    mockUsages([usage()]);
     renderPanel("var-1");
 
     // The only usage is the current variable, so the whole block is hidden.
@@ -98,11 +107,7 @@ describe("CodeListUsersPanel", () => {
   });
 
   it("keeps other variables when excluding the current one", async () => {
-    mockUseCodeListUsers.mockReturnValue({
-      data: [usage(), usage({ variableId: "var-2", variableLabel: "Âge" })],
-      isLoading: false,
-      isError: false,
-    });
+    mockUsages([usage(), usage({ variableId: "var-2", variableLabel: "Âge" })]);
     renderPanel("var-1");
     expandPanel();
 

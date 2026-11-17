@@ -1,0 +1,124 @@
+/*
+ * Grille des composants partagés : copie à l'identique de la grille `row` / `col-md-*`
+ * de Bootstrap 3 (gouttières de 15px, colonnes flottantes à partir de 992px).
+ * Les colonnes `col-md-*` que les modules posent dans un `Row` gardent donc leur
+ * géométrie tant que `bootstrap.css` est chargé. Le préfixe `grid` (et non `col`)
+ * évite les sélecteurs `[class*="col-"]` de Bootstrap.
+ */
+.bauhaus-grid-row {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.bauhaus-grid-row::before,
+.bauhaus-grid-row::after {
+  display: table;
+  content: " ";
+}
+
+.bauhaus-grid-row::after {
+  clear: both;
+}
+
+.bauhaus-grid-md-1,
+.bauhaus-grid-md-2,
+.bauhaus-grid-md-3,
+.bauhaus-grid-md-4,
+.bauhaus-grid-md-5,
+.bauhaus-grid-md-6,
+.bauhaus-grid-md-7,
+.bauhaus-grid-md-8,
+.bauhaus-grid-md-9,
+.bauhaus-grid-md-10,
+.bauhaus-grid-md-11,
+.bauhaus-grid-md-12 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+@media (width >= 992px) {
+  .bauhaus-grid-md-1,
+  .bauhaus-grid-md-2,
+  .bauhaus-grid-md-3,
+  .bauhaus-grid-md-4,
+  .bauhaus-grid-md-5,
+  .bauhaus-grid-md-6,
+  .bauhaus-grid-md-7,
+  .bauhaus-grid-md-8,
+  .bauhaus-grid-md-9,
+  .bauhaus-grid-md-10,
+  .bauhaus-grid-md-11,
+  .bauhaus-grid-md-12 {
+    float: left;
+  }
+
+  .bauhaus-grid-md-1 {
+    width: 8.3333%;
+  }
+
+  .bauhaus-grid-md-2 {
+    width: 16.6667%;
+  }
+
+  .bauhaus-grid-md-3 {
+    width: 25%;
+  }
+
+  .bauhaus-grid-md-4 {
+    width: 33.3333%;
+  }
+
+  .bauhaus-grid-md-5 {
+    width: 41.6667%;
+  }
+
+  .bauhaus-grid-md-6 {
+    width: 50%;
+  }
+
+  .bauhaus-grid-md-7 {
+    width: 58.3333%;
+  }
+
+  .bauhaus-grid-md-8 {
+    width: 66.6667%;
+  }
+
+  .bauhaus-grid-md-9 {
+    width: 75%;
+  }
+
+  .bauhaus-grid-md-10 {
+    width: 83.3333%;
+  }
+
+  .bauhaus-grid-md-11 {
+    width: 91.6667%;
+  }
+
+  .bauhaus-grid-md-12 {
+    width: 100%;
+  }
+
+  .bauhaus-grid-md-offset-0 {
+    margin-left: 0%;
+  }
+
+  .bauhaus-grid-md-offset-1 {
+    margin-left: 8.3333%;
+  }
+
+  .bauhaus-grid-md-offset-2 {
+    margin-left: 16.6667%;
+  }
+
+  .bauhaus-grid-md-offset-3 {
+    margin-left: 25%;
+  }
+
+  .bauhaus-grid-md-offset-4 {
+    margin-left: 33.3333%;
+  }
+}

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { DistributionApi } from "@sdk/distributions-api";
 
@@ -13,6 +13,7 @@ export const useDatasetDeleter = (id: string) => {
     mutate: remove,
     error: deleteServerSideError,
   } = useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: () => {
       return DistributionApi.deleteDistribution(id);
     },

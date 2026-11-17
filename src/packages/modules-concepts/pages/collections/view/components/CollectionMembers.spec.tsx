@@ -36,9 +36,11 @@ const members = [
   },
 ];
 
+const NO_MEMBERS: never[] = [];
+
 describe("CollectionMembers", () => {
   it("renders without crashing", () => {
-    renderWithRouter(<CollectionMembers members={[]} secondLang={true} />);
+    renderWithRouter(<CollectionMembers members={NO_MEMBERS} secondLang={true} />);
   });
 
   it("should render only the lg1 list", async () => {

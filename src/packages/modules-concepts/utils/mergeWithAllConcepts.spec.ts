@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { BROADER, NARROWER, NONE } from "@sdk/constants";
+import { BROADER, NARROWER, REFERENCES, SUCCEED } from "@sdk/constants";
 
 import { mergeWithAllConcepts } from "./mergeWithAllConcepts";
 
@@ -15,14 +15,14 @@ describe("mergeWithAllConcepts", () => {
       {
         id: "c1",
         label: "Chômage",
-        typeOfLink: NONE,
+        typesOfLink: [],
         prefLabelLg1: undefined,
         prefLabelLg2: undefined,
       },
       {
         id: "c2",
         label: "Emploi",
-        typeOfLink: NONE,
+        typesOfLink: [],
         prefLabelLg1: undefined,
         prefLabelLg2: undefined,
       },
@@ -38,18 +38,27 @@ describe("mergeWithAllConcepts", () => {
       {
         id: "c1",
         label: "Chômage",
-        typeOfLink: NONE,
+        typesOfLink: [],
         prefLabelLg1: undefined,
         prefLabelLg2: undefined,
       },
       {
         id: "c2",
         label: "Emploi",
-        typeOfLink: NARROWER,
+        typesOfLink: [NARROWER],
         prefLabelLg1: "Emploi",
         prefLabelLg2: "Employment",
       },
     ]);
+  });
+
+  it("reporte tous les types de lien d'un concept lié plusieurs fois", () => {
+    const links = [
+      { id: "c2", typeOfLink: REFERENCES, prefLabelLg1: "Emploi" },
+      { id: "c2", typeOfLink: SUCCEED, prefLabelLg1: "Emploi" },
+    ] as any;
+
+    expect(mergeWithAllConcepts(concepts, links)[1].typesOfLink).toEqual([REFERENCES, SUCCEED]);
   });
 
   it("conserve l'ordre et le libellé de la liste de référence, pas ceux des liens", () => {

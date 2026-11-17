@@ -1,36 +1,26 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual<typeof import("react-i18next")>("react-i18next")),
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("../../../../tests/react-i18next.testing")).translationKeysAsLabels(
+    await importOriginal(),
+  ),
+);
 
 vi.mock("@sdk/operations-api", () => ({ OperationsApi: { getAllIndicators: vi.fn() } }));
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
-vi.mock("@components/searchable-list", () => ({
-  SearchableList: ({ items, childPath }: any) => (
-    <ul data-testid={childPath}>
-      {items.map((item: any) => (
-        <li key={item.id}>{item.label}</li>
-      ))}
-    </ul>
-  ),
-}));
+vi.mock("@components/searchable-list", () => import("../../../../tests/searchable-list.testing"));
 vi.mock("./menu", () => ({ Menu: () => <nav>menu</nav> }));
 
-const renderPage = () =>
-  render(
-    <MemoryRouter>
-      <Component />
-    </MemoryRouter>,
-  );
+const renderPage = () => renderAtRoute(<Component />, "/indicators", "/indicators");
 
 describe("Indicators home page", () => {
   beforeEach(() => vi.clearAllMocks());
@@ -49,7 +39,10 @@ describe("Indicators home page", () => {
     renderPage();
 
     await waitFor(() => expect(screen.getByText("Taux de chômage")).toBeInTheDocument());
-    expect(screen.getByTestId("operations/indicator")).toBeInTheDocument();
+    expect(screen.getByTestId("searchable-list")).toHaveAttribute(
+      "data-path",
+      "operations/indicator",
+    );
   });
 
   it("affiche une liste vide quand il n'y a aucun indicateur", async () => {
@@ -58,5 +51,13 @@ describe("Indicators home page", () => {
 
     await waitFor(() => expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument());
     expect(screen.queryAllByRole("listitem")).toHaveLength(0);
+  });
+
+  it("affiche l'échec de chargement de la liste au lieu d'une liste vide", async () => {
+    vi.mocked(OperationsApi.getAllIndicators).mockRejectedValue(sdkRejection.emptyBody(500));
+    renderPage();
+
+    await expectItemLoadFailed();
+    expect(screen.queryByTestId("searchable-list")).not.toBeInTheDocument();
   });
 });

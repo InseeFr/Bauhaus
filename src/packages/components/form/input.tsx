@@ -3,6 +3,8 @@ import { ComponentProps, useId } from "react";
 import { ClientSideError } from "@components/errors-bloc";
 import { LabelRequired } from "@components/label-required";
 
+import "./form.css";
+
 type BlockTypes = {
   label: string;
   error?: string;
@@ -32,7 +34,7 @@ export const GenericInputBlock = ({
 };
 
 export const TextInput = (props: Readonly<ComponentProps<"input">>) => (
-  <input type="text" className="form-control" {...props} />
+  <input type="text" className="bauhaus-input" {...props} />
 );
 
 export const TextInputBlock = (props: Readonly<BlockTypes>) => {
@@ -40,7 +42,7 @@ export const TextInputBlock = (props: Readonly<BlockTypes>) => {
 };
 
 export const UrlInput = (props: Readonly<ComponentProps<"input">>) => (
-  <input type="url" className="form-control" {...props} />
+  <input type="url" className="bauhaus-input" {...props} />
 );
 
 export const UrlInputBlock = (props: Readonly<BlockTypes>) => {
@@ -48,7 +50,7 @@ export const UrlInputBlock = (props: Readonly<BlockTypes>) => {
 };
 
 export const NumberInput = (props: Readonly<ComponentProps<"input">>) => (
-  <input type="number" className="form-control" {...props} />
+  <input type="number" className="bauhaus-input" {...props} />
 );
 
 export const NumberInputBlock = (props: Readonly<BlockTypes>) => {

@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi } from "vitest";
 
 import { ClassificationItems } from "./ClassificationItems";
@@ -13,38 +13,32 @@ vi.mock("@components/page-title", () => ({
   ),
 }));
 
-vi.mock("@components/layout", () => ({
-  Row: ({ children }: any) => <div>{children}</div>,
-}));
+vi.mock("@components/layout", () => import("../../../../testing/component-mocks.testing"));
 
-vi.mock("@components/searchable-list", () => ({
-  SearchableList: ({ items, childPath }: any) => (
-    <ul data-testid="searchable-list" data-path={childPath}>
-      {items.map((item: any) => (
-        <li key={item.id}>{item.label}</li>
-      ))}
-    </ul>
-  ),
-}));
+vi.mock(
+  "@components/searchable-list",
+  () => import("../../../../../tests/searchable-list.testing"),
+);
 
-vi.mock("@components/check-second-lang", () => ({
-  CheckSecondLang: () => <div data-testid="check-second-lang" />,
-}));
+vi.mock(
+  "@components/check-second-lang",
+  () => import("../../../../testing/component-mocks.testing"),
+);
 
-vi.mock("../menu", () => ({
-  Menu: () => <div data-testid="controls" />,
-}));
+vi.mock("../menu", () => import("../../../../testing/component-mocks.testing"));
 
 const items = [
   { id: "item1", label: "Item 1" },
   { id: "item2", label: "Item 2" },
 ];
 
+const NO_ITEMS: never[] = [];
+
 const renderComponent = (props = {}) =>
   render(
     <MemoryRouter>
       <ClassificationItems
-        items={[]}
+        items={NO_ITEMS}
         classificationId="coicop2016"
         subtitle="COICOP 2016"
         {...props}

@@ -1,7 +1,8 @@
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import { vi } from "vitest";
 
 import * as useOrganizationsHook from "@utils/hooks/organizations";
+import * as useThemesHook from "@utils/hooks/themes";
 
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists";
 import { renderWithRouter } from "../../../../../tests/render";
@@ -32,6 +33,13 @@ const organizations = [
 
 vi.spyOn(useOrganizationsHook, "useOrganizations").mockReturnValue({
   data: organizations,
+} as any);
+
+vi.spyOn(useThemesHook, "useThemes").mockReturnValue({
+  data: [
+    { value: "http://bauhaus/concepts/theme/agr", label: "Agriculture" },
+    { value: "http://bauhaus/concepts/theme/eco", label: "Économie" },
+  ],
 } as any);
 
 const attr = {
@@ -94,19 +102,38 @@ const attr = {
     },
   ],
 };
+
+const attrWithThemes = {
+  ...attr,
+  themes: ["http://bauhaus/concepts/theme/eco", "http://bauhaus/concepts/theme/agr"],
+};
+
+const attrWithSingleCreator = {
+  ...attr,
+  creators: attr.creators[0],
+};
+
 describe("SerieInformation", () => {
+  it("affiche les libellés des thèmes de la série", () => {
+    renderWithRouter(<OperationsSerieVisualization attr={attrWithThemes} secondLang={false} />);
+
+    const themesNote = screen.getByText("Thèmes").closest(".note") as HTMLElement;
+    expect(within(themesNote).getByText("Économie")).toBeInTheDocument();
+    expect(within(themesNote).getByText("Agriculture")).toBeInTheDocument();
+  });
+
   it("should show the right number of Note component when the second lang is not selected", () => {
     const { container } = renderWithRouter(
       <OperationsSerieVisualization attr={attr} secondLang={false} />,
     );
-    expect(container.querySelectorAll(".note")).toHaveLength(15);
+    expect(container.querySelectorAll(".note")).toHaveLength(16);
   });
 
   it("should show the right number of Note component when the second lang is selected", () => {
     const { container } = renderWithRouter(
       <OperationsSerieVisualization attr={attr} secondLang={true} />,
     );
-    expect(container.querySelectorAll(".note")).toHaveLength(25);
+    expect(container.querySelectorAll(".note")).toHaveLength(26);
   });
   it("should show the right number of DisplayLinks component", () => {
     const { container } = renderWithRouter(
@@ -117,11 +144,9 @@ describe("SerieInformation", () => {
   });
 
   it("should display the creator", () => {
-    const attr2 = {
-      ...attr,
-      creators: attr.creators[0],
-    };
-    renderWithRouter(<OperationsSerieVisualization attr={attr2} secondLang={true} />);
+    renderWithRouter(
+      <OperationsSerieVisualization attr={attrWithSingleCreator} secondLang={true} />,
+    );
     expect(screen.getByText("Direction Générale")).toBeInTheDocument();
   });
   it("should display the publisher label", () => {

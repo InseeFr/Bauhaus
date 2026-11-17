@@ -1,6 +1,7 @@
-import { InputText } from "primereact/inputtext";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+
+import { InputText } from "@components/ui/input-text";
 
 import type { TextRepresentation as TextRepresentationType } from "../../types/api";
 

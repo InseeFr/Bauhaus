@@ -10,9 +10,9 @@ const codeListUsersQueryKey = (agencyId: string, id: string) => ["codeListUsers"
 /**
  * Politique de fraîcheur des requêtes d'usages (liste de codes comme catégorie) : jamais périmées
  * d'elles-mêmes, évincées explicitement par {@code usePublishPhysicalInstance} — seule une
- * sauvegarde peut changer qui utilise quoi. Reprend la valeur par défaut de l'application, mais de
- * façon explicite : la garde d'édition rappelle ces requêtes à chaque modification, et un
- * {@code staleTime} court y paierait la marche relationnelle Colectica à répétition.
+ * sauvegarde peut changer qui utilise quoi. La garde d'édition rappelle ces requêtes à chaque
+ * modification : la durée par défaut de l'application (une minute) y paierait la marche
+ * relationnelle Colectica à répétition.
  */
 export const USAGES_STALE_TIME = Infinity;
 

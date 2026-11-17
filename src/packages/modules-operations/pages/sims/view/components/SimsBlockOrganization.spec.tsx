@@ -12,6 +12,9 @@ const organizations = [
   { id: "DG75-L001", iri: "http://bauhaus/organizations/DG75-L001", label: "Insee L001" },
 ];
 
+const renderBlock = (currentSection: unknown) =>
+  render(<SimsBlockOrganization currentSection={currentSection as any} />);
+
 describe("SimsBlockOrganization", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -19,37 +22,31 @@ describe("SimsBlockOrganization", () => {
   });
 
   it("résout l'organisation par son IRI", () => {
-    render(
-      <SimsBlockOrganization
-        currentSection={{ value: "http://bauhaus/organizations/DG75-A040" } as any}
-      />,
-    );
+    renderBlock({ value: "http://bauhaus/organizations/DG75-A040" });
 
     expect(screen.getByText("Insee A040")).toBeInTheDocument();
   });
 
   it("résout aussi l'organisation par son timbre", () => {
-    render(<SimsBlockOrganization currentSection={{ value: "DG75-L001" } as any} />);
+    renderBlock({ value: "DG75-L001" });
 
     expect(screen.getByText("Insee L001")).toBeInTheDocument();
   });
 
   it("n'affiche rien quand la rubrique est vide", () => {
-    const { container } = render(<SimsBlockOrganization currentSection={{} as any} />);
+    const { container } = renderBlock({});
 
     expect(container).toBeEmptyDOMElement();
   });
 
   it("n'affiche rien sans rubrique du tout", () => {
-    const { container } = render(<SimsBlockOrganization currentSection={undefined as any} />);
+    const { container } = renderBlock(undefined);
 
     expect(container).toBeEmptyDOMElement();
   });
 
   it("rend un libellé vide plutôt qu'une erreur pour une organisation inconnue", () => {
-    const { container } = render(
-      <SimsBlockOrganization currentSection={{ value: "inconnue" } as any} />,
-    );
+    const { container } = renderBlock({ value: "inconnue" });
 
     expect(container.querySelector("span")).toBeEmptyDOMElement();
   });
@@ -57,9 +54,7 @@ describe("SimsBlockOrganization", () => {
   it("tolère un référentiel d'organisations non chargé", () => {
     vi.mocked(useOrganizations).mockReturnValue({ data: undefined } as any);
 
-    const { container } = render(
-      <SimsBlockOrganization currentSection={{ value: "DG75-L001" } as any} />,
-    );
+    const { container } = renderBlock({ value: "DG75-L001" });
 
     expect(container.querySelector("span")).toBeEmptyDOMElement();
   });

@@ -31,6 +31,32 @@ const createWrapper = () => {
   );
 };
 
+type QueryState = { isSuccess: boolean; isError: boolean; data: unknown; error: unknown };
+
+const renderQueryHook = <T,>(useHook: () => T) =>
+  renderHook(useHook, {
+    wrapper: createWrapper(),
+  });
+
+const expectQuerySuccess = async (useHook: () => QueryState, expectedData: unknown) => {
+  const { result } = renderQueryHook(useHook);
+
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+  expect(result.current.data).toEqual(expectedData);
+};
+
+const expectQueryError = async (getStamps: unknown, useHook: () => QueryState, message: string) => {
+  const mockError = new Error(message);
+  (getStamps as any).mockRejectedValue(mockError);
+
+  const { result } = renderQueryHook(useHook);
+
+  await waitFor(() => expect(result.current.isError).toBe(true));
+
+  expect(result.current.error).toEqual(mockError);
+};
+
 beforeEach(() => {
   vi.clearAllMocks();
   vi.resetAllMocks();
@@ -46,26 +72,11 @@ describe("useStamps", () => {
     const mockStamps = ["stamp1", "stamp2", "stamp3"];
     (StampsApi.getStamps as any).mockResolvedValue(mockStamps);
 
-    const { result } = renderHook(() => useStamps(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-    expect(result.current.data).toEqual(mockStamps);
+    await expectQuerySuccess(() => useStamps(), mockStamps);
   });
 
   it("should handle error when fetching stamps", async () => {
-    const mockError = new Error("Failed to fetch stamps");
-    (StampsApi.getStamps as any).mockRejectedValue(mockError);
-
-    const { result } = renderHook(() => useStamps(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => expect(result.current.isError).toBe(true));
-
-    expect(result.current.error).toEqual(mockError);
+    await expectQueryError(StampsApi.getStamps, () => useStamps(), "Failed to fetch stamps");
   });
 });
 
@@ -77,26 +88,11 @@ describe("useV2Stamps", () => {
     ];
     (V2Api.getStamps as any).mockResolvedValue(mockV2Stamps);
 
-    const { result } = renderHook(() => useV2Stamps(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-    expect(result.current.data).toEqual(mockV2Stamps);
+    await expectQuerySuccess(() => useV2Stamps(), mockV2Stamps);
   });
 
   it("should handle error when fetching v2 stamps", async () => {
-    const mockError = new Error("Failed to fetch v2 stamps");
-    (V2Api.getStamps as any).mockRejectedValue(mockError);
-
-    const { result } = renderHook(() => useV2Stamps(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => expect(result.current.isError).toBe(true));
-
-    expect(result.current.error).toEqual(mockError);
+    await expectQueryError(V2Api.getStamps, () => useV2Stamps(), "Failed to fetch v2 stamps");
   });
 });
 
@@ -105,9 +101,7 @@ describe("useStampsOptions", () => {
     const mockStamps = ["stamp1", "stamp2", "stamp3"];
     (StampsApi.getStamps as any).mockResolvedValue(mockStamps);
 
-    const { result } = renderHook(() => useStampsOptions(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderQueryHook(() => useStampsOptions());
 
     await waitFor(() =>
       expect(result.current).toEqual([
@@ -121,9 +115,7 @@ describe("useStampsOptions", () => {
   it("should return empty array when no stamps are available", () => {
     (StampsApi.getStamps as any).mockResolvedValue(undefined);
 
-    const { result } = renderHook(() => useStampsOptions(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderQueryHook(() => useStampsOptions());
 
     expect(result.current).toEqual([]);
   });
@@ -140,9 +132,7 @@ describe("useV2StampsOptions", () => {
     ];
     vi.mocked(V2Api.getStamps).mockResolvedValueOnce(mockV2Stamps as any);
 
-    const { result } = renderHook(() => useV2StampsOptions(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderQueryHook(() => useV2StampsOptions());
 
     await waitFor(() => {
       expect(result.current).toHaveLength(3);

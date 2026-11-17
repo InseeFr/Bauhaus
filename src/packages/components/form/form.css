@@ -1,0 +1,78 @@
+/*
+ * Champs des composants partagés : copie à l'identique des classes `form-group` et
+ * `form-control` de Bootstrap 3, y compris les surcharges de `main.css`
+ * (`font-size: inherit`) et de `components.css` (`z-index: 0` dans un `.input-group`).
+ */
+.bauhaus-form-group {
+  margin-bottom: 15px;
+}
+
+.bauhaus-input {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  background-image: none;
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 7.5%);
+  color: #555;
+  font-size: inherit;
+  line-height: 1.4286;
+  transition:
+    border-color ease-in-out 0.15s,
+    box-shadow ease-in-out 0.15s;
+}
+
+.bauhaus-input:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow:
+    inset 0 1px 1px rgb(0 0 0 / 7.5%),
+    0 0 8px rgb(102 175 233 / 60%);
+}
+
+.bauhaus-input::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.bauhaus-input[disabled],
+.bauhaus-input[readonly] {
+  background-color: #eee;
+  opacity: 1;
+}
+
+.bauhaus-input[disabled] {
+  cursor: not-allowed;
+}
+
+/* Champ précédé d'un `input-group-addon` (adresse du complément d'information des
+   concepts) : à retirer avec le `.input-group` de `modules-concepts` (B13a). */
+.input-group .bauhaus-input {
+  display: table-cell;
+  position: relative;
+  z-index: 0;
+  float: left;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.input-group .bauhaus-input:focus {
+  z-index: 3;
+}
+
+.input-group .bauhaus-input:not(:first-child, :last-child) {
+  border-radius: 0;
+}
+
+.input-group .bauhaus-input:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-group .bauhaus-input:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

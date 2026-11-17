@@ -5,10 +5,11 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { AppContextProvider } from "../../../../../application/app-context";
 import { ConceptVisualization } from "./ConceptVisualization";
 
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual<typeof import("react-i18next")>("react-i18next")),
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("../../../../../tests/react-i18next.testing")).translationKeysAsLabels(
+    await importOriginal(),
+  ),
+);
 
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
@@ -47,17 +48,30 @@ vi.mock("@components/modal-rmes/modal-rmes", () => ({
 const validateConcept = vi.fn();
 const deleteConcept = vi.fn();
 
+const NO_PROPERTIES = {} as any;
+const NO_NOTES = {} as any;
+const NO_LINKS: never[] = [];
+const ONE_LINK = [{ id: "c-2" }] as any;
+const GENERAL_WITHOUT_VERSION = { prefLabelLg1: "Chômage" } as any;
+
+const conceptGeneral = (overrides: any) => ({
+  prefLabelLg1: "Chômage",
+  conceptVersion: "2",
+  ...overrides,
+});
+
 const renderConcept = (general: any = {}) =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
       <ConceptVisualization
         id="c-1"
-        links={[{ id: "c-2" }] as any}
-        notes={{} as any}
+        links={ONE_LINK}
+        notes={NO_NOTES}
         secondLang={false}
-        general={{ prefLabelLg1: "Chômage", conceptVersion: "2", ...general }}
+        general={conceptGeneral(general)}
         validateConcept={validateConcept}
         deleteConcept={deleteConcept}
+        exportConcept={vi.fn()}
       />
     </AppContextProvider>,
   );
@@ -122,16 +136,17 @@ describe("ConceptVisualization", () => {
 
   it("affiche l'erreur serveur quand il y en a une", () => {
     render(
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={NO_PROPERTIES}>
         <ConceptVisualization
           id="c-1"
-          links={[]}
-          notes={{} as any}
+          links={NO_LINKS}
+          notes={NO_NOTES}
           secondLang={false}
           serverSideError="Suppression impossible"
-          general={{ prefLabelLg1: "Chômage" } as any}
+          general={GENERAL_WITHOUT_VERSION}
           validateConcept={validateConcept}
           deleteConcept={deleteConcept}
+          exportConcept={vi.fn()}
         />
       </AppContextProvider>,
     );

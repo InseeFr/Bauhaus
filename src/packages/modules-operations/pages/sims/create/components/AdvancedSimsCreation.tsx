@@ -1,15 +1,14 @@
 import { Fragment, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "react-modal";
-import { useBlocker } from "react-router-dom";
+import { useBlocker } from "react-router";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
-import { CloseIconButton } from "@components/buttons/buttons-with-icons";
 import { CheckSecondLang } from "@components/check-second-lang";
-import { ErrorBloc } from "@components/errors-bloc";
+import { ErrorBloc, LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { Dialog } from "@components/ui/dialog";
 
 import { OperationsApi } from "@sdk/operations-api";
 
@@ -93,9 +92,8 @@ interface SimsCreationTypes {
   codelists?: any;
   organizations?: any[];
   parentWithSims?: any[];
-  /** Le shape réel dépend de l'appelant (ex. `unknown` côté page.tsx) : pas de
-   * modèle d'erreur unique côté SIMS. */
-  error?: any;
+  /** Rejet de l'enregistrement, tel que le SDK le produit : affiché par `ErrorBloc`. */
+  error?: unknown;
   /** Non consommé par ce composant (il utilise `useGoBack()` en interne) mais
    * transmis tel quel par certains appelants. */
   goBack?: any;
@@ -123,6 +121,9 @@ const SimsCreation = ({
   const [saving, setSaving] = useState(false);
 
   const [loading, setLoading] = useState(false);
+
+  /** Rejet de la lecture du rapport choisi pour la duplication. */
+  const [siblingError, setSiblingError] = useState<unknown>();
 
   const secondLang = true;
 
@@ -281,10 +282,11 @@ const SimsCreation = ({
   const onSiblingSimsChange = () => {
     return (value: string) => {
       setLoading(true);
-      getSiblingSims(value, metadataStructure).then((sims) => {
-        setLoading(false);
-        setSims(sims);
-      });
+      setSiblingError(undefined);
+      getSiblingSims(value, metadataStructure)
+        .then(setSims)
+        .catch(setSiblingError)
+        .finally(() => setLoading(false));
     };
   };
 
@@ -297,27 +299,24 @@ const SimsCreation = ({
   return (
     <EssentialRubricContextProvider value={essentialRubricContext}>
       <Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
-      {error && <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} />}
-      <Modal
-        className="Modal__Bootstrap modal-dialog operations structures-specification-modal"
-        isOpen={blocker.state === "blocked"}
-        ariaHideApp={false}
+      {!!error && <ErrorBloc error={error} />}
+      {!!siblingError && <LoadingErrorBloc error={siblingError} />}
+      <Dialog
+        className="operations"
+        visible={blocker.state === "blocked"}
+        onHide={() => blocker.reset?.()}
+        header={t("app.deleteTitle")}
+        style={{ width: "50rem", maxWidth: "95vw" }}
+        blockScroll
+        footer={
+          <ActionToolbar>
+            <Button action={() => blocker.reset?.()}>{t("app.no")}</Button>
+            <Button action={() => blocker.proceed?.()}>{t("app.yes")}</Button>
+          </ActionToolbar>
+        }
       >
-        <div className="modal-content">
-          <div className="modal-header">
-            <CloseIconButton onClick={() => blocker.reset?.()} />
-            <h4 className="modal-title">{t("app.deleteTitle")}</h4>
-          </div>
-
-          <div className="modal-body">{t("app.quitWithoutSaving")}</div>
-          <div className="modal-footer text-right">
-            <ActionToolbar>
-              <Button action={() => blocker.reset?.()}>{t("app.no")}</Button>
-              <Button action={() => blocker.proceed?.()}>{t("app.yes")}</Button>
-            </ActionToolbar>
-          </div>
-        </div>
-      </Modal>
+        {t("app.quitWithoutSaving")}
+      </Dialog>
       <RubricEssentialMsg secondLang={secondLang} />
       <DocumentFormPanel
         opened={!!lateralPanelOpened}
@@ -368,7 +367,9 @@ interface WithParentWithSimsProps extends Omit<SimsCreationTypes, "parentWithSim
   };
 }
 
-const withParentWithSims = (Component: (props: Readonly<SimsCreationTypes>) => JSX.Element) => {
+const withParentWithSims = (
+  Component: (props: Readonly<SimsCreationTypes>) => React.JSX.Element,
+) => {
   return (props: Readonly<WithParentWithSimsProps>) => {
     const [parentWithSims, setParentWithSims] = useState<any[]>([]);
 

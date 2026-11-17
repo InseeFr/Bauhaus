@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 export function useGoBack() {
   const navigate = useNavigate();
@@ -7,13 +7,14 @@ export function useGoBack() {
 
   return function (redirectUrl: string, shouldReplace = false) {
     if (shouldReplace) {
-      return navigate(redirectUrl, { replace: true });
+      void navigate(redirectUrl, { replace: true });
+      return;
     }
 
     if (history.length === 1 || location.state) {
-      return navigate(redirectUrl);
+      void navigate(redirectUrl);
     } else {
-      return navigate(-1);
+      void navigate(-1);
     }
   };
 }

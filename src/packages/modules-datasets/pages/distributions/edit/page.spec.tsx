@@ -1,11 +1,13 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { expectItemLoadFailed } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
 const mockUseParams = vi.fn();
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useParams: () => mockUseParams(),
 }));
 
@@ -52,16 +54,11 @@ vi.mock("@utils/hooks/useGoBack", () => ({
   useGoBack: vi.fn(() => vi.fn()),
 }));
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "distribution.mediaType": "Media type",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("./translations.testing")).translationsModule({
+    "distribution.mediaType": "Media type",
   }),
-}));
+);
 
 describe("Distribution Edit Page", () => {
   const mockSave = vi.fn();
@@ -74,7 +71,6 @@ describe("Distribution Edit Page", () => {
     mockUseCreateOrUpdateDistribution.mockReturnValue({
       isSaving: false,
       save: mockSave,
-      serverSideError: null,
     });
     mockUseDatasetsForDistributions.mockReturnValue({ data: [] });
     mockValidate.mockReturnValue({ errorMessage: [] });
@@ -116,6 +112,21 @@ describe("Distribution Edit Page", () => {
       expect(screen.getByText(/loading/i)).not.toBeNull();
     });
 
+    it("says the distribution could not be loaded instead of loading forever on a 500", async () => {
+      mockUseParams.mockReturnValue({ id: "123" });
+      mockUseDistribution.mockReturnValue({
+        data: undefined,
+        status: "error",
+        error: sdkRejection.emptyBody(500),
+      });
+
+      render(<Component />);
+
+      await expectItemLoadFailed();
+      expect(screen.queryByText(/loading/i)).toBeNull();
+      expect(screen.queryByRole("button", { name: /save/i })).toBeNull();
+    });
+
     it("should render the form in edit mode with distribution data", () => {
       const mockDistribution = {
         id: "123",
@@ -133,6 +144,25 @@ describe("Distribution Edit Page", () => {
       render(<Component />);
 
       expect(screen.getByRole("button", { name: /save/i })).not.toBeNull();
+    });
+
+    it("keeps what the user typed when the distribution is read again from the server", () => {
+      mockUseParams.mockReturnValue({ id: "123" });
+      mockUseDistribution.mockReturnValue({
+        data: { id: "123", labelLg1: "Stored title" },
+        status: "success",
+      });
+      const { container, rerender } = render(<Component />);
+      const titleInput = container.querySelector("#labelLg1") as HTMLInputElement;
+      fireEvent.change(titleInput, { target: { value: "Typed title" } });
+
+      mockUseDistribution.mockReturnValue({
+        data: { id: "123", labelLg1: "Title changed elsewhere" },
+        status: "success",
+      });
+      rerender(<Component />);
+
+      expect(titleInput).toHaveValue("Typed title");
     });
 
     it("should disable dataset select in edit mode", () => {
@@ -279,19 +309,6 @@ describe("Distribution Edit Page", () => {
       await waitFor(() => {
         expect(screen.getByRole("alert")).not.toBeNull();
       });
-    });
-
-    it("should display server-side error when present", () => {
-      mockUseParams.mockReturnValue({});
-      mockUseCreateOrUpdateDistribution.mockReturnValue({
-        isSaving: false,
-        save: mockSave,
-        serverSideError: new Error("Server error"),
-      });
-
-      render(<Component />);
-
-      expect(screen.getByText(/Server error/i)).not.toBeNull();
     });
   });
 });

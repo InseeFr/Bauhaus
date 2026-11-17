@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
 
 import { cx } from "@utils/cx";
 
@@ -34,20 +33,6 @@ export const Outline = ({
     }
   };
 
-  const { hash } = useLocation();
-
-  useEffect(() => {
-    if (!hash) return;
-    const id = hash.replace("#", "");
-    requestAnimationFrame(() => {
-      const el = document.getElementById(id);
-      el?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    });
-  }, [hash]);
-
   return (
     <li>
       <div className="msd-outline-primary-item">
@@ -62,9 +47,11 @@ export const Outline = ({
             type="button"
             className="msd-outline-primary-updown"
             title={opened ? t("app.hide") : t("app.display")}
+            aria-label={opened ? t("app.hide") : t("app.display")}
+            aria-expanded={opened}
             onClick={expandOrCollapseItem}
           >
-            <span className={cx("glyphicon", `glyphicon-chevron-${opened ? "up" : "down"}`)} />
+            <span className={cx("pi", `pi-chevron-${opened ? "up" : "down"}`)} aria-hidden="true" />
           </button>
         )}
       </div>

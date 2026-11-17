@@ -1,0 +1,58 @@
+name: Prepare release
+
+# Bumps the version, commits, tags and creates the GitHub release — in one click
+# from the Actions tab. Pick the branch in "Run workflow":
+#   - prerelease : the release branch (4.21.1, …), never main
+#   - release    : main
+#
+# The logic lives in InseeFr/rmes-githubactions-commons, shared with the other
+# RMéS projects. Only what is specific to this repository stays here: the form,
+# the checkout, the permissions and the token.
+#
+# The tag is placed ON the bump commit. That is what guarantees that the image
+# built afterwards by publish-prerelease.yml / publish-release.yml shows the right version:
+# VITE_VERSION is read from package.json during `pnpm build`, which runs inside
+# the Dockerfile, on the tree of the tag.
+
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: "What to publish"
+        type: choice
+        options:
+          - prerelease
+          - release
+        default: prerelease
+      version:
+        description: "Explicit version. Empty = next rc (prerelease), or -rc suffix dropped (release)"
+        required: false
+      dry_run:
+        description: "Compute the version and stop there, pushing nothing"
+        type: boolean
+        default: false
+
+# An action cannot declare one: two runs bumping the same branch must not
+# overlap, and neither may be cancelled once it has pushed.
+concurrency:
+  group: prepare-release-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: ${{ inputs.kind }} from ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    permissions:
+      # The bump commit and its tag are pushed with the job's own token.
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      # A composite action receives no secret on its own. Without this PAT the
+      # release would be created with GITHUB_TOKEN, and GitHub would then refuse
+      # to start publish-prerelease.yml / publish-release.yml on the release event.
+      - uses: InseeFr/rmes-githubactions-commons/.github/actions/prepare-release@main
+        with:
+          kind: ${{ inputs.kind }}
+          version: ${{ inputs.version }}
+          dry_run: ${{ inputs.dry_run }}
+          release-token: ${{ secrets.RELEASE_TOKEN }}

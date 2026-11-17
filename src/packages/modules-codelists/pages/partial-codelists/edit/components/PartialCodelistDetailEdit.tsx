@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -16,6 +16,7 @@ import { Select } from "@components/select-rmes";
 
 import { CodelistsApi } from "@sdk/index";
 
+import { toFormErrors } from "@utils/api-errors";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
 import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
@@ -60,6 +61,10 @@ interface PartialCodelistDetailEditTypes {
   serverSideError?: unknown;
 }
 
+/** Champs du corps (`PartialCodesListRequest`) qui ont un emplacement d'erreur sur l'écran ;
+ * les autres (descriptions, contributeurs, `iriParent`, codes) restent au bandeau. */
+const FIELDS_WITH_ERROR_SLOT = ["id", "labelLg1", "labelLg2", "creator", "disseminationStatus"];
+
 const defaultCodelist: PartialCodelistFormValues = {
   created: new Date(),
 };
@@ -78,20 +83,31 @@ export const PartialCodelistDetailEdit = ({
 
   const [parentCodes, setParentCodes] = useState<PickerCode[]>([]);
 
+  // La page démonte le formulaire pendant l'enregistrement : il renaît avec le rejet, dont les
+  // erreurs de champ deviennent l'état initial des erreurs client.
+  const serverErrors = useMemo(
+    () => toFormErrors(serverSideError, FIELDS_WITH_ERROR_SLOT),
+    [serverSideError],
+  );
+
   const [clientSideErrors, setClientSideErrors] = useState<{
     fields?: Record<string, string>;
     errorMessage?: string[];
-  }>({});
+  }>(() => serverErrors.clientSideErrors ?? {});
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(() => !!serverErrors.clientSideErrors);
 
   useTitle(t("partial-codelists.pluralTitle"), codelist?.labelLg1);
 
-  const resetErrorsMessages = () =>
-    setClientSideErrors({
-      ...clientSideErrors,
-      errorMessage: [],
-    });
+  // Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide la liste.
+  const [saveAttempted, setSaveAttempted] = useState(false);
+
+  const updateCodelist = (updated: PartialCodelistFormValues) => {
+    setCodelist(updated);
+    setClientSideErrors(
+      saveAttempted ? validate(updated) : { ...clientSideErrors, errorMessage: [] },
+    );
+  };
 
   const handleParentCode = useCallback(
     (code: string) => {
@@ -109,15 +125,14 @@ export const PartialCodelistDetailEdit = ({
 
   const handleParent = useCallback(
     (value: string) => {
-      setCodelist({
+      updateCodelist({
         ...codelist,
         parentCode: value,
         iriParent: globalCodelistOptions?.find((parentCL) => parentCL.value === value)?.iriParent,
       });
-      resetErrorsMessages();
       handleParentCode(value);
     },
-    [codelist, handleParentCode, globalCodelistOptions],
+    [codelist, handleParentCode, globalCodelistOptions, clientSideErrors, saveAttempted],
   );
 
   const isContributor = useAuthorizationGuard({
@@ -145,13 +160,12 @@ export const PartialCodelistDetailEdit = ({
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
-      resetErrorsMessages();
-      setCodelist({
+      updateCodelist({
         ...codelist,
         [name]: value,
       });
     },
-    [clientSideErrors, codelist],
+    [clientSideErrors, codelist, saveAttempted],
   );
 
   const addAllClickHandler = useCallback(() => {
@@ -200,6 +214,7 @@ export const PartialCodelistDetailEdit = ({
     const clientSideErrors = validate(codelist);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
+      setSaveAttempted(true);
       setClientSideErrors(clientSideErrors);
     } else {
       setClientSideErrors({});
@@ -224,7 +239,7 @@ export const PartialCodelistDetailEdit = ({
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      {serverSideError && <ErrorBloc error={serverSideError} />}
+      <ErrorBloc error={serverErrors.serverSideError} />
       <form>
         <Row>
           <div className="col-md-12 form-group">
@@ -299,11 +314,7 @@ export const PartialCodelistDetailEdit = ({
           <CreatorsInput
             value={codelist.creator ?? ""}
             onChange={(value) => {
-              setCodelist({ ...codelist, creator: value as string });
-              setClientSideErrors({
-                ...clientSideErrors,
-                errorMessage: [],
-              });
+              updateCodelist({ ...codelist, creator: value as string });
             }}
           />
           <ClientSideError
@@ -322,11 +333,7 @@ export const PartialCodelistDetailEdit = ({
           <DisseminationStatusInput
             value={codelist.disseminationStatus ?? ""}
             handleChange={(value) => {
-              setCodelist({ ...codelist, disseminationStatus: value });
-              setClientSideErrors({
-                ...clientSideErrors,
-                errorMessage: [],
-              });
+              updateCodelist({ ...codelist, disseminationStatus: value });
             }}
             required
           />

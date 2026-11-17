@@ -1,10 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
-import type { ReactNode } from "react";
+import { waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
+import { physicalInstanceFormData } from "./physicalInstanceFormData.testing";
+import { expectIdleMutation, renderMutationHook } from "./queryClient.testing";
 import { useUpdatePhysicalInstance } from "./useUpdatePhysicalInstance";
 
 vi.mock("../../sdk", () => ({
@@ -14,199 +14,79 @@ vi.mock("../../sdk", () => ({
 }));
 
 describe("useUpdatePhysicalInstance", () => {
-  let queryClient: QueryClient;
+  const stubPatch = (mockPatch: ReturnType<typeof vi.fn>) => {
+    (DDIApi.patchPhysicalInstance as any) = mockPatch;
+    return mockPatch;
+  };
 
-  const wrapper = ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  const updateData = (id = "test-id", agencyId = "test-agency") => ({
+    id,
+    agencyId,
+    data: physicalInstanceFormData(),
+  });
+
+  const renderUpdate = () => renderMutationHook(() => useUpdatePhysicalInstance());
 
   beforeEach(() => {
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-        },
-        mutations: {
-          retry: false,
-        },
-      },
-    });
     vi.clearAllMocks();
   });
 
   it("should call patchPhysicalInstance API with correct parameters", async () => {
-    const mockPatch = vi.fn().mockResolvedValue({});
-    (DDIApi.patchPhysicalInstance as any) = mockPatch;
+    const mockPatch = stubPatch(vi.fn().mockResolvedValue({}));
 
-    const { result } = renderHook(() => useUpdatePhysicalInstance(), {
-      wrapper,
-    });
+    const { result } = renderUpdate();
 
-    const testData = {
-      id: "test-id",
-      agencyId: "test-agency",
-      data: {
-        physicalInstanceLabel: "Test Label",
-        dataRelationshipLabel: "Test Label",
-        logicalRecordLabel: "Test Label",
-        groupId: "group-1",
-        groupAgency: "fr.insee",
-        studyUnitId: "su-1",
-        studyUnitAgency: "fr.insee",
-      },
-    };
+    const testData = updateData();
 
     await result.current.mutateAsync(testData);
 
     expect(mockPatch).toHaveBeenCalledWith("test-agency", "test-id", testData.data);
   });
 
-  it("should invalidate physicalInstances query cache on success", async () => {
-    const mockPatch = vi.fn().mockResolvedValue({});
-    (DDIApi.patchPhysicalInstance as any) = mockPatch;
-
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => useUpdatePhysicalInstance(), {
-      wrapper,
-    });
-
-    const testData = {
-      id: "test-id-123",
-      agencyId: "test-agency-456",
-      data: {
-        physicalInstanceLabel: "Test Label",
-        dataRelationshipLabel: "Test Label",
-        logicalRecordLabel: "Test Label",
-        groupId: "group-1",
-        groupAgency: "fr.insee",
-        studyUnitId: "su-1",
-        studyUnitAgency: "fr.insee",
-      },
-    };
-
-    await result.current.mutateAsync(testData);
-
-    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+  for (const { name, queryKey } of [
+    {
+      name: "should invalidate physicalInstances query cache on success",
       queryKey: ["physicalInstances"],
-    });
-  });
-
-  it("should invalidate the advanced search cache on success", async () => {
-    // La recherche avancée affiche le label et les parents : après un renommage ou un
-    // re-rattachement, elle resterait périmée (staleTime: Infinity) sans cette éviction.
-    const mockPatch = vi.fn().mockResolvedValue({});
-    (DDIApi.patchPhysicalInstance as any) = mockPatch;
-
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => useUpdatePhysicalInstance(), {
-      wrapper,
-    });
-
-    await result.current.mutateAsync({
-      id: "test-id-123",
-      agencyId: "test-agency-456",
-      data: {
-        physicalInstanceLabel: "Test Label",
-        dataRelationshipLabel: "Test Label",
-        logicalRecordLabel: "Test Label",
-        groupId: "group-1",
-        groupAgency: "fr.insee",
-        studyUnitId: "su-1",
-        studyUnitAgency: "fr.insee",
-      },
-    });
-
-    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+    },
+    {
+      // La recherche avancée affiche le label et les parents : après un renommage ou un
+      // re-rattachement, elle resterait périmée (staleTime: Infinity) sans cette éviction.
+      name: "should invalidate the advanced search cache on success",
       queryKey: ["physicalInstancesSearch"],
-    });
-  });
-
-  it("should invalidate the edited physical instance detail cache on success", async () => {
-    const mockPatch = vi.fn().mockResolvedValue({});
-    (DDIApi.patchPhysicalInstance as any) = mockPatch;
-
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => useUpdatePhysicalInstance(), {
-      wrapper,
-    });
-
-    const testData = {
-      id: "test-id-123",
-      agencyId: "test-agency-456",
-      data: {
-        physicalInstanceLabel: "Test Label",
-        dataRelationshipLabel: "Test Label",
-        logicalRecordLabel: "Test Label",
-        groupId: "group-1",
-        groupAgency: "fr.insee",
-        studyUnitId: "su-1",
-        studyUnitAgency: "fr.insee",
-      },
-    };
-
-    await result.current.mutateAsync(testData);
-
-    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+    },
+    {
+      name: "should invalidate the edited physical instance detail cache on success",
       queryKey: ["physicalInstanceById", "test-agency-456", "test-id-123"],
+    },
+  ]) {
+    it(name, async () => {
+      stubPatch(vi.fn().mockResolvedValue({}));
+
+      const { result, queryClient } = renderUpdate();
+      using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+      await result.current.mutateAsync(updateData("test-id-123", "test-agency-456"));
+
+      expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey });
     });
-  });
+  }
 
   it("should handle API errors correctly", async () => {
-    const mockError = new Error("API Error");
-    const mockPatch = vi.fn().mockRejectedValue(mockError);
-    (DDIApi.patchPhysicalInstance as any) = mockPatch;
+    stubPatch(vi.fn().mockRejectedValue(new Error("API Error")));
 
-    const { result } = renderHook(() => useUpdatePhysicalInstance(), {
-      wrapper,
-    });
+    const { result } = renderUpdate();
 
-    const testData = {
-      id: "test-id",
-      agencyId: "test-agency",
-      data: {
-        physicalInstanceLabel: "Test Label",
-        dataRelationshipLabel: "Test Label",
-        logicalRecordLabel: "Test Label",
-        groupId: "group-1",
-        groupAgency: "fr.insee",
-        studyUnitId: "su-1",
-        studyUnitAgency: "fr.insee",
-      },
-    };
-
-    await expect(result.current.mutateAsync(testData)).rejects.toThrow("API Error");
+    await expect(result.current.mutateAsync(updateData())).rejects.toThrow("API Error");
   });
 
   it("should return mutation status correctly", async () => {
-    const mockPatch = vi.fn().mockResolvedValue({});
-    (DDIApi.patchPhysicalInstance as any) = mockPatch;
+    stubPatch(vi.fn().mockResolvedValue({}));
 
-    const { result } = renderHook(() => useUpdatePhysicalInstance(), {
-      wrapper,
-    });
+    const { result } = renderUpdate();
 
-    expect(result.current.isPending).toBe(false);
-    expect(result.current.isError).toBe(false);
-    expect(result.current.isSuccess).toBe(false);
+    expectIdleMutation(result.current);
 
-    const testData = {
-      id: "test-id",
-      agencyId: "test-agency",
-      data: {
-        physicalInstanceLabel: "Test Label",
-        dataRelationshipLabel: "Test Label",
-        logicalRecordLabel: "Test Label",
-        groupId: "group-1",
-        groupAgency: "fr.insee",
-        studyUnitId: "su-1",
-        studyUnitAgency: "fr.insee",
-      },
-    };
-
-    result.current.mutate(testData);
+    result.current.mutate(updateData());
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true);

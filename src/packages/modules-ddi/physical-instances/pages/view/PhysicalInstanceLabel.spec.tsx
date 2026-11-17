@@ -1,8 +1,8 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { useCallback } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { usePrivileges, useUserStamps } from "@utils/hooks/users";
-
+import { mockDdiAccess } from "../../components/GlobalActionsCard/actions.testing";
 import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
 
@@ -14,63 +14,61 @@ vi.mock("react-i18next", () => ({
 
 // On monte le vrai <HasAccess> / useAuthorizationGuard ; seules les sources
 // de privilèges et de stamps sont mockées.
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
-});
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../../../privileges.testing")).mockUsersHooks(importOriginal),
+);
 
-const ddiPrivileges = (strategy: string) => ({
-  privileges: [
-    {
-      application: "DDI_PHYSICALINSTANCE",
-      privileges: [{ privilege: "UPDATE", strategy }],
-    },
-  ],
-});
-
-vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, icon, ...props }: any) => (
-    <button type="button" onClick={onClick} {...props}>
-      {icon && <span className={icon} />}
-      {label}
-    </button>
-  ),
-}));
+vi.mock("primereact/button", () => import("../../components/GlobalActionsCard/actions.testing"));
 
 vi.mock("../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog", () => ({
-  PhysicalInstanceDialog: ({ visible, onHide, onSubmitEdit, initialData }: any) =>
-    visible ? (
-      <div role="dialog" data-testid="physical-instance-dialog">
+  PhysicalInstanceDialog: ({ visible, onHide, onSubmitEdit, initialData }: any) => {
+    const submit = useCallback(
+      () =>
+        onSubmitEdit({
+          label: "Updated Label",
+          dataRelationshipLabel: "Updated DR",
+          logicalRecordLabel: "Updated LR",
+          group: { id: "group-1", agency: "agency-1" },
+          studyUnit: { id: "study-1", agency: "agency-1" },
+        } as PhysicalInstanceUpdateData),
+      [onSubmitEdit],
+    );
+    if (!visible) return null;
+    return (
+      <dialog open data-testid="physical-instance-dialog">
         <button onClick={onHide} data-testid="close-dialog">
           Close
         </button>
-        <button
-          onClick={() =>
-            onSubmitEdit({
-              label: "Updated Label",
-              dataRelationshipLabel: "Updated DR",
-              logicalRecordLabel: "Updated LR",
-              group: { id: "group-1", agency: "agency-1" },
-              studyUnit: { id: "study-1", agency: "agency-1" },
-            } as PhysicalInstanceUpdateData)
-          }
-          data-testid="submit-dialog"
-        >
+        <button onClick={submit} data-testid="submit-dialog">
           Submit
         </button>
         <span data-testid="initial-label">{initialData.label}</span>
-      </div>
-    ) : null,
+      </dialog>
+    );
+  },
 }));
+
+const PARENT_STAMPS = ["STAMP1", "STAMP2"];
 
 describe("PhysicalInstanceLabel", () => {
   const mockOnSave = vi.fn();
 
+  const renderAndClickEdit = () => {
+    render(<PhysicalInstanceLabel label="Test Label" onSave={mockOnSave} />);
+    fireEvent.click(screen.getByLabelText("physicalInstance.view.editTitle"));
+  };
+
+  const openDialog = async () => {
+    renderAndClickEdit();
+    await waitFor(() => {
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+    });
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
     // Par défaut : stratégie ALL → le bouton est rendu (non-régression).
-    (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+    mockDdiAccess("UPDATE", "ALL");
   });
 
   it("should render the label as h1", () => {
@@ -89,14 +87,7 @@ describe("PhysicalInstanceLabel", () => {
   });
 
   it("should open dialog when edit button is clicked", async () => {
-    render(<PhysicalInstanceLabel label="Test Label" onSave={mockOnSave} />);
-
-    const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-    fireEvent.click(editButton);
-
-    await waitFor(() => {
-      expect(screen.getByRole("dialog")).toBeInTheDocument();
-    });
+    await openDialog();
   });
 
   it("should have correct CSS classes", () => {
@@ -122,14 +113,7 @@ describe("PhysicalInstanceLabel", () => {
   });
 
   it("should close dialog when close button is clicked", async () => {
-    render(<PhysicalInstanceLabel label="Test Label" onSave={mockOnSave} />);
-
-    const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-    fireEvent.click(editButton);
-
-    await waitFor(() => {
-      expect(screen.getByRole("dialog")).toBeInTheDocument();
-    });
+    await openDialog();
 
     const closeButton = screen.getByTestId("close-dialog");
     fireEvent.click(closeButton);
@@ -140,14 +124,7 @@ describe("PhysicalInstanceLabel", () => {
   });
 
   it("should call onSave and close dialog when submit is clicked", async () => {
-    render(<PhysicalInstanceLabel label="Test Label" onSave={mockOnSave} />);
-
-    const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-    fireEvent.click(editButton);
-
-    await waitFor(() => {
-      expect(screen.getByRole("dialog")).toBeInTheDocument();
-    });
+    await openDialog();
 
     const submitButton = screen.getByTestId("submit-dialog");
     fireEvent.click(submitButton);
@@ -169,10 +146,7 @@ describe("PhysicalInstanceLabel", () => {
   });
 
   it("should pass initial label to dialog", async () => {
-    render(<PhysicalInstanceLabel label="Test Label" onSave={mockOnSave} />);
-
-    const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-    fireEvent.click(editButton);
+    renderAndClickEdit();
 
     await waitFor(() => {
       const initialLabel = screen.getByTestId("initial-label");
@@ -206,30 +180,20 @@ describe("PhysicalInstanceLabel", () => {
 
   describe("gating STAMP du bouton d'édition", () => {
     it("affiche le bouton quand un stamp utilisateur appartient à parents.stamps", () => {
-      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
-      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+      mockDdiAccess("UPDATE", "STAMP", ["STAMP1"]);
 
       render(
-        <PhysicalInstanceLabel
-          label="Test Label"
-          onSave={mockOnSave}
-          stamps={["STAMP1", "STAMP2"]}
-        />,
+        <PhysicalInstanceLabel label="Test Label" onSave={mockOnSave} stamps={PARENT_STAMPS} />,
       );
 
       expect(screen.queryByLabelText("physicalInstance.view.editTitle")).toBeInTheDocument();
     });
 
     it("masque le bouton quand aucun stamp utilisateur n'appartient à parents.stamps", () => {
-      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
-      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
+      mockDdiAccess("UPDATE", "STAMP", ["STAMP9"]);
 
       render(
-        <PhysicalInstanceLabel
-          label="Test Label"
-          onSave={mockOnSave}
-          stamps={["STAMP1", "STAMP2"]}
-        />,
+        <PhysicalInstanceLabel label="Test Label" onSave={mockOnSave} stamps={PARENT_STAMPS} />,
       );
 
       expect(screen.queryByLabelText("physicalInstance.view.editTitle")).not.toBeInTheDocument();

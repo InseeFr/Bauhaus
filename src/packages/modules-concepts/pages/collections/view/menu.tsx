@@ -1,4 +1,4 @@
-import { ComponentProps } from "react";
+import { ComponentProps, useCallback } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import {
@@ -33,16 +33,16 @@ export const Menu = ({
   handleValidation,
   exportCollection,
 }: Readonly<MenuProps>) => {
+  const exportHandler = useCallback(
+    (type: CollectionExportFormat, withConcepts: boolean, lang: "lg1" | "lg2" = "lg1") =>
+      exportCollection({ ids: [id], type, withConcepts, lang }),
+    [exportCollection, id],
+  );
+
   return (
     <ActionToolbar>
       <ReturnButton action="/concepts/collections" />
-      <ExportButtons
-        exportHandler={(
-          type: CollectionExportFormat,
-          withConcepts: boolean,
-          lang: "lg1" | "lg2" = "lg1",
-        ) => exportCollection({ ids: [id], type, withConcepts, lang })}
-      />
+      <ExportButtons exportHandler={exportHandler} />
       <HasAccess
         module="CONCEPT_COLLECTION"
         privilege="PUBLISH"

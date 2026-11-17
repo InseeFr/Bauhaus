@@ -1,25 +1,30 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { ChangeEvent, useCallback } from "react";
 import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 
 import { DatePicker } from "./index";
 
 vi.mock("primereact/calendar", () => ({
   Calendar: ({ value, onChange }: any) => {
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value;
+        if (!inputValue) {
+          onChange?.({ value: null });
+          return;
+        }
+        const date = new Date(inputValue);
+        onChange?.({ value: date });
+      },
+      [onChange],
+    );
     return (
       <input
         data-testid="mock-calendar"
         type="date"
         value={value ? value.toISOString().substring(0, 10) : ""}
-        onChange={(e) => {
-          const inputValue = e.target.value;
-          if (!inputValue) {
-            onChange?.({ value: null });
-            return;
-          }
-          const date = new Date(inputValue);
-          onChange?.({ value: date });
-        }}
+        onChange={handleChange}
       />
     );
   },

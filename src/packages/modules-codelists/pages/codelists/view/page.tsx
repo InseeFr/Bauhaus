@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Publishing } from "@components/loading";
 
 import { CodelistsApi } from "@sdk/index";
@@ -28,6 +29,8 @@ export const Component = () => {
   const [modalOpened, setModalOpened] = useState(false);
 
   const [serverSideError, setServerSideError] = useState<unknown>("");
+
+  const [loadError, setLoadError] = useState<unknown>();
 
   const handleBack = useCallback(() => goBack("/codelists"), [goBack]);
 
@@ -65,9 +68,13 @@ export const Component = () => {
       .then((cl: any) => {
         setCodelist(formatCodelist(cl));
       })
-      .catch((error: unknown) => setServerSideError(error))
+      .catch(setLoadError)
       .finally(() => setLoading(false));
   }, [id]);
+
+  if (loadError) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if (loading) {
     return <Loading />;

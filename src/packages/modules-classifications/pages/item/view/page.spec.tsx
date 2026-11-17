@@ -1,23 +1,13 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { fetchingPreviousLevels } from "../../../hooks/useClassificationItemClient";
+import { params } from "../../../testing/params.testing";
+import { renderClassificationsPage } from "../../../testing/render.testing";
+import { itemParams, loadingItem, useClassificationItem } from "../item.testing";
 import { Component } from "./page";
-
-const params = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
-  useParams: () => params(),
-}));
-
-const useClassificationItem = vi.fn();
-vi.mock("../../../hooks/useClassificationItem", () => ({
-  useClassificationItem: (classificationId: string, itemId: string, withNotes: boolean) =>
-    useClassificationItem(classificationId, itemId, withNotes),
-}));
 
 vi.mock("../../../hooks/useClassificationItemClient", () => ({
   fetchingPreviousLevels: vi.fn().mockResolvedValue([]),
@@ -32,23 +22,12 @@ vi.mock("./components/ItemVisualization", () => ({
   ),
 }));
 
-const renderPage = () => {
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  return render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>
-      </QueryClientProvider>
-    </AppContextProvider>,
-  );
-};
+const renderPage = () => renderClassificationsPage(<Component />, { withQueryClient: true });
 
 describe("Classification item view page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    params.mockReturnValue({ classificationId: "nafr2", itemId: "01" });
+    params.mockReturnValue(itemParams);
     useClassificationItem.mockReturnValue({
       isLoading: false,
       item: { general: { prefLabelLg1: "Agriculture" } },
@@ -69,7 +48,7 @@ describe("Classification item view page", () => {
   });
 
   it("affiche le chargement tant que le poste n'est pas là", () => {
-    useClassificationItem.mockReturnValue({ isLoading: true, item: undefined });
+    useClassificationItem.mockReturnValue(loadingItem);
     renderPage();
 
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
@@ -81,6 +60,20 @@ describe("Classification item view page", () => {
     renderPage();
 
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expect(fetchingPreviousLevels).not.toHaveBeenCalled();
+  });
+
+  it("indique que le poste est introuvable au lieu de charger indéfiniment", async () => {
+    useClassificationItem.mockReturnValue({
+      isLoading: false,
+      // En mode « version courante », le hook rend toujours un objet, même sans données.
+      item: { notes: {} },
+      error: sdkRejection.emptyBody(404),
+    });
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
     expect(fetchingPreviousLevels).not.toHaveBeenCalled();
   });
 });

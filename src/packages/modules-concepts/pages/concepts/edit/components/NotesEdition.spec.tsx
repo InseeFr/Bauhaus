@@ -6,13 +6,16 @@ import { renderWithAppContext } from "../../../../../tests/render";
 import { emptyConceptNotes } from "../../../../utils/emptyConceptNotes";
 import { NotesEdition as ConceptNotes } from "./NotesEdition";
 
+const notesWith = (notes: Partial<ConceptNotesType>) =>
+  ({ ...emptyConceptNotes, ...notes }) as unknown as ConceptNotesType;
+
 const renderNotes = (
   notes: Partial<ConceptNotesType> = {},
   props: Partial<React.ComponentProps<typeof ConceptNotes>> = {},
 ) =>
   renderWithAppContext(
     <ConceptNotes
-      notes={{ ...emptyConceptNotes, ...notes } as unknown as ConceptNotesType}
+      notes={notesWith(notes)}
       disseminationStatus=""
       handleChange={vi.fn()}
       maxLengthScopeNote={350}
@@ -43,10 +46,10 @@ describe("concept-edition-creation-notes", () => {
     expect(screen.queryByRole("region", { name: "Définition courte" })).not.toBeInTheDocument();
   });
 
-  it("ouvre les deux langues de la note, sans rien demander de plus", () => {
+  it("ouvre les deux langues de la note, sans rien demander de plus", async () => {
     renderNotes({}, { activeNote: "conceptsEditorialNote" });
 
-    expect(screen.getAllByRole("textbox")).toHaveLength(2);
+    expect(await screen.findAllByRole("textbox")).toHaveLength(2);
     expect(screen.queryByRole("button", { name: "Write" })).not.toBeInTheDocument();
   });
 

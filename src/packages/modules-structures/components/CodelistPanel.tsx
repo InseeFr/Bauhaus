@@ -35,11 +35,9 @@ export const CodelistPanel = ({ isOpen, handleBack, codelist }: CodelistPanelTyp
       size={30}
     >
       <ActionToolbar>
-        <div className="col-md-12">
-          <button type="button" className="btn wilco-btn btn-lg col-md-12" onClick={handleBack}>
-            {t("cancel")}
-          </button>
-        </div>
+        <button type="button" className="btn btn-lg col-md-12" onClick={handleBack}>
+          {t("cancel")}
+        </button>
       </ActionToolbar>
       <List.Container>
         {codes.map(({ code, labelLg1 }) => {

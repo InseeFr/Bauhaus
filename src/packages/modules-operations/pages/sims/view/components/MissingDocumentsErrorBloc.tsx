@@ -10,7 +10,7 @@ import { useDocumentsStoreContext } from "../../hooks/useDocumentsStoreContext";
  * @param {Object} props - The component props
  * @param {Set<string>} props.missingDocuments - Set of document IDs that are missing
  *
- * @returns {JSX.Element | null} Returns an ErrorBloc component with missing document labels,
+ * @returns {React.JSX.Element | null} Returns an ErrorBloc component with missing document labels,
  *                              or null if no missing documents or document stores are empty
  *
  * @example

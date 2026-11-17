@@ -2,3 +2,12 @@
 div.rst__rowLabel {
   display: none;
 }
+
+.operations-tree {
+  height: 100vh;
+}
+
+.operations-tree-link {
+  color: inherit;
+  text-decoration: none;
+}

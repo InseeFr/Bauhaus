@@ -42,7 +42,8 @@ interface PickerTypes {
   }>;
   disabled?: boolean;
   disabledWarningMessage?: string;
-  serverSideError?: string;
+  /** Rejet de la dernière action : texte ou rejet du SDK, rendu par `ErrorBloc`. */
+  serverSideError?: unknown;
 }
 
 export const Picker = ({

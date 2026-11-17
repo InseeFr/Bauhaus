@@ -28,33 +28,56 @@ export const Component = () => {
 
   const [concepts, setConcepts] = useState<ConceptValidateItem[]>([]);
 
+  const [serverSideError, setServerSideError] = useState<unknown>();
+
+  // Le sélecteur ne relit ses éléments qu'au montage : une nouvelle clé le remonte sur la liste
+  // rechargée.
+  const [listVersion, setListVersion] = useState(0);
+
   const loadConcepts = () =>
     ConceptsApi.getConceptValidateList().then((body: ConceptValidateItem[]) => {
       setConcepts(sortArrayByLabel(body));
+      setListVersion((version) => version + 1);
     });
 
-  const handleValidateConceptList = (ids: string[]): void => {
+  const handleValidateConceptList = async (ids: string[]) => {
     setPublishing(true);
-    // On reste sur la page : la liste est rechargée pour n'y laisser que les
-    // concepts encore provisoires.
-    ConceptsApi.putConceptValidList(ids)
-      .finally(loadConcepts)
-      .finally(() => setPublishing(false));
+    setServerSideError(undefined);
+    try {
+      await ConceptsApi.putConceptValidList(ids);
+      // On reste sur la page : la liste est rechargée pour n'y laisser que les
+      // concepts encore provisoires.
+      await loadConcepts();
+    } catch (error) {
+      setServerSideError(error);
+    } finally {
+      setPublishing(false);
+    }
   };
 
   useEffect(() => {
-    loadConcepts().finally(() => setLoading(false));
+    loadConcepts()
+      .catch(setServerSideError)
+      .finally(() => setLoading(false));
   }, []);
-
-  if (publishing) {
-    return <Publishing />;
-  }
 
   if (loading) {
     return <Loading />;
   }
 
+  // Le sélecteur reste monté pendant la publication : démonté, il perdrait la sélection, qu'un
+  // échec doit laisser intacte.
   return (
-    <ConceptsToValidate concepts={concepts} handleValidateConceptList={handleValidateConceptList} />
+    <>
+      {publishing && <Publishing />}
+      <div hidden={publishing}>
+        <ConceptsToValidate
+          key={listVersion}
+          concepts={concepts}
+          handleValidateConceptList={handleValidateConceptList}
+          serverSideError={serverSideError}
+        />
+      </div>
+    </>
   );
 };

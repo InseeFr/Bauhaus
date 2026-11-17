@@ -5,6 +5,8 @@ import { BOTH, DOCUMENT, LINK } from "../../constants/documentType";
 
 import { FilterToggleButtons } from ".";
 
+const NO_OPTIONS: never[] = [];
+
 describe("FilterToggleButtons Component", () => {
   const mockHandleSelection = vi.fn();
 
@@ -64,7 +66,7 @@ describe("FilterToggleButtons Component", () => {
   it("should handle empty options gracefully", () => {
     render(
       <FilterToggleButtons
-        options={[]}
+        options={NO_OPTIONS}
         currentValue={BOTH}
         handleSelection={mockHandleSelection}
       />,

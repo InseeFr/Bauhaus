@@ -1,6 +1,7 @@
-import { Button } from "primereact/button";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
 
 import { exceedsClipboardSafeSize } from "../../../utils/clipboard";
 import { downloadTextFile } from "../../../utils/downloadTextFile";

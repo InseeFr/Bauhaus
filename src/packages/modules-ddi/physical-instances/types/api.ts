@@ -80,21 +80,21 @@ export interface PartialMissingValuesRepresentation {
 export type CodeRepresentation = components["schemas"]["CodeRepresentationBaseType"];
 export type TextRepresentation = components["schemas"]["TextRepresentationBaseType"];
 
+export type CodeValue = components["schemas"]["CodeValueType"];
+
 // NumericRepresentation/DateTimeRepresentation diverge from the schema:
-//   - schema's NumericTypeCode / DateTypeCode are CodeValueType objects; the
-//     back sends plain strings.
 //   - schema's NumberRange is an array; the back sends a single object.
 // Kept local until the back closes that gap.
 export interface NumericRepresentation {
   $type?: "NumericRepresentationBaseType";
-  NumericTypeCode?: string;
+  NumericTypeCode?: CodeValue;
   NumberRange?: NumberRange;
   BlankIsMissingValue?: boolean;
 }
 
 export interface DateTimeRepresentation {
   $type?: "DateTimeRepresentationBaseType";
-  DateTypeCode?: string;
+  DateTypeCode?: CodeValue;
   DateFieldFormat?: string;
 }
 

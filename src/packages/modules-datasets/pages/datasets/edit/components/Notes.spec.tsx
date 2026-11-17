@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { ChangeEvent, useCallback } from "react";
 import { vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
@@ -10,22 +11,26 @@ vi.mock("@components/rich-editor/react-md-editor", () => ({
   MDEditor: ({
     text,
     handleChange,
-  }: Readonly<{ text: string; handleChange: (value: string) => void }>) => (
-    <textarea data-testid="md-editor" value={text} onChange={(e) => handleChange(e.target.value)} />
-  ),
+  }: Readonly<{ text: string; handleChange: (value: string) => void }>) => {
+    const onChange = useCallback(
+      (e: ChangeEvent<HTMLTextAreaElement>) => handleChange(e.target.value),
+      [handleChange],
+    );
+    return <textarea data-testid="md-editor" value={text} onChange={onChange} />;
+  },
 }));
+
+const editingDataset = {
+  abstractLg1: "Abstract 1",
+  abstractLg2: "Abstract 2",
+  descriptionLg1: "Description 1",
+  descriptionLg2: "Description 2",
+  cautionLg1: "Caution 1",
+  cautionLg2: "Caution 2",
+} as Dataset;
 
 describe("Notes component", () => {
   it("should render all textareas with initial values", () => {
-    const editingDataset = {
-      abstractLg1: "Abstract 1",
-      abstractLg2: "Abstract 2",
-      descriptionLg1: "Description 1",
-      descriptionLg2: "Description 2",
-      cautionLg1: "Caution 1",
-      cautionLg2: "Caution 2",
-    } as Dataset;
-
     render(<Notes editingDataset={editingDataset} setEditingDataset={vi.fn()} />);
 
     const editors = screen.getAllByTestId("md-editor");
@@ -39,15 +44,6 @@ describe("Notes component", () => {
   });
 
   it("should update dataset when text is changed", () => {
-    const editingDataset = {
-      abstractLg1: "Abstract 1",
-      abstractLg2: "Abstract 2",
-      descriptionLg1: "Description 1",
-      descriptionLg2: "Description 2",
-      cautionLg1: "Caution 1",
-      cautionLg2: "Caution 2",
-    } as Dataset;
-
     const setEditingDataset = vi.fn();
     render(<Notes editingDataset={editingDataset} setEditingDataset={setEditingDataset} />);
 

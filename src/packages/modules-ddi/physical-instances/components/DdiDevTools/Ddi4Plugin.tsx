@@ -1,4 +1,35 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, type ReactNode } from "react";
+
+const togglerStyle = { userSelect: "none", fontWeight: "bold" } as const;
+
+interface TogglerProps {
+  expandable: boolean;
+  expanded: boolean;
+  onToggle: () => void;
+  children: ReactNode;
+}
+
+// Un bouton seulement quand il y a quelque chose à déplier : une collection vide n'est qu'un libellé.
+const Toggler = ({ expandable, expanded, onToggle, children }: Readonly<TogglerProps>) =>
+  expandable ? (
+    <button
+      type="button"
+      aria-expanded={expanded}
+      onClick={onToggle}
+      style={{
+        ...togglerStyle,
+        padding: 0,
+        border: "none",
+        background: "none",
+        font: "inherit",
+        cursor: "pointer",
+      }}
+    >
+      {expanded ? "▼" : "▶"} {children}
+    </button>
+  ) : (
+    <span style={togglerStyle}>{children}</span>
+  );
 
 interface Ddi4PluginProps {
   data: unknown;
@@ -39,7 +70,7 @@ export const Ddi4Plugin = ({ data }: Readonly<Ddi4PluginProps>) => {
     });
   };
 
-  const renderValue = (value: unknown, path: string = "", depth: number = 0): JSX.Element => {
+  const renderValue = (value: unknown, path: string = "", depth: number = 0): React.JSX.Element => {
     if (value === null) {
       return <span style={{ color: "#999", fontStyle: "italic" }}>null</span>;
     }
@@ -66,16 +97,9 @@ export const Ddi4Plugin = ({ data }: Readonly<Ddi4PluginProps>) => {
 
       return (
         <div style={{ display: "inline-block", verticalAlign: "top" }}>
-          <span
-            onClick={() => hasItems && togglePath(path)}
-            style={{
-              cursor: hasItems ? "pointer" : "default",
-              userSelect: "none",
-              fontWeight: "bold",
-            }}
-          >
-            {hasItems && (isExpanded ? "▼" : "▶")} [{value.length}]
-          </span>
+          <Toggler expandable={hasItems} expanded={isExpanded} onToggle={() => togglePath(path)}>
+            [{value.length}]
+          </Toggler>
           {isExpanded && hasItems && (
             <div style={{ paddingLeft: "20px", borderLeft: "1px solid #ddd" }}>
               {value.map((item, index) => (
@@ -97,18 +121,11 @@ export const Ddi4Plugin = ({ data }: Readonly<Ddi4PluginProps>) => {
 
       return (
         <div style={{ display: "inline-block", verticalAlign: "top" }}>
-          <span
-            onClick={() => hasEntries && togglePath(path)}
-            style={{
-              cursor: hasEntries ? "pointer" : "default",
-              userSelect: "none",
-              fontWeight: "bold",
-            }}
-          >
-            {hasEntries && (isExpanded ? "▼" : "▶")} {"{"}
+          <Toggler expandable={hasEntries} expanded={isExpanded} onToggle={() => togglePath(path)}>
+            {"{"}
             {entries.length}
             {"}"}
-          </span>
+          </Toggler>
           {isExpanded && hasEntries && (
             <div style={{ paddingLeft: "20px", borderLeft: "1px solid #ddd" }}>
               {entries.map(([key, val]) => (

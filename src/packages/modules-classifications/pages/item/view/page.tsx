@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
@@ -19,7 +20,9 @@ export const Component = () => {
 
   const [secondLang] = useSecondLang();
 
-  const { isLoading, item } = useClassificationItem(classificationId, itemId, true);
+  const { isLoading, item, error } = useClassificationItem(classificationId, itemId, true);
+
+  if (error && !item?.general) return <LoadingErrorBloc error={error} />;
 
   if (isLoading || !item?.general) return <Loading />;
 

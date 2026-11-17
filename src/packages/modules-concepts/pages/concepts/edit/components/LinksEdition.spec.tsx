@@ -1,17 +1,27 @@
-import { fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 
-import { BROADER, CLOSE_MATCH, NARROWER, NONE, RELATED } from "@sdk/constants";
+import { BROADER, CLOSE_MATCH, NARROWER, RELATED } from "@sdk/constants";
 
 import { renderWithRouter } from "../../../../../tests/render";
+import {
+  filterSource as filterAvailable,
+  moveToSource as unlink,
+  moveToTarget as link,
+  optionLabels,
+  sourceList as availableList,
+  targetList as linkedList,
+} from "../../../../testing/pick-list.testing";
 import { LinksEdition as ConceptLinks } from "./LinksEdition";
 
 const conceptsWithLinks = [
-  { id: "c1", label: "Enfant", typeOfLink: NARROWER },
-  { id: "c2", label: "Parent", typeOfLink: BROADER },
-  { id: "c3", label: "Libre", typeOfLink: NONE },
-  { id: "c4", label: "Élève", typeOfLink: NONE },
-  { id: "self", label: "Concept courant", typeOfLink: NONE },
+  { id: "c1", label: "Enfant", typesOfLink: [NARROWER] },
+  { id: "c2", label: "Parent", typesOfLink: [BROADER] },
+  { id: "c3", label: "Libre", typesOfLink: [] },
+  { id: "c4", label: "Élève", typesOfLink: [] },
+  { id: "self", label: "Concept courant", typesOfLink: [] },
 ];
+
+const NO_EQUIVALENT_LINKS: never[] = [];
 
 const renderComponent = (props: Partial<React.ComponentProps<typeof ConceptLinks>> = {}) => {
   const handleChange = vi.fn();
@@ -21,7 +31,7 @@ const renderComponent = (props: Partial<React.ComponentProps<typeof ConceptLinks
       conceptsWithLinks={conceptsWithLinks}
       currentId="self"
       handleChange={handleChange}
-      equivalentLinks={[]}
+      equivalentLinks={NO_EQUIVALENT_LINKS}
       handleChangeEquivalentLinks={handleChangeEquivalentLinks}
       activeLinkType={NARROWER}
       {...props}
@@ -30,26 +40,13 @@ const renderComponent = (props: Partial<React.ComponentProps<typeof ConceptLinks
   return { handleChange, handleChangeEquivalentLinks, container };
 };
 
-const availableList = () => screen.getAllByRole("listbox")[0];
-const linkedList = () => screen.getAllByRole("listbox")[1];
+const typeEquivalentLink = (value: string) =>
+  fireEvent.change(screen.getByPlaceholderText("New link"), { target: { value } });
 
-const optionLabels = (list: HTMLElement) =>
-  within(list)
-    .queryAllByRole("option")
-    .map((option) => option.textContent);
-
-const link = (label: string) => {
-  fireEvent.click(within(availableList()).getByRole("option", { name: label }));
-  fireEvent.click(screen.getByRole("button", { name: "Move to Target" }));
+const addEquivalentLink = (value: string) => {
+  typeEquivalentLink(value);
+  fireEvent.click(screen.getByRole("button", { name: "Add" }));
 };
-
-const unlink = (label: string) => {
-  fireEvent.click(within(linkedList()).getByRole("option", { name: label }));
-  fireEvent.click(screen.getByRole("button", { name: "Move to Source" }));
-};
-
-const filterAvailable = (label: string) =>
-  fireEvent.input(screen.getAllByPlaceholderText("Label...")[0], { target: { value: label } });
 
 describe("concept-edition-creation-links", () => {
   it("n'imbrique plus la saisie des liens dans des onglets", () => {
@@ -70,10 +67,10 @@ describe("concept-edition-creation-links", () => {
     expect(optionLabels(linkedList())).toEqual(["Parent"]);
   });
 
-  it("propose à gauche les concepts encore non liés", () => {
+  it("propose à gauche les concepts non liés par le type demandé", () => {
     renderComponent();
 
-    expect(optionLabels(availableList())).toEqual(["Libre", "Élève"]);
+    expect(optionLabels(availableList())).toEqual(["Parent", "Libre", "Élève"]);
   });
 
   it("exclut le concept courant des concepts proposés", () => {
@@ -82,10 +79,26 @@ describe("concept-edition-creation-links", () => {
     expect(optionLabels(availableList())).not.toContain("Concept courant");
   });
 
-  it("ne propose pas les concepts déjà liés par un autre type", () => {
-    renderComponent();
+  it("lie par le type demandé un concept déjà lié par un autre type, sans perdre ce lien", () => {
+    const { handleChange } = renderComponent();
 
-    expect(optionLabels(availableList())).not.toContain("Parent");
+    link("Parent");
+
+    expect(handleChange).toHaveBeenCalledWith(
+      expect.arrayContaining([{ id: "c2", label: "Parent", typesOfLink: [BROADER, NARROWER] }]),
+    );
+  });
+
+  it("ne délie un concept lié par plusieurs types que pour le type demandé", () => {
+    const { handleChange } = renderComponent({
+      conceptsWithLinks: [{ id: "c1", label: "Enfant", typesOfLink: [BROADER, NARROWER] }],
+    });
+
+    unlink("Enfant");
+
+    expect(handleChange).toHaveBeenCalledWith([
+      { id: "c1", label: "Enfant", typesOfLink: [BROADER] },
+    ]);
   });
 
   it("compte les concepts liés dans l'en-tête", () => {
@@ -108,10 +121,10 @@ describe("concept-edition-creation-links", () => {
     link("Libre");
 
     expect(handleChange).toHaveBeenCalledWith([
-      { id: "c1", label: "Enfant", typeOfLink: NARROWER },
-      { id: "c2", label: "Parent", typeOfLink: BROADER },
-      { id: "c3", label: "Libre", typeOfLink: NARROWER },
-      { id: "c4", label: "Élève", typeOfLink: NONE },
+      { id: "c1", label: "Enfant", typesOfLink: [NARROWER] },
+      { id: "c2", label: "Parent", typesOfLink: [BROADER] },
+      { id: "c3", label: "Libre", typesOfLink: [NARROWER] },
+      { id: "c4", label: "Élève", typesOfLink: [] },
     ]);
   });
 
@@ -121,7 +134,7 @@ describe("concept-edition-creation-links", () => {
     link("Libre");
 
     expect(handleChange).toHaveBeenCalledWith(
-      expect.arrayContaining([{ id: "c3", label: "Libre", typeOfLink: RELATED }]),
+      expect.arrayContaining([{ id: "c3", label: "Libre", typesOfLink: [RELATED] }]),
     );
   });
 
@@ -131,7 +144,7 @@ describe("concept-edition-creation-links", () => {
     link("Libre");
 
     expect(optionLabels(linkedList())).toEqual(["Enfant", "Libre"]);
-    expect(optionLabels(availableList())).toEqual(["Élève"]);
+    expect(optionLabels(availableList())).toEqual(["Parent", "Élève"]);
   });
 
   it("délie un concept déjà lié", () => {
@@ -140,10 +153,10 @@ describe("concept-edition-creation-links", () => {
     unlink("Enfant");
 
     expect(handleChange).toHaveBeenCalledWith([
-      { id: "c1", label: "Enfant", typeOfLink: NONE },
-      { id: "c2", label: "Parent", typeOfLink: BROADER },
-      { id: "c3", label: "Libre", typeOfLink: NONE },
-      { id: "c4", label: "Élève", typeOfLink: NONE },
+      { id: "c1", label: "Enfant", typesOfLink: [] },
+      { id: "c2", label: "Parent", typesOfLink: [BROADER] },
+      { id: "c3", label: "Libre", typesOfLink: [] },
+      { id: "c4", label: "Élève", typesOfLink: [] },
     ]);
   });
 
@@ -153,7 +166,7 @@ describe("concept-edition-creation-links", () => {
     unlink("Enfant");
 
     expect(optionLabels(linkedList())).toEqual([]);
-    expect(optionLabels(availableList())).toEqual(["Enfant", "Libre", "Élève"]);
+    expect(optionLabels(availableList())).toEqual(["Enfant", "Parent", "Libre", "Élève"]);
   });
 
   it("laisse intacts les liens d'un autre type quand on délie tout", () => {
@@ -162,7 +175,7 @@ describe("concept-edition-creation-links", () => {
     fireEvent.click(screen.getByRole("button", { name: "Move All to Source" }));
 
     expect(handleChange).toHaveBeenCalledWith(
-      expect.arrayContaining([{ id: "c2", label: "Parent", typeOfLink: BROADER }]),
+      expect.arrayContaining([{ id: "c2", label: "Parent", typesOfLink: [BROADER] }]),
     );
   });
 
@@ -181,36 +194,28 @@ describe("concept-edition-creation-links", () => {
 
   it("n'autorise pas l'ajout d'un lien équivalent réduit à des espaces", () => {
     renderComponent({ activeLinkType: CLOSE_MATCH });
-    fireEvent.change(screen.getByPlaceholderText("New link"), { target: { value: "   " } });
+    typeEquivalentLink("   ");
 
     expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
   });
 
   it("autorise l'ajout dès qu'un lien équivalent est saisi", () => {
     renderComponent({ activeLinkType: CLOSE_MATCH });
-    fireEvent.change(screen.getByPlaceholderText("New link"), {
-      target: { value: "urn:concept:42" },
-    });
+    typeEquivalentLink("urn:concept:42");
 
     expect(screen.getByRole("button", { name: "Add" })).toBeEnabled();
   });
 
   it("réinterdit l'ajout une fois le lien équivalent ajouté", () => {
     renderComponent({ activeLinkType: CLOSE_MATCH });
-    fireEvent.change(screen.getByPlaceholderText("New link"), {
-      target: { value: "urn:concept:42" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Add" }));
+    addEquivalentLink("urn:concept:42");
 
     expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
   });
 
   it("remonte l'ajout d'un lien équivalent", () => {
     const { handleChangeEquivalentLinks } = renderComponent({ activeLinkType: CLOSE_MATCH });
-    fireEvent.change(screen.getByPlaceholderText("New link"), {
-      target: { value: "urn:concept:42" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Add" }));
+    addEquivalentLink("urn:concept:42");
 
     expect(handleChangeEquivalentLinks).toHaveBeenCalledWith([
       expect.objectContaining({ urn: "urn:concept:42" }),

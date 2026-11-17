@@ -1,51 +1,44 @@
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi } from "vitest";
 
 import { Pagination } from "./index";
+
+const { translate } = vi.hoisted(() => ({
+  translate: (key: string) => {
+    const translations: Record<string, string> = {
+      "pagination.itemPerPagePlaceholder": "Items per page",
+      "pagination.goTo": "Go to page",
+      "pagination.navigation": "Page navigation",
+      "pagination.firstPage": "First page",
+      "pagination.previousPage": "Previous page",
+      "pagination.nextPage": "Next page",
+      "pagination.lastPage": "Last page",
+    };
+    return translations[key] || key;
+  },
+}));
 
 // Mock du module i18n
 vi.mock("../i18n", () => ({
   componentsI18n: {
     use: vi.fn().mockReturnThis(),
     init: vi.fn().mockReturnThis(),
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "pagination.itemPerPagePlaceholder": "Items per page",
-        "pagination.goTo": "Go to page",
-        "pagination.navigation": "Page navigation",
-        "pagination.firstPage": "First page",
-        "pagination.previousPage": "Previous page",
-        "pagination.nextPage": "Next page",
-        "pagination.lastPage": "Last page",
-      };
-      return translations[key] || key;
-    },
+    t: translate,
   },
 }));
 
 // Mock react-i18next
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "pagination.itemPerPagePlaceholder": "Items per page",
-        "pagination.goTo": "Go to page",
-        "pagination.navigation": "Page navigation",
-        "pagination.firstPage": "First page",
-        "pagination.previousPage": "Previous page",
-        "pagination.nextPage": "Next page",
-        "pagination.lastPage": "Last page",
-      };
-      return translations[key] || key;
-    },
+    t: translate,
     i18n: {
       language: "en",
     },
   }),
 }));
 
-const createItems = (count: number): JSX.Element[] => {
+const createItems = (count: number): React.JSX.Element[] => {
   return Array.from({ length: count }, (_, i) => (
     <li key={i} data-testid={`item-${i}`}>
       Item {i + 1}
@@ -53,9 +46,15 @@ const createItems = (count: number): JSX.Element[] => {
   ));
 };
 
+const NO_ITEMS: React.JSX.Element[] = [];
+
 const renderWithRouter = (component: React.ReactElement, { route = "/" } = {}) => {
-  return render(<MemoryRouter initialEntries={[route]}>{component}</MemoryRouter>);
+  const initialEntries = Array.of(route);
+  return render(<MemoryRouter initialEntries={initialEntries}>{component}</MemoryRouter>);
 };
+
+const findPageLink = (text: string) =>
+  screen.getAllByRole("link").find((link) => link.textContent === text);
 
 describe("Pagination", () => {
   describe("Basic rendering", () => {
@@ -104,8 +103,7 @@ describe("Pagination", () => {
       renderWithRouter(<Pagination itemEls={items} />, { route: "/?page=2" });
 
       // Find the link with text "2"
-      const pageLinks = screen.getAllByRole("link");
-      const page2Link = pageLinks.find((link) => link.textContent === "2");
+      const page2Link = findPageLink("2");
 
       expect(page2Link).toBeInTheDocument();
       expect(page2Link?.closest("li")).toHaveClass("active");
@@ -182,8 +180,7 @@ describe("Pagination", () => {
       const items = createItems(50);
       renderWithRouter(<Pagination itemEls={items} />);
 
-      const links = screen.getAllByRole("link");
-      const page2Link = links.find((link) => link.textContent === "2");
+      const page2Link = findPageLink("2");
 
       expect(page2Link).toHaveAttribute("href", expect.stringContaining("page=2"));
     });
@@ -210,19 +207,17 @@ describe("Pagination", () => {
         route: "/?perPage=25",
       });
 
-      const links = screen.getAllByRole("link");
-      const page4Link = links.find((link) => link.textContent === "4");
+      const page4Link = findPageLink("4");
       expect(page4Link).toBeInTheDocument();
 
-      const page5Link = links.find((link) => link.textContent === "5");
+      const page5Link = findPageLink("5");
       expect(page5Link).toBeUndefined();
     });
   });
 
   describe("Edge cases", () => {
     it("should handle empty items array", () => {
-      const items: JSX.Element[] = [];
-      renderWithRouter(<Pagination itemEls={items} />);
+      renderWithRouter(<Pagination itemEls={NO_ITEMS} />);
 
       const lists = screen.getAllByRole("list");
       expect(lists[0]).toBeInTheDocument();
@@ -277,8 +272,7 @@ describe("Pagination", () => {
       const items = createItems(50);
       renderWithRouter(<Pagination itemEls={items} />);
 
-      const links = screen.getAllByRole("link");
-      const page2Link = links.find((link) => link.textContent === "2");
+      const page2Link = findPageLink("2");
 
       expect(page2Link).toHaveAttribute("aria-label", expect.stringContaining("Go to page"));
     });
@@ -287,8 +281,7 @@ describe("Pagination", () => {
       const items = createItems(50);
       renderWithRouter(<Pagination itemEls={items} />, { route: "/?page=2" });
 
-      const links = screen.getAllByRole("link");
-      const page2Link = links.find((link) => link.textContent === "2");
+      const page2Link = findPageLink("2");
 
       expect(page2Link).toHaveAttribute("aria-current");
     });
@@ -309,8 +302,7 @@ describe("Pagination", () => {
         route: "/?filter=test&sort=name",
       });
 
-      const links = screen.getAllByRole("link");
-      const page2Link = links.find((link) => link.textContent === "2");
+      const page2Link = findPageLink("2");
 
       const href = page2Link?.getAttribute("href");
       expect(href).toContain("filter=test");

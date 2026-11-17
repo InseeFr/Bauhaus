@@ -1,7 +1,8 @@
-import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@components/ui/button";
+import { Dialog } from "@components/ui/dialog";
 
 import { cx } from "@utils/cx";
 

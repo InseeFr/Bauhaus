@@ -3,15 +3,13 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { RubricEssentialMsg } from "./RubricEssentialMsg";
 
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual<typeof import("react-i18next")>("react-i18next")),
-  useTranslation: () => ({
-    t: (key: string, options?: any) =>
-      options?.nb === undefined
-        ? `${key}${options?.lng ? `.${options.lng}` : ""}`
-        : `${key}:${options.nb}/${options.total}${options.lng ? `.${options.lng}` : ""}`,
-  }),
-}));
+vi.mock("react-i18next", async () =>
+  (await import("../translationMock.testing")).withMockedTranslation((key, options) =>
+    options?.nb === undefined
+      ? `${key}${options?.lng ? `.${options.lng}` : ""}`
+      : `${key}:${options.nb}/${options.total}${options.lng ? `.${options.lng}` : ""}`,
+  ),
+);
 
 const useEssentialRubricContext = vi.fn();
 vi.mock("../hooks/useEssentialRubricContext", () => ({

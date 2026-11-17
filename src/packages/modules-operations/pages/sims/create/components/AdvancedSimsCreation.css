@@ -110,7 +110,7 @@
   flex: 1;
 }
 
-.bauhaus-sims-field .bauhaus-sims-field-form .card-body {
+.bauhaus-sims-field .bauhaus-sims-field-form .p-panel-content {
   display: flex;
   flex-direction: column;
 }

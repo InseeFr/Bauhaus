@@ -5,8 +5,8 @@
  *
  * Les tests des modules passent par cette fonction plutôt que par un sélecteur
  * CSS écrit à la main : la classe portée par `List.Item` reste ainsi connue du
- * seul paquet `list-group`, et changer d'habillage ne casse pas les specs des
+ * seul dossier `ui/list-group`, et changer d'habillage ne casse pas les specs des
  * pages qui affichent des listes.
  */
 export const getListItems = (container: HTMLElement): HTMLLIElement[] =>
-  Array.from(container.querySelectorAll<HTMLLIElement>("li.list-group-item"));
+  Array.from(container.querySelectorAll<HTMLLIElement>("li.bauhaus-list-item"));

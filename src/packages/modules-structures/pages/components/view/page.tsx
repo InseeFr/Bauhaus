@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { Component as ComponentModel } from "@model/structures/Component";
@@ -29,7 +30,9 @@ export const Component = (props: any) => {
 
   const { data: codelists = [] } = useFormattedCodelist();
 
-  const [serverSideError, setServerSideError] = useState();
+  const [serverSideError, setServerSideError] = useState<unknown>();
+
+  const [loadError, setLoadError] = useState<unknown>();
 
   const [attributes, setAttributes] = useState<ComponentModel[]>([]);
 
@@ -37,7 +40,12 @@ export const Component = (props: any) => {
 
   const handleDelete = useCallback(() => {
     setLoading(true);
-    StructureApi.deleteMutualizedComponent(id).then(() => goBack("/structures/components"));
+    StructureApi.deleteMutualizedComponent(id)
+      .then(() => goBack("/structures/components"))
+      .catch((error: unknown) => {
+        setServerSideError(error);
+        setLoading(false);
+      });
   }, [id, goBack]);
 
   useEffect(() => {
@@ -53,8 +61,13 @@ export const Component = (props: any) => {
         setAttributes(attributes);
         setConcepts(concepts);
       })
+      .catch(setLoadError)
       .finally(() => setLoading(false));
   }, [id]);
+
+  if (loadError) {
+    return <LoadingErrorBloc error={loadError} />;
+  }
 
   if (loading) {
     return <Loading />;

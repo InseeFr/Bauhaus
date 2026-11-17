@@ -1,4 +1,4 @@
-import { RouteObject } from "react-router-dom";
+import { RouteObject } from "react-router";
 
 export const routes: RouteObject[] = [
   // Structures pages

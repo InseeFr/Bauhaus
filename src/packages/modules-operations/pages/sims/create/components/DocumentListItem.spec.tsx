@@ -5,6 +5,12 @@ import { Document } from "@model/operations/document";
 
 import { DocumentAsideInformation, DocumentLink } from "./DocumentListItem";
 
+const renderAsideInformation = (document: Document) =>
+  render(<DocumentAsideInformation document={document} />);
+
+const renderLink = (document: Document, localPrefix: "Lg1" | "Lg2", baseURI: string) =>
+  render(<DocumentLink document={document} localPrefix={localPrefix} baseURI={baseURI} />);
+
 describe("DocumentAsideInformation", () => {
   it("renders language and updatedDate correctly", () => {
     const mockDocument = {
@@ -12,7 +18,7 @@ describe("DocumentAsideInformation", () => {
       updatedDate: "2024-01-01T10:00:00Z",
     } as Document;
 
-    render(<DocumentAsideInformation document={mockDocument} />);
+    renderAsideInformation(mockDocument);
 
     screen.getByText("(en-1/1/2024)");
   });
@@ -22,7 +28,7 @@ describe("DocumentAsideInformation", () => {
       lang: "fr",
     } as Document;
 
-    render(<DocumentAsideInformation document={mockDocument} />);
+    renderAsideInformation(mockDocument);
 
     screen.getByText("(fr)");
   });
@@ -37,7 +43,7 @@ describe("DocumentLink", () => {
     const baseURI = "http://example.com/api";
     const localPrefix = "Lg1";
 
-    render(<DocumentLink document={mockDocument} localPrefix={localPrefix} baseURI={baseURI} />);
+    renderLink(mockDocument, localPrefix, baseURI);
 
     const link = screen.getByRole("link", { name: "Document Label" });
 
@@ -55,7 +61,7 @@ describe("DocumentLink", () => {
     const baseURI = "http://example.com";
     const localPrefix = "Lg2";
 
-    render(<DocumentLink document={mockDocument} localPrefix={localPrefix} baseURI={baseURI} />);
+    renderLink(mockDocument, localPrefix, baseURI);
 
     const link = screen.getByRole("link", { name: "External Resource" });
 
@@ -71,7 +77,7 @@ describe("DocumentLink", () => {
     const baseURI = "http://example.com";
     const localPrefix = "Lg2";
 
-    render(<DocumentLink document={mockDocument} localPrefix={localPrefix} baseURI={baseURI} />);
+    renderLink(mockDocument, localPrefix, baseURI);
 
     screen.getByRole("link", { name: "Secondary Label" });
   });
@@ -85,7 +91,7 @@ describe("DocumentLink", () => {
     const baseURI = "http://example.com";
     const localPrefix = "Lg1";
 
-    render(<DocumentLink document={mockDocument} localPrefix={localPrefix} baseURI={baseURI} />);
+    renderLink(mockDocument, localPrefix, baseURI);
 
     const link = screen.getByRole("link", {
       name: "Document with Description",

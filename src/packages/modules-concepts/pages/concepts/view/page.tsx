@@ -1,17 +1,20 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 
+import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
+import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "@sdk/constants";
 import { ConceptsApi } from "@sdk/index";
 
+import { saveFileFromHttpResponse } from "@utils/files";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { GlobalErrorBloc } from "../../../components/GlobalErrorBloc";
 import { useConcept } from "../../../hooks/useConcept";
 import { ConceptVisualization } from "./components/ConceptVisualization";
-import { LoadingProvider, LoadingType } from "./components/loading";
+import { LoadingType } from "./components/loading";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,9 +27,9 @@ export const Component = () => {
 
   const [operationLoading, setOperationLoading] = useState<LoadingType>();
 
-  const [error, setError] = useState<string | undefined>();
+  const [error, setError] = useState<unknown>();
 
-  const { data: concept, isLoading, refetch } = useConcept(id);
+  const { data: concept, isLoading, error: loadError, refetch } = useConcept(id);
 
   const loading: LoadingType = operationLoading ?? (isLoading ? "loading" : undefined);
 
@@ -51,8 +54,21 @@ export const Component = () => {
       .finally(() => setOperationLoading(undefined));
   }, [navigate, id]);
 
+  const handleConceptExport = useCallback(() => {
+    setOperationLoading("exporting");
+    setError(undefined);
+    ConceptsApi.getConceptExport(id, OPEN_DOCUMENT_TEXT_MIME_TYPE)
+      .then(saveFileFromHttpResponse)
+      .catch(setError)
+      .finally(() => setOperationLoading(undefined));
+  }, [id]);
+
   if (loading) {
     return <Loading />;
+  }
+
+  if (loadError && !concept) {
+    return <LoadingErrorBloc error={loadError} />;
   }
 
   if (!concept) {
@@ -64,17 +80,16 @@ export const Component = () => {
   const { general, links, notes } = concept;
 
   return (
-    <LoadingProvider value={{ loading, setLoading: setOperationLoading }}>
-      <ConceptVisualization
-        id={id!}
-        general={general}
-        notes={notes}
-        links={links}
-        validateConcept={handleConceptValidation}
-        deleteConcept={handleConceptDeletion}
-        secondLang={secondLang}
-        serverSideError={error}
-      />
-    </LoadingProvider>
+    <ConceptVisualization
+      id={id!}
+      general={general}
+      notes={notes}
+      links={links}
+      validateConcept={handleConceptValidation}
+      deleteConcept={handleConceptDeletion}
+      exportConcept={handleConceptExport}
+      secondLang={secondLang}
+      serverSideError={error}
+    />
   );
 };

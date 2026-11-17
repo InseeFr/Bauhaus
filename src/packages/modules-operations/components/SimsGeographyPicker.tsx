@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -6,6 +7,7 @@ import { Select } from "@components/select-rmes";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { HasAccess } from "../../auth/components/auth";
+import { Geography } from "../hooks/useAllGeographies";
 import { useGeographiesOptions } from "../hooks/useGeographiesOptions";
 import { SimsGeographyField, SimsTerritory } from "./SimsGeographyField";
 import "./SimsGeographyPicker.css";
@@ -37,14 +39,12 @@ export const removeAccents = (text: string): string =>
 export interface SimsGeographyPickerTypes {
   onChange: (value?: string) => void;
   value: string;
-  loadGeographies: () => void;
   secondLang?: boolean;
 }
 
 export const SimsGeographyPicker = ({
   onChange,
   value,
-  loadGeographies,
   secondLang = false,
 }: Readonly<SimsGeographyPickerTypes>) => {
   const { t } = useTranslation();
@@ -75,13 +75,20 @@ export const SimsGeographyPicker = ({
     setSlidingModal(true);
   }, [geographiesOptions, value]);
 
+  const queryClient = useQueryClient();
+
+  // La création répond l'identifiant du territoire, la modification son URI : on relit la liste
+  // pour y faire figurer le territoire, et on sélectionne son URI, valeur des options.
   const onSave = useCallback(
-    (territoryUri?: string) => {
+    async (idOrUri?: string) => {
       setSlidingModal(false);
-      loadGeographies();
-      onChange(territoryUri);
+      setTerritory(undefined);
+      await queryClient.invalidateQueries({ queryKey: ["geographies"] });
+      const geographies = queryClient.getQueryData<Geography[]>(["geographies"]) ?? [];
+      const saved = geographies.find(({ id, uri }) => uri === idOrUri || id === idOrUri);
+      onChange(saved?.uri ?? idOrUri);
     },
-    [loadGeographies, onChange],
+    [queryClient, onChange],
   );
 
   const onCancel = useCallback(() => {

@@ -11,16 +11,16 @@ vi.mock("@utils/hooks/second-lang", () => ({
   useSecondLang: vi.fn(),
 }));
 
-describe("ViewMainBlock", () => {
-  const mockDistribution = {
-    created: "2023-01-01",
-    updated: "2023-02-01",
-    format: "PDF",
-    byteSize: "15MB",
-    url: "http://example.com",
-    descriptionLg1: "Description content",
-  } as Distribution;
+const mockDistribution = {
+  created: "2023-01-01",
+  updated: "2023-02-01",
+  format: "PDF",
+  byteSize: "15MB",
+  url: "http://example.com",
+  descriptionLg1: "Description content",
+} as Distribution;
 
+describe("ViewMainBlock", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     (useSecondLang as Mock).mockReturnValue([false]);

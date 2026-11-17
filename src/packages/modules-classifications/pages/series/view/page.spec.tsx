@@ -1,73 +1,48 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 
 import { ClassificationsApi } from "@sdk/classification";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { itBehavesLikeAGeneralAndMembersViewPage } from "../../../testing/general-members-view-page.testing";
+import { renderClassificationsPage } from "../../../testing/render.testing";
 import { Component } from "./page";
-
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
-  useParams: () => ({ id: "ser-1" }),
-}));
 
 vi.mock("@sdk/classification", () => ({
   ClassificationsApi: { getSeriesGeneral: vi.fn(), getSeriesMembers: vi.fn() },
 }));
 
-vi.mock("./components/SeriesVisualization", () => ({
-  SeriesVisualization: ({ series, secondLang }: any) => (
-    <div>
-      <span>libellé:{series.general.prefLabelLg1 ?? "(aucun)"}</span>
-      <span>membres:{series.members.length}</span>
-      <span>secondeLangue:{String(secondLang)}</span>
-    </div>
-  ),
+vi.mock("./components/SeriesVisualization", async () => ({
+  SeriesVisualization: (
+    await import("../../../testing/general-members-view-page.testing")
+  ).mockGeneralMembersVisualization("series"),
 }));
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
-
 describe("Classifications series view page", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.mocked(ClassificationsApi.getSeriesGeneral).mockResolvedValue({ prefLabelLg1: "Série NAF" });
-    vi.mocked(ClassificationsApi.getSeriesMembers).mockResolvedValue([
-      { id: "m-1", labelLg1: "Membre 1" },
-      { id: "m-2", labelLg1: "Membre 2" },
-    ]);
+  itBehavesLikeAGeneralAndMembersViewPage({
+    page: <Component />,
+    getGeneral: vi.mocked(ClassificationsApi.getSeriesGeneral),
+    getMembers: vi.mocked(ClassificationsApi.getSeriesMembers),
+    id: "ser-1",
+    label: "Série NAF",
   });
 
-  it("attend les deux appels avant d'afficher quoi que ce soit", async () => {
-    renderPage();
+  it("indique que la série est introuvable au lieu de charger indéfiniment", async () => {
+    vi.mocked(ClassificationsApi.getSeriesGeneral).mockRejectedValue(sdkRejection.emptyBody(404));
 
-    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    renderClassificationsPage(<Component />);
 
-    await waitFor(() => expect(screen.getByText("libellé:Série NAF")).toBeInTheDocument());
-    expect(screen.getByText("membres:2")).toBeInTheDocument();
-    expect(ClassificationsApi.getSeriesGeneral).toHaveBeenCalledWith("ser-1");
-    expect(ClassificationsApi.getSeriesMembers).toHaveBeenCalledWith("ser-1");
+    await expectItemNotFound();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 
-  it("tolère une réponse vide de part et d'autre", async () => {
-    vi.mocked(ClassificationsApi.getSeriesGeneral).mockResolvedValue(undefined as any);
-    vi.mocked(ClassificationsApi.getSeriesMembers).mockResolvedValue(undefined as any);
-    renderPage();
+  it("indique que la série n'a pas pu être chargée quand ses membres échouent", async () => {
+    vi.mocked(ClassificationsApi.getSeriesMembers).mockRejectedValue(sdkRejection.emptyBody(500));
 
-    await waitFor(() => expect(screen.getByText("membres:0")).toBeInTheDocument());
-    expect(screen.getByText("libellé:(aucun)")).toBeInTheDocument();
-  });
+    renderClassificationsPage(<Component />);
 
-  it("passe l'état de seconde langue à la vue", async () => {
-    renderPage();
-
-    await waitFor(() => expect(screen.getByText("secondeLangue:false")).toBeInTheDocument());
+    await expectItemLoadFailed();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
   });
 });

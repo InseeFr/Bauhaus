@@ -1,10 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook } from "@testing-library/react";
-import type { Toast } from "primereact/toast";
 import type { ReactNode, RefObject } from "react";
+
+import type { Toast } from "@components/ui/toast";
 
 import { DDIApi } from "@sdk/index";
 
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 import { useExport } from "./useExport";
 
@@ -12,12 +14,7 @@ vi.mock("../../sdk", () => ({
   DDIApi: { convertToDDI3: vi.fn() },
 }));
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string, options?: Record<string, unknown>) =>
-      options ? `${key}|${JSON.stringify(options)}` : key,
-  }),
-}));
+vi.mock("react-i18next", () => import("../i18n.testing"));
 
 vi.mock("../physical-instances/pages/view/enrichDataWithCodeLists", () => ({
   enrichDataWithCodeLists: (_client: unknown, data: unknown) => Promise.resolve(data),
@@ -52,6 +49,19 @@ describe("useExport", () => {
     expect(show).toHaveBeenCalledWith(
       expect.objectContaining({ severity: "error", detail: "Conversion impossible" }),
     );
+  });
+
+  it("garde le toast d'erreur affiché jusqu'à sa fermeture", async () => {
+    vi.mocked(DDIApi.convertToDDI3).mockRejectedValue(
+      sdkRejection.text(500, "Conversion impossible"),
+    );
+
+    const { handleExport, show } = renderExport();
+    await handleExport("DDI3");
+
+    const [errorToast] = show.mock.calls[0];
+    expect(errorToast).toMatchObject({ severity: "error", sticky: true });
+    expect(errorToast).not.toHaveProperty("life");
   });
 
   it("retombe sur le message générique quand le rejet ne porte pas de message", async () => {

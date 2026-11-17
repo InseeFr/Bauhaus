@@ -6,6 +6,22 @@ import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
+const renderViewMenu = async (component: Component) => {
+  const { ViewMenu } = await import("./menu");
+  render(
+    <WithRouter>
+      <ViewMenu
+        component={component}
+        updatable={true}
+        publish={vi.fn()}
+        handleUpdate={vi.fn() as VoidFunction}
+        handleDelete={vi.fn()}
+        handleBack={vi.fn}
+      ></ViewMenu>
+    </WithRouter>,
+  );
+};
+
 describe("Component View Menu", () => {
   afterEach(() => {
     vi.resetModules();
@@ -18,21 +34,7 @@ describe("Component View Menu", () => {
         privileges: [],
       },
     ]);
-    const { ViewMenu } = await import("./menu");
-
-    const component = { id: "1" } as unknown as Component;
-    render(
-      <WithRouter>
-        <ViewMenu
-          component={component}
-          updatable={true}
-          publish={vi.fn()}
-          handleUpdate={vi.fn() as VoidFunction}
-          handleDelete={vi.fn()}
-          handleBack={vi.fn}
-        ></ViewMenu>
-      </WithRouter>,
-    );
+    await renderViewMenu({ id: "1" } as unknown as Component);
 
     screen.getByText("Back");
     expect(screen.queryByText("Publish")).toBeNull();
@@ -52,21 +54,7 @@ describe("Component View Menu", () => {
       },
     ]);
 
-    const { ViewMenu } = await import("./menu");
-    const component = { id: "1" } as unknown as Component;
-
-    render(
-      <WithRouter>
-        <ViewMenu
-          component={component}
-          updatable={true}
-          publish={vi.fn()}
-          handleUpdate={vi.fn() as VoidFunction}
-          handleDelete={vi.fn()}
-          handleBack={vi.fn}
-        ></ViewMenu>
-      </WithRouter>,
-    );
+    await renderViewMenu({ id: "1" } as unknown as Component);
 
     screen.getByText("Back");
     screen.getByText("Publish");
@@ -89,26 +77,11 @@ describe("Component View Menu", () => {
       [{ stamp: "INSEE" }],
     );
 
-    const { ViewMenu } = await import("./menu");
-
-    const component = {
+    await renderViewMenu({
       id: "1",
       contributor: "INSEE",
       validationState: "published",
-    } as unknown as Component;
-
-    render(
-      <WithRouter>
-        <ViewMenu
-          component={component}
-          updatable={true}
-          publish={vi.fn()}
-          handleUpdate={vi.fn() as VoidFunction}
-          handleDelete={vi.fn()}
-          handleBack={vi.fn}
-        ></ViewMenu>
-      </WithRouter>,
-    );
+    } as unknown as Component);
 
     screen.getByText("Back");
     screen.getByText("Publish");

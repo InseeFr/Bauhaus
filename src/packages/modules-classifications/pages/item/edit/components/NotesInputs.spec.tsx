@@ -1,17 +1,14 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { useCallback } from "react";
 import { describe, it, expect, vi } from "vitest";
 
 import { NotesInputs } from "./NotesInputs";
 
 vi.mock("@components/rich-editor/react-md-editor", () => ({
-  MDEditor: ({ id, text, handleChange }: any) => (
-    <textarea
-      data-testid={`md-editor-${id}`}
-      id={id}
-      value={text}
-      onChange={(e) => handleChange(e.target.value)}
-    />
-  ),
+  MDEditor: ({ id, text, handleChange }: any) => {
+    const onChange = useCallback((e: any) => handleChange(e.target.value), [handleChange]);
+    return <textarea data-testid={`md-editor-${id}`} id={id} value={text} onChange={onChange} />;
+  },
 }));
 
 vi.mock("../../../../i18n", () => ({
@@ -41,32 +38,25 @@ vi.mock("../../../../i18n", () => ({
   },
 }));
 
+const renderNotesInputs = (value: Record<string, string>, onChange = vi.fn()) =>
+  render(<NotesInputs value={value} onChange={onChange} />);
+
 describe("NotesInputs", () => {
   it("renders nothing when note URIs are missing", () => {
-    const { container } = render(
-      <NotesInputs
-        value={{
-          definitionLg1: "Some content",
-          definitionLg2: "Some content",
-        }}
-        onChange={() => {}}
-      />,
-    );
+    const { container } = renderNotesInputs({
+      definitionLg1: "Some content",
+      definitionLg2: "Some content",
+    });
     expect(container).toBeEmptyDOMElement();
   });
 
   it("renders inputs when note URIs are provided", () => {
-    render(
-      <NotesInputs
-        value={{
-          definitionLg1: "Content Lg1",
-          definitionLg2: "Content Lg2",
-          definitionLg1Uri: "uri-1",
-          definitionLg2Uri: "uri-2",
-        }}
-        onChange={() => {}}
-      />,
-    );
+    renderNotesInputs({
+      definitionLg1: "Content Lg1",
+      definitionLg2: "Content Lg2",
+      definitionLg1Uri: "uri-1",
+      definitionLg2Uri: "uri-2",
+    });
 
     expect(screen.getByLabelText("Definition (FR)")).toBeInTheDocument();
     expect(screen.getByLabelText("Definition (EN)")).toBeInTheDocument();
@@ -75,16 +65,14 @@ describe("NotesInputs", () => {
   it("calls onChange when the user edits Lg1 content", () => {
     const handleChange = vi.fn();
 
-    render(
-      <NotesInputs
-        value={{
-          scopeNoteLg1: "Initial FR",
-          scopeNoteLg2: "Initial EN",
-          scopeNoteLg1Uri: "uri-1",
-          scopeNoteLg2Uri: "uri-2",
-        }}
-        onChange={handleChange}
-      />,
+    renderNotesInputs(
+      {
+        scopeNoteLg1: "Initial FR",
+        scopeNoteLg2: "Initial EN",
+        scopeNoteLg1Uri: "uri-1",
+        scopeNoteLg2Uri: "uri-2",
+      },
+      handleChange,
     );
 
     const textarea = screen.getByTestId("md-editor-scopeNoteLg1");
@@ -99,16 +87,14 @@ describe("NotesInputs", () => {
   it("calls onChange when the user edits Lg2 content", () => {
     const handleChange = vi.fn();
 
-    render(
-      <NotesInputs
-        value={{
-          changeNoteLg1: "FR content",
-          changeNoteLg2: "EN content",
-          changeNoteLg1Uri: "uri-1",
-          changeNoteLg2Uri: "uri-2",
-        }}
-        onChange={handleChange}
-      />,
+    renderNotesInputs(
+      {
+        changeNoteLg1: "FR content",
+        changeNoteLg2: "EN content",
+        changeNoteLg1Uri: "uri-1",
+        changeNoteLg2Uri: "uri-2",
+      },
+      handleChange,
     );
 
     const textarea = screen.getByTestId("md-editor-changeNoteLg2");

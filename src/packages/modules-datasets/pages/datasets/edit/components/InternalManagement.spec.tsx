@@ -1,6 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { I18nextProvider } from "react-i18next";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
@@ -14,8 +12,8 @@ import {
   CL_CONF_STATUS,
   CL_PROCESS_STEP,
 } from "../../../../../constants/code-lists";
-import { testsI18n as i18n } from "../../../../../tests/i18n";
 import { InternalManagement } from "./InternalManagement";
+import { renderEditPanel } from "./panel.testing";
 
 vi.mock("@sdk/index", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@sdk/index")>();
@@ -41,25 +39,8 @@ const codelists: Record<string, unknown> = {
   [CL_PROCESS_STEP]: { codes: [{ iri: "http://step/collect", labelLg1: "Collecte" }] },
 };
 
-const renderPanel = (dataset: Partial<Dataset>, clientSideErrors = {}) => {
-  const setEditingDataset = vi.fn();
-  const setClientSideErrors = vi.fn();
-  const rendered = render(
-    <QueryClientProvider
-      client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
-    >
-      <I18nextProvider i18n={i18n}>
-        <InternalManagement
-          editingDataset={dataset as Dataset}
-          setEditingDataset={setEditingDataset}
-          clientSideErrors={clientSideErrors}
-          setClientSideErrors={setClientSideErrors}
-        />
-      </I18nextProvider>
-    </QueryClientProvider>,
-  );
-  return { ...rendered, setEditingDataset, setClientSideErrors };
-};
+const renderPanel = (dataset: Partial<Dataset>, clientSideErrors = {}) =>
+  renderEditPanel(InternalManagement, dataset, clientSideErrors);
 
 // PrimeReact ne monte le panneau d'options qu'à l'ouverture : sans ce clic sur le
 // déclencheur, aucune option n'existe dans le DOM.

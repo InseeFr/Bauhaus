@@ -1,8 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { usePrivileges, useUserStamps } from "@utils/hooks/users";
+import { usePrivileges } from "@utils/hooks/users";
 
+import { mockDdiAccess } from "../../components/GlobalActionsCard/actions.testing";
 import { HomePageMenu } from "./menu";
 
 vi.mock("@components/new-button", () => ({
@@ -23,25 +24,21 @@ vi.mock("@components/vertical-menu", () => ({
 
 // À la création il n'y a pas de ressource : le gating ne dépend pas des
 // stamps mais seulement de la stratégie du privilège CREATE.
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
-});
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../../../privileges.testing")).mockUsersHooks(importOriginal),
+);
 
+/** Réponse de `usePrivileges` accordant plusieurs privilèges sur les PhysicalInstances. */
 const ddiPrivileges = (privileges: { privilege: string; strategy: string }[]) => ({
   privileges: [{ application: "DDI_PHYSICALINSTANCE", privileges }],
 });
-
-const ddiCreatePrivileges = (strategy: string) =>
-  ddiPrivileges([{ privilege: "CREATE", strategy }]);
 
 describe("HomePageMenu", () => {
   const mockOnCreate = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (usePrivileges as any).mockReturnValue(ddiCreatePrivileges("ALL"));
-    (useUserStamps as any).mockReturnValue({ data: [] });
+    mockDdiAccess("CREATE", "ALL", []);
   });
 
   it("rend le menu vertical", () => {
@@ -51,7 +48,7 @@ describe("HomePageMenu", () => {
   });
 
   it("affiche le bouton de création quand la stratégie CREATE est ALL", () => {
-    (usePrivileges as any).mockReturnValue(ddiCreatePrivileges("ALL"));
+    mockDdiAccess("CREATE", "ALL", []);
 
     render(<HomePageMenu onCreate={mockOnCreate} />);
 
@@ -59,7 +56,7 @@ describe("HomePageMenu", () => {
   });
 
   it("affiche le bouton de création quand la stratégie CREATE est STAMP (le filtrage STAMP a lieu au choix du groupe)", () => {
-    (usePrivileges as any).mockReturnValue(ddiCreatePrivileges("STAMP"));
+    mockDdiAccess("CREATE", "STAMP", []);
 
     render(<HomePageMenu onCreate={mockOnCreate} />);
 
@@ -67,7 +64,7 @@ describe("HomePageMenu", () => {
   });
 
   it("masque le bouton de création quand la stratégie CREATE est NONE", () => {
-    (usePrivileges as any).mockReturnValue(ddiCreatePrivileges("NONE"));
+    mockDdiAccess("CREATE", "NONE", []);
 
     render(<HomePageMenu onCreate={mockOnCreate} />);
 

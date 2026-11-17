@@ -28,6 +28,16 @@ const mockContextValue = {
   setRubricIdForNewDocument: vi.fn(),
 };
 
+const emptyContextValue = {
+  ...mockContextValue,
+  documentStores: { lg1: [], lg2: [] },
+};
+
+const nullContextValue = {
+  ...mockContextValue,
+  documentStores: null as any,
+};
+
 const renderWithContext = (component: React.ReactElement) => {
   return render(
     <DocumentsStoreProvider value={mockContextValue}>{component}</DocumentsStoreProvider>,
@@ -82,11 +92,6 @@ describe("MissingDocumentsErrorBloc", () => {
 
   it("returns null when document stores is empty", () => {
     const missingDocuments = new Set(["1", "2"]);
-    const emptyContextValue = {
-      ...mockContextValue,
-      documentStores: { lg1: [], lg2: [] },
-    };
-
     render(
       <DocumentsStoreProvider value={emptyContextValue}>
         <MissingDocumentsErrorBloc missingDocuments={missingDocuments} />
@@ -98,11 +103,6 @@ describe("MissingDocumentsErrorBloc", () => {
 
   it("returns null when documentStores is null", () => {
     const missingDocuments = new Set(["1", "2"]);
-    const nullContextValue = {
-      ...mockContextValue,
-      documentStores: null as any,
-    };
-
     render(
       <DocumentsStoreProvider value={nullContextValue}>
         <MissingDocumentsErrorBloc missingDocuments={missingDocuments} />

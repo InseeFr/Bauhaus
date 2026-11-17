@@ -27,6 +27,21 @@ const createWrapper = () => {
   );
 };
 
+const renderUseClassificationSeries = () =>
+  renderHook(() => useClassificationSeries(), {
+    wrapper: createWrapper(),
+  });
+
+const renderUseClassificationSeriesUntilLoaded = async () => {
+  const rendered = renderUseClassificationSeries();
+
+  await waitFor(() => {
+    expect(rendered.result.current.isLoading).toBe(false);
+  });
+
+  return rendered;
+};
+
 describe("useClassificationSeries", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -35,9 +50,7 @@ describe("useClassificationSeries", () => {
   it("returns loading initially", async () => {
     (ClassificationsApi.getSeriesList as Mock).mockResolvedValue([]);
 
-    const { result } = renderHook(() => useClassificationSeries(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderUseClassificationSeries();
 
     expect(result.current.isLoading).toBe(true);
     expect(result.current.series).toBeUndefined();
@@ -50,13 +63,7 @@ describe("useClassificationSeries", () => {
     ];
     (ClassificationsApi.getSeriesList as Mock).mockResolvedValue(fakeData);
 
-    const { result } = renderHook(() => useClassificationSeries(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
+    const { result } = await renderUseClassificationSeriesUntilLoaded();
 
     expect(result.current.series).toEqual(fakeData);
     expect(ClassificationsApi.getSeriesList).toHaveBeenCalledTimes(1);
@@ -65,13 +72,7 @@ describe("useClassificationSeries", () => {
   it("returns undefined on error", async () => {
     (ClassificationsApi.getSeriesList as Mock).mockRejectedValue(new Error("boom"));
 
-    const { result } = renderHook(() => useClassificationSeries(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
+    const { result } = await renderUseClassificationSeriesUntilLoaded();
 
     expect(result.current.series).toBeUndefined();
   });

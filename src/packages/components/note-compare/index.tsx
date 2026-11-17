@@ -39,7 +39,7 @@ export const CompareNotes = ({
   return (
     <div>
       <Row>
-        <div className="col-md-6 text-center">
+        <div className="bauhaus-grid-md-6 text-center">
           <Select
             options={options}
             placeholder={t("version")}
@@ -47,7 +47,7 @@ export const CompareNotes = ({
             onChange={(value) => setSelect1(Number(value))}
           />
         </div>
-        <div className="col-md-6 text-center">
+        <div className="bauhaus-grid-md-6 text-center">
           <Select
             options={options}
             placeholder={t("version")}

@@ -32,10 +32,11 @@ const stateWithValue: State = {
 
 describe("reducer", () => {
   describe("initialState", () => {
-    it("should have empty clientSideErrors, submitting false and value undefined", () => {
+    it("should have empty clientSideErrors, submitting false, no save attempt and value undefined", () => {
       expect(initialState).toEqual({
         clientSideErrors: {},
         submitting: false,
+        saveAttempted: false,
         value: undefined,
       });
     });

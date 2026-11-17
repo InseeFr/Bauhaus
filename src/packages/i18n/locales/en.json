@@ -1,4 +1,7 @@
 {
+  "routeError": {
+    "title": "An error has occurred"
+  },
   "auth": {
     "login": "Login",
     "logout": "Logout"
@@ -32,7 +35,7 @@
     "301": "You do not have the required permissions for creating a document. For more information, please contact the management team.",
     "302": "The file name already exists. Please, reuse the existing document or choose another file name.",
     "303": "You do not have the required permissions for editing a document. For more information, please contact the management team.",
-    "304": "DOCUMENT_DELETION_LINKED",
+    "304": "You cannot delete this document: it is attached to a quality report. To delete it, please first remove it from the quality report. For more information, please contact the administration team.",
     "341": "The document does not exist.",
     "361": "The file name is empty. Please, fill a file name.",
     "362": "The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols.",
@@ -45,7 +48,7 @@
     "502": "You do not have the required permissions for editing a family. For more information, please contact the management team.",
     "503": "You do not have the required permissions for publishing a family. For more information, please contact the management team.",
     "541": "The family does not exist.",
-    "542": "FAMILY_INCORRECT_BODY",
+    "542": "The family data is invalid.",
     "601": "You do not have the required permissions for creating a series. For more information, please contact the management team.",
     "602": "You do not have the required permissions for editing a series. For more information, please contact the management team.",
     "603": "You do not have the required permissions for publishing a series. For more information, please contact the management team.",
@@ -63,6 +66,11 @@
     "803": "You do not have the required permissions for publishing a Sims documentation. For more information, please contact the management team.",
     "841": "The Sims documentation does not exist.",
     "844": "The referenced documented object does not exist.",
+    "845": "The territory identifier is mandatory.",
+    "846": "The territory name is mandatory in French and English.",
+    "847": "This territory name already exists.",
+    "861": "The quality report data is invalid.",
+    "863": "Select at least one language for the export.",
     "901": "You do not have the required permissions for creating a collection. For more information, please contact the management team.",
     "902": "You do not have the required permissions for editing a collection. For more information, please contact the management team.",
     "903": "You do not have the required permissions for publishing a collection. For more information, please contact the management team.",
@@ -73,6 +81,7 @@
     "1006": "The concept must be published.",
     "1007": "The codes list must be published.",
     "1008": "All components must be validated.",
+    "1009": "The structure could not be removed: it is already published.",
     "1101": "The codelist already exists.",
     "1102": "A codelist should contain at least one Code.",
     "1103": "The codelist could not be removed: it is already published.",
@@ -81,6 +90,39 @@
     "1106": "This code does not exist in this codelist.",
     "1107": "The id of the codelist does not match the id of the url.",
     "1108": "The submitted code does not match the code of the url: a code cannot be renamed.",
+    "NETWORK_ERROR": "The server cannot be reached. Check your connection and try again.",
+    "UNREADABLE_RESPONSE": "The server response could not be read.",
+    "PUBLICATION_REPOSITORY_UNAVAILABLE": "Publication failed: the dissemination repository is unavailable. Please try again later.",
+    "INVALID_REQUEST_BODY": "The submitted data is invalid.",
+    "SIMS_CREATION_FAILED": "The report could not be created.",
+    "RDF_QUERY_FAILED": "The RDF database could not be queried. Please try again; if the error persists, contact the RMéS team.",
+    "RDF_REPOSITORY_UNAVAILABLE": "The database is unavailable. Please try again later.",
+    "COLECTICA_UNAVAILABLE": "The DDI repository (Colectica) is unavailable. Please try again later.",
+    "DDI_GROUP_NOT_FOUND": "This group does not exist or has been deleted.",
+    "DDI_STUDY_UNIT_NOT_FOUND": "The related study does not exist or has been deleted.",
+    "DDI4_INVALID": "The DDI document does not match the schema.",
+    "DDI_SENTINEL_REPRESENTATION_LABEL_REQUIRED": "The label of the sentinel value list {{agency}}/{{id}} is required.",
+    "DDI_SENTINEL_CODE_LIST_LABEL_REQUIRED": "The label of the sentinel code list {{agency}}/{{id}} is required.",
+    "GROUP_MISSING_CODE_LIST_SCHEME": "The series \"{{group}}\" has no CodeListScheme to file its code lists: it must be created beforehand.",
+    "GROUP_MISSING_CATEGORY_SCHEME": "The series \"{{group}}\" has no CategoryScheme to file its categories: it must be created beforehand.",
+    "GROUP_MISSING_MANAGED_REPRESENTATION_SCHEME": "The series \"{{group}}\" has no ManagedRepresentationScheme to file its sentinel values: it must be created beforehand.",
+    "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "The operation \"{{studyUnit}}\" has no LogicalProduct to file its variables: it must be created beforehand.",
+    "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "The operation \"{{studyUnit}}\" has {{count}} LogicalProducts: only one is expected to file its variables.",
+    "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "The operation \"{{studyUnit}}\" has no VariableScheme to file its variables: it must be created beforehand.",
+    "DDI_PHYSICAL_INSTANCE_NOT_FOUND": "This physical instance does not exist or has been deleted.",
+    "loading": {
+      "notFound": "This item could not be found.",
+      "failed": "This item could not be loaded."
+    },
+    "fallback": {
+      "unauthorized": "You are not signed in or your session has expired. Please sign in again and retry.",
+      "forbidden": "You do not have permission to perform this action.",
+      "notFound": "The requested item could not be found.",
+      "server": "An unexpected error occurred on the server. Please try again later or contact the RMéS administration team.",
+      "generic": "An error has occurred. Please try again or contact the RMéS administration team."
+    },
+    "fileDownloadFailed": "The exported file could not be downloaded: the server response does not give its name. Please try again or contact the RMéS administration team.",
+    "toastSummary": "Error",
     "globalClientSideErrorBloc": "You have errors in this form.",
     "serversideErrors500": "An error has occurred. Please contact the RMéS administration team and provide them with the following message: {{error}}",
     "mandatoryProperty": "The property <strong>{{propertyName}}</strong> is required.",
@@ -92,6 +134,7 @@
     "406_OPERATION_SERIES_OPERATION_SERIES_EXISTING_PREF_LABEL_LG2": "The <strong>Title</strong> property is already used by another series.",
     "406_OPERATION_OPERATION_OPERATION_OPERATION_EXISTING_PREF_LABEL_LG1": "The <strong>Intitulé</strong> property is already used by another operation.",
     "406_OPERATION_OPERATION_OPERATION_OPERATION_EXISTING_PREF_LABEL_LG2": "The <strong>Title</strong> property is already used by another operation.",
+    "406_OPERATION_INDICATOR_OPERATION_INDICATOR_EMPTY_WAS_GENERATED_BY": "An indicator must be generated by at least one series.",
     "406_OPERATION_INDICATOR_OPERATION_INDICATOR_EXISTING_PREF_LABEL_LG1": "The <strong>Intitulé</strong> property is already used by another indicator.",
     "406_OPERATION_INDICATOR_OPERATION_INDICATOR_EXISTING_PREF_LABEL_LG2": "The <strong>Title</strong> property is already used by another indicator.",
     "OPERATION_INDICATOR_VALIDATION_UNVALIDATED_SERIES": "An indicator can be published if and only if all parent series has been published."
@@ -106,6 +149,16 @@
     "structuresTitle": "Structures",
     "codelistsTitle": "Codelists",
     "datasetsTitle": "Datasets",
-    "ddiTitle": "Variables"
+    "ddiTitle": "Variables",
+    "dataDescriptionTitle": "Data description",
+    "administrationTitle": "Administration"
+  },
+  "menu": {
+    "datasets": "Datasets",
+    "distributions": "Distributions",
+    "variables": "Variables",
+    "codelists": "Codelists",
+    "structures": "Structures",
+    "components": "Components"
   }
 }

@@ -1,12 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 
 import { CodelistsApi, StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../application/app-context";
+import { EMPTY_ARRAY } from "@utils/array-utils";
+
 import {
   MEASURE_PROPERTY_TYPE,
   XSD_CODE_LIST,
@@ -14,15 +12,12 @@ import {
   XSD_FLOAT,
   XSD_STRING,
 } from "../constants";
+import { createStructuresWrapper } from "../render.testing";
 import { ComponentDetailEdit } from "./ComponentDetailEdit";
 
-vi.mock("@sdk/index", () => ({
-  CodelistsApi: {
-    getCodelistsPartial: vi.fn().mockResolvedValue([]),
-    getPartialsByParent: vi.fn().mockResolvedValue([]),
-  },
+vi.mock("@sdk/index", async () => ({
+  ...(await import("../mocks.testing")).emptyCodelistsAndStampsApi(),
   StructureApi: { getMutualizedComponent: vi.fn() },
-  StampsApi: { getStamps: vi.fn().mockResolvedValue([]) },
 }));
 
 vi.mock("@components/business/creators-input", () => ({
@@ -34,31 +29,14 @@ vi.mock("@components/business/contributors-input/contributors-input", () => ({
   ),
 }));
 
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return {
-    ...actual,
-    usePrivileges: () => ({
-      privileges: [
-        {
-          application: "STRUCTURE_COMPONENT",
-          privileges: [{ privilege: "CREATE", strategy: "ALL" }],
-        },
-      ],
-    }),
-    useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-  };
-});
-
-const Wrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-    <MemoryRouter>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        {children}
-      </AppContextProvider>
-    </MemoryRouter>
-  </QueryClientProvider>
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../mocks.testing")).usersHookWithCreatePrivilege(
+    await importOriginal(),
+    "STRUCTURE_COMPONENT",
+  ),
 );
+
+const Wrapper = createStructuresWrapper();
 
 const handleSave = vi.fn();
 const handleBack = vi.fn();
@@ -72,15 +50,18 @@ const component = {
   contributor: ["DG75-L201"],
 };
 
+const concepts = [{ id: "concept1", label: "Concept 1" }];
+const codelists = [{ id: "cl1", label: "Liste 1", notation: "CL_1" }];
+
 const renderEdit = (props: Record<string, unknown> = {}) =>
   render(
     <ComponentDetailEdit
-      attributes={[]}
+      attributes={EMPTY_ARRAY}
       serverSideError=""
       type={undefined}
       component={component}
-      concepts={[{ id: "concept1", label: "Concept 1" }]}
-      codelists={[{ id: "cl1", label: "Liste 1", notation: "CL_1" }]}
+      concepts={concepts}
+      codelists={codelists}
       handleSave={handleSave}
       handleBack={handleBack}
       {...props}
@@ -131,12 +112,74 @@ describe("ComponentDetailEdit", () => {
     expect(handleSave).not.toHaveBeenCalled();
   });
 
+  describe("après un enregistrement refusé par la validation", () => {
+    const field = (id: string) => document.getElementById(id)!;
+    const type = (id: string, value: string) =>
+      fireEvent.change(field(id), { target: { name: id, value } });
+
+    const renderRejected = () => {
+      renderEdit({ component: { ...component, labelLg1: "", labelLg2: "" } });
+      fireEvent.click(saveButton());
+    };
+
+    it("garde le bouton désactivé quand seul un champ facultatif est modifié", () => {
+      renderRejected();
+
+      type("altLabelLg1", "Nom court");
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("garde le bouton désactivé tant qu'un champ requis reste vide", () => {
+      renderRejected();
+
+      type("labelLg1", "Composante");
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("réactive le bouton dès que tous les champs requis sont remplis", () => {
+      renderRejected();
+
+      type("labelLg1", "Composante");
+      type("labelLg2", "Component");
+
+      expect(saveButton()).toBeEnabled();
+    });
+
+    it("met à jour les erreurs de champ à la saisie", () => {
+      renderRejected();
+
+      type("labelLg1", "Composante");
+
+      expect(field("labelLg1")).not.toHaveAttribute("aria-invalid", "true");
+      expect(field("labelLg2")).toHaveAttribute("aria-invalid", "true");
+    });
+  });
+
   it("revient en arrière quand on annule", () => {
     renderEdit();
 
     fireEvent.click(screen.getByRole("button", { name: /cancel|annuler/i }));
 
     expect(handleBack).toHaveBeenCalled();
+  });
+
+  it("enregistre le type choisi pour une nouvelle composante", async () => {
+    renderEdit({
+      component: { identifiant: "c1", labelLg1: "Composante 1", labelLg2: "Component 1" },
+    });
+
+    // PrimeReact ne monte les options qu'à l'ouverture du Dropdown.
+    const typeField = screen.getByText("Type", { selector: "label" }).closest(".form-group")!;
+    fireEvent.click(typeField.querySelector(".p-dropdown-trigger")!);
+    fireEvent.click(await screen.findByRole("option", { name: "Dimension", hidden: true }));
+    expect(typeField.querySelector(".p-dropdown-label")).toHaveTextContent("Dimension");
+    fireEvent.click(saveButton());
+
+    expect(handleSave).toHaveBeenCalledWith(
+      expect.objectContaining({ type: "http://purl.org/linked-data/cube#DimensionProperty" }),
+    );
   });
 
   it("propose un format et des longueurs pour une représentation textuelle", () => {
@@ -195,5 +238,69 @@ describe("ComponentDetailEdit", () => {
 
     await waitFor(() => expect(StructureApi.getMutualizedComponent).toHaveBeenCalledWith("a1"));
     expect(await screen.findByDisplayValue("valeur")).toBeInTheDocument();
+  });
+
+  describe("attributs liés à une mesure", () => {
+    const measure = {
+      ...component,
+      type: MEASURE_PROPERTY_TYPE,
+      attribute_0: "http://bauhaus/attribut1",
+      attributeValue_0: "valeur",
+    };
+    const attributes = [{ id: "a1", iri: "http://bauhaus/attribut1", labelLg1: "Attribut 1" }];
+
+    beforeEach(() => {
+      vi.mocked(StructureApi.getMutualizedComponent).mockResolvedValue({ range: XSD_STRING });
+    });
+
+    it("propose une ligne vide pour lier un attribut de plus", async () => {
+      renderEdit({ component: measure, attributes });
+
+      expect(await screen.findByDisplayValue("valeur")).toBeInTheDocument();
+      expect(screen.getAllByText(/^Attribut(e)?$/, { selector: "label" })).toHaveLength(2);
+    });
+
+    it("n'enregistre pas la ligne vide proposée", async () => {
+      renderEdit({ component: measure, attributes });
+      await screen.findByDisplayValue("valeur");
+
+      fireEvent.click(saveButton());
+
+      expect(handleSave).toHaveBeenCalledWith(
+        expect.not.objectContaining({ attribute_1: expect.anything() }),
+      );
+      expect(handleSave).toHaveBeenCalledWith(
+        expect.not.objectContaining({ attributeValue_1: expect.anything() }),
+      );
+    });
+
+    it("enregistre l'attribut saisi dans la ligne proposée", async () => {
+      renderEdit({
+        component: measure,
+        attributes: [
+          ...attributes,
+          { id: "a2", iri: "http://bauhaus/attribut2", labelLg1: "Attribut 2" },
+        ],
+      });
+      await screen.findByDisplayValue("valeur");
+
+      // PrimeReact ne monte les options qu'à l'ouverture du Dropdown.
+      const emptyRow = screen
+        .getAllByText(/^Attribut(e)?$/, { selector: "label" })[1]
+        .closest(".form-group")!;
+      fireEvent.click(emptyRow.querySelector(".p-dropdown-trigger")!);
+      fireEvent.click(await screen.findByRole("option", { name: "Attribut 2", hidden: true }));
+      const valueFields = () => screen.getAllByLabelText(/^(Saisissez du texte|Insert text)$/);
+      await waitFor(() => expect(valueFields()).toHaveLength(2));
+      fireEvent.change(valueFields()[1], { target: { value: "autre valeur" } });
+      fireEvent.click(saveButton());
+
+      expect(handleSave).toHaveBeenCalledWith(
+        expect.objectContaining({
+          attribute_1: "http://bauhaus/attribut2",
+          attributeValue_1: "autre valeur",
+        }),
+      );
+    });
   });
 });

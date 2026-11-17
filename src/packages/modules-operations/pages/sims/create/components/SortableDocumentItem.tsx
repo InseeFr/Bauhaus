@@ -54,7 +54,7 @@ export const SortableDocumentItem = ({
         {...attributes}
         {...listeners}
       >
-        <span className="glyphicon glyphicon-menu-hamburger" aria-hidden="true" />
+        <span className="pi pi-bars" aria-hidden="true" />
       </button>
       <span>
         <DocumentLink document={document} localPrefix={localPrefix} baseURI={baseURI} />
@@ -66,7 +66,7 @@ export const SortableDocumentItem = ({
         aria-label={t("app.btnDelete")}
         onClick={() => deleteHandler(document.uri)}
       >
-        <span className="glyphicon glyphicon-trash" aria-hidden="true" />
+        <span className="pi pi-trash" aria-hidden="true" />
       </button>
     </List.Item>
   );

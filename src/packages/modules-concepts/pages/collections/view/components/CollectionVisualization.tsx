@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { CheckSecondLang } from "@components/check-second-lang";
+import { ErrorBloc } from "@components/errors-bloc";
 import { Exporting } from "@components/loading";
 import { PageSubtitle } from "@components/page-sub-title";
 import { PageTitle } from "@components/page-title";
@@ -20,6 +21,8 @@ interface CollectionVisualizationProps {
   members: CollectionMember[];
   secondLang: boolean;
   validateCollection: (id: string) => void;
+  /** Rejet de la dernière publication, rendu par `ErrorBloc`. */
+  validationError?: unknown;
 }
 
 export const CollectionVisualization = ({
@@ -28,6 +31,7 @@ export const CollectionVisualization = ({
   members,
   secondLang,
   validateCollection,
+  validationError,
 }: Readonly<CollectionVisualizationProps>) => {
   const { t } = useTranslation();
 
@@ -35,7 +39,11 @@ export const CollectionVisualization = ({
 
   const { validationState } = general;
 
-  const { mutate: exportCollection, isPending: isExporting } = useCollectionExporter();
+  const {
+    mutate: exportCollection,
+    isPending: isExporting,
+    error: exportError,
+  } = useCollectionExporter();
 
   const handleClickValid = () => {
     validateCollection(id);
@@ -54,6 +62,8 @@ export const CollectionVisualization = ({
           handleValidation={handleClickValid}
           exportCollection={exportCollection}
         />
+        <ErrorBloc error={validationError} />
+        <ErrorBloc error={exportError} />
         <CheckSecondLang />
         <CollectionGeneralComponent attr={general} secondLang={secondLang} />
         <CollectionMembers members={members} secondLang={secondLang} />

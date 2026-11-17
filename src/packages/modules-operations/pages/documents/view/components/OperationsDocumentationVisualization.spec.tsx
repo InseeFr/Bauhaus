@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 import { Document } from "@model/operations/document";
 
@@ -16,6 +16,9 @@ const document = {
   updatedDate: "2019/02/01",
   sims: [],
 } as unknown as Document;
+
+const renderDocumentation = (attr: Document, secondLang: boolean) =>
+  render(<OperationsDocumentationVisualization attr={attr} secondLang={secondLang} />);
 
 describe("OperationsDocumentationVisualization", () => {
   beforeEach(() => {
@@ -52,27 +55,33 @@ describe("OperationsDocumentationVisualization", () => {
   });
 
   it("should display a note if the object is a document", async () => {
-    const d = {
-      ...document,
-      uri: "/document/uri",
-    };
-    const { container } = render(
-      <OperationsDocumentationVisualization attr={d} secondLang={true} />,
-    );
+    const { container } = renderDocumentation({ ...document, uri: "/document/uri" }, true);
     const notes = container.querySelectorAll(".note");
     expect(notes).toHaveLength(7);
   });
 
-  it("should not display the date if this one is not valid", async () => {
-    const d = {
-      ...document,
-      uri: "/document/page/1",
-      updatedDate: undefined,
-    };
-    const { container } = render(
-      <OperationsDocumentationVisualization attr={d} secondLang={true} />,
+  it("should display the size of the file on the right of the download link", async () => {
+    renderDocumentation(
+      { ...document, uri: "/document/uri", labelLg1: "Note technique", size: 130048 },
+      false,
     );
-    const date = container.querySelector(".row:nth-child(2) .card-body");
-    expect(date).toBeEmptyDOMElement();
+
+    const link = screen.getByRole("link", { name: "Note technique" });
+    const size = screen.getByText("(130 kB)");
+    expect(link.nextElementSibling).toContainElement(size);
+    expect(size).toHaveAttribute("aria-hidden", "true");
+    expect(screen.getByText("130 kilobytes")).toHaveClass("sr-only");
+  });
+
+  it("should not display any size when the file size is unknown", async () => {
+    renderDocumentation({ ...document, uri: "/document/uri", labelLg1: "Note technique" }, false);
+
+    expect(screen.getByRole("link", { name: "Note technique" }).nextElementSibling).toBeNull();
+  });
+
+  it("should not display the date if this one is not valid", async () => {
+    renderDocumentation({ ...document, uri: "/document/page/1", updatedDate: undefined }, true);
+    const date = screen.getByRole("region", { name: "Updated date" });
+    expect(date.textContent).toBe("");
   });
 });

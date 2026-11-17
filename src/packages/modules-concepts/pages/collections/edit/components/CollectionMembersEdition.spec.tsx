@@ -10,6 +10,7 @@ const conceptList = [
 ];
 
 const members = [{ id: "c1", label: "Concept 1" }];
+const NO_ITEMS: never[] = [];
 
 const renderComponent = (props: Partial<React.ComponentProps<typeof CollectionMembers>> = {}) => {
   const handleChange = vi.fn();
@@ -40,7 +41,9 @@ const optionLabels = (list: HTMLElement) =>
 
 describe("collection-edition-creation-members", () => {
   it("renders without crashing", () => {
-    renderWithRouter(<CollectionMembers members={[]} conceptList={[]} handleChange={vi.fn()} />);
+    renderWithRouter(
+      <CollectionMembers members={NO_ITEMS} conceptList={NO_ITEMS} handleChange={vi.fn()} />,
+    );
   });
 
   it("liste les concepts non membres à gauche", () => {

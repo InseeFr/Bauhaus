@@ -1,12 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import { vi } from "vitest";
 
 import { StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../../../../application/app-context";
+import { createStructuresWrapper } from "../../../../render.testing";
 import { EditionForm } from "./EditionForm";
 
 vi.mock("@sdk/index", () => ({
@@ -33,34 +31,24 @@ vi.mock("./StructureComponents", () => ({
   StructureComponents: () => <div />,
 }));
 
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return {
-    ...actual,
-    usePrivileges: () => ({
-      privileges: [
-        {
-          application: "STRUCTURE_STRUCTURE",
-          privileges: [{ privilege: "CREATE", strategy: "ALL" }],
-        },
-      ],
-    }),
-    useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-  };
-});
-
-const Wrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-    <MemoryRouter initialEntries={["/structures/edit"]}>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        <Routes>
-          <Route path="/structures/edit" element={children} />
-          <Route path="/structures/:id" element={<span>Fiche de la structure</span>} />
-        </Routes>
-      </AppContextProvider>
-    </MemoryRouter>
-  </QueryClientProvider>
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../../../../mocks.testing")).usersHookWithCreatePrivilege(
+    await importOriginal(),
+    "STRUCTURE_STRUCTURE",
+  ),
 );
+
+const STRUCTURE_PAGE = <span>Fiche de la structure</span>;
+
+const Wrapper = createStructuresWrapper({
+  initialEntries: ["/structures/edit"],
+  routes: (children) => (
+    <Routes>
+      <Route path="/structures/edit" element={children} />
+      <Route path="/structures/:id" element={STRUCTURE_PAGE} />
+    </Routes>
+  ),
+});
 
 const structure = {
   id: "dsd1",
@@ -86,6 +74,12 @@ describe("EditionForm", () => {
 
     expect(screen.getByDisplayValue("Structure 1")).toBeInTheDocument();
     expect(screen.getByDisplayValue("DSD1")).toBeDisabled();
+  });
+
+  it("nomme la saisie du libellé anglais par son propre libellé", () => {
+    renderForm();
+
+    expect(screen.getByDisplayValue("Structure 1 EN")).toHaveAccessibleName(/label/i);
   });
 
   it("laisse saisir la notation à la création", () => {
@@ -140,6 +134,50 @@ describe("EditionForm", () => {
     expect(StructureApi.postStructure).not.toHaveBeenCalled();
   });
 
+  describe("après un enregistrement refusé par la validation", () => {
+    const field = (id: string) => document.getElementById(id)!;
+    const type = (id: string, value: string) => fireEvent.change(field(id), { target: { value } });
+
+    const renderRejected = () => {
+      renderForm({ initialStructure: { ...structure, labelLg1: "", labelLg2: "" } });
+      fireEvent.click(saveButton());
+    };
+
+    it("garde le bouton désactivé quand seul un champ facultatif est modifié", () => {
+      renderRejected();
+
+      type("descriptionLg1", "Description");
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("garde le bouton désactivé tant qu'un champ requis reste vide", () => {
+      renderRejected();
+
+      type("labelLg1", "Structure");
+
+      expect(saveButton()).toBeDisabled();
+    });
+
+    it("réactive le bouton dès que tous les champs requis sont remplis", () => {
+      renderRejected();
+
+      type("labelLg1", "Structure");
+      type("labelLg2", "Structure EN");
+
+      expect(saveButton()).toBeEnabled();
+    });
+
+    it("met à jour les erreurs de champ à la saisie", () => {
+      renderRejected();
+
+      type("labelLg1", "Structure");
+
+      expect(field("labelLg1")).not.toHaveAttribute("aria-invalid", "true");
+      expect(field("labelLg2")).toHaveAttribute("aria-invalid", "true");
+    });
+  });
+
   it("affiche l'erreur renvoyée par le serveur", async () => {
     vi.mocked(StructureApi.putStructure).mockRejectedValue("Erreur serveur");
     renderForm();
@@ -147,5 +185,67 @@ describe("EditionForm", () => {
     fireEvent.click(saveButton());
 
     expect(await screen.findByText("Erreur serveur")).toBeInTheDocument();
+  });
+
+  it("affiche une erreur de validation du serveur sous le champ concerné", async () => {
+    vi.mocked(StructureApi.putStructure).mockRejectedValue({
+      status: 400,
+      errors: [{ field: "labelLg2", message: "labelLg2 is required" }],
+    });
+    renderForm();
+
+    fireEvent.click(saveButton());
+
+    const input = await screen.findByDisplayValue("Structure 1 EN");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("labelLg2 is required"));
+    expect(input).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("n'affiche pas d'erreur générique quand toutes les erreurs du serveur sont sous leur champ", async () => {
+    vi.mocked(StructureApi.putStructure).mockRejectedValue({
+      status: 400,
+      errors: [{ field: "labelLg2", message: "labelLg2 is required" }],
+    });
+    renderForm();
+
+    fireEvent.click(saveButton());
+
+    const input = await screen.findByDisplayValue("Structure 1 EN");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("labelLg2 is required"));
+    expect(screen.queryByText(/An error has occurred|Une erreur s'est produite/)).toBeNull();
+  });
+
+  it("efface l'erreur du serveur sous le champ au rejet suivant", async () => {
+    vi.mocked(StructureApi.putStructure)
+      .mockRejectedValueOnce({
+        status: 400,
+        errors: [{ field: "labelLg2", message: "labelLg2 is required" }],
+      })
+      .mockRejectedValueOnce("Erreur serveur");
+    renderForm();
+
+    fireEvent.click(saveButton());
+    const input = await screen.findByDisplayValue("Structure 1 EN");
+    await waitFor(() => expect(input).toHaveAccessibleDescription("labelLg2 is required"));
+
+    fireEvent.change(input, { target: { value: "Structure 1 renamed" } });
+    fireEvent.click(saveButton());
+
+    expect(await screen.findByText("Erreur serveur")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Structure 1 renamed")).not.toHaveAccessibleDescription();
+  });
+
+  it("affiche dans le bandeau une erreur du serveur sur un champ absent du formulaire", async () => {
+    vi.mocked(StructureApi.putStructure).mockRejectedValue({
+      status: 400,
+      errors: [{ field: "componentDefinitions[0].component", message: "is required" }],
+    });
+    renderForm();
+
+    fireEvent.click(saveButton());
+
+    expect(
+      await screen.findByText("componentDefinitions[0].component : is required"),
+    ).toBeInTheDocument();
   });
 });

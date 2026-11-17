@@ -1,15 +1,20 @@
-import { ComponentProps } from "react";
+import { ComponentPropsWithoutRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import { componentsI18n } from "../i18n";
-import { AddLogo } from "../logo/logo-add";
+import { Button } from "../ui/button";
+import "./button.css";
 
-export const AddButton = (props: Readonly<ComponentProps<"button">>) => {
+export const AddButton = (props: Readonly<ComponentPropsWithoutRef<"button">>) => {
   const { t } = useTranslation("translation", { i18n: componentsI18n });
 
   return (
-    <button {...props} type="button" className="btn btn-default" aria-label={t("add")}>
-      <AddLogo />
-    </button>
+    <Button
+      {...props}
+      type="button"
+      className="bauhaus-icon-btn"
+      icon="pi pi-plus"
+      aria-label={t("add")}
+    />
   );
 };

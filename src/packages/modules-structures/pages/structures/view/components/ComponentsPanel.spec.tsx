@@ -34,6 +34,8 @@ vi.mock("@sdk/index", () => ({
   },
 }));
 
+const NO_COMPONENT_DEFINITIONS: never[] = [];
+
 describe("ComponentsPanel", () => {
   beforeEach(() => {
     (useFormattedCodelist as Mock).mockReturnValue({ data: [] });
@@ -45,7 +47,7 @@ describe("ComponentsPanel", () => {
   });
 
   it("should render StructureComponentsSelector and CodelistPanel", async () => {
-    render(<ComponentsPanel componentDefinitions={[]} />);
+    render(<ComponentsPanel componentDefinitions={NO_COMPONENT_DEFINITIONS} />);
 
     await waitFor(() => {
       expect((StructureComponentsSelector as Mock).mock.calls.length).toBeGreaterThanOrEqual(1);

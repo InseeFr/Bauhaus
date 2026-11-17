@@ -1,9 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
+import { expectIdleQuery, renderQueryHook, renderQueryHookUntil } from "./queryClient.testing";
 import { useGroupCodeLists } from "./useGroupCodeLists";
 
 vi.mock("../../sdk", () => ({
@@ -11,19 +10,6 @@ vi.mock("../../sdk", () => ({
     getGroupCodeLists: vi.fn(),
   },
 }));
-
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
 
 describe("useGroupCodeLists", () => {
   // L'endpoint group renvoie `agency` (+ versionDate), pas `agencyId`.
@@ -43,13 +29,10 @@ describe("useGroupCodeLists", () => {
   it("should normalize agency to agencyId", async () => {
     vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockResponse);
 
-    const { result } = renderHook(() => useGroupCodeLists("fr.insee", "group-1"), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBe(true);
-    });
+    const { result } = await renderQueryHookUntil(
+      () => useGroupCodeLists("fr.insee", "group-1"),
+      "isSuccess",
+    );
 
     expect(result.current.data).toEqual([
       {
@@ -62,21 +45,14 @@ describe("useGroupCodeLists", () => {
     expect(DDIApi.getGroupCodeLists).toHaveBeenCalledWith("fr.insee", "group-1");
   });
 
-  it("should not fetch when agencyId is empty", () => {
-    const { result } = renderHook(() => useGroupCodeLists("", "group-1"), {
-      wrapper: createWrapper(),
+  for (const { name, agencyId, groupId } of [
+    { name: "should not fetch when agencyId is empty", agencyId: "", groupId: "group-1" },
+    { name: "should not fetch when groupId is empty", agencyId: "fr.insee", groupId: "" },
+  ]) {
+    it(name, () => {
+      const { result } = renderQueryHook(() => useGroupCodeLists(agencyId, groupId));
+
+      expectIdleQuery(result.current, DDIApi.getGroupCodeLists);
     });
-
-    expect(result.current.fetchStatus).toBe("idle");
-    expect(DDIApi.getGroupCodeLists).not.toHaveBeenCalled();
-  });
-
-  it("should not fetch when groupId is empty", () => {
-    const { result } = renderHook(() => useGroupCodeLists("fr.insee", ""), {
-      wrapper: createWrapper(),
-    });
-
-    expect(result.current.fetchStatus).toBe("idle");
-    expect(DDIApi.getGroupCodeLists).not.toHaveBeenCalled();
-  });
+  }
 });

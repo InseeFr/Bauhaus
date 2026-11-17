@@ -1,12 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi } from "vitest";
 
 import { ClassificationMembers } from "./ClassificationMembers";
 
-vi.mock("@components/layout", () => ({
-  Row: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-}));
+vi.mock("@components/layout", () => import("../testing/component-mocks.testing"));
 
 vi.mock("@components/note", () => ({
   Note: ({ title, text }: { title: string; text: React.ReactNode }) => (

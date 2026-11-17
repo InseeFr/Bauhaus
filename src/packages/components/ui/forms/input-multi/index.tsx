@@ -2,6 +2,7 @@ import { Chips } from "primereact/chips";
 
 import { Row } from "@components/layout";
 
+import "../../../form/form.css";
 import "./input-multi.css";
 
 interface InputMultiTypes {
@@ -24,7 +25,7 @@ export const InputMulti = ({
 }: Readonly<InputMultiTypes>) => {
   return (
     <Row className="input-multi">
-      <div className={`form-group col-md-${handleChangeLg2 ? 6 : 12}`}>
+      <div className={`bauhaus-form-group bauhaus-grid-md-${handleChangeLg2 ? 6 : 12}`}>
         <label>
           {labelLg1}
           <Chips
@@ -42,7 +43,7 @@ export const InputMulti = ({
         </label>
       </div>
       {!!handleChangeLg2 && (
-        <div className="form-group col-md-6">
+        <div className="bauhaus-form-group bauhaus-grid-md-6">
           <label>
             {labelLg2}
             <Chips

@@ -26,16 +26,19 @@ import { ComponentDefinition } from "@model/structures/Component";
 
 import { ComponentSpecification, ComponentSpecificationForm } from "./ComponentSpecificationForm";
 
+const component = {
+  component: {},
+};
+const SELECTED_COMPONENT = { component } as unknown as ComponentDefinition;
+const NO_STRUCTURE_COMPONENTS: never[] = [];
+
 describe("ComponentSpecificationForm", () => {
   it("should render form inputs", async () => {
-    const component = {
-      component: {},
-    };
     render(
       <ComponentSpecificationForm
         component={component as unknown as ComponentSpecification}
-        structureComponents={[]}
-        selectedComponent={{ component } as unknown as ComponentDefinition}
+        structureComponents={NO_STRUCTURE_COMPONENTS}
+        selectedComponent={SELECTED_COMPONENT}
         onChange={vi.fn()}
       />,
     );
@@ -50,15 +53,12 @@ describe("ComponentSpecificationForm", () => {
     ["Label", "labelLg2"],
   ].forEach(([label, propertyName]) => {
     it(`should call onChange if the ${propertyName} changed`, async () => {
-      const component = {
-        component: {},
-      };
       const onChange = vi.fn();
       render(
         <ComponentSpecificationForm
           component={component as unknown as ComponentSpecification}
-          structureComponents={[]}
-          selectedComponent={{ component } as unknown as ComponentDefinition}
+          structureComponents={NO_STRUCTURE_COMPONENTS}
+          selectedComponent={SELECTED_COMPONENT}
           onChange={onChange}
         />,
       );

@@ -1,27 +1,17 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 
 import { MODULES } from "@utils/hooks/rbac-constants";
 
-import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
+import { rbacFor, renderWithRbac, resetRbacMocks } from "../../../../tests/rbac.testing";
 
 describe("Family Home Page Menu", () => {
-  afterEach(() => {
-    vi.resetModules();
-    vi.clearAllMocks();
-  });
+  afterEach(resetRbacMocks);
 
   it("a user without Admin cannot create or publish a family", async () => {
-    mockReactQueryForRbac([
-      {
-        application: MODULES.OPERATION_INDICATOR,
-        privileges: [],
-      },
-    ]);
-    const { Menu } = await import("./menu");
-    render(
-      <WithRouter>
-        <Menu />
-      </WithRouter>,
+    await renderWithRbac(
+      [rbacFor(MODULES.OPERATION_INDICATOR)],
+      () => import("./menu"),
+      ({ Menu }) => <Menu />,
     );
 
     expect(screen.queryByText("New")).toBeNull();

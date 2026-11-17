@@ -1,8 +1,8 @@
-import { InputText } from "primereact/inputtext";
 import { RefObject } from "react";
 import { useTranslation } from "react-i18next";
 
 import { MDEditor } from "@components/rich-editor/react-md-editor";
+import { InputText } from "@components/ui/input-text";
 
 interface VariableInformationTabProps {
   name: string;

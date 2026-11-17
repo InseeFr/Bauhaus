@@ -1,15 +1,11 @@
 import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  createBrowserRouter,
-  Navigate,
-  Outlet,
-  RouteObject,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet, RouteObject } from "react-router";
+import { RouterProvider } from "react-router/dom";
 
 import { Loading } from "@components/loading";
 import { NotFound, UnderMaintenance } from "@components/not-found";
+import { Button } from "@components/ui/button";
 
 import { useOidc } from "../../auth/create-oidc";
 import { withAuth } from "../../auth/hoc";
@@ -24,6 +20,8 @@ import { routes as StructuresRoutes } from "../../modules-structures/routes/inde
 import { App } from "../app";
 import { useAppContext } from "../app-context";
 import type { AppName, Module } from "../app-context";
+import { landingModule, SECTION_ROWS } from "../sections";
+import { RootError } from "./root-error";
 
 import { RBACLink } from ".";
 import "./routes.css";
@@ -33,15 +31,16 @@ export const HomePage = () => {
     properties: { modules },
   } = useAppContext();
 
-  /* Quand un seul module se montre, la page d'accueil n'aurait qu'une tuile à proposer :
-     autant y aller directement. Les modules masqués ne comptent pas, même joignables par URL. */
-  const shownPages = useMemo(
-    () => modules.filter((m) => m.show).map((m) => m.identifier),
-    [modules],
-  );
+  /* Quand une seule tuile se montre, la page d'accueil n'aurait rien à proposer :
+     autant aller directement sur son module. Les modules masqués ne comptent pas,
+     même joignables par URL. */
+  const targets = useMemo(() => {
+    const shownModules = modules.filter((m) => m.show).map((m) => m.identifier);
+    return SECTION_ROWS.flat().flatMap((section) => landingModule(section, shownModules) ?? []);
+  }, [modules]);
 
-  if (shownPages.length === 1) {
-    return <Navigate to={"/" + shownPages[0]} replace />;
+  if (targets.length === 1) {
+    return <Navigate to={"/" + targets[0]} replace />;
   }
 
   return <App />;
@@ -64,8 +63,8 @@ export const Logout = () => {
 
   return (
     <div id="login" className="flex">
-      <button
-        type="button"
+      <Button
+        label={t("auth.login")}
         onClick={() => {
           if (!login) {
             return;
@@ -75,10 +74,7 @@ export const Logout = () => {
             redirectUrl: "/",
           });
         }}
-        className="btn btn-primary"
-      >
-        {t("auth.login")}
-      </button>
+      />
     </div>
   );
 };
@@ -112,33 +108,38 @@ export const buildModuleRoutes = (modules: Module[]): RouteObject[] =>
     };
   });
 
-export const Routes = () => {
-  const {
-    properties: { modules },
-  } = useAppContext();
-
-  const router = createBrowserRouter([
+/* Le router se construit une seule fois, dès que la configuration des modules est connue
+   (réponse de `GeneralApi.getInit()`), et non à chaque rendu : le recréer réinitialiserait
+   son état de navigation et relancerait ses chargements. */
+export const createAppRouter = (modules: Module[]) =>
+  createBrowserRouter([
     {
-      path: "logout",
-      element: <Logout />,
-    },
-    {
-      path: "",
-      element: <MainLayout />,
+      errorElement: <RootError />,
       children: [
-        { path: "", element: <HomePage /> },
-        ...buildModuleRoutes(modules),
         {
-          path: "*",
-          element: <NotFound />,
+          path: "logout",
+          element: <Logout />,
+        },
+        {
+          path: "",
+          element: <MainLayout />,
+          children: [
+            { path: "", element: <HomePage /> },
+            ...buildModuleRoutes(modules),
+            {
+              path: "*",
+              element: <NotFound />,
+            },
+          ],
         },
       ],
     },
   ]);
 
-  return (
-    <Suspense fallback={<Loading />}>
-      <RouterProvider router={router}></RouterProvider>
-    </Suspense>
-  );
-};
+export type AppRouter = ReturnType<typeof createAppRouter>;
+
+export const Routes = ({ router }: Readonly<{ router: AppRouter }>) => (
+  <Suspense fallback={<Loading />}>
+    <RouterProvider router={router}></RouterProvider>
+  </Suspense>
+);

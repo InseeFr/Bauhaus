@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { ChangeEvent, useCallback } from "react";
 import { describe, it, vi, expect } from "vitest";
 
 import { MDEditor } from "./react-md-editor";
@@ -10,9 +11,13 @@ vi.mock("@uiw/react-md-editor/nohighlight", () => {
     bold: undefined,
     unorderedListCommand: undefined,
     link: undefined,
-    default: ({ value, onChange }: { value: string; onChange: (value?: string) => void }) => (
-      <textarea data-testid="editor" value={value} onChange={(e) => onChange(e.target.value)} />
-    ),
+    default: ({ value, onChange }: { value: string; onChange: (value?: string) => void }) => {
+      const handleChange = useCallback(
+        (e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value),
+        [onChange],
+      );
+      return <textarea data-testid="editor" value={value} onChange={handleChange} />;
+    },
   };
 });
 

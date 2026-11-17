@@ -51,7 +51,6 @@ export const Component = () => {
             childPath="codelists/partial"
             advancedSearch
             searchUrl="/codelists/partial/search"
-            autoFocus
             itemFormatter={(_: any, codelist: any) => formatLabel(codelist)}
           />
         </div>

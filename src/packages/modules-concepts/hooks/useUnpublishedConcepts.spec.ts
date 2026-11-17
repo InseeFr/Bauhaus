@@ -1,10 +1,9 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { createElement, PropsWithChildren } from "react";
 import { vi } from "vitest";
 
 import { ConceptApi } from "@sdk/new-concept-api";
 
+import { createQueryClientWrapper } from "../testing/query-client.testing";
 import { useUnpublishedConcepts } from "./useUnpublishedConcepts";
 
 vi.mock("@sdk/new-concept-api", () => ({
@@ -14,14 +13,6 @@ vi.mock("@sdk/new-concept-api", () => ({
 }));
 
 const mockGetConceptValidateList = vi.mocked(ConceptApi.getConceptValidateList);
-
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-  });
-  return ({ children }: PropsWithChildren) =>
-    createElement(QueryClientProvider, { client: queryClient }, children);
-};
 
 describe("useUnpublishedConcepts", () => {
   beforeEach(() => {
@@ -36,7 +27,7 @@ describe("useUnpublishedConcepts", () => {
     mockGetConceptValidateList.mockResolvedValue(unpublished);
 
     const { result } = renderHook(() => useUnpublishedConcepts(), {
-      wrapper: createWrapper(),
+      wrapper: createQueryClientWrapper(),
     });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { screen } from "@testing-library/dom";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { describe, expect, it, Mock, vi } from "vitest";
 
 vi.mock("react-i18next", async () => {
@@ -27,8 +27,8 @@ vi.mock("react-i18next", async () => {
 import { renderWithRouter } from "../../tests/render";
 import { Menu } from "./menu";
 
-vi.mock("react-router-dom", async () => {
-  const originalModule = await vi.importActual("react-router-dom");
+vi.mock("react-router", async () => {
+  const originalModule = await vi.importActual("react-router");
   return {
     ...originalModule,
     useLocation: vi.fn(),

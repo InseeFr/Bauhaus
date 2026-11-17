@@ -1,5 +1,7 @@
 import { Distribution } from "@model/Dataset";
 
+import { validate } from "./validation";
+
 export type DistributionEditState = {
   editingDistribution: Partial<Distribution>;
   clientSideErrors: {
@@ -7,6 +9,8 @@ export type DistributionEditState = {
     fields?: Record<string, string>;
   };
   submitting: boolean;
+  /** Un enregistrement a été refusé par la validation : chaque saisie revalide la distribution. */
+  saveAttempted: boolean;
 };
 
 export type DistributionEditAction =
@@ -20,6 +24,13 @@ export type DistributionEditAction =
     }
   | {
       type: "SET_CLIENT_SIDE_ERRORS";
+      payload: {
+        errorMessage?: string[];
+        fields?: Record<string, string>;
+      };
+    }
+  | {
+      type: "SAVE_REJECTED_BY_VALIDATION";
       payload: {
         errorMessage?: string[];
         fields?: Record<string, string>;
@@ -44,6 +55,7 @@ export const initialState: DistributionEditState = {
   },
   clientSideErrors: {},
   submitting: false,
+  saveAttempted: false,
 };
 
 export const reducer = (
@@ -56,20 +68,33 @@ export const reducer = (
         ...state,
         editingDistribution: action.payload,
       };
-    case "UPDATE_DISTRIBUTION":
+    case "UPDATE_DISTRIBUTION": {
+      const editingDistribution = {
+        ...state.editingDistribution,
+        ...action.payload,
+      };
       return {
         ...state,
-        editingDistribution: {
-          ...state.editingDistribution,
-          ...action.payload,
-        },
+        editingDistribution,
+        clientSideErrors: state.saveAttempted
+          ? validate(editingDistribution)
+          : state.clientSideErrors,
       };
+    }
     case "SET_CLIENT_SIDE_ERRORS":
       return {
         ...state,
         clientSideErrors: action.payload,
       };
+    case "SAVE_REJECTED_BY_VALIDATION":
+      return {
+        ...state,
+        submitting: true,
+        saveAttempted: true,
+        clientSideErrors: action.payload,
+      };
     case "CLEAR_ERROR_MESSAGES":
+      if (state.saveAttempted) return state;
       return {
         ...state,
         clientSideErrors: {

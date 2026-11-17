@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { TextInput } from "@components/form/input";
+import { DatalistInput } from "@components/datalist-input";
 
 const MEDIA_TYPE_OPTIONS = ["CSV", "PARQUET", "XSLX"];
 
@@ -14,18 +14,13 @@ export const MediaTypeInput = ({ value, onChange }: Readonly<MediaTypeInputProps
 
   return (
     <div className="col-md-6 form-group">
-      <label htmlFor="mediaType">{t("distribution.mediaType")}</label>
-      <TextInput
+      <DatalistInput
         id="mediaType"
+        label={t("distribution.mediaType")}
+        options={MEDIA_TYPE_OPTIONS}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        list="mediaType-list"
+        onChange={onChange}
       />
-      <datalist id="mediaType-list">
-        {MEDIA_TYPE_OPTIONS.map((option) => (
-          <option key={option} value={option}></option>
-        ))}
-      </datalist>
     </div>
   );
 };

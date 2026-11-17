@@ -1,10 +1,10 @@
 import { renderHook, act } from "@testing-library/react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { Mock } from "vitest";
 
 import { useGoBack } from "./useGoBack";
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router", () => ({
   useNavigate: vi.fn(),
   useLocation: vi.fn(),
 }));

@@ -1,17 +1,20 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi, beforeEach } from "vitest";
+
+import { ErrorBloc } from "@components/errors-bloc";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/loading-error.testing";
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
+import { renderPageWithAppContext } from "../../../render.testing";
 import { Component } from "./page";
 
 const goBack = vi.fn();
 
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
   useParams: () => ({ id: "comp-1" }),
 }));
 
@@ -49,7 +52,7 @@ vi.mock("../../../components/ComponentDetailView", () => ({
       <span>attributs:{attributes.length}</span>
       <span>listes:{codelists.length}</span>
       <span>modifier:{handleUpdate}</span>
-      <span>erreur:{serverSideError ?? "(aucune)"}</span>
+      <ErrorBloc error={serverSideError} />
       <button onClick={handleBack}>retour</button>
       <button onClick={handleDelete}>supprimer</button>
       <button onClick={publishComponent}>publier</button>
@@ -59,14 +62,14 @@ vi.mock("../../../components/ComponentDetailView", () => ({
 
 const component = { id: "comp-1", labelLg1: "Composante FR" };
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = () => renderPageWithAppContext(<Component />);
+
+/** Attend l'affichage du bouton `name` de la vue (stubée) puis clique dessus. */
+const clickWhenDisplayed = async (name: string) => {
+  await waitFor(() => expect(screen.getByRole("button", { name })).toBeInTheDocument());
+
+  await userEvent.click(screen.getByRole("button", { name }));
+};
 
 describe("Mutualized component view page", () => {
   beforeEach(() => {
@@ -76,6 +79,23 @@ describe("Mutualized component view page", () => {
     vi.mocked(ConceptsApi.getConceptList).mockResolvedValue([{ id: "k-1" }, { id: "k-2" }]);
     vi.mocked(StructureApi.deleteMutualizedComponent).mockResolvedValue({});
     vi.mocked(StructureApi.publishMutualizedComponent).mockResolvedValue({});
+  });
+
+  it("indique que la composante est introuvable au lieu d'une page vide", async () => {
+    vi.mocked(StructureApi.getMutualizedComponent).mockRejectedValue(sdkRejection.emptyBody(404));
+
+    renderPage();
+
+    await expectItemNotFound();
+    expect(screen.queryByRole("button", { name: "publier" })).not.toBeInTheDocument();
+  });
+
+  it("indique que la composante n'a pas pu être chargée quand un référentiel échoue", async () => {
+    vi.mocked(ConceptsApi.getConceptList).mockRejectedValue(sdkRejection.emptyBody(500));
+
+    renderPage();
+
+    await expectItemLoadFailed();
   });
 
   it("attend les trois appels avant d'afficher la composante", async () => {
@@ -92,20 +112,14 @@ describe("Mutualized component view page", () => {
 
   it("revient à la liste des composantes", async () => {
     renderPage();
-    await waitFor(() => expect(screen.getByRole("button", { name: "retour" })).toBeInTheDocument());
-
-    await userEvent.click(screen.getByRole("button", { name: "retour" }));
+    await clickWhenDisplayed("retour");
 
     expect(goBack).toHaveBeenCalledWith("/structures/components");
   });
 
   it("supprime la composante puis revient à la liste", async () => {
     renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "supprimer" })).toBeInTheDocument(),
-    );
-
-    await userEvent.click(screen.getByRole("button", { name: "supprimer" }));
+    await clickWhenDisplayed("supprimer");
 
     await waitFor(() =>
       expect(StructureApi.deleteMutualizedComponent).toHaveBeenCalledWith("comp-1"),
@@ -115,11 +129,7 @@ describe("Mutualized component view page", () => {
 
   it("publie la composante puis la recharge", async () => {
     renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
-    );
-
-    await userEvent.click(screen.getByRole("button", { name: "publier" }));
+    await clickWhenDisplayed("publier");
 
     await waitFor(() =>
       expect(StructureApi.publishMutualizedComponent).toHaveBeenCalledWith(component),
@@ -128,14 +138,25 @@ describe("Mutualized component view page", () => {
   });
 
   it("affiche l'erreur serveur quand la publication échoue", async () => {
-    vi.mocked(StructureApi.publishMutualizedComponent).mockRejectedValue("Publication refusée");
-    renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
+    vi.mocked(StructureApi.publishMutualizedComponent).mockRejectedValue(
+      sdkRejection.text(500, "Publication refusée"),
     );
+    renderPage();
+    await clickWhenDisplayed("publier");
 
-    await userEvent.click(screen.getByRole("button", { name: "publier" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Publication refusée");
+  });
 
-    await waitFor(() => expect(screen.getByText("erreur:Publication refusée")).toBeInTheDocument());
+  it("reste sur la composante et affiche l'erreur quand la suppression échoue", async () => {
+    vi.mocked(StructureApi.deleteMutualizedComponent).mockRejectedValue(
+      sdkRejection.text(500, "Suppression impossible"),
+    );
+    renderPage();
+    await clickWhenDisplayed("supprimer");
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Suppression impossible");
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+    expect(screen.getByText("composante:Composante FR")).toBeInTheDocument();
+    expect(goBack).not.toHaveBeenCalled();
   });
 });

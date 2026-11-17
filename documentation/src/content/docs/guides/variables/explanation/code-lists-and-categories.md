@@ -10,12 +10,12 @@ A variable whose type is **Code** takes its values from a `CodeList`. Each `Code
 
 When you give a variable a code representation, you either create a new list or reuse an existing one. The reuse selector offers two sections.
 
-| Section | Source | Editable? |
-|---------|--------|-----------|
-| **Group code lists** | Every list filed under the code list schemes of the parent group's logical products (`GET /ddi/groups/{agency}/{id}/codes-list`) | Yes |
-| **Mutualized code lists** | Lists reachable from the configured mutualized codes package (`GET /ddi/mutualized-codes-list`) | No — read-only |
+| Section                   | Source                                                                                                                           | Editable?      |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| **Group code lists**      | Every list filed under the code list schemes of the parent group's logical products (`GET /ddi/groups/{agency}/{id}/codes-list`) | Yes            |
+| **Mutualized code lists** | Lists reachable from the configured mutualized codes package (`GET /ddi/mutualized-codes-list`)                                  | No — read-only |
 
-Mutualized lists are the shared institutional vocabularies: they are maintained outside the module, and the interface locks them, marking them with a padlock. Group lists are the module's own, and are meant to be shared *within* a series — which is exactly why editing one needs a decision.
+Mutualized lists are the shared institutional vocabularies: they are maintained outside the module, and the interface locks them, marking them with a padlock. Group lists are the module's own, and are meant to be shared _within_ a series — which is exactly why editing one needs a decision.
 
 Selecting a group list does not merely record a reference: the list is loaded and **materialised locally** under its shared identifier. Without that, the first edit would be applied to an empty list and the existing codes would be lost.
 
@@ -23,12 +23,12 @@ Selecting a group list does not merely record a reference: the list is loaded an
 
 Before applying an edit to a code list or a category, the module asks Colectica who else uses it — `GET /ddi/codes-list/{agency}/{id}/users` for a list, `GET /ddi/category/{agency}/{id}/users` for a category — and reacts to four situations:
 
-| Situation | What happens |
-|-----------|--------------|
-| The list is used by other variables | A dialog opens: **change the shared list**, or **create a variant** |
-| The list *and* one of its categories are shared | A dialog opens, offering a variant of both |
-| The list belongs to this variable only, but a category it uses is shared with other lists | A dialog opens, offering a variant of the category alone |
-| Nothing is shared | The edit is applied silently |
+| Situation                                                                                 | What happens                                                        |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| The list is used by other variables                                                       | A dialog opens: **change the shared list**, or **create a variant** |
+| The list _and_ one of its categories are shared                                           | A dialog opens, offering a variant of both                          |
+| The list belongs to this variable only, but a category it uses is shared with other lists | A dialog opens, offering a variant of the category alone            |
+| Nothing is shared                                                                         | The edit is applied silently                                        |
 
 **Creating a variant** forks the object: a copy is written under a fresh identifier, referenced only by the variable being edited, and carrying a `BasedOnObject` pointing back at the original. The other users of the original are left untouched. **Changing the shared object** propagates to everyone using it, which is a legitimate choice when the change is a correction rather than a divergence — the dialog names the variables and lists that will be affected.
 

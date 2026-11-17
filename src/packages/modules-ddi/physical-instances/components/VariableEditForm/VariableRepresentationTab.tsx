@@ -1,5 +1,6 @@
-import { Dropdown } from "primereact/dropdown";
 import { useTranslation } from "react-i18next";
+
+import { Dropdown } from "@components/ui/dropdown";
 
 import type {
   NumericRepresentation,

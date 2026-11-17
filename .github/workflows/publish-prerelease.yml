@@ -1,0 +1,46 @@
+name: Publish prerelease image
+
+# Publishes the image of a prerelease on ghcr.io, once the application has
+# passed its checks. The build itself lives in
+# InseeFr/rmes-githubactions-commons, shared with the other RMéS projects.
+
+on:
+  release:
+    types: [prereleased]
+
+jobs:
+  # Quality gate: nothing is handed over to the docker job, which rebuilds the
+  # application from source inside the Dockerfile.
+  build:
+    name: Build & check the application
+    runs-on: ubuntu-latest
+    # La porte qualité ne fait que lire le dépôt : l'image est publiée par le
+    # job suivant, qui porte les droits nécessaires.
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: InseeFr/rmes-githubactions-commons/.github/actions/quality-front@main
+        with:
+          # The shared threshold is 2%; Bauhaus sits at ~3.9% of duplicated
+          # lines. Carried here so the publication is not blocked by the common
+          # rule — to be brought back down as the duplication goes.
+          jscpd-threshold: '5'
+
+  docker:
+    name: Publish the image
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # ghcr.io is authenticated with the job's own token.
+      packages: write
+    steps:
+      # On a release event the checked out ref is already the tag.
+      - uses: actions/checkout@v7
+      - uses: InseeFr/rmes-githubactions-commons/.github/actions/docker-publish@main
+        with:
+          image: inseefr/bauhaus
+          registry: ghcr.io

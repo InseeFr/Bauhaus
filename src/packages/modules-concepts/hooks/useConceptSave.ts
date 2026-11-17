@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { ConceptGeneral, ConceptNotes, Link } from "@model/concepts/concept";
 
@@ -12,7 +12,7 @@ import { buildPayloadUpdate } from "../utils/buildPayloadUpdate";
 export interface ConceptSaveData {
   general: ConceptGeneral;
   notes: ConceptNotes;
-  conceptsWithLinks: { id: string; typeOfLink: string; label?: string }[];
+  conceptsWithLinks: { id: string; typesOfLink: string[]; label?: string }[];
   equivalentLinks?: (Link & { urn: string })[];
 }
 
@@ -39,7 +39,7 @@ export const useConceptSave = (id: string | undefined) => {
 
   const [isSaving, setIsSaving] = useState(false);
 
-  const [saveError, setSaveError] = useState<string | undefined>();
+  const [saveError, setSaveError] = useState<unknown>();
 
   const invalidateQueries = useCallback(
     (conceptToSave: ConceptPayload) => {
@@ -83,7 +83,7 @@ export const useConceptSave = (id: string | undefined) => {
             ];
       promise
         .then((result) => navigate(redirect(result)))
-        .catch((e: string) => {
+        .catch((e: unknown) => {
           setIsSaving(false);
           setSaveError(e);
         });

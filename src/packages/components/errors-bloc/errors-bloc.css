@@ -1,3 +1,48 @@
 .bauhaus-error-bloc strong {
   text-decoration: underline;
 }
+
+/*
+ * Toast d'erreur de chargement d'une fiche : même rendu que le toast du module DDI (DdiToast,
+ * branche feat/4.21.4), centré en haut et plus large que celui de PrimeReact, pour que les
+ * messages serveur restent lisibles.
+ * PrimeReact plafonne le toast à max-width: 25rem : sans le lever, width n'a aucun effet.
+ */
+.error-toast.p-toast {
+  width: min(75rem, calc(100vw - 2rem));
+  max-width: none;
+}
+
+.error-toast .p-toast-message .p-toast-message-content {
+  align-items: flex-start;
+  padding: 1.25rem 1.5rem;
+}
+
+.error-toast .p-toast-message .p-toast-message-icon {
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+}
+
+.error-toast .p-toast-message .p-toast-summary {
+  font-size: 1.4rem;
+}
+
+.error-toast .p-toast-message .p-toast-detail {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.error-toast .p-toast-message-error {
+  border-left-width: 0.5rem;
+  box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 25%);
+}
+
+.error-toast .p-toast-icon-close {
+  width: 2.5rem;
+  height: 2.5rem;
+}

@@ -8,9 +8,9 @@ vi.mock("../create-oidc", () => ({
   useOidc: vi.fn(),
 }));
 
-describe("LoggedInWrapper", () => {
-  const MockComponent = () => <div data-testid="mock-component">Mock Component</div>;
+const MockComponent = () => <div data-testid="mock-component">Mock Component</div>;
 
+describe("LoggedInWrapper", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });

@@ -1,0 +1,24 @@
+# Configuration hadolint, partagée par la CI (l'étape hadolint de l'action
+# `quality` de InseeFr/rmes-githubactions-commons, activée dans quality.yml) et
+# les exécutions locales : `hadolint Dockerfile`.
+#
+# Les exceptions vivent ici, versionnées et justifiées, plutôt que dispersées en
+# `# hadolint ignore=` dans le Dockerfile ou neutralisées par un
+# `continue-on-error` dans le workflow.
+
+# Dette mesurée le 2026-09-18 : nulle à ce niveau (trois constats, tous `info`).
+# À garder en phase avec `hadolint-failure-threshold` du commons (`warning` par
+# défaut) : l'action passe son propre drapeau, elle ne lit pas celui-ci.
+failure-threshold: warning
+
+# Rien n'est ignoré aujourd'hui. Pour ouvrir une exception, décommenter la clé
+# `ignored:` ci-dessous — elle attend une liste, un `ignored:` vide ferait
+# échouer la lecture de cette configuration. Chaque entrée porte sa
+# justification écrite, et une échéance si c'est une dette temporaire :
+#
+# ignored:
+#   - DL3008  # paquets apt non épinglés : à traiter avec la refonte de l'image
+
+trustedRegistries:
+  - docker.io
+  - ghcr.io

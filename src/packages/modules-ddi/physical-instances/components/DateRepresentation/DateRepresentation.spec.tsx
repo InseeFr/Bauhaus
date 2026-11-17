@@ -4,34 +4,42 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { DateTimeRepresentation } from "../../types/api";
 import { DateRepresentation } from "./DateRepresentation";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "physicalInstance.view.date.type": "Type de date",
-        "physicalInstance.view.date.selectType": "Sélectionnez un type de date",
-      };
-      return translations[key] || key;
-    },
-  }),
-}));
+const DATE_TYPE_VOCABULARY_URI = "http://rdf-vocabulary.ddialliance.org/cv/DateType/1.1.2/";
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ id, value, onChange, options, placeholder }: any) => (
-    <select
-      id={id}
-      value={value}
-      onChange={(e) => onChange({ value: e.target.value })}
-      aria-label={placeholder}
-    >
-      {options.map((option: any) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
+const dateTypeCode = (value: string) => ({
+  StringValue: value,
+  ControlledVocabularyURI: DATE_TYPE_VOCABULARY_URI,
+});
+
+vi.mock("react-i18next", async () =>
+  (await import("../representation.testing")).mockTranslations({
+    "physicalInstance.view.date.type": "Type de date",
+    "physicalInstance.view.date.selectType": "Sélectionnez un type de date",
+  }),
+);
+
+vi.mock("primereact/dropdown", async () => {
+  const { OptionsSelect } = await import("../representation.testing");
+  return {
+    Dropdown: ({ id, value, onChange, options, placeholder }: any) => (
+      <OptionsSelect
+        id={id}
+        value={value}
+        onChange={onChange}
+        options={options}
+        aria-label={placeholder}
+      />
+    ),
+  };
+});
+
+const DATE_TIME_REPRESENTATION: DateTimeRepresentation = {
+  DateTypeCode: dateTypeCode("DateTime"),
+};
+
+const TIME_REPRESENTATION: DateTimeRepresentation = {
+  DateTypeCode: dateTypeCode("Time"),
+};
 
 describe("DateRepresentation", () => {
   const mockOnChange = vi.fn();
@@ -54,11 +62,9 @@ describe("DateRepresentation", () => {
   });
 
   it("should display initial value from representation", () => {
-    const representation: DateTimeRepresentation = {
-      DateTypeCode: "DateTime",
-    };
-
-    render(<DateRepresentation representation={representation} onChange={mockOnChange} />);
+    render(
+      <DateRepresentation representation={DATE_TIME_REPRESENTATION} onChange={mockOnChange} />,
+    );
 
     const dropdown = screen.getByLabelText("Sélectionnez un type de date") as HTMLSelectElement;
     expect(dropdown.value).toBe("DateTime");
@@ -93,7 +99,7 @@ describe("DateRepresentation", () => {
 
     expect(mockOnChange).toHaveBeenCalledWith({
       $type: "DateTimeRepresentationBaseType",
-      DateTypeCode: "Year",
+      DateTypeCode: dateTypeCode("Year"),
     });
   });
 
@@ -102,7 +108,7 @@ describe("DateRepresentation", () => {
 
     expect(mockOnChange).toHaveBeenCalledWith({
       $type: "DateTimeRepresentationBaseType",
-      DateTypeCode: "Date",
+      DateTypeCode: dateTypeCode("Date"),
     });
   });
 
@@ -111,11 +117,7 @@ describe("DateRepresentation", () => {
       <DateRepresentation representation={undefined} onChange={mockOnChange} />,
     );
 
-    const newRepresentation: DateTimeRepresentation = {
-      DateTypeCode: "Time",
-    };
-
-    rerender(<DateRepresentation representation={newRepresentation} onChange={mockOnChange} />);
+    rerender(<DateRepresentation representation={TIME_REPRESENTATION} onChange={mockOnChange} />);
 
     const dropdown = screen.getByLabelText("Sélectionnez un type de date") as HTMLSelectElement;
     expect(dropdown.value).toBe("Time");
@@ -143,7 +145,7 @@ describe("DateRepresentation", () => {
       fireEvent.change(dropdown, { target: { value: type } });
       expect(mockOnChange).toHaveBeenCalledWith({
         $type: "DateTimeRepresentationBaseType",
-        DateTypeCode: type,
+        DateTypeCode: dateTypeCode(type),
       });
     });
   });

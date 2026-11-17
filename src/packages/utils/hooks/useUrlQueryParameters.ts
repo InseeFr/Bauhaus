@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
 export const useUrlQueryParameters = (defaultValue: Record<string, string>) => {
   const [searchParams, setSearchParams] = useSearchParams();

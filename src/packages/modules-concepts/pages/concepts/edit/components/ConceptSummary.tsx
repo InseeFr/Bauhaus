@@ -4,7 +4,7 @@ import { SummaryBadge, SummaryEntry, SummaryNav } from "@components/summary-nav"
 
 import { ConceptNotes, Link } from "@model/concepts/concept";
 
-import { CLOSE_MATCH, NONE } from "@sdk/constants";
+import { CLOSE_MATCH } from "@sdk/constants";
 
 import { conceptGeneralFields } from "../../../../utils/conceptGeneralFields";
 import { LINK_TYPES } from "../../../../utils/linkTypes";
@@ -26,6 +26,8 @@ interface ConceptSummaryProps {
   equivalentLinks: (Link & { urn: string })[];
   /** Champs en erreur remontés par `validate`, indexés par nom de champ. */
   errorFields?: Record<string, string>;
+  /** Le serveur a refusé un lien : la section est à corriger. */
+  linksToFix?: boolean;
   activeSection: ConceptSection;
   activeNote: NoteRawTitle;
   activeLinkType: string;
@@ -42,6 +44,7 @@ export const ConceptSummary = ({
   conceptsWithLinks,
   equivalentLinks,
   errorFields,
+  linksToFix,
   activeSection,
   activeNote,
   activeLinkType,
@@ -60,17 +63,20 @@ export const ConceptSummary = ({
   const countOfLinkType = (memberType: string) =>
     memberType === CLOSE_MATCH
       ? equivalentLinks.length
-      : conceptsWithLinks.filter(({ typeOfLink }) => typeOfLink === memberType).length;
+      : conceptsWithLinks.filter(({ typesOfLink }) => typesOfLink.includes(memberType)).length;
 
+  // Un concept lié par plusieurs types compte pour autant de liens.
   const linksCount =
-    conceptsWithLinks.filter(({ typeOfLink }) => typeOfLink !== NONE).length +
+    conceptsWithLinks.reduce((count, { typesOfLink }) => count + typesOfLink.length, 0) +
     equivalentLinks.length;
+
+  const toFixBadge: SummaryBadge = { label: t("concept.notes.statusToFix"), tone: "danger" };
 
   const entries: SummaryEntry[] = [
     {
       key: "general",
       label: t("common.globalInformationsTitle"),
-      badge: generalToFix ? { label: t("concept.notes.statusToFix"), tone: "danger" } : undefined,
+      badge: generalToFix ? toFixBadge : undefined,
     },
     {
       key: "notes",
@@ -87,7 +93,7 @@ export const ConceptSummary = ({
     {
       key: "links",
       label: t("common.linksTitle"),
-      badge: { label: String(linksCount) },
+      badge: linksToFix ? toFixBadge : { label: String(linksCount) },
       items: LINK_TYPES.map(({ titleKey, memberType }) => ({
         key: memberType,
         label: t1(titleKey),
