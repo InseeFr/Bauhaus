@@ -84,5 +84,6 @@ describe("useDuplicatePhysicalInstance", () => {
 
     expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["physicalInstances"] });
     expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["physicalInstancesSearch"] });
+    expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["operationPhysicalInstances"] });
   });
 });

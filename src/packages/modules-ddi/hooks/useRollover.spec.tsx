@@ -66,6 +66,7 @@ describe("useRollover", () => {
 
     expect(invalidate).toHaveBeenCalledWith({ queryKey: ["physicalInstances"] });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: ["physicalInstancesSearch"] });
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: ["operationPhysicalInstances"] });
     expect(invalidate).toHaveBeenCalledWith({
       queryKey: ["studyUnitVariables", "fr.insee", "su-2026"],
     });

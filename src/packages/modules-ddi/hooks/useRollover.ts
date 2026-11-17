@@ -61,6 +61,8 @@ export function useRollover() {
     onSuccess: (_created, { data }) => {
       queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
       queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
+      // La fiche d'opération liste les fichiers de ses études (préfixe : toutes les opérations).
+      queryClient.invalidateQueries({ queryKey: ["operationPhysicalInstances"] });
       // Les copies rejoignent le VariableScheme de l'étude cible, qui gagne un fichier.
       queryClient.invalidateQueries({
         queryKey: ["studyUnitVariables", data.studyUnitAgency, data.studyUnitId],

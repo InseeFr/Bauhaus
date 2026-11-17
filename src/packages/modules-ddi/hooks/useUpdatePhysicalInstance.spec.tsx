@@ -55,6 +55,11 @@ describe("useUpdatePhysicalInstance", () => {
       queryKey: ["physicalInstancesSearch"],
     },
     {
+      // Renommage ou re-rattachement : la fiche de l'opération (ancienne et nouvelle) liste ses fichiers.
+      name: "should invalidate the operation physical instances cache on success",
+      queryKey: ["operationPhysicalInstances"],
+    },
+    {
       name: "should invalidate the edited physical instance detail cache on success",
       queryKey: ["physicalInstanceById", "test-agency-456", "test-id-123"],
     },

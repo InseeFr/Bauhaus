@@ -111,6 +111,23 @@ describe("useCreatePhysicalInstance", () => {
     });
   });
 
+  // La fiche de l'opération liste ses fichiers : sans invalidation, la PI créée n'y
+  // apparaît qu'après un rechargement de la page.
+  it("should invalidate the operation physical instances cache on successful mutation", async () => {
+    mockPostResolving();
+
+    const { result, queryClient } = renderCreate();
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    await result.current.mutateAsync(physicalInstanceFormData());
+
+    await waitFor(() => {
+      expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+        queryKey: ["operationPhysicalInstances"],
+      });
+    });
+  });
+
   it("should handle API errors correctly", async () => {
     mockPostRejecting("Creation failed");
 

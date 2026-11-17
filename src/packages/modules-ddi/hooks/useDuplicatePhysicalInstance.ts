@@ -51,6 +51,8 @@ export function useDuplicatePhysicalInstance() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
       queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
+      // La fiche d'opération liste les fichiers de ses études (préfixe : toutes les opérations).
+      queryClient.invalidateQueries({ queryKey: ["operationPhysicalInstances"] });
     },
   });
 }
