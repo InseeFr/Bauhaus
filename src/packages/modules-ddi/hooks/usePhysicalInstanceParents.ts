@@ -34,5 +34,9 @@ export function usePhysicalInstanceParents(
     ...physicalInstanceParentsQuery(agencyId, id),
     // Convention du module : les hooks composés se désactivent en passant des chaînes vides.
     enabled: enabled && !!agencyId && !!id,
+    // Plusieurs composants lisent les parents (page, onglet « Représentation »…). Relancer un
+    // échec au montage de chacun repasse la page en chargement, qui démonte puis remonte l'onglet :
+    // boucle infinie de requêtes (#1683). L'échec reste affiché (PI en lecture seule).
+    retryOnMount: false,
   });
 }

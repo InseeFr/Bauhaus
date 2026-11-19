@@ -727,6 +727,7 @@ export const CodeRepresentation = ({
       )}
       {showDataTable && !isLoadingCodes && (
         <CodeListDataTable
+          codeListId={referencedCodeListId}
           codeListLabel={codeListLabel}
           codes={codes}
           onCodeListLabelChange={handleCodeListLabelChange}

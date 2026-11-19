@@ -1126,6 +1126,43 @@ describe("CodeRepresentation", () => {
       expect(overrideDialog()).not.toBeInTheDocument();
     });
 
+    it("asks again for the list label of another variable after editing a non-shared one (#1608)", async () => {
+      // Régression : éditer le libellé d'une liste propre à une variable, puis passer à une
+      // variable dont la liste est partagée — l'édition de son libellé n'ouvrait aucune popup.
+      markListAsNotShared();
+      const { rerender } = renderCodeRepresentation({ currentVariableId: "variable-a" });
+      editListLabel("Liste A modifiée");
+      await waitFor(() => expect(mockOnChange).toHaveBeenCalled());
+      expect(overrideDialog()).not.toBeInTheDocument();
+
+      markListAsShared();
+      const sharedList: CodeList = {
+        ...mockCodeList,
+        ID: "list-2",
+        URN: "urn:ddi:fr.insee:list-2:1",
+        Label: [{ "@language": "fr-FR", "@value": "Liste partagée" }],
+      };
+      rerender(
+        codeRepresentation({
+          currentVariableId: "variable-b",
+          codeList: sharedList,
+          representation: {
+            ...mockRepresentation,
+            CodeListReference: {
+              $type: "CodeList",
+              URN: "urn:ddi:fr.insee:list-2:1",
+              Agency: "fr.insee",
+              ID: "list-2",
+              Version: "1",
+            },
+          },
+        }),
+      );
+      editListLabel("Liste partagée modifiée");
+
+      await waitForDialog(OVERRIDE_SHARED);
+    });
+
     it("does not ask for confirmation when the shared list is mutualized (read-only)", () => {
       markListAsShared();
       mockAllCodeLists([{ id: "codelist-1", label: "Liste mutualisée", mutualized: true }]);
