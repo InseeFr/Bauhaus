@@ -65,36 +65,53 @@ describe("OperationVisualization", () => {
     screen.getByText("Year : 2024");
   });
 
-  it("place les fichiers de données DDI dans le bloc des liens", () => {
+  const renderWithPhysicalInstances = (instances: typeof physicalInstances | undefined) =>
     render(
       <MemoryRouter>
         <OperationsOperationVisualization
           attr={operationWithId}
           secondLang={false}
-          physicalInstances={physicalInstances}
+          physicalInstances={instances}
         />
       </MemoryRouter>,
     );
 
-    const linksBlock = screen.getByText("app.linksTitle").closest(".note") as HTMLElement;
-    expect(within(linksBlock).getByRole("link", { name: "Individus" })).toHaveAttribute(
+  const dataFilesBanner = () =>
+    screen.getByText("operationPhysicalInstance.listTitle").closest(".note") as HTMLElement;
+
+  it("affiche les fichiers de données DDI dans un bandeau dédié", () => {
+    renderWithPhysicalInstances(physicalInstances);
+
+    expect(within(dataFilesBanner()).getByRole("link", { name: "Individus" })).toHaveAttribute(
       "href",
       "/ddi/physical-instances/fr.insee/pi-1",
     );
   });
 
-  it("propose de créer un fichier de données depuis le bloc des liens", () => {
-    render(
-      <MemoryRouter>
-        <OperationsOperationVisualization
-          attr={operationWithId}
-          secondLang={false}
-          physicalInstances={physicalInstances}
-        />
-      </MemoryRouter>,
-    );
+  it("ne mêle plus les fichiers de données au bloc des liens", () => {
+    renderWithPhysicalInstances(physicalInstances);
 
     const linksBlock = screen.getByText("app.linksTitle").closest(".note") as HTMLElement;
-    within(linksBlock).getByRole("button", { name: "nouveau fichier de s1234" });
+    expect(within(linksBlock).queryByRole("link", { name: "Individus" })).toBeNull();
+    expect(within(linksBlock).queryByRole("button")).toBeNull();
+  });
+
+  it("propose de créer un fichier de données depuis le bandeau", () => {
+    renderWithPhysicalInstances(physicalInstances);
+
+    within(dataFilesBanner()).getByRole("button", { name: "nouveau fichier de s1234" });
+  });
+
+  it("garde le bandeau, pour la création, quand l'opération n'a encore aucun fichier", () => {
+    renderWithPhysicalInstances([]);
+
+    within(dataFilesBanner()).getByText("operationPhysicalInstance.none");
+    within(dataFilesBanner()).getByRole("button", { name: "nouveau fichier de s1234" });
+  });
+
+  it("n'affiche pas le bandeau quand les fichiers de données n'ont pas été chargés", () => {
+    renderWithPhysicalInstances(undefined);
+
+    expect(screen.queryByText("operationPhysicalInstance.listTitle")).toBeNull();
   });
 });

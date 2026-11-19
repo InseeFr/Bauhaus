@@ -30,7 +30,6 @@
     "childrenOperations": "Opérations filles :",
     "parentFamily": "Famille parente :",
     "parentSeries": "Série parente :",
-    "physicalInstances": "Fichiers de données :",
     "title": "Intitulé",
     "theme": "Thème",
     "themes": "Thèmes",
@@ -173,6 +172,8 @@
     "wrongFileName": "Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas."
   },
   "operationPhysicalInstance": {
+    "listTitle": "Fichiers de données",
+    "none": "Aucun fichier de données",
     "new": "Nouveau fichier de données",
     "title": "Créer un fichier de données pour l'opération",
     "label": "Libellé",

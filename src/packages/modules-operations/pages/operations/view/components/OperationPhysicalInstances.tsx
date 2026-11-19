@@ -35,29 +35,23 @@ export const useOperationPhysicalInstances = (operationId: string | undefined) =
   });
 };
 
-/** Rubrique « Fichiers de données » du bloc des liens, chacun menant à sa page dans le module DDI. */
-export const OperationPhysicalInstancesLinks = ({
+/** Liste des fichiers de données, chacun menant à sa page dans le module DDI. */
+export const OperationPhysicalInstancesList = ({
   physicalInstances,
-  lng,
-}: Readonly<{ physicalInstances: OperationPhysicalInstance[]; lng: "fr" | "en" }>) => {
+}: Readonly<{ physicalInstances: OperationPhysicalInstance[] }>) => {
   const { t } = useTranslation();
 
-  if (physicalInstances.length === 0) return null;
+  if (physicalInstances.length === 0) return <p>{t("operationPhysicalInstance.none")}</p>;
 
   return (
-    <>
-      <p>
-        <span className="links-title">{t("common.physicalInstances", { lng })}</span>
-      </p>
-      <ul>
-        {physicalInstances.map((physicalInstance) => (
-          <li key={`${physicalInstance.agency}/${physicalInstance.id}`}>
-            <Link to={`/ddi/physical-instances/${physicalInstance.agency}/${physicalInstance.id}`}>
-              {labelOf(physicalInstance)}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </>
+    <ul>
+      {physicalInstances.map((physicalInstance) => (
+        <li key={`${physicalInstance.agency}/${physicalInstance.id}`}>
+          <Link to={`/ddi/physical-instances/${physicalInstance.agency}/${physicalInstance.id}`}>
+            {labelOf(physicalInstance)}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 };

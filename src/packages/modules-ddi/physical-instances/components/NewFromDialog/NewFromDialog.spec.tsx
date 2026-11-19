@@ -76,6 +76,8 @@ const row = (over: Partial<PhysicalInstanceSearchRow>): PhysicalInstanceSearchRo
   groupAgency: "fr.insee",
   groupId: "g",
   groupLabel: "",
+  studyUnitAlternateTitles: [],
+  groupAlternateTitles: [],
   ...over,
 });
 

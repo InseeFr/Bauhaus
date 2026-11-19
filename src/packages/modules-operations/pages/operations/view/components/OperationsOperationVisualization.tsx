@@ -13,19 +13,20 @@ import { RelationsView } from "../../../../components/RelationsView";
 import { CreateOperationPhysicalInstance } from "./CreateOperationPhysicalInstance";
 import {
   OperationPhysicalInstance,
-  OperationPhysicalInstancesLinks,
+  OperationPhysicalInstancesList,
 } from "./OperationPhysicalInstances";
 
 interface OperationsOperationVisualizationTypes {
   attr: Operation;
   secondLang: boolean;
+  /** Absent tant que le module DDI n'a pas répondu (ou s'il n'est pas proposé) : pas de bandeau. */
   physicalInstances?: OperationPhysicalInstance[];
 }
 
 export function OperationsOperationVisualization({
   attr,
   secondLang,
-  physicalInstances = [],
+  physicalInstances,
 }: Readonly<OperationsOperationVisualizationTypes>) {
   const { t } = useTranslation();
 
@@ -73,14 +74,21 @@ export function OperationsOperationVisualization({
         parentTitle="parentSeries"
         parentPath="series"
         secondLang={secondLang}
-        extraLinks={(lng) => (
-          <>
-            <OperationPhysicalInstancesLinks physicalInstances={physicalInstances} lng={lng} />
-            {/* Une seule fois, dans le bloc de la première langue. */}
-            {lng === "fr" && attr.id && <CreateOperationPhysicalInstance operationId={attr.id} />}
-          </>
-        )}
       />
+      {physicalInstances && (
+        <Row>
+          <Note
+            text={
+              <>
+                <OperationPhysicalInstancesList physicalInstances={physicalInstances} />
+                {attr.id && <CreateOperationPhysicalInstance operationId={attr.id} />}
+              </>
+            }
+            title={t("operationPhysicalInstance.listTitle")}
+            alone={true}
+          />
+        </Row>
+      )}
     </>
   );
 }

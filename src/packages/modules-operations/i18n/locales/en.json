@@ -30,7 +30,6 @@
     "childrenOperations": "Daughter operations:",
     "parentFamily": "Parent family:",
     "parentSeries": "Parent series:",
-    "physicalInstances": "Data files:",
     "title": "Title",
     "theme": "Theme",
     "themes": "Themes",
@@ -173,6 +172,8 @@
     "wrongFileName": "The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols"
   },
   "operationPhysicalInstance": {
+    "listTitle": "Data files",
+    "none": "No data file",
     "new": "New data file",
     "title": "Create a data file for the operation",
     "label": "Label",
