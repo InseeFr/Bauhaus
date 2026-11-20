@@ -75,18 +75,11 @@ const current = () =>
     .map((link) => link.textContent);
 
 describe("DataDescriptionMenu", () => {
-  it("offers the datasets, the distributions, the variables and the upcoming codelists", () => {
+  it("offers the datasets, the distributions and the variables", () => {
     renderMenu(<DataDescriptionMenu />, "/datasets");
 
-    expect(entries()).toEqual(["Home", "Datasets", "Distributions", "Variables", "Codelists"]);
+    expect(entries()).toEqual(["Home", "Datasets", "Distributions", "Variables"]);
     expect(screen.getByRole("link", { name: "Variables" })).toHaveAttribute("href", "/ddi");
-  });
-
-  it("greys out the codelists, which are not available yet", () => {
-    renderMenu(<DataDescriptionMenu />, "/datasets");
-
-    expect(screen.queryByRole("link", { name: "Codelists" })).toBeNull();
-    expect(screen.getByText("Codelists")).toHaveAttribute("aria-disabled", "true");
   });
 
   it("marks the most specific entry as the current page", () => {
@@ -107,16 +100,10 @@ describe("DataDescriptionMenu", () => {
     expect(screen.queryByRole("link", { name: "Variables" })).toBeNull();
   });
 
-  it("does not announce the DDI codelists to a user who has no access to the DDI module", () => {
-    renderMenu(<DataDescriptionMenu />, "/datasets", ["datasets"]);
-
-    expect(entries()).toEqual(["Home", "Datasets", "Distributions"]);
-  });
-
   it("does not offer the datasets nor the distributions when the datasets module is disabled", () => {
     renderMenu(<DataDescriptionMenu />, "/ddi", ALL_MODULES, ["ddi"]);
 
-    expect(entries()).toEqual(["Home", "Variables", "Codelists"]);
+    expect(entries()).toEqual(["Home", "Variables"]);
   });
 });
 
