@@ -10,7 +10,11 @@ const MODULES = [
   { tile: "Concepts", url: "/concepts", heading: "Concepts - Search" },
   { tile: "Classifications", url: "/classifications", heading: "Classifications - Search" },
   { tile: "Operations", url: "/operations/series", heading: "Series - Search" },
-  { tile: "Data description", url: "/datasets", heading: "Datasets - Search" },
+  {
+    tile: "Data description",
+    url: "/ddi/physical-instances",
+    heading: "Physical Instances - Search",
+  },
   { tile: "Administration", url: "/codelists", heading: "Codelists - Search" },
 ];
 
