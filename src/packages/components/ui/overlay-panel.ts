@@ -1,1 +1,1 @@
-export * from "primereact/overlaypanel";
+export * from "@mantle-ui/react/overlaypanel";

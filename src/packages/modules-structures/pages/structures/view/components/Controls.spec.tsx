@@ -1,16 +1,17 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { Structure } from "@model/structures/Structure";
 import { UNPUBLISHED } from "@model/ValidationState";
 
-import { StructureApi } from "@sdk/index";
+import { StructureApi } from "@sdk/structure-api";
 
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { mockReactQueryForRbac, WithRouter } from "../../../../../tests/render";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: {
     deleteStructure: vi.fn(),
   },
@@ -20,9 +21,11 @@ const renderControls = async (structure: Structure) => {
   const { Controls } = await import("./Controls");
 
   render(
-    <WithRouter>
-      <Controls structure={structure} publish={vi.fn()} onDeleteError={vi.fn()}></Controls>
-    </WithRouter>,
+    <QueryClientProvider client={new QueryClient()}>
+      <WithRouter>
+        <Controls structure={structure} publish={vi.fn()} onDeleteError={vi.fn()}></Controls>
+      </WithRouter>
+    </QueryClientProvider>,
   );
 };
 
@@ -50,7 +53,7 @@ describe("Structure View Menu", () => {
     const deleteButton = screen.getByRole("button", { name: /delete/i });
     fireEvent.click(deleteButton);
 
-    expect(StructureApi.deleteStructure).toHaveBeenCalledWith("1");
+    await waitFor(() => expect(StructureApi.deleteStructure).toHaveBeenCalledWith("1"));
   });
 
   it("a user can only see the go back button", async () => {

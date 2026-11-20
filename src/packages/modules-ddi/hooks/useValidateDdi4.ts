@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import type { Toast } from "@components/ui/toast";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { formatApiErrors, getApiErrors } from "@utils/api-errors";
 
@@ -18,7 +18,7 @@ import { errorToastTiming } from "../utils/error-toast";
 /** Au-delà, le toast devient illisible : on renvoie vers la console pour le détail. */
 const MAX_DISPLAYED_ERRORS = 10;
 
-export const useValidateDdi4 = (data: PhysicalInstanceResponse, toast: RefObject<Toast>) => {
+export const useValidateDdi4 = (data: PhysicalInstanceResponse, toast: RefObject<Toast | null>) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [isValidating, setIsValidating] = useState(false);

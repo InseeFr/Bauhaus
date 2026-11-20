@@ -28,7 +28,7 @@ export function MSDInformations({
   return (
     <>
       {firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
-        <h3 className="col-md-12 sims-title">
+        <h3 className="col-12 sims-title">
           {msd.idMas} - {msd.masLabelBasedOnCurrentLang}
         </h3>
       )}

@@ -7,7 +7,7 @@ import { Note } from "@components/note";
 import { Codelist } from "@model/Codelist";
 import { Document } from "@model/operations/document";
 
-import { getBaseURI } from "@sdk/index";
+import { getBaseURI } from "@sdk/build-api";
 
 import { getLang } from "@utils/dictionary";
 import { formatFileSize } from "@utils/file-size";

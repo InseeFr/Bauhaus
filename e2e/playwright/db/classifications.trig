@@ -67,3 +67,16 @@
   <http://rdf.insee.fr/codes/nafe2e/>
       insee:validationState "Validated" .
 }
+
+# Deux familles de nomenclatures, pour la navigation d'une fiche à l'autre
+# (getFamilies / getFamily lisent le graphe « nomenclatures », IRI contenant
+# /familleDeNomenclatures/<id>).
+<http://rdf.insee.fr/graphes/codes/nomenclatures> {
+  <http://rdf.insee.fr/codes/familleDeNomenclatures/fame2e1>
+      skos:prefLabel "Famille d'activités (e2e)"@fr ;
+      skos:prefLabel "Activities family (e2e)"@en .
+
+  <http://rdf.insee.fr/codes/familleDeNomenclatures/fame2e2>
+      skos:prefLabel "Famille de produits (e2e)"@fr ;
+      skos:prefLabel "Products family (e2e)"@en .
+}

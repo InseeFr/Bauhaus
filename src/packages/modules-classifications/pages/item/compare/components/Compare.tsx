@@ -1,15 +1,12 @@
 import { CheckSecondLang } from "@components/check-second-lang";
-import { CompareNotes } from "@components/note-compare";
 import { PageTitle } from "@components/page-title";
 
 import { General } from "../../../../components/General";
-import { buildNotes } from "../../../../utils/buildNotes";
 import { Controls } from "./Controls";
+import { ItemNotesCompare } from "./ItemNotesCompare";
 
 export const Compare = ({ classificationId, general, notes, secondLang }: any) => {
   const { prefLabelLg1, prefLabelLg2 } = general;
-
-  const version = Number(general.conceptVersion);
 
   return (
     <div>
@@ -18,12 +15,7 @@ export const Compare = ({ classificationId, general, notes, secondLang }: any) =
         <Controls />
         <CheckSecondLang />
         <General general={general} classificationId={classificationId} secondLang={secondLang} />
-        <CompareNotes
-          secondLang={secondLang}
-          notes={notes}
-          version={version}
-          buildNotes={buildNotes}
-        />
+        <ItemNotesCompare notes={notes} secondLang={secondLang} />
       </div>
     </div>
   );

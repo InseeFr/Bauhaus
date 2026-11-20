@@ -28,7 +28,7 @@ export const LanguageSelect = ({
   }));
 
   return (
-    <div className="col-md-12 form-group">
+    <div className="col-12 bauhaus-form-group">
       <label htmlFor="language">{t("distribution.language")}</label>
       <Select disabled={disabled} value={value} options={langSelectOptions} onChange={onChange} />
     </div>

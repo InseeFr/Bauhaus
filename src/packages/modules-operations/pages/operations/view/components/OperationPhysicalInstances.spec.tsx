@@ -7,12 +7,12 @@ import { DDIApi } from "@sdk/ddi-api";
 import type { AppName } from "../../../../../application/app-context";
 import { createQueryWrapper } from "../../../../hooks/queryClientWrapper.testing";
 import {
-  OperationPhysicalInstancesLinks,
+  OperationPhysicalInstancesList,
   useOperationPhysicalInstances,
 } from "./OperationPhysicalInstances";
 
 vi.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string, { lng }: { lng: string }) => `${key}(${lng})` }),
+  useTranslation: () => ({ t: (key: string) => key }),
 }));
 
 vi.mock("@sdk/ddi-api", () => ({
@@ -74,26 +74,23 @@ describe("useOperationPhysicalInstances", () => {
   });
 });
 
-describe("OperationPhysicalInstancesLinks", () => {
+describe("OperationPhysicalInstancesList", () => {
   it("liste les fichiers de données sous leur intitulé, avec un lien vers le module DDI", () => {
     render(
       <MemoryRouter>
-        <OperationPhysicalInstancesLinks lng="en" physicalInstances={physicalInstances} />
+        <OperationPhysicalInstancesList physicalInstances={physicalInstances} />
       </MemoryRouter>,
     );
 
-    screen.getByText("common.physicalInstances(en)");
     expect(screen.getByRole("link", { name: "Individus" })).toHaveAttribute(
       "href",
       "/ddi/physical-instances/fr.insee/pi-1",
     );
   });
 
-  it("n'affiche rien sans fichier de données", () => {
-    const { container } = render(
-      <OperationPhysicalInstancesLinks lng="fr" physicalInstances={NO_PHYSICAL_INSTANCES} />,
-    );
+  it("signale l'absence de fichier de données", () => {
+    render(<OperationPhysicalInstancesList physicalInstances={NO_PHYSICAL_INSTANCES} />);
 
-    expect(container).toBeEmptyDOMElement();
+    screen.getByText("operationPhysicalInstance.none");
   });
 });

@@ -1,4 +1,4 @@
-import { FormEvent, useRef, useState, useMemo, useEffect } from "react";
+import { FormEvent, useRef, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@components/ui/button";
@@ -123,13 +123,16 @@ export const PhysicalInstanceDialog = ({
 
   const isFormValid = label.trim() && selectedGroup && selectedStudyUnit;
 
-  useEffect(() => {
-    if (visible && initialData) {
-      setLabel(initialData.label);
-      if (initialData.group) setSelectedGroupId(initialData.group.id);
-      if (initialData.studyUnit) setSelectedStudyUnitId(initialData.studyUnit.id);
-    }
-  }, [visible, initialData]);
+  // Préremplissage à l'ouverture, et à chaque nouvelle donnée initiale tant que la modale est ouverte.
+  const [prefilledFrom, setPrefilledFrom] = useState<typeof initialData>();
+  if (!visible && prefilledFrom) {
+    setPrefilledFrom(undefined);
+  } else if (visible && initialData && initialData !== prefilledFrom) {
+    setPrefilledFrom(initialData);
+    setLabel(initialData.label);
+    if (initialData.group) setSelectedGroupId(initialData.group.id);
+    if (initialData.studyUnit) setSelectedStudyUnitId(initialData.studyUnit.id);
+  }
 
   // Le focus initial est posé via le callback onShow de la Dialog (cf. plus bas)
   // plutôt qu'avec un setTimeout : PrimeReact, en fin d'animation d'ouverture,

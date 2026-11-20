@@ -7,6 +7,7 @@ import { Document } from "@model/operations/document";
 
 import { getLang } from "@utils/dictionary";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import {
   DocumentsStoreContextType,
   DocumentsStoreProvider,
@@ -84,6 +85,19 @@ export const renderWithStore = async (component: ReactElement) =>
 describe("DocumentsBloc", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap sur le sélecteur de documents", async () => {
+    await renderWithStore(
+      <DocumentsBloc
+        documents={documents}
+        localPrefix="Lg1"
+        editMode={true}
+        objectType="documents"
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Add a document" }));
+    expectNoBootstrapClass();
   });
 
   it("should display nothing if the documents props is not defined", async () => {

@@ -1,1 +1,1 @@
-export type * from "primereact/treenode";
+export type * from "@mantle-ui/react/treenode";

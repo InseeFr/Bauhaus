@@ -179,10 +179,10 @@ export function SimsVisualization({
       >
         <div className="export-modal-body">
           <Row>
-            <p className="col-md-offset-1">{t("sims.exportSimsTips")}</p>
+            <p className="lg:col-offset-1">{t("sims.exportSimsTips")}</p>
           </Row>
           <Row>
-            <label className="col-md-offset-1">
+            <label className="lg:col-offset-1">
               <input
                 type="checkbox"
                 checked={exportConfig.emptyMas}
@@ -197,7 +197,7 @@ export function SimsVisualization({
             </label>
           </Row>
           <Row>
-            <label className="col-md-offset-1">
+            <label className="lg:col-offset-1">
               <input
                 type="checkbox"
                 checked={exportConfig.lg1}
@@ -212,7 +212,7 @@ export function SimsVisualization({
             </label>
           </Row>
           <Row>
-            <label className="col-md-offset-1">
+            <label className="lg:col-offset-1">
               <input
                 type="checkbox"
                 checked={exportConfig.lg2}
@@ -227,7 +227,7 @@ export function SimsVisualization({
             </label>
           </Row>
           <Row>
-            <label className="col-md-offset-1">
+            <label className="lg:col-offset-1">
               <input
                 type="checkbox"
                 checked={exportConfig.document}

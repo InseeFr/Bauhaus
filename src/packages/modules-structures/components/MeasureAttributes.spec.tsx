@@ -1,27 +1,37 @@
+import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 
 import { Codelists } from "@model/Codelist";
 import { Component } from "@model/structures/Component";
 
-import { CodelistsApi, StructureApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
+import { StructureApi } from "@sdk/structure-api";
 
+import { createQueryClient } from "../../application/query-client";
 import { XSD_CODE_LIST, XSD_STRING } from "../constants/xsd";
 import { MeasureAttributes } from "./MeasureAttributes";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/structure-api", () => ({
   StructureApi: { getMutualizedComponent: vi.fn() },
+}));
+vi.mock("@sdk/codelists-api", () => ({
   CodelistsApi: { getCodelist: vi.fn() },
 }));
 
 const attributes = [
   { id: "a1", iri: "http://attr/1", labelLg1: "Unité", range: XSD_STRING },
   { id: "a2", iri: "http://attr/2", labelLg1: "Statut", range: XSD_CODE_LIST, codeList: "cl1" },
+  { id: "a3", iri: "http://attr/3", labelLg1: "Contrôle", range: XSD_CODE_LIST, codeList: "cl1" },
 ] as unknown as Component[];
 
 const codelists = [{ id: "cl1", notation: "CL_STATUT" }] as unknown as Codelists;
 
 const renderAttributes = (measure: Record<string, unknown>) =>
-  render(<MeasureAttributes measure={measure} attributes={attributes} codelists={codelists} />);
+  render(
+    <QueryClientProvider client={createQueryClient()}>
+      <MeasureAttributes measure={measure} attributes={attributes} codelists={codelists} />
+    </QueryClientProvider>,
+  );
 
 describe("MeasureAttributes", () => {
   beforeEach(() => {
@@ -49,7 +59,9 @@ describe("MeasureAttributes", () => {
   it("affiche telle quelle la valeur d'un attribut libre", async () => {
     renderAttributes({ attribute_1: "http://attr/1", attributeValue_1: "en euros" });
 
-    expect(await screen.findByRole("listitem")).toHaveTextContent("Unité: en euros");
+    await waitFor(() => {
+      expect(screen.getByRole("listitem")).toHaveTextContent("Unité: en euros");
+    });
   });
 
   it("affiche le libellé du code pour un attribut adossé à une liste de codes", async () => {
@@ -78,6 +90,18 @@ describe("MeasureAttributes", () => {
       expect(screen.getByRole("listitem")).toHaveTextContent("Statut:");
     });
     expect(screen.getByRole("listitem")).not.toHaveTextContent("Valide");
+  });
+
+  it("ne lit qu'une fois la liste de codes partagée par deux attributs", async () => {
+    renderAttributes({
+      attribute_1: "http://attr/2",
+      attributeValue_1: "http://code/valide",
+      attribute_2: "http://attr/3",
+      attributeValue_2: "http://code/valide",
+    });
+
+    await waitFor(() => expect(screen.getAllByText(/: Valide/)).toHaveLength(2));
+    expect(vi.mocked(CodelistsApi).getCodelist).toHaveBeenCalledOnce();
   });
 
   it("n'affiche aucun attribut quand la mesure n'en porte pas", () => {

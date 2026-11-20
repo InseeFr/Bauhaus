@@ -18,7 +18,10 @@ vi.mock("@utils/hooks/users", async (importOriginal) =>
   (await import("../../../privileges.testing")).mockUsersHooks(importOriginal),
 );
 
-vi.mock("primereact/button", () => import("../../components/GlobalActionsCard/actions.testing"));
+vi.mock(
+  "@mantle-ui/react/button",
+  () => import("../../components/GlobalActionsCard/actions.testing"),
+);
 
 vi.mock("../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog", () => ({
   PhysicalInstanceDialog: ({ visible, onHide, onSubmitEdit, initialData }: any) => {

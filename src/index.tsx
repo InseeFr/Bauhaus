@@ -16,7 +16,7 @@ import { GlobalErrorToast } from "./packages/application/global-error-toast";
 import { appQueryClient } from "./packages/application/query-client";
 import { Root } from "./packages/application/router";
 import { createAppRouter } from "./packages/application/router/routes";
-import { OidcProvider } from "./packages/auth/create-oidc";
+import { OidcInitializationGate } from "./packages/auth/create-oidc";
 import { appI18n } from "./packages/i18n";
 import "./packages/styles/main.css";
 
@@ -57,7 +57,7 @@ const renderApp = (page: ReactNode, initState: Partial<InitState>) => {
   const root = createRoot(container!);
 
   root.render(
-    <OidcProvider fallback="Checking authentication ⌛️">
+    <OidcInitializationGate fallback="Checking authentication ⌛️">
       <QueryClientProvider client={appQueryClient}>
         <AppContextProvider
           lg1={lg1 ?? ""}
@@ -74,7 +74,7 @@ const renderApp = (page: ReactNode, initState: Partial<InitState>) => {
           </main>
         </AppContextProvider>
       </QueryClientProvider>
-    </OidcProvider>,
+    </OidcInitializationGate>,
   );
 };
 

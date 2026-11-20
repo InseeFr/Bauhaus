@@ -4,7 +4,7 @@ import { vi, describe, it, expect } from "vitest";
 import { componentsI18n } from "../i18n";
 import { Loading, Deleting, Publishing, Saving, Exporting } from "./";
 
-vi.mock("primereact/progressspinner", () => ({
+vi.mock("@mantle-ui/react/progressspinner", () => ({
   ProgressSpinner: () => <div data-testid="progress-spinner">Spinner</div>,
 }));
 

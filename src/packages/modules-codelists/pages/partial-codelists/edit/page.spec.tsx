@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { expectLoadErrorDisplayed } from "../../../testing/load-error.testing";
 import { renderWithProviders } from "../../../testing/render.testing";
@@ -11,7 +11,7 @@ const { partialCodelistSdk, unknownCodelistRouter } = await vi.hoisted(
   () => import("../../../testing/pages.testing"),
 );
 
-vi.mock("@sdk/index", (importOriginal) =>
+vi.mock("@sdk/codelists-api", (importOriginal) =>
   partialCodelistSdk(
     importOriginal,
     { id: "CL_PARENT", labelLg1: "Parent", uri: "http://parent" },

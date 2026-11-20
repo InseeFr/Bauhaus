@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -31,13 +31,14 @@ describe("<RootError />", () => {
     renderFailingWith(chunkError());
 
     expect(await screen.findByRole("status")).toBeInTheDocument();
-    expect(reload).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(reload).toHaveBeenCalledTimes(1));
   });
 
   it("does not reload a second time when the chunk is still missing after a reload", async () => {
     using reload = vi.spyOn(window.location, "reload").mockImplementation(() => undefined);
     renderFailingWith(chunkError());
     await screen.findByRole("status");
+    await waitFor(() => expect(reload).toHaveBeenCalledTimes(1));
 
     renderFailingWith(chunkError());
 

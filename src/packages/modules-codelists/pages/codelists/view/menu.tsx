@@ -23,19 +23,21 @@ export const ViewMenu = ({
   updatable,
   deletable,
 }: Readonly<ViewMenuTypes>) => {
+  const contributors = [codelist?.contributor ?? []].flat();
+
   return (
     <ActionToolbar>
       <ReturnButton action={handleBack} />
-      <HasAccess module="CODESLIST_CODESLIST" privilege="PUBLISH" stamps={[codelist?.contributor]}>
+      <HasAccess module="CODESLIST_CODESLIST" privilege="PUBLISH" stamps={contributors}>
         <ValidationButton callback={publish} object={codelist} />
       </HasAccess>
       {deletable && (
-        <HasAccess module="CODESLIST_CODESLIST" privilege="DELETE" stamps={[codelist?.contributor]}>
+        <HasAccess module="CODESLIST_CODESLIST" privilege="DELETE" stamps={contributors}>
           <DeleteButton action={handleDelete} />
         </HasAccess>
       )}
       {updatable && (
-        <HasAccess module="CODESLIST_CODESLIST" privilege="UPDATE" stamps={[codelist?.contributor]}>
+        <HasAccess module="CODESLIST_CODESLIST" privilege="UPDATE" stamps={contributors}>
           <UpdateButton action={handleUpdate} />
         </HasAccess>
       )}

@@ -17,9 +17,9 @@ vi.mock("react-i18next", async () =>
   }),
 );
 
-vi.mock("primereact/inputtext", () => import("../representation.testing"));
-vi.mock("primereact/dropdown", () => import("../representation.testing"));
-vi.mock("primereact/button", () => import("../representation.testing"));
+vi.mock("@mantle-ui/react/inputtext", () => import("../representation.testing"));
+vi.mock("@mantle-ui/react/dropdown", () => import("../representation.testing"));
+vi.mock("@mantle-ui/react/button", () => import("../representation.testing"));
 
 const decimalBoundsRepresentation: NumericRepresentationType = {
   $type: "NumericRepresentationBaseType",

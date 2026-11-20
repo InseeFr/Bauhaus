@@ -28,6 +28,8 @@ export function getTree(input: any[], idParent?: string, objectToMerge?: any): a
           children: getTree(input, msd.idMas, objectToMerge),
           sansObject: msdToMerge.sansObject,
           subPropertyOf: msdToMerge.subPropertyOf,
+          instructionLg1: msdToMerge.instructionLg1,
+          instructionLg2: msdToMerge.instructionLg2,
         },
       };
     }, {});

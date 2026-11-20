@@ -7,7 +7,7 @@ import { Mock, vi } from "vitest";
 
 import { UNPUBLISHED } from "@model/ValidationState";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 import { CollectionApi } from "@sdk/new-collection-api";
 
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
@@ -15,7 +15,7 @@ import { conceptsI18n } from "../../../i18n";
 import { createTestQueryClient } from "../../../testing/query-client.testing";
 import { Component } from "./page";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: { putCollectionValidList: vi.fn() },
 }));
 

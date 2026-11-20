@@ -1,0 +1,24 @@
+/* Adresse du complément d'information : préfixe « http:// » accolé au champ, à
+   l'image de l'`input-group` de Bootstrap 3 qu'il remplace. */
+.concept-additional-material {
+  display: flex;
+}
+
+.concept-additional-material__scheme {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+  background-color: #eee;
+  color: #555;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.concept-additional-material .bauhaus-input {
+  flex: 1;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

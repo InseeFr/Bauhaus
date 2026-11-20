@@ -1,4 +1,4 @@
-import { Calendar } from "primereact/calendar";
+import { Calendar } from "@mantle-ui/react/calendar";
 
 import "./date-picker.css";
 

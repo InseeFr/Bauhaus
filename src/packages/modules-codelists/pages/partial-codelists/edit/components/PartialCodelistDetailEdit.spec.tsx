@@ -14,12 +14,6 @@ vi.mock("@utils/hooks/users", () => import("../../../../testing/users.testing"))
 
 vi.mock("../../../../../auth/components/auth", () => import("../../../../testing/auth.testing"));
 
-vi.mock("../../../sdk", () => ({
-  CodelistsApi: {
-    getCodelistCodes: vi.fn(() => Promise.resolve([])),
-  },
-}));
-
 /** Contributeur pré-rempli à la création : le timbre de l'utilisateur s'il est habilité. */
 const initContributor = () => {
   const { stamp } = readFirstStamp(useUserStamps);

@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { describe, it, expect, vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { ClassificationItems } from "./ClassificationItems";
 
 vi.mock("@components/page-title", () => ({
@@ -86,5 +87,10 @@ describe("<ClassificationItems />", () => {
   it("affiche le subtitle", () => {
     renderComponent({ subtitle: "COICOP 2016" });
     expect(screen.getByTestId("page-subtitle")).toHaveTextContent("COICOP 2016");
+  });
+
+  it("met la liste en page sans classe Bootstrap", () => {
+    renderComponent({ items });
+    expectNoBootstrapClass();
   });
 });

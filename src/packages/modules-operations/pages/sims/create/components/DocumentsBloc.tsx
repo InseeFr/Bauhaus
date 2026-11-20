@@ -160,11 +160,11 @@ export function DocumentsBloc({
         </List.Container>
       )}
       {editMode && (
-        <div className="documentblock-picker panel panel-default">
-          <div className="panel-heading">
+        <div className="documentblock-picker">
+          <div className="documentblock-picker-heading">
             <button
               type="button"
-              className="btn documentsbloc-add documentsbloc-btn"
+              className="documentblock-picker-button documentsbloc-add documentsbloc-btn"
               aria-label={addTitle}
               onClick={() => setPanelStatus(!panelStatus)}
             >
@@ -176,7 +176,7 @@ export function DocumentsBloc({
             </button>
             <button
               type="button"
-              className="btn"
+              className="documentblock-picker-button"
               aria-label={t("app.btnAdd")}
               onClick={() => {
                 openLateralPanelOpened?.(objectType === "documents" ? DOCUMENT : LINK);
@@ -187,8 +187,8 @@ export function DocumentsBloc({
             </button>
           </div>
           {panelStatus && (
-            <div className="panel-body">
-              <div className="form-group">
+            <div className="documentblock-picker-body">
+              <div className="bauhaus-form-group">
                 <label className="sr-only" htmlFor="documentFilter">
                   {t("app.search")}
                 </label>

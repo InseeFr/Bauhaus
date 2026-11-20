@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, forwardRef } from "react";
+import { ComponentProps, ComponentPropsWithoutRef } from "react";
 
 import { cx } from "@utils/cx";
 
@@ -26,12 +26,10 @@ const Container = ({ className, children, ...props }: ComponentPropsWithoutRef<"
 
 Container.displayName = "List.Container";
 
-const Item = forwardRef<HTMLLIElement, ComponentPropsWithoutRef<"li">>(
-  ({ className, children, ...props }, ref) => (
-    <li ref={ref} className={cx("bauhaus-list-item", className)} {...props}>
-      {children}
-    </li>
-  ),
+const Item = ({ className, children, ...props }: ComponentProps<"li">) => (
+  <li className={cx("bauhaus-list-item", className)} {...props}>
+    {children}
+  </li>
 );
 
 Item.displayName = "List.Item";

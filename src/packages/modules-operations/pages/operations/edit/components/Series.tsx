@@ -22,8 +22,8 @@ export const Series = ({ label, errorMessage, value, onChange }: Readonly<Series
     });
 
   return (
-    <Row className="bauhaus-row">
-      <div className="form-group">
+    <Row>
+      <div className="bauhaus-form-group col">
         <LabelRequired>{label}</LabelRequired>
         <Select placeholder={label} value={value} options={seriesOptions} onChange={onChange} />
         <ClientSideError id="series-error" error={errorMessage}></ClientSideError>

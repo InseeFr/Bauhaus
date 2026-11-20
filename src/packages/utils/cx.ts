@@ -8,7 +8,7 @@ type ClassValue = string | false | null | undefined;
  * valeur optionnelle manque.
  *
  * @example
- * cx("row", className)                       // "row" si className est undefined
+ * cx("bauhaus-panel", className)             // "bauhaus-panel" si className est undefined
  * cx("w-100", required && "label-required")  // "w-100" si required est faux
  */
 export const cx = (...values: ClassValue[]): string => values.filter(Boolean).join(" ");

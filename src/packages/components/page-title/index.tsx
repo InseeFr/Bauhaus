@@ -1,4 +1,3 @@
-import "../layout/grid.css";
 import "./page-title.css";
 
 interface PageTitleTypes {
@@ -10,10 +9,8 @@ interface PageTitleTypes {
 
 export const PageTitle = ({ title, subtitle, col = 10, offset = 1 }: Readonly<PageTitleTypes>) => {
   return (
-    <div className="bauhaus-grid-row wilco-page-title">
-      <div
-        className={`bauhaus-grid-md-${col} bauhaus-grid-md-offset-${offset} wilco-page-title__block`}
-      >
+    <div className="grid wilco-page-title">
+      <div className={`col-12 lg:col-${col} lg:col-offset-${offset} wilco-page-title__block`}>
         <h1 className="wilco-page-title__title ">
           {title}
           {subtitle && <div>&quot; {subtitle} &quot;</div>}

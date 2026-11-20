@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 
@@ -51,6 +51,8 @@ export function useDuplicatePhysicalInstance() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
       queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
+      // La fiche d'opération liste les fichiers de ses études (préfixe : toutes les opérations).
+      queryClient.invalidateQueries({ queryKey: ["operationPhysicalInstances"] });
     },
   });
 }

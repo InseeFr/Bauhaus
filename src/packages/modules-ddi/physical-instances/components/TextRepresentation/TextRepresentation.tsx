@@ -22,11 +22,13 @@ export const TextRepresentation = ({
   const [maxLength, setMaxLength] = useState(toInputValue(representation?.MaxLength));
   const [regExp, setRegExp] = useState(representation?.RegExp || "");
 
-  useEffect(() => {
+  const [previousRepresentation, setPreviousRepresentation] = useState(representation);
+  if (representation !== previousRepresentation) {
+    setPreviousRepresentation(representation);
     setMinLength(toInputValue(representation?.MinLength));
     setMaxLength(toInputValue(representation?.MaxLength));
     setRegExp(representation?.RegExp || "");
-  }, [representation]);
+  }
 
   useEffect(() => {
     const newRepresentation: TextRepresentationType = {

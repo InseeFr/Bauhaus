@@ -1,5 +1,5 @@
-import { Dropdown } from "primereact/dropdown";
-import { MultiSelect } from "primereact/multiselect";
+import { Dropdown } from "@mantle-ui/react/dropdown";
+import { MultiSelect } from "@mantle-ui/react/multiselect";
 import { useTranslation } from "react-i18next";
 
 import { Option } from "@model/SelectOption";
@@ -15,9 +15,13 @@ type SelectRmesTypes = {
   disabled?: boolean;
   placeholder?: string;
   value?: any;
+  /** Options : `value`/`label`, plus d'éventuels champs recherchables non affichés (voir `filterBy`). */
   options?: Option[];
+  /** Champs des options sur lesquels porte la recherche, séparés par des virgules (défaut : `label`). */
+  filterBy?: string;
   itemTemplate?: MultiSelect["props"]["itemTemplate"];
   inputId?: string;
+  loading?: boolean;
 } & {};
 
 export const Select = ({
@@ -27,6 +31,8 @@ export const Select = ({
   searchable = true,
   disabled = false,
   inputId,
+  loading = false,
+  filterBy,
   ...props
 }: SelectRmesTypes) => {
   const { t } = useTranslation("translation", { i18n: componentsI18n });
@@ -43,6 +49,7 @@ export const Select = ({
         }}
         display="chip"
         filter={searchable}
+        filterBy={filterBy}
         className="w-full select-rmes-multi"
         disabled={disabled}
         showClear={!unclearable}
@@ -62,8 +69,10 @@ export const Select = ({
         onChange(e.value);
       }}
       filter={searchable}
+      filterBy={filterBy}
       className="w-full select-rmes-single"
       disabled={disabled}
+      loading={loading}
       showClear={!unclearable}
       emptyMessage={t("noResult")}
       itemTemplate={props.itemTemplate}

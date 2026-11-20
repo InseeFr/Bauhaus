@@ -1,1 +1,1 @@
-export * from "primereact/confirmdialog";
+export * from "@mantle-ui/react/confirmdialog";

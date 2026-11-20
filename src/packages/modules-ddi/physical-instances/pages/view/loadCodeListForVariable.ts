@@ -1,6 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import type { CodeListItem } from "../../../hooks/usePhysicalCodeLists";
 import type {

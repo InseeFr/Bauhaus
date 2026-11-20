@@ -2,15 +2,15 @@
   display: flex;
 }
 
-.bauhaus-sims-geography-picker .form-group {
+.bauhaus-sims-geography-picker .bauhaus-form-group {
   flex-grow: 1;
 }
 
-.bauhaus-sims-geography-picker .form-group div[class$="singleValue"] {
+.bauhaus-sims-geography-picker .bauhaus-form-group div[class$="singleValue"] {
   overflow: visible;
 }
 
-.bauhaus-sims-geography-picker .btn,
+.bauhaus-sims-geography-picker .sims-geography-new-button,
 .bauhaus-sims-geography-picker .p-button {
   margin-left: 1em;
   height: 38px;

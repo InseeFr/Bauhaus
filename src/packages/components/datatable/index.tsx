@@ -1,8 +1,8 @@
-import { FilterMatchMode } from "primereact/api";
-import { DataTable as PrimeDataTable } from "primereact/datatable";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
-import { InputText } from "primereact/inputtext";
+import { FilterMatchMode } from "@mantle-ui/react/api";
+import { DataTable as PrimeDataTable } from "@mantle-ui/react/datatable";
+import { IconField } from "@mantle-ui/react/iconfield";
+import { InputIcon } from "@mantle-ui/react/inputicon";
+import { InputText } from "@mantle-ui/react/inputtext";
 import { ChangeEvent, ComponentPropsWithoutRef, PropsWithChildren, useState } from "react";
 import { useTranslation } from "react-i18next";
 

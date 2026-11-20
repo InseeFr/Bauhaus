@@ -1,40 +1,28 @@
 import { useQueryClient } from "@tanstack/react-query";
 import {
+  type MouseEvent,
   useReducer,
   useRef,
   useMemo,
   useCallback,
   useEffect,
   useState,
-  lazy,
-  Suspense,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams, useNavigate, useSearchParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 
-import { ConfirmDialog, confirmDialog } from "@components/ui/confirm-dialog";
-import { Toast } from "@components/ui/toast";
-
-import "./view.css";
-import type {
-  PhysicalInstanceUpdateData,
-  PhysicalInstanceCreationData,
-} from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
-
-const PhysicalInstanceDialog = lazy(() =>
-  import("../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog").then(
-    (module) => ({ default: module.PhysicalInstanceDialog }),
-  ),
-);
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { LoadingOverlay } from "@components/loading-overlay";
+
+import "./view.css";
+import { ConfirmDialog, confirmDialog } from "@components/ui/confirm-dialog";
+import { Toast } from "@components/ui/toast";
 
 import { formatApiErrors } from "@utils/api-errors";
 import { cx } from "@utils/cx";
 import { useNavigationBlocker } from "@utils/hooks/useNavigationBlocker";
 
 import { appI18n } from "../../../../i18n";
-import { useDuplicatePhysicalInstance } from "../../../hooks/useDuplicatePhysicalInstance";
 import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
@@ -48,6 +36,7 @@ import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
 import { DdiToast } from "../../components/DdiToast/DdiToast";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
+import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { ReuseVariableDialog } from "../../components/SharedVariable/ReuseVariableDialog";
 import { otherPhysicalInstancesByVariable } from "../../components/SharedVariable/sharedVariables";
@@ -73,7 +62,6 @@ import { viewReducer, initialState, actions, type VariableData } from "./viewRed
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const toast = useRef<Toast>(null);
   const initialRestoreDone = useRef(false);
   const [state, dispatch] = useReducer(viewReducer, initialState);
@@ -95,7 +83,6 @@ export const Component = () => {
   const currentStamps = parents?.stamps;
   // Sans parents (Groupe / Étude), la sauvegarde échouerait : la PI reste consultable en lecture seule.
   const readOnly = isParentsError;
-  const [duplicateDialogVisible, setDuplicateDialogVisible] = useState(false);
   const [reuseDialogVisible, setReuseDialogVisible] = useState(false);
 
   // Réutilisation de variables (#1387) : une variable utilisée par d'autres fichiers de l'étude est
@@ -122,14 +109,18 @@ export const Component = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
-  const duplicatePhysicalInstance = useDuplicatePhysicalInstance();
   const dataByLangs = usePhysicalInstanceByLangs(data);
 
+  // Le libellé n'est resynchronisé qu'à l'arrivée d'un nouveau titre : une édition locale en cours
+  // (mise à jour optimiste) ne doit pas être écrasée par l'ancien titre.
+  const syncedTitle = useRef<string | undefined>(undefined);
   useEffect(() => {
-    if (title && title !== state.formData.label) {
+    if (!title || title === syncedTitle.current) return;
+    syncedTitle.current = title;
+    if (title !== state.formData.label) {
       dispatch(actions.setFormData({ label: title }));
     }
-  }, [title]);
+  }, [title, state.formData.label]);
 
   // Sync selected variable ID to URL search params
   useEffect(() => {
@@ -254,7 +245,10 @@ export const Component = () => {
         .filter(({ errors }) => errors.length > 0),
     [state.localVariables],
   );
-  const displayedVariablesInError = showValidationErrors ? variablesInError : [];
+  const displayedVariablesInError = useMemo(
+    () => (showValidationErrors ? variablesInError : []),
+    [showValidationErrors, variablesInError],
+  );
   const invalidVariableIds = useMemo(
     () => displayedVariablesInError.map(({ variable }) => variable.id),
     [displayedVariablesInError],
@@ -301,11 +295,11 @@ export const Component = () => {
     const newLocalVariables: VariableData[] = [];
     state.localVariables.forEach((localVar) => {
       if (variableMap.has(localVar.id)) {
-        // Update existing variable with new lastModified
+        // Update existing variable with its local modification date
         variableMap.set(localVar.id, {
           ...variableMap.get(localVar.id),
           ...localVar,
-          lastModified: new Date().toISOString(),
+          lastModified: state.lastModifiedById[localVar.id] ?? "",
         });
       } else {
         newLocalVariables.push(localVar);
@@ -318,7 +312,7 @@ export const Component = () => {
     newLocalVariables.forEach((localVar) => {
       const newVariable = {
         ...localVar,
-        lastModified: new Date().toISOString(),
+        lastModified: state.lastModifiedById[localVar.id] ?? "",
       };
       const anchorId = state.newVariableAnchors[localVar.id];
       const anchorIndex = anchorId ? merged.findIndex((v) => v.id === anchorId) : -1;
@@ -336,6 +330,7 @@ export const Component = () => {
     state.localVariables,
     state.deletedVariableIds,
     state.newVariableAnchors,
+    state.lastModifiedById,
   ]);
 
   const filteredVariables = useMemo(() => {
@@ -934,6 +929,7 @@ export const Component = () => {
     state.deletedVariableIds,
     state.reusedVariables,
     savePhysicalInstance,
+    queryClient,
     t,
   ]);
 
@@ -949,7 +945,8 @@ export const Component = () => {
   }, [variablesInError, saveAll]);
 
   const handleInvalidVariableClick = useCallback(
-    (variableId: string) => {
+    (event: MouseEvent<HTMLButtonElement>) => {
+      const { variableId } = event.currentTarget.dataset;
       const variable = mergedVariables.find((v) => v.id === variableId);
       if (variable) {
         void handleVariableClick(variable);
@@ -958,67 +955,15 @@ export const Component = () => {
     [mergedVariables, handleVariableClick],
   );
 
-  // Ouvre la modale de duplication (la duplication n'est plus immédiate, cf. #1555).
-  const handleDuplicatePhysicalInstance = useCallback(() => {
-    setDuplicateDialogVisible(true);
-  }, []);
-
-  // Libellé pré-rempli = libellé courant + suffixe « (copy) » ; Groupe/Étude pré-remplis
-  // depuis les parents de la PI courante (le Groupe sera verrouillé, l'Étude modifiable).
-  const duplicateInitialData = useMemo(
-    () => ({
-      label: `${title} (copy)`,
-      group: currentGroup,
-      studyUnit: currentStudyUnit,
-    }),
-    [title, currentGroup, currentStudyUnit],
+  const mergedVariableIds = useMemo(
+    () => mergedVariables.map((variable) => variable.id),
+    [mergedVariables],
   );
 
-  const handleConfirmDuplicate = useCallback(
-    async (formData: PhysicalInstanceCreationData) => {
-      try {
-        // La copie, son rattachement au Groupe verrouillé et à l'Étude choisie, et le rangement de
-        // ses variables sont faits par le back en un seul enregistrement.
-        const copy = await duplicatePhysicalInstance.mutateAsync({
-          agencyId: agencyId!,
-          id: id!,
-          data: {
-            physicalInstanceLabel: formData.label,
-            dataRelationshipLabel: formData.dataRelationshipLabel,
-            logicalRecordLabel: formData.logicalRecordLabel,
-            groupId: formData.group.id,
-            groupAgency: formData.group.agency,
-            studyUnitId: formData.studyUnit.id,
-            studyUnitAgency: formData.studyUnit.agency,
-          },
-        });
+  const physicalInstanceRef = useMemo(() => ({ agency: agencyId!, id: id! }), [agencyId, id]);
 
-        setDuplicateDialogVisible(false);
-        void navigate(`/ddi/physical-instances/${copy.agency}/${copy.id}`);
-
-        toast.current?.show({
-          severity: "success",
-          summary: t("physicalInstance.view.duplicateSuccess"),
-          detail: t("physicalInstance.view.duplicateSuccessDetail"),
-          life: TOAST_DURATION,
-        });
-      } catch (err) {
-        const errorMessage = formatApiErrors(
-          err,
-          appI18n,
-          t("physicalInstance.view.duplicateErrorDetail"),
-        ).join("\n");
-
-        toast.current?.show({
-          severity: "error",
-          summary: t("physicalInstance.view.duplicateError"),
-          detail: errorMessage,
-          ...errorToastTiming(),
-        });
-      }
-    },
-    [agencyId, id, duplicatePhysicalInstance, navigate, t],
-  );
+  const handleOpenReuseDialog = useCallback(() => setReuseDialogVisible(true), []);
+  const handleHideReuseDialog = useCallback(() => setReuseDialogVisible(false), []);
 
   // Les parents (Groupe / Étude) portent les droits d'édition : sans eux, la page s'afficherait
   // d'abord en lecture seule puis changerait sous les yeux de l'utilisateur.
@@ -1036,7 +981,7 @@ export const Component = () => {
 
   return (
     <>
-      <div className={cx("pi-layout", state.selectedVariable && "pi-open")} role="main">
+      <main className={cx("pi-layout", state.selectedVariable && "pi-open")}>
         <div className="pi-col-main">
           <div className="sticky-header">
             <PhysicalInstanceHeader
@@ -1046,7 +991,7 @@ export const Component = () => {
               studyUnit={currentStudyUnit}
               groupLabel={currentGroup?.label}
               studyUnitLabel={currentStudyUnit?.label}
-              physicalInstance={{ agency: agencyId!, id: id! }}
+              physicalInstance={physicalInstanceRef}
               stamps={currentStamps}
               readOnly={readOnly}
             />
@@ -1067,7 +1012,7 @@ export const Component = () => {
               onTypeFilterChange={handleTypeFilterChange}
               typeOptions={typeOptions}
               onNewVariable={handleNewVariable}
-              onReuseVariable={currentStudyUnit ? () => setReuseDialogVisible(true) : undefined}
+              onReuseVariable={currentStudyUnit ? handleOpenReuseDialog : undefined}
               onSaveAll={handleSaveAll}
               hasLocalChanges={hasUnsavedChanges}
               stamps={currentStamps}
@@ -1090,7 +1035,8 @@ export const Component = () => {
                       <button
                         type="button"
                         className="pi-validation-summary-variable"
-                        onClick={() => handleInvalidVariableClick(variable.id)}
+                        data-variable-id={variable.id}
+                        onClick={handleInvalidVariableClick}
                       >
                         {variable.name.trim() ||
                           variable.label.trim() ||
@@ -1110,7 +1056,6 @@ export const Component = () => {
           <GlobalActionsCard
             variables={filteredVariables}
             onExport={handleExport}
-            onDuplicate={handleDuplicatePhysicalInstance}
             onValidateDdi4={handleValidateDdi4}
             onRowClick={handleVariableClick}
             onDeleteClick={handleDeleteVariable}
@@ -1124,7 +1069,7 @@ export const Component = () => {
         </div>
         <div className="pi-col-side">
           {state.selectedVariable && (
-            <div className="variable-edit-sidebar" role="complementary">
+            <aside className="variable-edit-sidebar">
               <VariableEditForm
                 variable={state.selectedVariable}
                 typeOptions={variableTypeOptions}
@@ -1142,29 +1087,17 @@ export const Component = () => {
                 stamps={currentStamps}
                 readOnly={readOnly}
               />
-            </div>
+            </aside>
           )}
         </div>
-      </div>
-
-      {duplicateDialogVisible && (
-        <Suspense fallback={null}>
-          <PhysicalInstanceDialog
-            visible={duplicateDialogVisible}
-            onHide={() => setDuplicateDialogVisible(false)}
-            mode="duplicate"
-            initialData={duplicateInitialData}
-            onSubmitDuplicate={handleConfirmDuplicate}
-          />
-        </Suspense>
-      )}
+      </main>
 
       {reuseDialogVisible && currentStudyUnit && (
         <ReuseVariableDialog
           studyUnit={currentStudyUnit}
-          excludedVariableIds={mergedVariables.map((variable) => variable.id)}
+          excludedVariableIds={mergedVariableIds}
           onReuse={handleReuseVariable}
-          onHide={() => setReuseDialogVisible(false)}
+          onHide={handleHideReuseDialog}
         />
       )}
 

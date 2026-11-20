@@ -1,11 +1,13 @@
-import { useState, useEffect, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState, useCallback } from "react";
+
+import { Row } from "@components/layout";
 
 import { Codelist } from "@model/Codelist";
 import { Component, ComponentDefinition } from "@model/structures/Component";
 
-import { ConceptsApi } from "@sdk/index";
-
 import { EMPTY_ARRAY } from "@utils/array-utils";
+import { conceptListQuery } from "@utils/hooks/concepts";
 
 import { CodelistPanel } from "../../../../components/CodelistPanel";
 import { ComponentSpecificationModal } from "../../../../components/ComponentSpecificationModal";
@@ -19,7 +21,7 @@ interface ComponentsPanelTypes {
 export const ComponentsPanel = ({
   componentDefinitions = EMPTY_ARRAY,
 }: Readonly<ComponentsPanelTypes>) => {
-  const [concepts, setConcepts] = useState([]);
+  const { data: concepts = EMPTY_ARRAY } = useQuery(conceptListQuery());
 
   const { data: codelists = [] } = useFormattedCodelist();
 
@@ -37,17 +39,13 @@ export const ComponentsPanel = ({
     setCodelist(codelist);
   }, []);
 
-  useEffect(() => {
-    ConceptsApi.getConceptList().then(setConcepts);
-  }, []);
-
   const handleSpecificationClick = useCallback((component: Component) => {
     setSelectedComponent(component);
     setModalOpened(true);
   }, []);
 
   return (
-    <div className="row text-left">
+    <Row className="text-left">
       {modalOpened && selectedComponent && (
         <ComponentSpecificationModal
           onClose={() => setModalOpened(false)}
@@ -76,6 +74,6 @@ export const ComponentsPanel = ({
         isOpen={!!codelist}
         handleBack={() => setCodelist(undefined)}
       />
-    </div>
+    </Row>
   );
 };

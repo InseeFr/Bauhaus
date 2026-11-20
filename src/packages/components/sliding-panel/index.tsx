@@ -1,4 +1,4 @@
-import { Sidebar } from "primereact/sidebar";
+import { Sidebar } from "@mantle-ui/react/sidebar";
 import type { ReactNode } from "react";
 
 interface RightSlidingPanelTypes {

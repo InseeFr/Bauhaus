@@ -9,7 +9,7 @@ stays in `src/**/*.spec.tsx` (see [How to run tests](../run-tests/)).
 ## Prerequisites
 
 - Docker and Docker Compose
-- Ports `3000`, `7200`, `8080`, `9000` free
+- Ports `3000`, `7200` (or `3030` with Fuseki), `8080`, `9000` free
 - The **Bauhaus-Back-Office** repository cloned next to `Bauhaus`:
 
   ```shell
@@ -63,13 +63,41 @@ check — it refuses to destroy anything it could not reload afterwards.
 | Variable           | Default                     | Purpose                          |
 | ------------------ | --------------------------- | -------------------------------- |
 | `BACK_OFFICE_HOME` | `../Bauhaus-Back-Office`    | Root of the Back-Office checkout |
+| `RDF_BACKEND`      | `graphdb`                   | `graphdb` or `fuseki`            |
 | `GRAPHDB_URL`      | `http://localhost:7200`     | GraphDB REST endpoint            |
+| `FUSEKI_URL`       | `http://localhost:3030`     | Fuseki server                    |
 | `API_URL`          | `http://localhost:8080/api` | Back-Office API base URL         |
 | `STACK_TIMEOUT`    | `600`                       | Seconds to wait per service      |
 
 `BACK_OFFICE_HOME` is resolved to an absolute path and exported: `init.sh` runs
 from `e2e/`, and each compose file would otherwise read a relative path from its
 own directory.
+
+### Against Fuseki instead of GraphDB
+
+```shell
+RDF_BACKEND=fuseki pnpm e2e:stack
+```
+
+The same three steps, on `compose-fuseki.yaml` instead of `docker-compose.yml`:
+`containers/fuseki.yml` replaces GraphDB (port `3030`, user `admin`, password
+`admin`), and `containers/api-fuseki.yml` points the Back-Office at it
+(`fr.insee.rmes.rdf.backend=fuseki`, basic authentication for writes).
+`init.sh` then creates the `bauhaus` and `publication` _datasets_ through the
+Fuseki admin API, from `e2e/playwright/db/fuseki/*.ttl`
+(`tdb2:unionDefaultGraph true`, like GraphDB's default graph), and loads the
+same fixtures through the Graph Store Protocol (`/bauhaus/data`). The triple
+count check is the same on both backends.
+
+To load the fixtures by hand into a Fuseki already running:
+
+```shell
+cd e2e && RDF_BACKEND=fuseki ./playwright/db/init.sh
+```
+
+Both stacks share the compose project: switching backend recreates the
+Back-Office on the new one, and the other database keeps running (compose
+reports it as an orphan).
 
 ### How long it takes
 
@@ -123,7 +151,7 @@ Two consequences:
   all eight files (plus its own two `.ttl` repository configurations) _before_
   deleting anything, and stops with the list of missing files.
 - **The content of the fixtures is pinned by a triple count.** `init.sh` compares
-  the loaded size against `EXPECTED_TRIPLES` (79 287) and fails if it differs, so
+  the loaded size against `EXPECTED_TRIPLES` (79 320) and fails if it differs, so
   a truncated or replaced fixture cannot silently produce a partial dataset. After
   an intentional fixture change, regenerate the value with:
 

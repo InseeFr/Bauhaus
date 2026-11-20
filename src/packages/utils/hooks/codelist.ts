@@ -2,7 +2,7 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 
 import { Code, Codelist } from "@model/Codelist";
 
-import { CodelistsApi, fetchCodelist } from "@sdk/index";
+import { CodelistsApi, fetchCodelist } from "@sdk/codelists-api";
 
 import { sortArray } from "../array-utils";
 

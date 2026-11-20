@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import { expectItemNotFound } from "../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import * as classificationHook from "../../../hooks/useClassificationItem";
@@ -33,7 +34,8 @@ vi.mock("@components/page-title-block", () => import("../../../testing/component
 vi.mock("./menu", () => ({
   Menu: () => <div>Menu</div>,
 }));
-vi.mock("./validation", () => ({
+vi.mock("./validation", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./validation")>()),
   validate: () => ({}),
 }));
 
@@ -104,5 +106,31 @@ describe("<Component />", () => {
 
     await expectItemNotFound();
     expect(screen.queryByText("Loading")).not.toBeInTheDocument();
+  });
+
+  it("met le formulaire en page sans classe Bootstrap", () => {
+    using _classificationHookSpy = vi
+      .spyOn(classificationHook, "useClassificationItem")
+      .mockReturnValue({
+        isLoading: false,
+        item: {
+          general: { altLabels: [{ length: 30, shortLabelLg1: "court", shortLabelLg2: "short" }] },
+          notes: {
+            scopeNoteLg1: "FR",
+            scopeNoteLg2: "EN",
+            scopeNoteLg1Uri: "u1",
+            scopeNoteLg2Uri: "u2",
+          },
+        },
+      } as any);
+    using _parentLevelsSpy = vi
+      .spyOn(classificationHook, "useClassificationParentLevels")
+      .mockReturnValue({ isLoading: false } as any);
+    using _fetchSpy = vi.spyOn(clientModule, "fetchingPreviousLevels").mockResolvedValue([]);
+
+    renderComponent();
+
+    expect(screen.getByDisplayValue("court")).toBeInTheDocument();
+    expectNoBootstrapClass();
   });
 });

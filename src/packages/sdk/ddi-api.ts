@@ -12,6 +12,8 @@ const api = {
   getOperationPhysicalInstances: (operationId: string) => [
     `operation/${operationId}/physical-instances`,
   ],
+  // Études miroirs de l'opération, chacune avec le groupe (série) qui la classe.
+  getOperationStudyUnits: (operationId: string) => [`operation/${operationId}/study-units`],
   getPhysicalInstanceParents: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id + "/parents",
   ],
@@ -71,6 +73,53 @@ const api = {
     },
   ) => [
     "physical-instance/" + agencyId + "/" + id + "/duplicate",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    },
+  ],
+  // Nouveau fichier dans l'étude de la source, qui partage les variables choisies (#1674).
+  reuseVariables: (
+    agencyId: string,
+    id: string,
+    data: {
+      physicalInstanceLabel: string;
+      dataRelationshipLabel: string;
+      logicalRecordLabel: string;
+      groupId: string;
+      groupAgency: string;
+      variableIds: string[];
+    },
+  ) => [
+    "physical-instance/" + agencyId + "/" + id + "/reuse-variables",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    },
+  ],
+  // Nouvelle période (#1672) : nouveau fichier dans une autre étude du groupe de la source, qui
+  // copie les variables choisies ou réutilise celles déjà dérivées d'elles dans l'étude cible.
+  rollover: (
+    agencyId: string,
+    id: string,
+    data: {
+      physicalInstanceLabel: string;
+      dataRelationshipLabel: string;
+      logicalRecordLabel: string;
+      studyUnitId: string;
+      studyUnitAgency: string;
+      groupId: string;
+      groupAgency: string;
+      variables: { sourceId: string; reusedAgency?: string; reusedId?: string }[];
+    },
+  ) => [
+    "physical-instance/" + agencyId + "/" + id + "/rollover",
     {
       method: "POST",
       headers: {

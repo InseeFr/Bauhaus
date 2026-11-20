@@ -14,8 +14,8 @@ export const YearInput = ({ value, onChange, error }: Readonly<YearInputTypes>) 
   const { t } = useTranslation();
 
   return (
-    <Row className="bauhaus-row">
-      <div className="form-group">
+    <Row>
+      <div className="bauhaus-form-group col">
         <label htmlFor="year">{t("common.year")}</label>
         <TextInput
           id="year"

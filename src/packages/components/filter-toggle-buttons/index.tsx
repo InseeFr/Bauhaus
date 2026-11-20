@@ -15,7 +15,7 @@ export const FilterToggleButtons = ({
   handleSelection,
 }: Readonly<FilterToggleButtonsTypes>) => {
   return (
-    <div className="bauhaus-filter-toggle-buttons" role="group">
+    <fieldset className="bauhaus-filter-toggle-buttons">
       {options.map(([value, title]) => {
         return (
           <div className="bauhaus-filter-toggle-buttons-segment" key={value}>
@@ -32,6 +32,6 @@ export const FilterToggleButtons = ({
           </div>
         );
       })}
-    </div>
+    </fieldset>
   );
 };

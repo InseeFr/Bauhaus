@@ -137,7 +137,7 @@ export const SimsGeographyField = ({
       <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors?.errorMessage} />
       <ErrorBloc error={serverSideError} />
       <Row>
-        <div className="form-group col-md-6">
+        <div className="bauhaus-form-group col-12 lg:col-6">
           <LabelRequired className="form-label w-100" htmlFor="territory-labelLg1">
             {t("geography.zoneName", { lng: "fr" })}
           </LabelRequired>
@@ -153,7 +153,7 @@ export const SimsGeographyField = ({
             error={clientSideErrors?.fields.labelLg1}
           />
         </div>
-        <div className="form-group col-md-6">
+        <div className="bauhaus-form-group col-12 lg:col-6">
           <LabelRequired className="form-label w-100" htmlFor="territory-labelLg2">
             {t("geography.zoneName", { lng: "en" })}
           </LabelRequired>
@@ -171,7 +171,7 @@ export const SimsGeographyField = ({
         </div>
       </Row>
       <div className="bauhaus-sims-geography-field">
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <Select
             value={selectedOption?.value ?? null}
             options={geographies}
@@ -179,10 +179,10 @@ export const SimsGeographyField = ({
             placeholder=""
           />
         </div>
-        <fieldset className="btn-group border-0 p-0 m-0">
+        <fieldset className="sims-geography-toggle border-0 p-0 m-0">
           <button
             type="button"
-            className="btn btn-default"
+            className="sims-geography-toggle-button"
             disabled={!selectedOption}
             onClick={include}
           >
@@ -190,7 +190,7 @@ export const SimsGeographyField = ({
           </button>
           <button
             type="button"
-            className="btn btn-default"
+            className="sims-geography-toggle-button"
             disabled={!selectedOption}
             onClick={exclude}
           >

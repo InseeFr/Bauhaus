@@ -10,7 +10,7 @@ import { expect, Locator, Page } from "@playwright/test";
 
 const widget = (page: Page, label: string, kind: ".p-dropdown" | ".p-multiselect"): Locator =>
   page
-    .locator(".form-group, .p-field, label")
+    .locator(".bauhaus-form-group, .form-group, .p-field, label")
     .filter({ hasText: label })
     .filter({ has: page.locator(kind) })
     .first()
@@ -78,7 +78,7 @@ export const selectMany = async (page: Page, label: string, options: string[]) =
  */
 export const clearChips = async (page: Page, label: string) => {
   const chips = page
-    .locator(".form-group, .p-field, label")
+    .locator(".bauhaus-form-group, .form-group, .p-field, label")
     .filter({ hasText: label })
     .filter({ has: page.locator(".p-multiselect") })
     .first()

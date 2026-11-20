@@ -1,8 +1,8 @@
 import { I18nextProvider } from "react-i18next";
-import { Outlet } from "react-router";
 
 import { useTheme } from "@utils/hooks/useTheme";
 
+import { ModuleOutlet } from "../../application/router/module-pages";
 import { conceptsI18n } from "../i18n/index";
 import { Menu } from "../menu/menu";
 
@@ -12,7 +12,7 @@ export const Component = () => {
   return (
     <I18nextProvider i18n={conceptsI18n}>
       <Menu />
-      <Outlet />
+      <ModuleOutlet />
     </I18nextProvider>
   );
 };

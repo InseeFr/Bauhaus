@@ -49,6 +49,10 @@ l'image du Back-Office : environ **2 min 20**.
 
 ⚠️ `init.sh` est destructif : il recrée les dépôts `bauhaus` et `publication`.
 
+Contre Fuseki au lieu de GraphDB : `RDF_BACKEND=fuseki pnpm e2e:stack`
+(`compose-fuseki.yaml`, datasets créés par `init.sh` depuis
+`playwright/db/fuseki/`). Le même décompte de triplets vaut pour les deux bases.
+
 ### Dépendance au dépôt voisin
 
 La suite dépend deux fois du dépôt **Bauhaus-Back-Office** cloné à côté de

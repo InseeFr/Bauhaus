@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { type RefObject, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
@@ -42,7 +42,13 @@ const BreadcrumbLink = ({ to, icon, kind, label }: Readonly<BreadcrumbLinkProps>
   const linkRef = useRef<HTMLAnchorElement>(null);
   return (
     <>
-      <Tooltip target={linkRef} content={label} event="both" position="bottom" />
+      {/* Mantle type la cible en RefObject<HTMLElement>, sans le null des refs React 19. */}
+      <Tooltip
+        target={linkRef as RefObject<HTMLElement>}
+        content={label}
+        event="both"
+        position="bottom"
+      />
       <Link ref={linkRef} className="pi-breadcrumb-link" to={to}>
         <i className={`pi ${icon}`} aria-hidden="true" />
         <span className="p-hidden-accessible">{kind}</span>
@@ -225,9 +231,9 @@ const PhysicalInstanceSwitcher = ({
       </button>
 
       {isOpen && (
-        <div
+        <dialog
+          open
           id={panelId}
-          role="dialog"
           aria-label={t("physicalInstance.view.breadcrumb.switch", { label: current.label })}
           className="pi-switcher-panel"
           onKeyDown={(event) => {
@@ -255,7 +261,7 @@ const PhysicalInstanceSwitcher = ({
           <p className="pi-switcher-count">
             {t("physicalInstance.view.breadcrumb.count", { count: siblings.length })}
           </p>
-        </div>
+        </dialog>
       )}
     </div>
   );

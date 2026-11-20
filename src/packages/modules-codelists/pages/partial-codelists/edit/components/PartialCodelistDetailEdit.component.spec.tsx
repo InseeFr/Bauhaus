@@ -1,14 +1,15 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
+import { CodelistsApi } from "@sdk/codelists-api";
 import { DisseminationStatus } from "@sdk/dissemination-status";
-import { CodelistsApi } from "@sdk/index";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { renderWithProviders } from "../../../../testing/render.testing";
 import { PartialCodelistDetailEdit } from "./PartialCodelistDetailEdit";
 
-vi.mock("@sdk/index", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@sdk/index")>()),
+vi.mock("@sdk/codelists-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/codelists-api")>()),
   CodelistsApi: { getCodelistCodes: vi.fn() },
 }));
 
@@ -56,7 +57,9 @@ const renderForm = (props: Partial<Parameters<typeof PartialCodelistDetailEdit>[
 const field = (label: string) => screen.getAllByLabelText(new RegExp(`^${label}`))[0];
 
 const pickParentCodelist = async () => {
-  const group = screen.getByText("Parent codelist", { selector: "label" }).closest(".form-group")!;
+  const group = screen
+    .getByText("Parent codelist", { selector: "label" })
+    .closest(".bauhaus-form-group")!;
   fireEvent.click(group.querySelector(".p-dropdown-trigger")!);
   fireEvent.click(await screen.findByText("Liste globale"));
 };
@@ -153,7 +156,7 @@ describe("Partial codelist edition form", () => {
       const owner = screen.getByText("Owner").closest("label")!;
       fireEvent.click(owner.querySelector(".p-dropdown-trigger")!);
       fireEvent.click(await screen.findByText("INSEE"));
-      const status = screen.getAllByText("Dissemination status")[0].closest(".form-group")!;
+      const status = screen.getAllByText("Dissemination status")[0].closest(".bauhaus-form-group")!;
       fireEvent.click(status.querySelector(".p-dropdown-trigger")!);
       fireEvent.click(await screen.findByText("Public generic"));
 
@@ -174,6 +177,15 @@ describe("Partial codelist edition form", () => {
     renderForm({ serverSideError: "The identifier already exists" });
 
     expect(screen.getByText("The identifier already exists")).toBeInTheDocument();
+  });
+
+  it("ne pose aucune classe Bootstrap, sélecteur de codes compris", async () => {
+    renderForm();
+
+    await pickParentCodelist();
+
+    await screen.findAllByText(/Alpha|Beta/);
+    expectNoBootstrapClass();
   });
 
   it("loads and sorts the codes of the parent codelist once it is picked", async () => {
@@ -250,7 +262,7 @@ describe("Partial codelist edition form", () => {
     fireEvent.click(owner.querySelector(".p-dropdown-trigger")!);
     fireEvent.click(await screen.findByText("INSEE"));
 
-    const status = screen.getByText("Dissemination status").closest(".form-group")!;
+    const status = screen.getByText("Dissemination status").closest(".bauhaus-form-group")!;
     fireEvent.click(status.querySelector(".p-dropdown-trigger")!);
     fireEvent.click(await screen.findByText("Public generic"));
 

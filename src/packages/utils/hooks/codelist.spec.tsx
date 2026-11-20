@@ -1,11 +1,11 @@
 import { renderHook, waitFor } from "@testing-library/react";
 
-import { CodelistsApi, fetchCodelist } from "@sdk/index";
+import { CodelistsApi, fetchCodelist } from "@sdk/codelists-api";
 
 import { useAllCodes, useCodelist, useCodelists } from "./codelist";
 import { queryClientWrapper as wrapper } from "./wrappers.testing";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/codelists-api", () => ({
   fetchCodelist: vi.fn(),
   CodelistsApi: { getCodelistCodes: vi.fn() },
 }));

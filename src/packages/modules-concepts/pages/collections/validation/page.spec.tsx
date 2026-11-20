@@ -55,7 +55,7 @@ vi.mock("@sdk/new-collection-api", () => ({
   },
 }));
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: {
     putCollectionValidList: (ids: string[]) => mockPutCollectionValidList(ids),
   },

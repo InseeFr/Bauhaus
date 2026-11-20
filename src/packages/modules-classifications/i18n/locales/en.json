@@ -72,7 +72,7 @@
     "notation": "Code",
     "altLabelWithLength": "Short title ({{length}})",
     "altLabelError": "The short title ({{length}}) should contain {{length}} characters max",
-    "conceptVersion": "Item version",
+    "conceptVersion": "Highest note version number",
     "validationState": "State of the item",
     "globalInformation": "General information",
     "narrowerItems": "Narrower items",

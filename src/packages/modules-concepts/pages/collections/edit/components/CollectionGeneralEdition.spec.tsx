@@ -1,3 +1,4 @@
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { renderWithRouter } from "../../../../../tests/render";
 import { emptyCollectionGeneral } from "../../../../utils/emptyCollectionGeneral";
 import { CollectionGeneralEdition as CollectionGeneral } from "./CollectionGeneralEdition";
@@ -45,5 +46,10 @@ describe("collection-edition-creation-general", () => {
   it("hides the identifier input in edition mode", () => {
     const { queryAllByTestId } = renderGeneral(false);
     expect(inputLabels(queryAllByTestId)).not.toContain("Identifier");
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderGeneral(true);
+    expectNoBootstrapClass();
   });
 });

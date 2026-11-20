@@ -18,35 +18,19 @@
   margin-left: -15px;
 }
 
+/* Dans une ligne flex, `width: 100%` ignorerait les marges négatives : une ligne par rubrique,
+   étirée jusqu'aux marges. */
+.grid > .sims-row {
+  flex: 1 0 100%;
+  width: auto;
+}
+
 .sims-row > div {
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.sims-row > div:nth-child(2) .panel-heading,
-.sims-row > div:nth-child(2) .panel-title {
-  background: var(--primary-color);
-}
-
 .sims-row > div:nth-child(1) + div {
   margin-left: 2em;
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-.sims-row > div .panel-heading,
-/* stylelint-disable-next-line no-descending-specificity */
-.sims-row > div .panel-title {
-  background: var(--secondary-color);
-  color: #fff;
-}
-
-.sims-row > div .panel-body {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.sims-row > div .panel-body > div:nth-child(1) {
-  flex-grow: 1;
 }

@@ -1,6 +1,6 @@
 import { Mock, expect, vi } from "vitest";
 
-import type { PRIVILEGE, STRATEGY } from "@utils/hooks/rbac-constants";
+import type { MODULE, PRIVILEGE, STRATEGY } from "@utils/hooks/rbac-constants";
 
 /**
  * Remplaçant de `@utils/hooks/users`, à brancher par
@@ -36,10 +36,14 @@ export const expectStampsExposedAsData = (hook: StampsHook, stamps: Stamps) => {
 
 type Grant = { privilege: PRIVILEGE; strategy: STRATEGY };
 
-/** Accorde `grants` sur le module des listes de codes à un utilisateur portant `stamps`. */
-export const mockCodelistPrivileges = (grants: Grant[], stamps: string[] = []) => {
+/** Accorde `grants` sur le module des listes de codes (`module`) à un utilisateur portant `stamps`. */
+export const mockCodelistPrivileges = (
+  grants: Grant[],
+  stamps: string[] = [],
+  module: MODULE = "CODESLIST_CODESLIST",
+) => {
   usePrivileges.mockReturnValue({
-    privileges: grants.length ? [{ application: "CODESLIST_CODESLIST", privileges: grants }] : [],
+    privileges: grants.length ? [{ application: module, privileges: grants }] : [],
   });
   useUserStamps.mockReturnValue({ data: stamps.map((stamp) => ({ stamp })) });
 };

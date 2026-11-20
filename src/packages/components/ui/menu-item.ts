@@ -1,1 +1,1 @@
-export type * from "primereact/menuitem";
+export type * from "@mantle-ui/react/menuitem";

@@ -57,11 +57,11 @@ export const SimsGeographySelector = ({
 
   return (
     <Row>
-      <div className="col-md-6">
+      <div className="col-12 lg:col-6">
         <h4>{t("geography.includedZone")}</h4>
         {includedItems}
       </div>
-      <div className="col-md-6">
+      <div className="col-12 lg:col-6">
         <h4>{t("geography.excludedZone")}</h4>
         {excludedItems}
       </div>

@@ -1,1 +1,1 @@
-export * from "primereact/tooltip";
+export * from "@mantle-ui/react/tooltip";

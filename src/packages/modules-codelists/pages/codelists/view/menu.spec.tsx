@@ -14,7 +14,7 @@ const stampGrants = [
   { privilege: "UPDATE", strategy: "STAMP" },
 ] as const;
 
-const renderViewMenu = (codelist: Record<string, string>, deletable = true) =>
+const renderViewMenu = (codelist: Record<string, string | string[]>, deletable = true) =>
   render(
     <ViewMenu
       codelist={codelist}
@@ -86,6 +86,20 @@ describe("Codes List View Menu", () => {
     screen.getByText("Publish");
     expect(screen.queryByText("Delete")).toBeNull();
     screen.getByText("Update");
+  });
+
+  it("a stamp manager can act on a codelist with several contributors, one of them being their stamp", () => {
+    mockCodelistPrivileges([...stampGrants], ["DG75-L201"]);
+
+    renderViewMenu({
+      id: "1",
+      contributor: [
+        "http://bauhaus/organisations/insee/DG75-H250",
+        "http://bauhaus/organisations/insee/DG75-L201",
+      ],
+    });
+
+    expectEveryButton();
   });
 
   it("an Gestionnaire_liste_codes_RMESGNCS can only goBack if the stamp not is correct", () => {

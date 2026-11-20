@@ -286,7 +286,7 @@ export const OperationsSerieEdition = ({
       <form>
         {!isEditing && (
           <Row>
-            <div className="form-group col-md-12">
+            <div className="bauhaus-form-group col-12">
               <LabelRequired>{t("common.familyTitle")}</LabelRequired>
               <Select
                 placeholder={t("common.familiesTitle")}
@@ -306,7 +306,7 @@ export const OperationsSerieEdition = ({
           </Row>
         )}
         <Row>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
@@ -322,7 +322,7 @@ export const OperationsSerieEdition = ({
               error={state.clientSideErrors?.fields?.prefLabelLg1}
             ></ClientSideError>
           </div>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
@@ -340,17 +340,17 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <label htmlFor="altLabelLg1">{t("app.altLabel", { lng: "fr" })}</label>
             <TextInput id="altLabelLg1" value={serie.altLabelLg1} onChange={onChange} />
           </div>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <label htmlFor="altLabel2">{t("app.altLabel", { lng: "en" })}</label>
             <TextInput id="altLabelLg2" value={serie.altLabelLg2} onChange={onChange} />
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
             <MDEditor
               text={serie.abstractLg1 ?? ""}
@@ -360,7 +360,7 @@ export const OperationsSerieEdition = ({
               textareaProps={{ id: "abstractLg1" }}
             />
           </div>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
             <MDEditor
               text={serie.abstractLg2 ?? ""}
@@ -372,7 +372,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <label htmlFor="historyNoteLg1">{t("common.history", { lng: "fr" })}</label>
             <MDEditor
               text={serie.historyNoteLg1 ?? ""}
@@ -382,7 +382,7 @@ export const OperationsSerieEdition = ({
               textareaProps={{ id: "historyNoteLg1" }}
             />
           </div>
-          <div className="form-group col-md-6">
+          <div className="bauhaus-form-group col-12 lg:col-6">
             <label htmlFor="historyNoteLg2">{t("common.history", { lng: "en" })}</label>
             <MDEditor
               text={serie.historyNoteLg2 ?? ""}
@@ -394,7 +394,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             {isMandatoryField("typeCode") ? (
               <LabelRequired htmlFor="typeCode">
                 {t("common.operationType", { lng: "fr" })}
@@ -423,7 +423,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             {isMandatoryField("accrualPeriodicityCode") ? (
               <LabelRequired htmlFor="accrualPeriodicityCode">
                 {t("common.dataCollectFrequency", { lng: "fr" })}
@@ -452,7 +452,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <ThemesSelect
               label={t("common.themes", { lng: "fr" })}
               value={serie.themes}
@@ -461,7 +461,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <PublishersInput
               value={serie.publishers}
               required={false}
@@ -479,7 +479,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <OrganizationInput
               multi
               required={false}
@@ -505,7 +505,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <OrganizationInput
               multi
               required={false}
@@ -531,7 +531,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <CreatorsInput
               mode="organization"
               value={serie.creators ?? []}
@@ -552,7 +552,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <label htmlFor="replaces" className="w-100">
               {t("common.replaces", { lng: "fr" })}
               <Select
@@ -575,7 +575,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <label htmlFor="replacedBy" className="w-100">
               {t("common.replacedBy", { lng: "fr" })}
               <Select
@@ -598,7 +598,7 @@ export const OperationsSerieEdition = ({
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-12">
+          <div className="bauhaus-form-group col-12">
             <label htmlFor="seeAlso" className="w-100">
               {t("common.seeAlso", { lng: "fr" })}
               <Select

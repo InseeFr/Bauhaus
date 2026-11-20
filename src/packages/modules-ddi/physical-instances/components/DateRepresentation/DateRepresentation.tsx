@@ -29,13 +29,15 @@ export const DateRepresentation = ({
   onChange,
 }: Readonly<DateRepresentationProps>) => {
   const { t } = useTranslation();
-  const [dateTypeCode, setDateTypeCode] = useState(
-    representation?.DateTypeCode?.StringValue || "Date",
-  );
+  const incomingDateTypeCode = representation?.DateTypeCode?.StringValue || "Date";
+  const [dateTypeCode, setDateTypeCode] = useState(incomingDateTypeCode);
+  const [previousIncomingDateTypeCode, setPreviousIncomingDateTypeCode] =
+    useState(incomingDateTypeCode);
 
-  useEffect(() => {
-    setDateTypeCode(representation?.DateTypeCode?.StringValue || "Date");
-  }, [representation]);
+  if (incomingDateTypeCode !== previousIncomingDateTypeCode) {
+    setPreviousIncomingDateTypeCode(incomingDateTypeCode);
+    setDateTypeCode(incomingDateTypeCode);
+  }
 
   useEffect(() => {
     const newRepresentation: DateTimeRepresentation = {

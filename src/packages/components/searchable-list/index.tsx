@@ -1,7 +1,7 @@
-import { Column } from "primereact/column";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
-import { InputText } from "primereact/inputtext";
+import { Column } from "@mantle-ui/react/column";
+import { IconField } from "@mantle-ui/react/iconfield";
+import { InputIcon } from "@mantle-ui/react/inputicon";
+import { InputText } from "@mantle-ui/react/inputtext";
 import { useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router";
 

@@ -5,36 +5,12 @@
 @import url("settings.css");
 @import url("generic.css");
 @import url("elements.css");
-@import url("components.css");
 @import url("utilities.css");
 
 @media (width <= 1000px) {
   .operations-list {
     width: 100%;
   }
-}
-
-.nav-tabs > li {
-  border: 1px solid var(--primary-color);
-}
-
-.nav-tabs.nav-justified > li > a {
-  border-bottom: none;
-}
-
-.nav-tabs > li > a:hover {
-  background-color: var(--secondary-color) !important;
-  color: #fff !important;
-}
-
-.nav-tabs > li.active > a {
-  background-color: var(--primary-color) !important;
-  color: #fff !important;
-}
-
-.nav-tabs > li > a:focus {
-  background-color: var(--primary-color) !important;
-  color: #fff;
 }
 
 .boldWhite {
@@ -47,28 +23,47 @@
   margin-top: 20px;
 }
 
-.row.flex {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.row.flex [class*="col-"] {
-  display: flex;
-  flex-direction: column;
-}
-
 footer {
-  > button.btn {
+  /* Reprend à l'identique ce que le bouton tenait de Bootstrap (`btn btn-primary`), en px :
+     la racine à 10px réduirait les `rem`. */
+  > .footer-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5em;
     margin-top: 24px;
     margin-bottom: 24px;
+    padding: 6px 12px;
+    border: 1px solid #585e76;
+    border-radius: 4px;
     background-color: #585e76;
-    border-color: #585e76;
+    background-image: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.4286;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
 
     &:hover,
     &:focus,
     &:active {
-      background-color: #474c61;
       border-color: #474c61;
+      background-color: #474c61;
+      color: #fff;
+    }
+
+    &:active {
+      box-shadow: inset 0 3px 5px rgb(0 0 0 / 12.5%);
+    }
+
+    &:focus-visible {
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -2px;
     }
   }
 
@@ -110,7 +105,7 @@ footer {
 /* Mobile : numéro de version et les deux logos empilés en colonne. */
 @media (width <= 750px) {
   footer {
-    > button.btn {
+    > .footer-logout {
       margin-top: 30px;
       margin-bottom: 30px;
     }
@@ -244,20 +239,6 @@ footer {
   outline: 2px solid var(--secondary-color);
   outline-offset: 2px;
   box-shadow: none;
-}
-
-.modal-header {
-  color: white;
-  background: var(--primary-color);
-
-  .close {
-    opacity: 1;
-    color: white;
-  }
-}
-
-.form-control {
-  font-size: inherit !important;
 }
 
 .wmde-markdown {

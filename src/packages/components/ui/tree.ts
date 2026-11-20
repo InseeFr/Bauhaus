@@ -1,1 +1,1 @@
-export * from "primereact/tree";
+export * from "@mantle-ui/react/tree";

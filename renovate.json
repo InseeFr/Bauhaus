@@ -1,0 +1,31 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(chore)"
+  ],
+  "timezone": "Europe/Paris",
+  "schedule": ["every weekend"],
+  "labels": ["dependencies"],
+  "dependencyDashboard": true,
+  "vulnerabilityAlerts": {
+    "labels": ["dependencies", "security"]
+  },
+  "packageRules": [
+    {
+      "description": "Mises à jour mineures, correctives, épinglages et digests regroupés dans une seule PR par passage. Les majeures gardent une PR par dépendance : une rupture d'API ne bloque pas le reste du lot. Les PR de sécurité ne sont pas concernées : vulnerabilityAlerts force groupName à null, chaque alerte a sa PR.",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "non-major dependencies",
+      "groupSlug": "all-non-major"
+    },
+    {
+      "description": "Vulnérabilités HIGH et CRITICAL (alertes Dependabot du dépôt) : fusion automatique dès que les checks requis de la protection de branche sont verts. Les sévérités LOW et MODERATE ont aussi leur PR, sans fusion automatique.",
+      "matchJsonata": [
+        "isVulnerabilityAlert = true and vulnerabilitySeverity in ['HIGH', 'CRITICAL']"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { envelope } from "../../types/ddi4Items.testing";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
 import { newQueryClient } from "./queryClient.testing";
 
-vi.mock("../../../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     getMutualizedCodeList: vi.fn(),
     getMutualizedCodeLists: vi.fn(),

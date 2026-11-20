@@ -13,7 +13,7 @@ export const FormatInput = ({ value, onChange }: Readonly<FormatInputProps>) => 
   const { t } = useTranslation();
 
   return (
-    <div className="col-md-12 form-group">
+    <div className="col-12 bauhaus-form-group">
       <DatalistInput
         id="format"
         label={t("distribution.format")}

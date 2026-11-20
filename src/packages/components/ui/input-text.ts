@@ -1,1 +1,1 @@
-export * from "primereact/inputtext";
+export * from "@mantle-ui/react/inputtext";

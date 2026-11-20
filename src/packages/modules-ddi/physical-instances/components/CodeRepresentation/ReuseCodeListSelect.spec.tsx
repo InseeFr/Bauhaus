@@ -28,9 +28,9 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("primereact/message", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/message", () => import("./primereact.testing"));
 
-vi.mock("primereact/dropdown", () => import("./primereact.testing"));
+vi.mock("@mantle-ui/react/dropdown", () => import("./primereact.testing"));
 
 const GROUP_LABEL = "Base permanente des équipements";
 const GROUP_SECTION = `Groupe : ${GROUP_LABEL}`;

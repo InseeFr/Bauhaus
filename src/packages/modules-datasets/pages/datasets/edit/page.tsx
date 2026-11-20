@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router";
 
@@ -12,7 +12,7 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { Dataset } from "@model/Dataset";
 
-import { DatasetsApi } from "@sdk/index";
+import { DatasetsApi } from "@sdk/datasets-api";
 
 import { toFormErrors } from "@utils/api-errors";
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
@@ -30,6 +30,7 @@ import { LayoutItemConfiguration, LayoutWithLateralMenu } from "./components/Lay
 import { Lineage } from "./components/Lineage";
 import { Notes } from "./components/Notes";
 import { StatisticalInformation } from "./components/StatisticalInformation";
+import { toDatePart } from "./toDatePart";
 import { validate } from "./validation";
 
 interface DatasetEditLayoutItem extends LayoutItemConfiguration {
@@ -113,20 +114,27 @@ export const Component = () => {
 
   const defaultContributor = useDefaultContributor(isContributor);
   // Recopié une seule fois : une relecture du jeu de données (cache périmé) n'écrase pas la saisie.
-  const isDatasetLoaded = useRef(false);
-  useEffect(() => {
-    if (status === "success") {
-      if (isDatasetLoaded.current) return;
-      isDatasetLoaded.current = true;
-      setEditingDataset((isDuplicating ? buildDuplicatedDataset(dataset) : dataset) as Dataset);
-    } else if (isContributor && !id) {
+  const [isDatasetLoaded, setIsDatasetLoaded] = useState(false);
+  // Contributeur par défaut déjà posé sur un jeu de données en création.
+  const [initializedContributor, setInitializedContributor] = useState<string | null>(null);
+  if (status === "success") {
+    if (!isDatasetLoaded) {
+      setIsDatasetLoaded(true);
+      const loaded = (isDuplicating ? buildDuplicatedDataset(dataset) : dataset) as Dataset;
       setEditingDataset({
-        catalogRecord: {
-          ...initializeContributorProperty(isContributor, !id, defaultContributor),
-        },
+        ...loaded,
+        issued: toDatePart(loaded.issued),
+        updated: toDatePart(loaded.updated),
       } as Dataset);
     }
-  }, [status, dataset, id, isDuplicating, isContributor, defaultContributor]);
+  } else if (isContributor && !id && initializedContributor !== (defaultContributor ?? "")) {
+    setInitializedContributor(defaultContributor ?? "");
+    setEditingDataset({
+      catalogRecord: {
+        ...initializeContributorProperty(isContributor, !id, defaultContributor),
+      },
+    } as Dataset);
+  }
 
   const queryClient = useQueryClient();
 

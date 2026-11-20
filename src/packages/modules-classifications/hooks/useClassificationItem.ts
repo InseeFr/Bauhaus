@@ -7,6 +7,29 @@ import { range } from "@utils/array-utils";
 import { emptyNotes } from "../utils/emptyNotes";
 import { fetchingPreviousLevels } from "./useClassificationItemClient";
 
+/**
+ * Chaque type de note a son propre numéro de version : on garde, note par note,
+ * la version la plus récente qui porte un contenu (avec son IRI et, pour la note
+ * de changement, sa date).
+ */
+const latestNotes = (notesByVersion: Record<string, unknown> | undefined) => {
+  if (!notesByVersion) return {};
+  const versions = Object.values(notesByVersion) as Record<string, unknown>[];
+  versions.sort((a, b) => Number(a.version) - Number(b.version));
+
+  return versions.reduce<Record<string, unknown>>((latest, notes) => {
+    const next: Record<string, unknown> = { ...latest, version: notes.version };
+    for (const [field, value] of Object.entries(notes)) {
+      if (field.endsWith("Uri") || field === "version" || field === "changeNoteDate") continue;
+      if (!value) continue;
+      next[field] = value;
+      next[`${field}Uri`] = notes[`${field}Uri`];
+      if (field === "changeNoteLg1") next.changeNoteDate = notes.changeNoteDate;
+    }
+    return next;
+  }, {});
+};
+
 export const useClassificationItem = (
   classificationId: string,
   itemId: string,
@@ -61,7 +84,7 @@ export const useClassificationItem = (
       item: {
         general: item?.general,
         narrowers: item?.narrowers,
-        notes: item?.notes?.[item?.general?.conceptVersion] ?? {},
+        notes: latestNotes(item?.notes),
       },
     };
   }

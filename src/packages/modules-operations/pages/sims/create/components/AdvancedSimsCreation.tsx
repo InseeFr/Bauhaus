@@ -204,17 +204,21 @@ const SimsCreation = ({
   );
 
   const MSDInformations = useCallback(
-    (msd: any, handleChange: (e: { id: string; override: any }) => void, firstLevel = false) => {
+    function renderMsd(
+      msd: any,
+      handleChange: (e: { id: string; override: any }) => void,
+      firstLevel = false,
+    ) {
       return (
         <Fragment key={msd.idMas}>
           {firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
-            <h3 className="col-md-12 sims-title">
+            <h3 className="col-12 sims-title">
               {msd.idMas} - {msd.masLabelBasedOnCurrentLang}
             </h3>
           )}
           <div
             className={cx(
-              "bauhaus-sims-field row",
+              "bauhaus-sims-field",
               !secondLang
                 ? "bauhaus-sims-field__" + msd.rangeType
                 : "bauhaus-sims-field__" + msd.rangeType + "_2col",
@@ -251,8 +255,8 @@ const SimsCreation = ({
             </div>
             {sims[msd.idMas].rangeType !== rangeType.RUBRIQUE_SANS_OBJECT &&
               msd.rangeType === RICH_TEXT && (
-                <div className="row bauhaus-documents-bloc">
-                  <div className={`col-md-${secondLang ? 6 : 12}`}>
+                <div className="grid bauhaus-documents-bloc">
+                  <div className={`col-12 lg:col-${secondLang ? 6 : 12}`}>
                     <SimsDocumentFieldMemo
                       msd={msd}
                       currentSection={sims[msd.idMas]}
@@ -260,7 +264,7 @@ const SimsCreation = ({
                     />
                   </div>
                   {secondLang && (
-                    <div className="col-md-6">
+                    <div className="col-12 lg:col-6 documentblock-lg2">
                       <SimsDocumentFieldMemo
                         msd={msd}
                         currentSection={sims[msd.idMas]}
@@ -272,7 +276,7 @@ const SimsCreation = ({
                 </div>
               )}
           </div>
-          {Object.values(msd.children).map((child) => MSDInformations(child, handleChange))}
+          {Object.values(msd.children).map((child) => renderMsd(child, handleChange))}
         </Fragment>
       );
     },

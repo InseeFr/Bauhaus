@@ -5,7 +5,10 @@
 .bauhaus-filter-toggle-buttons {
   display: table;
   width: 100%;
-  margin-bottom: 1em;
+  min-width: 0;
+  margin: 0 0 1em;
+  padding: 0;
+  border: 0;
   border-collapse: separate;
   table-layout: fixed;
 }

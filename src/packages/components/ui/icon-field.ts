@@ -1,1 +1,1 @@
-export * from "primereact/iconfield";
+export * from "@mantle-ui/react/iconfield";

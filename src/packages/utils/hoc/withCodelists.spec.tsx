@@ -1,11 +1,11 @@
 import { render, screen, waitFor } from "@testing-library/react";
 
-import { fetchCodelist } from "@sdk/index";
+import { fetchCodelist } from "@sdk/codelists-api";
 
 import { queryClientWrapper as wrapper } from "../hooks/wrappers.testing";
 import { withCodelists } from "./withCodelists";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/codelists-api", () => ({
   fetchCodelist: vi.fn(),
 }));
 

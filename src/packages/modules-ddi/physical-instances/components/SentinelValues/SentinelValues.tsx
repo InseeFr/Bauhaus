@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 
@@ -185,14 +185,27 @@ export const SentinelValues = ({
   // les items modifiés en place, pas de fork.
   const materializationKey =
     isEditable && !hasLocalEdits && !isLoadingUsers ? loadedCodeList?.ID : undefined;
-  useEffect(() => {
-    if (!materializationKey || !loadedCodeList) return;
+  // Seul un changement de clé rematérialise : l'état local est recalé pendant le rendu…
+  const [previousMaterializationKey, setPreviousMaterializationKey] = useState<string>();
+  if (materializationKey !== previousMaterializationKey) {
+    setPreviousMaterializationKey(materializationKey);
+    if (materializationKey && loadedCodeList) {
+      setEditLabel(getLocalizedText(loadedCodeList.Label) ?? selectedMmvr?.label ?? "");
+      setEditRows(loadedRows);
+    }
+  }
+
+  // … et les IDs d'émission, une ref, après le rendu (le contenu chargé est lu à jour).
+  const adoptLoadedIds = useEffectEvent(() => {
+    if (!loadedCodeList) return;
     editIdsRef.current = {
       mmvrId: missingValuesReference?.ID,
       codeListId: loadedCodeList.ID,
     };
-    setEditLabel(getLocalizedText(loadedCodeList.Label) ?? selectedMmvr?.label ?? "");
-    setEditRows(loadedRows);
+  });
+
+  useEffect(() => {
+    if (materializationKey) adoptLoadedIds();
   }, [materializationKey]);
 
   const emitEdit = (label: string, rows: CodeTableRow[]) => {

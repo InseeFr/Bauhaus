@@ -34,6 +34,8 @@ const row = (
   groupAgency: null,
   groupId: null,
   groupLabel: null,
+  studyUnitAlternateTitles: [],
+  groupAlternateTitles: [],
 });
 
 const CurrentPath = () => <output aria-label="current-path">{useLocation().pathname}</output>;

@@ -1,4 +1,4 @@
-import "primereact/resources/themes/lara-light-blue/theme.css";
+import "@mantle-ui/react/resources/themes/lara-light-blue/theme.css";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
@@ -6,8 +6,10 @@ import { Link } from "react-router";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { appI18n } from "../i18n";
-import "../styles/bootstrap.css";
+import "../styles/bootstrap-base.css";
 import "primeflex/primeflex.css";
+
+import "../styles/grid.css";
 import "primeicons/primeicons.css";
 
 import type { AppName } from "./app-context";

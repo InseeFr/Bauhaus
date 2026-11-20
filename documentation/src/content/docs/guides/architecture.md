@@ -14,7 +14,7 @@ graph TB
     Users[Users]
 
     subgraph Frontend["Bauhaus Frontend (React)"]
-        React["React 18<br/>TypeScript<br/>TanStack Query<br/>PrimeReact UI Components<br/>react-i18next"]
+        React["React 18<br/>TypeScript<br/>TanStack Query<br/>Mantle UI Components<br/>react-i18next"]
     end
 
     subgraph Backend["Bauhaus Back-Office API (Spring Boot)"]
@@ -63,7 +63,7 @@ React single-page application (SPA) that provides the user interface for managin
 
 - React 18, 100% TypeScript, function components only
 - TanStack Query for server state (no global client-side state library)
-- PrimeReact for UI components
+- Mantle UI (MIT continuation of PrimeReact 10) for UI components
 - Vite as bundler
 - react-i18next for internationalization (see [Internationalization](../reference/project-structure/#internationalization-i18n))
 - oxlint + oxfmt for linting and formatting, knip for dead-code detection (run in `pnpm pre-push`)
@@ -173,7 +173,7 @@ The frontend has completed its migration to a modern, standardized stack. All 7 
 | Language             | TypeScript — the codebase is 100% `.ts`/`.tsx`                                                        |
 | Components           | Function components only                                                                              |
 | Module exports       | Named exports project-wide                                                                            |
-| UI components        | PrimeReact                                                                                            |
+| UI components        | Mantle UI (MIT continuation of PrimeReact 10)                                                         |
 | Styling              | Plain CSS co-located with components, CSS variables (`--color-1`, `--color-2`, …)                     |
 | Internationalization | react-i18next — see [Internationalization](../reference/project-structure/#internationalization-i18n) |
 | Testing              | Vitest, `.spec.ts(x)` co-located with source                                                          |
@@ -187,10 +187,10 @@ When working on the codebase:
 
 1. **Component organization** — extract reusable components into dedicated files with co-located styles and tests
 2. **I18N** — use `react-i18next`'s `useTranslation()` hook; each module owns an isolated i18next instance (never the raw global singleton), configured at the module level via the layout component
-3. **UI components** — prefer PrimeReact over Bootstrap
+3. **UI components** — prefer Mantle UI over Bootstrap
 4. **Styling** — use CSS files co-located with components, leverage CSS variables (`--color-1`, `--color-2`, …)
 5. **Forms** — use native HTML forms with FormData API and proper submit buttons; validate with [zod](https://zod.dev/) in a co-located `validation.ts`
-6. **Testing** — write unit tests for all new components using Vitest; mock PrimeReact components when needed
+6. **Testing** — write unit tests for all new components using Vitest; mock Mantle UI components when needed
 7. **Exports** — use named exports; avoid re-export-only ("pass-through") files unless they are genuine barrel files
 
 See [Project Structure](../reference/project-structure/) for the expected module directory layout and I18N setup.

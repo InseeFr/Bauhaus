@@ -5,6 +5,7 @@ import { List } from "@components/ui/list";
 
 import { Option } from "@model/SelectOption";
 
+import { cx } from "@utils/cx";
 import { useThemes } from "@utils/hooks/themes";
 
 interface ThemesSelectProps {
@@ -24,7 +25,7 @@ export const ThemesSelect = ({
   const { data: themesOptions = [] } = useThemes();
 
   return (
-    <label className={required ? "w-100 wilco-label-required" : "w-100"}>
+    <label className={cx("w-100", required && "wilco-label-required")}>
       {label}
       <Select
         multi

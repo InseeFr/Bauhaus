@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { expectIdleQuery, renderQueryHook, renderQueryHookUntil } from "./queryClient.testing";
 import { useGroupCodeLists } from "./useGroupCodeLists";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     getGroupCodeLists: vi.fn(),
   },
