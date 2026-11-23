@@ -28,6 +28,11 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+let defaultLocale = "fr-FR";
+vi.mock("../../../hooks/useDefaultLocale", () => ({
+  useDefaultLocale: () => defaultLocale,
+}));
+
 const mockUseGroups = vi.fn();
 const mockUseGroupDetails = vi.fn();
 
@@ -68,7 +73,10 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Agency: "agency-1",
               Version: "1.0",
               Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Study Unit 1" }],
+                Title: [
+                  { "@language": "fr-FR", "@value": "Study Unit 1" },
+                  { "@language": "en-GB", "@value": "Study Unit 1 (en)" },
+                ],
               },
             },
             {
@@ -212,6 +220,7 @@ describe("PhysicalInstanceDialog", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    defaultLocale = "fr-FR";
   });
 
   describe("Create mode", () => {
@@ -282,6 +291,15 @@ describe("PhysicalInstanceDialog", () => {
       fireEvent.click(cancelButton);
 
       expect(mockOnHide).toHaveBeenCalledTimes(1);
+    });
+
+    it("labels the study units in the default Colectica language", () => {
+      defaultLocale = "en-GB";
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
+
+      fireEvent.change(screen.getByTestId("dropdown-group"), { target: { value: "group-1" } });
+
+      expect(screen.getByRole("option", { name: "Study Unit 1 (en)" })).toBeInTheDocument();
     });
 
     it("should disable study unit dropdown when no group is selected", () => {

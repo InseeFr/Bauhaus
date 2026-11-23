@@ -7,6 +7,11 @@ import { usePhysicalInstancesData } from "./usePhysicalInstance";
 // Mock fetch globally
 global.fetch = vi.fn();
 
+let defaultLocale = "fr-FR";
+vi.mock("./useDefaultLocale", () => ({
+  useDefaultLocale: () => defaultLocale,
+}));
+
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     i18n: {
@@ -79,6 +84,33 @@ describe("usePhysicalInstancesData", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    defaultLocale = "fr-FR";
+  });
+
+  it("reads the title and the variables in the default Colectica language", async () => {
+    defaultLocale = "en-GB";
+    const bilingual = (fr: string, en: string) => [
+      { "@language": "fr-FR", "@value": fr },
+      { "@language": "en-GB", "@value": en },
+    ];
+
+    const result = await renderWithSuccessfulFetch(
+      envelope({
+        PhysicalInstance: [{ ID: "pi", Citation: { Title: bilingual("Enquête", "Survey") } }],
+        DataRelationship: [{ ID: "dr", Label: bilingual("Relation", "Relationship") }],
+        Variable: [
+          {
+            ID: "1",
+            VariableName: bilingual("AGE_FR", "AGE_EN"),
+            Label: bilingual("Âge", "Age"),
+          },
+        ],
+      }),
+    );
+
+    expect(result.current.title).toBe("Survey");
+    expect(result.current.dataRelationshipName).toBe("Relationship");
+    expect(result.current.variables[0]).toMatchObject({ name: "AGE_EN", label: "Age" });
   });
 
   it("should fetch and transform data successfully", async () => {

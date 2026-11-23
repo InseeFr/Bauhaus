@@ -16,6 +16,7 @@ import { filterKeyDeburr, nbResults } from "@utils/array-utils";
 
 import { componentsI18n } from "../../../../components/i18n";
 import { appI18n } from "../../../../i18n";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useGroupDetails } from "../../../hooks/useGroupDetails";
 import {
   physicalInstanceQuery,
@@ -530,6 +531,7 @@ interface RolloverStepProps {
  */
 const RolloverStep = ({ source, onBack, onSubmittingChange }: Readonly<RolloverStepProps>) => {
   const { t } = useTranslation();
+  const lang = useDefaultLocale();
   const navigate = useNavigate();
   const {
     data: parents,
@@ -570,10 +572,10 @@ const RolloverStep = ({ source, onBack, onSubmittingChange }: Readonly<RolloverS
   const studyUnitOptions = useMemo(
     () =>
       studyUnits.map((studyUnit) => ({
-        label: pickLang(studyUnit.Citation.Title, "fr-FR") ?? studyUnit.ID,
+        label: pickLang(studyUnit.Citation.Title, lang) ?? studyUnit.ID,
         value: studyUnit.ID,
       })),
-    [studyUnits],
+    [studyUnits, lang],
   );
   const target = studyUnits.find((studyUnit) => studyUnit.ID === studyUnitId);
   // Tant qu'elles ne sont pas lues, les variables déjà dérivées ne peuvent pas être proposées.
@@ -785,11 +787,11 @@ const RolloverStep = ({ source, onBack, onSubmittingChange }: Readonly<RolloverS
                           />
                           <label htmlFor={optionId}>
                             {t("physicalInstance.newFrom.rollover.reuse", {
-                              name: pickLang(candidate.VariableName, "fr-FR") ?? candidate.ID,
+                              name: pickLang(candidate.VariableName, lang) ?? candidate.ID,
                             })}
                             <span className="new-from-choice-detail">
-                              {pickLang(candidate.Label, "fr-FR")
-                                ? ` — ${pickLang(candidate.Label, "fr-FR")}`
+                              {pickLang(candidate.Label, lang)
+                                ? ` — ${pickLang(candidate.Label, lang)}`
                                 : ""}
                             </span>
                           </label>

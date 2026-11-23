@@ -5,11 +5,10 @@ import { Button } from "@components/ui/button";
 import { Dialog } from "@components/ui/dialog";
 import { Dropdown } from "@components/ui/dropdown";
 
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useStudyUnitVariables } from "../../../hooks/useStudyUnitVariables";
 import { pickLang } from "../../../utils/multilingual";
 import type { Variable } from "../../types/api";
-
-const LANG = "fr-FR";
 
 // Même rendu que les boutons d'action de la page (Sauvegarder, Ajouter une variable…).
 const TRANSPARENT = { background: "transparent" } as const;
@@ -38,6 +37,7 @@ export const ReuseVariableDialog = ({
   onHide,
 }: Readonly<ReuseVariableDialogProps>) => {
   const { t } = useTranslation();
+  const lang = useDefaultLocale();
   const { data: variables = [], isLoading } = useStudyUnitVariables(studyUnit.agency, studyUnit.id);
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
@@ -50,11 +50,11 @@ export const ReuseVariableDialog = ({
     () =>
       reusableVariables
         .map((variable) => ({
-          label: `${pickLang(variable.VariableName, LANG) ?? variable.ID} — ${pickLang(variable.Label, LANG) ?? ""}`,
+          label: `${pickLang(variable.VariableName, lang) ?? variable.ID} — ${pickLang(variable.Label, lang) ?? ""}`,
           value: variableKey(variable),
         }))
         .sort((a, b) => a.label.localeCompare(b.label)),
-    [reusableVariables],
+    [reusableVariables, lang],
   );
 
   const selectedVariable = reusableVariables.find(

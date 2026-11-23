@@ -20,6 +20,10 @@ vi.mock("@sdk/ddi-api", () => ({
   },
 }));
 
+vi.mock("./useDefaultLocale", () => ({
+  useDefaultLocale: () => "fr-FR",
+}));
+
 /**
  * Lectures lourdes de Colectica (jusqu'à 31 Mo pour une liste, plusieurs secondes pour une PI) : en
  * cache jusqu'à leur éviction explicite après une sauvegarde, jamais périmées d'elles-mêmes.

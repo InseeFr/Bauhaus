@@ -32,6 +32,11 @@ vi.mock("../../../hooks/useRollover");
 vi.mock("../../../hooks/useGroupDetails");
 vi.mock("../../../hooks/useStudyUnitVariables");
 
+let defaultLocale = "fr-FR";
+vi.mock("../../../hooks/useDefaultLocale", () => ({
+  useDefaultLocale: () => defaultLocale,
+}));
+
 const mockNavigate = vi.fn();
 vi.mock("react-router", async (importOriginal) => ({
   ...(await importOriginal<typeof import("react-router")>()),
@@ -128,6 +133,7 @@ const derived = (id: string, name: string, basedOnId: string) => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
+  defaultLocale = "fr-FR";
   vi.mocked(usePhysicalInstancesSearch).mockReturnValue({ data: rows, isLoading: false } as any);
   vi.mocked(usePhysicalInstanceParents).mockReturnValue({
     data: {
@@ -437,6 +443,31 @@ describe("NewFromDialog", () => {
         .map((option) => option.textContent);
       expect(options).toContain("Recensement 2026");
       expect(options).not.toContain("Recensement");
+    });
+
+    it("libelle les opérations de la série dans la langue Colectica par défaut", async () => {
+      defaultLocale = "en-GB";
+      vi.mocked(useGroupDetails).mockReturnValue({
+        data: {
+          items: [
+            { $type: "Group", Agency: "fr.insee", ID: "g-1", StudyUnitReference: [] },
+            {
+              ...studyUnit("su-2026", "Recensement 2026"),
+              Citation: {
+                Title: [
+                  { "@language": "fr-FR", "@value": "Recensement 2026" },
+                  { "@language": "en-GB", "@value": "Census 2026" },
+                ],
+              },
+            },
+          ],
+        },
+        isLoading: false,
+      } as any);
+      await goToRolloverForm();
+
+      const select = screen.getByLabelText("physicalInstance.creation.studyUnit");
+      expect(within(select).getByRole("option", { name: "Census 2026" })).toBeInTheDocument();
     });
 
     it("signale le chargement des opérations de la série au lieu d'une liste vide", async () => {

@@ -10,8 +10,7 @@ import type {
 } from "../physical-instances/types/api";
 import { itemsOfType, singleItemOfType } from "../physical-instances/types/ddi4Items";
 import { pickLang } from "../utils/multilingual";
-
-const DEFAULT_LANG = "fr-FR";
+import { useDefaultLocale } from "./useDefaultLocale";
 
 function transformVariablesToTableData(
   data: PhysicalInstanceResponse,
@@ -33,17 +32,17 @@ export const physicalInstanceQuery = (agencyId: string, id: string) =>
 
 export function usePhysicalInstancesData(agencyId: string, id: string) {
   const query = useQuery(physicalInstanceQuery(agencyId, id));
+  const lang = useDefaultLocale();
 
   const variables: VariableTableData[] = query.data
-    ? transformVariablesToTableData(query.data, DEFAULT_LANG)
+    ? transformVariablesToTableData(query.data, lang)
     : [];
 
   const title = query.data
-    ? (pickLang(singleItemOfType(query.data, "PhysicalInstance")?.Citation?.Title, DEFAULT_LANG) ??
-      "")
+    ? (pickLang(singleItemOfType(query.data, "PhysicalInstance")?.Citation?.Title, lang) ?? "")
     : "";
   const dataRelationshipName = query.data
-    ? (pickLang(singleItemOfType(query.data, "DataRelationship")?.Label, DEFAULT_LANG) ?? "")
+    ? (pickLang(singleItemOfType(query.data, "DataRelationship")?.Label, lang) ?? "")
     : "";
 
   return {

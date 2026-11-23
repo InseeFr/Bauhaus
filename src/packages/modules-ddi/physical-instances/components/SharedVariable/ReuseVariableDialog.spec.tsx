@@ -12,6 +12,10 @@ vi.mock("../../../hooks/useStudyUnitVariables", () => ({
   useStudyUnitVariables: (...args: unknown[]) => mockUseStudyUnitVariables(...args),
 }));
 
+vi.mock("../../../hooks/useDefaultLocale", () => ({
+  useDefaultLocale: () => "fr-FR",
+}));
+
 vi.mock("@mantle-ui/react/dialog", () => ({
   Dialog: ({ visible, children, header, footer }: any) =>
     visible ? (

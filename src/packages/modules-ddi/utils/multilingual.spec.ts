@@ -18,8 +18,8 @@ describe("pickLang", () => {
     expect(pickLang(subtagEntries, "fr-FR")).toBe("Titre FR subtag");
   });
 
-  it("returns undefined when no entry matches", () => {
-    expect(pickLang(entries, "de-DE")).toBeUndefined();
+  it("falls back to the first available entry when the requested language is missing", () => {
+    expect(pickLang(entries, "de-DE")).toBe("Titre FR");
   });
 
   it("returns undefined when input is undefined", () => {

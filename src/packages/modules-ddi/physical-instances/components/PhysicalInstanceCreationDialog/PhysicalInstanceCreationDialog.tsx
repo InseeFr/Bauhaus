@@ -6,6 +6,7 @@ import { Dialog } from "@components/ui/dialog";
 import { Dropdown } from "@components/ui/dropdown";
 import { InputText } from "@components/ui/input-text";
 
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useGroupDetails } from "../../../hooks/useGroupDetails";
 import { useGroups } from "../../../hooks/useGroups";
 import { pickLang } from "../../../utils/multilingual";
@@ -63,6 +64,7 @@ export const PhysicalInstanceDialog = ({
   onSubmitDuplicate,
 }: Readonly<PhysicalInstanceDialogProps>) => {
   const { t } = useTranslation();
+  const lang = useDefaultLocale();
   const formRef = useRef<HTMLFormElement>(null);
   const labelInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -109,10 +111,10 @@ export const PhysicalInstanceDialog = ({
       return [{ label: lockedStudyUnit.label ?? lockedStudyUnit.id, value: lockedStudyUnit.id }];
     }
     return itemsOfType(groupDetails, "StudyUnit").map((su) => ({
-      label: pickLang(su.Citation.Title, "fr-FR") ?? "",
+      label: pickLang(su.Citation.Title, lang) ?? "",
       value: su.ID,
     }));
-  }, [lockedStudyUnit, groupDetails]);
+  }, [lockedStudyUnit, groupDetails, lang]);
 
   const selectedStudyUnit = useMemo(() => {
     if (lockedStudyUnit) return { id: lockedStudyUnit.id, agency: lockedStudyUnit.agency };

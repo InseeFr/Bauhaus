@@ -10,7 +10,7 @@ export const pickLang = (entries: LangString[] | undefined, lang: string): strin
   if (exact) return exact["@value"];
   const target = primaryTag(lang);
   const fallback = entries.find((e) => primaryTag(e["@language"]) === target);
-  return fallback?.["@value"];
+  return (fallback ?? entries[0])["@value"];
 };
 
 export const pickLangEntry = (

@@ -45,10 +45,12 @@ vi.mock("../../../../application/visible-modules", () => ({
   useVisibleModules: () => [],
 }));
 
+let colecticaLangs = ["fr-FR"];
 vi.mock("../../../../application/app-context", () => ({
   useAppContext: () => ({
     properties: {
       defaultAgencyId: "fr.insee",
+      colecticaLangs,
     },
   }),
 }));
@@ -545,6 +547,7 @@ describe("View Component", () => {
       },
     });
     vi.clearAllMocks();
+    colecticaLangs = ["fr-FR"];
     mockConvertToDDI3.mockResolvedValue("<ddi3-xml-content></ddi3-xml-content>");
 
     // Reset blocker state
@@ -2129,6 +2132,30 @@ describe("View Component", () => {
           Version: "4",
           Label: fr("Libellé modifié"),
         }),
+      );
+    });
+
+    it("should label the reusable variables in the default Colectica language", () => {
+      colecticaLangs = ["en-GB"];
+      renderView();
+
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.reuseVariable.open"));
+
+      expect(screen.getByRole("option", { name: "SHARED — Shared variable" })).toBeInTheDocument();
+    });
+
+    it("should save an edited variable in the default Colectica language", async () => {
+      colecticaLangs = ["en-GB"];
+      const mutateAsync = mockPublish();
+      renderView();
+
+      reuseVariable();
+      fireEvent.change(labelField(), { target: { value: "Edited label" } });
+      leaveField(labelField());
+      const saved = await saveAll(mutateAsync);
+
+      expect(savedVariable(saved, "var-shared")).toEqual(
+        expect.objectContaining({ VariableName: en("SHARED"), Label: en("Edited label") }),
       );
     });
 
