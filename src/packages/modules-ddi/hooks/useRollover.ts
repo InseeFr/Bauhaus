@@ -59,15 +59,15 @@ export function useRollover() {
       return { id: physicalInstanceRef.ID, agency: physicalInstanceRef.Agency };
     },
     onSuccess: (_created, { data }) => {
-      queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
-      queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
+      void queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
+      void queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
       // La fiche d'opération liste les fichiers de ses études (préfixe : toutes les opérations).
-      queryClient.invalidateQueries({ queryKey: ["operationPhysicalInstances"] });
+      void queryClient.invalidateQueries({ queryKey: ["operationPhysicalInstances"] });
       // Les copies rejoignent le VariableScheme de l'étude cible, qui gagne un fichier.
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: ["studyUnitVariables", data.studyUnitAgency, data.studyUnitId],
       });
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: ["studyUnitVariableUsages", data.studyUnitAgency, data.studyUnitId],
       });
     },

@@ -221,7 +221,7 @@ export const ComponentSelector = ({
       const component = mutualizedComponents.find((c) => c.identifiant === id)!;
       if (component.type === MEASURE_PROPERTY_TYPE) {
         // La fiche de la mesure porte ses attributs liés : lue depuis le cache si elle y est.
-        queryClient
+        void queryClient
           .fetchQuery(mutualizedComponentQuery(component.id!))
           .then((fullComponent: any) => {
             const componentsToAdd = [component];

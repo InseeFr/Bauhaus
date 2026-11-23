@@ -24,15 +24,15 @@ export function useUpdatePhysicalInstance() {
     mutationFn: ({ id, agencyId, data }: UpdatePhysicalInstanceParams) =>
       DDIApi.patchPhysicalInstance(agencyId, id, data),
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
+      void queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
       // La recherche avancée affiche le label et les parents : elle doit aussi être
       // évincée après un renommage ou un re-rattachement.
-      queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
+      void queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
       // La fiche d'opération liste les fichiers de ses études (préfixe : toutes les opérations).
-      queryClient.invalidateQueries({ queryKey: ["operationPhysicalInstances"] });
+      void queryClient.invalidateQueries({ queryKey: ["operationPhysicalInstances"] });
       // Invalider aussi le détail de la PI éditée, sinon le libellé reste
       // périmé quand on revient sur la liste puis qu'on la re-sélectionne.
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: ["physicalInstanceById", variables.agencyId, variables.id],
       });
     },

@@ -49,10 +49,10 @@ export function useReuseVariables() {
       return { id: physicalInstanceRef.ID, agency: physicalInstanceRef.Agency };
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
-      queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
+      void queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
+      void queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
       // Les variables réutilisées deviennent partagées avec le nouveau fichier.
-      queryClient.invalidateQueries({ queryKey: ["studyUnitVariableUsages"] });
+      void queryClient.invalidateQueries({ queryKey: ["studyUnitVariableUsages"] });
     },
   });
 }
