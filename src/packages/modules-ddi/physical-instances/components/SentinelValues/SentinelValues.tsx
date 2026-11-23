@@ -18,6 +18,7 @@ import type {
   Category,
   CodeList,
   ManagedMissingValuesRepresentation,
+  PartialMissingValuesRepresentation,
   Reference,
 } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
@@ -77,6 +78,36 @@ const buildMmvr = (
   Version: version,
   Label: createLabel(label, locale),
   MissingCodeRepresentation: [createDefaultRepresentation(sentinelCodeListId, agency)],
+});
+
+const toLoadedRows = (codeList: CodeList | undefined, categories: Category[]): CodeTableRow[] => {
+  const categoryLabelById = new Map(
+    categories.map((cat) => [cat.ID, getLocalizedText(cat.Label) ?? ""]),
+  );
+  return (codeList?.Code ?? []).map((code) => ({
+    id: code.ID,
+    value: code.Value?.StringValue ?? "",
+    label: categoryLabelById.get(code.CategoryReference?.ID ?? "") ?? "",
+    categoryId: code.CategoryReference?.ID ?? "",
+  }));
+};
+
+const toInitialRows = (codeList: CodeList | undefined, categories: Category[]): CodeTableRow[] =>
+  (codeList?.Code ?? []).map((code) => {
+    const category = categories.find((cat) => cat.ID === code.CategoryReference?.ID);
+    return {
+      id: code.ID,
+      value: code.Value?.StringValue ?? "",
+      label: getLocalizedText(category?.Label) ?? "",
+      categoryId: category?.ID ?? code.CategoryReference?.ID ?? "",
+    };
+  });
+
+const toSelectOption = (item: PartialMissingValuesRepresentation) => ({
+  value: `${item.agency}-${item.id}`,
+  label: item.codeValues.length
+    ? `${item.label ?? item.id} (${item.codeValues.join(", ")})`
+    : (item.label ?? item.id),
 });
 
 /**
@@ -145,36 +176,17 @@ export const SentinelValues = ({
     !hasLocalEdits ? (selectedMmvr?.codeListId ?? "") : "",
   );
   const loadedCodeList = singleItemOfType(codeListContent, "CodeList");
-  const loadedCategoryLabelById = new Map(
-    itemsOfType(codeListContent, "Category").map((cat) => [
-      cat.ID,
-      getLocalizedText(cat.Label) ?? "",
-    ]),
-  );
-  const loadedRows: CodeTableRow[] = (loadedCodeList?.Code ?? []).map((code) => ({
-    id: code.ID,
-    value: code.Value?.StringValue ?? "",
-    label: loadedCategoryLabelById.get(code.CategoryReference?.ID ?? "") ?? "",
-    categoryId: code.CategoryReference?.ID ?? "",
-  }));
+  const loadedRows = toLoadedRows(loadedCodeList, itemsOfType(codeListContent, "Category"));
 
   // État local du mode éditable (source de vérité pendant l'édition, comme le reducer de
   // CodeRepresentation) : le libellé et les lignes ne dépendent jamais des props remontées par le
   // parent au tour précédent — une fermeture périmée (chaîne DataTable) écraserait sinon le
   // libellé fraîchement saisi. Initialisé depuis les props au montage (modifications locales
   // rouvertes), ou depuis le contenu chargé (matérialisation, effet ci-dessous).
-  const initialRows = (): CodeTableRow[] =>
-    (sentinelCodeList?.Code ?? []).map((code) => {
-      const category = sentinelCategories.find((cat) => cat.ID === code.CategoryReference?.ID);
-      return {
-        id: code.ID,
-        value: code.Value?.StringValue ?? "",
-        label: getLocalizedText(category?.Label) ?? "",
-        categoryId: category?.ID ?? code.CategoryReference?.ID ?? "",
-      };
-    });
   const [editLabel, setEditLabel] = useState(() => getLocalizedText(mmvr?.Label) ?? "");
-  const [editRows, setEditRows] = useState<CodeTableRow[]>(initialRows);
+  const [editRows, setEditRows] = useState<CodeTableRow[]>(() =>
+    toInitialRows(sentinelCodeList, sentinelCategories),
+  );
   const editIdsRef = useRef({
     mmvrId: mmvr?.ID,
     codeListId: sentinelCodeList?.ID,
@@ -333,12 +345,7 @@ export const SentinelValues = ({
     emitEdit(editLabel, rows);
   };
 
-  const selectOptions = reusableMmvrs.map((item) => ({
-    value: `${item.agency}-${item.id}`,
-    label: item.codeValues.length
-      ? `${item.label ?? item.id} (${item.codeValues.join(", ")})`
-      : (item.label ?? item.id),
-  }));
+  const selectOptions = reusableMmvrs.map(toSelectOption);
 
   // Chargement progressif : la table s'affiche verrouillée dès que le contenu de la liste est
   // chargé, même si les usages sont encore en cours de résolution — elle n'est déverrouillée que

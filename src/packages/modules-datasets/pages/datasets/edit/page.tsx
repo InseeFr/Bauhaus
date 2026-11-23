@@ -77,6 +77,15 @@ const withFormFieldNames = (err: unknown): unknown => {
   };
 };
 
+const toEditableDataset = (dataset: Dataset, isDuplicating: boolean): Dataset => {
+  const loaded = (isDuplicating ? buildDuplicatedDataset(dataset) : dataset) as Dataset;
+  return {
+    ...loaded,
+    issued: toDatePart(loaded.issued),
+    updated: toDatePart(loaded.updated),
+  } as Dataset;
+};
+
 export const Component = () => {
   const { t } = useTranslation();
 
@@ -120,12 +129,7 @@ export const Component = () => {
   if (status === "success") {
     if (!isDatasetLoaded) {
       setIsDatasetLoaded(true);
-      const loaded = (isDuplicating ? buildDuplicatedDataset(dataset) : dataset) as Dataset;
-      setEditingDataset({
-        ...loaded,
-        issued: toDatePart(loaded.issued),
-        updated: toDatePart(loaded.updated),
-      } as Dataset);
+      setEditingDataset(toEditableDataset(dataset, isDuplicating));
     }
   } else if (isContributor && !id && initializedContributor !== (defaultContributor ?? "")) {
     setInitializedContributor(defaultContributor ?? "");
