@@ -335,7 +335,8 @@ export const VariableEditForm = ({
   // Modifications pas encore reportées dans le tableau : l'état courant du formulaire comparé à
   // l'état initial dérivé de `variable`. Une variable en création laissée vierge n'est pas
   // modifiée : fermer le panneau ne doit pas ajouter de ligne vide.
-  const isDirty = JSON.stringify(state) !== JSON.stringify(buildFormState(variable));
+  const isDirty =
+    state.id === variable.id && JSON.stringify(state) !== JSON.stringify(buildFormState(variable));
 
   // Le callback du parent est lu via une ref pour que la notification ne dépende pas de la
   // stabilité de son identité (sinon le nettoyage de démontage se déclencherait à chaque rendu).

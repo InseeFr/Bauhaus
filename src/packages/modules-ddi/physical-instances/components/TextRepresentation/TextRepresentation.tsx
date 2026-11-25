@@ -28,20 +28,20 @@ export const TextRepresentation = ({
     setRegExp(representation?.RegExp || "");
   }, [representation]);
 
-  useEffect(() => {
+  const emit = (min: string, max: string, reg: string) => {
     const newRepresentation: TextRepresentationType = {
       $type: "TextRepresentationBaseType",
     };
 
-    if (minLength) newRepresentation.MinLength = Number(minLength);
-    if (maxLength) newRepresentation.MaxLength = Number(maxLength);
-    if (regExp) newRepresentation.RegExp = regExp;
+    if (min) newRepresentation.MinLength = Number(min);
+    if (max) newRepresentation.MaxLength = Number(max);
+    if (reg) newRepresentation.RegExp = reg;
 
     // #1592 : on émet toujours la représentation, même sans aucun attribut, sinon le type
     // « Text » disparaît du DDI exporté (<VariableRepresentation/> vide au lieu de
     // <r:TextRepresentation/>).
     onChange(newRepresentation);
-  }, [minLength, maxLength, regExp, onChange]);
+  };
 
   return (
     <>
@@ -53,7 +53,10 @@ export const TextRepresentation = ({
           type="number"
           autoComplete="off"
           value={minLength}
-          onChange={(e) => setMinLength(e.target.value)}
+          onChange={(e) => {
+            setMinLength(e.target.value);
+            emit(e.target.value, maxLength, regExp);
+          }}
         />
       </div>
 
@@ -65,7 +68,10 @@ export const TextRepresentation = ({
           type="number"
           autoComplete="off"
           value={maxLength}
-          onChange={(e) => setMaxLength(e.target.value)}
+          onChange={(e) => {
+            setMaxLength(e.target.value);
+            emit(minLength, e.target.value, regExp);
+          }}
         />
       </div>
 
@@ -76,7 +82,10 @@ export const TextRepresentation = ({
           name="textRegExp"
           autoComplete="off"
           value={regExp}
-          onChange={(e) => setRegExp(e.target.value)}
+          onChange={(e) => {
+            setRegExp(e.target.value);
+            emit(minLength, maxLength, e.target.value);
+          }}
         />
       </div>
     </>
