@@ -6,9 +6,10 @@ import { Dialog } from "@components/ui/dialog";
 import { Dropdown } from "@components/ui/dropdown";
 import { InputText } from "@components/ui/input-text";
 
+import { useColecticaLangs } from "../../../hooks/useColecticaLangs";
 import { useGroupDetails } from "../../../hooks/useGroupDetails";
 import { useGroups } from "../../../hooks/useGroups";
-import { pickLang } from "../../../utils/multilingual";
+import { pickFirstLang } from "../../../utils/multilingual";
 import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
 import { itemsOfType } from "../../types/ddi4Items";
 import "./PhysicalInstanceCreationDialog.css";
@@ -63,6 +64,7 @@ export const PhysicalInstanceDialog = ({
   onSubmitDuplicate,
 }: Readonly<PhysicalInstanceDialogProps>) => {
   const { t } = useTranslation();
+  const colecticaLangs = useColecticaLangs();
   const formRef = useRef<HTMLFormElement>(null);
   const labelInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -109,10 +111,10 @@ export const PhysicalInstanceDialog = ({
       return [{ label: lockedStudyUnit.label ?? lockedStudyUnit.id, value: lockedStudyUnit.id }];
     }
     return itemsOfType(groupDetails, "StudyUnit").map((su) => ({
-      label: pickLang(su.Citation.Title, "fr-FR") ?? "",
+      label: pickFirstLang(su.Citation.Title, colecticaLangs) ?? "",
       value: su.ID,
     }));
-  }, [lockedStudyUnit, groupDetails]);
+  }, [lockedStudyUnit, groupDetails, colecticaLangs]);
 
   const selectedStudyUnit = useMemo(() => {
     if (lockedStudyUnit) return { id: lockedStudyUnit.id, agency: lockedStudyUnit.agency };

@@ -11,7 +11,7 @@ import { ProgressSpinner } from "@components/ui/spinner";
 
 import { useAppContext } from "../../../../application/app-context";
 import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useColecticaLangs } from "../../../hooks/useColecticaLangs";
 import { useMmvrUsers } from "../../../hooks/useMmvrUsers";
 import { useMutualizedCodeList } from "../../../hooks/useMutualizedCodeList";
 import type {
@@ -99,7 +99,8 @@ export const SentinelValues = ({
   const { t } = useTranslation();
   const { properties } = useAppContext();
   const defaultAgencyId = properties.defaultAgencyId;
-  const defaultLocale = useDefaultLocale();
+  const colecticaLangs = useColecticaLangs();
+  const defaultLocale = colecticaLangs[0];
   const { id: physicalInstanceId = "", agencyId = "" } = useParams<{
     id: string;
     agencyId: string;
@@ -148,7 +149,7 @@ export const SentinelValues = ({
   const loadedCategoryLabelById = new Map(
     itemsOfType(codeListContent, "Category").map((cat) => [
       cat.ID,
-      getLocalizedText(cat.Label) ?? "",
+      getLocalizedText(cat.Label, colecticaLangs) ?? "",
     ]),
   );
   const loadedRows: CodeTableRow[] = (loadedCodeList?.Code ?? []).map((code) => ({
@@ -169,11 +170,13 @@ export const SentinelValues = ({
       return {
         id: code.ID,
         value: code.Value?.StringValue ?? "",
-        label: getLocalizedText(category?.Label) ?? "",
+        label: getLocalizedText(category?.Label, colecticaLangs) ?? "",
         categoryId: category?.ID ?? code.CategoryReference?.ID ?? "",
       };
     });
-  const [editLabel, setEditLabel] = useState(() => getLocalizedText(mmvr?.Label) ?? "");
+  const [editLabel, setEditLabel] = useState(
+    () => getLocalizedText(mmvr?.Label, colecticaLangs) ?? "",
+  );
   const [editRows, setEditRows] = useState<CodeTableRow[]>(initialRows);
   const editIdsRef = useRef({
     mmvrId: mmvr?.ID,
@@ -191,7 +194,9 @@ export const SentinelValues = ({
       mmvrId: missingValuesReference?.ID,
       codeListId: loadedCodeList.ID,
     };
-    setEditLabel(getLocalizedText(loadedCodeList.Label) ?? selectedMmvr?.label ?? "");
+    setEditLabel(
+      getLocalizedText(loadedCodeList.Label, colecticaLangs) ?? selectedMmvr?.label ?? "",
+    );
     setEditRows(loadedRows);
   }, [materializationKey]);
 
@@ -412,7 +417,9 @@ export const SentinelValues = ({
 
           {showReadOnlyTable && loadedCodeList && (
             <CodeListDataTable
-              codeListLabel={getLocalizedText(loadedCodeList.Label) ?? selectedMmvr?.label ?? ""}
+              codeListLabel={
+                getLocalizedText(loadedCodeList.Label, colecticaLangs) ?? selectedMmvr?.label ?? ""
+              }
               codes={loadedRows}
               onCodeListLabelChange={() => {}}
               onCellEdit={() => {}}

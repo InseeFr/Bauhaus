@@ -31,6 +31,11 @@ vi.mock("react-i18next", () => ({
 const mockUseGroups = vi.fn();
 const mockUseGroupDetails = vi.fn();
 
+const appProperties = vi.hoisted(() => ({ colecticaLangs: undefined as string[] | undefined }));
+vi.mock("../../../../application/app-context", () => ({
+  useAppContext: () => ({ properties: appProperties }),
+}));
+
 vi.mock("../../../hooks/useGroups", () => ({
   useGroups: (...args: unknown[]) => {
     mockUseGroups(...args);
@@ -78,6 +83,15 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Version: "1.0",
               Citation: {
                 Title: [{ "@language": "fr-FR", "@value": "Study Unit 2" }],
+              },
+            },
+            {
+              $type: "StudyUnit",
+              ID: "study-en",
+              Agency: "agency-1",
+              Version: "1.0",
+              Citation: {
+                Title: [{ "@language": "en-GB", "@value": "English Study Unit" }],
               },
             },
           ],
@@ -212,6 +226,7 @@ describe("PhysicalInstanceDialog", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    appProperties.colecticaLangs = undefined;
   });
 
   describe("Create mode", () => {
@@ -229,6 +244,15 @@ describe("PhysicalInstanceDialog", () => {
       expect(screen.getByLabelText("Label")).toBeInTheDocument();
       expect(screen.getByLabelText("Group")).toBeInTheDocument();
       expect(screen.getByLabelText("Study Unit")).toBeInTheDocument();
+    });
+
+    it("should label study units in the configured Colectica language", async () => {
+      appProperties.colecticaLangs = ["en-GB"];
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
+
+      fireEvent.change(screen.getByTestId("dropdown-group"), { target: { value: "group-1" } });
+
+      expect(await screen.findByRole("option", { name: "English Study Unit" })).toBeInTheDocument();
     });
 
     it("should not render the dialog when visible is false", () => {

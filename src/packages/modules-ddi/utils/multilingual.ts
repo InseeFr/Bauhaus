@@ -13,6 +13,18 @@ export const pickLang = (entries: LangString[] | undefined, lang: string): strin
   return fallback?.["@value"];
 };
 
+export const pickFirstLang = (
+  entries: LangString[] | undefined,
+  langs: readonly string[],
+): string | undefined => {
+  if (!entries || entries.length === 0) return undefined;
+  for (const lang of langs) {
+    const value = pickLang(entries, lang);
+    if (value !== undefined) return value;
+  }
+  return entries[0]["@value"];
+};
+
 export const pickLangEntry = (
   entries: LangString[] | undefined,
   lang: string,

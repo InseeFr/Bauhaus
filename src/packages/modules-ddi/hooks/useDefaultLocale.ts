@@ -1,4 +1,4 @@
-import { useAppContext } from "../../application/app-context";
+import { useColecticaLangs } from "./useColecticaLangs";
 
 /**
  * Custom hook to retrieve the default locale from application properties.
@@ -15,6 +15,5 @@ import { useAppContext } from "../../application/app-context";
  * ```
  */
 export const useDefaultLocale = (): string => {
-  const { properties } = useAppContext();
-  return properties.colecticaLangs?.[0] || "fr-FR";
+  return useColecticaLangs()[0];
 };
