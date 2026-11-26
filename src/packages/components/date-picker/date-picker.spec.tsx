@@ -5,7 +5,7 @@ import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 
 import { DatePicker } from "./index";
 
-vi.mock("primereact/calendar", () => ({
+vi.mock("@mantle-ui/react/calendar", () => ({
   Calendar: ({ value, onChange }: any) => {
     const handleChange = useCallback(
       (e: ChangeEvent<HTMLInputElement>) => {

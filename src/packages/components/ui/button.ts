@@ -1,1 +1,1 @@
-export * from "primereact/button";
+export * from "@mantle-ui/react/button";

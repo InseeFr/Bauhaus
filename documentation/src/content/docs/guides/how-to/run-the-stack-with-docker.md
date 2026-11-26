@@ -30,6 +30,16 @@ This page is the reference behind it.
 
 Definitions live in `containers/*.yml`, included by `docker-compose.yml`.
 
+`compose-fuseki.yaml` is the same stack with Apache Jena Fuseki (`fuseki`, port
+`3030`, `admin` / `admin`) in place of GraphDB, and the Back-Office switched to
+it by `containers/api-fuseki.yml`. Its datasets are created by `init.sh`:
+
+```shell
+docker compose -f compose-fuseki.yaml up -d fuseki minio minio-init keycloak
+(cd e2e && RDF_BACKEND=fuseki ./playwright/db/init.sh)
+docker compose -f compose-fuseki.yaml up -d --build api front
+```
+
 ## Start the full stack
 
 From the root of `Bauhaus`:

@@ -173,7 +173,7 @@ export const Component = () => {
       </ActionToolbar>
       {expandError !== undefined && <LoadingErrorBloc error={expandError} />}
       <Row>
-        <div className="col-md-12 text-center pull-right operations-list">
+        <div className="col-12 text-center operations-tree-column">
           <div className="operations-tree">
             <Tree
               value={treeData}

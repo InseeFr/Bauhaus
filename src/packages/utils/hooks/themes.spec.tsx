@@ -5,7 +5,7 @@ import { Mock, vi } from "vitest";
 
 import { Theme } from "@model/theme";
 
-import { ThemesApi } from "@sdk/index";
+import { ThemesApi } from "@sdk/themes-api";
 
 import { useThemes } from "./themes";
 
@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 const wrapper = ({ children }: PropsWithChildren<unknown>) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/themes-api", () => ({
   ThemesApi: {
     getThemes: vi.fn(),
   },

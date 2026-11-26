@@ -18,9 +18,9 @@ vi.mock("@utils/hooks/users", async (importOriginal) =>
   (await import("../../../privileges.testing")).mockUsersHooks(importOriginal),
 );
 
-vi.mock("primereact/button", () => import("./actions.testing"));
+vi.mock("@mantle-ui/react/button", () => import("./actions.testing"));
 
-vi.mock("primereact/splitbutton", () => ({
+vi.mock("@mantle-ui/react/splitbutton", () => ({
   SplitButton: ({ label, onClick, model, icon, ...props }: any) => (
     <div data-testid="split-button" {...props}>
       <button type="button" onClick={onClick} aria-label={props["aria-label"]}>
@@ -46,23 +46,25 @@ vi.mock("primereact/splitbutton", () => ({
   ),
 }));
 
-const SOURCE_STAMPS = ["STAMP1", "STAMP2"];
-
 describe("GlobalActionToolbar", () => {
   const mockOnExport = vi.fn();
-  const mockOnDuplicate = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // Par défaut : stratégie ALL → le bouton de duplication est rendu.
+    // Droit de création accordé : même ainsi, la duplication n'est plus proposée ici.
     mockDdiAccess("CREATE", "ALL");
   });
 
-  it("should render export and duplicate buttons", () => {
-    render(<GlobalActionToolbar onExport={mockOnExport} onDuplicate={mockOnDuplicate} />);
+  it("should render the export button", () => {
+    render(<GlobalActionToolbar onExport={mockOnExport} />);
 
     expect(screen.getByText("Exporter")).toBeInTheDocument();
-    expect(screen.getByText("Dupliquer")).toBeInTheDocument();
+  });
+
+  it("ne propose plus la duplication : elle se fait depuis l'accueil (« Nouveau à partir de… »)", () => {
+    render(<GlobalActionToolbar onExport={mockOnExport} />);
+
+    expect(screen.queryByText("Dupliquer")).not.toBeInTheDocument();
   });
 
   it("should call onExport with DDI3 when export button is clicked", () => {
@@ -110,40 +112,11 @@ describe("GlobalActionToolbar", () => {
     expect(exportElements.length).toBeGreaterThan(0);
   });
 
-  it("should render buttons with correct icons", () => {
-    const { container } = render(
-      <GlobalActionToolbar onExport={mockOnExport} onDuplicate={mockOnDuplicate} />,
-    );
+  it("should render the export button with its icon and secondary severity", () => {
+    const { container } = render(<GlobalActionToolbar onExport={mockOnExport} />);
 
-    const downloadIcon = container.querySelector(".pi-download");
-    const copyIcon = container.querySelector(".pi-copy");
-
-    expect(downloadIcon).toBeInTheDocument();
-    expect(copyIcon).toBeInTheDocument();
-  });
-
-  it("should render buttons with secondary severity", () => {
-    render(<GlobalActionToolbar onExport={mockOnExport} onDuplicate={mockOnDuplicate} />);
-
-    const splitButton = screen.getByTestId("split-button");
-    const duplicateButton = screen.getByLabelText("Dupliquer");
-
-    expect(splitButton).toHaveAttribute("severity", "secondary");
-    expect(duplicateButton).toHaveAttribute("severity", "secondary");
-  });
-
-  it("should call onDuplicate when duplicate button is clicked", () => {
-    render(<GlobalActionToolbar onExport={mockOnExport} onDuplicate={mockOnDuplicate} />);
-
-    const duplicateButton = screen.getByText("Dupliquer");
-    fireEvent.click(duplicateButton);
-
-    expect(mockOnDuplicate).toHaveBeenCalledTimes(1);
-  });
-
-  it("should render without onDuplicate callback", () => {
-    expect(() => render(<GlobalActionToolbar onExport={mockOnExport} />)).not.toThrow();
-    expect(screen.getByText("Dupliquer")).toBeInTheDocument();
+    expect(container.querySelector(".pi-download")).toBeInTheDocument();
+    expect(screen.getByTestId("split-button")).toHaveAttribute("severity", "secondary");
   });
 
   describe("bouton de validation DDI4 (localhost uniquement)", () => {
@@ -184,36 +157,6 @@ describe("GlobalActionToolbar", () => {
       render(<GlobalActionToolbar onExport={mockOnExport} />);
 
       expect(screen.queryByText("Valider le DDI4")).not.toBeInTheDocument();
-    });
-  });
-
-  describe("gating STAMP du bouton de duplication", () => {
-    it("affiche le bouton de duplication quand un stamp utilisateur appartient aux stamps de l'instance source", () => {
-      mockDdiAccess("CREATE", "STAMP", ["STAMP1"]);
-
-      render(
-        <GlobalActionToolbar
-          onExport={mockOnExport}
-          onDuplicate={mockOnDuplicate}
-          stamps={SOURCE_STAMPS}
-        />,
-      );
-
-      expect(screen.queryByText("Dupliquer")).toBeInTheDocument();
-    });
-
-    it("masque le bouton de duplication quand aucun stamp utilisateur n'appartient aux stamps de l'instance source", () => {
-      mockDdiAccess("CREATE", "STAMP", ["STAMP9"]);
-
-      render(
-        <GlobalActionToolbar
-          onExport={mockOnExport}
-          onDuplicate={mockOnDuplicate}
-          stamps={SOURCE_STAMPS}
-        />,
-      );
-
-      expect(screen.queryByText("Dupliquer")).not.toBeInTheDocument();
     });
   });
 });

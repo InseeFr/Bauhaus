@@ -20,7 +20,7 @@ vi.mock("@utils/hooks/users", async (importOriginal) =>
   (await import("../../../privileges.testing")).mockUsersHooks(importOriginal),
 );
 
-vi.mock("primereact/inputtext", () => ({
+vi.mock("@mantle-ui/react/inputtext", () => ({
   InputText: ({ value, onChange, placeholder, className, ...props }: any) => (
     <input
       value={value}
@@ -32,7 +32,7 @@ vi.mock("primereact/inputtext", () => ({
   ),
 }));
 
-vi.mock("primereact/dropdown", async () => {
+vi.mock("@mantle-ui/react/dropdown", async () => {
   const { NativeOptions } = await import("../../pages/pages.testing");
   return {
     Dropdown: ({ value, options, onChange, className, ...props }: any) => {
@@ -49,13 +49,13 @@ vi.mock("primereact/dropdown", async () => {
   };
 });
 
-vi.mock("primereact/button", () => import("../GlobalActionsCard/actions.testing"));
+vi.mock("@mantle-ui/react/button", () => import("../GlobalActionsCard/actions.testing"));
 
-vi.mock("primereact/iconfield", () => ({
+vi.mock("@mantle-ui/react/iconfield", () => ({
   IconField: ({ children, className }: any) => <div className={className}>{children}</div>,
 }));
 
-vi.mock("primereact/inputicon", () => ({
+vi.mock("@mantle-ui/react/inputicon", () => ({
   InputIcon: ({ className, children }: any) => <span className={className}>{children}</span>,
 }));
 

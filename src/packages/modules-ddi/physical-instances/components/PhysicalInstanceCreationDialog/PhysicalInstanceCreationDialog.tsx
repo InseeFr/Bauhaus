@@ -1,4 +1,4 @@
-import { FormEvent, useRef, useState, useMemo, useEffect } from "react";
+import { FormEvent, useRef, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@components/ui/button";
@@ -6,6 +6,7 @@ import { Dialog } from "@components/ui/dialog";
 import { Dropdown } from "@components/ui/dropdown";
 import { InputText } from "@components/ui/input-text";
 
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useGroupDetails } from "../../../hooks/useGroupDetails";
 import { useGroups } from "../../../hooks/useGroups";
 import { pickLang } from "../../../utils/multilingual";
@@ -63,6 +64,7 @@ export const PhysicalInstanceDialog = ({
   onSubmitDuplicate,
 }: Readonly<PhysicalInstanceDialogProps>) => {
   const { t } = useTranslation();
+  const lang = useDefaultLocale();
   const formRef = useRef<HTMLFormElement>(null);
   const labelInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -109,10 +111,10 @@ export const PhysicalInstanceDialog = ({
       return [{ label: lockedStudyUnit.label ?? lockedStudyUnit.id, value: lockedStudyUnit.id }];
     }
     return itemsOfType(groupDetails, "StudyUnit").map((su) => ({
-      label: pickLang(su.Citation.Title, "fr-FR") ?? "",
+      label: pickLang(su.Citation.Title, lang) ?? "",
       value: su.ID,
     }));
-  }, [lockedStudyUnit, groupDetails]);
+  }, [lockedStudyUnit, groupDetails, lang]);
 
   const selectedStudyUnit = useMemo(() => {
     if (lockedStudyUnit) return { id: lockedStudyUnit.id, agency: lockedStudyUnit.agency };
@@ -123,13 +125,16 @@ export const PhysicalInstanceDialog = ({
 
   const isFormValid = label.trim() && selectedGroup && selectedStudyUnit;
 
-  useEffect(() => {
-    if (visible && initialData) {
-      setLabel(initialData.label);
-      if (initialData.group) setSelectedGroupId(initialData.group.id);
-      if (initialData.studyUnit) setSelectedStudyUnitId(initialData.studyUnit.id);
-    }
-  }, [visible, initialData]);
+  // Préremplissage à l'ouverture, et à chaque nouvelle donnée initiale tant que la modale est ouverte.
+  const [prefilledFrom, setPrefilledFrom] = useState<typeof initialData>();
+  if (!visible && prefilledFrom) {
+    setPrefilledFrom(undefined);
+  } else if (visible && initialData && initialData !== prefilledFrom) {
+    setPrefilledFrom(initialData);
+    setLabel(initialData.label);
+    if (initialData.group) setSelectedGroupId(initialData.group.id);
+    if (initialData.studyUnit) setSelectedStudyUnitId(initialData.studyUnit.id);
+  }
 
   // Le focus initial est posé via le callback onShow de la Dialog (cf. plus bas)
   // plutôt qu'avec un setTimeout : PrimeReact, en fin d'animation d'ouverture,

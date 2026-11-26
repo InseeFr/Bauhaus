@@ -1,0 +1,50 @@
+/*
+ * Reprend à l'identique ce que les boutons tenaient de Bootstrap (`btn btn-lg col-md-4`,
+ * avec l'alignement à gauche de l'ancien `styles/components.css`), en px : la racine Bootstrap à
+ * 10px réduirait les `rem`.
+ */
+.partial-codelist-picker-action {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5em;
+  min-height: 1px;
+  margin-bottom: 0;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background-image: none;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.3333;
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.partial-codelist-picker-action:hover,
+.partial-codelist-picker-action:focus {
+  color: #333;
+  text-decoration: none;
+}
+
+.partial-codelist-picker-action:focus-visible {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+@media (width >= 992px) {
+  .partial-codelist-picker-action {
+    float: left;
+    width: 33.3333%;
+  }
+}
+
+.partial-codelist-picker-action:active {
+  outline: 0;
+  box-shadow: inset 0 3px 5px rgb(0 0 0 / 12.5%);
+}

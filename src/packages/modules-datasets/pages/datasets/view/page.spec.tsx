@@ -7,8 +7,9 @@ import { Mock, vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
 
+import { fetchCodelist } from "@sdk/codelists-api";
 import { DatasetsApi } from "@sdk/datasets-api";
-import { fetchCodelist, OrganizationsApi } from "@sdk/index";
+import { OrganizationsApi } from "@sdk/organizations-api";
 
 import { AppContextProvider } from "../../../../application/app-context";
 import { testsI18n as i18n } from "../../../../tests/i18n";
@@ -16,8 +17,6 @@ import { expectItemLoadFailed, expectItemNotFound } from "../../../../tests/load
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { Component } from "./page";
 
-// `@sdk/index` réexporte `@sdk/datasets-api` : simuler le module dédié suffit à ce
-// que la page et `useDataset` voient le même faux `DatasetsApi`.
 vi.mock("@sdk/datasets-api", () => ({
   DatasetsApi: {
     getById: vi.fn(),
@@ -28,11 +27,20 @@ vi.mock("@sdk/datasets-api", () => ({
   },
 }));
 
-vi.mock("@sdk/index", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@sdk/index")>()),
+vi.mock("@sdk/codelists-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/codelists-api")>()),
   fetchCodelist: vi.fn(),
+}));
+vi.mock("@sdk/organizations-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/organizations-api")>()),
   OrganizationsApi: { getOrganizations: vi.fn() },
+}));
+vi.mock("@sdk/structure-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/structure-api")>()),
   StructureApi: { getStructures: vi.fn().mockResolvedValue([]) },
+}));
+vi.mock("@sdk/themes-api", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sdk/themes-api")>()),
   ThemesApi: { getThemes: vi.fn().mockResolvedValue([]) },
 }));
 

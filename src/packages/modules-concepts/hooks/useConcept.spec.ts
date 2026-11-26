@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { createQueryClientWrapper } from "../testing/query-client.testing";
 import {
@@ -10,7 +10,7 @@ import {
 } from "./contributorPrefill.testing";
 import { useConcept } from "./useConcept";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: {
     getConceptGeneral: vi.fn(),
     getNoteVersionList: vi.fn(),

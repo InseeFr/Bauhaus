@@ -1,7 +1,7 @@
 import { Codelists } from "@model/Codelist";
 import { Component } from "@model/structures/Component";
 
-import { XSD_CODE_LIST } from "../constants";
+import { XSD_CODE_LIST } from "../constants/xsd";
 import { MeasureAttributeCodeValue } from "./MeasureAttributeCodeValue";
 
 interface MeasureAttributeValueTypes {

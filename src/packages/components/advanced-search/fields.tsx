@@ -1,4 +1,4 @@
-import { Card } from "primereact/card";
+import { Card } from "@mantle-ui/react/card";
 import { ReactNode } from "react";
 
 import { cx } from "@utils/cx";

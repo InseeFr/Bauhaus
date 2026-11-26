@@ -6,12 +6,16 @@ import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
-const renderViewMenu = async (component: Component) => {
+const renderViewMenu = async (
+  component: Component,
+  pending: { isPublishing?: boolean; isDeleting?: boolean } = {},
+) => {
   const { ViewMenu } = await import("./menu");
   render(
     <WithRouter>
       <ViewMenu
         component={component}
+        {...pending}
         updatable={true}
         publish={vi.fn()}
         handleUpdate={vi.fn() as VoidFunction}
@@ -87,5 +91,25 @@ describe("Component View Menu", () => {
     screen.getByText("Publish");
     expect(screen.queryByText("Delete")).toBeNull();
     screen.getByText("Update");
+  });
+
+  it("désactive la publication et la suppression pendant leur envoi", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.STRUCTURE_COMPONENT,
+        privileges: [
+          { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+        ],
+      },
+    ]);
+
+    await renderViewMenu({ id: "1", validationState: "Unpublished" } as unknown as Component, {
+      isPublishing: true,
+      isDeleting: true,
+    });
+
+    expect(screen.getByRole("button", { name: /publish/i })).toBeDisabled();
+    expect(screen.getByRole("button", { name: /delete/i })).toBeDisabled();
   });
 });

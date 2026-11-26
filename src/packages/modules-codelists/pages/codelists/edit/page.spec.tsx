@@ -1,8 +1,9 @@
 import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
+import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import { expectLoadErrorDisplayed } from "../../../testing/load-error.testing";
 import { renderWithProviders } from "../../../testing/render.testing";
 import { Component } from "./page";
@@ -11,7 +12,7 @@ const { detailedCodelistSdk, unknownCodelistRouter } = await vi.hoisted(
   () => import("../../../testing/pages.testing"),
 );
 
-vi.mock("@sdk/index", (importOriginal) =>
+vi.mock("@sdk/codelists-api", (importOriginal) =>
   detailedCodelistSdk(importOriginal, {
     putCodelist: vi.fn(),
     getCodelistCodes: vi.fn(() => Promise.resolve({ items: [] })),
@@ -145,6 +146,12 @@ describe("Codelist edit page", () => {
     beforeEach(() => {
       vi.mocked(CodelistsApi.getDetailedCodelist).mockResolvedValue({ ...codelist });
       vi.mocked(CodelistsApi.getCodesDetailedCodelist).mockResolvedValue({ items: [], total: 0 });
+    });
+
+    it("ne pose aucune classe Bootstrap sur le formulaire", async () => {
+      renderWithProviders(<Component />);
+      await screen.findByDisplayValue("Liste");
+      expectNoBootstrapClass();
     });
 
     const saveButton = () => screen.getAllByRole("button", { name: /save/i })[0];

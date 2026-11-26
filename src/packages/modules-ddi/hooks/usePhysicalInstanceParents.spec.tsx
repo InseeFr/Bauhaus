@@ -2,10 +2,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
 
-import { DDIApi } from "../../sdk";
+import { DDIApi } from "../../sdk/ddi-api";
 import { usePhysicalInstanceParents } from "./usePhysicalInstanceParents";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: { getPhysicalInstanceParents: vi.fn() },
 }));
 

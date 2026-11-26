@@ -29,25 +29,34 @@ const defaultFormState = {
   group: "",
 };
 
+/** Option de groupe ou d'étude : le libellé est affiché, les titres alternatifs seulement recherchés. */
+interface ParentOption extends Option {
+  alternateTitles: string;
+}
+
+/** Recherche des sélecteurs groupe/étude : par libellé ou par titre alternatif (sigle). */
+const PARENT_FILTER_BY = "label,alternateTitles";
+
 /**
- * Options distinctes (par id) d'une clé id/libellé des lignes de recherche, triées par libellé.
- * Les lignes sans id (PI orphelines) sont ignorées.
+ * Options distinctes (par id) d'un parent (groupe ou étude) des lignes de recherche, triées par
+ * libellé. Les lignes sans id (PI orphelines) sont ignorées.
  */
 const buildOptions = (
   rows: PhysicalInstanceSearchRow[],
-  idKey: "studyUnitId" | "groupId",
-  labelKey: "studyUnitLabel" | "groupLabel",
-): Option[] => {
-  const byId = new Map<string, string>();
+  parent: "studyUnit" | "group",
+): ParentOption[] => {
+  const byId = new Map<string, ParentOption>();
   for (const row of rows) {
-    const id = row[idKey];
+    const id = row[`${parent}Id`];
     if (id && !byId.has(id)) {
-      byId.set(id, row[labelKey] ?? id);
+      byId.set(id, {
+        value: id,
+        label: row[`${parent}Label`] ?? id,
+        alternateTitles: (row[`${parent}AlternateTitles`] ?? []).join(" "),
+      });
     }
   }
-  return [...byId.entries()]
-    .map(([value, label]) => ({ value, label }))
-    .sort((a, b) => a.label.localeCompare(b.label));
+  return [...byId.values()].sort((a, b) => a.label.localeCompare(b.label));
 };
 
 /**
@@ -68,7 +77,7 @@ export const Component = () => {
   const { form, setForm, reset, handleChange } = useUrlQueryParameters(defaultFormState);
   const { label, studyUnit, group } = form;
 
-  const groupOptions = useMemo(() => buildOptions(data, "groupId", "groupLabel"), [data]);
+  const groupOptions = useMemo(() => buildOptions(data, "group"), [data]);
   // Les études proposées sont uniquement celles du groupe sélectionné ; sans groupe, le champ
   // reste vide (et désactivé côté rendu).
   const studyUnitOptions = useMemo(
@@ -76,8 +85,7 @@ export const Component = () => {
       group
         ? buildOptions(
             data.filter((row) => row.groupId === group),
-            "studyUnitId",
-            "studyUnitLabel",
+            "studyUnit",
           )
         : [],
     [data, group],
@@ -124,6 +132,7 @@ export const Component = () => {
                 placeholder={t("physicalInstance.search.groupPlaceholder")}
                 value={group || null}
                 options={groupOptions}
+                filterBy={PARENT_FILTER_BY}
                 onChange={onGroupChange}
               />
             )}
@@ -135,6 +144,7 @@ export const Component = () => {
                 placeholder={t("physicalInstance.search.studyUnitPlaceholder")}
                 value={studyUnit || null}
                 options={studyUnitOptions}
+                filterBy={PARENT_FILTER_BY}
                 disabled={!group}
                 onChange={(value: string | null) => handleChange("studyUnit", value ?? "")}
               />

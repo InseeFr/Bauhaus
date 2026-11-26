@@ -15,7 +15,7 @@ vi.mock("../i18n", () => ({
   },
 }));
 
-vi.mock("primereact/progressspinner", () => ({
+vi.mock("@mantle-ui/react/progressspinner", () => ({
   ProgressSpinner: () => <div data-testid="progress-spinner">Spinner</div>,
 }));
 

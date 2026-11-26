@@ -2,7 +2,7 @@
  * Doublures partagées par les specs des composants de représentation de variable.
  *
  * Les composants s'emploient comme module de remplacement :
- * `vi.mock("primereact/dropdown", () => import("../representation.testing"));`
+ * `vi.mock("@mantle-ui/react/dropdown", () => import("../representation.testing"));`
  */
 import { useCallback, type ChangeEvent } from "react";
 

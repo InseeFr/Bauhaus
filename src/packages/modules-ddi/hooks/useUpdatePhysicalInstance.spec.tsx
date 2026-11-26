@@ -1,13 +1,13 @@
 import { waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { physicalInstanceFormData } from "./physicalInstanceFormData.testing";
 import { expectIdleMutation, renderMutationHook } from "./queryClient.testing";
 import { useUpdatePhysicalInstance } from "./useUpdatePhysicalInstance";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     patchPhysicalInstance: vi.fn(),
   },
@@ -53,6 +53,11 @@ describe("useUpdatePhysicalInstance", () => {
       // re-rattachement, elle resterait périmée (staleTime: Infinity) sans cette éviction.
       name: "should invalidate the advanced search cache on success",
       queryKey: ["physicalInstancesSearch"],
+    },
+    {
+      // Renommage ou re-rattachement : la fiche de l'opération (ancienne et nouvelle) liste ses fichiers.
+      name: "should invalidate the operation physical instances cache on success",
+      queryKey: ["operationPhysicalInstances"],
     },
     {
       name: "should invalidate the edited physical instance detail cache on success",

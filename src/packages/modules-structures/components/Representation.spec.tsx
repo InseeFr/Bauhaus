@@ -27,6 +27,7 @@ import { Component } from "@model/structures/Component";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { XSD_CODE_LIST, XSD_STRING } from "../constants/xsd";
 import { Representation } from "./Representation";
 
@@ -53,6 +54,18 @@ describe("Representation", () => {
       />,
     );
     await screen.findByText("String");
+  });
+
+  it("ne pose aucune classe Bootstrap", async () => {
+    render(
+      <Representation
+        component={CODE_LIST_COMPONENT}
+        codelists={codelists}
+        handleCodelistDetail={vi.fn()}
+      />,
+    );
+    await screen.findByText("label");
+    expectNoBootstrapClass();
   });
 
   it("should display a button with the codelist", async () => {

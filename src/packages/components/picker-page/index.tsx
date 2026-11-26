@@ -1,4 +1,4 @@
-import { PickList } from "primereact/picklist";
+import { PickList } from "@mantle-ui/react/picklist";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 

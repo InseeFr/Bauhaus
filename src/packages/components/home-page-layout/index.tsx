@@ -20,7 +20,7 @@ export const HomePageLayout = ({ title, menu, children }: Readonly<HomePageLayou
   <div className="container home-page-layout">
     <Row>
       {menu}
-      <div className="bauhaus-grid-md-8 text-center home-page-layout__content">
+      <div className="col-12 lg:col-8 text-center home-page-layout__content">
         <PageTitle title={title} col={12} offset={0} />
         {children}
       </div>

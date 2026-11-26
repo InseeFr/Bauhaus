@@ -9,6 +9,9 @@
 
   > * {
     max-width: 250px;
+
+    /* L'emporte sur max-width : un libellé plus long que 250px élargit son bouton au lieu d'être coupé. */
+    min-width: max-content;
   }
 }
 

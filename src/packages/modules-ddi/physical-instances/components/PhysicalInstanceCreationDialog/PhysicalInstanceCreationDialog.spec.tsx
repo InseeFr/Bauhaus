@@ -28,6 +28,11 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+let defaultLocale = "fr-FR";
+vi.mock("../../../hooks/useDefaultLocale", () => ({
+  useDefaultLocale: () => defaultLocale,
+}));
+
 const mockUseGroups = vi.fn();
 const mockUseGroupDetails = vi.fn();
 
@@ -68,7 +73,10 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Agency: "agency-1",
               Version: "1.0",
               Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Study Unit 1" }],
+                Title: [
+                  { "@language": "fr-FR", "@value": "Study Unit 1" },
+                  { "@language": "en-GB", "@value": "Study Unit 1 (en)" },
+                ],
               },
             },
             {
@@ -89,13 +97,13 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
   },
 }));
 
-vi.mock("primereact/inputtext", () => ({
+vi.mock("@mantle-ui/react/inputtext", () => ({
   InputText: forwardRef<HTMLInputElement, any>(({ id, value, onChange, ...props }, ref) => (
     <input ref={ref} id={id} value={value} onChange={onChange} {...props} />
   )),
 }));
 
-vi.mock("primereact/dropdown", async () => {
+vi.mock("@mantle-ui/react/dropdown", async () => {
   const { NativeOptions } = await import("../../pages/pages.testing");
   return {
     Dropdown: ({ id, value, options, onChange, placeholder, disabled, className }: any) => {
@@ -120,7 +128,7 @@ vi.mock("primereact/dropdown", async () => {
   };
 });
 
-vi.mock("primereact/button", () => ({
+vi.mock("@mantle-ui/react/button", () => ({
   Button: ({ label, onClick, type = "button", className, disabled, loading }: any) => (
     <button type={type} onClick={onClick} className={className} disabled={disabled || loading}>
       {label}
@@ -131,7 +139,7 @@ vi.mock("primereact/button", () => ({
 // Mock fidèle au comportement de focus de PrimeReact : à l'ouverture (onEntered),
 // la Dialog appelle d'abord onShow() puis, si le focus n'est PAS déjà à l'intérieur
 // de la modale, le pose sur le bouton de fermeture (cf. dialog.esm.js `focus()`).
-vi.mock("primereact/dialog", () => ({
+vi.mock("@mantle-ui/react/dialog", () => ({
   Dialog: ({ header, visible, children, onHide, onShow, className }: any) => {
     const dialogRef = useRef<HTMLDivElement>(null);
     const closeRef = useRef<HTMLButtonElement>(null);
@@ -212,6 +220,7 @@ describe("PhysicalInstanceDialog", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    defaultLocale = "fr-FR";
   });
 
   describe("Create mode", () => {
@@ -282,6 +291,15 @@ describe("PhysicalInstanceDialog", () => {
       fireEvent.click(cancelButton);
 
       expect(mockOnHide).toHaveBeenCalledTimes(1);
+    });
+
+    it("labels the study units in the default Colectica language", () => {
+      defaultLocale = "en-GB";
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
+
+      fireEvent.change(screen.getByTestId("dropdown-group"), { target: { value: "group-1" } });
+
+      expect(screen.getByRole("option", { name: "Study Unit 1 (en)" })).toBeInTheDocument();
     });
 
     it("should disable study unit dropdown when no group is selected", () => {

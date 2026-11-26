@@ -4,12 +4,15 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { clearDevUser, devUserHeaders, saveDevUser } from "@sdk/dev-user";
-import { StampsApi, V2Api } from "@sdk/index";
+import { StampsApi } from "@sdk/stamps-api";
+import { V2Api } from "@sdk/v2-api";
 
 import { DevUserPlugin } from "./DevUserPlugin";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/stamps-api", () => ({
   StampsApi: { getStamps: vi.fn() },
+}));
+vi.mock("@sdk/v2-api", () => ({
   V2Api: { getStamps: vi.fn() },
 }));
 

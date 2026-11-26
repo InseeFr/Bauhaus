@@ -36,7 +36,7 @@ export const editionProvidersWith =
 // groupe de champs : on retient celui des deux qui la contient.
 export const fieldLabelled = (label: string | RegExp) => {
   const node = screen.getByText(label);
-  const holder = [node.closest("label"), node.closest(".form-group")].find((el) =>
+  const holder = [node.closest("label"), node.closest(".bauhaus-form-group")].find((el) =>
     el?.querySelector(".p-dropdown, .p-multiselect"),
   )!;
   return holder.querySelector<HTMLElement>(".p-dropdown, .p-multiselect")!;

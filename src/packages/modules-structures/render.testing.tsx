@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import { PropsWithChildren, ReactNode } from "react";
 import { MemoryRouter } from "react-router";
 
@@ -21,26 +21,21 @@ export const createStructuresWrapper =
   ({
     initialEntries,
     routes = (children) => children,
+    queryClient,
   }: {
     initialEntries?: string[];
     routes?: (children: ReactNode) => ReactNode;
+    /** Client à observer (invalidations) ; un client neuf par rendu sinon. */
+    queryClient?: QueryClient;
   } = {}) =>
   ({ children }: PropsWithChildren) => (
     <QueryClientProvider
-      client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
+      client={queryClient ?? new QueryClient({ defaultOptions: { queries: { retry: false } } })}
     >
       <MemoryRouter initialEntries={initialEntries}>
         <TestAppContextProvider>{routes(children)}</TestAppContextProvider>
       </MemoryRouter>
     </QueryClientProvider>
-  );
-
-/** Rendu d'une page dans le contexte applicatif et un routeur, sans react-query. */
-export const renderPageWithAppContext = (page: ReactNode) =>
-  render(
-    <TestAppContextProvider>
-      <MemoryRouter>{page}</MemoryRouter>
-    </TestAppContextProvider>,
   );
 
 /** Les gestionnaires lisent `dataset.componentId` sur le parent de la cible : on clique l'icône. */
@@ -50,3 +45,10 @@ export const clickIcon = (button: HTMLElement) =>
 /** Ligne du tableau affichant la composante `identifiant`. */
 export const rowOf = (identifiant: string) =>
   screen.getByText(`Composante ${identifiant}`).closest("tr") as HTMLElement;
+
+/** Champ de formulaire d'identifiant `id`. */
+export const field = (id: string) => document.getElementById(id)!;
+
+/** Saisit `value` dans le champ d'identifiant `id`. */
+export const type = (id: string, value: string) =>
+  fireEvent.change(field(id), { target: { value } });

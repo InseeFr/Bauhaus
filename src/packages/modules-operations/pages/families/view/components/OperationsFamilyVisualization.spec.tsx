@@ -5,12 +5,20 @@ import { ValidationState } from "@components/status";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { OperationsFamilyVisualization } from "./OperationsFamilyVisualization";
 
+// Seule la source des organisations est simulée : les gestionnaires sont résolus par l'application.
+vi.mock("@utils/hooks/organizations", () => ({
+  useOrganizations: () => ({
+    data: [{ iri: "http://bauhaus/organisations/insee/DG75-L201", label: "Insee - DG75-L201" }],
+  }),
+}));
+
 vi.mock("react-i18next", async (importOriginal) =>
   (
     await import("../../../../components/translationsByLanguage.testing")
   ).mockTranslationsByLanguage(importOriginal, {
     fr: {
       "common.familyStatus": "État de la famille",
+      "common.stakeholders": "Gestionnaires",
     },
   }),
 );
@@ -28,6 +36,11 @@ const mockFamily = {
     { id: "s1", labelLg1: "Series 1", labelLg2: "Série 1" },
     { id: "s2", labelLg1: "Series 2", labelLg2: "Série 2" },
   ],
+};
+
+const contributedFamily = {
+  ...mockFamily,
+  contributor: ["http://bauhaus/organisations/insee/DG75-L201"],
 };
 
 const familyWithoutAbstract = {
@@ -63,8 +76,8 @@ describe("OperationsFamilyVisualization", () => {
     expect(screen.getByText(/in LG2/)).toBeInTheDocument();
 
     const noteElements = container.querySelectorAll(".note");
-    expect(noteElements[1]).toHaveClass("bauhaus-grid-md-6");
-    expect(noteElements[2]).toHaveClass("bauhaus-grid-md-6");
+    expect(noteElements[1]).toHaveClass("lg:col-6");
+    expect(noteElements[2]).toHaveClass("lg:col-6");
   });
 
   it("should render markdown content in abstracts", () => {
@@ -99,5 +112,14 @@ describe("OperationsFamilyVisualization", () => {
     const statusElement = container.querySelector("ul li:nth-child(3)");
     expect(statusElement).toBeInTheDocument();
     expect(statusElement?.textContent).toContain("État de la famille");
+  });
+
+  it("should render the contributors of the family", () => {
+    const { container } = renderWithAppContext(
+      <OperationsFamilyVisualization attr={contributedFamily} secondLang={false} />,
+    );
+
+    screen.getByText("Gestionnaires");
+    expect(container.querySelector("#contributors")).not.toBeNull();
   });
 });

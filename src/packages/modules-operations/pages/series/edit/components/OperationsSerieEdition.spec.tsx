@@ -4,6 +4,7 @@ import { vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { chooseIn, editionProvidersWith } from "../../../edition-form.testing";
 import { OperationsSerieEdition, SerieEditItem } from "./OperationsSerieEdition";
 
@@ -72,6 +73,11 @@ const renderEdition = (props = {}, queryClient?: QueryClient) =>
 describe("OperationsSerieEdition", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderEdition();
+    expectNoBootstrapClass();
   });
 
   it("reinitialise le formulaire quand la serie affichee change", () => {

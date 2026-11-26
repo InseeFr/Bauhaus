@@ -30,7 +30,6 @@
     "childrenOperations": "Daughter operations:",
     "parentFamily": "Parent family:",
     "parentSeries": "Parent series:",
-    "physicalInstances": "Data files:",
     "title": "Title",
     "theme": "Theme",
     "themes": "Themes",
@@ -108,6 +107,9 @@
     "essentialRubricMsgPlural": "You have completed {{nb}} out of {{total}} essential items.",
     "essentialRubricMsg": "You have completed 1 out of {{total}} essential items.",
     "essentialRubricKo": "This rubric is an essantial rubric. You should define a value.",
+    "showInstructions": "Show filling instructions",
+    "instructionsTitle": "Filling guidance",
+    "hideInstructions": "Hide filling instructions",
     "essentialRubricOk": "This rubric is an essantial rubric",
     "helpPresentational": "Presentational attribut",
     "helpRICH_TEXT": "Rich text + URI",
@@ -168,5 +170,15 @@
     "requiredFile": "The file is required",
     "requiredUpdatedDate": "The update date is required",
     "wrongFileName": "The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols"
+  },
+  "operationPhysicalInstance": {
+    "listTitle": "Data files",
+    "none": "No data file",
+    "new": "New data file",
+    "title": "Create a data file for the operation",
+    "label": "Label",
+    "studyUnit": "Study",
+    "create": "Create",
+    "cancel": "Cancel"
   }
 }

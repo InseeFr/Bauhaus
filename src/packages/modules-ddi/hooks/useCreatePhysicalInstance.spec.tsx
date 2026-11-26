@@ -1,13 +1,13 @@
 import { waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import { physicalInstanceFormData } from "./physicalInstanceFormData.testing";
 import { expectIdleMutation, renderMutationHook } from "./queryClient.testing";
 import { useCreatePhysicalInstance } from "./useCreatePhysicalInstance";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     postPhysicalInstance: vi.fn(),
   },
@@ -107,6 +107,23 @@ describe("useCreatePhysicalInstance", () => {
     await waitFor(() => {
       expect(invalidateQueriesSpy).toHaveBeenCalledWith({
         queryKey: ["physicalInstancesSearch"],
+      });
+    });
+  });
+
+  // La fiche de l'opération liste ses fichiers : sans invalidation, la PI créée n'y
+  // apparaît qu'après un rechargement de la page.
+  it("should invalidate the operation physical instances cache on successful mutation", async () => {
+    mockPostResolving();
+
+    const { result, queryClient } = renderCreate();
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    await result.current.mutateAsync(physicalInstanceFormData());
+
+    await waitFor(() => {
+      expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+        queryKey: ["operationPhysicalInstances"],
       });
     });
   });

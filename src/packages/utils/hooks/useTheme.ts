@@ -25,5 +25,5 @@ export const useTheme = (application: AppName) => {
     // hors de #root-app : le thème doit y être posé pour qu'ils en héritent.
     document.body.classList.remove(...THEMES);
     document.body.classList.add(application);
-  }, []);
+  }, [application]);
 };

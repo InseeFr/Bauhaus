@@ -4,8 +4,8 @@
   gap: 0.75em;
 }
 
-/* Bootstrap met les label de .form-group en block avec une marge basse : ici ils
-   partagent la ligne avec le champ. */
+/* Bootstrap donne une marge basse aux label : ici ils partagent la ligne avec le
+   champ. */
 .date-filtered-table__filter label {
   margin-bottom: 0;
   white-space: nowrap;

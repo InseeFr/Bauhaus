@@ -54,7 +54,7 @@ export const DataStructure = ({
 
   return (
     <>
-      <div className="col-md-4 form-group">
+      <div className="col-12 lg:col-4 bauhaus-form-group">
         <label className="w-100 wilco-label-required">
           {t("dataset.statisticalInformation.dataStructure.title")}
           <Select
@@ -68,7 +68,7 @@ export const DataStructure = ({
         </label>
       </div>
       {mode === STRUCTURE_MODE && (
-        <label className="col-md-8">
+        <label className="col-12 lg:col-8">
           {t("dataset.statisticalInformation.dataStructure.title")}
           <Select
             value={value}
@@ -80,7 +80,7 @@ export const DataStructure = ({
         </label>
       )}
       {mode === URN_MODE && (
-        <label className="col-md-8">
+        <label className="col-12 lg:col-8">
           {t("dataset.statisticalInformation.dataStructure.title")}
           <TextInput
             aria-describedby="datastructure-error"

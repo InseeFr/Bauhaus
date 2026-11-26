@@ -30,7 +30,6 @@
     "childrenOperations": "Opérations filles :",
     "parentFamily": "Famille parente :",
     "parentSeries": "Série parente :",
-    "physicalInstances": "Fichiers de données :",
     "title": "Intitulé",
     "theme": "Thème",
     "themes": "Thèmes",
@@ -108,6 +107,9 @@
     "essentialRubricMsgPlural": "Vous avez rempli {{nb}} rubriques essentielles sur {{total}}.",
     "essentialRubricMsg": "Vous avez rempli 1 rubrique essentielle sur {{total}}",
     "essentialRubricKo": "Cette rubrique est une rubrique essentielle. Vous devriez lui définir une valeur",
+    "showInstructions": "Afficher les instructions de remplissage",
+    "instructionsTitle": "Aide au remplissage",
+    "hideInstructions": "Masquer les instructions de remplissage",
     "essentialRubricOk": "Cette rubrique est une rubrique essentielle",
     "helpPresentational": "Attribut présentationnel",
     "helpRICH_TEXT": "Texte riche + URI",
@@ -168,5 +170,15 @@
     "requiredFile": "Le fichier est obligatoire",
     "requiredUpdatedDate": "La date de mise à jour est obligatoire",
     "wrongFileName": "Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas."
+  },
+  "operationPhysicalInstance": {
+    "listTitle": "Fichiers de données",
+    "none": "Aucun fichier de données",
+    "new": "Nouveau fichier de données",
+    "title": "Créer un fichier de données pour l'opération",
+    "label": "Libellé",
+    "studyUnit": "Étude",
+    "create": "Créer",
+    "cancel": "Annuler"
   }
 }

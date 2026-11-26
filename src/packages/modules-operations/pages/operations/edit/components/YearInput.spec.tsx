@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { YearInput } from "./YearInput";
 
 vi.mock("react-i18next", () => ({
@@ -16,6 +17,11 @@ vi.mock("react-i18next", () => ({
 }));
 
 describe("YearInput Component", () => {
+  it("ne pose aucune classe Bootstrap", () => {
+    render(<YearInput value="2024" onChange={vi.fn()} />);
+    expectNoBootstrapClass();
+  });
+
   it("renders the label and NumberInput inside a Row", () => {
     const mockOnChange = vi.fn();
 

@@ -1,0 +1,27 @@
+services:
+  # Fuseki, à la place de GraphDB (compose-fuseki.yaml). Les datasets `bauhaus`
+  # et `publication` ne sont pas créés au démarrage : e2e/playwright/db/init.sh
+  # (RDF_BACKEND=fuseki) les crée par l'API d'administration, la seule façon de
+  # leur donner `tdb2:unionDefaultGraph true` (voir FusekiContainer côté
+  # Back-Office).
+  fuseki:
+    image: stain/jena-fuseki:5.1.0
+    ports:
+      - "3030:3030"
+    environment:
+      # L'image protège l'administration (/$/**), /update et /data par ce mot de
+      # passe (utilisateur `admin`) ; la lecture (/sparql) reste anonyme.
+      ADMIN_PASSWORD: admin
+    volumes:
+      - fuseki-data:/fuseki
+    healthcheck:
+      # /$/ping est anonyme, mais répond avant l'API d'administration : on
+      # attend celle-ci, que init.sh appelle juste après.
+      test: ["CMD", "curl", "-sf", "-u", "admin:admin", "http://localhost:3030/$$/datasets"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+volumes:
+  fuseki-data:

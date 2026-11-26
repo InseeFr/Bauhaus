@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Organization } from "@model/organization";
 import { Options } from "@model/SelectOption";
 
-import { OrganizationsApi } from "@sdk/index";
+import { OrganizationsApi } from "@sdk/organizations-api";
 
 import { transformModelToSelectOptions } from "../transformer";
 

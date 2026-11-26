@@ -1,0 +1,18 @@
+# Variante de docker-compose.yml avec Fuseki à la place de GraphDB :
+#     docker compose -f compose-fuseki.yaml up -d
+#
+# Les datasets sont vides au premier démarrage : les créer et y charger les
+# jeux de données de test avec
+#     (cd e2e && RDF_BACKEND=fuseki ./playwright/db/init.sh)
+#
+# Pour la suite e2e, même surcharge qu'avec GraphDB :
+#     docker compose -f compose-fuseki.yaml -f e2e/compose.e2e.yaml up -d ...
+# ou, en une commande : RDF_BACKEND=fuseki pnpm e2e:stack
+include:
+  - containers/fuseki.yml
+  - containers/minio.yml
+  - containers/keycloak.yml
+  - path:
+      - containers/api.yml
+      - containers/api-fuseki.yml
+  - containers/front.yml

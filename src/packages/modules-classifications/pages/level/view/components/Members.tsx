@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { SearchableList } from "@components/searchable-list";
 
@@ -33,7 +34,7 @@ export const Members = ({ members, classificationId, secondLang }: Props) => {
   }
 
   return (
-    <div className="row text-center">
+    <Row className="text-center">
       <Note
         text={
           <SearchableList
@@ -58,6 +59,6 @@ export const Members = ({ members, classificationId, secondLang }: Props) => {
           allowEmpty={true}
         />
       )}
-    </div>
+    </Row>
   );
 };

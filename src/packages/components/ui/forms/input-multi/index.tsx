@@ -1,4 +1,4 @@
-import { Chips } from "primereact/chips";
+import { Chips } from "@mantle-ui/react/chips";
 
 import { Row } from "@components/layout";
 
@@ -25,7 +25,7 @@ export const InputMulti = ({
 }: Readonly<InputMultiTypes>) => {
   return (
     <Row className="input-multi">
-      <div className={`bauhaus-form-group bauhaus-grid-md-${handleChangeLg2 ? 6 : 12}`}>
+      <div className={`bauhaus-form-group col-12 lg:col-${handleChangeLg2 ? 6 : 12}`}>
         <label>
           {labelLg1}
           <Chips
@@ -43,7 +43,7 @@ export const InputMulti = ({
         </label>
       </div>
       {!!handleChangeLg2 && (
-        <div className="bauhaus-form-group bauhaus-grid-md-6">
+        <div className="bauhaus-form-group col-12 lg:col-6">
           <label>
             {labelLg2}
             <Chips

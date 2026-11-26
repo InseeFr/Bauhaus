@@ -1,5 +1,7 @@
 import { ComponentPropsWithoutRef, PropsWithChildren, ReactNode } from "react";
 
+import { cx } from "@utils/cx";
+
 import { ExternalLink, Link } from "../link";
 import { Button as PrimeButton } from "../ui/button";
 import "./button.css";
@@ -28,7 +30,7 @@ export const Button = ({
   const content = label || children;
 
   // Un lien ne peut pas contenir de <button> : il reçoit les classes du bouton PrimeReact.
-  const linkClassName = ["p-button", "p-component", "bauhaus-btn", ...classes].join(" ");
+  const linkClassName = cx("p-button", "p-component", "bauhaus-btn", ...classes);
 
   let button;
   if (typeof action === "string") {
@@ -50,7 +52,7 @@ export const Button = ({
     button = (
       <PrimeButton
         type="button"
-        className={["bauhaus-btn", ...classes].join(" ")}
+        className={cx("bauhaus-btn", ...classes)}
         onClick={action}
         disabled={disabled}
         {...rest}

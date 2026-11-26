@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import type { MutualizedCodeListCodes } from "../physical-instances/types/api";
 

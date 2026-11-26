@@ -41,8 +41,8 @@ export const SearchFilters = ({
   const { t } = useTranslation();
 
   return (
-    <div className="flex gap-2 mb-3">
-      <IconField iconPosition="left" className="flex-1">
+    <div className="pi-search-filters flex flex-wrap gap-2 mb-3">
+      <IconField iconPosition="left" className="pi-search-field">
         <InputIcon className="pi pi-search"> </InputIcon>
         <InputText
           value={searchValue}
@@ -57,7 +57,7 @@ export const SearchFilters = ({
         value={typeFilter}
         options={typeOptions}
         onChange={(e) => onTypeFilterChange(e.value)}
-        className="flex-1"
+        className="pi-search-field"
         aria-label={t("physicalInstance.view.typeFilter")}
       />
       {!readOnly && (

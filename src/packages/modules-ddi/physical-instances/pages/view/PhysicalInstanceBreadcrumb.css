@@ -128,6 +128,8 @@
   left: 0;
   z-index: 20;
   width: max-content;
+  margin: 0;
+  padding: 0;
   min-width: 320px;
   max-width: min(560px, 90vw);
   border: 1px solid #dee2e6;

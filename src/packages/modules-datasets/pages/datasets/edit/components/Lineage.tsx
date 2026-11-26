@@ -34,7 +34,7 @@ export const Lineage = ({
   return (
     <>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100" htmlFor="wasDerivedFrom">
             {t("dataset.lineage.sources")}
           </label>
@@ -49,7 +49,7 @@ export const Lineage = ({
       </Row>
       {!hasSources && <p>{t("dataset.lineage.descriptionNeedsSources")}</p>}
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label>{t("dataset.lineage.description", { lng: "fr" })}</label>
           <MDEditor
             text={wasDerivedFrom.descriptionLg1}
@@ -57,7 +57,7 @@ export const Lineage = ({
             handleChange={(value) => updateWasDerivedFrom({ descriptionLg1: value })}
           />
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label>{t("dataset.lineage.description", { lng: "en" })}</label>
           <MDEditor
             text={wasDerivedFrom.descriptionLg2}

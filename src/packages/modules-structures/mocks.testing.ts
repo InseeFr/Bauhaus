@@ -21,20 +21,28 @@ export const usersHookWithCreatePrivilege = (
   useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
 });
 
-/** API `@sdk/index` des listes de codes et des timbres, sans aucune donnée. */
-export const emptyCodelistsAndStampsApi = () => ({
+/** Mock de `@sdk/codelists-api` sans aucune donnée. */
+export const emptyCodelistsApi = () => ({
   CodelistsApi: {
     getCodelistsPartial: vi.fn().mockResolvedValue([]),
     getPartialsByParent: vi.fn().mockResolvedValue([]),
   },
+});
+
+/** Mock de `@sdk/stamps-api` sans aucun timbre. */
+export const emptyStampsApi = () => ({
   StampsApi: { getStamps: vi.fn().mockResolvedValue([]) },
 });
 
-/** API `@sdk/index` d'une page de recherche avancée : `searchMethod` de StructureApi et les concepts. */
-export const searchPageApi = (searchMethod: string) => ({
+/** Mock de `@sdk/structure-api` d'une page de recherche avancée : `searchMethod` seul. */
+export const searchPageStructureApi = (searchMethod: string) => ({
   StructureApi: {
     [searchMethod]: vi.fn(),
   },
+});
+
+/** Mock de `@sdk/concepts-api` d'une page de recherche avancée. */
+export const searchPageConceptsApi = () => ({
   ConceptsApi: {
     getConceptList: vi.fn(),
   },

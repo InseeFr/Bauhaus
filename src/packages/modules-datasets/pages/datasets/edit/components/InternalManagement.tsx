@@ -13,7 +13,7 @@ import { Select } from "@components/select-rmes";
 import { CatalogRecord, Dataset } from "@model/Dataset";
 import { Option } from "@model/SelectOption";
 
-import { DatasetsApi } from "@sdk/index";
+import { DatasetsApi } from "@sdk/datasets-api";
 
 import { withCodelists } from "@utils/hoc/withCodelists";
 
@@ -70,7 +70,7 @@ const InternalManagementTab = ({
   return (
     <>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label htmlFor="altIdentifier">{t("dataset.internalManagement.altId.title")}</label>
           <TextInput
             id="altIdentifier"
@@ -95,7 +95,7 @@ const InternalManagementTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <CreatorsInput
             mode="organization"
             value={editingDataset.catalogRecord?.creator}
@@ -120,7 +120,7 @@ const InternalManagementTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <ContributorsInput
             mode="organization"
             value={editingDataset.catalogRecord?.contributor}
@@ -146,7 +146,7 @@ const InternalManagementTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <DisseminationStatusInput
             value={editingDataset.disseminationStatus}
             handleChange={(value) => {
@@ -168,7 +168,7 @@ const InternalManagementTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <LabelRequired>{t("dataset.internalManagement.generatedBy")}</LabelRequired>
           <Select
             multi
@@ -193,7 +193,7 @@ const InternalManagementTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.internalManagement.accessRights")}
           </label>
@@ -210,7 +210,7 @@ const InternalManagementTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.internalManagement.confidentialityStatus")}
           </label>
@@ -227,7 +227,7 @@ const InternalManagementTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.internalManagement.processStep")}
           </label>
@@ -244,7 +244,7 @@ const InternalManagementTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.internalManagement.archiveUnit")}
           </label>

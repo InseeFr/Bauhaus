@@ -18,6 +18,5 @@ conceptsI18n.use(initReactI18next).init({
   interpolation: {
     escapeValue: false,
   },
-  initImmediate: false,
-  showSupportNotice: false,
+  initAsync: false,
 });

@@ -57,21 +57,31 @@ const ChoiceCard = ({
   icon,
   variantModifier,
   onClick,
-}: Readonly<ChoiceCardProps>) => (
-  <li>
-    <button
-      type="button"
-      onClick={onClick}
-      className={cx("override-dialog-choice", `override-dialog-choice-${variantModifier}`)}
-    >
-      <i className={cx("pi", icon)} aria-hidden="true" />
-      <span className="override-dialog-choice-text">
-        <span className="override-dialog-choice-label">{label}</span>
-        <span className="override-dialog-choice-description">{description}</span>
-      </span>
-    </button>
-  </li>
-);
+}: Readonly<ChoiceCardProps>) => {
+  const labelId = useId();
+  const descriptionId = useId();
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={onClick}
+        aria-labelledby={labelId}
+        aria-describedby={descriptionId}
+        className={cx("override-dialog-choice", `override-dialog-choice-${variantModifier}`)}
+      >
+        <i className={cx("pi", icon)} aria-hidden="true" />
+        <span className="override-dialog-choice-text">
+          <span className="override-dialog-choice-label" id={labelId}>
+            {label}
+          </span>
+          <span className="override-dialog-choice-description" id={descriptionId}>
+            {description}
+          </span>
+        </span>
+      </button>
+    </li>
+  );
+};
 
 /**
  * Confirmation d'une édition portant sur des éléments partagés, dans ses trois déclinaisons

@@ -59,7 +59,7 @@ export const TemporalField = ({
 
   return (
     <>
-      <div className="col-md-4 form-group">
+      <div className="col-12 lg:col-4 bauhaus-form-group">
         <label className="w-100 wilco-label-required">
           {t("dataset.statisticalInformation.temporalCoverage.title")}
           <Select
@@ -71,12 +71,12 @@ export const TemporalField = ({
       </div>
       {temporalCoverageDataType?.endsWith("date") && (
         <>
-          <div className="col-md-4 form-group">
+          <div className="col-12 lg:col-4 bauhaus-form-group">
             <label className="w-100 wilco-label-required">
               {t("dataset.statisticalInformation.temporalCoverage.startDate")}
               <input
                 type="date"
-                className="form-control"
+                className="bauhaus-input"
                 value={temporalCoverageStartDate}
                 onChange={(e) => {
                   updateTemporalCoverage({
@@ -88,12 +88,12 @@ export const TemporalField = ({
               />
             </label>
           </div>
-          <div className="col-md-4 form-group">
+          <div className="col-12 lg:col-4 bauhaus-form-group">
             <label className="w-100 wilco-label-required">
               {t("dataset.statisticalInformation.temporalCoverage.endDate")}
               <input
                 type="date"
-                className="form-control"
+                className="bauhaus-input"
                 value={temporalCoverageEndDate}
                 onChange={(e) => {
                   updateTemporalCoverage({
@@ -109,7 +109,7 @@ export const TemporalField = ({
       )}
       {temporalCoverageDataType?.endsWith("Year") && (
         <>
-          <div className="col-md-4 form-group">
+          <div className="col-12 lg:col-4 bauhaus-form-group">
             <label className="w-100 wilco-label-required">
               {t("dataset.statisticalInformation.temporalCoverage.startDate")}
               <NumberInput
@@ -128,7 +128,7 @@ export const TemporalField = ({
               />
             </label>
           </div>
-          <div className="col-md-4 form-group">
+          <div className="col-12 lg:col-4 bauhaus-form-group">
             <label className="w-100 wilco-label-required">
               {t("dataset.statisticalInformation.temporalCoverage.endDate")}
               <NumberInput

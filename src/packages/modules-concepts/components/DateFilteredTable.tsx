@@ -37,7 +37,7 @@ export function DateFilteredTable<T extends object>({
 
   return (
     <div>
-      <div className="date-filtered-table__filter form-group">
+      <div className="date-filtered-table__filter bauhaus-form-group">
         <label htmlFor={pickerId}>{t("dashboard.listPickerTitle", { type: typeByLang })}</label>
         <DatePicker
           inputId={pickerId}

@@ -1,8 +1,8 @@
 import { vi } from "vitest";
 
 /**
- * Doublure de `primereact/button` pour les aperçus de code :
- * `vi.mock("primereact/button", () => import("./codePreview.testing"));`
+ * Doublure de `@mantle-ui/react/button` pour les aperçus de code :
+ * `vi.mock("@mantle-ui/react/button", () => import("./codePreview.testing"));`
  */
 export const Button = ({ label, onClick, className }: any) => (
   <button onClick={onClick} className={className}>

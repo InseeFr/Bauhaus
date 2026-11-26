@@ -12,7 +12,11 @@ vi.mock("../../../hooks/useStudyUnitVariables", () => ({
   useStudyUnitVariables: (...args: unknown[]) => mockUseStudyUnitVariables(...args),
 }));
 
-vi.mock("primereact/dialog", () => ({
+vi.mock("../../../hooks/useDefaultLocale", () => ({
+  useDefaultLocale: () => "fr-FR",
+}));
+
+vi.mock("@mantle-ui/react/dialog", () => ({
   Dialog: ({ visible, children, header, footer }: any) =>
     visible ? (
       <dialog open aria-label={header}>
@@ -22,7 +26,7 @@ vi.mock("primereact/dialog", () => ({
     ) : null,
 }));
 
-vi.mock("primereact/dropdown", () => ({
+vi.mock("@mantle-ui/react/dropdown", () => ({
   Dropdown: ({ value, options, onChange, emptyMessage, "aria-label": ariaLabel }: any) => {
     const handleChange = useCallback(
       (e: ChangeEvent<HTMLSelectElement>) => onChange({ value: e.target.value || null }),

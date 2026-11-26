@@ -18,25 +18,19 @@ export const CodeSlidingPanelMenu = ({
   handleBack,
   creation,
 }: Readonly<CodeSlidingPanelMenuTypes>) => {
+  const contributors = [codelist?.contributor ?? []].flat();
+
   return (
     <ActionToolbar>
       <ReturnButton action={handleBack} />
       <>
         {!creation && (
-          <HasAccess
-            module="CODESLIST_CODESLIST"
-            privilege="UPDATE"
-            stamps={[codelist?.contributor]}
-          >
+          <HasAccess module="CODESLIST_CODESLIST" privilege="UPDATE" stamps={contributors}>
             <UpdateButton action={handleSubmit} />
           </HasAccess>
         )}
         {creation && (
-          <HasAccess
-            module="CODESLIST_CODESLIST"
-            privilege="CREATE"
-            stamps={[codelist?.contributor]}
-          >
+          <HasAccess module="CODESLIST_CODESLIST" privilege="CREATE" stamps={contributors}>
             <SaveButton action={handleSubmit} />
           </HasAccess>
         )}

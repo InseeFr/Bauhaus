@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
+import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
@@ -48,7 +49,7 @@ export function DisplayLinks({
   }
 
   return (
-    <div className="row bauhaus-display-links">
+    <Row className="bauhaus-display-links">
       <Note
         text={links.length === 1 ? displayItem(labelLg1) : displayList(labelLg1)}
         title={t(`common.${title}`, { lng: "fr" })}
@@ -63,6 +64,6 @@ export function DisplayLinks({
           allowEmpty={true}
         />
       )}
-    </div>
+    </Row>
   );
 }

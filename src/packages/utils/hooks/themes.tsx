@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode } from "react";
 
-import { ThemesApi } from "@sdk/index";
+import { ThemesApi } from "@sdk/themes-api";
 
 type ThemeOption = { value: string; label: ReactNode };
 

@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import { useNavigate, useParams } from "react-router";
 import { Mock, vi } from "vitest";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { useIsDefaultContributorPending } from "@utils/creation/use-default-contributor";
 import { useTitle } from "@utils/hooks/useTitle";
@@ -21,7 +21,7 @@ vi.mock("react-router", async () => {
   return { ...actual, useNavigate: vi.fn(), useParams: vi.fn() };
 });
 
-vi.mock("../../../../sdk", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: {
     postConcept: vi.fn(),
     putConcept: vi.fn(),

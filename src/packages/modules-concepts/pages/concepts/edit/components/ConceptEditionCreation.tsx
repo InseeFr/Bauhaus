@@ -70,10 +70,6 @@ export interface ConceptData {
   equivalentLinks: (Link & { urn: string })[];
 }
 
-// Le type vit avec la fonction qui le produit : deux déclarations homonymes mais
-// structurellement différentes rendaient `save` non transmissible d'un module à l'autre.
-export type { SaveFn };
-
 interface ConceptEditionCreationProps {
   id?: string;
   creation?: boolean;

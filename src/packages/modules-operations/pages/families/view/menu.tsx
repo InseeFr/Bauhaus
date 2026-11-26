@@ -23,13 +23,15 @@ export const Menu = ({ family, publish }: Readonly<MenuTypes>) => {
    */
   const publicationDisabled = containUnsupportedStyles(family);
 
+  const contributors = [family.contributor ?? []].flat();
+
   return (
     <ActionToolbar>
       <ReturnButton action={() => goBack("/operations/families")} />
-      <HasAccess module="OPERATION_FAMILY" privilege="PUBLISH">
+      <HasAccess module="OPERATION_FAMILY" privilege="PUBLISH" stamps={contributors}>
         <ValidationButton object={family} callback={publish} disabled={publicationDisabled} />
       </HasAccess>
-      <HasAccess module="OPERATION_FAMILY" privilege="UPDATE">
+      <HasAccess module="OPERATION_FAMILY" privilege="UPDATE" stamps={contributors}>
         <UpdateButton action={`/operations/family/${family.id}/modify`} />
       </HasAccess>
     </ActionToolbar>

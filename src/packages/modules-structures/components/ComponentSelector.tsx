@@ -1,20 +1,20 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState, useCallback, useMemo } from "react";
 
 import { Codelists } from "@model/Codelist";
 import { Component, ComponentDefinition } from "@model/structures/Component";
 import { Structure } from "@model/structures/Structure";
 
-import { StructureApi } from "@sdk/index";
-
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
+import { OBSERVATION } from "../constants/attachments";
 import {
-  OBSERVATION,
   ATTRIBUTE_PROPERTY_TYPE,
   ATTRIBUTE_TYPE,
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
-} from "../constants";
+} from "../constants/dsd-components";
+import { mutualizedComponentQuery } from "../hooks/queries";
 import { CodelistPanel } from "./CodelistPanel";
 import { ComponentSpecificationModal } from "./ComponentSpecificationModal";
 import { MutualizedComponentsSelector } from "./MutualizedComponentsSelector";
@@ -62,7 +62,14 @@ export const ComponentSelector = ({
     setCodelistNotation(notation);
   }, []);
 
-  const [structureComponents, setStructureComponents] = useState<StructureComponent[]>([]);
+  const [structureComponents, setStructureComponents] =
+    useState<StructureComponent[]>(componentDefinitions);
+  const [previousComponentDefinitions, setPreviousComponentDefinitions] =
+    useState(componentDefinitions);
+  if (componentDefinitions !== previousComponentDefinitions) {
+    setPreviousComponentDefinitions(componentDefinitions);
+    setStructureComponents(componentDefinitions);
+  }
 
   const [modalOpened, setModalOpened] = useState(false);
 
@@ -70,10 +77,6 @@ export const ComponentSelector = ({
   // `StructureComponent`'s `component` fields spread onto the specification being edited
   // (see `saveSpecification`); its shape genuinely varies by call site.
   const [selectedComponent, setSelectedComponent] = useState<any>({});
-
-  useEffect(() => {
-    setStructureComponents(componentDefinitions);
-  }, [componentDefinitions]);
 
   const filteredMutualizedComponents = useMemo(() => {
     return mutualizedComponents.filter(filterComponent(type)).filter((component) => {
@@ -85,6 +88,50 @@ export const ComponentSelector = ({
     setSelectedComponent(component);
     setModalOpened(true);
   }, []);
+
+  const _handleAttributeComponent = (component: any) => {
+    if (component.type === ATTRIBUTE_TYPE) {
+      setSelectedComponent(component);
+      setModalOpened(true);
+    }
+  };
+
+  const _groupByType = (components: StructureComponent[]): ComponentsByType => {
+    const componentsByType = components.reduce(
+      (acc: ComponentsByType, structureComponent) => {
+        const componentType = structureComponent.component.type!;
+        return {
+          ...acc,
+          [componentType]: [...acc[componentType], structureComponent],
+        };
+      },
+      {
+        [ATTRIBUTE_PROPERTY_TYPE]: [],
+        [DIMENSION_PROPERTY_TYPE]: [],
+        [MEASURE_PROPERTY_TYPE]: [],
+      } as ComponentsByType,
+    );
+    return componentsByType;
+  };
+
+  const _makeFlat = (componentsByType: ComponentsByType): StructureComponent[] => {
+    const dimensions = componentsByType[DIMENSION_PROPERTY_TYPE];
+    const measures = componentsByType[MEASURE_PROPERTY_TYPE];
+    return [
+      ...dimensions.map((component, index) => ({
+        ...component,
+        order: index + 1,
+      })),
+      ...measures.map((component, index) => ({
+        ...component,
+        order: dimensions.length + index + 1,
+      })),
+      ...componentsByType[ATTRIBUTE_PROPERTY_TYPE].map((component, index) => ({
+        ...component,
+        order: dimensions.length + measures.length + index + 1,
+      })),
+    ];
+  };
 
   const handleCreateOrUpdate = useCallback(
     (components: StructureComponent[], isCreation: boolean, component: StructureComponent) => {
@@ -139,50 +186,6 @@ export const ComponentSelector = ({
     [handleUpdate, structureComponents, selectedComponent],
   );
 
-  const _handleAttributeComponent = (component: any) => {
-    if (component.type === ATTRIBUTE_TYPE) {
-      setSelectedComponent(component);
-      setModalOpened(true);
-    }
-  };
-
-  const _groupByType = (components: StructureComponent[]): ComponentsByType => {
-    const componentsByType = components.reduce(
-      (acc: ComponentsByType, structureComponent) => {
-        const componentType = structureComponent.component.type!;
-        return {
-          ...acc,
-          [componentType]: [...acc[componentType], structureComponent],
-        };
-      },
-      {
-        [ATTRIBUTE_PROPERTY_TYPE]: [],
-        [DIMENSION_PROPERTY_TYPE]: [],
-        [MEASURE_PROPERTY_TYPE]: [],
-      } as ComponentsByType,
-    );
-    return componentsByType;
-  };
-
-  const _makeFlat = (componentsByType: ComponentsByType): StructureComponent[] => {
-    const dimensions = componentsByType[DIMENSION_PROPERTY_TYPE];
-    const measures = componentsByType[MEASURE_PROPERTY_TYPE];
-    return [
-      ...dimensions.map((component, index) => ({
-        ...component,
-        order: index + 1,
-      })),
-      ...measures.map((component, index) => ({
-        ...component,
-        order: dimensions.length + index + 1,
-      })),
-      ...componentsByType[ATTRIBUTE_PROPERTY_TYPE].map((component, index) => ({
-        ...component,
-        order: dimensions.length + measures.length + index + 1,
-      })),
-    ];
-  };
-
   const addComponent = useCallback(
     (structureComponents: StructureComponent[], components: Component | Component[]) => {
       const componentsToAdd = Array.isArray(components) ? components : [components];
@@ -211,27 +214,32 @@ export const ComponentSelector = ({
     [handleUpdate],
   );
 
+  const queryClient = useQueryClient();
+
   const handleAdd = useCallback(
     (id: string) => {
       const component = mutualizedComponents.find((c) => c.identifiant === id)!;
       if (component.type === MEASURE_PROPERTY_TYPE) {
-        StructureApi.getMutualizedComponent(component.id).then((fullComponent: any) => {
-          const componentsToAdd = [component];
-          Object.keys(fullComponent)
-            .filter((key) => key.startsWith("attribute_"))
-            .forEach((iri) => {
-              const attribute = mutualizedComponents.find((c) => c.iri === fullComponent[iri]);
-              if (attribute) {
-                componentsToAdd.push(attribute);
-              }
-            });
-          addComponent(structureComponents, componentsToAdd);
-        });
+        // La fiche de la mesure porte ses attributs liés : lue depuis le cache si elle y est.
+        void queryClient
+          .fetchQuery(mutualizedComponentQuery(component.id!))
+          .then((fullComponent: any) => {
+            const componentsToAdd = [component];
+            Object.keys(fullComponent)
+              .filter((key) => key.startsWith("attribute_"))
+              .forEach((iri) => {
+                const attribute = mutualizedComponents.find((c) => c.iri === fullComponent[iri]);
+                if (attribute) {
+                  componentsToAdd.push(attribute);
+                }
+              });
+            addComponent(structureComponents, componentsToAdd);
+          });
       } else {
         addComponent(structureComponents, component);
       }
     },
-    [mutualizedComponents, structureComponents, addComponent],
+    [mutualizedComponents, structureComponents, addComponent, queryClient],
   );
 
   const handleUp = useCallback(

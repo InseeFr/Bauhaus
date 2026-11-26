@@ -29,13 +29,15 @@ export const ClassificationControls = ({
 
   const viewTreeLabel = t("classification.viewTree");
 
+  const contributors = [classification.contributor ?? []].flat();
+
   return (
     <ActionToolbar>
       <ReturnButton action={() => goBack("/classifications")} />
-      <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="PUBLISH">
+      <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="PUBLISH" stamps={contributors}>
         <ValidationButton object={classification} callback={publish} />
       </HasAccess>
-      <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="UPDATE">
+      <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="UPDATE" stamps={contributors}>
         <UpdateButton action={`/classifications/classification/${classification.id}/modify`} />
       </HasAccess>
       <TreeButton key={viewTreeLabel} action={treeLocation} label={viewTreeLabel} />

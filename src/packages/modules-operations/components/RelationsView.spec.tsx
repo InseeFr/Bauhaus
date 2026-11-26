@@ -26,8 +26,6 @@ vi.mock("@components/note", () => ({
   ),
 }));
 
-const renderExtraLinks = (lng: "fr" | "en") => <p>complément {lng}</p>;
-
 describe("RelationsView Component", () => {
   const parent = {
     id: "parent1",
@@ -73,16 +71,5 @@ describe("RelationsView Component", () => {
     screen.getByText("Libellé Enfant 2 Lg2");
     screen.getByText("Liens");
     screen.getByText("Links");
-  });
-
-  it("ajoute les liens complémentaires à la fin du bloc, dans chaque langue", () => {
-    render(
-      <Router>
-        <RelationsView secondLang={true} extraLinks={renderExtraLinks} />
-      </Router>,
-    );
-
-    screen.getByText("complément fr");
-    screen.getByText("complément en");
   });
 });

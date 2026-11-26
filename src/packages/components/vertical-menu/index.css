@@ -9,6 +9,11 @@
     margin-top: 200px;
   }
 
+  /* Sous 992px, le menu garde la largeur de ses boutons, comme l'ancienne colonne flottante. */
+  @media (width < 992px) {
+    width: auto;
+  }
+
   .bauhaus-btn {
     margin-top: 15px;
     margin-bottom: 15px;

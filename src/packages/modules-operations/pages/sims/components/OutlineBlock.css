@@ -28,7 +28,7 @@
   min-width: 0;
 }
 
-.msd-item li .msd-item-buttons .btn {
+.msd-item li .msd-item-buttons .msd-outline-link {
   padding: 5px 0 !important;
   font-size: 0.9em;
 }

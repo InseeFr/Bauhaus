@@ -2,7 +2,12 @@ import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
-import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
+import {
+  AbstractButton,
+  FilePlusIcon,
+  ReturnButton,
+  UpdateButton,
+} from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
 import { Operation } from "@model/Operation";
@@ -29,7 +34,8 @@ export const Menu = ({ operation, onPublish }: Readonly<MenuTypes>) => {
       )}
       {!operation.idSims && (
         <HasAccess module="OPERATION_SIMS" privilege="CREATE" stamps={operation.series.creators}>
-          <Button
+          <AbstractButton
+            icon={<FilePlusIcon />}
             action={`/operations/operation/${operation.id}/sims/create`}
             label={t("sims.btnSimsCreate")}
           />

@@ -35,7 +35,7 @@ export const CodelistPanel = ({ isOpen, handleBack, codelist }: CodelistPanelTyp
       size={30}
     >
       <ActionToolbar>
-        <button type="button" className="btn btn-lg col-md-12" onClick={handleBack}>
+        <button type="button" className="code-list-panel-cancel" onClick={handleBack}>
           {t("cancel")}
         </button>
       </ActionToolbar>

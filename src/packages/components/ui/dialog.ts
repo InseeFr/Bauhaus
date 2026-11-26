@@ -1,1 +1,1 @@
-export * from "primereact/dialog";
+export * from "@mantle-ui/react/dialog";

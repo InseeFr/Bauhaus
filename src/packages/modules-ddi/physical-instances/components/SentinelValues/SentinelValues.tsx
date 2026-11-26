@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 
@@ -18,6 +18,7 @@ import type {
   Category,
   CodeList,
   ManagedMissingValuesRepresentation,
+  PartialMissingValuesRepresentation,
   Reference,
 } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
@@ -77,6 +78,36 @@ const buildMmvr = (
   Version: version,
   Label: createLabel(label, locale),
   MissingCodeRepresentation: [createDefaultRepresentation(sentinelCodeListId, agency)],
+});
+
+const toLoadedRows = (codeList: CodeList | undefined, categories: Category[]): CodeTableRow[] => {
+  const categoryLabelById = new Map(
+    categories.map((cat) => [cat.ID, getLocalizedText(cat.Label) ?? ""]),
+  );
+  return (codeList?.Code ?? []).map((code) => ({
+    id: code.ID,
+    value: code.Value?.StringValue ?? "",
+    label: categoryLabelById.get(code.CategoryReference?.ID ?? "") ?? "",
+    categoryId: code.CategoryReference?.ID ?? "",
+  }));
+};
+
+const toInitialRows = (codeList: CodeList | undefined, categories: Category[]): CodeTableRow[] =>
+  (codeList?.Code ?? []).map((code) => {
+    const category = categories.find((cat) => cat.ID === code.CategoryReference?.ID);
+    return {
+      id: code.ID,
+      value: code.Value?.StringValue ?? "",
+      label: getLocalizedText(category?.Label) ?? "",
+      categoryId: category?.ID ?? code.CategoryReference?.ID ?? "",
+    };
+  });
+
+const toSelectOption = (item: PartialMissingValuesRepresentation) => ({
+  value: `${item.agency}-${item.id}`,
+  label: item.codeValues.length
+    ? `${item.label ?? item.id} (${item.codeValues.join(", ")})`
+    : (item.label ?? item.id),
 });
 
 /**
@@ -145,36 +176,17 @@ export const SentinelValues = ({
     !hasLocalEdits ? (selectedMmvr?.codeListId ?? "") : "",
   );
   const loadedCodeList = singleItemOfType(codeListContent, "CodeList");
-  const loadedCategoryLabelById = new Map(
-    itemsOfType(codeListContent, "Category").map((cat) => [
-      cat.ID,
-      getLocalizedText(cat.Label) ?? "",
-    ]),
-  );
-  const loadedRows: CodeTableRow[] = (loadedCodeList?.Code ?? []).map((code) => ({
-    id: code.ID,
-    value: code.Value?.StringValue ?? "",
-    label: loadedCategoryLabelById.get(code.CategoryReference?.ID ?? "") ?? "",
-    categoryId: code.CategoryReference?.ID ?? "",
-  }));
+  const loadedRows = toLoadedRows(loadedCodeList, itemsOfType(codeListContent, "Category"));
 
   // État local du mode éditable (source de vérité pendant l'édition, comme le reducer de
   // CodeRepresentation) : le libellé et les lignes ne dépendent jamais des props remontées par le
   // parent au tour précédent — une fermeture périmée (chaîne DataTable) écraserait sinon le
   // libellé fraîchement saisi. Initialisé depuis les props au montage (modifications locales
   // rouvertes), ou depuis le contenu chargé (matérialisation, effet ci-dessous).
-  const initialRows = (): CodeTableRow[] =>
-    (sentinelCodeList?.Code ?? []).map((code) => {
-      const category = sentinelCategories.find((cat) => cat.ID === code.CategoryReference?.ID);
-      return {
-        id: code.ID,
-        value: code.Value?.StringValue ?? "",
-        label: getLocalizedText(category?.Label) ?? "",
-        categoryId: category?.ID ?? code.CategoryReference?.ID ?? "",
-      };
-    });
   const [editLabel, setEditLabel] = useState(() => getLocalizedText(mmvr?.Label) ?? "");
-  const [editRows, setEditRows] = useState<CodeTableRow[]>(initialRows);
+  const [editRows, setEditRows] = useState<CodeTableRow[]>(() =>
+    toInitialRows(sentinelCodeList, sentinelCategories),
+  );
   const editIdsRef = useRef({
     mmvrId: mmvr?.ID,
     codeListId: sentinelCodeList?.ID,
@@ -185,14 +197,27 @@ export const SentinelValues = ({
   // les items modifiés en place, pas de fork.
   const materializationKey =
     isEditable && !hasLocalEdits && !isLoadingUsers ? loadedCodeList?.ID : undefined;
-  useEffect(() => {
-    if (!materializationKey || !loadedCodeList) return;
+  // Seul un changement de clé rematérialise : l'état local est recalé pendant le rendu…
+  const [previousMaterializationKey, setPreviousMaterializationKey] = useState<string>();
+  if (materializationKey !== previousMaterializationKey) {
+    setPreviousMaterializationKey(materializationKey);
+    if (materializationKey && loadedCodeList) {
+      setEditLabel(getLocalizedText(loadedCodeList.Label) ?? selectedMmvr?.label ?? "");
+      setEditRows(loadedRows);
+    }
+  }
+
+  // … et les IDs d'émission, une ref, après le rendu (le contenu chargé est lu à jour).
+  const adoptLoadedIds = useEffectEvent(() => {
+    if (!loadedCodeList) return;
     editIdsRef.current = {
       mmvrId: missingValuesReference?.ID,
       codeListId: loadedCodeList.ID,
     };
-    setEditLabel(getLocalizedText(loadedCodeList.Label) ?? selectedMmvr?.label ?? "");
-    setEditRows(loadedRows);
+  });
+
+  useEffect(() => {
+    if (materializationKey) adoptLoadedIds();
   }, [materializationKey]);
 
   const emitEdit = (label: string, rows: CodeTableRow[]) => {
@@ -320,12 +345,7 @@ export const SentinelValues = ({
     emitEdit(editLabel, rows);
   };
 
-  const selectOptions = reusableMmvrs.map((item) => ({
-    value: `${item.agency}-${item.id}`,
-    label: item.codeValues.length
-      ? `${item.label ?? item.id} (${item.codeValues.join(", ")})`
-      : (item.label ?? item.id),
-  }));
+  const selectOptions = reusableMmvrs.map(toSelectOption);
 
   // Chargement progressif : la table s'affiche verrouillée dès que le contenu de la liste est
   // chargé, même si les usages sont encore en cours de résolution — elle n'est déverrouillée que

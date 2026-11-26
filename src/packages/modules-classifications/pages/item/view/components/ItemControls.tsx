@@ -7,6 +7,7 @@ import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-ico
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { HasAccess } from "../../../../../auth/components/auth";
+import { useClassification } from "../../../../hooks/useClassification";
 
 interface ItemControls {
   classificationId: string;
@@ -18,6 +19,10 @@ export const ItemControls = ({ classificationId, itemId, version }: Readonly<Ite
   const { t } = useTranslation();
 
   const goBack = useGoBack();
+
+  // Un poste hérite des contributeurs de sa nomenclature.
+  const { classification } = useClassification(classificationId);
+  const contributors = [classification?.general?.contributor ?? []].flat();
 
   return (
     <ActionToolbar>
@@ -34,7 +39,7 @@ export const ItemControls = ({ classificationId, itemId, version }: Readonly<Ite
           label={t("item.compare")}
         />
       </HasAccess>
-      <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="UPDATE">
+      <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="UPDATE" stamps={contributors}>
         <UpdateButton
           action={`/classifications/classification/${classificationId}/item/${itemId}/modify`}
         />

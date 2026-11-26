@@ -6,7 +6,7 @@ import { Loading } from "@components/loading";
 
 import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { range } from "@utils/array-utils";
 import { useSecondLang } from "@utils/hooks/second-lang";

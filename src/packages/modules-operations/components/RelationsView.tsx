@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
@@ -21,8 +20,6 @@ export interface RelationsViewPerLgContentTypes {
   parent?: RelatedItem;
   parentTitle?: string;
   parentPath?: string;
-  /** Liens propres à l'appelant, ajoutés à la fin du bloc dans la langue `lng`. */
-  extraLinks?: (lng: "fr" | "en") => ReactNode;
   langSuffix: "Lg1" | "Lg2";
 }
 
@@ -33,7 +30,6 @@ export const RelationsViewPerLgContent = ({
   parent,
   parentTitle,
   parentPath,
-  extraLinks,
   langSuffix,
 }: Readonly<RelationsViewPerLgContentTypes>) => {
   const { t } = useTranslation();
@@ -68,7 +64,6 @@ export const RelationsViewPerLgContent = ({
           </ul>
         </>
       )}
-      {extraLinks?.(lng)}
     </>
   );
 };

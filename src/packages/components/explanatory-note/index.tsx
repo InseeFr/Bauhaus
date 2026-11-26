@@ -1,7 +1,6 @@
 import Editor from "@uiw/react-md-editor/nohighlight";
 import DOMPurify from "dompurify";
 
-import "../layout/grid.css";
 import { Note } from "../note";
 
 interface ExplanatoryNoteTypes {
@@ -12,7 +11,7 @@ interface ExplanatoryNoteTypes {
 }
 
 export const ExplanatoryNote = ({ text, title, alone, md }: Readonly<ExplanatoryNoteTypes>) => {
-  const cl = alone ? "bauhaus-grid-md-12" : "bauhaus-grid-md-6";
+  const cl = alone ? "col-12" : "col-12 lg:col-6";
 
   if (!text) return <div className={cl} />;
 

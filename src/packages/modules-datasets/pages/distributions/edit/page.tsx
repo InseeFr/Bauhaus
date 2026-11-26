@@ -125,7 +125,7 @@ export const Component = () => {
           />
         </Row>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="labelLg1">
               {t("distribution.mainTitle", { lng: "fr" })}
             </LabelRequired>
@@ -141,7 +141,7 @@ export const Component = () => {
               error={state.clientSideErrors?.fields?.labelLg1}
             ></ClientSideError>
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="labelLg2">
               {t("distribution.mainTitle", { lng: "en" })}
             </LabelRequired>
@@ -159,14 +159,14 @@ export const Component = () => {
           </div>
         </Row>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="descriptionLg1">{t("distribution.description", { lng: "fr" })}</label>
             <MDEditor
               text={state.editingDistribution.descriptionLg1}
               handleChange={updateField("descriptionLg1")}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="descriptionLg2">{t("distribution.description", { lng: "en" })}</label>
             <MDEditor
               text={state.editingDistribution.descriptionLg2}
@@ -201,7 +201,7 @@ export const Component = () => {
           />
         </Row>
         <Row>
-          <div className="col-md-12 form-group">
+          <div className="col-12 bauhaus-form-group">
             <UrlInputBlock
               label={t("distribution.accessURL")}
               value={state.editingDistribution.accessUrl}
@@ -211,7 +211,7 @@ export const Component = () => {
           </div>
         </Row>
         <Row>
-          <div className="col-md-12 form-group">
+          <div className="col-12 bauhaus-form-group">
             <UrlInputBlock
               label={t("distribution.downloadURL")}
               value={state.editingDistribution.url}

@@ -5,7 +5,7 @@ import { useParams } from "react-router";
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Publishing } from "@components/loading";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 

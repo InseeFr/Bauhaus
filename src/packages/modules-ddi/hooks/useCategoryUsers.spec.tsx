@@ -1,13 +1,13 @@
 import { waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { DDIApi } from "@sdk/index";
+import { DDIApi } from "@sdk/ddi-api";
 
 import type { CategoryUsage } from "../physical-instances/types/api";
 import { renderQueryHook } from "./queryClient.testing";
 import { useCategoryUsers, useFetchCategoryUsers } from "./useCategoryUsers";
 
-vi.mock("../../sdk", () => ({
+vi.mock("@sdk/ddi-api", () => ({
   DDIApi: {
     getCategoryUsers: vi.fn(),
   },

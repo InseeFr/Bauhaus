@@ -40,13 +40,15 @@ export const NumericRepresentation = ({
   const [hasMin, setHasMin] = useState(!!representation?.NumberRange?.Low);
   const [hasMax, setHasMax] = useState(!!representation?.NumberRange?.High);
 
-  useEffect(() => {
+  const [previousRepresentation, setPreviousRepresentation] = useState(representation);
+  if (representation !== previousRepresentation) {
+    setPreviousRepresentation(representation);
     setNumericTypeCode(representation?.NumericTypeCode?.StringValue || "Integer");
     setMinValue(formatNumber(representation?.NumberRange?.Low?.value));
     setMaxValue(formatNumber(representation?.NumberRange?.High?.value));
     setHasMin(!!representation?.NumberRange?.Low);
     setHasMax(!!representation?.NumberRange?.High);
-  }, [representation]);
+  }
 
   useEffect(() => {
     const numberRange: {

@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useEffect, useReducer, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useEffectEvent, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { SeeButton } from "@components/buttons/see";
@@ -8,10 +8,11 @@ import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
 import { RightSlidingPanel } from "@components/sliding-panel";
+import { Button } from "@components/ui/button";
 
 import { Code, Codelist } from "@model/Codelist";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { toFormErrors } from "@utils/api-errors";
 
@@ -62,7 +63,12 @@ const CodeSlidingPanel = ({
 }: Readonly<CodeSlidingPanelTypes>) => {
   const { t } = useTranslation();
 
-  const [code, setCode] = useState<CodeFormState>({});
+  const [code, setCode] = useState<CodeFormState>(() => ({ ...initialCode }));
+  const [previousInitialCode, setPreviousInitialCode] = useState(initialCode);
+  if (initialCode !== previousInitialCode) {
+    setPreviousInitialCode(initialCode);
+    setCode({ ...initialCode });
+  }
 
   const [clientSideErrors, setClientSideErrors] = useState<{
     fields?: Record<string, string>;
@@ -73,19 +79,19 @@ const CodeSlidingPanel = ({
 
   const [serverSideError, setServerSideError] = useState<unknown>();
 
-  useEffect(() => {
-    setCode({ ...initialCode });
-  }, [initialCode]);
-
-  useEffect(() => {
-    if (!serverError) return;
-    const formErrors = toFormErrors(serverError, FIELDS_WITH_ERROR_SLOT);
-    if (formErrors.clientSideErrors) {
-      setSubmitting(true);
-      setClientSideErrors(formErrors.clientSideErrors);
+  // Chaque nouveau refus du serveur est réparti entre les champs et le bandeau.
+  const [handledServerError, setHandledServerError] = useState<unknown>();
+  if (serverError !== handledServerError) {
+    setHandledServerError(serverError);
+    if (serverError) {
+      const formErrors = toFormErrors(serverError, FIELDS_WITH_ERROR_SLOT);
+      if (formErrors.clientSideErrors) {
+        setSubmitting(true);
+        setClientSideErrors(formErrors.clientSideErrors);
+      }
+      setServerSideError(formErrors.serverSideError);
     }
-    setServerSideError(formErrors.serverSideError);
-  }, [serverError]);
+  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -130,7 +136,7 @@ const CodeSlidingPanel = ({
       )}
       <ErrorBloc error={serverSideError} />
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <LabelRequired htmlFor="code">{t("codes.title")}</LabelRequired>
           <TextInput
             disabled={!creation}
@@ -145,7 +151,7 @@ const CodeSlidingPanel = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <LabelRequired htmlFor="labelLg1">{t("codes.label", { lng: "fr" })}</LabelRequired>
           <TextInput
             id="labelLg1"
@@ -160,7 +166,7 @@ const CodeSlidingPanel = ({
             error={clientSideErrors?.fields?.labelLg1}
           ></ClientSideError>
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <LabelRequired htmlFor="labelLg2">{t("codes.label", { lng: "en" })}</LabelRequired>
           <TextInput
             id="labelLg2"
@@ -177,20 +183,20 @@ const CodeSlidingPanel = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="descriptionLg1">{t("codes.description", { lng: "fr" })}</label>
           <textarea
-            className="form-control"
+            className="bauhaus-input"
             id="descriptionLg1"
             name="descriptionLg1"
             onChange={handleChange}
             value={code.descriptionLg1 || ""}
           />
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="descriptionLg2">{t("codes.description", { lng: "en" })}</label>
           <textarea
-            className="form-control"
+            className="bauhaus-input"
             id="descriptionLg2"
             name="descriptionLg2"
             onChange={handleChange}
@@ -199,7 +205,7 @@ const CodeSlidingPanel = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-6 form-group" id="broader-field">
+        <div className="col-12 lg:col-6 bauhaus-form-group" id="broader-field">
           <label htmlFor="broader">{t("codes.broader")}</label>
           <Select
             inputId="broader"
@@ -209,7 +215,7 @@ const CodeSlidingPanel = ({
             onChange={(broader: string[]) => setCode({ ...code, broader })}
           />
         </div>
-        <div className="col-md-6 form-group" id="narrower-field">
+        <div className="col-12 lg:col-6 bauhaus-form-group" id="narrower-field">
           <label htmlFor="narrower">{t("codes.narrower")}</label>
           <Select
             inputId="narrower"
@@ -318,12 +324,17 @@ export const CodesPanel = ({
     selectedCodeError,
   } = state;
 
-  // Le code refusé est encore en attente : on le rouvre tel qu'il a été envoyé.
-  useEffect(() => {
+  // Le code refusé est encore en attente : on le rouvre tel qu'il a été envoyé. Seul un nouveau
+  // refus rouvre le panneau, pas une modification des changements en attente.
+  const reopenRefusedCode = useEffectEvent(() => {
     const change = refusedCode && codeChanges[refusedCode.code];
     if (change) {
       dispatch({ type: "OPEN_EDIT_PANEL", code: change.code, error: refusedCode.error });
     }
+  });
+
+  useEffect(() => {
+    reopenRefusedCode();
   }, [refusedCode]);
 
   const [allCodes, setAllCodes] = useState<Code[]>([]);
@@ -363,12 +374,12 @@ export const CodesPanel = ({
     }
   };
 
-  const fetchCodes = () => {
+  const fetchCodes = useEffectEvent(() => {
     dispatch({ type: "SET_LOADING", loading: true });
     void showCodes(
       CodelistsApi.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1),
     ).finally(() => dispatch({ type: "SET_LOADING", loading: false }));
-  };
+  });
 
   useEffect(() => {
     fetchCodes();
@@ -398,16 +409,15 @@ export const CodesPanel = ({
             ></SeeButton>
           )}
           {editable && (
-            <button
+            <Button
               type="button"
-              className="btn btn-default"
+              className="bauhaus-icon-btn"
+              icon="pi pi-minus"
               data-component-id={code.code}
               onClick={() => onCodeChangesChange(withDeletedCode(codeChanges, code))}
               aria-label={t("codes.removeCode")}
               title={t("codes.removeCode")}
-            >
-              <span className="pi pi-minus"></span>
-            </button>
+            />
           )}
         </>
       ),
@@ -428,7 +438,7 @@ export const CodesPanel = ({
         collapsible={false}
       >
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="search-code">{t("codes.searchByCode")}</label>
             <TextInput
               id="search-code"
@@ -436,7 +446,7 @@ export const CodesPanel = ({
               onChange={(e) => handleSearch("code", e.target.value, searchLabel)}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="search-label">{t("codes.searchByLabel")}</label>
             <TextInput
               id="search-label"

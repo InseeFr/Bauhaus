@@ -1,15 +1,17 @@
-import { useMemo, useCallback, useEffect, useState } from "react";
+import { useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router";
 
+import { cx } from "@utils/cx";
+
 import { componentsI18n } from "../i18n";
 import { Link } from "../link";
-import "../layout/grid.css";
 import "./pagination.css";
 import { Select } from "../select-rmes";
 import { List } from "../ui/list-group";
 
 const PAGE_WINDOW_SIZE = 3;
+const DEFAULT_NUMBER_PER_PAGE = 10;
 
 const numberPerPageOptions = [
   { value: "10", label: "10" },
@@ -28,16 +30,9 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
 
   const { pathname, search } = useLocation();
 
-  const [numberPerPage, setNumberPerPage] = useState(10);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(search);
-    if (searchParams.has("perPage")) {
-      const perPageValue = Number.parseInt(searchParams.get("perPage")!, 10);
-      if (!Number.isNaN(perPageValue) && perPageValue > 0) {
-        setNumberPerPage(perPageValue);
-      }
-    }
+  const numberPerPage = useMemo(() => {
+    const perPage = Number.parseInt(new URLSearchParams(search).get("perPage") ?? "", 10);
+    return perPage > 0 ? perPage : DEFAULT_NUMBER_PER_PAGE;
   }, [search]);
 
   const currentPage = useMemo(() => {
@@ -104,7 +99,7 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
     <>
       <List.Container>{paginationData.currentItems}</List.Container>
       <div>
-        <div className="bauhaus-grid-md-3 bauhaus-pagination-size wilco-pagination">
+        <div className="lg:col-3 bauhaus-pagination-size wilco-pagination">
           <label htmlFor="items-per-page" className="sr-only">
             {t("pagination.itemPerPagePlaceholder")}
           </label>
@@ -116,7 +111,7 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
             unclearable
           />
         </div>
-        <div className="bauhaus-grid-md-9" style={{ padding: 0 }}>
+        <div className="lg:col-9" style={{ padding: 0 }}>
           <nav aria-label={t("pagination.navigation")}>
             <ul className="wilco-pagination bauhaus-pagination-pages">
               {/* First page */}
@@ -141,7 +136,7 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
               </li>
               {/* Page numbers */}
               {visiblePageNumbers.map((page) => (
-                <li key={page} className={page === paginationData.safePage ? "active" : ""}>
+                <li key={page} className={cx(page === paginationData.safePage && "active")}>
                   <Link
                     to={buildPageUrl(page)}
                     aria-label={getAriaLabel(page)}

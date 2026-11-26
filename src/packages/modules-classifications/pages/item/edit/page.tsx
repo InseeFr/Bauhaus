@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 
@@ -76,11 +76,14 @@ export const Component = () => {
 
   const [value, setValue] = useState<any>(item);
 
-  useEffect(() => {
-    if (status === "success" && !value.general) {
+  // Recopié à l'arrivée du poste, tant que le formulaire est encore vide.
+  const [copiedItem, setCopiedItem] = useState(item);
+  if (status === "success" && item !== copiedItem) {
+    setCopiedItem(item);
+    if (!value.general) {
       setValue(item);
     }
-  }, [status, item]);
+  }
 
   const [clientSideErrors, setClientSideErrors] = useState<any>({});
 
@@ -159,7 +162,7 @@ export const Component = () => {
         {submitting && clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} />}
         <ErrorBloc error={serverSideError} />
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="prefLabelLg1">{t("item.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
@@ -179,7 +182,7 @@ export const Component = () => {
               error={clientSideErrors?.fields?.prefLabelLg1}
             ></ClientSideError>
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="prefLabelLg2">{t("item.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
@@ -201,7 +204,7 @@ export const Component = () => {
           </div>
         </Row>
         <Row>
-          <div className="form-group col-md-6">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="altLabelLg1">{t("item.altLabel", { lng: "fr" })}</label>
             <TextInput
               id="altLabelLg1"
@@ -214,7 +217,7 @@ export const Component = () => {
               }
             />
           </div>
-          <div className="form-group col-md-6">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="altLabelLg2">{t("item.altLabel", { lng: "en" })}</label>
             <TextInput
               id="altLabelLg2"
@@ -228,7 +231,7 @@ export const Component = () => {
             />
           </div>
         </Row>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <label>{t("item.broaderLevel")}</label>
           <Select
             value={general.broaderURI}
@@ -257,7 +260,7 @@ export const Component = () => {
           const idLg2 = shortLabelField("Lg2", length);
           return (
             <Row key={index}>
-              <div className="form-group col-md-6">
+              <div className="col-12 lg:col-6 bauhaus-form-group">
                 <label htmlFor={idLg1}>{t("item.altLabelWithLength", { length, lng: "fr" })}</label>
                 <TextInput
                   id={idLg1}
@@ -273,7 +276,7 @@ export const Component = () => {
                   error={clientSideErrors?.fields?.[idLg1]}
                 ></ClientSideError>
               </div>
-              <div className="form-group col-md-6">
+              <div className="col-12 lg:col-6 bauhaus-form-group">
                 <label htmlFor={idLg2}>{t("item.altLabelWithLength", { length, lng: "en" })}</label>
                 <TextInput
                   id={idLg2}

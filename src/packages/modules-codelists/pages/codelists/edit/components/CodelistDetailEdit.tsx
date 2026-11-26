@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -86,6 +86,13 @@ export const CodelistDetailEdit = ({
 
   const [codelist, setCodelist] = useState<CodelistFormValues>(defaultCodelist);
 
+  // Sources du formulaire : il repart de la liste reçue (et du contributeur par défaut) quand l'une
+  // d'elles change.
+  const [syncedFrom, setSyncedFrom] = useState<{
+    initialCodelist: typeof initialCodelist;
+    defaultContributor: string | undefined;
+  } | null>(null);
+
   // La page démonte le formulaire pendant l'enregistrement : il renaît avec le rejet, dont les
   // erreurs de champ deviennent l'état initial des erreurs client.
   const serverErrors = useMemo(
@@ -103,12 +110,15 @@ export const CodelistDetailEdit = ({
   // Une tentative d'enregistrement a échoué à la validation : chaque saisie revalide la liste.
   const [saveAttempted, setSaveAttempted] = useState(false);
 
-  const updateCodelist = (updated: CodelistFormValues) => {
-    setCodelist(updated);
-    setClientSideErrors(
-      saveAttempted ? validate(updated) : { ...clientSideErrors, errorMessage: [] },
-    );
-  };
+  const updateCodelist = useCallback(
+    (updated: CodelistFormValues) => {
+      setCodelist(updated);
+      setClientSideErrors(
+        saveAttempted ? validate(updated) : { ...clientSideErrors, errorMessage: [] },
+      );
+    },
+    [clientSideErrors, saveAttempted],
+  );
 
   useTitle(t("codelists.pluralTitle"), codelist?.labelLg1);
 
@@ -119,13 +129,17 @@ export const CodelistDetailEdit = ({
 
   const defaultContributor = useDefaultContributor(isContributor);
 
-  useEffect(() => {
-    let codelist = { ...initialCodelist, ...defaultCodelist };
+  if (
+    syncedFrom?.initialCodelist !== initialCodelist ||
+    syncedFrom.defaultContributor !== defaultContributor
+  ) {
+    setSyncedFrom({ initialCodelist, defaultContributor });
+    const codelist = { ...initialCodelist, ...defaultCodelist };
     if (!codelist.id) {
       codelist.contributor = defaultContributor ? [defaultContributor] : [];
     }
     setCodelist(codelist);
-  }, [initialCodelist, defaultContributor]);
+  }
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -135,7 +149,7 @@ export const CodelistDetailEdit = ({
         [name]: value,
       });
     },
-    [clientSideErrors, codelist, saveAttempted],
+    [codelist, updateCodelist],
   );
 
   const handleSaveClick = useCallback(() => {
@@ -206,7 +220,7 @@ export const CodelistDetailEdit = ({
           />
         </Row>
         <Row>
-          <div className="col-md-12 form-group">
+          <div className="col-12 bauhaus-form-group">
             <LabelRequired htmlFor="id">{t("codelists.identifier")}</LabelRequired>
             <TextInput
               id="id"
@@ -220,7 +234,7 @@ export const CodelistDetailEdit = ({
           </div>
         </Row>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="labelLg1">{t("codelists.label", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="labelLg1"
@@ -235,7 +249,7 @@ export const CodelistDetailEdit = ({
               error={clientSideErrors?.fields?.labelLg1}
             ></ClientSideError>
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <LabelRequired htmlFor="labelLg2">{t("codelists.label", { lng: "en" })}</LabelRequired>
             <TextInput
               id="labelLg2"
@@ -251,7 +265,7 @@ export const CodelistDetailEdit = ({
             ></ClientSideError>
           </div>
         </Row>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <CreatorsInput
             mode="organization"
             value={codelist.creator ?? ""}
@@ -264,7 +278,7 @@ export const CodelistDetailEdit = ({
             error={clientSideErrors?.fields?.creator}
           ></ClientSideError>
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <ContributorsInput
             multi
             mode="organization"
@@ -274,7 +288,7 @@ export const CodelistDetailEdit = ({
             }}
           />
         </div>
-        <div className="form-group">
+        <div className="bauhaus-form-group">
           <DisseminationStatusInput
             value={codelist.disseminationStatus ?? ""}
             handleChange={(value) => {
@@ -288,21 +302,21 @@ export const CodelistDetailEdit = ({
           ></ClientSideError>
         </div>
         <Row>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="descriptionLg1">{t("codelists.description", { lng: "fr" })}</label>
             <textarea
               value={codelist.descriptionLg1}
-              className="form-control"
+              className="bauhaus-input"
               id="descriptionLg1"
               name="descriptionLg1"
               onChange={handleChange}
             />
           </div>
-          <div className="col-md-6 form-group">
+          <div className="col-12 lg:col-6 bauhaus-form-group">
             <label htmlFor="descriptionLg2">{t("codelists.description", { lng: "en" })}</label>
             <textarea
               value={codelist.descriptionLg2}
-              className="form-control"
+              className="bauhaus-input"
               id="descriptionLg2"
               name="descriptionLg2"
               onChange={handleChange}

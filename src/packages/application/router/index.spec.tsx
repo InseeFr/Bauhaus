@@ -4,6 +4,7 @@ import { Mock, vi } from "vitest";
 
 import { useOidc } from "../../auth/create-oidc";
 import { appI18n } from "../../i18n";
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { renderWithAppContext } from "../../tests/render";
 import { useAppContext } from "../app-context";
 
@@ -37,6 +38,20 @@ vi.stubEnv("VITE_VERSION", "1.0.0");
 describe("RBACLink Component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap dans le pied de page", () => {
+    (useLocation as Mock).mockReturnValue({ pathname: "/" });
+    (useOidc as Mock).mockReturnValue({ isUserLoggedIn: true });
+    (useAppContext as Mock).mockReturnValue({ version: "2.0.0" });
+
+    renderWithAppContext(
+      <RBACLink>
+        <div>Child Component</div>
+      </RBACLink>,
+    );
+
+    expectNoBootstrapClass();
   });
 
   it("should render children and footer correctly", () => {

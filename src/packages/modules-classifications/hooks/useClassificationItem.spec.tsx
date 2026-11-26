@@ -79,4 +79,41 @@ describe("useClassificationItem", () => {
 
     await waitFor(() => expect(result.current.error).toBe(rejection));
   });
+
+  it("garde pour chaque type de note sa version la plus récente", async () => {
+    using _generalSpy = vi
+      .spyOn(ClassificationsApi, "getClassificationItemGeneral")
+      .mockResolvedValue({ classificationId: "class1", itemId: "item1", conceptVersion: "2" });
+    using _narrowersSpy = vi
+      .spyOn(ClassificationsApi, "getClassificationItemNarrowers")
+      .mockResolvedValue([]);
+    using _notesSpy = vi
+      .spyOn(ClassificationsApi, "getClassificationItemNotes")
+      .mockImplementation(((_classificationId: string, _itemId: string, version: number) =>
+        Promise.resolve(
+          version === 1
+            ? {
+                coreContentNoteLg1Uri: "http://note/core/v1",
+                coreContentNoteLg1: "contenu central v1",
+                additionalContentNoteLg1Uri: "http://note/additional/v1",
+                additionalContentNoteLg1: "contenu limite v1",
+              }
+            : {
+                additionalContentNoteLg1Uri: "http://note/additional/v2",
+                additionalContentNoteLg1: "contenu limite v2",
+              },
+        )) as any);
+
+    const { result } = renderHook(() => useClassificationItem("class1", "item1", true), {
+      wrapper: noRetryWrapper,
+    });
+
+    await waitFor(() => expect(result.current.status).toBe("success"));
+    expect(result.current.item?.notes).toMatchObject({
+      coreContentNoteLg1Uri: "http://note/core/v1",
+      coreContentNoteLg1: "contenu central v1",
+      additionalContentNoteLg1Uri: "http://note/additional/v2",
+      additionalContentNoteLg1: "contenu limite v2",
+    });
+  });
 });

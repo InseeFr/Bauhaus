@@ -81,14 +81,14 @@ describe("Series Component", () => {
     expect(dropdown).toBeInTheDocument();
   });
 
-  it.each([
-    { name: "should render with bauhaus-row class", selector: ".bauhaus-row" },
-    { name: "should render with form-group class", selector: ".form-group" },
-  ])("$name", ({ selector }) => {
-    const { container } = renderSeries();
+  it.each([{ name: "should render with form-group class", selector: ".bauhaus-form-group" }])(
+    "$name",
+    ({ selector }) => {
+      const { container } = renderSeries();
 
-    expect(container.querySelector(selector)).toBeInTheDocument();
-  });
+      expect(container.querySelector(selector)).toBeInTheDocument();
+    },
+  );
 
   it("should display required label", () => {
     const { container } = renderSeries();

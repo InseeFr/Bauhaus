@@ -72,7 +72,7 @@
     "notation": "Code",
     "altLabelWithLength": "Titre abrégé ({{length}})",
     "altLabelError": "Le titre abrégé ({{length}}) doit contenir maximum {{length}} caractères",
-    "conceptVersion": "Version du poste",
+    "conceptVersion": "Plus grand numéro de version des notes",
     "validationState": "État du poste",
     "globalInformation": "Informations générales",
     "narrowerItems": "Niveaux inférieurs",

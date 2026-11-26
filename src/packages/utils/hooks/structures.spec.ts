@@ -1,19 +1,20 @@
-import { renderHook } from "@testing-library/react";
+import { QueryClient } from "@tanstack/react-query";
 import { vi } from "vitest";
 
-import { useStructures } from "./structures";
+import { StructureApi } from "@sdk/structure-api";
 
-vi.mock("@tanstack/react-query", () => ({
-  useQuery: vi.fn().mockReturnValue({
-    isLoading: false,
-    data: ["data"],
-  }),
-}));
+import { STRUCTURES_KEY, structuresQuery } from "./structures";
 
-describe("useStructures", () => {
-  it("should call useQuery", () => {
-    const { result } = renderHook(() => useStructures());
-    expect(result.current.isLoading).toBe(false);
-    expect(result.current.data).toEqual(["data"]);
+vi.mock("@sdk/structure-api", () => ({ StructureApi: { getStructures: vi.fn() } }));
+
+describe("structuresQuery", () => {
+  it("reads the structures list", async () => {
+    vi.mocked(StructureApi.getStructures).mockResolvedValue([{ id: "dsd1" }]);
+
+    expect(await new QueryClient().fetchQuery(structuresQuery())).toEqual([{ id: "dsd1" }]);
+  });
+
+  it("is stored under the prefix shared by every structures read", () => {
+    expect(structuresQuery().queryKey).toEqual(STRUCTURES_KEY);
   });
 });

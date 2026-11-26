@@ -41,11 +41,74 @@
   flex: 2 1 auto;
 }
 
-.documentblock-picker .panel-heading {
-  display: flex;
-  justify-content: space-between;
+/*
+ * Le sélecteur reprend à l'identique ce qu'il tenait de Bootstrap (`panel panel-default`,
+ * `panel-heading`, `panel-body`, boutons `btn`), en px : la racine Bootstrap à 10px
+ * réduirait les `rem`.
+ */
+.documentblock-picker {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 5%);
 }
 
-.documentblock-picker .panel-heading .btn {
+.documentblock-picker-heading {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.documentblock-picker-heading .badge {
+  background-color: #333;
+  color: #f5f5f5;
+}
+
+.documentblock-picker-body {
+  display: flow-root;
+  padding: 15px;
+}
+
+.documentblock-picker-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5em;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
   background-color: transparent;
+  background-image: none;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.4286;
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.documentblock-picker-button:hover,
+.documentblock-picker-button:focus {
+  color: #333;
+  text-decoration: none;
+}
+
+.documentblock-picker-button:focus-visible {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.documentblock-picker-button .badge {
+  position: relative;
+  top: -1px;
 }

@@ -9,10 +9,6 @@ packages:
 # `pnpm install --frozen-lockfile` — pnpm calcule alors zéro override, ce qui ne
 # correspond plus à ceux enregistrés dans le lockfile.
 overrides:
-  "react": "18.3.1"
-  "react-dom": "18.3.1"
-  "@types/react": "18.2.79"
-  "@types/react-dom": "18.2.25"
   "loader-utils": "2.0.4"
   "shell-quote": "1.8.1"
   # CVE-2026-102276 et CVE-2026-102278 (DoS par motifs d'accolades), corrigées en 2.1.6 / 5.0.11.

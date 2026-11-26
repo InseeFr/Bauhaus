@@ -6,7 +6,7 @@ import { ExplanatoryNote } from "./";
 describe("ExplanatoryNote", () => {
   it("renders nothing when text is undefined", () => {
     const { container } = render(<ExplanatoryNote title="My Title" />);
-    expect(container.querySelector(".bauhaus-grid-md-6")).toBeInTheDocument();
+    expect(container.querySelector(".lg\\:col-6")).toBeInTheDocument();
     expect(container.textContent).toBe("");
   });
 
@@ -18,11 +18,12 @@ describe("ExplanatoryNote", () => {
 
   it("uses the full-width column when alone is true", () => {
     const { container } = render(<ExplanatoryNote title="Alone" text="Hello" alone />);
-    expect(container.querySelector(".bauhaus-grid-md-12")).toBeInTheDocument();
+    expect(container.querySelector(".col-12")).toBeInTheDocument();
+    expect(container.querySelector(".lg\\:col-6")).toBeNull();
   });
 
   it("uses the half-width column when alone is false", () => {
     const { container } = render(<ExplanatoryNote title="Not Alone" text="Hello" />);
-    expect(container.querySelector(".bauhaus-grid-md-6")).toBeInTheDocument();
+    expect(container.querySelector(".lg\\:col-6")).toBeInTheDocument();
   });
 });

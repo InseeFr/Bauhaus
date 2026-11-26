@@ -29,7 +29,7 @@ export const ClassificationItems = ({ items, subtitle, classificationId }: Props
         <CheckSecondLang />
         {items.length !== 0 && (
           <Row>
-            <div className="col-md-8 col-md-offset-2 text-center">
+            <div className="col-12 lg:col-8 lg:col-offset-2 text-center">
               <SearchableList
                 items={items}
                 childPath={`classifications/classification/${classificationId}/item`}

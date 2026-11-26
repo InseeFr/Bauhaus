@@ -4,6 +4,7 @@ import { beforeEach, describe, it, expect, vi } from "vitest";
 
 import { GeographieApi } from "@sdk/geographie";
 
+import { expectNoBootstrapClass } from "../../tests/bootstrap-classes.testing";
 import { renderWithRouter } from "../../tests/render";
 import {
   SimsGeographyPicker,
@@ -36,13 +37,18 @@ const renderComponent = (props: Partial<SimsGeographyPickerTypes> = {}) => {
 describe("SimsGeographyPicker", () => {
   const mockOnChange = vi.fn();
 
+  it("ne pose aucune classe Bootstrap", () => {
+    renderComponent({ onChange: mockOnChange });
+    expectNoBootstrapClass();
+  });
+
   it("should render the component with Select", () => {
     const { container } = renderComponent({
       onChange: mockOnChange,
     });
 
     expect(container.querySelector(".bauhaus-sims-geography-picker")).toBeTruthy();
-    expect(container.querySelector(".form-group")).toBeTruthy();
+    expect(container.querySelector(".bauhaus-form-group")).toBeTruthy();
   });
 
   it("should render Select with geographiesOptions by default", () => {

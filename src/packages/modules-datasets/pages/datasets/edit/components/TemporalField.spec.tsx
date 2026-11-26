@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { TemporalField } from "./TemporalField";
 
 const mockUpdateTemporalCoverage = vi.fn();
@@ -30,6 +31,26 @@ describe("TemporalField Component", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    render(
+      <TemporalField
+        {...defaultProps}
+        temporalCoverageDataType="http://www.w3.org/2001/XMLSchema#gYear"
+      />,
+    );
+    expectNoBootstrapClass();
+  });
+
+  it("ne pose aucune classe Bootstrap sur les dates", () => {
+    render(
+      <TemporalField
+        {...defaultProps}
+        temporalCoverageDataType="http://www.w3.org/2001/XMLSchema#date"
+      />,
+    );
+    expectNoBootstrapClass();
   });
 
   it('should render date inputs when temporalCoverageDataType ends with "date"', () => {

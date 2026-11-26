@@ -1,1 +1,1 @@
-export * from "primereact/dropdown";
+export * from "@mantle-ui/react/dropdown";

@@ -46,4 +46,23 @@ describe("LoggedInWrapper", () => {
 
     vi.useRealTimers();
   });
+
+  it("n'appelle plus renewTokens une fois démonté", async () => {
+    vi.useFakeTimers();
+    const mockRenewTokens = vi.fn().mockResolvedValue(undefined);
+
+    (useOidc as Mock).mockReturnValue({
+      oidcTokens: { accessToken: "token" },
+      renewTokens: mockRenewTokens,
+    });
+
+    const { unmount } = render(<LoggedInWrapper WrappedComponent={MockComponent} />);
+    unmount();
+
+    await vi.advanceTimersByTimeAsync(120000);
+
+    expect(mockRenewTokens).not.toHaveBeenCalled();
+
+    vi.useRealTimers();
+  });
 });

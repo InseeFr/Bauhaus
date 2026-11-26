@@ -74,6 +74,11 @@ export interface State {
    * langues…), et ces pertes toucheraient tous les fichiers qui partagent la variable.
    */
   reusedVariables: Variable[];
+  /**
+   * Date de dernière modification (ISO) de chaque variable locale, posée au moment de l'action :
+   * le rendu ne lit pas l'horloge (règle react/purity).
+   */
+  lastModifiedById: Record<string, string>;
 }
 
 export type Action =
@@ -93,15 +98,18 @@ export type Action =
   | {
       type: typeof ACTION_TYPES.UPDATE_VARIABLE;
       payload: VariableData;
+      lastModified: string;
     }
   | {
       type: typeof ACTION_TYPES.ADD_VARIABLE;
       payload: VariableData;
       afterId?: string;
+      lastModified: string;
     }
   | {
       type: typeof ACTION_TYPES.ADD_EDITED_VARIABLE;
       payload: VariableData;
+      lastModified: string;
     }
   | {
       type: typeof ACTION_TYPES.DELETE_VARIABLE;
@@ -125,6 +133,7 @@ export const initialState: State = {
   deletedVariableIds: [],
   newVariableAnchors: {},
   reusedVariables: [],
+  lastModifiedById: {},
 };
 
 export function viewReducer(state: State, action: Action): State {
@@ -169,6 +178,7 @@ export function viewReducer(state: State, action: Action): State {
       return {
         ...state,
         localVariables: updatedVariables,
+        lastModifiedById: { ...state.lastModifiedById, [action.payload.id]: action.lastModified },
         // Le panneau reste ouvert sur la variable reportée (#1608) : elle devient sa référence.
         selectedVariable:
           state.selectedVariable?.id === action.payload.id
@@ -180,6 +190,7 @@ export function viewReducer(state: State, action: Action): State {
       return {
         ...state,
         localVariables: [...state.localVariables, action.payload],
+        lastModifiedById: { ...state.lastModifiedById, [action.payload.id]: action.lastModified },
         newVariableAnchors: action.afterId
           ? { ...state.newVariableAnchors, [action.payload.id]: action.afterId }
           : state.newVariableAnchors,
@@ -190,16 +201,19 @@ export function viewReducer(state: State, action: Action): State {
       return {
         ...state,
         localVariables: [...state.localVariables, action.payload],
+        lastModifiedById: { ...state.lastModifiedById, [action.payload.id]: action.lastModified },
         selectedVariable:
           state.selectedVariable?.id === "new" ? action.payload : state.selectedVariable,
       };
     case ACTION_TYPES.DELETE_VARIABLE: {
       const { [action.payload]: _removed, ...remainingAnchors } = state.newVariableAnchors;
+      const { [action.payload]: _removedDate, ...remainingDates } = state.lastModifiedById;
       return {
         ...state,
         localVariables: state.localVariables.filter((variable) => variable.id !== action.payload),
         deletedVariableIds: [...state.deletedVariableIds, action.payload],
         newVariableAnchors: remainingAnchors,
+        lastModifiedById: remainingDates,
         reusedVariables: state.reusedVariables.filter((variable) => variable.ID !== action.payload),
       };
     }
@@ -210,6 +224,7 @@ export function viewReducer(state: State, action: Action): State {
         deletedVariableIds: [],
         newVariableAnchors: {},
         reusedVariables: [],
+        lastModifiedById: {},
       };
     case ACTION_TYPES.REUSE_VARIABLE:
       return {
@@ -253,18 +268,26 @@ export const actions = {
     type: ACTION_TYPES.SET_SELECTED_VARIABLE,
     payload,
   }),
-  updateVariable: (payload: VariableData): Action => ({
+  // Horodatage au moment de l'action (gestionnaire d'événement), jamais pendant le rendu.
+  updateVariable: (payload: VariableData, lastModified = new Date().toISOString()): Action => ({
     type: ACTION_TYPES.UPDATE_VARIABLE,
     payload,
+    lastModified,
   }),
-  addVariable: (payload: VariableData, afterId?: string): Action => ({
+  addVariable: (
+    payload: VariableData,
+    afterId?: string,
+    lastModified = new Date().toISOString(),
+  ): Action => ({
     type: ACTION_TYPES.ADD_VARIABLE,
     payload,
     afterId,
+    lastModified,
   }),
-  addEditedVariable: (payload: VariableData): Action => ({
+  addEditedVariable: (payload: VariableData, lastModified = new Date().toISOString()): Action => ({
     type: ACTION_TYPES.ADD_EDITED_VARIABLE,
     payload,
+    lastModified,
   }),
   deleteVariable: (payload: string): Action => ({
     type: ACTION_TYPES.DELETE_VARIABLE,

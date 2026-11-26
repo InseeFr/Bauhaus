@@ -1,6 +1,6 @@
-import { useMemo, useState, useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 import { AppDevTools } from "@components/devtools/AppDevTools";
 import { HomePageLayout } from "@components/home-page-layout";
@@ -17,11 +17,19 @@ import { usePhysicalInstances } from "../../../hooks/usePhysicalInstances";
 import { errorToastTiming } from "../../../utils/error-toast";
 import { formatDate } from "../../../utils/formatDate";
 import { DdiToast } from "../../components/DdiToast/DdiToast";
+import { NewFromDialog } from "../../components/NewFromDialog/NewFromDialog";
 import {
   PhysicalInstanceDialog,
   PhysicalInstanceCreationData,
 } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 import { HomePageMenu } from "./menu";
+
+/**
+ * Modale ouverte, mémorisée dans l'URL (`?dialog=create` ou `?dialog=new-from`) : un lien partagé
+ * ou un rechargement rouvre la même modale.
+ */
+const DIALOG_PARAM = "dialog";
+type HomeDialog = "create" | "new-from";
 
 export const Component = () => {
   const { t } = useTranslation();
@@ -29,7 +37,18 @@ export const Component = () => {
   const navigate = useNavigate();
   const { data = [], isLoading } = usePhysicalInstances();
   const createPhysicalInstance = useCreatePhysicalInstance();
-  const [visible, setVisible] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const openedDialog = searchParams.get(DIALOG_PARAM);
+  const visible = openedDialog === "create";
+  const newFromVisible = openedDialog === "new-from";
+
+  const setOpenedDialog = (dialog: HomeDialog | null) =>
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (dialog) next.set(DIALOG_PARAM, dialog);
+      else next.delete(DIALOG_PARAM);
+      return next;
+    });
   const toast = useRef<Toast>(null);
 
   // SearchableList filtre sur les valeurs brutes des items, avant tout formatage : la versionDate
@@ -52,7 +71,6 @@ export const Component = () => {
         studyUnitAgency: data.studyUnit.agency,
       });
 
-      setVisible(false);
       void navigate(`/ddi/physical-instances/${result.agency}/${result.id}`, {
         replace: true,
       });
@@ -78,7 +96,12 @@ export const Component = () => {
     <>
       <HomePageLayout
         title={t("physicalInstance.homePageTitle")}
-        menu={<HomePageMenu onCreate={() => setVisible(true)} />}
+        menu={
+          <HomePageMenu
+            onCreate={() => setOpenedDialog("create")}
+            onCreateFrom={() => setOpenedDialog("new-from")}
+          />
+        }
       >
         <SearchableList
           items={items}
@@ -93,10 +116,15 @@ export const Component = () => {
 
       <PhysicalInstanceDialog
         visible={visible}
-        onHide={() => setVisible(false)}
+        onHide={() => setOpenedDialog(null)}
         mode="create"
         onSubmitCreate={handleSubmit}
       />
+
+      {/* Monté à l'ouverture seulement : la liste des sources n'est lue qu'à la demande. */}
+      {newFromVisible && (
+        <NewFromDialog visible={newFromVisible} onHide={() => setOpenedDialog(null)} />
+      )}
 
       <DdiToast ref={toast} />
       <AppDevTools />

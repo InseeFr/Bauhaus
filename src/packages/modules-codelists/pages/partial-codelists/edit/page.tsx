@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { LoadingErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
@@ -16,7 +16,8 @@ export const Component = () => {
 
   const goBackOrReplace = useGoBackOrReplace();
 
-  const [loadingList, setLoadingList] = useState(true);
+  // Une création n'a pas de liste à lire.
+  const [loadingList, setLoadingList] = useState(!!id);
   const [loadingLists, setLoadingLists] = useState(true);
 
   const [saving, setSaving] = useState(false);
@@ -94,9 +95,6 @@ export const Component = () => {
         })
         .catch(setLoadError)
         .finally(() => setLoadingList(false));
-    } else {
-      setCodelist({});
-      setLoadingList(false);
     }
   }, [id, globalCodelistOptions]);
 

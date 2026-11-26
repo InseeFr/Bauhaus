@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Mock, expect } from "vitest";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { expectItemNotFound } from "../../tests/loading-error.testing";
 import { sdkRejection } from "../../tests/sdk-rejection.testing";

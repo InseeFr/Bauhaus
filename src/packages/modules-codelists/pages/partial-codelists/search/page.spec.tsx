@@ -3,16 +3,17 @@ import { vi } from "vitest";
 
 import { getListItems } from "@components/ui/list-group/testing";
 
-import { CodelistsApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/codelists-api";
 
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
+import { expectNoBootstrapClass } from "../../../../tests/bootstrap-classes.testing";
 import { renderWithRouter } from "../../../../tests/render";
 import { Component } from "./page";
 
 vi.mock("@utils/hooks/useUrlQueryParameters");
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/codelists-api", () => ({
   CodelistsApi: {
     getCodelistsPartialForSearch: vi.fn(),
   },
@@ -65,6 +66,11 @@ const renderSearch = async (form = {}) => {
 describe("recherche avancée des listes de codes partielles", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("ne pose aucune classe Bootstrap", async () => {
+    await renderSearch();
+    expectNoBootstrapClass();
   });
 
   it("affiche toutes les listes quand le formulaire est vide", async () => {

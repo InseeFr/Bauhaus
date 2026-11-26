@@ -66,3 +66,24 @@
   outline-offset: 2px;
   box-shadow: none;
 }
+
+/*
+ * Variante discrète d'un bouton à libellé, pour une action secondaire posée dans un bloc de
+ * contenu : fond blanc, bordure et texte à la couleur du module, largeur du contenu.
+ */
+.bauhaus-btn.bauhaus-btn-outline {
+  width: auto;
+  padding: 6px 12px;
+  border-color: var(--primary-color);
+  background-color: #fff;
+  color: var(--primary-color);
+  font-size: 14px;
+  line-height: 1.4286;
+}
+
+.bauhaus-btn.bauhaus-btn-outline:focus,
+.bauhaus-btn.bauhaus-btn-outline:hover:not([disabled]) {
+  border-color: var(--primary-color);
+  background-color: var(--primary-color);
+  color: white;
+}

@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { useCallback } from "react";
 import { describe, it, expect, vi } from "vitest";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { NotesInputs } from "./NotesInputs";
 
 vi.mock("@components/rich-editor/react-md-editor", () => ({
@@ -104,5 +105,15 @@ describe("NotesInputs", () => {
       changeNoteLg1: "FR content",
       changeNoteLg2: "Updated EN",
     });
+  });
+
+  it("met les notes en page sans classe Bootstrap", () => {
+    renderNotesInputs({
+      scopeNoteLg1: "FR",
+      scopeNoteLg2: "EN",
+      scopeNoteLg1Uri: "uri-1",
+      scopeNoteLg2Uri: "uri-2",
+    });
+    expectNoBootstrapClass();
   });
 });

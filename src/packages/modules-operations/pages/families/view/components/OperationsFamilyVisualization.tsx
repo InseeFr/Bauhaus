@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { InseeOrganizationNotes } from "@components/business/creators-view";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -59,6 +60,14 @@ export function OperationsFamilyVisualization({
           />
         )}
       </Row>
+      {attr.contributor && attr.contributor.length > 0 && (
+        <Row id="contributors">
+          <InseeOrganizationNotes
+            organizations={attr.contributor}
+            title={t("common.stakeholders", { lng: "fr" })}
+          />
+        </Row>
+      )}
       <RelationsView
         childrenItems={attr.series}
         childrenTitle="childrenSeries"

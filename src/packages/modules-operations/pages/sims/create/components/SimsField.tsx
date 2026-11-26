@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { DatePicker } from "@components/date-picker";
@@ -16,6 +16,7 @@ import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromMo
 import { SimsFieldTitle } from "../../components/SimsFieldTitle";
 import "./SimsField.css";
 import { SimsCodelistSelect } from "./SimsCodelistSelect";
+import { SimsFieldInstructions } from "./SimsFieldInstructions";
 import { SimsWithoutObjectCheckbox } from "./SimsWithoutObjectCheckbox";
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
@@ -76,12 +77,13 @@ const SimsFieldComponent = ({
   }, [msd.rangeType, currentSection, secondLang, autoUpdatedFromModified, simsModified]);
 
   const [localMdValue, setLocalMdValue] = useState(value);
-
-  useEffect(() => {
+  const [previousValue, setPreviousValue] = useState(value);
+  if (value !== previousValue) {
+    setPreviousValue(value);
     if (msd.rangeType === RICH_TEXT) {
       setLocalMdValue(value);
     }
-  }, [value, msd.rangeType]);
+  }
 
   const handleChangeInternal = useCallback(
     (override: any) => {
@@ -138,7 +140,7 @@ const SimsFieldComponent = ({
   );
 
   const codelist = codelists[msd.codeList] || {};
-  const codes = codelist.codes || [];
+  const codes = useMemo(() => codelist.codes || [], [codelist.codes]);
 
   const codelistOptions = useMemo(
     () =>
@@ -169,6 +171,7 @@ const SimsFieldComponent = ({
       text={
         !msd.isPresentational && (
           <>
+            <SimsFieldInstructions msd={msd} secondLang={secondLang} />
             {msd.sansObject && (
               <SimsWithoutObjectCheckbox
                 checked={currentSection.rangeType === rangeType.RUBRIQUE_SANS_OBJECT}

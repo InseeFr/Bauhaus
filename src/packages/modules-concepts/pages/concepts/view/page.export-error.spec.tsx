@@ -4,7 +4,7 @@ import { Mock, vi } from "vitest";
 
 import { UNPUBLISHED } from "@model/ValidationState";
 
-import { ConceptsApi } from "@sdk/index";
+import { ConceptsApi } from "@sdk/concepts-api";
 
 import { renderWithAppContext } from "../../../../tests/render";
 import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
@@ -14,7 +14,7 @@ import { Component } from "./page";
 
 const PAGE = <Component />;
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/concepts-api", () => ({
   ConceptsApi: { getConceptExport: vi.fn() },
 }));
 

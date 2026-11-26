@@ -1,6 +1,6 @@
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
-import { InputText } from "primereact/inputtext";
+import { IconField } from "@mantle-ui/react/iconfield";
+import { InputIcon } from "@mantle-ui/react/inputicon";
+import { InputText } from "@mantle-ui/react/inputtext";
 import { ReactNode, useId } from "react";
 
 import { cx } from "@utils/cx";

@@ -1,1 +1,1 @@
-export * from "primereact/virtualscroller";
+export * from "@mantle-ui/react/virtualscroller";

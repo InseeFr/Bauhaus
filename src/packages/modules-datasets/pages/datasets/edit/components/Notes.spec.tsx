@@ -4,6 +4,7 @@ import { vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
 
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { Notes } from "./Notes";
 
 // Mock du composant MDEditor
@@ -30,6 +31,11 @@ const editingDataset = {
 } as Dataset;
 
 describe("Notes component", () => {
+  it("ne pose aucune classe Bootstrap", () => {
+    render(<Notes editingDataset={editingDataset} setEditingDataset={vi.fn()} />);
+    expectNoBootstrapClass();
+  });
+
   it("should render all textareas with initial values", () => {
     render(<Notes editingDataset={editingDataset} setEditingDataset={vi.fn()} />);
 

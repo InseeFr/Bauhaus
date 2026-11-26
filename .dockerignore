@@ -1,4 +1,16 @@
-node_modules
+# `node_modules` seul ne vise que la racine : ceux du workspace (documentation, scripts)
+# partaient aussi dans le contexte de build.
+**/node_modules
+
+.git
+build/
+coverage/
+storybook-static/
+
+# `documentation` est un paquet du workspace : sans son manifeste, `pnpm install
+# --frozen-lockfile` ne retrouve plus l'importer enregistré dans le lockfile et échoue.
+documentation/*
+!documentation/package.json
 
 # Un motif par extension : .dockerignore suit filepath.Match, qui ne connaît pas
 # l'expansion d'accolades du shell. `*.spec.ts{,x}` ne correspondait à rien, et

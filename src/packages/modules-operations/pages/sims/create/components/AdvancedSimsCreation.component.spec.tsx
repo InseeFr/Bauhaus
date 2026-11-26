@@ -7,6 +7,7 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { AppContextProvider } from "../../../../../application/app-context";
 import { appI18n } from "../../../../../i18n";
+import { expectNoBootstrapClass } from "../../../../../tests/bootstrap-classes.testing";
 import { expectItemLoadFailed } from "../../../../../tests/loading-error.testing";
 import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
 import { rangeType } from "../../../../constants/rangeType";
@@ -164,6 +165,11 @@ describe("AdvancedSimsCreation", () => {
     vi.mocked(OperationsApi.getOperationsWithReport).mockResolvedValue([]);
     vi.mocked(OperationsApi.getSeriesWithReport).mockResolvedValue([]);
     vi.mocked(OperationsApi.getIndicatorsListWithSims).mockResolvedValue([]);
+  });
+
+  it("ne pose aucune classe Bootstrap", () => {
+    renderCreation();
+    expectNoBootstrapClass();
   });
 
   it("rend un champ par rubrique de la structure, enfants compris", () => {

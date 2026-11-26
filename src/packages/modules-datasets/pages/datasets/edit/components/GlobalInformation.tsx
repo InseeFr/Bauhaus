@@ -16,6 +16,7 @@ import { withCodelists } from "@utils/hoc/withCodelists";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
 import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
+import { toDatePart } from "../toDatePart";
 
 type ClientSideErrors = {
   errorMessage?: string[];
@@ -39,22 +40,12 @@ const GlobalInformationTab = ({
 }: Readonly<GlobalInformationTypes>) => {
   const { t } = useTranslation();
 
-  if (editingDataset?.updated?.includes("T")) {
-    editingDataset.updated = editingDataset.updated.substring(
-      0,
-      editingDataset.updated.indexOf("T"),
-    );
-  }
-  if (editingDataset?.issued?.includes("T")) {
-    editingDataset.issued = editingDataset.issued.substring(0, editingDataset.issued.indexOf("T"));
-  }
-
   const clFreqOptions = convertCodelistToSelectOption(props[CL_FREQ]);
 
   return (
     <>
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <LabelRequired htmlFor="labelLg1">
             {t("dataset.globalInformation.mainTitle", { lng: "fr" })}
           </LabelRequired>
@@ -79,7 +70,7 @@ const GlobalInformationTab = ({
             error={clientSideErrors?.fields?.labelLg1}
           ></ClientSideError>
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <LabelRequired htmlFor="labelLg2">
             {t("dataset.globalInformation.mainTitle", { lng: "en" })}
           </LabelRequired>
@@ -106,7 +97,7 @@ const GlobalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="subtitleLg1">
             {t("dataset.globalInformation.subtitle", { lng: "fr" })}
           </label>
@@ -121,7 +112,7 @@ const GlobalInformationTab = ({
             }}
           />
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="subtitleLg2">
             {t("dataset.globalInformation.subtitle", { lng: "en" })}
           </label>
@@ -138,13 +129,13 @@ const GlobalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.globalInformation.firstReleaseDate")}
             <input
               type="date"
-              className="form-control"
-              value={editingDataset.issued}
+              className="bauhaus-input"
+              value={toDatePart(editingDataset.issued)}
               onChange={(e) => {
                 setEditingDataset({
                   ...editingDataset,
@@ -156,13 +147,13 @@ const GlobalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.globalInformation.modificationDate")}
             <input
               type="date"
-              className="form-control"
-              value={editingDataset.updated}
+              className="bauhaus-input"
+              value={toDatePart(editingDataset.updated)}
               onChange={(e) => {
                 setEditingDataset({
                   ...editingDataset,
@@ -174,7 +165,7 @@ const GlobalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <label className="w-100 wilco-label-required">
             {t("dataset.globalInformation.updateFrequency")}
             <Select
@@ -191,7 +182,7 @@ const GlobalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <OrganizationInput
             lang="first"
             labelSingle={t("dataset.globalInformation.dataProvider")}
@@ -208,7 +199,7 @@ const GlobalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <OrganizationInput
             lang="first"
             labelSingle={t("dataset.globalInformation.publicationProvider")}
@@ -224,7 +215,7 @@ const GlobalInformationTab = ({
         </div>
       </Row>
       <Row>
-        <div className="col-md-12 form-group">
+        <div className="col-12 bauhaus-form-group">
           <ThemesSelect
             label={t("dataset.globalInformation.theme")}
             required
@@ -263,7 +254,7 @@ const GlobalInformationTab = ({
         }}
       />
       <Row>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="landingPageLg1">
             {t("dataset.globalInformation.landingPage", { lng: "fr" })}
           </label>
@@ -278,7 +269,7 @@ const GlobalInformationTab = ({
             }}
           />
         </div>
-        <div className="col-md-6 form-group">
+        <div className="col-12 lg:col-6 bauhaus-form-group">
           <label htmlFor="landingPageLg2">
             {t("dataset.globalInformation.landingPage", { lng: "en" })}
           </label>
