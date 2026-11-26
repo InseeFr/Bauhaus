@@ -15,7 +15,7 @@ RUN npm i -g pnpm@12 \
 
 ### EXECUTION STEP ###
 
-FROM nginxinc/nginx-unprivileged:mainline-alpine
+FROM nginx/nginx-unprivileged:1.30.8-alpine
 
 # Correctifs de sécurité Alpine publiés après l'image de base (ex. brotli-libs
 # CVE-2026-111497, curl CVE-2026-92392) : l'image amont n'est pas reconstruite
