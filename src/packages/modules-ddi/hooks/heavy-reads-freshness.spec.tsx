@@ -11,6 +11,10 @@ import { useMutualizedCodeListCodes } from "./useMutualizedCodeListCodes";
 import { useMutualizedCodeLists } from "./useMutualizedCodeLists";
 import { usePhysicalInstancesData } from "./usePhysicalInstance";
 
+vi.mock("../../application/app-context", () => ({
+  useAppContext: () => ({ properties: {} }),
+}));
+
 vi.mock("../../sdk", () => ({
   DDIApi: {
     getPhysicalInstance: vi.fn(),

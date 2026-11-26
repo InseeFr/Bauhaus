@@ -9,7 +9,7 @@ import { ProgressSpinner } from "@components/ui/spinner";
 import { useAppContext } from "../../../../application/app-context";
 import { useAllCodeLists } from "../../../hooks/useAllCodeLists";
 import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useColecticaLangs } from "../../../hooks/useColecticaLangs";
 import { useMutualizedCodeList } from "../../../hooks/useMutualizedCodeList";
 import { useMutualizedCodeListCodes } from "../../../hooks/useMutualizedCodeListCodes";
 import type {
@@ -65,7 +65,8 @@ export const CodeRepresentation = ({
   const { t } = useTranslation();
   const { properties } = useAppContext();
   const defaultAgencyId = properties.defaultAgencyId;
-  const defaultLocale = useDefaultLocale();
+  const colecticaLangs = useColecticaLangs();
+  const defaultLocale = colecticaLangs[0];
   const { id: physicalInstanceId = "", agencyId = "" } = useParams<{
     id: string;
     agencyId: string;
@@ -78,7 +79,7 @@ export const CodeRepresentation = ({
   } = useAllCodeLists(agencyId, physicalInstanceId);
   const [state, dispatch] = useReducer(codeRepresentationReducer, {
     ...initialState,
-    codeListLabel: getLocalizedText(codeList?.Label) ?? "",
+    codeListLabel: getLocalizedText(codeList?.Label, colecticaLangs) ?? "",
   });
 
   const {
@@ -211,14 +212,14 @@ export const CodeRepresentation = ({
         return {
           id: code.ID,
           value: code.Value?.StringValue ?? "",
-          label: getLocalizedText(category?.Label) ?? "",
+          label: getLocalizedText(category?.Label, colecticaLangs) ?? "",
           categoryId: category?.ID ?? "",
         };
       });
       dispatch({
         type: "INIT_FROM_CODE_LIST",
         payload: {
-          label: getLocalizedText(codeList.Label) ?? "",
+          label: getLocalizedText(codeList.Label, colecticaLangs) ?? "",
           codes: tableData,
           showDataTable: true,
         },
@@ -257,7 +258,7 @@ export const CodeRepresentation = ({
     const categoryLabelById = new Map(
       itemsOfType(selectedListCodes, "Category").map((cat) => [
         cat.ID,
-        getLocalizedText(cat.Label) ?? "",
+        getLocalizedText(cat.Label, colecticaLangs) ?? "",
       ]),
     );
     const rows: CodeTableRow[] = (fetchedCodeList.Code ?? []).map((code) => ({
@@ -269,7 +270,7 @@ export const CodeRepresentation = ({
     dispatch({
       type: "LOAD_REUSED_CODES",
       payload: {
-        label: getLocalizedText(fetchedCodeList.Label) ?? "",
+        label: getLocalizedText(fetchedCodeList.Label, colecticaLangs) ?? "",
         codes: rows,
       },
     });

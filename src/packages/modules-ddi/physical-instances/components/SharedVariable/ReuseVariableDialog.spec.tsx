@@ -7,6 +7,11 @@ import { ReuseVariableDialog } from "./ReuseVariableDialog";
 
 vi.mock("react-i18next", () => import("../../../i18n.testing"));
 
+const appProperties = vi.hoisted(() => ({ colecticaLangs: undefined as string[] | undefined }));
+vi.mock("../../../../application/app-context", () => ({
+  useAppContext: () => ({ properties: appProperties }),
+}));
+
 const mockUseStudyUnitVariables = vi.fn();
 vi.mock("../../../hooks/useStudyUnitVariables", () => ({
   useStudyUnitVariables: (...args: unknown[]) => mockUseStudyUnitVariables(...args),
@@ -82,6 +87,7 @@ const renderDialog = (props: Partial<Parameters<typeof ReuseVariableDialog>[0]> 
 
 describe("ReuseVariableDialog", () => {
   beforeEach(() => {
+    appProperties.colecticaLangs = undefined;
     mockUseStudyUnitVariables.mockReturnValue({ data: [sexe, age], isLoading: false });
   });
 
@@ -91,6 +97,19 @@ describe("ReuseVariableDialog", () => {
     expect(mockUseStudyUnitVariables).toHaveBeenCalledWith("fr.insee", "su-1");
     expect(screen.getByRole("option", { name: "SEXE — Sexe" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "AGE — Âge" })).toBeInTheDocument();
+  });
+
+  it("should label variables in the configured Colectica language", () => {
+    appProperties.colecticaLangs = ["en-GB"];
+    const en = (value: string) => [{ "@language": "en-GB", "@value": value }];
+    mockUseStudyUnitVariables.mockReturnValue({
+      data: [{ ...sexe, VariableName: en("SEX"), Label: en("Sex") }],
+      isLoading: false,
+    });
+
+    renderDialog();
+
+    expect(screen.getByRole("option", { name: "SEX — Sex" })).toBeInTheDocument();
   });
 
   it("should not offer the variables the physical instance already uses", () => {

@@ -15,6 +15,12 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+const appProperties = vi.hoisted(() => ({ colecticaLangs: undefined as string[] | undefined }));
+
+vi.mock("../../application/app-context", () => ({
+  useAppContext: () => ({ properties: appProperties }),
+}));
+
 const mockApiResponse = envelope({
   Variable: [
     {
@@ -77,7 +83,27 @@ describe("usePhysicalInstancesData", () => {
     expect(result.current.error).toBeDefined();
   };
 
+  it("reads titles and variable labels in the configured Colectica language", async () => {
+    appProperties.colecticaLangs = ["en-GB"];
+    const en = (value: string) => [{ "@language": "en-GB", "@value": value }];
+
+    const result = await renderWithSuccessfulFetch(
+      envelope({
+        PhysicalInstance: [{ ID: "pi", Citation: { Title: en("Census file") } }],
+        DataRelationship: [{ ID: "dr", Label: en("Relationship") }],
+        Variable: [
+          { ID: "v1", VariableName: en("AGE"), Label: en("Age"), VariableRepresentation: {} },
+        ],
+      }),
+    );
+
+    expect(result.current.title).toBe("Census file");
+    expect(result.current.dataRelationshipName).toBe("Relationship");
+    expect(result.current.variables[0]).toMatchObject({ name: "AGE", label: "Age" });
+  });
+
   beforeEach(() => {
+    appProperties.colecticaLangs = undefined;
     vi.clearAllMocks();
   });
 

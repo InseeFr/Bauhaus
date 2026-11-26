@@ -9,20 +9,20 @@ import type {
   Variable,
 } from "../physical-instances/types/api";
 import { itemsOfType, singleItemOfType } from "../physical-instances/types/ddi4Items";
-import { pickLang } from "../utils/multilingual";
-
-const DEFAULT_LANG = "fr-FR";
+import { pickFirstLang } from "../utils/multilingual";
+import { useColecticaLangs } from "./useColecticaLangs";
 
 function transformVariablesToTableData(
   data: PhysicalInstanceResponse,
-  lang: string,
+  langs: readonly string[],
 ): VariableTableData[] {
   return itemsOfType(data, "Variable").map((variable: Variable) =>
-    toVariableTableData(variable, lang),
+    toVariableTableData(variable, langs),
   );
 }
 
 export function usePhysicalInstancesData(agencyId: string, id: string) {
+  const langs = useColecticaLangs();
   const query = useQuery({
     queryKey: ["physicalInstanceById", agencyId, id],
     // Lecture lourde de Colectica : en cache jusqu'à son éviction après une sauvegarde.
@@ -31,15 +31,15 @@ export function usePhysicalInstancesData(agencyId: string, id: string) {
   });
 
   const variables: VariableTableData[] = query.data
-    ? transformVariablesToTableData(query.data, DEFAULT_LANG)
+    ? transformVariablesToTableData(query.data, langs)
     : [];
 
   const title = query.data
-    ? (pickLang(singleItemOfType(query.data, "PhysicalInstance")?.Citation?.Title, DEFAULT_LANG) ??
+    ? (pickFirstLang(singleItemOfType(query.data, "PhysicalInstance")?.Citation?.Title, langs) ??
       "")
     : "";
   const dataRelationshipName = query.data
-    ? (pickLang(singleItemOfType(query.data, "DataRelationship")?.Label, DEFAULT_LANG) ?? "")
+    ? (pickFirstLang(singleItemOfType(query.data, "DataRelationship")?.Label, langs) ?? "")
     : "";
 
   return {

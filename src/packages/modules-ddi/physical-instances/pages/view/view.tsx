@@ -34,6 +34,7 @@ import { cx } from "@utils/cx";
 import { useNavigationBlocker } from "@utils/hooks/useNavigationBlocker";
 
 import { appI18n } from "../../../../i18n";
+import { useColecticaLangs } from "../../../hooks/useColecticaLangs";
 import { useDuplicatePhysicalInstance } from "../../../hooks/useDuplicatePhysicalInstance";
 import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
@@ -44,7 +45,7 @@ import { useStudyUnitVariableUsages } from "../../../hooks/useStudyUnitVariables
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { useValidateDdi4 } from "../../../hooks/useValidateDdi4";
 import { errorToastTiming } from "../../../utils/error-toast";
-import { pickLang, singletonEntries } from "../../../utils/multilingual";
+import { pickFirstLang, singletonEntries } from "../../../utils/multilingual";
 import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
 import { DdiToast } from "../../components/DdiToast/DdiToast";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
@@ -78,6 +79,8 @@ export const Component = () => {
   const initialRestoreDone = useRef(false);
   const [state, dispatch] = useReducer(viewReducer, initialState);
   const queryClient = useQueryClient();
+  const colecticaLangs = useColecticaLangs();
+  const defaultLocale = colecticaLangs[0];
   const { data, variables, title, isLoading, isError, error } = usePhysicalInstancesData(
     agencyId!,
     id!,
@@ -286,10 +289,10 @@ export const Component = () => {
   const mergedVariables = useMemo(() => {
     // Les variables réutilisées non encore enregistrées s'affichent comme les variables relues.
     const variableMap = new Map<string, VariableTableData>(
-      [...variables, ...state.reusedVariables.map((v) => toVariableTableData(v))].map((v) => [
-        v.id,
-        v,
-      ]),
+      [
+        ...variables,
+        ...state.reusedVariables.map((v) => toVariableTableData(v, colecticaLangs)),
+      ].map((v) => [v.id, v]),
     );
 
     // Remove deleted variables
@@ -336,6 +339,7 @@ export const Component = () => {
     state.localVariables,
     state.deletedVariableIds,
     state.newVariableAnchors,
+    colecticaLangs,
   ]);
 
   const filteredVariables = useMemo(() => {
@@ -447,7 +451,7 @@ export const Component = () => {
       // VersionDate enregistrée : l'aperçu DDI doit refléter la donnée stockée, pas un
       // horodatage recalculé à chaque ouverture (qui divergeait du XML exporté).
       const storedVersionDate = fullVariable?.VersionDate?.DateTime;
-      const description = pickLang(fullVariable?.Description, "fr-FR") || undefined;
+      const description = pickFirstLang(fullVariable?.Description, colecticaLangs) || undefined;
       const isGeographic = fullVariable?.["@isGeographic"] === "true";
       const textRepresentation = fullVariable?.VariableRepresentation?.TextRepresentation;
       const numericRepresentation = fullVariable?.VariableRepresentation?.NumericRepresentation;
@@ -555,7 +559,7 @@ export const Component = () => {
         }),
       );
     },
-    [data, state.localVariables, state.reusedVariables, queryClient, t, agencyId],
+    [data, state.localVariables, state.reusedVariables, queryClient, t, agencyId, colecticaLangs],
   );
 
   // Réutilisation (#1387) : la variable choisie rejoint la PI telle quelle, et s'ouvre dans le
@@ -564,9 +568,9 @@ export const Component = () => {
     (variable: Variable) => {
       dispatch(actions.reuseVariable(variable));
       setReuseDialogVisible(false);
-      void handleVariableClick(toVariableTableData(variable), variable);
+      void handleVariableClick(toVariableTableData(variable, colecticaLangs), variable);
     },
-    [handleVariableClick],
+    [handleVariableClick, colecticaLangs],
   );
 
   // Restore selected variable from URL on initial load
@@ -742,7 +746,7 @@ export const Component = () => {
                   const category = localVar.categories?.find(
                     (cat) => cat.ID === code.CategoryReference?.ID,
                   );
-                  const label = pickLang(category?.Label, "fr-FR") ?? "";
+                  const label = pickFirstLang(category?.Label, colecticaLangs) ?? "";
                   const value = code.Value?.StringValue ?? "";
                   return value.trim() !== "" || label.trim() !== "";
                 }),
@@ -757,7 +761,7 @@ export const Component = () => {
                     const category = localVar.categories?.find(
                       (cat) => cat.ID === code.CategoryReference?.ID,
                     );
-                    const label = pickLang(category?.Label, "fr-FR") ?? "";
+                    const label = pickFirstLang(category?.Label, colecticaLangs) ?? "";
                     const value = code.Value?.StringValue ?? "";
                     return value.trim() !== "" || label.trim() !== "";
                   })
@@ -819,10 +823,10 @@ export const Component = () => {
             Agency: variableAgency,
             ID: localVar.id,
             Version: variableVersion,
-            VariableName: singletonEntries("fr-FR", localVar.name),
-            Label: singletonEntries("fr-FR", localVar.label),
+            VariableName: singletonEntries(defaultLocale, localVar.name),
+            Label: singletonEntries(defaultLocale, localVar.label),
             ...(localVar.description && {
-              Description: singletonEntries("fr-FR", localVar.description),
+              Description: singletonEntries(defaultLocale, localVar.description),
             }),
             ...(localVar.isGeographic && {
               IsGeographic: true,
@@ -935,6 +939,8 @@ export const Component = () => {
     state.reusedVariables,
     savePhysicalInstance,
     t,
+    colecticaLangs,
+    defaultLocale,
   ]);
 
   // Sauvegarde globale : la saisie en cours a déjà été reportée dans le tableau en quittant le

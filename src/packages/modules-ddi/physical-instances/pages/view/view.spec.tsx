@@ -46,11 +46,14 @@ vi.mock("../../../../application/visible-modules", () => ({
   useVisibleModules: () => [],
 }));
 
+const appProperties = vi.hoisted(() => ({
+  defaultAgencyId: "fr.insee",
+  colecticaLangs: undefined as string[] | undefined,
+}));
+
 vi.mock("../../../../application/app-context", () => ({
   useAppContext: () => ({
-    properties: {
-      defaultAgencyId: "fr.insee",
-    },
+    properties: appProperties,
   }),
 }));
 
@@ -540,6 +543,7 @@ describe("View Component", () => {
   const renderView = () => render(<Component />, { wrapper });
 
   beforeEach(() => {
+    appProperties.colecticaLangs = undefined;
     queryClient = new QueryClient({
       defaultOptions: {
         queries: {
@@ -1310,6 +1314,23 @@ describe("View Component", () => {
           expect.objectContaining({ VariableName: fr("NewVariable") }),
         ]),
       );
+    });
+
+    it("should save new variables in the configured Colectica language", async () => {
+      appProperties.colecticaLangs = ["en-GB"];
+      const mutateAsyncMock = mockPublish();
+
+      renderView();
+
+      createTestVariable("NewVariable", "New Variable Label");
+      const savedData = await saveAll(mutateAsyncMock);
+
+      expect(itemsOfType(savedData, "Variable")).toEqual([
+        expect.objectContaining({
+          VariableName: [{ "@language": "en-GB", "@value": "NewVariable" }],
+          Label: [{ "@language": "en-GB", "@value": "New Variable Label" }],
+        }),
+      ]);
     });
 
     it("should clear local variables after successful save", async () => {

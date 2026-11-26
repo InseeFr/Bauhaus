@@ -1,4 +1,4 @@
-import { pickLang, singletonEntries, type LangString } from "../../../utils/multilingual";
+import { pickFirstLang, singletonEntries, type LangString } from "../../../utils/multilingual";
 import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
@@ -86,8 +86,8 @@ export const parseSelectedCodeListId = (selectedId: string | null): [string, str
 
 export const getLocalizedText = (
   content: LangString[] | undefined,
-  lang = "fr-FR",
-): string | undefined => pickLang(content, lang);
+  langs: readonly string[],
+): string | undefined => pickFirstLang(content, langs);
 
 /** Libellés distincts, dans l'ordre de première apparition ; repli sur l'identifiant. */
 const distinctNames = <T>(

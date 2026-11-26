@@ -50,8 +50,8 @@ vi.mock("react-router", () => ({
   }),
 }));
 
-vi.mock("../../../hooks/useDefaultLocale", () => ({
-  useDefaultLocale: () => "fr-FR",
+vi.mock("../../../hooks/useColecticaLangs", () => ({
+  useColecticaLangs: () => ["fr-FR"],
 }));
 
 const mockUseAllMissingValuesRepresentations = vi.fn();

@@ -55,11 +55,14 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+const appProperties = vi.hoisted(() => ({
+  defaultAgencyId: "fr.insee",
+  colecticaLangs: undefined as string[] | undefined,
+}));
+
 vi.mock("../../../../application/app-context", () => ({
   useAppContext: () => ({
-    properties: {
-      defaultAgencyId: "fr.insee",
-    },
+    properties: appProperties,
   }),
 }));
 
@@ -444,6 +447,7 @@ describe("CodeRepresentation", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    appProperties.colecticaLangs = undefined;
     mockUseMutualizedCodeListCodes.mockImplementation(() => ({
       data: undefined,
       isLoading: false,
@@ -520,6 +524,20 @@ describe("CodeRepresentation", () => {
 
       const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
       expect(labelInput.value).toBe("Liste de codes test");
+    });
+
+    it("should display list and category labels stored in the configured Colectica language", () => {
+      appProperties.colecticaLangs = ["en-GB"];
+      const en = (value: string) => [{ "@language": "en-GB", "@value": value }];
+
+      renderCodeRepresentation({
+        codeList: { ...mockCodeList, Label: en("Yes/No list") },
+        categories: [{ ...mockCategories[0], Label: en("Yes") }],
+      });
+
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
+      expect(labelInput.value).toBe("Yes/No list");
+      expect(screen.getByDisplayValue("Yes")).toBeInTheDocument();
     });
   });
 

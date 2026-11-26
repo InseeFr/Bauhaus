@@ -228,8 +228,10 @@ describe("Codelist edit page", () => {
 
       const panel = await screen.findByRole("complementary");
       const labelLg1 = panel.querySelector("#labelLg1");
-      expect(labelLg1).toHaveValue("Premier modifié");
-      expect(labelLg1).toHaveAccessibleDescription("size must be between 0 and 3");
+      await waitFor(() => expect(labelLg1).toHaveValue("Premier modifié"));
+      await waitFor(() =>
+        expect(labelLg1).toHaveAccessibleDescription("size must be between 0 and 3"),
+      );
     });
 
     it("keeps an error without field slot readable in the reopened panel", async () => {
@@ -243,7 +245,7 @@ describe("Codelist edit page", () => {
       await updateCodeThenSave({ descriptionLg1: "Description" });
 
       const panel = await screen.findByRole("complementary");
-      expect(within(panel).getByRole("alert")).toHaveTextContent(
+      expect(await within(panel).findByRole("alert")).toHaveTextContent(
         "descriptionLg1 : size must be between 0 and 3",
       );
     });
