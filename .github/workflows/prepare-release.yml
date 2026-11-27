@@ -46,7 +46,7 @@ jobs:
       # The bump commit and its tag are pushed with the job's own token.
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # A composite action receives no secret on its own. Without this PAT the
       # release would be created with GITHUB_TOKEN, and GitHub would then refuse
       # to start publish-prerelease.yml / publish-release.yml on the release event.
